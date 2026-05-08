@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>TSUKIMAO 月真猫 — AIクリエイター / 映像・MV制作</title>
+<meta name="description" content="月真猫（TSUKIMAO）— AIを使った映像・MV・短編映画の制作。tsuki.lab主宰。制作のご依頼はお気軽にどうぞ。">
+<meta name="theme-color" content="#0a0a0a">
+<meta property="og:title" content="TSUKIMAO 月真猫 — AIクリエイター / 映像・MV制作">
+<meta property="og:description" content="AIを使った映像・MV・短編映画の制作。tsuki.lab主宰。">
+<meta property="og:url" content="https://tsukimao.tsukilab.jp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Atg_Tsukimao">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;--bg2:#111;--bg3:#181818;
+  --w:#f2efe8;--w2:rgba(242,239,232,.65);--w3:rgba(242,239,232,.35);--w4:rgba(242,239,232,.16);
+  --bd:rgba(242,239,232,.1);--bd2:rgba(242,239,232,.2);
+  --accent:#c8b99a;
+  --cor:'Cormorant Garamond',Georgia,serif;
+  --ns:'Noto Sans JP',sans-serif;
+  --mo:'JetBrains Mono',monospace;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+html{background:var(--bg);scroll-behavior:smooth}
+body{background:var(--bg);color:var(--w);font-family:var(--ns);font-weight:300;overflow-x:hidden;line-height:1.8}
+
+/* CURSOR */
+#cd,#cr{position:fixed;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%)}
+#cd{width:4px;height:4px;background:var(--accent)}
+#cr{width:26px;height:26px;border:1px solid rgba(200,185,154,.3);transition:width .2s var(--ease),height .2s var(--ease),border-color .2s}
+#cr.h{width:44px;height:44px;border-color:rgba(200,185,154,.65)}
+@media(hover:none){#cd,#cr{display:none}body{cursor:auto}}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px clamp(20px,5vw,72px);
+  transition:background .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+nav.sc{background:rgba(10,10,10,.9);backdrop-filter:blur(16px);border-color:var(--bd)}
+.logo{text-decoration:none;display:flex;align-items:baseline;gap:10px}
+.logo-en{font-family:var(--mo);font-size:12px;font-weight:400;letter-spacing:.18em;color:var(--w)}
+.logo-jp{font-family:var(--ns);font-size:11px;font-weight:300;letter-spacing:.22em;color:var(--w3)}
+.nav-r{display:flex;align-items:center;gap:24px}
+.nav-r a{font-family:var(--mo);font-size:9px;letter-spacing:.18em;color:var(--w3);text-decoration:none;transition:color .2s;text-transform:uppercase}
+.nav-r a:hover{color:var(--w)}
+.nav-cta{
+  border:1px solid var(--bd2)!important;padding:6px 18px;
+  color:var(--w2)!important;transition:all .2s!important;
+}
+.nav-cta:hover{background:var(--accent)!important;color:var(--bg)!important;border-color:var(--accent)!important}
+@media(max-width:600px){.nav-r a:not(.nav-cta){display:none}}
+
+/* HERO */
+#hero{
+  min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:clamp(24px,5vw,80px);padding-bottom:clamp(60px,9vw,110px);
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 80% 50%,rgba(200,185,154,.04) 0%,transparent 65%);
+  pointer-events:none;
+}
+/* grain */
+.hero-grain{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.038'/%3E%3C/svg%3E");
+}
+.hero-content{position:relative;z-index:1;max-width:900px}
+.hero-kicker{
+  font-family:var(--mo);font-size:9px;letter-spacing:.28em;color:var(--accent);
+  text-transform:uppercase;margin-bottom:clamp(20px,3vw,40px);
+  opacity:0;animation:fadeUp .7s var(--ease) .1s forwards;
+  display:flex;align-items:center;gap:12px;
+}
+.hero-kicker::before{content:'';width:24px;height:1px;background:var(--accent)}
+.hero-h1{
+  font-family:var(--cor);font-weight:300;
+  font-size:clamp(52px,10vw,148px);line-height:1;letter-spacing:-.01em;
+  color:var(--w);margin-bottom:clamp(20px,3vw,36px);
+  overflow:hidden;
+}
+.hero-h1 span{display:block;transform:translateY(110%);animation:slideUp .9s var(--ease) .25s forwards}
+.hero-h1 em{font-style:italic;color:var(--accent)}
+.hero-sub{
+  font-family:var(--ns);font-size:clamp(14px,1.5vw,18px);font-weight:300;
+  color:var(--w2);line-height:1.9;margin-bottom:clamp(32px,4vw,52px);
+  max-width:540px;
+  opacity:0;animation:fadeUp .7s var(--ease) .55s forwards;
+}
+.hero-actions{
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .7s var(--ease) .7s forwards;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--accent);color:var(--bg);
+  font-family:var(--mo);font-size:10px;letter-spacing:.14em;font-weight:400;
+  padding:13px 28px;border-radius:1px;text-decoration:none;
+  transition:background .2s,transform .2s;
+}
+.btn-primary:hover{background:#d4c4a8;transform:translateY(-1px)}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--bd2);color:var(--w2);
+  font-family:var(--mo);font-size:10px;letter-spacing:.14em;
+  padding:13px 28px;border-radius:1px;text-decoration:none;
+  transition:border-color .2s,color .2s;
+}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.hero-meta{
+  position:absolute;right:clamp(20px,5vw,72px);bottom:clamp(60px,9vw,110px);
+  display:flex;flex-direction:column;align-items:flex-end;gap:6px;z-index:1;
+}
+.hero-meta-item{font-family:var(--mo);font-size:8px;letter-spacing:.16em;color:var(--w4);text-align:right}
+.hero-meta-item a{color:inherit;text-decoration:none;transition:color .2s}
+.hero-meta-item a:hover{color:var(--accent)}
+.hero-scroll{
+  position:absolute;bottom:clamp(24px,4vw,40px);left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;z-index:1;
+  opacity:0;animation:fadeIn .8s var(--ease) 1.1s forwards;
+}
+.hero-scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,var(--accent),transparent);animation:pulseY 2.4s ease-in-out infinite}
+.hero-scroll span{font-family:var(--mo);font-size:7px;letter-spacing:.26em;color:var(--w4)}
+
+/* MARQUEE */
+.marquee{overflow:hidden;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:14px 0}
+.mq-track{display:flex;white-space:nowrap;animation:marquee 32s linear infinite}
+.mq-track span{font-family:var(--mo);font-size:9px;letter-spacing:.24em;color:var(--w4);flex-shrink:0}
+
+/* SECTION */
+.sec{padding:clamp(64px,10vw,136px) clamp(20px,5vw,72px)}
+.sec--dark{background:var(--bg2)}
+.sec-label{
+  font-family:var(--mo);font-size:8px;letter-spacing:.24em;color:var(--accent);
+  text-transform:uppercase;margin-bottom:clamp(28px,4vw,48px);
+  display:flex;align-items:center;gap:10px;
+}
+.sec-label::after{content:'';flex:1;max-width:48px;height:1px;background:var(--accent);opacity:.4}
+.sec-h{
+  font-family:var(--cor);font-weight:300;font-style:italic;
+  font-size:clamp(36px,5.5vw,72px);letter-spacing:-.01em;line-height:1;
+  margin-bottom:clamp(36px,5vw,64px);color:var(--w);
+}
+
+/* WORKS — ジャンルタブ */
+.genre-tabs{
+  display:flex;gap:0;margin-bottom:clamp(28px,4vw,48px);
+  border-bottom:1px solid var(--bd);overflow-x:auto;scrollbar-width:none;
+}
+.genre-tabs::-webkit-scrollbar{display:none}
+.genre-tab{
+  font-family:var(--mo);font-size:9px;letter-spacing:.16em;
+  color:var(--w3);background:none;border:none;cursor:pointer;
+  padding:11px 18px;white-space:nowrap;transition:color .2s;
+  border-bottom:1px solid transparent;margin-bottom:-1px;
+}
+.genre-tab:hover{color:var(--w2)}
+.genre-tab.active{color:var(--w);border-bottom-color:var(--accent)}
+
+/* GALLERY GRID */
+.works-gallery{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:3px;
+}
+@media(max-width:900px){.works-gallery{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.works-gallery{grid-template-columns:1fr}}
+
+/* first item spans 2 cols */
+.work-tile:first-child{grid-column:span 2}
+@media(max-width:480px){.work-tile:first-child{grid-column:span 1}}
+
+.work-tile{
+  position:relative;aspect-ratio:16/9;overflow:hidden;
+  background:var(--bg3);display:block;text-decoration:none;
+  opacity:0;transform:scale(.98);
+  transition:opacity .5s var(--ease),transform .5s var(--ease);
+}
+.work-tile.vis{opacity:1;transform:scale(1)}
+
+/* placeholder bg by genre */
+.work-tile[data-genre="mv"]    .wt-placeholder{background:linear-gradient(135deg,#1a1020,#0d0d1a)}
+.work-tile[data-genre="film"]  .wt-placeholder{background:linear-gradient(135deg,#0a1a14,#0a0f18)}
+.work-tile[data-genre="anime"] .wt-placeholder{background:linear-gradient(135deg,#1a0a14,#150a1a)}
+.work-tile[data-genre="novel"] .wt-placeholder{background:linear-gradient(135deg,#141008,#0f100a)}
+.work-tile[data-genre="music"] .wt-placeholder{background:linear-gradient(135deg,#0a1010,#080f14)}
+
+.wt-placeholder{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+}
+.wt-placeholder-text{
+  font-family:var(--cor);font-style:italic;
+  font-size:clamp(18px,3vw,36px);color:rgba(242,239,232,.12);letter-spacing:.04em;
+  text-align:center;padding:16px;line-height:1.2;
+}
+
+.wt-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;
+  transition:transform .55s var(--ease),opacity .3s;
+}
+.wt-img.loaded{opacity:1}
+.wt-img:not(.loaded){opacity:0}
+
+/* dark overlay always-on */
+.wt-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,10,10,.82) 0%,rgba(10,10,10,.1) 50%,transparent 100%);
+  transition:opacity .3s;
+}
+
+/* hover overlay darkens */
+.work-tile:hover .wt-overlay{opacity:1.3}
+.work-tile:hover .wt-img{transform:scale(1.04)}
+.work-tile:hover .wt-info{transform:translateY(0);opacity:1}
+
+.wt-info{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:clamp(12px,2vw,20px);
+  transform:translateY(4px);opacity:.85;
+  transition:transform .3s var(--ease),opacity .3s;
+}
+.wt-genre{
+  font-family:var(--mo);font-size:8px;letter-spacing:.16em;
+  color:var(--accent);margin-bottom:6px;display:block;
+}
+.wt-title{
+  font-family:var(--ns);font-size:clamp(12px,1.3vw,15px);font-weight:400;
+  color:var(--w);line-height:1.35;display:block;margin-bottom:4px;
+}
+.wt-year{font-family:var(--mo);font-size:8px;color:var(--w3)}
+
+/* ABOUT */
+.about-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px);align-items:start}
+@media(max-width:700px){.about-cols{grid-template-columns:1fr}}
+.about-copy{
+  font-family:var(--ns);font-size:clamp(14px,1.4vw,17px);font-weight:300;
+  line-height:2.4;color:var(--w2);
+}
+.about-copy p+p{margin-top:1.4em}
+.about-copy strong{font-weight:500;color:var(--w)}
+.about-info{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--bd)}
+.info-row{
+  display:grid;grid-template-columns:100px 1fr;
+  gap:16px;padding:16px 0;border-bottom:1px solid var(--bd);align-items:baseline;
+}
+.info-label{font-family:var(--mo);font-size:8px;letter-spacing:.16em;color:var(--w4);text-transform:uppercase}
+.info-val{font-family:var(--ns);font-size:13px;font-weight:300;color:var(--w2)}
+.info-val a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+.info-val a:hover{border-color:var(--accent)}
+.skills{display:flex;flex-wrap:wrap;gap:6px;margin-top:24px}
+.skill{
+  font-family:var(--mo);font-size:8px;letter-spacing:.12em;
+  color:var(--w3);border:1px solid var(--bd);padding:5px 12px;
+}
+
+/* SERVICES */
+.services-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:0;border:1px solid var(--bd);
+}
+.service{
+  padding:clamp(24px,3.5vw,42px) clamp(18px,2.5vw,30px);
+  border-right:1px solid var(--bd);border-bottom:1px solid var(--bd);
+  transition:background .2s;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .5s var(--ease),transform .5s var(--ease),background .2s;
+}
+.service.vis{opacity:1;transform:none}
+.service:hover{background:var(--bg3)}
+.svc-n{font-family:var(--mo);font-size:8px;letter-spacing:.14em;color:var(--w4);display:block;margin-bottom:16px}
+.svc-title{font-family:var(--ns);font-size:clamp(14px,1.5vw,18px);font-weight:500;color:var(--w);margin-bottom:10px;line-height:1.3}
+.svc-desc{font-size:clamp(11px,.95vw,13px);font-weight:300;color:var(--w3);line-height:1.9;margin-bottom:14px}
+.svc-price{font-family:var(--mo);font-size:9px;letter-spacing:.1em;color:var(--accent)}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,6vw,80px);align-items:start}
+@media(max-width:700px){.contact-grid{grid-template-columns:1fr}}
+.contact-copy{font-size:clamp(14px,1.4vw,16px);font-weight:300;color:var(--w2);line-height:2.2;margin-bottom:32px}
+.contact-email-wrap{margin-bottom:36px}
+.contact-email-label{font-family:var(--mo);font-size:8px;letter-spacing:.2em;color:var(--w4);margin-bottom:12px}
+.contact-email{
+  font-family:var(--cor);font-size:clamp(20px,3vw,40px);font-weight:300;
+  color:var(--w);text-decoration:none;display:inline-block;
+  position:relative;line-height:1.1;transition:color .25s;
+}
+.contact-email::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent);transition:width .4s var(--ease)}
+.contact-email:hover{color:var(--accent)}
+.contact-email:hover::after{width:100%}
+.contact-socials{display:flex;flex-direction:column;gap:14px}
+.social-link{
+  display:flex;align-items:center;gap:14px;
+  font-family:var(--mo);font-size:10px;letter-spacing:.14em;color:var(--w3);
+  text-decoration:none;transition:color .2s;
+}
+.social-link:hover{color:var(--w)}
+.sl-line{width:20px;height:1px;background:currentColor;transition:width .3s var(--ease)}
+.social-link:hover .sl-line{width:32px}
+.contact-note{
+  border-top:1px solid var(--bd);padding-top:24px;margin-top:32px;
+  font-size:12px;font-weight:300;color:var(--w4);line-height:1.9;
+}
+.contact-note strong{color:var(--w3);font-weight:400}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--bd);
+  padding:clamp(20px,3vw,32px) clamp(20px,5vw,72px);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+footer span{font-family:var(--mo);font-size:9px;letter-spacing:.13em;color:var(--w4)}
+
+/* REVEAL */
+.rev{opacity:0;transform:translateY(12px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.rev.vis{opacity:1;transform:none}
+
+/* KEYFRAMES */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(110%)}to{transform:translateY(0)}}
+@keyframes pulseY{0%,100%{opacity:.2}50%{opacity:.55}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+</style>
+</head>
+<body>
+
+<div id="cd"></div>
+<div id="cr"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">
+    <span class="logo-en">TSUKIMAO</span>
+    <span class="logo-jp">月真猫</span>
+  </a>
+  <div class="nav-r">
+    <a href="#works">WORKS</a>
+    <a href="#about">ABOUT</a>
+    <a href="#services">SERVICES</a>
+    <a href="#contact" class="nav-cta">CONTACT</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <p class="hero-kicker">AI Director / Film Creator — tsuki.lab</p>
+    <h1 class="hero-h1">
+      <span>映像で、<em>世界を</em><br>書き換える。</span>
+    </h1>
+    <p class="hero-sub">AIを使って、MVから短編映画まで。<br>あなたの音楽・物語・ブランドに、動く映像をつくります。</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">制作を依頼する →</a>
+      <a href="#works" class="btn-ghost">作品を見る</a>
+    </div>
+  </div>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><a href="https://x.com/Atg_Tsukimao" target="_blank" rel="noopener">@Atg_Tsukimao</a></div>
+    <div class="hero-meta-item"><a href="https://tsukilab.jp" target="_blank" rel="noopener">tsuki.lab</a></div>
+    <div class="hero-meta-item">Japan · Online</div>
+  </div>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="mq-track">
+    <span>AI MV &nbsp;·&nbsp; SHORT FILM &nbsp;·&nbsp; AI ANIME &nbsp;·&nbsp; CONCEPT FILM &nbsp;·&nbsp; MUSIC VIDEO &nbsp;·&nbsp; DIRECTION &nbsp;·&nbsp; 月真猫 &nbsp;·&nbsp; tsuki.lab &nbsp;·&nbsp; AI MV &nbsp;·&nbsp; SHORT FILM &nbsp;·&nbsp; AI ANIME &nbsp;·&nbsp; CONCEPT FILM &nbsp;·&nbsp; MUSIC VIDEO &nbsp;·&nbsp; DIRECTION &nbsp;·&nbsp; 月真猫 &nbsp;·&nbsp; tsuki.lab &nbsp;·&nbsp; AI MV &nbsp;·&nbsp; SHORT FILM &nbsp;·&nbsp; AI ANIME &nbsp;·&nbsp; CONCEPT FILM &nbsp;·&nbsp; MUSIC VIDEO &nbsp;·&nbsp; DIRECTION &nbsp;·&nbsp; 月真猫 &nbsp;·&nbsp; tsuki.lab &nbsp;·&nbsp; </span>
+    <span aria-hidden="true">AI MV &nbsp;·&nbsp; SHORT FILM &nbsp;·&nbsp; AI ANIME &nbsp;·&nbsp; CONCEPT FILM &nbsp;·&nbsp; MUSIC VIDEO &nbsp;·&nbsp; DIRECTION &nbsp;·&nbsp; 月真猫 &nbsp;·&nbsp; tsuki.lab &nbsp;·&nbsp; AI MV &nbsp;·&nbsp; SHORT FILM &nbsp;·&nbsp; AI ANIME &nbsp;·&nbsp; CONCEPT FILM &nbsp;·&nbsp; MUSIC VIDEO &nbsp;·&nbsp; DIRECTION &nbsp;·&nbsp; 月真猫 &nbsp;·&nbsp; tsuki.lab &nbsp;·&nbsp; AI MV &nbsp;·&nbsp; SHORT FILM &nbsp;·&nbsp; AI ANIME &nbsp;·&nbsp; CONCEPT FILM &nbsp;·&nbsp; MUSIC VIDEO &nbsp;·&nbsp; DIRECTION &nbsp;·&nbsp; 月真猫 &nbsp;·&nbsp; tsuki.lab &nbsp;·&nbsp; </span>
+  </div>
+</div>
+
+<!-- WORKS -->
+<section id="works" class="sec sec--dark">
+  <div class="sec-label">Works</div>
+  <h2 class="sec-h rev">Selected Works</h2>
+
+  <div class="genre-tabs" id="genreTabs">
+    <button class="genre-tab active" data-genre="all">ALL</button>
+    <button class="genre-tab" data-genre="mv">AI MV</button>
+    <button class="genre-tab" data-genre="film">Short Film</button>
+    <button class="genre-tab" data-genre="anime">AI Anime</button>
+    <button class="genre-tab" data-genre="novel">Novel PV</button>
+    <button class="genre-tab" data-genre="music">Music</button>
+  </div>
+
+  <div id="worksContainer"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="sec">
+  <div class="sec-label">About</div>
+  <h2 class="sec-h rev">月真猫とは</h2>
+  <div class="about-cols">
+    <div class="rev">
+      <div class="about-copy">
+        <p>AIを道具として使い、<strong>映像・音楽・短編映画</strong>を制作するクリエイターです。</p>
+        <p>「まだ誰も見たことのない映像」を作ることが目標。AIが生み出す表現の可能性を、作品ごとに実験し続けています。</p>
+        <p>MVから短編映画、AIアニメ、コンセプト映像まで、幅広く対応しています。制作のご依頼はお気軽にどうぞ。</p>
+      </div>
+      <div class="skills">
+        <span class="skill">AI Direction</span>
+        <span class="skill">Music Video</span>
+        <span class="skill">Short Film</span>
+        <span class="skill">AI Anime</span>
+        <span class="skill">Sound Design</span>
+        <span class="skill">Video Edit</span>
+      </div>
+    </div>
+    <div class="rev" style="transition-delay:.1s">
+      <div class="about-info">
+        <div class="info-row">
+          <span class="info-label">名前</span>
+          <span class="info-val">月真猫 (TSUKIMAO)</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">肩書き</span>
+          <span class="info-val">AI映像クリエイター / Director</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">プロジェクト</span>
+          <span class="info-val"><a href="https://tsukilab.jp" target="_blank" rel="noopener">tsuki.lab</a> — Founder</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">活動開始</span>
+          <span class="info-val">2023年〜</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">拠点</span>
+          <span class="info-val">日本 / オンライン対応</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">対応言語</span>
+          <span class="info-val">日本語 / English</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="sec sec--dark">
+  <div class="sec-label">Services</div>
+  <h2 class="sec-h rev">できること</h2>
+  <div class="services-grid">
+    <div class="service">
+      <span class="svc-n">01</span>
+      <div class="svc-title">AI ミュージックビデオ</div>
+      <p class="svc-desc">楽曲に合わせたオリジナルMVを制作。コンセプトから映像・編集まで一貫して対応します。</p>
+      <div class="svc-price">MV / Lyric Video / Teaser</div>
+    </div>
+    <div class="service">
+      <span class="svc-n">02</span>
+      <div class="svc-title">短編映画 / コンセプトフィルム</div>
+      <p class="svc-desc">ブランドや作品世界を映像化。1〜5分程度の短編映画・プロモ映像を制作します。</p>
+      <div class="svc-price">Brand Film / Sci-Fi / Horror</div>
+    </div>
+    <div class="service">
+      <span class="svc-n">03</span>
+      <div class="svc-title">AI アニメ / シリーズ制作</div>
+      <p class="svc-desc">オリジナルキャラクターやストーリーをAIアニメとして映像化。パイロット版から対応。</p>
+      <div class="svc-price">Pilot / Series / PV</div>
+    </div>
+    <div class="service">
+      <span class="svc-n">04</span>
+      <div class="svc-title">ディレクション / 相談</div>
+      <p class="svc-desc">「AI映像を使ってみたいけど何から始めれば？」という段階からご相談に乗ります。</p>
+      <div class="svc-price">Advisory / Consulting</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="sec">
+  <div class="sec-label">Contact</div>
+  <h2 class="sec-h rev">制作のご依頼・ご相談</h2>
+  <div class="contact-grid">
+    <div class="rev">
+      <p class="contact-copy">MV・短編映画・AIアニメ・ブランド映像など、映像制作全般のご依頼をお受けしています。<br>まずはお気軽にご連絡ください。企画段階からでも大歓迎です。</p>
+      <div class="contact-email-wrap">
+        <p class="contact-email-label">EMAIL</p>
+        <a class="contact-email" href="mailto:atg.tsukimao@gmail.com">atg.tsukimao@gmail.com</a>
+      </div>
+      <div class="contact-note">
+        <strong>返信について</strong><br>
+        通常2〜3営業日以内にご返信します。<br>まずはどんな映像を作りたいか、ざっくりお聞かせください。
+      </div>
+    </div>
+    <div class="rev" style="transition-delay:.1s">
+      <div class="contact-socials">
+        <a class="social-link" href="https://x.com/Atg_Tsukimao" target="_blank" rel="noopener">
+          <span class="sl-line"></span>X / TWITTER @Atg_Tsukimao
+        </a>
+        <a class="social-link" href="https://www.youtube.com/@tsukimao" target="_blank" rel="noopener">
+          <span class="sl-line"></span>YOUTUBE @tsukimao
+        </a>
+        <a class="social-link" href="https://tsukilab.jp" target="_blank" rel="noopener">
+          <span class="sl-line"></span>TSUKI.LAB tsukilab.jp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>TSUKIMAO — 月真猫</span>
+  <span>tsuki.lab Founder</span>
+  <span>© 2023–2026</span>
+</footer>
+
+<script>
+/* ── WORKS DATA ── */
+const WORKS = [
+  // AI MV
+  {id:'mQUxIy2_qDU', title:'Reckless Love / ReDia', sub:'Official MV — Video Edit Direction', genre:'mv', year:'2026'},
+  {id:'4bTjKML7hGM', title:'骸とダンスを',          sub:'AI MV — Voice & Dance', genre:'mv', year:'2026'},
+  {id:'8sKocBMYH_s', title:'鴉',                    sub:'AI MV', genre:'mv', year:'2026'},
+  {id:'em669wMqDDk', title:'B.Point',               sub:'AI MV', genre:'mv', year:'2025'},
+  {id:'lziUcDa9KZ4', title:'SPIRAL',                sub:'AI MV', genre:'mv', year:'2025'},
+  {id:'szHkKonn-rc', title:'Melted Ice Cream',      sub:'AI Music Video | SUNO × Midjourney', genre:'mv', year:'2025'},
+  {id:'yVoBPf3ongE', title:'Ghost Noise',           sub:'Art Rock / Jazz Punk — AI Generated MV', genre:'mv', year:'2025'},
+  {id:'3uOvffvx-Sc', title:'デジタルグリッチギターガール', sub:'AI暴走 MV', genre:'mv', year:'2025'},
+  {id:'b4dljHzBFqE', title:'幻のCM — Cross†Sphere', sub:'AIが創る90年代V系MV (30秒)', genre:'mv', year:'2025'},
+  {id:'at7_3woWPkk', title:'深夜の静岡ドライブ',    sub:'AI MV in カーナビ — 実写×AIアート', genre:'mv', year:'2025'},
+  {id:'DVLZFaMyl6w', title:'ぼくたちのだいすき',    sub:'24/7 Lofi & Chill — AI MV', genre:'mv', year:'2025'},
+  // Short Film
+  {id:'wQC1rWmMnys', title:'REI',                   sub:'【閲覧注意】撮影後、関係者が次々と消えた"いわくつき動画"', genre:'film', year:'2026'},
+  {id:'MtoYdXCmARg', title:'ALIE',                  sub:'AIで1分の超短編映画 — 劇場公開作品', genre:'film', year:'2025'},
+  {id:'eO_8ehfceW8', title:'RE:AWAKENING',          sub:'Sora2 × Wan2.2 リアル・モキュメンタリー映画', genre:'film', year:'2025'},
+  {id:'S9ov9mGX-os', title:'Residual Noise',        sub:'2025 AI Horror Film Competition Submission', genre:'film', year:'2025'},
+  {id:'t9z5zojbKC8', title:'おくることば',           sub:'AI Short — HALLOWEEN 2025', genre:'film', year:'2025'},
+  // AI Anime
+  {id:'ZlDTZ_GhcX8', title:'ARGENT',                sub:'深淵に誘う運命、カードが紡ぐミステリーバトル', genre:'anime', year:'2025'},
+  // Novel PV
+  {id:'6K5fLYjPbMI', title:'溶ける',               sub:'自作小説PV', genre:'novel', year:'2025'},
+  // Music
+  {id:'Q_EhNPMkCX8', title:'祈り届くまで',          sub:'The Unanswered Supplication — Piano & Drums [AI Music]', genre:'music', year:'2025'},
+  {id:'18WW_N1Bex0', title:'冗談ジョーカー',         sub:'大正ロマン・ノワール｜実写MV', genre:'mv', year:'2025'},
+];
+
+/* ── RENDER WORKS ── */
+const GENRE_LABELS={mv:'AI MV',film:'Short Film',anime:'AI Anime',novel:'Novel PV',music:'Music'};
+
+function renderWorks(genre){
+  const list = genre==='all' ? WORKS : WORKS.filter(w=>w.genre===genre);
+  const container = document.getElementById('worksContainer');
+  container.innerHTML='';
+
+  const grid = document.createElement('div');
+  grid.className='works-gallery';
+
+  list.forEach((w,i)=>{
+    const el = document.createElement('a');
+    el.className='work-tile';
+    el.dataset.genre=w.genre;
+    el.href=`https://www.youtube.com/watch?v=${w.id}`;
+    el.target='_blank';el.rel='noopener';
+    el.style.transitionDelay=(i*.04)+'s';
+
+    const thumb_max=`https://i.ytimg.com/vi/${w.id}/maxresdefault.jpg`;
+    const thumb_hq =`https://i.ytimg.com/vi/${w.id}/hqdefault.jpg`;
+    const label = GENRE_LABELS[w.genre]||w.genre.toUpperCase();
+
+    el.innerHTML=`
+      <div class="wt-placeholder">
+        <span class="wt-placeholder-text">${w.title}</span>
+      </div>
+      <img class="wt-img" data-src="${thumb_max}" data-fallback="${thumb_hq}" alt="${w.title}">
+      <div class="wt-overlay"></div>
+      <div class="wt-info">
+        <span class="wt-genre">${label} · ${w.year}</span>
+        <span class="wt-title">${w.title}</span>
+        <span class="wt-year">${w.sub}</span>
+      </div>`;
+
+    grid.appendChild(el);
+  });
+
+  container.appendChild(grid);
+
+  // lazy-load images with fallback
+  setTimeout(()=>{
+    grid.querySelectorAll('.wt-img').forEach(img=>{
+      const src=img.dataset.src;
+      const fb=img.dataset.fallback;
+      const probe=new Image();
+      probe.onload=()=>{img.src=src;img.classList.add('loaded')};
+      probe.onerror=()=>{
+        const probe2=new Image();
+        probe2.onload=()=>{img.src=fb;img.classList.add('loaded')};
+        probe2.onerror=()=>{}; // placeholder stays
+        probe2.src=fb;
+      };
+      probe.src=src;
+    });
+
+    grid.querySelectorAll('.work-tile').forEach(el=>io.observe(el));
+  },10);
+}
+
+/* ── GENRE TABS ── */
+document.getElementById('genreTabs').addEventListener('click',e=>{
+  const btn=e.target.closest('[data-genre]');
+  if(!btn) return;
+  document.querySelectorAll('.genre-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderWorks(btn.dataset.genre);
+});
+renderWorks('all');
+
+/* ── CURSOR ── */
+const cd=document.getElementById('cd');
+const cr=document.getElementById('cr');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cd.style.left=mx+'px';cd.style.top=my+'px';
+});
+(function a(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(a)})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cr.classList.add('h'));
+  el.addEventListener('mouseleave',()=>cr.classList.remove('h'));
+});
+
+/* ── NAV ── */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',scrollY>40),{passive:true});
+
+/* ── REVEAL ── */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}});
+},{threshold:.06,rootMargin:'0px 0px -16px 0px'});
+document.querySelectorAll('.rev,.service').forEach(el=>io.observe(el));
+document.querySelectorAll('.service').forEach((el,i)=>el.style.transitionDelay=(i*.07)+'s');
+</script>
+</body>
+</html>
