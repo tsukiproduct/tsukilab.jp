@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>PROJECT M — 物語選定投票</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f0c1c;
+  --ink-soft: #1a1530;
+  --gold: #c9a55c;
+  --gold-light: #e8c97a;
+  --gold-deep: #8a6a32;
+  --lavender: #d4c5f9;
+  --dawn: #f7d5dc;
+  --sky: #c9d6ff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Shippori Mincho', serif;
+  background: var(--ink);
+  color: #e8e4dc;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(212,197,249,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(201,165,92,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+  background: rgba(15,12,28,0.85);
+  border-bottom: 1px solid rgba(232,201,122,0.15);
+  padding: 1rem 2rem;
+  text-align: center;
+}
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  letter-spacing: 0.4em;
+  color: var(--gold-light);
+}
+
+main {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+/* ページタイトル */
+.page-title-area {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  color: var(--gold-deep);
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: rgba(232,228,220,0.6);
+  line-height: 1.9;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ログイン前 / 投票済み状態 */
+#step-name, #step-vote, #step-done, #step-result {
+  display: none;
+}
+#step-name.active, #step-vote.active, #step-done.active, #step-result.active {
+  display: block;
+}
+
+/* 名前入力 */
+.name-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(232,201,122,0.18);
+  border-radius: 20px;
+  padding: 2.5rem;
+  text-align: center;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.name-card h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.name-card p {
+  font-size: 0.8rem;
+  color: rgba(232,228,220,0.5);
+  margin-bottom: 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+
+select {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(232,201,122,0.25);
+  border-radius: 10px;
+  padding: 0.85rem 1.2rem;
+  color: #e8e4dc;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 0.95rem;
+  outline: none;
+  text-align: center;
+  transition: border-color 0.3s;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+select:focus { border-color: var(--gold); }
+select option { background: var(--ink-soft); color: #e8e4dc; }
+
+input[type="text"] {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(232,201,122,0.25);
+  border-radius: 10px;
+  padding: 0.85rem 1.2rem;
+  color: #e8e4dc;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 0.95rem;
+  outline: none;
+  text-align: center;
+  transition: border-color 0.3s;
+  margin-bottom: 1.25rem;
+}
+
+input[type="text"]:focus { border-color: var(--gold); }
+
+.primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2.25rem;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #1a1200;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 6px 24px rgba(201,165,92,0.3);
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(201,165,92,0.45);
+}
+
+/* 投票カード */
+.vote-section h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: rgba(232,228,220,0.9);
+}
+
+.vote-section .section-note {
+  font-size: 0.75rem;
+  color: rgba(232,228,220,0.4);
+  margin-bottom: 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+
+/* 物語選択 */
+.story-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 560px) { .story-cards { grid-template-columns: 1fr; } }
+
+.story-card {
+  background: rgba(255,255,255,0.03);
+  border: 2px solid rgba(232,201,122,0.15);
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(.16,1,.3,1);
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.story-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+.story-card.s1::before {
+  background: linear-gradient(135deg, rgba(201,165,92,0.08), rgba(247,213,220,0.05));
+}
+
+.story-card.s2::before {
+  background: linear-gradient(135deg, rgba(201,214,255,0.08), rgba(212,197,249,0.05));
+}
+
+.story-card:hover { transform: translateY(-4px); }
+.story-card:hover::before { opacity: 1; }
+
+.story-card.selected {
+  border-color: var(--gold);
+  transform: translateY(-4px);
+}
+
+.story-card.selected::before { opacity: 1; }
+
+.story-card.selected .check-mark { opacity: 1; }
+
+.check-mark {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  color: #1a1200;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.story-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-deep);
+  margin-bottom: 0.5rem;
+}
+
+.story-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.story-desc {
+  font-size: 0.75rem;
+  color: rgba(232,228,220,0.5);
+  line-height: 1.7;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* 評価軸 */
+.criteria-block {
+  margin-bottom: 2rem;
+}
+
+.criterion-row {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(232,201,122,0.1);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.criterion-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.criterion-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.criterion-hint {
+  font-size: 0.68rem;
+  color: rgba(232,228,220,0.4);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+
+.score-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: var(--gold-light);
+  min-width: 2rem;
+  text-align: right;
+}
+
+.star-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.star {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid rgba(232,201,122,0.2);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: rgba(232,228,220,0.25);
+}
+
+.star:hover, .star.filled {
+  background: rgba(201,165,92,0.15);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+/* 感想テキストエリア */
+textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(232,201,122,0.2);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  color: #e8e4dc;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  resize: vertical;
+  min-height: 130px;
+  outline: none;
+  transition: border-color 0.3s;
+  margin-bottom: 2rem;
+}
+
+textarea:focus { border-color: var(--gold); }
+
+/* 送信済み */
+.done-card {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(232,201,122,0.15);
+  border-radius: 20px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.done-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+.done-card h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.done-card p {
+  font-size: 0.82rem;
+  color: rgba(232,228,220,0.55);
+  line-height: 1.9;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+
+/* 結果（管理者用） */
+.result-section { margin-top: 2rem; }
+
+.result-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(232,201,122,0.15);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.result-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--gold-light);
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.bar-label {
+  font-size: 0.75rem;
+  min-width: 80px;
+  color: rgba(232,228,220,0.7);
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.bar-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold-light));
+  transition: width 0.6s cubic-bezier(.16,1,.3,1);
+}
+
+.bar-count {
+  font-size: 0.72rem;
+  color: rgba(232,228,220,0.4);
+  min-width: 2rem;
+  text-align: right;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.voter-list {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(232,201,122,0.1);
+}
+
+.voter-entry {
+  font-size: 0.75rem;
+  color: rgba(232,228,220,0.55);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(232,201,122,0.06);
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.voter-entry span {
+  color: var(--gold-light);
+  margin-right: 0.5rem;
+}
+
+/* 管理者ボタン */
+.admin-btn {
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid rgba(232,201,122,0.2);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(232,228,220,0.35);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  font-family: 'Cormorant Garamond', serif;
+  transition: all 0.2s;
+}
+
+.admin-btn:hover {
+  color: var(--gold-light);
+  border-color: var(--gold);
+}
+
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.ornament::before, .ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232,201,122,0.25), transparent);
+}
+.ornament span {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-deep);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Project M — 物語選定</div>
+</header>
+
+<main>
+  <div class="page-title-area">
+    <div class="eyebrow">— Vote —</div>
+    <h1>どちらの物語を<br>選びますか？</h1>
+    <p class="subtitle">
+      チームメンバーの率直な感想と判断を聞かせてください。<br>
+      集計結果は全投票後に月真猫より共有されます。
+    </p>
+  </div>
+
+  <!-- STEP 1: 名前入力 -->
+  <div id="step-name" class="active">
+    <div class="name-card">
+      <h2>あなたのお名前を入力</h2>
+      <p>匿名ではなく、チームメンバーとして投票してください</p>
+      <select id="inp-name">
+        <option value="">— メンバーを選択 —</option>
+        <option value="月真猫">月真猫</option>
+        <option value="杜崎まさかず">杜崎まさかず</option>
+        <option value="夢逢真月里">夢逢真月里</option>
+        <option value="HIROMI">HIROMI</option>
+        <option value="TECH">TECH</option>
+      </select>
+      <button class="primary-btn" onclick="startVote()" style="margin-top:1.25rem;">投票を始める →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: 投票フォーム -->
+  <div id="step-vote">
+
+    <!-- 物語選択 -->
+    <div class="vote-section" style="margin-bottom:2.5rem;">
+      <h2>どちらの物語がいいと思いますか？</h2>
+      <p class="section-note">一つ選んでください</p>
+      <div class="story-cards">
+        <div class="story-card s1" id="card-s1" onclick="selectStory('第一案')">
+          <div class="check-mark">✓</div>
+          <div class="story-num">— Story 01 —</div>
+          <div class="story-title">1世紀旅行記</div>
+          <div class="story-desc">アニメ100年の歴史を<br>旅する物語</div>
+        </div>
+        <div class="story-card s2" id="card-s2" onclick="selectStory('第二案')">
+          <div class="check-mark">✓</div>
+          <div class="story-num">— Story 02 —</div>
+          <div class="story-title">NEO COOL,<br>PALEO COOL</div>
+          <div class="story-desc">新旧の「かっこよさ」が<br>交差する物語</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ornament"><span>Evaluation</span></div>
+
+    <!-- 評価軸 -->
+    <div class="vote-section criteria-block">
+      <h2>評価してください</h2>
+      <p class="section-note">各軸を5段階で評価（★1〜★5）</p>
+
+      <div class="criterion-row">
+        <div class="criterion-label">
+          <span class="criterion-name">🎯 伝わりやすさ</span>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span class="criterion-hint">視聴者に刺さるか</span>
+            <span class="score-val" id="score-val-0">—</span>
+          </div>
+        </div>
+        <div class="star-row" id="stars-0"></div>
+      </div>
+
+      <div class="criterion-row">
+        <div class="criterion-label">
+          <span class="criterion-name">✨ 面白さ・引き込まれ度</span>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span class="criterion-hint">最後まで見たくなるか</span>
+            <span class="score-val" id="score-val-1">—</span>
+          </div>
+        </div>
+        <div class="star-row" id="stars-1"></div>
+      </div>
+
+      <div class="criterion-row">
+        <div class="criterion-label">
+          <span class="criterion-name">🎨 映像化のしやすさ</span>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span class="criterion-hint">AIで作れそうか</span>
+            <span class="score-val" id="score-val-2">—</span>
+          </div>
+        </div>
+        <div class="star-row" id="stars-2"></div>
+      </div>
+
+      <div class="criterion-row">
+        <div class="criterion-label">
+          <span class="criterion-name">🏆 コンテスト向き</span>
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <span class="criterion-hint">受賞可能性を感じるか</span>
+            <span class="score-val" id="score-val-3">—</span>
+          </div>
+        </div>
+        <div class="star-row" id="stars-3"></div>
+      </div>
+    </div>
+
+    <div class="ornament"><span>Comment</span></div>
+
+    <!-- 感想 -->
+    <div class="vote-section">
+      <h2>感想・コメント</h2>
+      <p class="section-note" style="margin-bottom:1rem;">気になった点、好きな点、懸念点など自由に</p>
+      <textarea id="inp-comment" placeholder="例：第一案は映像のバリエーションを出しやすそう。第二案はテーマがシャープで審査員に刺さりそう。など"></textarea>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="primary-btn" onclick="submitVote()">投票を送信する →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: 完了 -->
+  <div id="step-done">
+    <div class="done-card">
+      <div class="done-icon">🎬</div>
+      <h2>投票ありがとうございます</h2>
+      <p>
+        あなたの声を受け取りました。<br>
+        全員の投票が集まり次第、<br>
+        月真猫より結果を共有します。
+      </p>
+    </div>
+    <button class="admin-btn" onclick="showResult()">管理者：結果を見る</button>
+  </div>
+
+  <!-- STEP 4: 結果（管理者用） -->
+  <div id="step-result">
+    <div class="section-label" style="text-align:center;margin-bottom:1rem;">— Results —</div>
+    <h2 style="text-align:center;margin-bottom:2rem;">集計結果</h2>
+    <div id="result-body"></div>
+    <button class="admin-btn" onclick="clearAll()" style="color:rgba(247,213,220,0.4);margin-top:3rem;">
+      全データをリセット（管理者のみ）
+    </button>
+  </div>
+
+</main>
+
+<script>
+const VOTE_KEY = 'projectm_votes_v1';
+let selectedStory = '';
+let scores = [0, 0, 0, 0];
+
+// 星を描画
+const criteria = ['伝わりやすさ','面白さ','映像化','コンテスト向き'];
+criteria.forEach((_, i) => {
+  const row = document.getElementById('stars-' + i);
+  for (let s = 1; s <= 5; s++) {
+    const btn = document.createElement('button');
+    btn.className = 'star';
+    btn.textContent = '★';
+    btn.dataset.score = s;
+    btn.onclick = () => setScore(i, s);
+    row.appendChild(btn);
+  }
+});
+
+function setScore(criterionIdx, val) {
+  scores[criterionIdx] = val;
+  const row = document.getElementById('stars-' + criterionIdx);
+  row.querySelectorAll('.star').forEach((s, idx) => {
+    s.classList.toggle('filled', idx < val);
+  });
+  document.getElementById('score-val-' + criterionIdx).textContent = '★' + val;
+}
+
+function selectStory(story) {
+  selectedStory = story;
+  document.getElementById('card-s1').classList.toggle('selected', story === '第一案');
+  document.getElementById('card-s2').classList.toggle('selected', story === '第二案');
+}
+
+function showStep(id) {
+  ['step-name','step-vote','step-done','step-result'].forEach(s => {
+    document.getElementById(s).classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
+}
+
+function startVote() {
+  const name = document.getElementById('inp-name').value.trim();
+  if (!name) { alert('メンバーを選択してください'); return; }
+  showStep('step-vote');
+}
+
+function submitVote() {
+  const name = document.getElementById('inp-name').value.trim();
+  if (!selectedStory) { alert('物語を選んでください'); return; }
+  if (scores.some(s => s === 0)) { alert('すべての評価軸に星をつけてください'); return; }
+
+  const comment = document.getElementById('inp-comment').value.trim();
+  const date = new Date().toLocaleDateString('ja-JP', {
+    year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit'
+  });
+  const entry = { id: Date.now(), name, story: selectedStory, scores: [...scores], comment, date };
+
+  // localStorageにバックアップ
+  const votes = JSON.parse(localStorage.getItem(VOTE_KEY) || '[]');
+  votes.push(entry);
+  localStorage.setItem(VOTE_KEY, JSON.stringify(votes));
+
+  // Formspreeに送信
+  const btn = document.querySelector('#step-vote .primary-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '送信中…'; }
+
+  fetch('https://formspree.io/f/xjgdbayw', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      署名者: name,
+      選択した物語: selectedStory,
+      '評価_伝わりやすさ': '★' + scores[0],
+      '評価_面白さ': '★' + scores[1],
+      '評価_映像化のしやすさ': '★' + scores[2],
+      '評価_コンテスト向き': '★' + scores[3],
+      感想コメント: comment || '（なし）',
+      投票日時: date
+    })
+  })
+  .then(r => r.json())
+  .catch(() => {})
+  .finally(() => { showStep('step-done'); });
+}
+
+function showResult() {
+  const votes = JSON.parse(localStorage.getItem(VOTE_KEY) || '[]');
+  if (votes.length === 0) { alert('まだ投票がありません'); return; }
+
+  const s1 = votes.filter(v => v.story === '第一案');
+  const s2 = votes.filter(v => v.story === '第二案');
+  const total = votes.length;
+
+  const avg = (arr, idx) => arr.length ? (arr.reduce((a,v) => a + v.scores[idx], 0) / arr.length).toFixed(1) : '—';
+
+  const cLabels = ['伝わりやすさ','面白さ','映像化のしやすさ','コンテスト向き'];
+
+  let html = `
+    <div class="result-card">
+      <div class="result-title">📊 投票数 — 計${total}票</div>
+      <div class="bar-row">
+        <span class="bar-label">第一案</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${total?s1.length/total*100:0}%"></div></div>
+        <span class="bar-count">${s1.length}票</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">第二案</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${total?s2.length/total*100:0}%;background:linear-gradient(90deg,#6a5a9a,var(--lavender))"></div></div>
+        <span class="bar-count">${s2.length}票</span>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-title">⭐ 評価軸スコア平均</div>
+      ${cLabels.map((lbl, i) => `
+        <div class="bar-row" style="margin-bottom:0.4rem;">
+          <span class="bar-label" style="min-width:120px;font-size:0.72rem;">${lbl}</span>
+          <span style="font-size:0.72rem;color:var(--gold-light);min-width:60px;">第一案 ${avg(s1,i)}</span>
+          <span style="font-size:0.72rem;color:var(--lavender);">第二案 ${avg(s2,i)}</span>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="result-card">
+      <div class="result-title">💬 コメント一覧</div>
+      <div class="voter-list">
+        ${votes.filter(v=>v.comment).map(v => `
+          <div class="voter-entry">
+            <span>${v.name}（${v.story}）</span>${v.comment}
+          </div>
+        `).join('') || '<div class="voter-entry">コメントなし</div>'}
+      </div>
+    </div>
+
+    <div class="result-card">
+      <div class="result-title">👥 投票者一覧</div>
+      <div class="voter-list">
+        ${votes.map(v => `
+          <div class="voter-entry">
+            <span>${v.name}</span>${v.story} / 
+            伝わり★${v.scores[0]} 面白さ★${v.scores[1]} 映像化★${v.scores[2]} コンテスト★${v.scores[3]}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  document.getElementById('result-body').innerHTML = html;
+  showStep('step-result');
+}
+
+function clearAll() {
+  if (!confirm('全投票データを削除します。この操作は元に戻せません。')) return;
+  localStorage.removeItem(VOTE_KEY);
+  showStep('step-name');
+  alert('リセットしました');
+}
+</script>
+</body>
+</html>

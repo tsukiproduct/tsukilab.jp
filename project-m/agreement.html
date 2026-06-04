@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>PROJECT M — ガイドライン同意書</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f0c1c;
+  --ink-soft: #1a1530;
+  --paper: #faf7f2;
+  --gold: #c9a55c;
+  --gold-light: #e8c97a;
+  --gold-deep: #8a6a32;
+  --lavender: #d4c5f9;
+  --dawn: #f7d5dc;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Shippori Mincho', serif;
+  background: var(--ink);
+  color: #e8e4dc;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 25%, rgba(212,197,249,0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 75%, rgba(201,165,92,0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* グレイン */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+header {
+  position: sticky; top: 0; z-index: 100;
+  backdrop-filter: blur(20px);
+  background: rgba(15,12,28,0.88);
+  border-bottom: 1px solid rgba(232,201,122,0.15);
+  padding: 1rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.78rem;
+  letter-spacing: 0.4em;
+  color: var(--gold-light);
+}
+
+.confidential-badge {
+  display: flex; align-items: center; gap: 0.5rem;
+  background: rgba(247,213,220,0.07);
+  border: 1px solid rgba(247,213,220,0.25);
+  border-radius: 999px;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  color: var(--dawn);
+}
+
+.badge-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--dawn);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+main {
+  position: relative; z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 6rem;
+}
+
+/* ページヘッド */
+.page-head {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.72rem;
+  letter-spacing: 0.45em;
+  color: var(--gold-deep);
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.page-sub {
+  font-size: 0.8rem;
+  color: rgba(232,228,220,0.5);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+/* セクション */
+.section {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(232,201,122,0.12);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-head {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(232,201,122,0.12);
+}
+
+.section-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-deep);
+  white-space: nowrap;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* 本文テキスト */
+.body-text {
+  font-size: 0.83rem;
+  line-height: 2.1;
+  color: rgba(232,228,220,0.82);
+}
+
+.body-text + .body-text { margin-top: 0.75rem; }
+
+/* 項目リスト */
+.clause-list {
+  list-style: none;
+  margin-top: 0.75rem;
+}
+
+.clause-list li {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.9;
+  color: rgba(232,228,220,0.78);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(232,201,122,0.06);
+}
+
+.clause-list li:last-child { border-bottom: none; }
+
+.clause-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold-light);
+  font-size: 0.72rem;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  min-width: 1.5rem;
+}
+
+/* ハイライトテキスト */
+.hl-gold { color: var(--gold-light); font-weight: 600; }
+.hl-warn { color: var(--dawn); font-weight: 600; }
+
+/* 重要ボックス */
+.alert-box {
+  background: rgba(247,213,220,0.05);
+  border: 1px dashed rgba(247,213,220,0.3);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+  font-size: 0.78rem;
+  line-height: 1.9;
+  color: rgba(247,213,220,0.85);
+}
+
+/* 区切り */
+.ornament {
+  display: flex; align-items: center; gap: 1rem;
+  margin: 2rem 0;
+}
+.ornament::before, .ornament::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(232,201,122,0.25), transparent);
+}
+.ornament span {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-deep);
+}
+
+/* 署名エリア */
+#sign-section { display: block; }
+#done-section { display: none; }
+
+.sign-card {
+  background: linear-gradient(135deg, rgba(212,197,249,0.05), rgba(201,165,92,0.05));
+  border: 1px solid rgba(232,201,122,0.25);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.sign-card h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: #fff;
+}
+
+.sign-card p {
+  font-size: 0.78rem;
+  color: rgba(232,228,220,0.5);
+  margin-bottom: 1.75rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+
+/* チェックボックス */
+.check-group {
+  display: flex; flex-direction: column; gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.check-item {
+  display: flex; align-items: flex-start; gap: 0.85rem;
+  cursor: pointer;
+}
+
+.check-item input[type="checkbox"] {
+  display: none;
+}
+
+.check-box {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border: 1.5px solid rgba(232,201,122,0.35);
+  border-radius: 5px;
+  background: rgba(255,255,255,0.03);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  margin-top: 0.1rem;
+}
+
+.check-item input[type="checkbox"]:checked + .check-box {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+
+.check-item input[type="checkbox"]:checked + .check-box::after {
+  content: '✓';
+  font-size: 0.75rem;
+  color: #1a1200;
+  font-weight: 700;
+}
+
+.check-label {
+  font-size: 0.8rem;
+  line-height: 1.8;
+  color: rgba(232,228,220,0.8);
+}
+
+/* 名前選択 */
+.field-label {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--gold-deep);
+  margin-bottom: 0.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  text-transform: uppercase;
+}
+
+select {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(232,201,122,0.25);
+  border-radius: 10px;
+  padding: 0.85rem 1.2rem;
+  color: #e8e4dc;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s;
+  -webkit-appearance: none;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+}
+
+select:focus { border-color: var(--gold); }
+select option { background: var(--ink-soft); }
+
+/* 署名ボタン */
+.sign-btn {
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #1a1200;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Shippori Mincho', serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 8px 28px rgba(201,165,92,0.3);
+}
+
+.sign-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(201,165,92,0.45); }
+.sign-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* 完了画面 */
+.done-card {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(232,201,122,0.2);
+  border-radius: 20px;
+}
+
+.done-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+.done-card h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.done-card p {
+  font-size: 0.82rem;
+  color: rgba(232,228,220,0.55);
+  line-height: 2;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.done-detail {
+  margin-top: 1.75rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(232,201,122,0.12);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: left;
+  max-width: 380px;
+  margin: 1.75rem auto 0;
+}
+
+.done-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.75rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid rgba(232,201,122,0.06);
+}
+.done-row:last-child { border-bottom: none; }
+.done-key {
+  color: rgba(232,228,220,0.4);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+}
+.done-val { color: var(--gold-light); font-weight: 600; }
+
+/* 管理者エリア */
+.admin-btn {
+  display: block; margin: 3rem auto 0;
+  padding: 0.45rem 1.1rem;
+  border: 1px solid rgba(232,201,122,0.15);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(232,228,220,0.3);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  font-family: 'Cormorant Garamond', serif;
+  transition: all 0.2s;
+}
+.admin-btn:hover { color: var(--gold-light); border-color: var(--gold); }
+
+.result-list {
+  margin-top: 1rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+
+.result-entry {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(232,201,122,0.1);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  font-size: 0.75rem;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 0.5rem;
+}
+.result-name { color: var(--gold-light); font-weight: 600; }
+.result-date { color: rgba(232,228,220,0.4); font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Project M — 参加同意書</div>
+  <div class="confidential-badge">
+    <span class="badge-dot"></span>
+    チーム内限定
+  </div>
+</header>
+
+<main>
+
+  <div class="page-head">
+    <div class="eyebrow">— Agreement —</div>
+    <h1>ガイドライン同意書</h1>
+    <p class="page-sub">日本コロムビアグループ主催 AIクリエイティブコンテスト参加にあたって</p>
+  </div>
+
+  <!-- 第1条 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">Article 01</span>
+      <span class="section-title">プロジェクトの目的と参加の意志</span>
+    </div>
+    <p class="body-text">
+      本書は、「Project M」（以下「本プロジェクト」）のチームメンバーが、
+      日本コロムビアグループ主催のAIクリエイティブコンテスト（以下「本コンテスト」）に
+      参加するにあたり、コンテスト規約ならびにチーム内ガイドラインを理解・遵守することを
+      確認するための同意書です。
+    </p>
+    <p class="body-text" style="margin-top:0.75rem;">
+      署名をもって、以下に定める各条項に同意したものとみなします。
+    </p>
+  </div>
+
+  <!-- 第2条 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">Article 02</span>
+      <span class="section-title">コンテスト規約の遵守</span>
+    </div>
+    <ul class="clause-list">
+      <li>
+        <span class="clause-num">2-1</span>
+        <span>本コンテストの応募期間中（参加登録〜2026年7月中旬）、
+        <span class="hl-warn">AIプロンプトの第三者への提出・開示・利用許諾を行わない</span>こと。
+        これはコンテスト規約により明示的に禁止されている事項です。</span>
+      </li>
+      <li>
+        <span class="clause-num">2-2</span>
+        <span>応募作品には、<span class="hl-warn">第三者の著作物・既存キャラクター・商標を
+        想起させる表現を使用しない</span>こと。生成AIの使用においても同様に適用されます。</span>
+      </li>
+      <li>
+        <span class="clause-num">2-3</span>
+        <span>応募作品はオリジナルの創作物であり、他のコンテスト・媒体への
+        二重応募・転用を行わないこと。</span>
+      </li>
+      <li>
+        <span class="clause-num">2-4</span>
+        <span>コンテスト規約の変更・追加が生じた場合は、主催者の発表に従い
+        チームリーダー（月真猫）が速やかに周知します。</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 第3条 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">Article 03</span>
+      <span class="section-title">プロンプトの著作権と機密保持</span>
+    </div>
+    <p class="body-text">
+      本プロジェクトで制作・使用するAIプロンプトは、<span class="hl-gold">チームメンバーの知的創作物（著作物）</span>として扱います。
+    </p>
+    <ul class="clause-list" style="margin-top:0.75rem;">
+      <li>
+        <span class="clause-num">3-1</span>
+        <span>プロンプトアーカイブ（prompt-tool）に保存されたプロンプトを
+        チーム外の第三者に共有・転載・販売しないこと。</span>
+      </li>
+      <li>
+        <span class="clause-num">3-2</span>
+        <span>SNS・ブログ・その他パブリックな媒体への投稿・引用は、
+        <span class="hl-gold">コンテスト結果公表後（2026年7月中旬以降）</span>まで原則禁止とします。</span>
+      </li>
+      <li>
+        <span class="clause-num">3-3</span>
+        <span>プロンプト以外の制作素材（キービジュアル・脚本・コンセプトアート）についても
+        同様の機密保持義務を負います。</span>
+      </li>
+    </ul>
+    <div class="alert-box">
+      ⚠️ 万が一、外部への情報漏洩が確認された場合、コンテスト失格・チームからの離脱となる可能性があります。
+      疑問・懸念がある場合は事前に月真猫へ相談してください。
+    </div>
+  </div>
+
+  <!-- 第4条 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">Article 04</span>
+      <span class="section-title">チーム内の役割と協力義務</span>
+    </div>
+    <ul class="clause-list">
+      <li>
+        <span class="clause-num">4-1</span>
+        <span>自身の担当範囲において誠実に作業を進め、進捗・懸念点をチームに共有すること。</span>
+      </li>
+      <li>
+        <span class="clause-num">4-2</span>
+        <span>制作締切（<span class="hl-gold">2026年6月28日</span>）を尊重し、
+        遅延が見込まれる場合は早期にチームリーダーへ申告すること。</span>
+      </li>
+      <li>
+        <span class="clause-num">4-3</span>
+        <span>作品のクオリティ・方向性に関する意思決定はチームで協議し、
+        最終判断はチームリーダー（月真猫）が行うことに同意すること。</span>
+      </li>
+      <li>
+        <span class="clause-num">4-4</span>
+        <span>メンバー間の対話において互いの創作・判断を尊重し、
+        建設的なフィードバックを心がけること。</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 第5条 -->
+  <div class="section">
+    <div class="section-head">
+      <span class="section-num">Article 05</span>
+      <span class="section-title">受賞・収益・クレジットの取り扱い</span>
+    </div>
+    <ul class="clause-list">
+      <li>
+        <span class="clause-num">5-1</span>
+        <span>本コンテストにおける受賞・賞金・副賞の分配については、
+        別途チーム内で協議のうえ決定します。</span>
+      </li>
+      <li>
+        <span class="clause-num">5-2</span>
+        <span>作品クレジット（氏名・ハンドルネーム）の表記については、
+        各メンバーの意向を尊重したうえで応募時に確定します。</span>
+      </li>
+      <li>
+        <span class="clause-num">5-3</span>
+        <span>コンテスト規約における著作権の取り扱い（主催者への利用許諾等）については、
+        主催者の規約に従うことに同意します。</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="ornament"><span>Sign</span></div>
+
+  <!-- 署名エリア -->
+  <div id="sign-section">
+    <div class="sign-card">
+      <h2>同意して署名する</h2>
+      <p>上記5条すべてを読み、内容を理解したうえで署名してください</p>
+
+      <div class="check-group" id="check-group">
+        <label class="check-item">
+          <input type="checkbox" data-idx="0">
+          <span class="check-box"></span>
+          <span class="check-label">コンテスト規約を遵守し、応募期間中はAIプロンプトを第三者に開示しません</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-idx="1">
+          <span class="check-box"></span>
+          <span class="check-label">プロンプト・脚本・素材はチーム外に共有せず、機密保持義務を守ります</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-idx="2">
+          <span class="check-box"></span>
+          <span class="check-label">担当範囲において誠実に作業し、締切（6月28日）を尊重します</span>
+        </label>
+        <label class="check-item">
+          <input type="checkbox" data-idx="3">
+          <span class="check-box"></span>
+          <span class="check-label">上記5条すべての内容を理解・同意します</span>
+        </label>
+      </div>
+
+      <label class="field-label">署名者（メンバー名）</label>
+      <select id="inp-name">
+        <option value="">— メンバーを選択 —</option>
+        <option value="月真猫">月真猫</option>
+        <option value="杜崎まさかず">杜崎まさかず</option>
+        <option value="夢逢真月里">夢逢真月里</option>
+        <option value="HIROMI">HIROMI</option>
+        <option value="TECH">TECH</option>
+      </select>
+
+      <button class="sign-btn" id="sign-btn" onclick="submitSign()" disabled>
+        同意して署名する
+      </button>
+    </div>
+  </div>
+
+  <!-- 完了 -->
+  <div id="done-section">
+    <div class="done-card">
+      <div class="done-icon">✍️</div>
+      <h2>署名が完了しました</h2>
+      <p>
+        ガイドラインへの同意ありがとうございます。<br>
+        Project Mの制作に向けて、ともに最高の作品を目指しましょう。
+      </p>
+      <div class="done-detail" id="done-detail"></div>
+    </div>
+    <button class="admin-btn" onclick="showResult()">管理者：署名一覧を確認</button>
+    <div id="result-area"></div>
+  </div>
+
+</main>
+
+<script>
+const SIGN_KEY = 'projectm_agreements_v1';
+let allChecked = false;
+
+// チェック状態の監視
+document.querySelectorAll('#check-group input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', updateBtn);
+});
+document.getElementById('inp-name').addEventListener('change', updateBtn);
+
+function updateBtn() {
+  const checks = document.querySelectorAll('#check-group input[type="checkbox"]');
+  const allTicked = Array.from(checks).every(c => c.checked);
+  const name = document.getElementById('inp-name').value;
+  document.getElementById('sign-btn').disabled = !(allTicked && name);
+}
+
+function submitSign() {
+  const name = document.getElementById('inp-name').value;
+  if (!name) { alert('メンバーを選択してください'); return; }
+
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('ja-JP', {
+    year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit'
+  });
+
+  const entry = {
+    id: Date.now(),
+    name,
+    date: dateStr,
+    ua: navigator.userAgent.substring(0, 80)
+  };
+
+  const sigs = JSON.parse(localStorage.getItem(SIGN_KEY) || '[]');
+  // 同一名の二重署名を防ぐ
+  const exists = sigs.find(s => s.name === name);
+  if (exists) {
+    if (!confirm(`${name} はすでに署名済みです（${exists.date}）。\n再署名しますか？`)) return;
+    const idx = sigs.findIndex(s => s.name === name);
+    sigs[idx] = entry;
+  } else {
+    sigs.push(entry);
+  }
+  localStorage.setItem(SIGN_KEY, JSON.stringify(sigs));
+
+  // Formspreeに送信
+  const signBtn = document.getElementById('sign-btn');
+  signBtn.disabled = true;
+  signBtn.textContent = '送信中…';
+
+  fetch('https://formspree.io/f/mojzakeb', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      署名者: name,
+      同意書バージョン: 'v1.0 — 2026.06.03',
+      署名日時: dateStr,
+      ステータス: '同意・署名完了'
+    })
+  })
+  .then(r => r.json())
+  .catch(() => {})
+  .finally(() => {
+    document.getElementById('sign-section').style.display = 'none';
+    document.getElementById('done-section').style.display = 'block';
+    document.getElementById('done-detail').innerHTML = `
+      <div class="done-row"><span class="done-key">署名者</span><span class="done-val">${name}</span></div>
+      <div class="done-row"><span class="done-key">日時</span><span class="done-val">${dateStr}</span></div>
+      <div class="done-row"><span class="done-key">同意書バージョン</span><span class="done-val">v1.0 — 2026.06.03</span></div>
+    `;
+  });
+}
+
+function showResult() {
+  const sigs = JSON.parse(localStorage.getItem(SIGN_KEY) || '[]');
+  const area = document.getElementById('result-area');
+  if (sigs.length === 0) {
+    area.innerHTML = '<p style="text-align:center;color:rgba(232,228,220,0.3);font-size:0.8rem;margin-top:1rem;">まだ署名がありません</p>';
+    return;
+  }
+  const members = ['月真猫','杜崎まさかず','夢逢真月里','HIROMI','TECH'];
+  area.innerHTML = `
+    <div style="text-align:center;margin-top:2rem;margin-bottom:1rem;">
+      <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.72rem;letter-spacing:0.3em;color:var(--gold-deep);">
+        ${sigs.length} / ${members.length} 名が署名済み
+      </span>
+    </div>
+    <div class="result-list">
+      ${members.map(m => {
+        const sig = sigs.find(s => s.name === m);
+        return `
+          <div class="result-entry">
+            <span class="result-name">${m}</span>
+            ${sig
+              ? `<span class="result-date">✓ ${sig.date}</span>`
+              : `<span style="font-size:0.72rem;color:rgba(232,228,220,0.3);font-family:'Cormorant Garamond',serif;font-style:italic;">未署名</span>`
+            }
+          </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>
