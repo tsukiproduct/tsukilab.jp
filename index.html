@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+  <html lang="ja" dir="ltr">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="strict-origin">
+  <meta name="format-detection" content="telephone=no, email=no">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="theme-color" content="#f3ece0">
+  <title>Tsukilab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <style>
+  :root{
+    --ink:#211c18;
+  --ink-soft:#4a423b;
+  --paper:#f3ece0;
+      --paper-2:#ece3d4;
+      --line:#cbb89c;
+      --accent:#8a3a2e;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+  body{
+    font-family:'Shippori Mincho',serif;
+  color:var(--ink);
+  background:
+      radial-gradient(120% 80% at 50% 0%, var(--paper) 0%, var(--paper-2) 100%);
+  min-height:100dvh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:2rem;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{
+    max-width:34rem;
+  animation:fade 1.6s ease both;
+}
+.mark{
+    font-size:clamp(2.6rem,8vw,4.4rem);
+  font-weight:600;
+  letter-spacing:.12em;
+  line-height:1.2;
+}
+.romaji{
+    font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-weight:300;
+  font-size:clamp(1.1rem,3.4vw,1.5rem);
+  letter-spacing:.34em;
+  color:var(--accent);
+  margin-top:.6rem;
+  text-transform:lowercase;
+}
+.rule{
+    width:3.4rem;
+  height:1px;
+  background:var(--line);
+  margin:2.2rem auto;
+}
+.lead{
+    font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1rem,3vw,1.25rem);
+  letter-spacing:.16em;
+  color:var(--ink-soft);
+}
+.note{
+    font-size:clamp(.86rem,2.6vw,.98rem);
+  font-weight:400;
+  letter-spacing:.08em;
+  color:var(--ink-soft);
+  margin-top:1rem;
+  line-height:2;
+}
+@keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion:reduce){.wrap{animation:none;}}
+@media (prefers-contrast:high){
+    :root{--ink:#000;--ink-soft:#000;--paper:#fff;--paper-2:#fff;--line:#000;}
+  }
+</style>
+  </head>
+  <body>
+  <main class="wrap">
+    <div class="mark">月ラボ</div>
+    <div class="romaji">tsukilab</div>
+    <div class="rule" role="presentation"></div>
+    <p class="lead">This is Tsukilab.</p>
+  <p class="note">ただいま準備を進めております。<br>サービス開始まで、いましばらくお待ちください。</p>
+  </main>
+  </body>
+  </html>
