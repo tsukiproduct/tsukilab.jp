@@ -97,10 +97,10 @@ h1 {
 }
 
 /* ログイン前 / 投票済み状態 */
-#step-name, #step-vote, #step-done, #step-result {
+#step-name, #step-vote, #step-done {
   display: none;
 }
-#step-name.active, #step-vote.active, #step-done.active, #step-result.active {
+#step-name.active, #step-vote.active, #step-done.active {
   display: block;
 }
 
@@ -662,17 +662,6 @@ textarea:focus { border-color: var(--gold); }
         月真猫より結果を共有します。
       </p>
     </div>
-    <button class="admin-btn" onclick="showResult()">管理者：結果を見る</button>
-  </div>
-
-  <!-- STEP 4: 結果（管理者用） -->
-  <div id="step-result">
-    <div class="section-label" style="text-align:center;margin-bottom:1rem;">— Results —</div>
-    <h2 style="text-align:center;margin-bottom:2rem;">集計結果</h2>
-    <div id="result-body"></div>
-    <button class="admin-btn" onclick="clearAll()" style="color:rgba(247,213,220,0.4);margin-top:3rem;">
-      全データをリセット（管理者のみ）
-    </button>
   </div>
 
 </main>
@@ -713,7 +702,7 @@ function selectStory(story) {
 }
 
 function showStep(id) {
-  ['step-name','step-vote','step-done','step-result'].forEach(s => {
+  ['step-name','step-vote','step-done'].forEach(s => {
     document.getElementById(s).classList.remove('active');
   });
   document.getElementById(id).classList.add('active');
@@ -771,78 +760,6 @@ function submitVote() {
   });
 }
 
-function showResult() {
-  const votes = JSON.parse(localStorage.getItem(VOTE_KEY) || '[]');
-  if (votes.length === 0) { alert('まだ投票がありません'); return; }
-
-  const s1 = votes.filter(v => v.story === '第一案');
-  const s2 = votes.filter(v => v.story === '第二案');
-  const total = votes.length;
-
-  const avg = (arr, idx) => arr.length ? (arr.reduce((a,v) => a + v.scores[idx], 0) / arr.length).toFixed(1) : '—';
-
-  const cLabels = ['伝わりやすさ','面白さ','映像化のしやすさ','コンテスト向き'];
-
-  let html = `
-    <div class="result-card">
-      <div class="result-title">📊 投票数 — 計${total}票</div>
-      <div class="bar-row">
-        <span class="bar-label">第一案</span>
-        <div class="bar-track"><div class="bar-fill" style="width:${total?s1.length/total*100:0}%"></div></div>
-        <span class="bar-count">${s1.length}票</span>
-      </div>
-      <div class="bar-row">
-        <span class="bar-label">第二案</span>
-        <div class="bar-track"><div class="bar-fill" style="width:${total?s2.length/total*100:0}%;background:linear-gradient(90deg,#6a5a9a,var(--lavender))"></div></div>
-        <span class="bar-count">${s2.length}票</span>
-      </div>
-    </div>
-
-    <div class="result-card">
-      <div class="result-title">⭐ 評価軸スコア平均</div>
-      ${cLabels.map((lbl, i) => `
-        <div class="bar-row" style="margin-bottom:0.4rem;">
-          <span class="bar-label" style="min-width:120px;font-size:0.72rem;">${lbl}</span>
-          <span style="font-size:0.72rem;color:var(--gold-light);min-width:60px;">第一案 ${avg(s1,i)}</span>
-          <span style="font-size:0.72rem;color:var(--lavender);">第二案 ${avg(s2,i)}</span>
-        </div>
-      `).join('')}
-    </div>
-
-    <div class="result-card">
-      <div class="result-title">💬 コメント一覧</div>
-      <div class="voter-list">
-        ${votes.filter(v=>v.comment).map(v => `
-          <div class="voter-entry">
-            <span>${v.name}（${v.story}）</span>${v.comment}
-          </div>
-        `).join('') || '<div class="voter-entry">コメントなし</div>'}
-      </div>
-    </div>
-
-    <div class="result-card">
-      <div class="result-title">👥 投票者一覧</div>
-      <div class="voter-list">
-        ${votes.map(v => `
-          <div class="voter-entry">
-            <span>${v.name}</span>${v.story} / 
-            伝わり★${v.scores[0]} 面白さ★${v.scores[1]} 映像化★${v.scores[2]} コンテスト★${v.scores[3]}
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `;
-
-  document.getElementById('result-body').innerHTML = html;
-  showStep('step-result');
-}
-
-function clearAll() {
-  if (!confirm('全投票データを削除します。この操作は元に戻せません。')) return;
-  localStorage.removeItem(VOTE_KEY);
-  showStep('step-name');
-  alert('リセットしました');
-}
 </script>
 </body>
 </html>
