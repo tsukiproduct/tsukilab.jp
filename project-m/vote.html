@@ -187,6 +187,12 @@ input[type="text"]:focus { border-color: var(--gold); }
   box-shadow: 0 10px 32px rgba(201,165,92,0.45);
 }
 
+.primary-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* 投票カード */
 .vote-section h2 {
   font-size: 1rem;
@@ -547,6 +553,9 @@ textarea:focus { border-color: var(--gold); }
         <option value="杜崎まさかず">杜崎まさかず</option>
         <option value="夢逢真月里">夢逢真月里</option>
         <option value="HIROMI">HIROMI</option>
+        <option value="LUCY">LUCY</option>
+        <option value="絵空事テレビ／AIカワウソ">絵空事テレビ／AIカワウソ</option>
+        <option value="Marshmellaxy">Marshmellaxy</option>
         <option value="TECH">TECH</option>
       </select>
       <button class="primary-btn" onclick="startVote()" style="margin-top:1.25rem;">投票を始める →</button>
@@ -670,6 +679,7 @@ textarea:focus { border-color: var(--gold); }
 
 <script>
 const VOTE_KEY = 'projectm_votes_v1';
+const FORMSPREE_URL = 'https://formspree.io/f/xjgdbayw';
 let selectedStory = '';
 let scores = [0, 0, 0, 0];
 
@@ -735,7 +745,7 @@ function submitVote() {
   const btn = document.querySelector('#step-vote .primary-btn');
   if (btn) { btn.disabled = true; btn.textContent = '送信中…'; }
 
-  fetch('https://formspree.io/f/xjgdbayw', {
+  fetch(FORMSPREE_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     body: JSON.stringify({
@@ -749,9 +759,16 @@ function submitVote() {
       投票日時: date
     })
   })
-  .then(r => r.json())
-  .catch(() => {})
-  .finally(() => { showStep('step-done'); });
+  .then(r => {
+    if (!r.ok) throw new Error('送信に失敗しました');
+    return r.json();
+  })
+  .then(() => { showStep('step-done'); })
+  .catch((e) => {
+    // 送信失敗時はボタンを戻して再試行できるようにする
+    if (btn) { btn.disabled = false; btn.textContent = '投票を送信する →'; }
+    alert('送信に失敗しました。通信環境を確認して、もう一度お試しください。\n（入力内容は端末に保存されています）');
+  });
 }
 
 function showResult() {
