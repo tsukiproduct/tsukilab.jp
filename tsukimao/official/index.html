@@ -595,22 +595,21 @@ function renderWorks(genre){
 
   container.appendChild(grid);
 
-  // lazy-load: maxresdefault → hqdefault → mqdefault → sddefault の順でフォールバック
+  // サムネイル: hqdefault を直接セット、失敗時は mqdefault → sddefault → default にフォールバック
   setTimeout(()=>{
     grid.querySelectorAll('.wt-img').forEach(img=>{
       const id = img.dataset.id;
-      const sizes = ['maxresdefault','hqdefault','mqdefault','sddefault'];
-      let idx = 0;
-      function tryNext(){
-        if(idx >= sizes.length) return; // 全サイズ失敗 → プレースホルダーのまま
-        const size = sizes[idx++];
-        const url = `https://i3.ytimg.com/vi/${id}/${size}.jpg`;
-        const probe = new Image();
-        probe.onload = ()=>{ img.src = url; img.classList.add('loaded'); };
-        probe.onerror = ()=>{ tryNext(); };
-        probe.src = url;
-      }
-      tryNext();
+      const fallbacks = ['mqdefault','sddefault','default'];
+      img.onerror = function(){
+        if(this.dataset.fallbackIdx === undefined) this.dataset.fallbackIdx = 0;
+        const fi = parseInt(this.dataset.fallbackIdx);
+        if(fi < fallbacks.length){
+          this.dataset.fallbackIdx = fi + 1;
+          this.src = `https://i3.ytimg.com/vi/${id}/${fallbacks[fi]}.jpg`;
+        }
+      };
+      img.onload = function(){ this.classList.add('loaded'); };
+      img.src = `https://i3.ytimg.com/vi/${id}/hqdefault.jpg`;
     });
 
     grid.querySelectorAll('.work-tile').forEach(el=>io.observe(el));
