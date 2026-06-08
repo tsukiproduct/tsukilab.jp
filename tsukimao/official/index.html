@@ -571,15 +571,13 @@ function renderWorks(genre){
     el.target='_blank';el.rel='noopener';
     el.style.transitionDelay=(i*.04)+'s';
 
-    const thumb_max=`https://i.ytimg.com/vi/${w.id}/maxresdefault.jpg`;
-    const thumb_hq =`https://i.ytimg.com/vi/${w.id}/hqdefault.jpg`;
     const label = GENRE_LABELS[w.genre]||w.genre.toUpperCase();
 
     el.innerHTML=`
       <div class="wt-placeholder">
         <span class="wt-placeholder-text">${w.title}</span>
       </div>
-      <img class="wt-img" data-src="${thumb_max}" data-fallback="${thumb_hq}" alt="${w.title}">
+      <img class="wt-img" data-id="${w.id}" alt="${w.title}">
       <div class="wt-overlay"></div>
       <div class="wt-info">
         <span class="wt-genre">${label} · ${w.year}</span>
@@ -592,20 +590,20 @@ function renderWorks(genre){
 
   container.appendChild(grid);
 
-  // lazy-load images with fallback
+  // lazy-load: maxresdefault → hqdefault → mqdefault → sddefault の順でフォールバック
   setTimeout(()=>{
     grid.querySelectorAll('.wt-img').forEach(img=>{
-      const src=img.dataset.src;
-      const fb=img.dataset.fallback;
-      const probe=new Image();
-      probe.onload=()=>{img.src=src;img.classList.add('loaded')};
-      probe.onerror=()=>{
-        const probe2=new Image();
-        probe2.onload=()=>{img.src=fb;img.classList.add('loaded')};
-        probe2.onerror=()=>{}; // placeholder stays
-        probe2.src=fb;
-      };
-      probe.src=src;
+      const id = img.dataset.id;
+      const sizes = ['maxresdefault','hqdefault','mqdefault','sddefault'];
+      let idx = 0;
+      function tryNext(){
+        if(idx >= sizes.length) return; // 全サイズ失敗 → プレースホルダーのまま
+        const probe = new Image();
+        probe.onload = ()=>{ img.src = probe.src; img.classList.add('loaded'); };
+        probe.onerror = ()=>{ idx++; tryNext(); };
+        probe.src = `https://i.ytimg.com/vi/${id}/${sizes[idx++]}.jpg`;
+      }
+      tryNext();
     });
 
     grid.querySelectorAll('.work-tile').forEach(el=>io.observe(el));
