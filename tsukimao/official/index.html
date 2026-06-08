@@ -552,6 +552,11 @@ const WORKS = [
   {id:'18WW_N1Bex0', title:'冗談ジョーカー',         sub:'大正ロマン・ノワール｜実写MV', genre:'mv', year:'2025'},
 ];
 
+/* ── REVEAL OBSERVER ── */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}});
+},{threshold:.06,rootMargin:'0px 0px -16px 0px'});
+
 /* ── RENDER WORKS ── */
 const GENRE_LABELS={mv:'AI MV',film:'Short Film',anime:'AI Anime',novel:'Novel PV',music:'Music'};
 
@@ -638,9 +643,6 @@ document.querySelectorAll('a,button').forEach(el=>{
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',scrollY>40),{passive:true});
 
 /* ── REVEAL ── */
-const io=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}});
-},{threshold:.06,rootMargin:'0px 0px -16px 0px'});
 document.querySelectorAll('.rev,.service').forEach(el=>io.observe(el));
 document.querySelectorAll('.service').forEach((el,i)=>el.style.transitionDelay=(i*.07)+'s');
 </script>
