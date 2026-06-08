@@ -603,10 +603,12 @@ function renderWorks(genre){
       let idx = 0;
       function tryNext(){
         if(idx >= sizes.length) return; // 全サイズ失敗 → プレースホルダーのまま
+        const size = sizes[idx++];
+        const url = `https://i3.ytimg.com/vi/${id}/${size}.jpg`;
         const probe = new Image();
-        probe.onload = ()=>{ img.src = probe.src; img.classList.add('loaded'); };
-        probe.onerror = ()=>{ idx++; tryNext(); };
-        probe.src = `https://i3.ytimg.com/vi/${id}/${sizes[idx++]}.jpg`;
+        probe.onload = ()=>{ img.src = url; img.classList.add('loaded'); };
+        probe.onerror = ()=>{ tryNext(); };
+        probe.src = url;
       }
       tryNext();
     });
