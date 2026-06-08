@@ -1176,14 +1176,13 @@ footer .foot-brand { color: var(--ink-dim); }
     </div>
 
     <a class="featured-card reveal" href="./music/" style="text-decoration:none;">
-      <div class="featured-media" style="background: linear-gradient(135deg, rgba(255,184,220,0.18) 0%, rgba(168,213,255,0.14) 50%, rgba(201,184,255,0.12) 100%); display:flex; align-items:center; justify-content:center;">
-        <div style="text-align:center; padding: 3rem;">
-          <div style="font-family:var(--font-display); font-size:clamp(3rem,6vw,6rem); font-weight:300; font-style:italic; background: linear-gradient(95deg, var(--accent) 0%, var(--accent-3) 50%, var(--accent-2) 100%); -webkit-background-clip:text; background-clip:text; color:transparent; filter:drop-shadow(0 0 24px rgba(255,184,220,0.4)); letter-spacing:0.06em; line-height:1.1;">♪</div>
-          <div style="font-family:var(--font-sans); font-size:11px; letter-spacing:0.45em; color:var(--accent); text-transform:uppercase; margin-top:1.2rem; opacity:0.85;" data-en="AI Music Streaming" data-ja="AI音楽ストリーミング">AI Music Streaming</div>
-        </div>
+      <div class="featured-media">
+        <img src="./images/music_thumbnail.jpg" alt="Yumeai Fantasy Music" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div class="featured-overlay"></div>
+        <div class="play-btn featured-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
       </div>
       <div class="featured-body">
-        <div class="featured-eyebrow" data-en="★ New Activity · 2025" data-ja="★ 新活動 · 2025">★ New Activity · 2025</div>
+        <div class="featured-eyebrow" data-en="★ New Activity · 2026" data-ja="★ 新活動 · 2026">★ New Activity · 2026</div>
         <h3 class="featured-title" data-en="AethrMusik" data-ja="AethrMusik">AethrMusik</h3>
         <p class="featured-desc" data-en="AI-generated music exploring dreamcore, liminal, and Y2K aesthetics. Now streaming on AethrMusik." data-ja="ドリームコア・リミナル・Y2Kの美学を探求するAI生成音楽。AethrMusikにて配信中。">AI-generated music exploring dreamcore, liminal, and Y2K aesthetics. Now streaming on AethrMusik.</p>
         <div class="featured-tags">
@@ -1593,7 +1592,7 @@ function applyLang(lang) {
 
   // music featured section
   const musicFeatEyebrow = document.querySelector('#music .featured-eyebrow');
-  if (musicFeatEyebrow) musicFeatEyebrow.textContent = lang === 'ja' ? '★ 新活動 · 2025' : '★ New Activity · 2025';
+  if (musicFeatEyebrow) musicFeatEyebrow.textContent = lang === 'ja' ? '★ 新活動 · 2026' : '★ New Activity · 2026';
   const musicFeatDesc = document.querySelector('#music .featured-desc');
   if (musicFeatDesc) musicFeatDesc.textContent = lang === 'ja'
     ? 'ドリームコア・リミナル・Y2Kの美学を探求するAI生成音楽。AethrMusikにて配信中。'
