@@ -200,6 +200,25 @@ body::after {
 .nav-links a:hover { color: var(--ink); }
 .nav-links a:hover::after { width: 100%; }
 
+
+/* Language toggle */
+.lang-toggle {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink-mute);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: color 0.4s, border-color 0.4s;
+  margin-right: 16px;
+}
+.lang-toggle:hover,
+.lang-toggle.ja { color: var(--accent); border-color: var(--accent-dim); }
+
 .nav-toggle { display: none; background: transparent; border: 0; color: var(--ink); cursor: pointer; }
 
 /* ============== HERO ============== */
@@ -1101,15 +1120,16 @@ footer .foot-brand { color: var(--ink-dim); }
   <a href="#home" class="brand"><span class="dot"></span>Yumeai Fantasy</a>
   <nav>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#profile">Profile</a></li>
-      <li><a href="#podcast">Podcast</a></li>
-      <li><a href="#book">Book</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="./music/">Music</a></li>
+      <li><a href="#home" data-en="Home" data-ja="ホーム">Home</a></li>
+      <li><a href="#music" data-en="Music" data-ja="ミュージック">Music</a></li>
+      <li><a href="#work" data-en="Work" data-ja="作品">Work</a></li>
+      <li><a href="#profile" data-en="Profile" data-ja="プロフィール">Profile</a></li>
+      <li><a href="#podcast" data-en="Podcast" data-ja="ポッドキャスト">Podcast</a></li>
+      <li><a href="#book" data-en="Book" data-ja="書籍">Book</a></li>
+      <li><a href="#contact" data-en="Contact" data-ja="お問合せ">Contact</a></li>
     </ul>
   </nav>
+  <button class="lang-toggle" id="langToggle" aria-label="language toggle">EN</button>
   <button class="nav-toggle" id="navToggle" aria-label="menu">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
   </button>
@@ -1124,13 +1144,13 @@ footer .foot-brand { color: var(--ink-dim); }
   <div class="hero-grid-overlay"></div>
 
   <div class="hero-content">
-    <div class="hero-eyebrow">AI Filmmaker · Liminal Dreamcore</div>
+    <div class="hero-eyebrow" data-en="AI Filmmaker · Liminal Dreamcore" data-ja="AIフィルムメーカー · リミナル・ドリームコア">AI Filmmaker · Liminal Dreamcore</div>
     <h1>
       Matsuri Yumeai
       <span class="slash">／</span>
       <span class="accent">Yumeai Fantasy</span>
     </h1>
-    <p class="hero-tagline">
+    <p class="hero-tagline" data-en="AI Filmmaker specializing in liminal horror, dreamcore, and psychological narratives. Creator of Liminal Hunt: Shadows Awaken and other experimental short films. Currently exploring memory, identity, and dissolving realities." data-ja="リミナルホラー・ドリームコア・心理的ナラティブに特化したAIフィルムメーカー。『Liminal Hunt: Shadows Awaken』ほか実験的短編映画を制作。記憶、アイデンティティ、溶けゆく現実を探求中。">
       AI Filmmaker specializing in liminal horror, dreamcore, and psychological narratives.<br>
       Creator of <em>Liminal Hunt: Shadows Awaken</em> and other experimental short films.<br>
       Currently exploring memory, identity, and dissolving realities.
@@ -1144,12 +1164,44 @@ footer .foot-brand { color: var(--ink-dim); }
   <div class="scroll-cue">SCROLL</div>
 </section>
 
+<!-- ========== MUSIC ========== -->
+<section id="music">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <span class="num" data-en="01 / MUSIC" data-ja="01 / ミュージック">01 / MUSIC</span>
+        <h2 data-en="Music" data-ja="ミュージック">Music</h2>
+      </div>
+      <div class="meta" data-en="AI Music — Dreamcore · Liminal · Y2K" data-ja="AI音楽 — ドリームコア・リミナル・Y2K">AI Music — Dreamcore · Liminal · Y2K</div>
+    </div>
+
+    <a class="featured-card reveal" href="./music/" style="text-decoration:none;">
+      <div class="featured-media" style="background: linear-gradient(135deg, rgba(255,184,220,0.18) 0%, rgba(168,213,255,0.14) 50%, rgba(201,184,255,0.12) 100%); display:flex; align-items:center; justify-content:center;">
+        <div style="text-align:center; padding: 3rem;">
+          <div style="font-family:var(--font-display); font-size:clamp(3rem,6vw,6rem); font-weight:300; font-style:italic; background: linear-gradient(95deg, var(--accent) 0%, var(--accent-3) 50%, var(--accent-2) 100%); -webkit-background-clip:text; background-clip:text; color:transparent; filter:drop-shadow(0 0 24px rgba(255,184,220,0.4)); letter-spacing:0.06em; line-height:1.1;">♪</div>
+          <div style="font-family:var(--font-sans); font-size:11px; letter-spacing:0.45em; color:var(--accent); text-transform:uppercase; margin-top:1.2rem; opacity:0.85;" data-en="AI Music Streaming" data-ja="AI音楽ストリーミング">AI Music Streaming</div>
+        </div>
+      </div>
+      <div class="featured-body">
+        <div class="featured-eyebrow" data-en="★ New Activity · 2025" data-ja="★ 新活動 · 2025">★ New Activity · 2025</div>
+        <h3 class="featured-title" data-en="AethrMusik" data-ja="AethrMusik">AethrMusik</h3>
+        <p class="featured-desc" data-en="AI-generated music exploring dreamcore, liminal, and Y2K aesthetics. Now streaming on AethrMusik." data-ja="ドリームコア・リミナル・Y2Kの美学を探求するAI生成音楽。AethrMusikにて配信中。">AI-generated music exploring dreamcore, liminal, and Y2K aesthetics. Now streaming on AethrMusik.</p>
+        <div class="featured-tags">
+          <span class="tag tag-glow">Dreamcore</span>
+          <span class="tag">Liminal</span>
+          <span class="tag">Y2K</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
 <!-- ========== WORK ========== -->
 <section id="work">
   <div class="container">
     <div class="section-head reveal">
       <div>
-        <span class="num">01 / WORK</span>
+        <span class="num">02 / WORK</span>
         <h2>Portfolio</h2>
       </div>
       <div class="meta">Selected Videos</div>
@@ -1216,7 +1268,7 @@ footer .foot-brand { color: var(--ink-dim); }
   <div class="container">
     <div class="section-head reveal">
       <div>
-        <span class="num">02 / PROFILE</span>
+        <span class="num">03 / PROFILE</span>
         <h2>Profile</h2>
       </div>
       <div class="meta">Yumeai Fantasy ／ Matsuri Yumeai</div>
@@ -1239,7 +1291,7 @@ footer .foot-brand { color: var(--ink-dim); }
         <div class="profile-bio">
           <p>AI Filmmaker specializing in liminal horror, dreamcore, and psychological narratives. Creator of <em>Liminal Hunt: Shadows Awaken</em> and other experimental short films.</p>
           <p>Currently exploring memory, identity, and dissolving realities &mdash; working at the intersection of digital and analog.</p>
-          <p>Xでは創作過程や最新情報を、YouTubeでは映像作品をお届けしています。</p>
+          <p data-en="Follow on X for creative process and updates, and YouTube for films." data-ja="Xでは創作過程や最新情報を、YouTubeでは映像作品をお届けしています。">Xでは創作過程や最新情報を、YouTubeでは映像作品をお届けしています。</p>
         </div>
 
         <div class="socials">
@@ -1282,7 +1334,7 @@ footer .foot-brand { color: var(--ink-dim); }
   <div class="container">
     <div class="section-head reveal">
       <div>
-        <span class="num">03 / PODCAST</span>
+        <span class="num">04 / PODCAST</span>
         <h2>Podcast</h2>
       </div>
       <div class="meta">月真猫 真月里の映画場</div>
@@ -1295,7 +1347,7 @@ footer .foot-brand { color: var(--ink-dim); }
       <div class="podcast-info reveal">
         <div class="label">— On air now</div>
         <h3>月真猫 真月里の映画場</h3>
-        <p>クリエイター・アーティストの月真猫さんと一緒に、映画？についてお話しています。<br>
+        <p data-en="A casual podcast about films with creator/artist Tsukimao. Easy listening for commutes and spare moments." data-ja="クリエイター・アーティストの月真猫さんと一緒に、映画？についてお話しています。通勤時や隙間時間にも気楽にゆるく聴ける番組です。">クリエイター・アーティストの月真猫さんと一緒に、映画？についてお話しています。<br>
         通勤時や隙間時間にも気楽にゆるく聴ける番組です。</p>
         <div class="podcast-platforms">
           <a class="platform" href="https://podcasts.apple.com/jp/podcast/%E6%9C%88%E7%9C%9F%E7%8C%AB%E7%9C%9F%E6%9C%88%E9%87%8C%E3%81%AE%E6%98%A0%E7%94%BB%E5%A0%B4/id1775065637" rel="noopener">Apple</a>
@@ -1313,7 +1365,7 @@ footer .foot-brand { color: var(--ink-dim); }
   <div class="container">
     <div class="section-head reveal">
       <div>
-        <span class="num">04 / BOOK</span>
+        <span class="num">05 / BOOK</span>
         <h2>Book</h2>
       </div>
       <div class="meta">2024.10.10 — Released</div>
@@ -1345,9 +1397,9 @@ footer .foot-brand { color: var(--ink-dim); }
 <!-- ========== CONTACT ========== -->
 <section class="contact" id="contact">
   <div class="container">
-    <span class="num" style="font-family:var(--font-display); font-size:13px; letter-spacing:0.4em; color:var(--neon-cyan); display:block; margin-bottom:24px;">05 / CONTACT</span>
+    <span class="num" style="font-family:var(--font-display); font-size:13px; letter-spacing:0.4em; color:var(--neon-cyan); display:block; margin-bottom:24px;">06 / CONTACT</span>
     <h2>Get in <em>Touch</em></h2>
-    <p class="lede">お仕事のご依頼・ご質問はフォームよりお気軽にどうぞ。</p>
+    <p class="lede" data-en="For work inquiries and questions, please use the form." data-ja="お仕事のご依頼・ご質問はフォームよりお気軽にどうぞ。">お仕事のご依頼・ご質問はフォームよりお気軽にどうぞ。</p>
     <a class="btn btn-primary" href="https://form.run/@neontraum--2sxkJMaR3o5E8Yt3b4vC" rel="noopener">Open Contact Form <span class="arrow">→</span></a>
   </div>
 </section>
@@ -1447,6 +1499,124 @@ document.querySelectorAll('[data-yt-title]').forEach(async (el) => {
     el.textContent = 'Untitled film';
   }
 });
+
+// ── Language toggle ──
+const langBtn = document.getElementById('langToggle');
+let currentLang = 'en';
+
+function applyLang(lang) {
+  currentLang = lang;
+  langBtn.textContent = lang === 'en' ? 'EN' : 'JP';
+  langBtn.classList.toggle('ja', lang === 'ja');
+
+  // hero-tagline
+  const tagline = document.querySelector('.hero-tagline');
+  if (tagline) {
+    tagline.innerHTML = lang === 'ja'
+      ? 'リミナルホラー・ドリームコア・心理的ナラティブに特化したAIフィルムメーカー。<br><em>Liminal Hunt: Shadows Awaken</em> ほか実験的短編映画を制作。<br>記憶、アイデンティティ、溶けゆく現実を探求中。'
+      : 'AI Filmmaker specializing in liminal horror, dreamcore, and psychological narratives.<br>Creator of <em>Liminal Hunt: Shadows Awaken</em> and other experimental short films.<br>Currently exploring memory, identity, and dissolving realities.';
+  }
+
+  // hero eyebrow
+  const eyebrow = document.querySelector('.hero-eyebrow');
+  if (eyebrow) eyebrow.textContent = lang === 'ja' ? 'AIフィルムメーカー · リミナル・ドリームコア' : 'AI Filmmaker · Liminal Dreamcore';
+
+  // hero CTAs
+  const heroCtas = document.querySelectorAll('.hero-cta .btn');
+  if (heroCtas.length >= 2) {
+    heroCtas[0].innerHTML = lang === 'ja' ? '作品を見る <span class="arrow">→</span>' : 'View Work <span class="arrow">→</span>';
+    heroCtas[1].innerHTML = lang === 'ja' ? 'お問い合わせ <span class="arrow">→</span>' : 'Get in Touch <span class="arrow">→</span>';
+  }
+
+  // section headings
+  const sectionLabels = {
+    'music':   { num: '01 / MUSIC',   h2: lang === 'ja' ? 'ミュージック' : 'Music',       meta: lang === 'ja' ? 'AI音楽 — ドリームコア・リミナル・Y2K' : 'AI Music — Dreamcore · Liminal · Y2K' },
+    'work':    { num: '02 / WORK',    h2: lang === 'ja' ? 'ポートフォリオ' : 'Portfolio',  meta: lang === 'ja' ? '選定映像作品' : 'Selected Videos' },
+    'profile': { num: '03 / PROFILE', h2: lang === 'ja' ? 'プロフィール' : 'Profile',      meta: 'Yumeai Fantasy ／ Matsuri Yumeai' },
+    'podcast': { num: '04 / PODCAST', h2: lang === 'ja' ? 'ポッドキャスト' : 'Podcast',    meta: '月真猫 真月里の映画場' },
+    'book':    { num: '05 / BOOK',    h2: lang === 'ja' ? '書籍' : 'Book',                meta: '2024.10.10 — Released' },
+  };
+  Object.entries(sectionLabels).forEach(([id, v]) => {
+    const sec = document.getElementById(id);
+    if (!sec) return;
+    const numEl = sec.querySelector('.num');
+    const h2El  = sec.querySelector('.section-head h2');
+    const metaEl= sec.querySelector('.meta');
+    if (numEl)  numEl.textContent  = v.num;
+    if (h2El)   h2El.textContent   = v.h2;
+    if (metaEl) metaEl.textContent = v.meta;
+  });
+
+  // contact section
+  const contactH2 = document.querySelector('#contact h2');
+  if (contactH2) contactH2.innerHTML = lang === 'ja' ? 'お問い合わせ' : 'Get in <em>Touch</em>';
+  const contactNum = document.querySelector('#contact .num');
+  if (contactNum) contactNum.textContent = lang === 'ja' ? '06 / お問い合わせ' : '06 / CONTACT';
+  const lede = document.querySelector('.contact .lede');
+  if (lede) lede.textContent = lang === 'ja' ? 'お仕事のご依頼・ご質問はフォームよりお気軽にどうぞ。' : 'For work inquiries and questions, please use the form.';
+  const contactBtn = document.querySelector('.contact .btn-primary');
+  if (contactBtn) contactBtn.innerHTML = lang === 'ja' ? 'お問い合わせフォームを開く <span class="arrow">→</span>' : 'Open Contact Form <span class="arrow">→</span>';
+
+  // profile bio
+  const bio = document.querySelector('.profile-bio');
+  if (bio) {
+    bio.innerHTML = lang === 'ja'
+      ? '<p>リミナルホラー・ドリームコア・心理的ナラティブに特化したAIフィルムメーカー。<em>Liminal Hunt: Shadows Awaken</em> ほか実験的短編映画を制作。</p><p>記憶、アイデンティティ、溶けゆく現実を探求中 — デジタルとアナログの交差点で活動。</p><p>Xでは創作過程や最新情報を、YouTubeでは映像作品をお届けしています。</p>'
+      : '<p>AI Filmmaker specializing in liminal horror, dreamcore, and psychological narratives. Creator of <em>Liminal Hunt: Shadows Awaken</em> and other experimental short films.</p><p>Currently exploring memory, identity, and dissolving realities &mdash; working at the intersection of digital and analog.</p><p>Follow on X for creative process and updates, and YouTube for films.</p>';
+  }
+
+  // profile role-list
+  const roles = document.querySelector('.role-list');
+  if (roles) {
+    const enRoles = ['AI Filmmaker','Liminal Horror &amp; Dreamcore','Psychological Narratives','Experimental Short Films','Writing · Design · Music'];
+    const jaRoles = ['AIフィルムメーカー','リミナルホラー &amp; ドリームコア','心理的ナラティブ','実験的短編映画','ライティング・デザイン・音楽'];
+    roles.querySelectorAll('li').forEach((li, i) => { li.innerHTML = (lang === 'ja' ? jaRoles : enRoles)[i] || li.innerHTML; });
+  }
+
+  // podcast description
+  const podcastP = document.querySelector('.podcast-info > p');
+  if (podcastP) {
+    podcastP.innerHTML = lang === 'ja'
+      ? 'クリエイター・アーティストの月真猫さんと一緒に、映画？についてお話しています。<br>通勤時や隙間時間にも気楽にゆるく聴ける番組です。'
+      : 'A casual podcast about films with creator/artist Tsukimao.<br>Easy listening for commutes and spare moments.';
+  }
+
+  // book info
+  const bookCredit = document.querySelector('.book-info .credit');
+  if (bookCredit) bookCredit.textContent = lang === 'ja' ? '表紙デザイン・総解説に参加しました' : 'Cover design, layout, and editorial notes';
+  const bookDesc = document.querySelector('.book-info .desc');
+  if (bookDesc) bookDesc.innerHTML = lang === 'ja'
+    ? '文芸叢書CAL主催、吸血鬼アンソロジー小説『黒の聖餐』。<br>表紙デザイン・装丁・総解説二作品を担当。'
+    : 'A vampire anthology novel published by Bungei Sosho CAL.<br>Responsible for cover design, layout, and editorial notes on two works.';
+  const amazonBtn = document.querySelector('.book-info .btn-primary');
+  if (amazonBtn) amazonBtn.innerHTML = lang === 'ja' ? 'Amazonで見る <span class="arrow">→</span>' : 'View on Amazon <span class="arrow">→</span>';
+
+  // music featured section
+  const musicFeatEyebrow = document.querySelector('#music .featured-eyebrow');
+  if (musicFeatEyebrow) musicFeatEyebrow.textContent = lang === 'ja' ? '★ 新活動 · 2025' : '★ New Activity · 2025';
+  const musicFeatDesc = document.querySelector('#music .featured-desc');
+  if (musicFeatDesc) musicFeatDesc.textContent = lang === 'ja'
+    ? 'ドリームコア・リミナル・Y2Kの美学を探求するAI生成音楽。AethrMusikにて配信中。'
+    : 'AI-generated music exploring dreamcore, liminal, and Y2K aesthetics. Now streaming on AethrMusik.';
+  const musicStreamLabel = document.querySelector('#music .featured-media div div:last-child');
+  if (musicStreamLabel) musicStreamLabel.textContent = lang === 'ja' ? 'AI音楽ストリーミング' : 'AI Music Streaming';
+
+  // nav links
+  const navMap = { '#home':'ホーム', '#music':'ミュージック', '#work':'作品', '#profile':'プロフィール', '#podcast':'ポッドキャスト', '#book':'書籍', '#contact':'お問合せ' };
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    if (lang === 'ja' && navMap[a.getAttribute('href')]) a.textContent = navMap[a.getAttribute('href')];
+    else if (a.dataset.en) a.textContent = a.dataset.en;
+  });
+
+  try { localStorage.setItem('yf_lang', lang); } catch(e) {}
+}
+
+langBtn.addEventListener('click', () => applyLang(currentLang === 'en' ? 'ja' : 'en'));
+
+try {
+  const saved = localStorage.getItem('yf_lang');
+  if (saved && saved !== 'en') applyLang(saved);
+} catch(e) {}
 
 </script>
 </body>
