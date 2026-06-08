@@ -601,7 +601,7 @@ function renderWorks(genre){
         const probe = new Image();
         probe.onload = ()=>{ img.src = probe.src; img.classList.add('loaded'); };
         probe.onerror = ()=>{ idx++; tryNext(); };
-        probe.src = `https://i.ytimg.com/vi/${id}/${sizes[idx++]}.jpg`;
+        probe.src = `https://i3.ytimg.com/vi/${id}/${sizes[idx++]}.jpg`;
       }
       tryNext();
     });
