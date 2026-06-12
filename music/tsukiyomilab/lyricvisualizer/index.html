@@ -16,6 +16,7 @@ body{margin:0;min-height:100vh;background:#0b0910;color:#f3efe7;font-family:'Zen
 .wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;padding:0 16px 28px;max-width:1280px;margin:0 auto;}
 @media(max-width:880px){.wrap{grid-template-columns:1fr;}}
 canvas{width:100%;border-radius:14px;border:1px solid #262031;display:block;background:#0b0910;}
+canvas.dragmode{touch-action:none;cursor:move;border-color:var(--acc);}
 .transport{display:flex;align-items:center;gap:10px;margin-top:10px;}
 .pbtn{width:48px;height:48px;border-radius:50%;border:1px solid #3a3050;background:#16131f;color:#f3efe7;font-size:16px;cursor:pointer;flex-shrink:0;}
 .pbtn:active{border-color:var(--acc);color:var(--acc);}
@@ -86,6 +87,9 @@ input[type=range]{width:100%;accent-color:var(--acc);}
       <label class="drop" id="imgDrop">背景画像を選択（jpg / png）
         <input type="file" id="imgIn" accept="image/*,.jpg,.jpeg,.png,.webp">
       </label>
+      <label class="drop" id="vidDrop">背景動画を選択（mp4 / mov・画像の代わりに）
+        <input type="file" id="vidIn" accept="video/*,.mp4,.mov,.webm,.m4v">
+      </label>
       <label class="drop" id="audDrop">曲を選択（mp3 / wav）
         <input type="file" id="audIn" accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg,.flac">
       </label>
@@ -118,7 +122,8 @@ input[type=range]{width:100%;accent-color:var(--acc);}
       <div class="field"><label>レイアウト</label>
         <select id="layoutSel">
           <option value="wander">ランダム配置（行ごと）</option>
-          <option value="center">中央固定</option>
+          <option value="bottom">下部固定（字幕風）</option>
+          <option value="custom">自由配置（プレビューをドラッグ）</option>
           <option value="tate">縦書き</option>
         </select></div>
       <div class="row">
@@ -168,7 +173,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 /* ====== 状態 ====== */
 const W=1280,H=720;
 const FONTS={mincho:"'Shippori Mincho', serif",gothic:"'Zen Kaku Gothic New', sans-serif",dot:"'DotGothic16', monospace",fude:"'Yuji Syuku', serif"};
-const S={imgEl:null,lines:[],fontKey:"mincho",animKey:"random",layoutKey:"wander",vizKey:"moon",accent:"#ff5c8a",dim:45,blur:6,grain:true,seed:1};
+const S={imgEl:null,vidEl:null,useVideo:false,posX:0.5,posY:0.84,lines:[],fontKey:"mincho",animKey:"random",layoutKey:"wander",vizKey:"moon",accent:"#ff5c8a",dim:45,blur:6,grain:true,seed:1};
 let syncMode=false,syncIdx=0;
 
 const $=id=>document.getElementById(id);
@@ -210,8 +215,21 @@ rebuildBg();
 $("imgIn").addEventListener("change",e=>{
   const f=e.target.files&&e.target.files[0];if(!f)return;
   const img=new Image();
-  img.onload=()=>{S.imgEl=img;rebuildBg();$("imgDrop").classList.add("done");$("imgDrop").firstChild.textContent="✓ 背景画像 読込済（変更可）";};
+  img.onload=()=>{S.imgEl=img;S.useVideo=false;rebuildBg();$("imgDrop").classList.add("done");$("imgDrop").firstChild.textContent="✓ 背景画像 読込済（変更可）";};
   img.src=URL.createObjectURL(f);
+});
+$("vidIn").addEventListener("change",e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  const v=document.createElement("video");
+  v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute("playsinline","");
+  v.src=URL.createObjectURL(f);
+  v.addEventListener("loadeddata",()=>{
+    S.vidEl=v;S.useVideo=true;
+    $("vidDrop").classList.add("done");
+    $("vidDrop").firstChild.textContent="✓ 背景動画 読込済（変更可）";
+    if(!player.paused)v.play().catch(()=>{});
+  });
+  v.load();
 });
 $("audIn").addEventListener("change",e=>{
   const f=e.target.files&&e.target.files[0];if(!f)return;
@@ -256,6 +274,14 @@ function ensureGraph(){
   }
   if(ac.state==="suspended")ac.resume();
 }
+function syncVid(){
+  if(S.useVideo&&S.vidEl){
+    if(player.paused)S.vidEl.pause();
+    else S.vidEl.play().catch(()=>{});
+  }
+}
+player.addEventListener("play",syncVid);
+player.addEventListener("pause",syncVid);
 $("playBtn").addEventListener("click",()=>{
   if(!player.src)return;
   ensureGraph();
@@ -302,7 +328,7 @@ function renderChips(){
 /* ====== スタイル操作 ====== */
 $("fontSel").addEventListener("change",e=>S.fontKey=e.target.value);
 $("animSel").addEventListener("change",e=>S.animKey=e.target.value);
-$("layoutSel").addEventListener("change",e=>S.layoutKey=e.target.value);
+$("layoutSel").addEventListener("change",e=>{S.layoutKey=e.target.value;updateDragMode();});
 $("vizSel").addEventListener("change",e=>S.vizKey=e.target.value);
 $("gachaBtn").addEventListener("click",()=>S.seed=Math.floor(Math.random()*99999));
 $("dimIn").addEventListener("input",e=>{S.dim=+e.target.value;$("dimLabel").textContent=`背景の暗さ — ${S.dim}%`;rebuildBg();});
@@ -355,6 +381,7 @@ function drawLine(line,idx,prog,energy,now){
     return;
   }
 
+  if(S.layoutKey==="bottom")base=Math.min(base,H*0.055);
   ctx.font=`700 ${base}px ${fontCss}`;
   let tw=ctx.measureText(line.text).width;
   const maxW=W*0.82;
@@ -363,6 +390,11 @@ function drawLine(line,idx,prog,energy,now){
   if(S.layoutKey==="wander"){
     cx=W*(0.5+(rng()-0.5)*0.32);cy=H*(0.32+rng()*0.42);
     cx=clamp(cx,tw/2+40,W-tw/2-40);
+  }else if(S.layoutKey==="bottom"){
+    cx=W/2;cy=H*0.86;
+  }else if(S.layoutKey==="custom"){
+    cx=clamp(W*S.posX,tw/2+30,W-tw/2-30);
+    cy=clamp(H*S.posY,H*0.08,H*0.94);
   }
   ctx.save();ctx.translate(cx,cy);ctx.rotate(rot);
   ctx.textAlign="left";ctx.textBaseline="middle";
@@ -459,7 +491,17 @@ function loop(){
   requestAnimationFrame(loop);
   const now=performance.now()/1000;
   const t=player.currentTime||0;
-  if(bgCache)ctx.drawImage(bgCache,0,0);
+  if(S.useVideo&&S.vidEl&&S.vidEl.readyState>=2){
+    const vw=S.vidEl.videoWidth,vh=S.vidEl.videoHeight;
+    const sc=Math.max(W/vw,H/vh),iw=vw*sc,ih=vh*sc;
+    try{ctx.filter=S.blur>0?`blur(${S.blur}px)`:"none";}catch(e){}
+    ctx.drawImage(S.vidEl,(W-iw)/2,(H-ih)/2,iw,ih);
+    try{ctx.filter="none";}catch(e){}
+    ctx.fillStyle=`rgba(8,6,12,${S.dim/100})`;ctx.fillRect(0,0,W,H);
+    const vg=ctx.createRadialGradient(W/2,H/2,H*0.35,W/2,H/2,H*0.95);
+    vg.addColorStop(0,"rgba(0,0,0,0)");vg.addColorStop(1,"rgba(0,0,0,0.45)");
+    ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
+  }else if(bgCache)ctx.drawImage(bgCache,0,0);
   else{ctx.fillStyle="#0b0910";ctx.fillRect(0,0,W,H);}
   let energy=0,fq=emptyFq,wv=emptyWv;
   if(analyser&&freq){
@@ -490,6 +532,12 @@ function loop(){
     ctx.fillText("素材を読み込むとここにプレビューが映ります",W/2,H/2);
     ctx.restore();
   }
+  if(S.layoutKey==="custom"){
+    ctx.save();ctx.globalAlpha=0.35;ctx.strokeStyle=S.accent;ctx.lineWidth=1.5;
+    const px=W*S.posX,py=H*S.posY;
+    ctx.beginPath();ctx.moveTo(px-14,py);ctx.lineTo(px+14,py);
+    ctx.moveTo(px,py-14);ctx.lineTo(px,py+14);ctx.stroke();ctx.restore();
+  }
   if(S.grain&&grainCv){
     ctx.save();ctx.globalAlpha=0.5;
     const ox=Math.floor(Math.random()*128),oy=Math.floor(Math.random()*128);
@@ -503,6 +551,26 @@ function loop(){
 let seekDragging=false;
 $("seek").addEventListener("pointerdown",()=>seekDragging=true);
 $("seek").addEventListener("pointerup",()=>seekDragging=false);
+
+/* 自由配置：プレビューをドラッグして歌詞位置を決める */
+let posDragging=false;
+function canvasPos(e){
+  const r=cv.getBoundingClientRect();
+  return{x:clamp((e.clientX-r.left)/r.width,0,1),y:clamp((e.clientY-r.top)/r.height,0,1)};
+}
+cv.addEventListener("pointerdown",e=>{
+  if(S.layoutKey!=="custom")return;
+  posDragging=true;
+  try{cv.setPointerCapture(e.pointerId);}catch(err){}
+  const p=canvasPos(e);S.posX=p.x;S.posY=p.y;
+});
+cv.addEventListener("pointermove",e=>{
+  if(!posDragging)return;
+  const p=canvasPos(e);S.posX=p.x;S.posY=p.y;
+});
+cv.addEventListener("pointerup",()=>posDragging=false);
+function updateDragMode(){cv.classList.toggle("dragmode",S.layoutKey==="custom");}
+
 requestAnimationFrame(loop);
 
 /* ====== 動画書き出し ====== */
@@ -553,18 +621,21 @@ player.addEventListener("ended",()=>{if(recorder)stopRec();});
 function snapshot(){
   return{v:1,lines:S.lines,lyricText:$("lyricsIn").value,
     fontKey:S.fontKey,animKey:S.animKey,layoutKey:S.layoutKey,vizKey:S.vizKey,
-    accent:S.accent,dim:S.dim,blur:S.blur,grain:S.grain,seed:S.seed};
+    accent:S.accent,dim:S.dim,blur:S.blur,grain:S.grain,seed:S.seed,posX:S.posX,posY:S.posY};
 }
 function applySnap(d){
   if(!d)return;
   S.lines=Array.isArray(d.lines)?d.lines:[];
   $("lyricsIn").value=d.lyricText||"";
   S.fontKey=d.fontKey||"mincho";S.animKey=d.animKey||"random";
-  S.layoutKey=d.layoutKey||"wander";S.vizKey=d.vizKey||"moon";
+  S.layoutKey=(d.layoutKey==="center")?"custom":(d.layoutKey||"wander");
+  S.vizKey=d.vizKey||"moon";
   S.accent=d.accent||"#ff5c8a";
   S.dim=(typeof d.dim==="number")?d.dim:45;
   S.blur=(typeof d.blur==="number")?d.blur:6;
   S.grain=(d.grain!==false);S.seed=d.seed||1;
+  S.posX=(typeof d.posX==="number")?d.posX:0.5;
+  S.posY=(typeof d.posY==="number")?d.posY:0.84;
   $("fontSel").value=S.fontKey;$("animSel").value=S.animKey;
   $("layoutSel").value=S.layoutKey;$("vizSel").value=S.vizKey;
   $("dimIn").value=S.dim;$("dimLabel").textContent="背景の暗さ — "+S.dim+"%";
@@ -572,7 +643,7 @@ function applySnap(d){
   $("grainBtn").textContent=S.grain?"ON":"OFF";
   document.documentElement.style.setProperty("--acc",S.accent);
   document.querySelectorAll(".sw").forEach(el=>el.classList.toggle("on",el.dataset.c===S.accent));
-  rebuildBg();renderChips();
+  rebuildBg();renderChips();updateDragMode();
   $("syncBtn").disabled=!(S.lines.length&&player.src);
   $("spreadBtn").disabled=!(S.lines.length&&player.duration);
 }
