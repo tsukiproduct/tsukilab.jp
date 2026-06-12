@@ -52,6 +52,12 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 .chip.now{border-color:var(--acc);color:#f3efe7;}
 .note{font-size:11px;color:#6d6486;line-height:1.6;margin-top:6px;}
 #tlCard{display:none;margin-top:10px;}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(5,4,8,0.85);z-index:50;align-items:center;justify-content:center;padding:16px;}
+.modal-bg.open{display:flex;}
+.modal{background:#141019;border:1px solid #3a3050;border-radius:16px;padding:18px;max-width:680px;width:100%;max-height:90vh;overflow:auto;}
+.modal h3{margin:0 0 12px;font-size:14px;letter-spacing:1px;color:#f3efe7;}
+.modal video{width:100%;border-radius:10px;background:#000;display:block;}
+.modal .row{margin-top:14px;}
 </style>
 </head>
 <body>
@@ -167,6 +173,18 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 </div>
 
 <audio id="player"></audio>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3>🎬 書き出し完了 — プレビュー</h3>
+    <video id="resultVid" controls playsinline></video>
+    <div class="row">
+      <a class="btn acc" id="dlLink" download="tsuki-lyric.mp4" style="text-decoration:none;text-align:center;flex:1">動画を保存</a>
+      <button class="btn" id="modalClose">閉じる</button>
+    </div>
+    <p class="note">ここで確認してから「動画を保存」を押してください。このウィンドウは作業画面の上に出ているだけなので、閉じても作業状況は消えません。</p>
+  </div>
+</div>
 
 <script>
 "use strict";
@@ -574,7 +592,11 @@ function updateDragMode(){cv.classList.toggle("dragmode",S.layoutKey==="custom")
 requestAnimationFrame(loop);
 
 /* ====== 動画書き出し ====== */
-let recorder=null,chunks=[],recMime="";
+let recorder=null,chunks=[],recMime="",resultURL=null;
+$("modalClose").addEventListener("click",()=>{
+  $("modalBg").classList.remove("open");
+  const rv=$("resultVid");rv.pause();
+});
 function pickMime(){
   if(!window.MediaRecorder)return"";
   const cand=["video/mp4;codecs=avc1","video/mp4","video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"];
@@ -598,13 +620,17 @@ $("recBtn").addEventListener("click",()=>{
   recorder.onstop=()=>{
     const ext=recMime.includes("mp4")?"mp4":"webm";
     const blob=new Blob(chunks,{type:recMime||"video/webm"});
-    const a=document.createElement("a");
-    a.href=URL.createObjectURL(blob);
-    a.download="tsuki-lyric."+ext;
-    document.body.appendChild(a);a.click();a.remove();
+    if(resultURL)URL.revokeObjectURL(resultURL);
+    resultURL=URL.createObjectURL(blob);
+    const rv=$("resultVid");
+    rv.src=resultURL;
+    const dl=$("dlLink");
+    dl.href=resultURL;
+    dl.setAttribute("download","tsuki-lyric."+ext);
+    $("modalBg").classList.add("open");
     recorder=null;
     $("recBtn").textContent=REC_LABEL;
-    $("recNote").textContent=ext.toUpperCase()+"を保存しました（ダウンロード/ファイルに入ります）。";
+    $("recNote").textContent="書き出し完了。プレビューを確認して保存してください。";
   };
   player.currentTime=0;player.play();$("playBtn").textContent="⏸";
   recorder.start(250);
