@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="strict-origin">
+<meta name="format-detection" content="telephone=no, email=no">
+<title>Project M｜脚本 最終投票</title>
+<style>
+  :root{
+    --ink:#1a1816;
+    --paper:#f6f3ec;
+    --paper-2:#efe9dd;
+    --line:#d8d0c0;
+    --accent:#7c5a3a;      /* セピア／古いフィルムの色 */
+    --accent-soft:#a98a63;
+    --a-tag:#3a5a78;        /* 第一案 */
+    --b-tag:#6b4a78;        /* 第二案 */
+    --warn:#9a4b2e;
+    --muted:#6f685c;
+    --star:#c08a3e;
+    --star-off:#d8d0c0;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+    line-height:1.85;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:0 20px 80px;}
+
+  /* ヘッダー */
+  header{
+    padding:48px 0 32px;
+    border-bottom:1px solid var(--line);
+    text-align:center;
+  }
+  .eyebrow{
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+    font-size:11px;letter-spacing:.34em;color:var(--accent-soft);
+    text-transform:uppercase;margin:0 0 14px;font-weight:600;
+  }
+  h1{
+    font-size:26px;margin:0;font-weight:600;letter-spacing:.04em;line-height:1.5;
+  }
+  .lead{
+    font-size:14.5px;color:var(--muted);margin:18px auto 0;max-width:460px;line-height:1.9;
+  }
+
+  /* セクション */
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  .sec-no{
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+    font-size:11px;letter-spacing:.2em;color:var(--accent-soft);font-weight:700;
+    display:block;margin-bottom:8px;
+  }
+  h2{font-size:20px;margin:0 0 20px;font-weight:600;letter-spacing:.03em;}
+  h3{font-size:15.5px;margin:24px 0 10px;font-weight:600;color:var(--accent);}
+  p{margin:0 0 14px;}
+  .note{font-size:13px;color:var(--muted);line-height:1.8;}
+
+  /* 投票結果 */
+  .result{
+    display:flex;gap:12px;margin:8px 0 24px;
+  }
+  .rcard{
+    flex:1;background:var(--paper-2);border:1px solid var(--line);
+    border-radius:4px;padding:18px 14px;text-align:center;
+  }
+  .rcard .tag{
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+    font-size:12px;font-weight:700;letter-spacing:.06em;
+  }
+  .rcard.a .tag{color:var(--a-tag);}
+  .rcard.b .tag{color:var(--b-tag);}
+  .rcard .ttl{font-size:13px;color:var(--muted);margin:4px 0 12px;line-height:1.5;}
+  .rcard .num{font-size:38px;font-weight:600;line-height:1;}
+  .rcard .unit{font-size:13px;color:var(--muted);margin-left:2px;}
+
+  /* スコア表 */
+  table{width:100%;border-collapse:collapse;margin:6px 0 8px;
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:13.5px;}
+  th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:center;}
+  th{font-weight:600;color:var(--muted);font-size:12px;}
+  td:first-child,th:first-child{text-align:left;color:var(--ink);}
+  .hi{font-weight:700;color:var(--accent);}
+
+  /* 声のリスト */
+  .voices{display:grid;gap:18px;margin-top:8px;}
+  .vbox{background:var(--paper-2);border-left:3px solid var(--line);padding:14px 16px;border-radius:0 4px 4px 0;}
+  .vbox.a{border-left-color:var(--a-tag);}
+  .vbox.b{border-left-color:var(--b-tag);}
+  .vbox .h{font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:13px;font-weight:700;margin-bottom:8px;}
+  .vbox.a .h{color:var(--a-tag);}
+  .vbox.b .h{color:var(--b-tag);}
+  .vbox ul{margin:0;padding-left:18px;}
+  .vbox li{margin:6px 0;font-size:13.5px;line-height:1.7;}
+
+  /* 警告 */
+  .riskbox{
+    background:#f4e9e2;border:1px solid #e0c9bb;border-radius:4px;
+    padding:18px 18px 6px;margin-top:8px;
+  }
+  .riskbox .h{color:var(--warn);font-weight:700;font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:14px;margin-bottom:10px;}
+  .riskbox p{font-size:13.5px;line-height:1.8;}
+
+  /* スケジュール */
+  .sched{list-style:none;padding:0;margin:8px 0 0;}
+  .sched li{
+    display:flex;gap:14px;padding:11px 0;border-bottom:1px dashed var(--line);
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:13.5px;align-items:baseline;
+  }
+  .sched li:last-child{border-bottom:none;}
+  .sched .d{flex:0 0 88px;font-weight:700;color:var(--accent);}
+  .sched .ev{flex:1;line-height:1.6;}
+  .sched .final{color:var(--warn);font-weight:700;}
+
+  /* 投票導入 */
+  .intro-box{
+    background:var(--paper-2);border:1px solid var(--line);border-radius:4px;
+    padding:22px 20px;margin-top:8px;
+  }
+  .intro-box p:last-child{margin-bottom:0;}
+
+  /* フォーム */
+  form{margin-top:8px;}
+  .field{margin-bottom:30px;}
+  .label{
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:15px;font-weight:700;
+    margin-bottom:6px;display:block;letter-spacing:.02em;
+  }
+  .sub{font-size:12.5px;color:var(--muted);margin:0 0 12px;line-height:1.7;}
+  .req{color:var(--warn);font-size:11px;font-weight:700;margin-left:6px;
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;}
+
+  .choices{display:grid;gap:10px;}
+  .choice{
+    display:flex;align-items:center;gap:12px;padding:14px 16px;
+    background:var(--paper-2);border:1.5px solid var(--line);border-radius:6px;
+    cursor:pointer;transition:border-color .15s,background .15s;
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:14.5px;
+    min-height:48px;
+  }
+  .choice input{accent-color:var(--accent);width:18px;height:18px;flex:0 0 auto;}
+  .choice:has(input:checked){border-color:var(--accent);background:#efe6d6;}
+
+  /* 星評価 */
+  .stars{display:flex;gap:4px;flex-direction:row-reverse;justify-content:flex-end;}
+  .stars input{position:absolute;opacity:0;width:0;height:0;}
+  .stars label{
+    font-size:34px;color:var(--star-off);cursor:pointer;line-height:1;
+    transition:color .12s;padding:2px;min-width:44px;text-align:center;
+  }
+  .stars label:hover,.stars label:hover ~ label,
+  .stars input:checked ~ label{color:var(--star);}
+  .stars-scale{
+    display:flex;justify-content:space-between;font-size:11px;color:var(--muted);
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;margin-top:2px;
+  }
+
+  textarea,input[type=text],select{
+    width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:6px;
+    background:#fffdf8;font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:15px;
+    color:var(--ink);line-height:1.7;resize:vertical;
+  }
+  textarea:focus,input[type=text]:focus,select:focus{outline:none;border-color:var(--accent);}
+  textarea{min-height:96px;}
+  select{
+    min-height:50px;-webkit-appearance:none;appearance:none;
+    background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237c5a3a' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 16px center;padding-right:42px;
+  }
+
+  .free-warn{
+    background:#f4e9e2;border:1px solid #e0c9bb;border-radius:6px;
+    padding:14px 16px;margin-bottom:14px;font-size:13px;line-height:1.8;color:#5a3a28;
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;
+  }
+  .free-warn strong{color:var(--warn);}
+  .ex{font-size:12.5px;color:var(--muted);margin:10px 0 0;line-height:1.8;}
+  .ex b{color:var(--accent);font-weight:600;}
+
+  .submit{
+    width:100%;padding:17px;border:none;border-radius:8px;
+    background:var(--accent);color:#fdf9f0;font-size:16px;font-weight:700;
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;letter-spacing:.06em;
+    cursor:pointer;margin-top:8px;transition:background .15s;min-height:54px;
+  }
+  .submit:hover{background:#6a4c30;}
+  .submit:active{transform:translateY(1px);}
+
+  footer{padding:36px 0 0;text-align:center;}
+  footer p{font-size:12px;color:var(--muted);margin:4px 0;}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+  @media (max-width:420px){
+    h1{font-size:23px;}.wrap{padding:0 16px 70px;}
+    .rcard .num{font-size:32px;}
+    .stars label{font-size:30px;min-width:40px;}
+  }
+
+  /* パスワードゲート */
+  .gate{
+    min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:24px;text-align:center;
+  }
+  .gate .eyebrow{margin-bottom:18px;}
+  .gate h1{font-size:22px;margin:0 0 8px;}
+  .gate p{font-size:13.5px;color:var(--muted);margin:0 0 26px;}
+  .gate .box{width:100%;max-width:320px;}
+  .gate input{
+    width:100%;padding:15px 14px;border:1.5px solid var(--line);border-radius:8px;
+    background:#fffdf8;font-size:18px;text-align:center;letter-spacing:.3em;
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;color:var(--ink);
+  }
+  .gate input:focus{outline:none;border-color:var(--accent);}
+  .gate button{
+    width:100%;margin-top:12px;padding:15px;border:none;border-radius:8px;
+    background:var(--accent);color:#fdf9f0;font-size:15px;font-weight:700;
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;letter-spacing:.08em;cursor:pointer;min-height:52px;
+  }
+  .gate button:active{transform:translateY(1px);}
+  .gate .err{color:var(--warn);font-size:13px;margin-top:14px;min-height:18px;
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;}
+  .hidden{display:none!important;}
+</style>
+</head>
+<body>
+
+<!-- パスワードゲート -->
+<div class="gate" id="gate">
+  <p class="eyebrow">Project M</p>
+  <h1>脚本 最終投票</h1>
+  <p>合言葉を入力してください</p>
+  <div class="box">
+    <input type="password" id="pw" inputmode="numeric" autocomplete="off"
+      aria-label="合言葉">
+    <button type="button" id="enter">入る</button>
+    <div class="err" id="err"></div>
+  </div>
+</div>
+
+<div class="wrap hidden" id="content">
+
+  <header>
+    <p class="eyebrow">Project M — Final Vote</p>
+    <h1>脚本 最終投票</h1>
+    <p class="lead">先日の投票、ありがとうございました。<br>みなさんの意見をまとめましたので、もう一度だけ目を通していただき、最終的な投票をお願いします。</p>
+  </header>
+
+  <!-- ① 結果サマリー -->
+  <section>
+    <span class="sec-no">01 — 投票結果</span>
+    <h2>先日の投票結果</h2>
+    <div class="result">
+      <div class="rcard a">
+        <div class="tag">第一案</div>
+        <div class="ttl">1世紀旅行記</div>
+        <div class="num">6<span class="unit">票</span></div>
+      </div>
+      <div class="rcard b">
+        <div class="tag">第二案</div>
+        <div class="ttl">NEO COOL,<br>PALEO COOL</div>
+        <div class="num">4<span class="unit">票</span></div>
+      </div>
+    </div>
+    <p class="note">第一案が多数となりましたが、票差はわずかでした。両案とも「面白さ」「コンテスト向き」の評価は高く、甲乙つけがたい結果です。</p>
+
+    <h3>4指標の平均スコア</h3>
+    <table>
+      <thead>
+        <tr><th>指標</th><th>第一案</th><th>第二案</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>伝わりやすさ</td><td class="hi">4.5</td><td>4.0</td></tr>
+        <tr><td>面白さ</td><td>4.2</td><td class="hi">4.75</td></tr>
+        <tr><td>映像化のしやすさ</td><td>3.2</td><td>2.75</td></tr>
+        <tr><td>コンテスト向き</td><td>4.0</td><td class="hi">4.25</td></tr>
+      </tbody>
+    </table>
+    <p class="note">支持の総量では第一案、尖り（インパクト）では第二案、という対比でした。両案とも映像化のしやすさは3点前後で、ここが共通の難所です。</p>
+  </section>
+
+  <!-- ② 寄せられた声 -->
+  <section>
+    <span class="sec-no">02 — みなさんの声</span>
+    <h2>寄せられた意見（要点）</h2>
+    <div class="voices">
+      <div class="vbox a">
+        <div class="h">第一案を評価する声</div>
+        <ul>
+          <li>「次の100年愛されるアニメ」というテーマを、素直に明確に組み込んでいる</li>
+          <li>アニメを娯楽でなく「人の居場所・救い」として描く点に強く心を動かされた</li>
+          <li>冒頭からラストまで綺麗にまとまり、頭の中で映像が流れる分かりやすさ</li>
+          <li>多様な作風を出せるのがAIならでは。シーン単位で分担もしやすい</li>
+          <li>無音でも、日本語が分からない人にも世界観が伝わる普遍性</li>
+        </ul>
+      </div>
+      <div class="vbox b">
+        <div class="h">第二案を評価する声</div>
+        <ul>
+          <li>謎解き×冒険で引き込み、ラストの救済構造が見事。再見性も高い</li>
+          <li>テーマがシャープで、審査員に刺さりやすい</li>
+          <li>未来的なシチュエーションが面白い</li>
+          <li>オリジナル基盤のため、著作物の想起リスクを安全にクリアしやすい</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ 最重要課題 -->
+  <section>
+    <span class="sec-no">03 — 共通の最重要課題</span>
+    <h2>著作物の想起リスク</h2>
+    <div class="riskbox">
+      <div class="h">⚠ 票の多寡に関わらず、両案ともここが最大の懸念です</div>
+      <p>本コンテストは「他者の著作物を想起させる内容は不可」が応募条件です。採用案を問わず、最優先で解く必要があります。</p>
+    </div>
+    <h3>第一案の場合</h3>
+    <p class="note">各年代のアニメを想起させる演出が、応募資格に抵触するおそれがあるとの指摘がありました。<br>→ 解決の方向性も挙がっています。特定作品に寄せず「時代の絵柄の質感」で表現する設計（例：ピーチ＝モノクロ、80年代＝レトロでベタ塗り）。作風の作り分けは、むしろAIの強みとして活かせます。</p>
+    <h3>第二案の場合</h3>
+    <p class="note">オニ太郎（お風呂のシーン）が特定キャラを想起させる度合いが強いとの指摘。<br>→ シーンは残したまま、完全オリジナルの妖怪に起こし直せば回避できる、との具体策があります。</p>
+  </section>
+
+  <!-- ④ スケジュール -->
+  <section>
+    <span class="sec-no">04 — 今後の流れ</span>
+    <h2>制作スケジュール</h2>
+    <ul class="sched">
+      <li><span class="d">6/13</span><span class="ev">この投票でストーリーを決定。出た意見をもとに、杜崎さんへ完成版脚本を依頼</span></li>
+      <li><span class="d">〜6/17</span><span class="ev">脚本の仕上げ。並行してキャラデザ・舞台設定・空間デザインを進行</span></li>
+      <li><span class="d">〜6/20</span><span class="ev">絵コンテ作成 → 一稿（動画）を完成。みんなで見ながら相談</span></li>
+      <li><span class="d">〜6/25</span><span class="ev">必要なら第二稿を確認。マスターを完成</span></li>
+      <li><span class="d">6/26</span><span class="ev final">応募（期限6/28に対し、2日の余裕を持たせた前倒し）</span></li>
+    </ul>
+  </section>
+
+  <!-- ⑤ 投票のお願い -->
+  <section>
+    <span class="sec-no">05 — 投票のお願い</span>
+    <h2>もう一度の投票について</h2>
+    <div class="intro-box">
+      <p>先日の投票では、第一案が僅差で多数となりました。ただ、票差は小さく、サマリーを見ると、まだ判断の分かれるところだと感じています。</p>
+      <p>そこで今回は、皆さんに<strong>他の方の意見を含めたサマリーを読んでいただいたうえで、もう一度評価をお願いしたい</strong>と考えました。これを最終的な決定とします。</p>
+      <p>決定に不服がある場合は、月真猫まで直接お知らせください。皆さんの意見を、できる限り尊重したいと思っています。</p>
+      <p>全員の希望を100%叶えるのは難しいかもしれませんが、その分、一本の作品としてできる限り良いものにしたいと思っています。どうか力を貸してください。</p>
+    </div>
+  </section>
+
+  <!-- ⑥ フォーム -->
+  <section style="border-bottom:none;">
+    <span class="sec-no">06 — 投票フォーム</span>
+    <h2>最終投票</h2>
+    <p class="note" style="margin-bottom:24px;">投票は <strong>明日（6/13）まで</strong>。9名で行います。お名前を選んでから、ご回答ください。</p>
+
+    <form action="https://formspree.io/f/xjgdbayw" method="POST">
+      <input type="hidden" name="_subject" value="Project M｜脚本 最終投票">
+
+      <!-- お名前（プルダウン・必須） -->
+      <div class="field">
+        <label class="label" for="nick">お名前<span class="req">必須</span></label>
+        <p class="sub">進行のため、お名前を選んでください。誰がどう答えたかが他のメンバーに見えることはありません。安心して、自由にお書きください。</p>
+        <select id="nick" name="お名前" required>
+          <option value="" disabled selected>選択してください</option>
+          <option value="月真猫">月真猫</option>
+          <option value="杜崎まさかず">杜崎まさかず</option>
+          <option value="夢逢真月里">夢逢真月里</option>
+          <option value="HIROMI">HIROMI</option>
+          <option value="LUCY">LUCY</option>
+          <option value="絵空事テレビ・AIカワウソ">絵空事テレビ・AIカワウソ</option>
+          <option value="Marshmellaxy">Marshmellaxy</option>
+          <option value="松丸彗吾">松丸彗吾</option>
+          <option value="TECH">TECH</option>
+        </select>
+      </div>
+
+      <!-- Q1 どちらの案 -->
+      <div class="field">
+        <label class="label">サマリーを読んだうえで、どちらの案で進めるべきだと思いますか<span class="req">必須</span></label>
+        <p class="sub">「どちらとも言えない」の場合は、得票数の多い案に従います。同票、または「どちらとも言えない」のみとなった場合は、月真猫が決定します。</p>
+        <div class="choices">
+          <label class="choice"><input type="radio" name="Q1_どちらの案" value="第一案『1世紀旅行記』" required><span>第一案『1世紀旅行記』で進める</span></label>
+          <label class="choice"><input type="radio" name="Q1_どちらの案" value="第二案『NEO COOL, PALEO COOL』"><span>第二案『NEO COOL, PALEO COOL』に変える</span></label>
+          <label class="choice"><input type="radio" name="Q1_どちらの案" value="どちらとも言えない"><span>どちらとも言えない</span></label>
+        </div>
+      </div>
+
+      <!-- Q2 尺 -->
+      <div class="field">
+        <label class="label">15分に収まりそうですか？<span class="req">必須</span></label>
+        <p class="sub">★1（収まらないと思う）〜 ★5（無理なく収まりそう）。収まらないと感じる場合は、下の自由記述で「どのシーンを特に残したいか」を教えてください。</p>
+        <div class="stars">
+          <input type="radio" id="q2-5" name="Q2_尺" value="5" required><label for="q2-5">★</label>
+          <input type="radio" id="q2-4" name="Q2_尺" value="4"><label for="q2-4">★</label>
+          <input type="radio" id="q2-3" name="Q2_尺" value="3"><label for="q2-3">★</label>
+          <input type="radio" id="q2-2" name="Q2_尺" value="2"><label for="q2-2">★</label>
+          <input type="radio" id="q2-1" name="Q2_尺" value="1"><label for="q2-1">★</label>
+        </div>
+        <div class="stars-scale"><span>収まらない</span><span>収まりそう</span></div>
+      </div>
+
+      <!-- Q3 著作権 -->
+      <div class="field">
+        <label class="label">著作物の想起リスクは回避できそうですか？<span class="req">必須</span></label>
+        <p class="sub">★1（難しそう）〜 ★5（回避できそう）。回避のアイデアがあれば自由記述へ。良い案は採用させていただきます。具体案が出なければ、こちらで著作権回避の調整を行います。</p>
+        <div class="stars">
+          <input type="radio" id="q3-5" name="Q3_著作権" value="5" required><label for="q3-5">★</label>
+          <input type="radio" id="q3-4" name="Q3_著作権" value="4"><label for="q3-4">★</label>
+          <input type="radio" id="q3-3" name="Q3_著作権" value="3"><label for="q3-3">★</label>
+          <input type="radio" id="q3-2" name="Q3_著作権" value="2"><label for="q3-2">★</label>
+          <input type="radio" id="q3-1" name="Q3_著作権" value="1"><label for="q3-1">★</label>
+        </div>
+        <div class="stars-scale"><span>難しそう</span><span>回避できそう</span></div>
+      </div>
+
+      <!-- 自由記述 -->
+      <div class="field">
+        <label class="label">自由記述（ここは特に重要です）</label>
+        <div class="free-warn">
+          物語について「ここをこう変えたい」というご意見があれば、<strong>必ずここに書いてください。</strong><br><br>
+          この投票結果をもって脚本を確定し、本脚本の執筆に入ります。<strong>確定後の変更は原則できません。</strong>「どうしてもこうしたい」という点があれば、今この場で書いてください。後からでは反映できなくなります。<br><br>
+          ※もちろん、制作を進める中で問題が出た場合は臨機応変に対応します。その際は Discord のカンファレンスチャンネルでご相談ください。
+        </div>
+        <textarea name="自由記述" placeholder="ここに自由にお書きください"></textarea>
+        <p class="ex">
+          記入の例：<br>
+          <b>・削るべきパート / シーン</b>（15分に収めるために）<br>
+          <b>・物語のアップデート案</b>（こうするともっと良くなる、という提案）<br>
+          <b>・その他</b>、自由なコメント
+        </p>
+      </div>
+
+      <button type="submit" class="submit">投票する</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>Project M — 企画進行中の非公開資料です</p>
+    <p>第三者への共有・転載はご遠慮ください</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var PASS = "56109";
+  var gate = document.getElementById("gate");
+  var content = document.getElementById("content");
+  var pw = document.getElementById("pw");
+  var err = document.getElementById("err");
+  var btn = document.getElementById("enter");
+
+  function tryEnter(){
+    if(pw.value === PASS){
+      gate.classList.add("hidden");
+      content.classList.remove("hidden");
+      window.scrollTo(0,0);
+    } else {
+      err.textContent = "合言葉が違うようです。";
+      pw.value = "";
+      pw.focus();
+    }
+  }
+  btn.addEventListener("click", tryEnter);
+  pw.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){ e.preventDefault(); tryEnter(); }
+  });
+  pw.focus();
+})();
+</script>
+
+</body>
+</html>
