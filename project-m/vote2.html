@@ -194,6 +194,13 @@
   }
   .submit:hover{background:#6a4c30;}
   .submit:active{transform:translateY(1px);}
+  .submit:disabled{
+    background:#cfc6b6;color:#f6f3ec;cursor:not-allowed;transform:none;
+  }
+  .submit-hint{
+    text-align:center;font-size:12px;color:var(--muted);margin:10px 0 0;
+    font-family:"Hiragino Sans","Yu Gothic",sans-serif;min-height:16px;
+  }
 
   footer{padding:36px 0 0;text-align:center;}
   footer p{font-size:12px;color:var(--muted);margin:4px 0;}
@@ -386,7 +393,7 @@
         <p class="sub">「どちらとも言えない」の場合は、得票数の多い案に従います。同票、または「どちらとも言えない」のみとなった場合は、月真猫が決定します。</p>
         <div class="choices">
           <label class="choice"><input type="radio" name="Q1_どちらの案" value="第一案『1世紀旅行記』" required><span>第一案『1世紀旅行記』で進める</span></label>
-          <label class="choice"><input type="radio" name="Q1_どちらの案" value="第二案『NEO COOL, PALEO COOL』"><span>第二案『NEO COOL, PALEO COOL』に変える</span></label>
+          <label class="choice"><input type="radio" name="Q1_どちらの案" value="第二案『NEO COOL, PALEO COOL』"><span>第二案『NEO COOL, PALEO COOL』で進める</span></label>
           <label class="choice"><input type="radio" name="Q1_どちらの案" value="どちらとも言えない"><span>どちらとも言えない</span></label>
         </div>
       </div>
@@ -436,7 +443,8 @@
         </p>
       </div>
 
-      <button type="submit" class="submit">投票する</button>
+      <button type="submit" class="submit" id="submitBtn" disabled>投票する</button>
+      <p class="submit-hint" id="submitHint">お名前・案の選択・2つの評価を入力すると、投票できます。</p>
     </form>
   </section>
 
@@ -472,6 +480,22 @@
     if(e.key === "Enter"){ e.preventDefault(); tryEnter(); }
   });
   pw.focus();
+
+  // 必須4項目（お名前・Q1・Q2・Q3）が揃うまで投票ボタンを無効化
+  var form = document.querySelector("form");
+  var submitBtn = document.getElementById("submitBtn");
+  var submitHint = document.getElementById("submitHint");
+  function checkReady(){
+    var name = form.querySelector("[name='お名前']").value;
+    var q1 = form.querySelector("[name='Q1_どちらの案']:checked");
+    var q2 = form.querySelector("[name='Q2_尺']:checked");
+    var q3 = form.querySelector("[name='Q3_著作権']:checked");
+    var ready = name && q1 && q2 && q3;
+    submitBtn.disabled = !ready;
+    submitHint.style.display = ready ? "none" : "block";
+  }
+  form.addEventListener("change", checkReady);
+  checkReady();
 })();
 </script>
 
