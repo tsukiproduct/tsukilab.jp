@@ -147,6 +147,17 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <button class="btn" id="grainBtn">ON</button>
       </div>
     </div>
+
+    <div class="card">
+      <h2>④ 保存・書き出し</h2>
+      <button class="btn acc" id="recBtn" style="width:100%" disabled>🎬 動画を書き出す</button>
+      <p class="note" id="recNote">曲を読み込むと書き出せます。曲を頭からフル再生しながらのリアルタイム録画です（途中で⏹を押せばそこまでで保存）。</p>
+      <div class="row">
+        <button class="btn" id="saveProjBtn">プロジェクト保存</button>
+        <label class="btn" style="cursor:pointer">プロジェクト読込<input type="file" id="loadProjIn" accept=".json,application/json" style="display:none"></label>
+      </div>
+      <p class="note">プロジェクト＝歌詞・タイミング・スタイル設定（画像と曲は再選択が必要）。設定はこの端末にも自動保存されます。</p>
+    </div>
   </div>
 </div>
 
@@ -163,7 +174,7 @@ let syncMode=false,syncIdx=0;
 const $=id=>document.getElementById(id);
 const cv=$("cv"),ctx=cv.getContext("2d");
 const player=$("player");
-let ac=null,analyser=null,freq=null,wave=null;
+let ac=null,analyser=null,freq=null,wave=null,msDest=null;
 let bgCache=null,grainCv=null;
 
 /* ====== ユーティリティ ====== */
@@ -207,7 +218,7 @@ $("audIn").addEventListener("change",e=>{
   player.src=URL.createObjectURL(f);
   $("audDrop").classList.add("done");
   $("audDrop").firstChild.textContent="✓ "+f.name.slice(0,24);
-  $("playBtn").disabled=false;$("syncBtn").disabled=!S.lines.length;
+  $("playBtn").disabled=false;$("syncBtn").disabled=!S.lines.length;$("recBtn").disabled=false;
 });
 player.addEventListener("loadedmetadata",()=>{
   $("seek").max=player.duration;$("durT").textContent=fmt(player.duration);
@@ -238,6 +249,8 @@ function ensureGraph(){
     const src=ac.createMediaElementSource(player);
     analyser=ac.createAnalyser();analyser.fftSize=1024;analyser.smoothingTimeConstant=0.82;
     src.connect(analyser);analyser.connect(ac.destination);
+    msDest=ac.createMediaStreamDestination();
+    analyser.connect(msDest);
     freq=new Uint8Array(analyser.frequencyBinCount);
     wave=new Uint8Array(analyser.fftSize);
   }
@@ -297,7 +310,7 @@ $("blurIn").addEventListener("input",e=>{S.blur=+e.target.value;$("blurLabel").t
 $("grainBtn").addEventListener("click",e=>{S.grain=!S.grain;e.target.textContent=S.grain?"ON":"OFF";});
 const colors=["#ff5c8a","#9d7bff","#5ce1ff","#ffd24d","#7dff9e","#ff4d4d"];
 colors.forEach(c=>{
-  const s=document.createElement("span");s.className="sw"+(c===S.accent?" on":"");s.style.background=c;
+  const s=document.createElement("span");s.className="sw"+(c===S.accent?" on":"");s.style.background=c;s.dataset.c=c;
   s.addEventListener("click",()=>{S.accent=c;document.documentElement.style.setProperty("--acc",c);
     document.querySelectorAll(".sw").forEach(el=>el.classList.remove("on"));s.classList.add("on");});
   $("swatches").appendChild(s);
@@ -491,6 +504,95 @@ let seekDragging=false;
 $("seek").addEventListener("pointerdown",()=>seekDragging=true);
 $("seek").addEventListener("pointerup",()=>seekDragging=false);
 requestAnimationFrame(loop);
+
+/* ====== 動画書き出し ====== */
+let recorder=null,chunks=[],recMime="";
+function pickMime(){
+  if(!window.MediaRecorder)return"";
+  const cand=["video/mp4;codecs=avc1","video/mp4","video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"];
+  for(const m of cand){try{if(MediaRecorder.isTypeSupported(m))return m;}catch(e){}}
+  return"";
+}
+const REC_LABEL="🎬 動画を書き出す";
+$("recBtn").addEventListener("click",()=>{
+  if(recorder){stopRec();return;}
+  if(!player.src)return;
+  recMime=pickMime();
+  if(!recMime){$("recNote").textContent="このブラウザは録画非対応です。Safari/Chromeの最新版でお試しください。";return;}
+  ensureGraph();
+  let stream;
+  try{stream=cv.captureStream(30);}catch(e){$("recNote").textContent="このブラウザはCanvas録画非対応です。";return;}
+  if(msDest)msDest.stream.getAudioTracks().forEach(t=>stream.addTrack(t));
+  chunks=[];
+  try{recorder=new MediaRecorder(stream,{mimeType:recMime,videoBitsPerSecond:8000000});}
+  catch(e){recorder=new MediaRecorder(stream);}
+  recorder.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data);};
+  recorder.onstop=()=>{
+    const ext=recMime.includes("mp4")?"mp4":"webm";
+    const blob=new Blob(chunks,{type:recMime||"video/webm"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="tsuki-lyric."+ext;
+    document.body.appendChild(a);a.click();a.remove();
+    recorder=null;
+    $("recBtn").textContent=REC_LABEL;
+    $("recNote").textContent=ext.toUpperCase()+"を保存しました（ダウンロード/ファイルに入ります）。";
+  };
+  player.currentTime=0;player.play();$("playBtn").textContent="⏸";
+  recorder.start(250);
+  $("recBtn").textContent="⏹ 録画停止して保存";
+  $("recNote").textContent="録画中… 曲が終わると自動で保存されます。画面を閉じたりスリープさせないでください。";
+});
+function stopRec(){
+  if(recorder&&recorder.state!=="inactive")recorder.stop();
+  player.pause();$("playBtn").textContent="▶";
+}
+player.addEventListener("ended",()=>{if(recorder)stopRec();});
+
+/* ====== プロジェクト保存・読込・自動保存 ====== */
+function snapshot(){
+  return{v:1,lines:S.lines,lyricText:$("lyricsIn").value,
+    fontKey:S.fontKey,animKey:S.animKey,layoutKey:S.layoutKey,vizKey:S.vizKey,
+    accent:S.accent,dim:S.dim,blur:S.blur,grain:S.grain,seed:S.seed};
+}
+function applySnap(d){
+  if(!d)return;
+  S.lines=Array.isArray(d.lines)?d.lines:[];
+  $("lyricsIn").value=d.lyricText||"";
+  S.fontKey=d.fontKey||"mincho";S.animKey=d.animKey||"random";
+  S.layoutKey=d.layoutKey||"wander";S.vizKey=d.vizKey||"moon";
+  S.accent=d.accent||"#ff5c8a";
+  S.dim=(typeof d.dim==="number")?d.dim:45;
+  S.blur=(typeof d.blur==="number")?d.blur:6;
+  S.grain=(d.grain!==false);S.seed=d.seed||1;
+  $("fontSel").value=S.fontKey;$("animSel").value=S.animKey;
+  $("layoutSel").value=S.layoutKey;$("vizSel").value=S.vizKey;
+  $("dimIn").value=S.dim;$("dimLabel").textContent="背景の暗さ — "+S.dim+"%";
+  $("blurIn").value=S.blur;$("blurLabel").textContent="背景ぼかし — "+S.blur+"px";
+  $("grainBtn").textContent=S.grain?"ON":"OFF";
+  document.documentElement.style.setProperty("--acc",S.accent);
+  document.querySelectorAll(".sw").forEach(el=>el.classList.toggle("on",el.dataset.c===S.accent));
+  rebuildBg();renderChips();
+  $("syncBtn").disabled=!(S.lines.length&&player.src);
+  $("spreadBtn").disabled=!(S.lines.length&&player.duration);
+}
+$("saveProjBtn").addEventListener("click",()=>{
+  const blob=new Blob([JSON.stringify(snapshot(),null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="tsuki-lyric-project.json";
+  document.body.appendChild(a);a.click();a.remove();
+});
+$("loadProjIn").addEventListener("change",e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{try{applySnap(JSON.parse(r.result));}catch(err){alert("プロジェクトファイルを読み込めませんでした");}};
+  r.readAsText(f);
+});
+/* 端末への自動保存（3秒ごと）＋起動時復元 */
+function autosave(){try{localStorage.setItem("tsukilab",JSON.stringify(snapshot()));}catch(e){}}
+setInterval(autosave,3000);
+try{const d=localStorage.getItem("tsukilab");if(d)applySnap(JSON.parse(d));}catch(e){}
 </script>
 </body>
 </html>
