@@ -1,0 +1,656 @@
+import React, { useState, useRef, useEffect, useCallback } from "react";
+
+/* ============================================================
+   月詠ラボ — Lyric Visualizer Lab (prototype v0.1)
+   画像 + 曲 + 歌詞 → キネティックタイポ × ビジュアライザー
+   全描画はCanvas一枚（将来のWebM書き出しに直結する設計)
+   ============================================================ */
+
+const FONTS = {
+  mincho: { label: "明朝 — 幽玄", css: "'Shippori Mincho', serif" },
+  gothic: { label: "ゴシック — モダン", css: "'Zen Kaku Gothic New', sans-serif" },
+  dot:    { label: "ドット — レトロ怪", css: "'DotGothic16', monospace" },
+  fude:   { label: "筆 — 和", css: "'Yuji Syuku', serif" },
+};
+const ANIMS = {
+  random:  "おまかせ（行ごとに変化）",
+  drift:   "浮遊 — ふわり出現",
+  scatter: "集結 — 文字が飛んでくる",
+  glitch:  "グリッチ — ノイズ",
+  type:    "タイプ — 一文字ずつ",
+};
+const LAYOUTS = {
+  wander: "ランダム配置（行ごと）",
+  center: "中央固定",
+  tate:   "縦書き",
+};
+const VIZ = {
+  moon: "月暈リング",
+  bars: "スペクトラムバー",
+  wave: "波形ライン",
+  off:  "なし",
+};
+
+const W = 1280, H = 720;
+
+/* シード付き乱数（行ごとに決定論的な“ランダム”を作る） */
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const fmt = (s) => {
+  if (!isFinite(s)) return "0:00";
+  const m = Math.floor(s / 60), ss = Math.floor(s % 60);
+  return `${m}:${String(ss).padStart(2, "0")}`;
+};
+
+export default function TsukiLyricLab() {
+  /* ---------- 素材 ---------- */
+  const [imgEl, setImgEl] = useState(null);
+  const [audioURL, setAudioURL] = useState(null);
+  const [audioName, setAudioName] = useState("");
+  const [lyricText, setLyricText] = useState("");
+  const [lines, setLines] = useState([]); // [{text, t}]
+
+  /* ---------- スタイル設定 ---------- */
+  const [fontKey, setFontKey] = useState("mincho");
+  const [animKey, setAnimKey] = useState("random");
+  const [layoutKey, setLayoutKey] = useState("wander");
+  const [vizKey, setVizKey] = useState("moon");
+  const [accent, setAccent] = useState("#ff5c8a");
+  const [dim, setDim] = useState(45);
+  const [blur, setBlur] = useState(6);
+  const [grain, setGrain] = useState(true);
+  const [seed, setSeed] = useState(1);
+
+  /* ---------- 再生・同期 ---------- */
+  const [playing, setPlaying] = useState(false);
+  const [curT, setCurT] = useState(0);
+  const [dur, setDur] = useState(0);
+  const [syncMode, setSyncMode] = useState(false);
+  const [syncIdx, setSyncIdx] = useState(0);
+  const [fontsReady, setFontsReady] = useState(false);
+
+  const canvasRef = useRef(null);
+  const audioRef = useRef(null);
+  const acRef = useRef(null);
+  const analyserRef = useRef(null);
+  const freqRef = useRef(null);
+  const waveRef = useRef(null);
+  const bgCacheRef = useRef(null);
+  const grainRef = useRef(null);
+  const rafRef = useRef(0);
+  const stateRef = useRef({});
+
+  /* 最新stateを描画ループへ渡す */
+  stateRef.current = { lines, fontKey, animKey, layoutKey, vizKey, accent, dim, grain, seed, imgEl };
+
+  /* ---------- Webフォント読み込み ---------- */
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@500;700&family=DotGothic16&family=Yuji+Syuku&display=swap";
+    document.head.appendChild(link);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => setFontsReady(true));
+      const t = setTimeout(() => setFontsReady(true), 3000);
+      return () => { clearTimeout(t); };
+    } else setFontsReady(true);
+  }, []);
+
+  /* ---------- グレイン生成（一度だけ） ---------- */
+  useEffect(() => {
+    const c = document.createElement("canvas");
+    c.width = 256; c.height = 256;
+    const x = c.getContext("2d");
+    const d = x.createImageData(256, 256);
+    for (let i = 0; i < d.data.length; i += 4) {
+      const v = Math.random() * 255;
+      d.data[i] = d.data[i + 1] = d.data[i + 2] = v;
+      d.data[i + 3] = 28;
+    }
+    x.putImageData(d, 0, 0);
+    grainRef.current = c;
+  }, []);
+
+  /* ---------- 背景キャッシュ（画像/blur/dim変更時のみ再生成） ---------- */
+  useEffect(() => {
+    const c = document.createElement("canvas");
+    c.width = W; c.height = H;
+    const x = c.getContext("2d");
+    x.fillStyle = "#0b0910";
+    x.fillRect(0, 0, W, H);
+    if (imgEl) {
+      const s = Math.max(W / imgEl.width, H / imgEl.height);
+      const iw = imgEl.width * s, ih = imgEl.height * s;
+      x.filter = blur > 0 ? `blur(${blur}px)` : "none";
+      x.drawImage(imgEl, (W - iw) / 2, (H - ih) / 2, iw, ih);
+      x.filter = "none";
+    }
+    x.fillStyle = `rgba(8,6,12,${dim / 100})`;
+    x.fillRect(0, 0, W, H);
+    /* 周辺減光 */
+    const g = x.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, H * 0.95);
+    g.addColorStop(0, "rgba(0,0,0,0)");
+    g.addColorStop(1, "rgba(0,0,0,0.45)");
+    x.fillStyle = g;
+    x.fillRect(0, 0, W, H);
+    bgCacheRef.current = c;
+  }, [imgEl, blur, dim]);
+
+  /* ---------- 素材ハンドラ ---------- */
+  const onImage = (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    const img = new Image();
+    img.onload = () => setImgEl(img);
+    img.src = URL.createObjectURL(f);
+  };
+  const onAudio = (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    if (audioURL) URL.revokeObjectURL(audioURL);
+    setAudioURL(URL.createObjectURL(f));
+    setAudioName(f.name);
+    setPlaying(false);
+  };
+  const applyLyrics = () => {
+    const txt = lyricText.split("\n").map((s) => s.trim()).filter(Boolean);
+    const total = dur || 180;
+    const newLines = txt.map((text, i) => {
+      const kept = lines[i];
+      return { text, t: kept ? kept.t : (total / (txt.length + 1)) * (i + 1) };
+    });
+    setLines(newLines);
+    setSyncIdx(0);
+  };
+  const autoSpread = () => {
+    if (!lines.length || !dur) return;
+    setLines(lines.map((l, i) => ({ ...l, t: (dur / (lines.length + 1)) * (i + 1) })));
+  };
+
+  /* ---------- オーディオグラフ ---------- */
+  const ensureGraph = useCallback(() => {
+    const a = audioRef.current;
+    if (!a) return;
+    if (!acRef.current) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      acRef.current = new AC();
+      const src = acRef.current.createMediaElementSource(a);
+      const an = acRef.current.createAnalyser();
+      an.fftSize = 1024;
+      an.smoothingTimeConstant = 0.82;
+      src.connect(an);
+      an.connect(acRef.current.destination);
+      analyserRef.current = an;
+      freqRef.current = new Uint8Array(an.frequencyBinCount);
+      waveRef.current = new Uint8Array(an.fftSize);
+    }
+    if (acRef.current.state === "suspended") acRef.current.resume();
+  }, []);
+
+  const togglePlay = () => {
+    const a = audioRef.current;
+    if (!a || !audioURL) return;
+    ensureGraph();
+    if (a.paused) { a.play(); setPlaying(true); }
+    else { a.pause(); setPlaying(false); }
+  };
+
+  /* タップ同期：再生中に押すと次の行へ現在時刻を打刻 */
+  const stamp = () => {
+    const a = audioRef.current;
+    if (!a || syncIdx >= lines.length) return;
+    const next = [...lines];
+    next[syncIdx] = { ...next[syncIdx], t: a.currentTime };
+    setLines(next);
+    setSyncIdx(syncIdx + 1);
+  };
+  const startSync = () => {
+    setSyncMode(true);
+    setSyncIdx(0);
+    const a = audioRef.current;
+    if (a) { a.currentTime = 0; ensureGraph(); a.play(); setPlaying(true); }
+  };
+  const endSync = () => setSyncMode(false);
+
+  /* ---------- 行描画 ---------- */
+  function drawLine(ctx, line, idx, prog, energy, now, S) {
+    const rng = mulberry32(idx * 7919 + S.seed * 104729);
+    const fontCss = FONTS[S.fontKey].css;
+    let anim = S.animKey;
+    if (anim === "random") {
+      const pool = ["drift", "scatter", "glitch", "type"];
+      anim = pool[Math.floor(rng() * pool.length)];
+    }
+    const sizeF = 0.8 + rng() * 0.55;
+    const rot = S.layoutKey === "wander" ? (rng() - 0.5) * 0.12 : 0;
+    const tIn = easeOut(clamp(prog.elapsed / 0.7, 0, 1));
+    const tOut = prog.remain < 0.5 ? clamp(prog.remain / 0.5, 0, 1) : 1;
+    const alpha = tIn * tOut;
+    if (alpha <= 0.01) return;
+
+    const chars = [...line.text];
+    let base = H * 0.085 * sizeF;
+
+    if (S.layoutKey === "tate") {
+      /* ----- 縦書き ----- */
+      base = Math.min(base, (H * 0.8) / Math.max(chars.length, 1));
+      ctx.font = `700 ${base}px ${fontCss}`;
+      const colX = W * (0.22 + rng() * 0.56);
+      const startY = H / 2 - (chars.length * base * 1.08) / 2 + base * 0.7;
+      chars.forEach((ch, ci) => {
+        const cd = clamp((prog.elapsed - ci * 0.045) / 0.5, 0, 1);
+        const ca = easeOut(cd) * tOut;
+        if (ca <= 0) return;
+        let dx = 0, dy = 0;
+        if (anim === "scatter") { const r2 = mulberry32(idx * 131 + ci * 17 + S.seed); dx = (r2() - 0.5) * 500 * (1 - easeOut(cd)); dy = (r2() - 0.5) * 360 * (1 - easeOut(cd)); }
+        if (anim === "drift") dy = (1 - easeOut(cd)) * 26 + Math.sin(now * 1.4 + ci) * 2.5;
+        if (anim === "glitch" && Math.random() < 0.05 + energy * 0.12) { dx = (Math.random() - 0.5) * 14; dy = (Math.random() - 0.5) * 8; }
+        if (anim === "type" && prog.elapsed < ci * 0.09) return;
+        ctx.save();
+        ctx.globalAlpha = ca;
+        ctx.fillStyle = "#f3efe7";
+        ctx.shadowColor = "rgba(0,0,0,0.6)";
+        ctx.shadowBlur = 10;
+        ctx.textAlign = "center";
+        ctx.fillText(ch, colX + dx, startY + ci * base * 1.08 + dy);
+        ctx.restore();
+      });
+      /* 縦罫 */
+      ctx.save();
+      ctx.globalAlpha = alpha * 0.5;
+      ctx.strokeStyle = S.accent;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(colX + base * 0.75, startY - base * 0.7);
+      ctx.lineTo(colX + base * 0.75, startY + (chars.length - 1) * base * 1.08 + base * 0.3);
+      ctx.stroke();
+      ctx.restore();
+      return;
+    }
+
+    /* ----- 横書き ----- */
+    ctx.font = `700 ${base}px ${fontCss}`;
+    let tw = ctx.measureText(line.text).width;
+    const maxW = W * 0.82;
+    if (tw > maxW) { base *= maxW / tw; ctx.font = `700 ${base}px ${fontCss}`; tw = ctx.measureText(line.text).width; }
+
+    let cx = W / 2, cy = H * 0.56;
+    if (S.layoutKey === "wander") {
+      cx = W * (0.5 + (rng() - 0.5) * 0.32);
+      cy = H * (0.32 + rng() * 0.42);
+      cx = clamp(cx, tw / 2 + 40, W - tw / 2 - 40);
+    }
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(rot);
+    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+
+    /* アクセント下線（出現と同期して伸びる） */
+    ctx.globalAlpha = alpha * 0.85;
+    ctx.strokeStyle = S.accent;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(-tw / 2, base * 0.72);
+    ctx.lineTo(-tw / 2 + tw * tIn, base * 0.72);
+    ctx.stroke();
+
+    let x = -tw / 2;
+    const glitchFrame = anim === "glitch" && Math.random() < 0.08 + energy * 0.15;
+    chars.forEach((ch, ci) => {
+      const cw = ctx.measureText(ch).width;
+      const cd = clamp((prog.elapsed - ci * 0.04) / 0.5, 0, 1);
+      const ca = easeOut(cd) * tOut;
+      if (anim === "type" && prog.elapsed < ci * 0.085) { x += cw; return; }
+      if (ca <= 0) { x += cw; return; }
+      let dx = 0, dy = 0;
+      if (anim === "scatter") { const r2 = mulberry32(idx * 131 + ci * 17 + S.seed); dx = (r2() - 0.5) * 640 * (1 - easeOut(cd)); dy = (r2() - 0.5) * 420 * (1 - easeOut(cd)); }
+      if (anim === "drift") dy = (1 - easeOut(cd)) * 34 + Math.sin(now * 1.6 + ci * 0.8) * 2.8;
+      if (glitchFrame && Math.random() < 0.4) { dx = (Math.random() - 0.5) * 16; dy = (Math.random() - 0.5) * 10; }
+
+      ctx.globalAlpha = ca;
+      if (glitchFrame) {
+        ctx.fillStyle = "rgba(255,60,90,0.85)";
+        ctx.fillText(ch, x + dx - 3, dy);
+        ctx.fillStyle = "rgba(80,220,255,0.85)";
+        ctx.fillText(ch, x + dx + 3, dy);
+      }
+      ctx.fillStyle = "#f3efe7";
+      ctx.shadowColor = "rgba(0,0,0,0.65)";
+      ctx.shadowBlur = 12;
+      ctx.fillText(ch, x + dx, dy);
+      ctx.shadowBlur = 0;
+      x += cw;
+    });
+
+    /* タイプ用カーソル */
+    if (anim === "type") {
+      const shown = Math.min(chars.length, Math.floor(prog.elapsed / 0.085));
+      if (shown < chars.length && Math.floor(now * 2.4) % 2 === 0) {
+        let cx2 = -tw / 2;
+        for (let i = 0; i < shown; i++) cx2 += ctx.measureText(chars[i]).width;
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = S.accent;
+        ctx.fillRect(cx2 + 4, -base * 0.45, base * 0.08, base * 0.9);
+      }
+    }
+    ctx.restore();
+  }
+
+  /* ---------- ビジュアライザー ---------- */
+  function drawViz(ctx, freq, wave, energy, S, now) {
+    if (S.vizKey === "off") return;
+    if (S.vizKey === "moon") {
+      const cx = W * 0.5, cy = H * 0.52;
+      const R = H * 0.27 * (1 + energy * 0.06);
+      ctx.save();
+      /* 暈 */
+      const halo = ctx.createRadialGradient(cx, cy, R * 0.6, cx, cy, R * 1.8);
+      halo.addColorStop(0, "rgba(243,239,231,0.05)");
+      halo.addColorStop(0.5, hexA(S.accent, 0.05 + energy * 0.07));
+      halo.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = halo;
+      ctx.fillRect(0, 0, W, H);
+      /* 周波数スパイクのリング */
+      const N = 96;
+      ctx.strokeStyle = hexA(S.accent, 0.85);
+      ctx.lineWidth = 2;
+      ctx.shadowColor = S.accent;
+      ctx.shadowBlur = 14;
+      ctx.beginPath();
+      for (let i = 0; i <= N; i++) {
+        const fi = Math.floor((i / N) * (freq.length * 0.55));
+        const v = freq[fi] / 255;
+        const r = R + v * H * 0.085;
+        const a = (i / N) * Math.PI * 2 - Math.PI / 2 + now * 0.05;
+        const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.closePath();
+      ctx.stroke();
+      /* 内側の静かな円 */
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = "rgba(243,239,231,0.25)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(cx, cy, R * 0.96, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    } else if (S.vizKey === "bars") {
+      const N = 64, bw = W / N;
+      ctx.save();
+      for (let i = 0; i < N; i++) {
+        const v = freq[Math.floor((i / N) * freq.length * 0.6)] / 255;
+        const h = v * H * 0.3;
+        ctx.fillStyle = hexA(S.accent, 0.22 + v * 0.6);
+        ctx.fillRect(i * bw + 2, H - h, bw - 4, h);
+      }
+      ctx.restore();
+    } else if (S.vizKey === "wave") {
+      ctx.save();
+      ctx.strokeStyle = hexA(S.accent, 0.8);
+      ctx.lineWidth = 2;
+      ctx.shadowColor = S.accent;
+      ctx.shadowBlur = 10;
+      ctx.beginPath();
+      for (let i = 0; i < wave.length; i += 4) {
+        const x = (i / wave.length) * W;
+        const y = H * 0.82 + ((wave[i] - 128) / 128) * H * 0.1;
+        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+  function hexA(hex, a) {
+    const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r},${g},${b},${a})`;
+  }
+
+  /* ---------- メイン描画ループ ---------- */
+  useEffect(() => {
+    const loop = () => {
+      rafRef.current = requestAnimationFrame(loop);
+      const cv = canvasRef.current;
+      if (!cv) return;
+      const ctx = cv.getContext("2d");
+      const S = stateRef.current;
+      const a = audioRef.current;
+      const now = performance.now() / 1000;
+      const t = a ? a.currentTime : 0;
+
+      /* 背景 */
+      if (bgCacheRef.current) ctx.drawImage(bgCacheRef.current, 0, 0);
+      else { ctx.fillStyle = "#0b0910"; ctx.fillRect(0, 0, W, H); }
+
+      /* 音解析 */
+      let energy = 0;
+      let freq = freqRef.current, wave = waveRef.current;
+      if (analyserRef.current && freq) {
+        analyserRef.current.getByteFrequencyData(freq);
+        analyserRef.current.getByteTimeDomainData(wave);
+        let s = 0;
+        for (let i = 0; i < 32; i++) s += freq[i];
+        energy = s / (32 * 255);
+      } else { freq = new Uint8Array(512); wave = new Uint8Array(1024).fill(128); }
+
+      drawViz(ctx, freq, wave, energy, S, now);
+
+      /* 現在行の特定と描画 */
+      const ls = S.lines;
+      if (ls.length) {
+        let idx = -1;
+        for (let i = 0; i < ls.length; i++) if (ls[i].t <= t) idx = i;
+        if (idx >= 0) {
+          const nextT = idx + 1 < ls.length ? ls[idx + 1].t : (a?.duration || ls[idx].t + 6);
+          drawLine(ctx, ls[idx], idx, { elapsed: t - ls[idx].t, remain: nextT - t }, energy, now, S);
+        }
+      } else {
+        ctx.save();
+        ctx.font = `500 ${H * 0.032}px ${FONTS[S.fontKey].css}`;
+        ctx.fillStyle = "rgba(243,239,231,0.4)";
+        ctx.textAlign = "center";
+        ctx.fillText("素材を読み込むとここにプレビューが映ります", W / 2, H / 2);
+        ctx.restore();
+      }
+
+      /* グレイン */
+      if (S.grain && grainRef.current) {
+        ctx.save();
+        ctx.globalAlpha = 0.5;
+        const ox = Math.floor(Math.random() * 128), oy = Math.floor(Math.random() * 128);
+        for (let y = -oy; y < H; y += 256) for (let x = -ox; x < W; x += 256) ctx.drawImage(grainRef.current, x, y);
+        ctx.restore();
+      }
+    };
+    rafRef.current = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  /* ---------- 時刻表示の更新 ---------- */
+  useEffect(() => {
+    const id = setInterval(() => {
+      const a = audioRef.current;
+      if (a) { setCurT(a.currentTime); if (a.ended) setPlaying(false); }
+    }, 250);
+    return () => clearInterval(id);
+  }, []);
+
+  /* ============================================================ UI */
+  return (
+    <div className="lab">
+      <style>{`
+        .lab{min-height:100vh;background:#0b0910;color:#f3efe7;font-family:'Zen Kaku Gothic New',sans-serif;}
+        .lab *{box-sizing:border-box;}
+        .head{display:flex;align-items:baseline;gap:12px;padding:18px 20px 10px;}
+        .head h1{font-family:'DotGothic16',monospace;font-size:20px;margin:0;letter-spacing:2px;}
+        .head h1 .moon{color:${accent};}
+        .head .sub{font-size:11px;color:#8a7fa8;letter-spacing:1px;}
+        .wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;padding:0 20px 28px;max-width:1280px;margin:0 auto;}
+        @media(max-width:880px){.wrap{grid-template-columns:1fr;}}
+        .stage{position:relative;}
+        canvas{width:100%;border-radius:14px;border:1px solid #262031;display:block;background:#0b0910;}
+        .transport{display:flex;align-items:center;gap:10px;margin-top:10px;}
+        .pbtn{width:46px;height:46px;border-radius:50%;border:1px solid #3a3050;background:#16131f;color:#f3efe7;font-size:16px;cursor:pointer;transition:all .2s;flex-shrink:0;}
+        .pbtn:hover{border-color:${accent};color:${accent};}
+        .pbtn:disabled{opacity:.3;cursor:default;}
+        .seek{flex:1;accent-color:${accent};}
+        .tlabel{font-size:12px;color:#8a7fa8;font-variant-numeric:tabular-nums;flex-shrink:0;}
+        .stampbtn{width:100%;margin-top:10px;padding:16px;border-radius:12px;border:1px solid ${accent};background:${accent}22;color:#f3efe7;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:1px;transition:all .15s;}
+        .stampbtn:active{transform:scale(.97);background:${accent}55;}
+        .panel{display:flex;flex-direction:column;gap:14px;}
+        .card{background:#141019;border:1px solid #262031;border-radius:14px;padding:14px 16px;}
+        .card h2{font-size:12px;margin:0 0 10px;color:#8a7fa8;letter-spacing:2px;font-weight:700;}
+        .drop{display:block;border:1px dashed #3a3050;border-radius:10px;padding:12px;text-align:center;font-size:12px;color:#8a7fa8;cursor:pointer;transition:all .2s;margin-bottom:8px;}
+        .drop:hover{border-color:${accent};color:#f3efe7;}
+        .drop.done{border-style:solid;border-color:${accent}66;color:#f3efe7;}
+        .drop input{display:none;}
+        textarea{width:100%;height:110px;background:#0b0910;border:1px solid #262031;border-radius:10px;color:#f3efe7;padding:10px;font-size:13px;line-height:1.7;resize:vertical;font-family:inherit;}
+        textarea:focus{outline:none;border-color:${accent};}
+        .btn{padding:9px 14px;border-radius:9px;border:1px solid #3a3050;background:#1b1626;color:#f3efe7;font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit;}
+        .btn:hover{border-color:${accent};}
+        .btn.acc{background:${accent};border-color:${accent};color:#0b0910;font-weight:700;}
+        .btn:disabled{opacity:.35;cursor:default;}
+        .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+        .field{margin-bottom:10px;}
+        .field label{display:block;font-size:11px;color:#8a7fa8;margin-bottom:5px;letter-spacing:1px;}
+        select{width:100%;background:#0b0910;border:1px solid #262031;border-radius:9px;color:#f3efe7;padding:8px 10px;font-size:13px;font-family:inherit;}
+        select:focus{outline:none;border-color:${accent};}
+        input[type=range]{width:100%;accent-color:${accent};}
+        .inline{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+        .swatches{display:flex;gap:6px;}
+        .sw{width:24px;height:24px;border-radius:50%;border:2px solid transparent;cursor:pointer;}
+        .sw.on{border-color:#f3efe7;}
+        .chips{display:flex;flex-wrap:wrap;gap:5px;max-height:120px;overflow:auto;}
+        .chip{font-size:11px;padding:4px 8px;border-radius:7px;background:#1b1626;border:1px solid #262031;color:#bfb6d6;cursor:pointer;}
+        .chip:hover{border-color:${accent};}
+        .chip.now{border-color:${accent};color:#f3efe7;}
+        .note{font-size:11px;color:#6d6486;line-height:1.6;margin-top:6px;}
+      `}</style>
+
+      <div className="head">
+        <h1><span className="moon">●</span> 月詠ラボ</h1>
+        <span className="sub">LYRIC VISUALIZER — prototype</span>
+        {!fontsReady && <span className="sub">フォント読込中…</span>}
+      </div>
+
+      <div className="wrap">
+        {/* ===== ステージ ===== */}
+        <div className="stage">
+          <canvas ref={canvasRef} width={W} height={H} />
+          <div className="transport">
+            <button className="pbtn" onClick={togglePlay} disabled={!audioURL}>{playing ? "⏸" : "▶"}</button>
+            <span className="tlabel">{fmt(curT)}</span>
+            <input className="seek" type="range" min={0} max={dur || 0} step={0.1} value={curT}
+              onChange={(e) => { const a = audioRef.current; if (a) { a.currentTime = +e.target.value; setCurT(+e.target.value); } }} />
+            <span className="tlabel">{fmt(dur)}</span>
+          </div>
+
+          {syncMode ? (
+            <>
+              <button className="stampbtn" onClick={stamp} disabled={syncIdx >= lines.length}>
+                ⏺ 打刻 — 次の行：{syncIdx < lines.length ? `「${lines[syncIdx].text.slice(0, 14)}」` : "完了"}（{syncIdx}/{lines.length}）
+              </button>
+              <div className="row" style={{ marginTop: 8 }}>
+                <button className="btn" onClick={endSync}>同期モード終了</button>
+                <span className="note">曲を聴きながら、各行が始まる瞬間にタップ</span>
+              </div>
+            </>
+          ) : (
+            lines.length > 0 && (
+              <div className="card" style={{ marginTop: 10 }}>
+                <h2>タイムライン（タップで頭出し）</h2>
+                <div className="chips">
+                  {lines.map((l, i) => {
+                    const isNow = l.t <= curT && (i + 1 >= lines.length || lines[i + 1].t > curT);
+                    return (
+                      <span key={i} className={`chip${isNow ? " now" : ""}`}
+                        onClick={() => { const a = audioRef.current; if (a) a.currentTime = l.t; }}>
+                        {fmt(l.t)} {l.text.slice(0, 8)}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            )
+          )}
+          {audioURL && <audio ref={audioRef} src={audioURL} onLoadedMetadata={(e) => setDur(e.target.duration)} />}
+        </div>
+
+        {/* ===== パネル ===== */}
+        <div className="panel">
+          <div className="card">
+            <h2>① 素材</h2>
+            <label className={`drop${imgEl ? " done" : ""}`}>
+              {imgEl ? "✓ 背景画像 読込済（変更可）" : "背景画像を選択（jpg / png）"}
+              <input type="file" accept="image/*" onChange={onImage} />
+            </label>
+            <label className={`drop${audioURL ? " done" : ""}`}>
+              {audioURL ? `✓ ${audioName.slice(0, 24)}` : "曲を選択（mp3 / wav）"}
+              <input type="file" accept="audio/*" onChange={onAudio} />
+            </label>
+            <textarea placeholder={"歌詞を1行ずつ入力\n例：\n月が嗤う夜に\n君の声だけ探してた"} value={lyricText} onChange={(e) => setLyricText(e.target.value)} />
+            <div className="row" style={{ marginTop: 8 }}>
+              <button className="btn acc" onClick={applyLyrics}>歌詞を反映</button>
+              <button className="btn" onClick={autoSpread} disabled={!lines.length || !dur}>均等配置</button>
+              <button className="btn" onClick={startSync} disabled={!lines.length || !audioURL}>タップ同期</button>
+            </div>
+            <p className="note">「タップ同期」＝曲を流しながら各行の入りでボタンを押すだけで打刻完了。</p>
+          </div>
+
+          <div className="card">
+            <h2>② 文字の表情</h2>
+            <div className="field"><label>フォント</label>
+              <select value={fontKey} onChange={(e) => setFontKey(e.target.value)}>
+                {Object.entries(FONTS).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
+              </select></div>
+            <div className="field"><label>アニメーション</label>
+              <select value={animKey} onChange={(e) => setAnimKey(e.target.value)}>
+                {Object.entries(ANIMS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+              </select></div>
+            <div className="field"><label>レイアウト</label>
+              <select value={layoutKey} onChange={(e) => setLayoutKey(e.target.value)}>
+                {Object.entries(LAYOUTS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+              </select></div>
+            <div className="row">
+              <button className="btn" onClick={() => setSeed(Math.floor(Math.random() * 99999))}>⚂ 配置ガチャ</button>
+              <span className="note">行ごとのランダム配置を引き直す</span>
+            </div>
+          </div>
+
+          <div className="card">
+            <h2>③ 画と音</h2>
+            <div className="field"><label>ビジュアライザー</label>
+              <select value={vizKey} onChange={(e) => setVizKey(e.target.value)}>
+                {Object.entries(VIZ).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+              </select></div>
+            <div className="field"><label>アクセントカラー</label>
+              <div className="swatches">
+                {["#ff5c8a", "#9d7bff", "#5ce1ff", "#ffd24d", "#7dff9e", "#ff4d4d"].map((c) => (
+                  <span key={c} className={`sw${accent === c ? " on" : ""}`} style={{ background: c }} onClick={() => setAccent(c)} />
+                ))}
+              </div></div>
+            <div className="field"><label>背景の暗さ — {dim}%</label>
+              <input type="range" min={0} max={85} value={dim} onChange={(e) => setDim(+e.target.value)} /></div>
+            <div className="field"><label>背景ぼかし — {blur}px</label>
+              <input type="range" min={0} max={20} value={blur} onChange={(e) => setBlur(+e.target.value)} /></div>
+            <div className="inline">
+              <label style={{ fontSize: 12, color: "#8a7fa8" }}>フィルムグレイン</label>
+              <button className="btn" onClick={() => setGrain(!grain)}>{grain ? "ON" : "OFF"}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
