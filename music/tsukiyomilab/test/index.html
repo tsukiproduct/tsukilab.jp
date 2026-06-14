@@ -208,6 +208,16 @@ input[type=range]{width:100%;accent-color:var(--acc);}
             <button data-v="0">なし</button>
           </div>
         </div>
+        <div class="field" style="margin-top:4px"><label id="holdLabel">歌詞の表示時間 — 制限なし（次の行まで表示）</label>
+          <input type="range" id="holdIn" min="0" max="15" step="0.5" value="0"></div>
+        <p class="note" style="margin-top:0">0＝制限なし。秒数を設定すると、その時間で歌詞が消えるので<b>間奏で残り続けません</b>。</p>
+        <div class="inline" style="margin-top:8px">
+          <label>消え方</label>
+          <div class="toggle" id="outStyleToggle">
+            <button data-v="fade" class="on">フェード</button>
+            <button data-v="cut">パッと</button>
+          </div>
+        </div>
       </div>
       <div class="card">
         <h2>行ごとの大きさ</h2>
@@ -322,7 +332,8 @@ const S={
   posX:0.5,posY:0.84,lines:[],
   fontKey:"mincho",animKey:"random",layoutKey:"wander",vizKey:"moon",
   underline:true,accent:"#ff5c8a",dim:45,blur:6,grain:true,seed:1,
-  fxZoom:false,fxShake:false,fxRgb:false,fxDglitch:false,mono:0,fxAmt:100
+  fxZoom:false,fxShake:false,fxRgb:false,fxDglitch:false,mono:0,fxAmt:100,
+  maxHold:0,outStyle:"fade"
 };
 let syncMode=false,syncIdx=0,selLine=-1;
 
@@ -614,6 +625,16 @@ $("dimIn").addEventListener("input",e=>{S.dim=+e.target.value;$("dimLabel").text
 $("blurIn").addEventListener("input",e=>{S.blur=+e.target.value;$("blurLabel").textContent="背景ぼかし — "+S.blur+"px";rebuildBg();});
 $("monoIn").addEventListener("input",e=>{S.mono=+e.target.value;$("monoLabel").textContent=S.mono+"%";});
 $("fxAmtIn").addEventListener("input",e=>{S.fxAmt=+e.target.value;$("fxAmtLabel").textContent=S.fxAmt+"%";});
+$("holdIn").addEventListener("input",e=>{
+  S.maxHold=+e.target.value;
+  $("holdLabel").textContent=S.maxHold>0?("歌詞の表示時間 — "+S.maxHold+"秒で消える"):"歌詞の表示時間 — 制限なし（次の行まで表示）";
+});
+$("outStyleToggle").querySelectorAll("button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    $("outStyleToggle").querySelectorAll("button").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");S.outStyle=b.dataset.v;
+  });
+});
 
 function bindToggle(el,setter,initial){
   el.querySelectorAll("button").forEach(b=>{
@@ -655,7 +676,8 @@ function drawLine(line,idx,prog,energy,now){
   const sizeF=(0.8+rng()*0.55)*userSize;
   const rot=S.layoutKey==="wander"?(rng()-0.5)*0.12:0;
   const tIn=easeOut(clamp(prog.elapsed/0.7,0,1));
-  const tOut=prog.remain<0.5?clamp(prog.remain/0.5,0,1):1;
+  const outDur=prog.outDur||0.5;
+  const tOut=prog.remain<outDur?clamp(prog.remain/outDur,0,1):1;
   const alpha=tIn*tOut;
   if(alpha<=0.01)return;
   const chars=[...line.text];
@@ -907,8 +929,17 @@ function loop(){
     }else{
       let idx=-1;for(let i=0;i<S.lines.length;i++)if(S.lines[i].t<=t)idx=i;
       if(idx>=0){
-        const nextT=idx+1<S.lines.length?S.lines[idx+1].t:(player.duration||S.lines[idx].t+6);
-        drawLine(S.lines[idx],idx,{elapsed:t-S.lines[idx].t,remain:nextT-t},energy,now);
+        const lineStart=S.lines[idx].t;
+        const nextT=idx+1<S.lines.length?S.lines[idx+1].t:(player.duration||lineStart+6);
+        let endT=nextT;
+        /* 表示時間の上限：設定があれば start+maxHold と nextT の早い方で消す */
+        if(S.maxHold>0)endT=Math.min(nextT,lineStart+S.maxHold);
+        const elapsed=t-lineStart;
+        const remain=endT-t;
+        if(remain>-0.05){
+          const outDur=S.outStyle==="cut"?0.05:0.5;
+          drawLine(S.lines[idx],idx,{elapsed,remain,outDur},energy,now);
+        }
       }
     }
     document.querySelectorAll("#chips .chip").forEach(c=>{const i=+c.dataset.i;const isNow=S.lines[i].t<=t&&(i+1>=S.lines.length||S.lines[i+1].t>t);c.classList.toggle("now",isNow);});
@@ -1098,7 +1129,8 @@ function snapshot(){
   return{v:2,lines:S.lines,lyricText:$("lyricsIn").value,
     fontKey:S.fontKey,animKey:S.animKey,layoutKey:S.layoutKey,vizKey:S.vizKey,
     underline:S.underline,accent:S.accent,dim:S.dim,blur:S.blur,grain:S.grain,seed:S.seed,
-    posX:S.posX,posY:S.posY,fxZoom:S.fxZoom,fxShake:S.fxShake,fxRgb:S.fxRgb,fxDglitch:S.fxDglitch,mono:S.mono,fxAmt:S.fxAmt};
+    posX:S.posX,posY:S.posY,fxZoom:S.fxZoom,fxShake:S.fxShake,fxRgb:S.fxRgb,fxDglitch:S.fxDglitch,mono:S.mono,fxAmt:S.fxAmt,
+    maxHold:S.maxHold,outStyle:S.outStyle};
 }
 function setToggleUI(el,val){el.querySelectorAll("button").forEach(b=>b.classList.toggle("on",(b.dataset.v==="1")===val));}
 function applySnap(d){
@@ -1114,12 +1146,16 @@ function applySnap(d){
   S.posX=(typeof d.posX==="number")?d.posX:0.5;S.posY=(typeof d.posY==="number")?d.posY:0.84;
   S.fxZoom=!!d.fxZoom;S.fxShake=!!d.fxShake;S.fxRgb=!!d.fxRgb;S.fxDglitch=!!d.fxDglitch;
   S.mono=(typeof d.mono==="number")?d.mono:0;S.fxAmt=(typeof d.fxAmt==="number")?d.fxAmt:100;
+  S.maxHold=(typeof d.maxHold==="number")?d.maxHold:0;S.outStyle=d.outStyle||"fade";
   /* UI反映 */
   $("fontSel").value=S.fontKey;$("animSel").value=S.animKey;$("layoutSel").value=S.layoutKey;$("vizSel").value=S.vizKey;
   $("dimIn").value=S.dim;$("dimLabel").textContent="背景の暗さ — "+S.dim+"%";
   $("blurIn").value=S.blur;$("blurLabel").textContent="背景ぼかし — "+S.blur+"px";
   $("monoIn").value=S.mono;$("monoLabel").textContent=S.mono+"%";
   $("fxAmtIn").value=S.fxAmt;$("fxAmtLabel").textContent=S.fxAmt+"%";
+  $("holdIn").value=S.maxHold;
+  $("holdLabel").textContent=S.maxHold>0?("歌詞の表示時間 — "+S.maxHold+"秒で消える"):"歌詞の表示時間 — 制限なし（次の行まで表示）";
+  $("outStyleToggle").querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.v===S.outStyle));
   setToggleUI($("underlineToggle"),S.underline);setToggleUI($("grainToggle"),S.grain);
   setToggleUI(document.querySelector('.toggle[data-fx="zoom"]'),S.fxZoom);
   setToggleUI(document.querySelector('.toggle[data-fx="shake"]'),S.fxShake);
