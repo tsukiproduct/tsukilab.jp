@@ -30,6 +30,7 @@ canvas.editmode{border-color:var(--acc);touch-action:none;cursor:move;}
 .tlabel{font-size:12px;color:var(--sub);font-variant-numeric:tabular-nums;flex-shrink:0;}
 .stampbtn{width:100%;margin-top:10px;padding:18px;border-radius:12px;border:1px solid var(--acc);background:color-mix(in srgb,var(--acc) 14%,transparent);color:var(--ink);font-size:16px;font-weight:700;cursor:pointer;letter-spacing:1px;display:none;}
 .stampbtn:active{transform:scale(.97);}
+.stampbtn.fixed{position:fixed;left:0;right:0;bottom:0;margin:0;border-radius:16px 16px 0 0;z-index:55;box-shadow:0 -10px 30px rgba(0,0,0,.5);background:color-mix(in srgb,var(--acc) 24%,#141019);}
 
 /* ===== panel & tabs ===== */
 .panel{display:flex;flex-direction:column;}
@@ -134,7 +135,11 @@ input[type=range]{width:100%;accent-color:var(--acc);}
           <button class="btn" id="spreadBtn" disabled>均等配置</button>
           <button class="btn" id="syncBtn" disabled>タップ同期</button>
         </div>
-        <p class="note">「タップ同期」＝曲を流しながら各行の入りでボタンを押すだけで打刻完了。</p>
+        <div class="row">
+          <button class="btn" id="autoSyncBtn" disabled>🧪 歌い出し自動検出（試験）</button>
+        </div>
+        <p class="note">「タップ同期」＝曲を流しながら各行の入りでボタンを押すだけで打刻。<br>「自動検出」＝ボーカル帯域の音量が立ち上がる瞬間を拾い、歌詞を順に自動割り当て（曲を最後まで解析。AI生成曲や音の厚い曲では精度が落ちるので、後でタイムラインから微調整してください）。</p>
+        <p class="note" id="autoSyncProg" style="display:none;color:var(--acc)"></p>
       </div>
       <div class="card" id="tlCard" style="display:none">
         <h2>タイムライン（タップで頭出し）</h2>
@@ -260,6 +265,17 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 
 <audio id="player"></audio>
 
+<footer style="border-top:1px solid var(--line);margin-top:10px;padding:22px 16px 40px;text-align:center;">
+  <div style="display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:14px;">
+    <a href="https://x.com/atg_tsukimao" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:none;font-size:13px;border:1px solid var(--line);padding:9px 16px;border-radius:10px;">𝕏 @atg_tsukimao</a>
+    <a href="https://www.buymeacoffee.com/tsuki_product" target="_blank" rel="noopener" style="color:#0b0910;background:#ffd24d;text-decoration:none;font-size:13px;font-weight:700;padding:10px 18px;border-radius:10px;">☕ Buy me a coffee</a>
+  </div>
+  <div style="font-size:11px;color:var(--sub);line-height:2;">
+    <a href="#" id="tokushoLink" style="color:var(--sub);text-decoration:underline;">特定商取引法に基づく表記</a><br>
+    <span>© tsukimao / TSUKI PRODUCT</span>
+  </div>
+</footer>
+
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <h3>🎬 書き出し完了 — プレビュー</h3>
@@ -295,6 +311,7 @@ const $=id=>document.getElementById(id);
 const cv=$("cv"),ctx=cv.getContext("2d");
 const player=$("player");
 let ac=null,analyser=null,freq=null,wave=null,msDest=null;
+let audioFileForAnalysis=null;
 let bgCache=null,grainCv=null,fxCanvas=null,fxCtx=null;
 let beatEnv=0; // 平滑化したビート量
 
@@ -359,6 +376,7 @@ $("audIn").addEventListener("change",e=>{
   player.src=URL.createObjectURL(f);
   $("audDrop").classList.add("done");$("audDrop").firstChild.textContent="✓ "+f.name.slice(0,24);
   $("playBtn").disabled=false;$("syncBtn").disabled=!S.lines.length;$("recBtn").disabled=false;
+  audioFileForAnalysis=f;$("autoSyncBtn").disabled=!S.lines.length;
 });
 player.addEventListener("loadedmetadata",()=>{
   $("seek").max=player.duration;$("durT").textContent=fmt(player.duration);
@@ -378,6 +396,7 @@ $("applyBtn").addEventListener("click",()=>{
   syncIdx=0;selLine=-1;
   $("spreadBtn").disabled=!(S.lines.length&&player.duration);
   $("syncBtn").disabled=!(S.lines.length&&player.src);
+  $("autoSyncBtn").disabled=!(S.lines.length&&audioFileForAnalysis);
   renderChips();renderSizeChips();updateSizeUI();
 });
 $("spreadBtn").addEventListener("click",()=>{
@@ -415,22 +434,118 @@ player.addEventListener("ended",()=>{$("playBtn").textContent="▶";if(recorder)
 $("syncBtn").addEventListener("click",()=>{
   syncMode=true;syncIdx=0;
   player.currentTime=0;ensureGraph();player.play();$("playBtn").textContent="⏸";
-  $("stampBtn").style.display="block";$("syncRow").style.display="flex";$("tlCard").style.display="none";
+  const b=$("stampBtn");
+  b.style.display="block";b.classList.add("fixed");
+  $("syncRow").style.display="flex";$("tlCard").style.display="none";
   updateStampBtn();
+  /* プレビューが見える位置へ自動スクロール */
+  try{cv.scrollIntoView({behavior:"smooth",block:"start"});}catch(e){window.scrollTo({top:0,behavior:"smooth"});}
 });
 $("stampBtn").addEventListener("click",()=>{
-  if(syncIdx>=S.lines.length)return;
+  if(syncIdx>=S.lines.length){endSync();return;}
   S.lines[syncIdx]={...S.lines[syncIdx],t:player.currentTime};
   syncIdx++;updateStampBtn();
   if(syncIdx>=S.lines.length)renderChips();
 });
-$("endSyncBtn").addEventListener("click",()=>{
-  syncMode=false;$("stampBtn").style.display="none";$("syncRow").style.display="none";renderChips();
-});
+function endSync(){
+  syncMode=false;
+  const b=$("stampBtn");b.style.display="none";b.classList.remove("fixed");
+  $("syncRow").style.display="none";renderChips();
+}
+$("endSyncBtn").addEventListener("click",endSync);
 function updateStampBtn(){
   const b=$("stampBtn");
-  if(syncIdx<S.lines.length)b.textContent=`⏺ 打刻 — 次：「${S.lines[syncIdx].text.slice(0,12)}」（${syncIdx}/${S.lines.length}）`;
-  else b.textContent=`✓ 全行打刻完了（${S.lines.length}/${S.lines.length}）`;
+  if(syncIdx<S.lines.length)b.textContent=`⏺ タップで打刻（${syncIdx}/${S.lines.length}）— 次：「${S.lines[syncIdx].text.slice(0,10)}」`;
+  else b.textContent=`✓ 完了 — もう一度押すと終了（${S.lines.length}/${S.lines.length}）`;
+}
+
+/* ===== 歌い出し自動検出（試験機能） =====
+   方針：曲全体をオフライン解析し、ボーカルがよく出る中音域(約200-4000Hz)の
+   短時間エネルギーを計算→その立ち上がり(オンセット)を検出→強い順に行数ぶん採用し
+   時間順に歌詞へ割り当てる。完璧な歌詞認識ではなく「歌い出しらしき瞬間」の自動打刻。 */
+$("autoSyncBtn").addEventListener("click",async()=>{
+  if(!audioFileForAnalysis||!S.lines.length)return;
+  const btn=$("autoSyncBtn"),prog=$("autoSyncProg");
+  btn.disabled=true;prog.style.display="block";prog.textContent="解析中… 曲を読み込んでいます";
+  try{
+    const buf=await audioFileForAnalysis.arrayBuffer();
+    const TmpAC=window.AudioContext||window.webkitAudioContext;
+    const tmp=new TmpAC();
+    const audioBuf=await tmp.decodeAudioData(buf.slice(0));
+    tmp.close&&tmp.close();
+    prog.textContent="解析中… ボーカル帯域を抽出しています";
+    const onsets=await detectVocalOnsets(audioBuf,audioBuf.duration,m=>{prog.textContent="解析中… "+m;});
+    if(!onsets.length){prog.textContent="歌い出しを検出できませんでした。均等配置→タップ同期で調整してください。";btn.disabled=false;return;}
+    /* 行数ぶんのオンセットを時間順で確保（多すぎる場合は強い順に間引く） */
+    let picks=onsets.slice();
+    const need=S.lines.length;
+    if(picks.length>need){
+      picks.sort((a,b)=>b.strength-a.strength);
+      picks=picks.slice(0,need);
+    }
+    picks.sort((a,b)=>a.time-b.time);
+    /* 割り当て：検出が足りなければ末尾は均等割りで補完 */
+    for(let i=0;i<S.lines.length;i++){
+      if(i<picks.length)S.lines[i].t=picks[i].time;
+      else{
+        const last=picks.length?picks[picks.length-1].time:0;
+        const rest=Math.max(audioBuf.duration-last,1);
+        S.lines[i].t=last+rest*((i-picks.length+1)/(S.lines.length-picks.length+1));
+      }
+    }
+    /* 単調増加を保証 */
+    for(let i=1;i<S.lines.length;i++)if(S.lines[i].t<=S.lines[i-1].t)S.lines[i].t=S.lines[i-1].t+0.3;
+    renderChips();
+    prog.textContent=`✓ ${Math.min(picks.length,need)}個の歌い出しを検出し割り当てました。ズレはタイムラインで微調整できます。`;
+  }catch(err){
+    prog.textContent="解析に失敗しました（このブラウザが対応していない可能性）。タップ同期をお使いください。";
+  }
+  btn.disabled=false;
+});
+
+async function detectVocalOnsets(audioBuf,duration,onProg){
+  return new Promise((resolve)=>{
+    const OAC=window.OfflineAudioContext||window.webkitOfflineAudioContext;
+    if(!OAC){resolve([]);return;}
+    const sr=audioBuf.sampleRate;
+    const off=new OAC(1,Math.ceil(duration*sr),sr);
+    const src=off.createBufferSource();src.buffer=audioBuf;
+    /* 中音域(ボーカル)を強調：ハイパス+ローパスで帯域抽出 */
+    const hp=off.createBiquadFilter();hp.type="highpass";hp.frequency.value=200;
+    const lp=off.createBiquadFilter();lp.type="lowpass";lp.frequency.value=4000;
+    const peak=off.createBiquadFilter();peak.type="peaking";peak.frequency.value=1200;peak.Q.value=0.7;peak.gain.value=6;
+    src.connect(hp);hp.connect(lp);lp.connect(peak);peak.connect(off.destination);
+    src.start(0);
+    off.startRendering().then(rendered=>{
+      onProg&&onProg("エネルギー包絡を計算しています");
+      const data=rendered.getChannelData(0);
+      const win=Math.floor(sr*0.03); // 30msフレーム
+      const hop=Math.floor(sr*0.015);
+      const env=[];
+      for(let i=0;i+win<data.length;i+=hop){
+        let s=0;for(let j=0;j<win;j++){const v=data[i+j];s+=v*v;}
+        env.push(Math.sqrt(s/win));
+      }
+      /* 包絡を平滑化 */
+      const sm=[];const k=3;
+      for(let i=0;i<env.length;i++){let s=0,c=0;for(let j=-k;j<=k;j++){const idx=i+j;if(idx>=0&&idx<env.length){s+=env[idx];c++;}}sm.push(s/c);}
+      /* オンセット＝増加方向のフラックスがしきい値を超え、かつ局所ピーク */
+      const flux=[];for(let i=1;i<sm.length;i++)flux.push(Math.max(0,sm[i]-sm[i-1]));
+      const mean=flux.reduce((a,b)=>a+b,0)/Math.max(flux.length,1);
+      let mx=0;for(const f of flux)if(f>mx)mx=f;
+      const thresh=mean*1.6+mx*0.08;
+      const onsets=[];
+      const minGapFrames=Math.floor(0.45/(hop/sr)); // 最短間隔0.45s
+      let lastIdx=-9999;
+      for(let i=1;i<flux.length-1;i++){
+        if(flux[i]>thresh&&flux[i]>=flux[i-1]&&flux[i]>=flux[i+1]&&(i-lastIdx)>=minGapFrames){
+          onsets.push({time:(i*hop)/sr,strength:flux[i]});
+          lastIdx=i;
+        }
+      }
+      resolve(onsets);
+    }).catch(()=>resolve([]));
+  });
 }
 function renderChips(){
   const wrap=$("chips");wrap.innerHTML="";
@@ -927,6 +1042,42 @@ function autosave(){try{localStorage.setItem("tsukilab",JSON.stringify(snapshot(
 setInterval(autosave,3000);
 try{const d=localStorage.getItem("tsukilab");if(d)applySnap(JSON.parse(d));}catch(e){}
 updateEditMode();
+
+/* ===== 特定商取引法に基づく表記（別タブ） ===== */
+$("tokushoLink").addEventListener("click",e=>{
+  e.preventDefault();
+  const today=new Date().toISOString().slice(0,10);
+  const html=`<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>特定商取引法に基づく表記 — TSUKI PRODUCT</title>
+<style>
+body{margin:0;background:#0b0910;color:#f3efe7;font-family:'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;line-height:1.9;}
+.box{max-width:720px;margin:0 auto;padding:40px 22px 80px;}
+h1{font-size:20px;letter-spacing:1px;border-bottom:1px solid #2a2336;padding-bottom:14px;}
+table{width:100%;border-collapse:collapse;margin-top:18px;font-size:14px;}
+th,td{text-align:left;vertical-align:top;padding:14px 10px;border-bottom:1px solid #221c30;}
+th{width:38%;color:#bfb6d6;font-weight:600;}
+.note{font-size:12px;color:#8a7fa8;margin-top:24px;}
+a{color:#ff8ab0;}
+</style></head><body><div class="box">
+<h1>特定商取引法に基づく表記</h1>
+<table>
+<tr><th>販売事業者</th><td>TSUKI PRODUCT（屋号）<br><span style="font-size:12px;color:#8a7fa8">運営責任者の氏名および所在地は、法令に基づき、ご請求があれば遅滞なく開示いたします。下記の連絡先までお問い合わせください。</span></td></tr>
+<tr><th>所在地</th><td>請求があったときは遅滞なく開示します。</td></tr>
+<tr><th>連絡先</th><td>X（旧Twitter）<a href="https://x.com/atg_tsukimao" target="_blank" rel="noopener">@atg_tsukimao</a> のダイレクトメッセージにて受け付けます。<br>原則3営業日以内に返信いたします。</td></tr>
+<tr><th>販売価格</th><td>本サービスは無料で提供しています。任意の支援（Buy Me a Coffee）は1口あたりの金額が各決済ページに表示されます。</td></tr>
+<tr><th>商品代金以外の必要料金</th><td>本サービスの利用・閲覧に伴う通信料はお客様のご負担となります。</td></tr>
+<tr><th>支払方法・支払時期</th><td>任意支援を行う場合、Buy Me a Coffee が提供する決済手段により、支援手続きの完了時にお支払いが確定します。</td></tr>
+<tr><th>役務の提供時期</th><td>本サービスはブラウザ上で即時にご利用いただけます。任意支援は対価性のない寄付であり、これに伴う物品・役務の提供はありません。</td></tr>
+<tr><th>返品・キャンセル</th><td>任意支援は寄付の性質上、原則として返金・キャンセルはできません。重複決済等の事由がある場合は連絡先までご相談ください。</td></tr>
+<tr><th>動作環境</th><td>最新版の Safari / Google Chrome 等のモダンブラウザを推奨します。一部機能は端末・ブラウザにより動作が異なる場合があります。</td></tr>
+</table>
+<p class="note">本表記は ${today} 時点のものです。内容は予告なく変更される場合があります。<br>© tsukimao / TSUKI PRODUCT</p>
+</div></body></html>`;
+  const blob=new Blob([html],{type:"text/html"});
+  const url=URL.createObjectURL(blob);
+  window.open(url,"_blank");
+});
 </script>
 </body>
 </html>
