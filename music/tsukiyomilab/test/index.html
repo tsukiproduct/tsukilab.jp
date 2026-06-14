@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>月詠ラボ — Lyric Visualizer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@500;700&family=DotGothic16&family=Yuji+Syuku&family=Reggae+One&family=RocknRoll+One&family=Hachi+Maru+Pop&family=Stick&family=Zen+Maru+Gothic:wght@500;700&display=swap">
+<style>
+:root{--acc:#ff5c8a;--bg:#0b0910;--card:#141019;--line:#262031;--sub:#8a7fa8;--ink:#f3efe7;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:'Zen Kaku Gothic New',sans-serif;overflow-x:hidden;}
+.head{display:flex;align-items:baseline;gap:10px;padding:14px 16px 10px;flex-wrap:wrap;}
+.head h1{font-family:'DotGothic16',monospace;font-size:19px;margin:0;letter-spacing:2px;}
+.head .moon{color:var(--acc);}
+.head .sub{font-size:11px;color:var(--sub);letter-spacing:1px;}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px;padding:0 16px 28px;max-width:1320px;margin:0 auto;}
+@media(max-width:900px){.wrap{grid-template-columns:1fr;gap:12px;}}
+
+/* ===== stage ===== */
+.stagewrap{position:relative;}
+canvas{width:100%;border-radius:14px;border:1px solid var(--line);display:block;background:#000;}
+canvas.editmode{border-color:var(--acc);touch-action:none;cursor:move;}
+.editbadge{display:none;position:absolute;top:10px;left:10px;background:rgba(11,9,16,.82);border:1px solid var(--acc);color:var(--ink);font-size:11px;padding:6px 10px;border-radius:8px;letter-spacing:.5px;backdrop-filter:blur(6px);}
+.editbadge.show{display:block;}
+.transport{display:flex;align-items:center;gap:10px;margin-top:10px;}
+.pbtn{width:48px;height:48px;border-radius:50%;border:1px solid #3a3050;background:#16131f;color:var(--ink);font-size:16px;cursor:pointer;flex-shrink:0;}
+.pbtn:active{border-color:var(--acc);color:var(--acc);}
+.pbtn:disabled{opacity:.3;}
+.seek{flex:1;accent-color:var(--acc);min-width:60px;}
+.tlabel{font-size:12px;color:var(--sub);font-variant-numeric:tabular-nums;flex-shrink:0;}
+.stampbtn{width:100%;margin-top:10px;padding:18px;border-radius:12px;border:1px solid var(--acc);background:color-mix(in srgb,var(--acc) 14%,transparent);color:var(--ink);font-size:16px;font-weight:700;cursor:pointer;letter-spacing:1px;display:none;}
+.stampbtn:active{transform:scale(.97);}
+
+/* ===== panel & tabs ===== */
+.panel{display:flex;flex-direction:column;}
+.tabs{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px;position:sticky;top:8px;z-index:20;}
+.tab{flex:1;text-align:center;font-size:12px;padding:10px 4px;border-radius:9px;color:var(--sub);cursor:pointer;border:none;background:none;font-family:inherit;letter-spacing:.5px;transition:.15s;}
+.tab.on{background:var(--acc);color:#0b0910;font-weight:700;}
+.tabpane{display:none;flex-direction:column;gap:14px;margin-top:12px;}
+.tabpane.on{display:flex;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;}
+.card h2{font-size:12px;margin:0 0 10px;color:var(--sub);letter-spacing:2px;font-weight:700;}
+.drop{display:block;border:1px dashed #3a3050;border-radius:10px;padding:13px;text-align:center;font-size:13px;color:var(--sub);cursor:pointer;margin-bottom:8px;}
+.drop.done{border-style:solid;border-color:color-mix(in srgb,var(--acc) 50%,transparent);color:var(--ink);}
+.drop input{display:none;}
+textarea{width:100%;height:120px;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:10px;font-size:14px;line-height:1.7;resize:vertical;font-family:inherit;}
+textarea:focus{outline:none;border-color:var(--acc);}
+.btn{padding:11px 14px;border-radius:9px;border:1px solid #3a3050;background:#1b1626;color:var(--ink);font-size:13px;cursor:pointer;font-family:inherit;}
+.btn:active{border-color:var(--acc);}
+.btn.acc{background:var(--acc);border-color:var(--acc);color:#0b0910;font-weight:700;}
+.btn.wide{width:100%;text-align:center;}
+.btn:disabled{opacity:.35;}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;}
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:11px;color:var(--sub);margin-bottom:5px;letter-spacing:1px;}
+select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:10px;font-size:14px;font-family:inherit;}
+select:focus{outline:none;border-color:var(--acc);}
+input[type=range]{width:100%;accent-color:var(--acc);}
+.inline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.inline label{font-size:12px;color:var(--sub);}
+.swatches{display:flex;gap:8px;flex-wrap:wrap;}
+.sw{width:28px;height:28px;border-radius:50%;border:2px solid transparent;cursor:pointer;}
+.sw.on{border-color:var(--ink);}
+.chips{display:flex;flex-wrap:wrap;gap:5px;max-height:130px;overflow:auto;}
+.chip{font-size:11px;padding:5px 9px;border-radius:7px;background:#1b1626;border:1px solid var(--line);color:#bfb6d6;cursor:pointer;}
+.chip.now{border-color:var(--acc);color:var(--ink);}
+.chip.sel{background:var(--acc);color:#0b0910;border-color:var(--acc);}
+.note{font-size:11px;color:#6d6486;line-height:1.6;margin-top:6px;}
+.toggle{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;}
+.toggle button{background:#1b1626;border:none;color:var(--sub);padding:8px 14px;font-size:12px;cursor:pointer;font-family:inherit;}
+.toggle button.on{background:var(--acc);color:#0b0910;font-weight:700;}
+
+/* ===== modal ===== */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(5,4,8,.86);z-index:60;align-items:center;justify-content:center;padding:16px;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--card);border:1px solid #3a3050;border-radius:16px;padding:18px;max-width:680px;width:100%;max-height:90vh;overflow:auto;}
+.modal h3{margin:0 0 12px;font-size:14px;letter-spacing:1px;}
+.modal video{width:100%;border-radius:10px;background:#000;display:block;}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1><span class="moon">●</span> 月詠ラボ</h1>
+  <span class="sub">LYRIC VISUALIZER v0.5</span>
+</div>
+
+<div class="wrap">
+  <!-- ============ STAGE ============ -->
+  <div class="stagewrap">
+    <canvas id="cv" width="1280" height="720"></canvas>
+    <div class="editbadge" id="editBadge"></div>
+    <div class="transport">
+      <button class="pbtn" id="playBtn" disabled>▶</button>
+      <span class="tlabel" id="curT">0:00</span>
+      <input class="seek" id="seek" type="range" min="0" max="0" step="0.1" value="0">
+      <span class="tlabel" id="durT">0:00</span>
+    </div>
+    <button class="stampbtn" id="stampBtn"></button>
+    <div class="row" id="syncRow" style="display:none">
+      <button class="btn" id="endSyncBtn">同期モード終了</button>
+      <span class="note">曲を聴きながら、各行が始まる瞬間にタップ</span>
+    </div>
+  </div>
+
+  <!-- ============ PANEL ============ -->
+  <div class="panel">
+    <div class="tabs">
+      <button class="tab on" data-tab="material">素材</button>
+      <button class="tab" data-tab="text">文字</button>
+      <button class="tab" data-tab="visual">演出</button>
+      <button class="tab" data-tab="export">保存</button>
+    </div>
+
+    <!-- ---- 素材 ---- -->
+    <div class="tabpane on" id="pane-material">
+      <div class="card">
+        <h2>背景</h2>
+        <label class="drop" id="imgDrop">背景画像を選択（jpg / png）
+          <input type="file" id="imgIn" accept="image/*,.jpg,.jpeg,.png,.webp"></label>
+        <label class="drop" id="vidDrop">背景動画を選択（mp4 / mov）
+          <input type="file" id="vidIn" accept="video/*,.mp4,.mov,.webm,.m4v"></label>
+      </div>
+      <div class="card">
+        <h2>曲</h2>
+        <label class="drop" id="audDrop">曲を選択（mp3 / wav）
+          <input type="file" id="audIn" accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg,.flac"></label>
+      </div>
+      <div class="card">
+        <h2>歌詞</h2>
+        <textarea id="lyricsIn" placeholder="歌詞を1行ずつ入力&#10;例：&#10;月が嗤う夜に&#10;君の声だけ探してた"></textarea>
+        <div class="row">
+          <button class="btn acc" id="applyBtn">歌詞を反映</button>
+          <button class="btn" id="spreadBtn" disabled>均等配置</button>
+          <button class="btn" id="syncBtn" disabled>タップ同期</button>
+        </div>
+        <p class="note">「タップ同期」＝曲を流しながら各行の入りでボタンを押すだけで打刻完了。</p>
+      </div>
+      <div class="card" id="tlCard" style="display:none">
+        <h2>タイムライン（タップで頭出し）</h2>
+        <div class="chips" id="chips"></div>
+      </div>
+    </div>
+
+    <!-- ---- 文字 ---- -->
+    <div class="tabpane" id="pane-text">
+      <div class="card">
+        <h2>フォント</h2>
+        <select id="fontSel">
+          <option value="mincho">明朝 — 幽玄</option>
+          <option value="gothic">ゴシック — モダン</option>
+          <option value="maru">丸ゴシック — やわらか</option>
+          <option value="dot">ドット — レトロ怪</option>
+          <option value="fude">筆 — 和</option>
+          <option value="reggae">極太 — インパクト</option>
+          <option value="rock">ポップ太字</option>
+          <option value="hachi">手書き — ゆめかわ</option>
+          <option value="stick">細身 — スティック</option>
+        </select>
+      </div>
+      <div class="card">
+        <h2>動き</h2>
+        <div class="field"><label>アニメーション</label>
+          <select id="animSel">
+            <option value="random">おまかせ（行ごとに変化）</option>
+            <option value="drift">浮遊 — ふわり出現</option>
+            <option value="scatter">集結 — 文字が飛んでくる</option>
+            <option value="glitch">グリッチ — ノイズ</option>
+            <option value="type">タイプ — 一文字ずつ</option>
+            <option value="pop">ポンポン — ランダム弾け</option>
+          </select></div>
+        <div class="field"><label>レイアウト</label>
+          <select id="layoutSel">
+            <option value="wander">ランダム配置（行ごと）</option>
+            <option value="bottom">下部固定（字幕風）</option>
+            <option value="custom">自由配置（プレビューで移動）</option>
+            <option value="tate">縦書き</option>
+            <option value="danmaku">弾幕（左→右に流れる）</option>
+          </select></div>
+        <div class="inline">
+          <label>下線</label>
+          <div class="toggle" id="underlineToggle">
+            <button data-v="1" class="on">あり</button>
+            <button data-v="0">なし</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>行ごとの大きさ</h2>
+        <p class="note" style="margin-top:0">下のリストで行を選び、プレビュー上を<b>2本指でピンチ</b>すると、その行だけ拡大縮小できます。スライダーでも調整可。</p>
+        <div class="chips" id="sizeChips" style="margin:8px 0"></div>
+        <div class="field"><label id="sizeLabel">選択中の行サイズ — 100%</label>
+          <input type="range" id="sizeIn" min="40" max="260" value="100" disabled></div>
+        <button class="btn" id="sizeReset" disabled>この行を等倍に戻す</button>
+      </div>
+    </div>
+
+    <!-- ---- 演出 ---- -->
+    <div class="tabpane" id="pane-visual">
+      <div class="card">
+        <h2>ビジュアライザー</h2>
+        <select id="vizSel">
+          <option value="moon">月暈リング</option>
+          <option value="bars">スペクトラムバー</option>
+          <option value="wave">波形ライン</option>
+          <option value="particles">パーティクル（音で飛散）</option>
+          <option value="ripple">同心円リップル</option>
+          <option value="mirror">ミラーバー（上下対称）</option>
+          <option value="off">なし</option>
+        </select>
+      </div>
+      <div class="card">
+        <h2>背景の音反応</h2>
+        <div class="inline"><label>ビートで拡大縮小（ズーム）</label>
+          <div class="toggle" data-fx="zoom"><button data-v="1">ON</button><button data-v="0" class="on">OFF</button></div></div>
+        <div class="inline"><label>ビートで揺れる</label>
+          <div class="toggle" data-fx="shake"><button data-v="1">ON</button><button data-v="0" class="on">OFF</button></div></div>
+        <div class="inline"><label>RGBずれ（滲み）</label>
+          <div class="toggle" data-fx="rgb"><button data-v="1">ON</button><button data-v="0" class="on">OFF</button></div></div>
+        <div class="inline"><label>デジタルグリッチ</label>
+          <div class="toggle" data-fx="dglitch"><button data-v="1">ON</button><button data-v="0" class="on">OFF</button></div></div>
+        <div class="field" style="margin-top:6px"><label>単色化 — <span id="monoLabel">0%</span></label>
+          <input type="range" id="monoIn" min="0" max="100" value="0"></div>
+        <div class="field"><label>反応の強さ — <span id="fxAmtLabel">100%</span></label>
+          <input type="range" id="fxAmtIn" min="0" max="200" value="100"></div>
+      </div>
+      <div class="card">
+        <h2>色・調整</h2>
+        <div class="field"><label>アクセントカラー</label>
+          <div class="swatches" id="swatches"></div></div>
+        <div class="field"><label id="dimLabel">背景の暗さ — 45%</label>
+          <input type="range" id="dimIn" min="0" max="85" value="45"></div>
+        <div class="field"><label id="blurLabel">背景ぼかし — 6px</label>
+          <input type="range" id="blurIn" min="0" max="20" value="6"></div>
+        <div class="inline"><label>フィルムグレイン</label>
+          <div class="toggle" id="grainToggle"><button data-v="1" class="on">ON</button><button data-v="0">OFF</button></div></div>
+        <div class="row"><button class="btn" id="gachaBtn">⚂ 配置ガチャ</button>
+          <span class="note">ランダム配置を引き直す</span></div>
+      </div>
+    </div>
+
+    <!-- ---- 保存 ---- -->
+    <div class="tabpane" id="pane-export">
+      <div class="card">
+        <h2>動画書き出し</h2>
+        <button class="btn acc wide" id="recBtn" disabled>🎬 動画を書き出す</button>
+        <p class="note" id="recNote">曲を読み込むと書き出せます。曲を頭からフル再生しながらのリアルタイム録画です（途中で⏹を押せばそこまでで保存）。</p>
+      </div>
+      <div class="card">
+        <h2>プロジェクト</h2>
+        <div class="row">
+          <button class="btn" id="saveProjBtn">プロジェクト保存</button>
+          <label class="btn" style="cursor:pointer">プロジェクト読込<input type="file" id="loadProjIn" accept=".json,application/json" style="display:none"></label>
+        </div>
+        <p class="note">歌詞・タイミング・行ごとのサイズ・スタイル一式をJSON保存。設定はこの端末にも自動保存され、次回開くと復元されます（画像・曲・動画は再選択が必要）。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<audio id="player"></audio>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3>🎬 書き出し完了 — プレビュー</h3>
+    <video id="resultVid" controls playsinline></video>
+    <div class="row">
+      <a class="btn acc" id="dlLink" download="tsuki-lyric.mp4" style="text-decoration:none;text-align:center;flex:1">動画を保存</a>
+      <button class="btn" id="modalClose">閉じる</button>
+    </div>
+    <p class="note">ここで確認してから「動画を保存」を押してください。このウィンドウは作業画面の上に出ているだけなので、閉じても作業状況は消えません。保存ポップアップでは「表示」ではなく「ダウンロード」を選んでください。</p>
+  </div>
+</div>
+
+<script>
+"use strict";
+const W=1280,H=720;
+const FONTS={
+  mincho:"'Shippori Mincho', serif",gothic:"'Zen Kaku Gothic New', sans-serif",
+  maru:"'Zen Maru Gothic', sans-serif",dot:"'DotGothic16', monospace",
+  fude:"'Yuji Syuku', serif",reggae:"'Reggae One', sans-serif",
+  rock:"'RocknRoll One', sans-serif",hachi:"'Hachi Maru Pop', cursive",
+  stick:"'Stick', sans-serif"
+};
+const S={
+  imgEl:null,vidEl:null,useVideo:false,
+  posX:0.5,posY:0.84,lines:[],
+  fontKey:"mincho",animKey:"random",layoutKey:"wander",vizKey:"moon",
+  underline:true,accent:"#ff5c8a",dim:45,blur:6,grain:true,seed:1,
+  fxZoom:false,fxShake:false,fxRgb:false,fxDglitch:false,mono:0,fxAmt:100
+};
+let syncMode=false,syncIdx=0,selLine=-1;
+
+const $=id=>document.getElementById(id);
+const cv=$("cv"),ctx=cv.getContext("2d");
+const player=$("player");
+let ac=null,analyser=null,freq=null,wave=null,msDest=null;
+let bgCache=null,grainCv=null,fxCanvas=null,fxCtx=null;
+let beatEnv=0; // 平滑化したビート量
+
+/* ===== utils ===== */
+function mulberry32(a){return function(){a|=0;a=(a+0x6D2B79F5)|0;let t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
+const easeOut=t=>1-Math.pow(1-t,3);
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
+const fmt=s=>{if(!isFinite(s))return"0:00";return Math.floor(s/60)+":"+String(Math.floor(s%60)).padStart(2,"0");};
+function hexA(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return`rgba(${r},${g},${b},${a})`;}
+
+/* ===== tabs ===== */
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+    document.querySelectorAll(".tabpane").forEach(x=>x.classList.remove("on"));
+    t.classList.add("on");
+    $("pane-"+t.dataset.tab).classList.add("on");
+  });
+});
+
+/* ===== grain ===== */
+(function(){grainCv=document.createElement("canvas");grainCv.width=256;grainCv.height=256;const x=grainCv.getContext("2d");const d=x.createImageData(256,256);for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=28;}x.putImageData(d,0,0);})();
+/* fx合成用オフスクリーン */
+fxCanvas=document.createElement("canvas");fxCanvas.width=W;fxCanvas.height=H;fxCtx=fxCanvas.getContext("2d");
+
+/* ===== 背景画像キャッシュ ===== */
+function rebuildBg(){
+  const c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
+  x.fillStyle="#0b0910";x.fillRect(0,0,W,H);
+  if(S.imgEl){
+    const s=Math.max(W/S.imgEl.width,H/S.imgEl.height);
+    const iw=S.imgEl.width*s,ih=S.imgEl.height*s;
+    try{x.filter=S.blur>0?`blur(${S.blur}px)`:"none";}catch(e){}
+    x.drawImage(S.imgEl,(W-iw)/2,(H-ih)/2,iw,ih);
+    try{x.filter="none";}catch(e){}
+  }
+  bgCache=c;
+}
+rebuildBg();
+
+/* ===== 素材入力 ===== */
+$("imgIn").addEventListener("change",e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  const img=new Image();
+  img.onload=()=>{S.imgEl=img;S.useVideo=false;rebuildBg();$("imgDrop").classList.add("done");$("imgDrop").firstChild.textContent="✓ 背景画像 読込済（変更可）";};
+  img.src=URL.createObjectURL(f);
+});
+$("vidIn").addEventListener("change",e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  const v=document.createElement("video");
+  v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute("playsinline","");
+  v.src=URL.createObjectURL(f);
+  v.addEventListener("loadeddata",()=>{
+    S.vidEl=v;S.useVideo=true;
+    $("vidDrop").classList.add("done");$("vidDrop").firstChild.textContent="✓ 背景動画 読込済（変更可）";
+    if(!player.paused)v.play().catch(()=>{});
+  });
+  v.load();
+});
+$("audIn").addEventListener("change",e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  player.src=URL.createObjectURL(f);
+  $("audDrop").classList.add("done");$("audDrop").firstChild.textContent="✓ "+f.name.slice(0,24);
+  $("playBtn").disabled=false;$("syncBtn").disabled=!S.lines.length;$("recBtn").disabled=false;
+});
+player.addEventListener("loadedmetadata",()=>{
+  $("seek").max=player.duration;$("durT").textContent=fmt(player.duration);
+  $("spreadBtn").disabled=!S.lines.length;
+});
+
+/* ===== 歌詞 ===== */
+function ensureSizes(){S.lines.forEach(l=>{if(typeof l.size!=="number")l.size=1;});}
+$("applyBtn").addEventListener("click",()=>{
+  const txt=$("lyricsIn").value.split("\n").map(s=>s.trim()).filter(Boolean);
+  const total=player.duration||180;
+  S.lines=txt.map((text,i)=>({
+    text,
+    t:S.lines[i]?S.lines[i].t:(total/(txt.length+1))*(i+1),
+    size:S.lines[i]&&typeof S.lines[i].size==="number"?S.lines[i].size:1
+  }));
+  syncIdx=0;selLine=-1;
+  $("spreadBtn").disabled=!(S.lines.length&&player.duration);
+  $("syncBtn").disabled=!(S.lines.length&&player.src);
+  renderChips();renderSizeChips();updateSizeUI();
+});
+$("spreadBtn").addEventListener("click",()=>{
+  if(!S.lines.length||!player.duration)return;
+  S.lines=S.lines.map((l,i)=>({...l,t:(player.duration/(S.lines.length+1))*(i+1)}));
+  renderChips();
+});
+
+/* ===== オーディオグラフ ===== */
+function ensureGraph(){
+  if(!ac){
+    const AC=window.AudioContext||window.webkitAudioContext;
+    ac=new AC();
+    const src=ac.createMediaElementSource(player);
+    analyser=ac.createAnalyser();analyser.fftSize=1024;analyser.smoothingTimeConstant=0.82;
+    src.connect(analyser);analyser.connect(ac.destination);
+    msDest=ac.createMediaStreamDestination();analyser.connect(msDest);
+    freq=new Uint8Array(analyser.frequencyBinCount);
+    wave=new Uint8Array(analyser.fftSize);
+  }
+  if(ac.state==="suspended")ac.resume();
+}
+function syncVid(){if(S.useVideo&&S.vidEl){if(player.paused)S.vidEl.pause();else S.vidEl.play().catch(()=>{});}}
+player.addEventListener("play",syncVid);
+player.addEventListener("pause",syncVid);
+$("playBtn").addEventListener("click",()=>{
+  if(!player.src)return;ensureGraph();
+  if(player.paused){player.play();$("playBtn").textContent="⏸";}
+  else{player.pause();$("playBtn").textContent="▶";}
+});
+$("seek").addEventListener("input",e=>{player.currentTime=+e.target.value;});
+player.addEventListener("ended",()=>{$("playBtn").textContent="▶";if(recorder)stopRec();});
+
+/* ===== タップ同期 ===== */
+$("syncBtn").addEventListener("click",()=>{
+  syncMode=true;syncIdx=0;
+  player.currentTime=0;ensureGraph();player.play();$("playBtn").textContent="⏸";
+  $("stampBtn").style.display="block";$("syncRow").style.display="flex";$("tlCard").style.display="none";
+  updateStampBtn();
+});
+$("stampBtn").addEventListener("click",()=>{
+  if(syncIdx>=S.lines.length)return;
+  S.lines[syncIdx]={...S.lines[syncIdx],t:player.currentTime};
+  syncIdx++;updateStampBtn();
+  if(syncIdx>=S.lines.length)renderChips();
+});
+$("endSyncBtn").addEventListener("click",()=>{
+  syncMode=false;$("stampBtn").style.display="none";$("syncRow").style.display="none";renderChips();
+});
+function updateStampBtn(){
+  const b=$("stampBtn");
+  if(syncIdx<S.lines.length)b.textContent=`⏺ 打刻 — 次：「${S.lines[syncIdx].text.slice(0,12)}」（${syncIdx}/${S.lines.length}）`;
+  else b.textContent=`✓ 全行打刻完了（${S.lines.length}/${S.lines.length}）`;
+}
+function renderChips(){
+  const wrap=$("chips");wrap.innerHTML="";
+  if(!S.lines.length){$("tlCard").style.display="none";return;}
+  $("tlCard").style.display=syncMode?"none":"block";
+  S.lines.forEach((l,i)=>{
+    const c=document.createElement("span");c.className="chip";c.dataset.i=i;
+    c.textContent=fmt(l.t)+" "+l.text.slice(0,8);
+    c.addEventListener("click",()=>{player.currentTime=l.t;});
+    wrap.appendChild(c);
+  });
+}
+
+/* ===== 行サイズ選択 ===== */
+function renderSizeChips(){
+  const wrap=$("sizeChips");wrap.innerHTML="";
+  S.lines.forEach((l,i)=>{
+    const c=document.createElement("span");c.className="chip"+(i===selLine?" sel":"");c.dataset.i=i;
+    c.textContent=l.text.slice(0,10)+`（${Math.round((l.size||1)*100)}%）`;
+    c.addEventListener("click",()=>{selLine=i;if(player.duration)player.currentTime=l.t;updateSizeUI();renderSizeChips();});
+    wrap.appendChild(c);
+  });
+}
+function updateSizeUI(){
+  const has=selLine>=0&&selLine<S.lines.length;
+  $("sizeIn").disabled=!has;$("sizeReset").disabled=!has;
+  if(has){const p=Math.round((S.lines[selLine].size||1)*100);$("sizeIn").value=p;$("sizeLabel").textContent="選択中の行サイズ — "+p+"%";}
+  else $("sizeLabel").textContent="行を選んでください";
+}
+$("sizeIn").addEventListener("input",e=>{
+  if(selLine<0)return;
+  S.lines[selLine].size=+e.target.value/100;
+  $("sizeLabel").textContent="選択中の行サイズ — "+e.target.value+"%";
+  renderSizeChips();
+});
+$("sizeReset").addEventListener("click",()=>{
+  if(selLine<0)return;S.lines[selLine].size=1;updateSizeUI();renderSizeChips();
+});
+
+/* ===== スタイル操作 ===== */
+$("fontSel").addEventListener("change",e=>S.fontKey=e.target.value);
+$("animSel").addEventListener("change",e=>S.animKey=e.target.value);
+$("layoutSel").addEventListener("change",e=>{S.layoutKey=e.target.value;updateEditMode();});
+$("vizSel").addEventListener("change",e=>S.vizKey=e.target.value);
+$("gachaBtn").addEventListener("click",()=>S.seed=Math.floor(Math.random()*99999));
+$("dimIn").addEventListener("input",e=>{S.dim=+e.target.value;$("dimLabel").textContent="背景の暗さ — "+S.dim+"%";});
+$("blurIn").addEventListener("input",e=>{S.blur=+e.target.value;$("blurLabel").textContent="背景ぼかし — "+S.blur+"px";rebuildBg();});
+$("monoIn").addEventListener("input",e=>{S.mono=+e.target.value;$("monoLabel").textContent=S.mono+"%";});
+$("fxAmtIn").addEventListener("input",e=>{S.fxAmt=+e.target.value;$("fxAmtLabel").textContent=S.fxAmt+"%";});
+
+function bindToggle(el,setter,initial){
+  el.querySelectorAll("button").forEach(b=>{
+    b.addEventListener("click",()=>{
+      el.querySelectorAll("button").forEach(x=>x.classList.remove("on"));
+      b.classList.add("on");setter(b.dataset.v==="1");
+    });
+  });
+}
+bindToggle($("underlineToggle"),v=>S.underline=v);
+bindToggle($("grainToggle"),v=>S.grain=v);
+document.querySelectorAll(".toggle[data-fx]").forEach(el=>{
+  const key=el.dataset.fx;
+  bindToggle(el,v=>{
+    if(key==="zoom")S.fxZoom=v;if(key==="shake")S.fxShake=v;
+    if(key==="rgb")S.fxRgb=v;if(key==="dglitch")S.fxDglitch=v;
+  });
+});
+
+const colors=["#ff5c8a","#9d7bff","#5ce1ff","#ffd24d","#7dff9e","#ff4d4d","#ffffff","#ff8a3d"];
+colors.forEach(c=>{
+  const s=document.createElement("span");s.className="sw"+(c===S.accent?" on":"");s.style.background=c;s.dataset.c=c;
+  s.addEventListener("click",()=>{S.accent=c;document.documentElement.style.setProperty("--acc",c);
+    document.querySelectorAll(".sw").forEach(el=>el.classList.remove("on"));s.classList.add("on");});
+  $("swatches").appendChild(s);
+});
+
+/* ===== 弾幕状態（行ごとに発射済みか管理） ===== */
+let danmaku=[]; // {text,lane,x,speed,size,born}
+let lastTime=0;
+
+/* ===== 行描画（通常レイアウト） ===== */
+function drawLine(line,idx,prog,energy,now){
+  const rng=mulberry32(idx*7919+S.seed*104729);
+  const fontCss=FONTS[S.fontKey];
+  let anim=S.animKey;
+  if(anim==="random"){const pool=["drift","scatter","glitch","type","pop"];anim=pool[Math.floor(rng()*pool.length)];}
+  const userSize=line.size||1;
+  const sizeF=(0.8+rng()*0.55)*userSize;
+  const rot=S.layoutKey==="wander"?(rng()-0.5)*0.12:0;
+  const tIn=easeOut(clamp(prog.elapsed/0.7,0,1));
+  const tOut=prog.remain<0.5?clamp(prog.remain/0.5,0,1):1;
+  const alpha=tIn*tOut;
+  if(alpha<=0.01)return;
+  const chars=[...line.text];
+  let base=H*0.085*sizeF;
+
+  /* ---- 縦書き ---- */
+  if(S.layoutKey==="tate"){
+    base=Math.min(base,(H*0.8)/Math.max(chars.length,1));
+    ctx.font=`700 ${base}px ${fontCss}`;
+    const colX=W*(0.22+rng()*0.56);
+    const startY=H/2-(chars.length*base*1.08)/2+base*0.7;
+    chars.forEach((ch,ci)=>{
+      const cd=clamp((prog.elapsed-ci*0.045)/0.5,0,1);const ca=easeOut(cd)*tOut;if(ca<=0)return;
+      let dx=0,dy=0;
+      if(anim==="scatter"){const r2=mulberry32(idx*131+ci*17+S.seed);dx=(r2()-0.5)*500*(1-easeOut(cd));dy=(r2()-0.5)*360*(1-easeOut(cd));}
+      if(anim==="drift")dy=(1-easeOut(cd))*26+Math.sin(now*1.4+ci)*2.5;
+      if(anim==="glitch"&&Math.random()<0.05+energy*0.12){dx=(Math.random()-0.5)*14;dy=(Math.random()-0.5)*8;}
+      if(anim==="type"&&prog.elapsed<ci*0.09)return;
+      ctx.save();ctx.globalAlpha=ca;ctx.fillStyle="#f3efe7";ctx.shadowColor="rgba(0,0,0,0.6)";ctx.shadowBlur=10;ctx.textAlign="center";
+      ctx.fillText(ch,colX+dx,startY+ci*base*1.08+dy);ctx.restore();
+    });
+    if(S.underline){
+      ctx.save();ctx.globalAlpha=alpha*0.5;ctx.strokeStyle=S.accent;ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(colX+base*0.75,startY-base*0.7);ctx.lineTo(colX+base*0.75,startY+(chars.length-1)*base*1.08+base*0.3);ctx.stroke();ctx.restore();
+    }
+    return;
+  }
+
+  /* ---- ポンポン（行全体をランダム位置・サイズで一文字ずつ） ---- */
+  if(anim==="pop"){
+    chars.forEach((ch,ci)=>{
+      const r2=mulberry32(idx*200+ci*53+S.seed*31);
+      const appear=ci*0.08;
+      const cd=clamp((prog.elapsed-appear)/0.32,0,1);
+      if(cd<=0)return;
+      const pe=cd<1?(1.7*Math.pow(cd,2)-0.7*Math.pow(cd,3)):1; // overshoot風
+      const ca=clamp(cd*1.2,0,1)*tOut;
+      const cs=base*(0.7+r2()*1.1)*pe;
+      const px=W*(0.12+r2()*0.76);
+      const py=H*(0.18+mulberry32(idx*7+ci*91)()*0.64);
+      ctx.save();ctx.globalAlpha=ca;ctx.font=`700 ${cs}px ${fontCss}`;
+      ctx.textAlign="center";ctx.textBaseline="middle";
+      ctx.fillStyle="#f3efe7";ctx.shadowColor=S.accent;ctx.shadowBlur=18*energy+6;
+      ctx.fillText(ch,px,py);ctx.restore();
+    });
+    return;
+  }
+
+  /* ---- 横書き各種 ---- */
+  if(S.layoutKey==="bottom")base=Math.min(base,H*0.055*userSize);
+  ctx.font=`700 ${base}px ${fontCss}`;
+  let tw=ctx.measureText(line.text).width;
+  const maxW=W*0.82;
+  if(tw>maxW){base*=maxW/tw;ctx.font=`700 ${base}px ${fontCss}`;tw=ctx.measureText(line.text).width;}
+  let cx=W/2,cy=H*0.56;
+  if(S.layoutKey==="wander"){cx=W*(0.5+(rng()-0.5)*0.32);cy=H*(0.32+rng()*0.42);cx=clamp(cx,tw/2+40,W-tw/2-40);}
+  else if(S.layoutKey==="bottom"){cx=W/2;cy=H*0.86;}
+  else if(S.layoutKey==="custom"){cx=clamp(W*S.posX,tw/2+30,W-tw/2-30);cy=clamp(H*S.posY,H*0.08,H*0.94);}
+
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(rot);ctx.textAlign="left";ctx.textBaseline="middle";
+  if(S.underline){
+    ctx.globalAlpha=alpha*0.85;ctx.strokeStyle=S.accent;ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(-tw/2,base*0.72);ctx.lineTo(-tw/2+tw*tIn,base*0.72);ctx.stroke();
+  }
+  let x=-tw/2;
+  const glitchFrame=anim==="glitch"&&Math.random()<0.08+energy*0.15;
+  chars.forEach((ch,ci)=>{
+    const cw=ctx.measureText(ch).width;
+    const cd=clamp((prog.elapsed-ci*0.04)/0.5,0,1);const ca=easeOut(cd)*tOut;
+    if(anim==="type"&&prog.elapsed<ci*0.085){x+=cw;return;}
+    if(ca<=0){x+=cw;return;}
+    let dx=0,dy=0;
+    if(anim==="scatter"){const r2=mulberry32(idx*131+ci*17+S.seed);dx=(r2()-0.5)*640*(1-easeOut(cd));dy=(r2()-0.5)*420*(1-easeOut(cd));}
+    if(anim==="drift")dy=(1-easeOut(cd))*34+Math.sin(now*1.6+ci*0.8)*2.8;
+    if(glitchFrame&&Math.random()<0.4){dx=(Math.random()-0.5)*16;dy=(Math.random()-0.5)*10;}
+    ctx.globalAlpha=ca;
+    if(glitchFrame){ctx.fillStyle="rgba(255,60,90,0.85)";ctx.fillText(ch,x+dx-3,dy);ctx.fillStyle="rgba(80,220,255,0.85)";ctx.fillText(ch,x+dx+3,dy);}
+    ctx.fillStyle="#f3efe7";ctx.shadowColor="rgba(0,0,0,0.65)";ctx.shadowBlur=12;ctx.fillText(ch,x+dx,dy);ctx.shadowBlur=0;
+    x+=cw;
+  });
+  if(anim==="type"){
+    const shown=Math.min(chars.length,Math.floor(prog.elapsed/0.085));
+    if(shown<chars.length&&Math.floor(now*2.4)%2===0){
+      let cx2=-tw/2;for(let i=0;i<shown;i++)cx2+=ctx.measureText(chars[i]).width;
+      ctx.globalAlpha=alpha;ctx.fillStyle=S.accent;ctx.fillRect(cx2+4,-base*0.45,base*0.08,base*0.9);
+    }
+  }
+  ctx.restore();
+}
+
+/* ===== 弾幕処理 ===== */
+function updateDanmaku(t,energy,now){
+  /* シーク等で巻き戻ったらリセット */
+  if(t<lastTime-0.3){danmaku=[];S.lines.forEach(l=>l._fired=false);}
+  lastTime=t;
+  /* 出現：行のtに達したら発射 */
+  S.lines.forEach((l,i)=>{
+    if(!l._fired&&l.t<=t&&t-l.t<0.5){
+      l._fired=true;
+      const sz=H*0.07*(l.size||1);
+      danmaku.push({text:l.text,size:sz,lane:Math.floor(mulberry32(i*97+S.seed)()*8),x:W+20,speed:W/6,born:now});
+    }
+    if(l.t>t)l._fired=false;
+  });
+  ctx.save();ctx.textAlign="left";ctx.textBaseline="middle";
+  for(let k=danmaku.length-1;k>=0;k--){
+    const d=danmaku[k];
+    d.x-=d.speed*(1/60);
+    ctx.font=`700 ${d.size}px ${FONTS[S.fontKey]}`;
+    const tw=ctx.measureText(d.text).width;
+    if(d.x+tw<-20){danmaku.splice(k,1);continue;}
+    const y=H*0.10+d.lane*(H*0.10);
+    ctx.globalAlpha=0.95;ctx.fillStyle="#f3efe7";
+    ctx.shadowColor="rgba(0,0,0,0.7)";ctx.shadowBlur=8;
+    ctx.fillText(d.text,d.x,y);
+    if(S.underline){ctx.globalAlpha=0.5;ctx.strokeStyle=S.accent;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(d.x,y+d.size*0.6);ctx.lineTo(d.x+tw,y+d.size*0.6);ctx.stroke();}
+  }
+  ctx.restore();
+}
+
+/* ===== ビジュアライザー ===== */
+let particles=[];
+function drawViz(fq,wv,energy,now){
+  const A=S.fxAmt/100;
+  if(S.vizKey==="off")return;
+  if(S.vizKey==="moon"){
+    const cx=W*0.5,cy=H*0.52,R=H*0.27*(1+energy*0.06);
+    ctx.save();
+    const halo=ctx.createRadialGradient(cx,cy,R*0.6,cx,cy,R*1.8);
+    halo.addColorStop(0,"rgba(243,239,231,0.05)");halo.addColorStop(0.5,hexA(S.accent,0.05+energy*0.07));halo.addColorStop(1,"rgba(0,0,0,0)");
+    ctx.fillStyle=halo;ctx.fillRect(0,0,W,H);
+    const N=96;ctx.strokeStyle=hexA(S.accent,0.85);ctx.lineWidth=2;ctx.shadowColor=S.accent;ctx.shadowBlur=14;ctx.beginPath();
+    for(let i=0;i<=N;i++){const fi=Math.floor((i/N)*(fq.length*0.55));const v=fq[fi]/255;const r=R+v*H*0.085;const a=(i/N)*Math.PI*2-Math.PI/2+now*0.05;const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+    ctx.closePath();ctx.stroke();ctx.shadowBlur=0;ctx.strokeStyle="rgba(243,239,231,0.25)";ctx.lineWidth=1;ctx.beginPath();ctx.arc(cx,cy,R*0.96,0,Math.PI*2);ctx.stroke();ctx.restore();
+  }else if(S.vizKey==="bars"){
+    const N=64,bw=W/N;ctx.save();
+    for(let i=0;i<N;i++){const v=fq[Math.floor((i/N)*fq.length*0.6)]/255;const h=v*H*0.3;ctx.fillStyle=hexA(S.accent,0.22+v*0.6);ctx.fillRect(i*bw+2,H-h,bw-4,h);}
+    ctx.restore();
+  }else if(S.vizKey==="wave"){
+    ctx.save();ctx.strokeStyle=hexA(S.accent,0.8);ctx.lineWidth=2;ctx.shadowColor=S.accent;ctx.shadowBlur=10;ctx.beginPath();
+    for(let i=0;i<wv.length;i+=4){const x=(i/wv.length)*W;const y=H*0.82+((wv[i]-128)/128)*H*0.1;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+    ctx.stroke();ctx.restore();
+  }else if(S.vizKey==="particles"){
+    /* ビートで中心から飛散 */
+    if(energy>0.001){const n=Math.floor(energy*8*A);for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2;const sp=(2+Math.random()*6)*(0.5+energy*2);particles.push({x:W/2,y:H/2,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,sz:2+Math.random()*4});}}
+    ctx.save();
+    for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=0.04;p.life-=0.012;if(p.life<=0){particles.splice(i,1);continue;}ctx.globalAlpha=p.life*0.8;ctx.fillStyle=S.accent;ctx.shadowColor=S.accent;ctx.shadowBlur=8;ctx.beginPath();ctx.arc(p.x,p.y,p.sz,0,Math.PI*2);ctx.fill();}
+    if(particles.length>600)particles.splice(0,particles.length-600);
+    ctx.restore();
+  }else if(S.vizKey==="ripple"){
+    const cx=W/2,cy=H/2;ctx.save();ctx.strokeStyle=S.accent;ctx.shadowColor=S.accent;ctx.shadowBlur=12;
+    for(let r=0;r<5;r++){const ph=(now*0.4+r*0.2)%1;const rad=ph*H*0.55*(1+energy*0.3);ctx.globalAlpha=(1-ph)*(0.25+energy*0.5);ctx.lineWidth=2+energy*4;ctx.beginPath();ctx.arc(cx,cy,rad,0,Math.PI*2);ctx.stroke();}
+    ctx.restore();
+  }else if(S.vizKey==="mirror"){
+    const N=48,bw=W/N;ctx.save();
+    for(let i=0;i<N;i++){const v=fq[Math.floor((i/N)*fq.length*0.6)]/255;const h=v*H*0.22;ctx.fillStyle=hexA(S.accent,0.2+v*0.6);ctx.fillRect(i*bw+2,H/2-h,bw-4,h);ctx.fillRect(i*bw+2,H/2,bw-4,h);}
+    ctx.restore();
+  }
+}
+
+/* ===== メインループ ===== */
+const emptyFq=new Uint8Array(512),emptyWv=new Uint8Array(1024).fill(128);
+function loop(){
+  requestAnimationFrame(loop);
+  const now=performance.now()/1000;
+  const t=player.currentTime||0;
+  const A=S.fxAmt/100;
+
+  /* --- 音解析 --- */
+  let energy=0,fq=emptyFq,wv=emptyWv;
+  if(analyser&&freq){
+    analyser.getByteFrequencyData(freq);analyser.getByteTimeDomainData(wave);
+    fq=freq;wv=wave;let s=0;for(let i=0;i<32;i++)s+=freq[i];energy=s/(32*255);
+  }
+  /* ビート包絡（立ち上がり速く・減衰ゆっくり） */
+  beatEnv=Math.max(energy,beatEnv*0.90);
+  const beat=beatEnv*A;
+
+  /* --- 背景を一旦fxCanvasに描く（エフェクト適用のため） --- */
+  const fx=fxCtx;
+  fx.setTransform(1,0,0,1,0,0);
+  fx.clearRect(0,0,W,H);
+  fx.fillStyle="#0b0910";fx.fillRect(0,0,W,H);
+
+  /* ズーム＆シェイク */
+  let scale=1,ox=0,oy=0;
+  if(S.fxZoom)scale=1+beat*0.08;
+  if(S.fxShake){ox=(Math.random()-0.5)*beat*26;oy=(Math.random()-0.5)*beat*26;}
+  fx.save();
+  fx.translate(W/2+ox,H/2+oy);fx.scale(scale,scale);fx.translate(-W/2,-H/2);
+  if(S.useVideo&&S.vidEl&&S.vidEl.readyState>=2){
+    const vw=S.vidEl.videoWidth,vh=S.vidEl.videoHeight,sc=Math.max(W/vw,H/vh),iw=vw*sc,ih=vh*sc;
+    try{fx.filter=S.blur>0?`blur(${S.blur}px)`:"none";}catch(e){}
+    fx.drawImage(S.vidEl,(W-iw)/2,(H-ih)/2,iw,ih);try{fx.filter="none";}catch(e){}
+  }else if(bgCache)fx.drawImage(bgCache,0,0);
+  fx.restore();
+
+  /* デジタルグリッチ（スライス横ずらし） */
+  if(S.fxDglitch&&beat>0.12){
+    const slices=Math.floor(3+beat*6);
+    for(let i=0;i<slices;i++){
+      const sy=Math.random()*H,sh=8+Math.random()*40;
+      const dx=(Math.random()-0.5)*beat*80;
+      try{fx.drawImage(fxCanvas,0,sy,W,sh,dx,sy,W,sh);}catch(e){}
+    }
+  }
+
+  /* --- 単色化 --- */
+  if(S.mono>0){
+    try{
+      const img=fx.getImageData(0,0,W,H);const d=img.data;const m=S.mono/100;
+      const ar=parseInt(S.accent.slice(1,3),16),ag=parseInt(S.accent.slice(3,5),16),ab=parseInt(S.accent.slice(5,7),16);
+      for(let i=0;i<d.length;i+=4){
+        const lum=(d[i]*0.299+d[i+1]*0.587+d[i+2]*0.114)/255;
+        const tr=lum*ar,tg=lum*ag,tb=lum*ab;
+        d[i]=d[i]*(1-m)+tr*m;d[i+1]=d[i+1]*(1-m)+tg*m;d[i+2]=d[i+2]*(1-m)+tb*m;
+      }
+      fx.putImageData(img,0,0);
+    }catch(e){}
+  }
+
+  /* --- メインキャンバスへ。RGBずれなら3チャンネルを少しずらして合成 --- */
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,W,H);
+  if(S.fxRgb&&beat>0.05){
+    const sh=beat*14*A;
+    ctx.globalCompositeOperation="lighter";
+    ctx.globalAlpha=1;ctx.drawImage(fxCanvas,-sh,0); // R寄せ（近似：全体を左右にずらし加算）
+    ctx.drawImage(fxCanvas,sh,0);
+    ctx.globalCompositeOperation="source-over";ctx.globalAlpha=0.5;ctx.drawImage(fxCanvas,0,0);
+    ctx.globalAlpha=1;
+  }else{
+    ctx.drawImage(fxCanvas,0,0);
+  }
+
+  /* 暗さ＋ビネット（前景として毎フレーム） */
+  ctx.fillStyle=`rgba(8,6,12,${S.dim/100})`;ctx.fillRect(0,0,W,H);
+  const vg=ctx.createRadialGradient(W/2,H/2,H*0.35,W/2,H/2,H*0.95);
+  vg.addColorStop(0,"rgba(0,0,0,0)");vg.addColorStop(1,"rgba(0,0,0,0.45)");
+  ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
+
+  /* ビジュアライザー */
+  drawViz(fq,wv,energy,now);
+
+  /* 歌詞 */
+  if(S.lines.length){
+    if(S.layoutKey==="danmaku"){
+      updateDanmaku(t,energy,now);
+    }else{
+      let idx=-1;for(let i=0;i<S.lines.length;i++)if(S.lines[i].t<=t)idx=i;
+      if(idx>=0){
+        const nextT=idx+1<S.lines.length?S.lines[idx+1].t:(player.duration||S.lines[idx].t+6);
+        drawLine(S.lines[idx],idx,{elapsed:t-S.lines[idx].t,remain:nextT-t},energy,now);
+      }
+    }
+    document.querySelectorAll("#chips .chip").forEach(c=>{const i=+c.dataset.i;const isNow=S.lines[i].t<=t&&(i+1>=S.lines.length||S.lines[i+1].t>t);c.classList.toggle("now",isNow);});
+  }else{
+    ctx.save();ctx.font=`500 ${H*0.032}px ${FONTS[S.fontKey]}`;ctx.fillStyle="rgba(243,239,231,0.4)";ctx.textAlign="center";
+    ctx.fillText("素材を読み込むとここにプレビューが映ります",W/2,H/2);ctx.restore();
+  }
+
+  /* 自由配置マーカー */
+  if(S.layoutKey==="custom"){
+    ctx.save();ctx.globalAlpha=0.35;ctx.strokeStyle=S.accent;ctx.lineWidth=1.5;
+    const px=W*S.posX,py=H*S.posY;ctx.beginPath();ctx.moveTo(px-14,py);ctx.lineTo(px+14,py);ctx.moveTo(px,py-14);ctx.lineTo(px,py+14);ctx.stroke();ctx.restore();
+  }
+
+  /* グレイン */
+  if(S.grain&&grainCv){ctx.save();ctx.globalAlpha=0.5;const gx=Math.floor(Math.random()*128),gy=Math.floor(Math.random()*128);for(let y=-gy;y<H;y+=256)for(let x=-gx;x<W;x+=256)ctx.drawImage(grainCv,x,y);ctx.restore();}
+
+  $("curT").textContent=fmt(t);
+  if(!seekDragging)$("seek").value=t;
+}
+
+/* ===== プレビュー操作：自由配置ドラッグ＋ピンチサイズ ===== */
+let seekDragging=false;
+$("seek").addEventListener("pointerdown",()=>seekDragging=true);
+$("seek").addEventListener("pointerup",()=>seekDragging=false);
+
+let posDragging=false;
+const activePointers=new Map();
+let pinchStartDist=0,pinchStartSize=1;
+function canvasPos(e){const r=cv.getBoundingClientRect();return{x:clamp((e.clientX-r.left)/r.width,0,1),y:clamp((e.clientY-r.top)/r.height,0,1)};}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
+
+cv.addEventListener("pointerdown",e=>{
+  activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(activePointers.size===2&&selLine>=0){
+    const pts=[...activePointers.values()];pinchStartDist=dist(pts[0],pts[1]);pinchStartSize=S.lines[selLine].size||1;
+  }else if(S.layoutKey==="custom"){
+    posDragging=true;try{cv.setPointerCapture(e.pointerId);}catch(err){}
+    const p=canvasPos(e);S.posX=p.x;S.posY=p.y;
+  }
+});
+cv.addEventListener("pointermove",e=>{
+  if(activePointers.has(e.pointerId))activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(activePointers.size===2&&selLine>=0&&pinchStartDist>0){
+    const pts=[...activePointers.values()];const d=dist(pts[0],pts[1]);
+    const ns=clamp(pinchStartSize*(d/pinchStartDist),0.4,2.6);
+    S.lines[selLine].size=ns;updateSizeUI();renderSizeChips();return;
+  }
+  if(posDragging){const p=canvasPos(e);S.posX=p.x;S.posY=p.y;}
+});
+function endPointer(e){activePointers.delete(e.pointerId);if(activePointers.size<2)pinchStartDist=0;if(activePointers.size===0)posDragging=false;}
+cv.addEventListener("pointerup",endPointer);
+cv.addEventListener("pointercancel",endPointer);
+
+function updateEditMode(){
+  const editable=S.layoutKey==="custom";
+  cv.classList.toggle("editmode",editable);
+  const badge=$("editBadge");
+  if(editable){badge.classList.add("show");badge.textContent="ドラッグで歌詞位置を移動";}
+  else badge.classList.remove("show");
+}
+
+requestAnimationFrame(loop);
+
+/* ===== 動画書き出し ===== */
+let recorder=null,chunks=[],recMime="",resultURL=null;
+function pickMime(){
+  if(!window.MediaRecorder)return"";
+  const cand=["video/mp4;codecs=avc1","video/mp4","video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"];
+  for(const m of cand){try{if(MediaRecorder.isTypeSupported(m))return m;}catch(e){}}
+  return"";
+}
+const REC_LABEL="🎬 動画を書き出す";
+$("modalClose").addEventListener("click",()=>{$("modalBg").classList.remove("open");$("resultVid").pause();});
+$("recBtn").addEventListener("click",()=>{
+  if(recorder){stopRec();return;}
+  if(!player.src)return;
+  recMime=pickMime();
+  if(!recMime){$("recNote").textContent="このブラウザは録画非対応です。Safari/Chromeの最新版でお試しください。";return;}
+  ensureGraph();
+  let stream;try{stream=cv.captureStream(30);}catch(e){$("recNote").textContent="このブラウザはCanvas録画非対応です。";return;}
+  if(msDest)msDest.stream.getAudioTracks().forEach(tr=>stream.addTrack(tr));
+  chunks=[];
+  try{recorder=new MediaRecorder(stream,{mimeType:recMime,videoBitsPerSecond:8000000});}catch(e){recorder=new MediaRecorder(stream);}
+  recorder.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data);};
+  recorder.onstop=()=>{
+    const ext=recMime.includes("mp4")?"mp4":"webm";
+    const blob=new Blob(chunks,{type:recMime||"video/webm"});
+    if(resultURL)URL.revokeObjectURL(resultURL);
+    resultURL=URL.createObjectURL(blob);
+    $("resultVid").src=resultURL;
+    const dl=$("dlLink");dl.href=resultURL;dl.setAttribute("download","tsuki-lyric."+ext);
+    $("modalBg").classList.add("open");
+    recorder=null;$("recBtn").textContent=REC_LABEL;$("recNote").textContent="書き出し完了。プレビューを確認して保存してください。";
+  };
+  player.currentTime=0;player.play();$("playBtn").textContent="⏸";
+  recorder.start(250);
+  $("recBtn").textContent="⏹ 録画停止して保存";
+  $("recNote").textContent="録画中… 曲が終わると自動で保存されます。画面を閉じたりスリープさせないでください。";
+});
+function stopRec(){if(recorder&&recorder.state!=="inactive")recorder.stop();player.pause();$("playBtn").textContent="▶";}
+
+/* ===== プロジェクト保存・読込・自動保存 ===== */
+function snapshot(){
+  return{v:2,lines:S.lines,lyricText:$("lyricsIn").value,
+    fontKey:S.fontKey,animKey:S.animKey,layoutKey:S.layoutKey,vizKey:S.vizKey,
+    underline:S.underline,accent:S.accent,dim:S.dim,blur:S.blur,grain:S.grain,seed:S.seed,
+    posX:S.posX,posY:S.posY,fxZoom:S.fxZoom,fxShake:S.fxShake,fxRgb:S.fxRgb,fxDglitch:S.fxDglitch,mono:S.mono,fxAmt:S.fxAmt};
+}
+function setToggleUI(el,val){el.querySelectorAll("button").forEach(b=>b.classList.toggle("on",(b.dataset.v==="1")===val));}
+function applySnap(d){
+  if(!d)return;
+  S.lines=Array.isArray(d.lines)?d.lines:[];ensureSizes();
+  $("lyricsIn").value=d.lyricText||"";
+  S.fontKey=d.fontKey||"mincho";S.animKey=d.animKey||"random";
+  S.layoutKey=(d.layoutKey==="center")?"custom":(d.layoutKey||"wander");
+  S.vizKey=d.vizKey||"moon";S.underline=(d.underline!==false);
+  S.accent=d.accent||"#ff5c8a";
+  S.dim=(typeof d.dim==="number")?d.dim:45;S.blur=(typeof d.blur==="number")?d.blur:6;
+  S.grain=(d.grain!==false);S.seed=d.seed||1;
+  S.posX=(typeof d.posX==="number")?d.posX:0.5;S.posY=(typeof d.posY==="number")?d.posY:0.84;
+  S.fxZoom=!!d.fxZoom;S.fxShake=!!d.fxShake;S.fxRgb=!!d.fxRgb;S.fxDglitch=!!d.fxDglitch;
+  S.mono=(typeof d.mono==="number")?d.mono:0;S.fxAmt=(typeof d.fxAmt==="number")?d.fxAmt:100;
+  /* UI反映 */
+  $("fontSel").value=S.fontKey;$("animSel").value=S.animKey;$("layoutSel").value=S.layoutKey;$("vizSel").value=S.vizKey;
+  $("dimIn").value=S.dim;$("dimLabel").textContent="背景の暗さ — "+S.dim+"%";
+  $("blurIn").value=S.blur;$("blurLabel").textContent="背景ぼかし — "+S.blur+"px";
+  $("monoIn").value=S.mono;$("monoLabel").textContent=S.mono+"%";
+  $("fxAmtIn").value=S.fxAmt;$("fxAmtLabel").textContent=S.fxAmt+"%";
+  setToggleUI($("underlineToggle"),S.underline);setToggleUI($("grainToggle"),S.grain);
+  setToggleUI(document.querySelector('.toggle[data-fx="zoom"]'),S.fxZoom);
+  setToggleUI(document.querySelector('.toggle[data-fx="shake"]'),S.fxShake);
+  setToggleUI(document.querySelector('.toggle[data-fx="rgb"]'),S.fxRgb);
+  setToggleUI(document.querySelector('.toggle[data-fx="dglitch"]'),S.fxDglitch);
+  document.documentElement.style.setProperty("--acc",S.accent);
+  document.querySelectorAll(".sw").forEach(el=>el.classList.toggle("on",el.dataset.c===S.accent));
+  rebuildBg();renderChips();renderSizeChips();updateSizeUI();updateEditMode();
+  $("syncBtn").disabled=!(S.lines.length&&player.src);$("spreadBtn").disabled=!(S.lines.length&&player.duration);
+}
+$("saveProjBtn").addEventListener("click",()=>{
+  const blob=new Blob([JSON.stringify(snapshot(),null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="tsuki-lyric-project.json";
+  document.body.appendChild(a);a.click();a.remove();
+});
+$("loadProjIn").addEventListener("change",e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=()=>{try{applySnap(JSON.parse(r.result));}catch(err){alert("プロジェクトファイルを読み込めませんでした");}};r.readAsText(f);
+});
+function autosave(){try{localStorage.setItem("tsukilab",JSON.stringify(snapshot()));}catch(e){}}
+setInterval(autosave,3000);
+try{const d=localStorage.getItem("tsukilab");if(d)applySnap(JSON.parse(d));}catch(e){}
+updateEditMode();
+</script>
+</body>
+</html>
