@@ -406,7 +406,7 @@ nav.toc{
 2. GPT Image 2 は Thinking モードで多パネルの一貫性が上がる前提で設計する。1プロンプトで一貫性が確実なのは3〜5コマ。6コマ以上は「後半でキャラがdriftする」前提にし、参照画像を挟む運用を注記する。
 3. 参照素材があれば必ず @Image1, @Image2... と役割つきで明示する（例：@Image1 = character identity reference）。【ノード接続運用】ユーザーが演出メモしか書かず接続済み画像だけがある場合は、接続された @Image を内容から役割自動判定（人物＝キャラ参照、背景＝環境参照、小物＝プロップ参照）し、それを活かす前提で書く。不足参照は創作しない。
 4. 顔より小物（アクセサリ・持ち物）が崩れやすい。重要な小道具は、それが映るコマにだけ登場させる。背景の細かい小物は描き込まない。
-5. イラスト調（cel shading）は一貫性が保ちやすい。スタイルは「線の太さ・塗り・陰影・発色・仕上げ」まで具体化する。曖昧な「アニメ風」で済ませない。
+5. スタイル指定は参照の有無で使い分ける。【参照画像があるとき】画風は文章で指定せず、参照の画風（線・塗り・陰影・色味）にそのまま従わせる（"match the art style of @Image1, do not restyle"）。文章で画風を書くと参照が上書きされて絵柄が変わるため。【参照画像が無い新規生成のとき】のみ、スタイルを「線の太さ・塗り・陰影・発色・仕上げ」まで具体化する。曖昧な「アニメ風」で済ませない。
 6. ストーリーボード（連続スチル）のコマには、矢印・記号を描き込まない。動きやカメラは「ポーズ・構図・アングル」という画そのもので示す（記号はSeedanceに渡すと画面内のノイズエフェクトとして再現されてしまうため）。
 7. IP・作品名・キャラ名・ブランド名は出さない。必ず外見描写に置き換える。
 8. レンズ感（24mm/85mm等）は画像側では使ってよい（動画SYSとは使い分ける）。
@@ -420,7 +420,7 @@ nav.toc{
 [Lighting/Color] 光源と方向（golden hour / soft diffused / high contrast 等の具体語）＋色温度・トーン。
 [Key Details] 手・小物・服の素材・髪の流れなど崩れると困る細部。
 [Constraints] Maintain @Image1's character design, proportions, and art style. No identity drift. No extra limbs, no distorted hands.
-[Art Style] 1本の強い軸で。形容詞を盛りすぎない。
+[Art Style] 参照があれば "match @Image1's art style, do not restyle"。参照が無い新規のみ画風を1本の強い軸で具体化（形容詞を盛りすぎない）。
 
 【出力前チェック】
 - @タグを明示したか／見た目アンカーを入れたか／スタイルを1軸に絞ったか／IP固有名詞が無いか／6コマ超なら参照運用を注記したか。
@@ -434,7 +434,7 @@ nav.toc{
     <div class="copybox" data-copy="ex-img">
       <div class="bar"><span class="ttl">続けて貼る例</span><button class="btn" onclick="copyBox('cp-ex-img',this)">コピー</button></div>
       <pre><code id="cp-ex-img">キャラ：108歳の祖母モモエ。小柄、銀髪を低いお団子、丸眼鏡、深い皺、温かいニットのショール、梅色の和装ブラウス。優しい三日月の目。
-場面：差し込む朝日の畳の部屋。曾孫の映美（10歳・黒髪ボブ・黄色いジャケット）と手をつないで向かい合い、互いの額を寄せる。塵が光の中を漂う。
+場面：差し込む朝日の畳の部屋。曾孫の映美（20代半ば・黒髪ボブ・黄色いジャケット）と手をつないで向かい合い、互いの額を寄せる。塵が光の中を漂う。
 ねらい：「記憶の質感」。派手さより静かな温かさ。3コマの絵コンテ（手をつなぐ→額を寄せる→一粒の色がともる）にしたい。</code></pre>
     </div>
   </div>
@@ -460,6 +460,7 @@ nav.toc{
 7. キャラのidentity drift防止を必ず明記：Maintain @Image1's character design and art style throughout. No identity drift.
 8. 台詞・ナレーション・掛け声はひらがな表記（音声誤読防止。固有名詞・定着した掛け声「ふん！」等は除く）。【台詞の出し分け】渡された脚本・素材に台詞があるときだけ台詞として出力する（引用符で囲み、直前に感情・トーンを添える。例：calm, holding back tears: "..."）。台詞が無いときは無理に喋らせず、無音またはアンビエンス/SEのみにする。台詞を創作しない。
 9. IP・作品名・キャラ名・ブランド名は出さず外見描写に置換。
+10. 【壊したくない物・避けたい物理は否定形で明示】AIは空白を「派手な方向」で勝手に埋める（例：缶を画面に投げる→TVを割る）。壊れてほしくない物は "does NOT break, NOT crack, NOT shatter, stays intact and undamaged" と否定形で必ず書く。加えて「代わりに何が起きるか」を肯定形で添える（例：the can bounces off the screen and drops to the floor）。物理の度合い（軽く/勢いよく当たるが破損しない等）も指定し、誤った誇張を防ぐ。
 
 【出力フォーマット】英語で：
 [Reference Assets] @Image1 = ... / @Video1 = ...（あれば）＋ identity drift防止文。
@@ -469,10 +470,10 @@ nav.toc{
 [Lighting/Color] 時間で光が変わるか＋具体語。
 [Anime-Specific Effects] speed lines / impact frame / smear frame / cel shading の要否とタイミング。
 [Duration/Loop] 尺の目安・ループ可否。
-[Constraints] No identity drift. No extra limbs, no distorted hands, no morphing background.
+[Constraints] No identity drift. No extra limbs, no distorted hands, no morphing background. 壊したくない物の否定形指定（例：screen stays intact, does not break）。
 [Audio] 【BGMは出力しない（最重要）】原則 "No background music. No score." を必ず入れる。音は台詞・SE・アンビエンスのみ（BGMは編集で後付けする方針）。台詞はひらがな。完全無音なら "Complete silence. No music. No SFX."
 
-【出力前チェック】@タグ明示／1ビート1動詞／カメラ1移動／エフェクト指定／drift防止／200語前後／IP無し／台詞ひらがな。
+【出力前チェック】@タグ明示／1ビート1動詞／カメラ1移動／エフェクト指定／drift防止／200語前後／IP無し／台詞ひらがな／壊したくない物の否定形指定。
 
 準備ができたら「ワンショットの場面・動き・参照を渡してください」とだけ返答してください。</code></pre>
   </div>
@@ -513,9 +514,9 @@ nav.toc{
 [Speed Map]（可変速がある場合のみ：0-Xs normal / Xs instant cut / X-Ys ramp / Ys impact freeze 0.3s）
 [Lighting/Color — 全ショット共通] カラーグレード方針。
 [Art Style — 全ショット共通] 1軸で。Maintain art style and identity throughout every shot.
-[Constraints] Each character consistent across all shots. No identity drift. Effects only where specified.
+[Constraints] Each character consistent across all shots. No identity drift. Effects only where specified. 壊したくない物の否定形指定（例：the screen does NOT break, stays intact）＋代わりに起きることを肯定形で。
 
-【出力前チェック】@タグ／ショット5つ以内・コマ順厳守／タイムスタンプ／1ビート1動詞／カメラ1移動／台詞は感情ラベル＋ひらがな／山は後半／IP無し。
+【出力前チェック】@タグ／ショット5つ以内・コマ順厳守／タイムスタンプ／1ビート1動詞／カメラ1移動／台詞は感情ラベル＋ひらがな／山は後半／IP無し／壊したくない物の否定形指定。
 
 準備ができたら「脚本・絵コンテ・参照を渡してください」とだけ返答してください。</code></pre>
   </div>
@@ -577,6 +578,7 @@ right "おすすめ撮影時間帯": "早朝 / 午前 / 午後 / 夕方" mini su
 <section id="tpl-cut">
   <div class="sec-head"><span class="no">05</span><h2>テンプレート：ストーリーボード（連続スチル）</h2><span class="sub">そのままSeedanceに渡せる動画の設計図</span></div>
   <p class="lead">同じカットの瞬間を時系列で並べた、<b>記号なしの連続スチル</b>。<code>[ ]</code>を差し替えてGPT Image 2に渡すと、コマが並んだシートが作れます。<b>コマ数は未指定なら6コマ</b>（仮絵コンテ向き。<code>[FRAME_COUNT]</code>で増減）。これを<b>そのままSeedanceの動画参照として渡す</b>のが基本運用です。<br>
+  <b>コマ数の使い分け</b>：流れの確認が目的の<b>仮絵コンテは6コマ以上でOK</b>（各コマは小さくなり多少ラフになる前提）。一方、そのコマを<b>本番のキーフレームとして高精度生成したい時は3〜5コマに抑える</b>（①画像SYS・⑦推奨スペックと同じ安全圏。6コマ超は後半でキャラがdriftしやすい）。用途で刻みを変える。<br>
   <b>2つの鉄則</b>：①矢印・カメラパス・カオス度などの図解記号は描かない（Seedanceが画面内の謎エフェクトとして再現するため）。動線・カメラは<b>画（ポーズ・構図・アングル）で表現</b>。②<b>参照画像の画風・顔・服・クオリティを絶対に落とさない</b>。画風は文章で指定せず<b>参照に完全に従わせる</b>（文章で画風を書くと参照が上書きされて絵柄が変わる）。コマ間で変えるのはポーズ・表情・カメラだけ。</p>
 
   <div class="copybox" data-copy="tpl-cut">
@@ -612,7 +614,7 @@ Keep every referenced subject identical to its reference across all frames: <spa
 [TONE — 必ず指定]
 <span class="fill">[TONE 例：Serious, grounded, emotional. Natural restrained acting]</span>. 作品のトーンを固定し、それ以外の調子に流れないこと（例：シリアスな場面で勝手にコメディ・誇張・スラップスティックにしない）。
 
-【出力前チェック】コマ数が指定どおりか／矢印・記号・サイドバーが一切無いか／参照の顔・服・体型・画風が変わっていないか／新しい画風を足していないか／キャプション以外の文字を描いていないか。</code></pre>
+【出力前チェック】コマ数が指定どおりか／矢印・記号・サイドバーが一切無いか／参照の顔・服・体型・画風が変わっていないか／新しい画風を足していないか／キャプション以外の文字を描いていないか／壊したくない物を勝手に壊していないか（割れたTV等。否定形で指定し、各コマで無傷を保つ）。</code></pre>
   </div>
   <div class="note"><b>差し替え変数</b>：<code>[FRAME_COUNT]</code>コマ数（未指定なら6） ／ <code>[CUT_ID]</code><code>[CUT_NAME]</code>カット名 ／ <code>[DURATION]</code>尺 ／ <code>[F1〜_CAPTION]</code>各コマの短いキャプション ／ <code>[F1〜_DESC]</code>各コマの内容（カメラ寄り引き・アングルは"画"で表現、@参照と紐づけて書く） ／ <code>[CONSISTENCY_NOTE]</code>崩したくない要素を@参照と紐づけて明記 ／ <code>[LIGHTING]</code>光 ／ <code>[TONE]</code>作品トーン（必ず指定）。<br><b>画風は変数にしない</b>：参照画像がある前提なので画風は参照に従わせる。文章で画風を指定すると参照が上書きされて絵柄が変わるため書かない。<br><b>参照の入れ方</b>：人物・背景・小物など手元の素材は全て参照接続し、本文で <code>@Image1=人物</code> <code>@Image2=背景</code> <code>@Image3=小物</code> のように役割を明示。手元にある素材は新規創作させず必ず参照を使わせる。</div>
 
@@ -665,6 +667,16 @@ Keep every referenced subject identical to its reference across all frames: <spa
     <li><b>物理動作でなく感情と「間」を描く</b>：「一拍の沈黙。ゆっくり一度うなずく」のように、台詞のない間こそ芝居になる。</li>
   </ul>
 
+  <h3><span class="dot"></span>細部のコントロール（壊したくない物・避けたい物理）</h3>
+  <p class="mini">AIは指示の空白を<b>「派手な方向」で勝手に埋める</b>癖があります。例：缶を画面に投げる→<b>TVを割る</b>／机を叩く→食器が飛び散る／ドアを閉める→ガラスが砕ける。これを防ぐには、<b>壊れてほしくない物を否定形で名指しし、代わりに何が起きるかを肯定形で書く</b>のが最も効きます。画像（コンテ）・動画どちらでも有効です。</p>
+  <ul class="clean">
+    <li><b>否定形で名指し</b>：<code>The TV screen does NOT break, NOT crack, NOT shatter. It stays intact and undamaged.</code></li>
+    <li><b>代わりに起きることを肯定形で</b>：<code>The empty can bounces off the screen and drops to the floor.</code></li>
+    <li><b>物理の度合いを指定</b>：<code>hits with a light thud, no destruction</code> / <code>strikes hard but the object stays whole</code></li>
+    <li><b>各コマ・各ショットで無傷を維持</b>：連続スチルや複数ショットでは、後半コマで勝手に破損させないよう「intact in every frame」と添える。</li>
+  </ul>
+  <div class="note"><b>コピー用ひな型</b>：<code>[OBJECT] does NOT break / crack / shatter; it stays intact and undamaged in every frame. Instead, [WHAT ACTUALLY HAPPENS]. Impact is [LIGHT / HARD] but causes no destruction.</code></div>
+
   <h3><span class="dot"></span>@参照の役割（芝居まわり）</h3>
   <div class="tblwrap"><table>
     <tr><th>タグ</th><th>役割</th><th>コツ</th></tr>
@@ -714,6 +726,7 @@ Keep every referenced subject identical to its reference across all frames: <spa
     <tr><td>セルシェーディング</td><td><code>Clean cel-shaded 2D anime. Flat color blocks with hard shadow edges.</code></td></tr>
   </table></div>
   <p class="mini"><b>結果を明示するフレーズ</b>：<code>impact creates a shockwave ripple expanding outward</code> / <code>shatters into a million pieces, fragments scattering in slow motion</code> / <code>the strike connects with a bright cross-shaped flash</code></p>
+  <div class="warn"><b>破壊フレーズは「壊すのが演出意図のとき」だけ使う</b>：上の <code>shatters...</code> 等は意図的な破壊シーン専用。日常シーンで安易に使うと、AIが余計な物まで壊す（缶を投げる→TVが割れる等）。壊したくない物がある場面では、逆に⑥の「<b>does NOT break / shatter, stays intact</b>」を必ず添える。</div>
   </div></details>
 
   <details class="acc"><summary>IP回避：外見描写への置換表</summary>
