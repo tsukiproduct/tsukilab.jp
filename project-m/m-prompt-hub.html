@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Project M ｜ 制作資料</title>
+<style>
+
+/* ===== 統合シェル ===== */
+:root{ color-scheme: light only; }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#e9e2d2;font-family:"Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",system-ui,sans-serif;-webkit-text-size-adjust:100%}
+@media (prefers-color-scheme: dark){ body{background:#e9e2d2!important} }
+
+/* パスワードゲート */
+#gate{position:fixed;inset:0;z-index:1000;background:linear-gradient(180deg,#1f1b16,#2c2620);display:flex;align-items:center;justify-content:center;padding:24px}
+#gate .box{background:#fffdf8;border:1px solid #d8ccb4;border-radius:14px;padding:30px 26px;max-width:360px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.35);text-align:center}
+#gate .k{font-family:"SFMono-Regular",Consolas,monospace;font-size:10.5px;letter-spacing:.34em;color:#b8893b;text-transform:uppercase}
+#gate h1{font-size:22px;margin:12px 0 4px;color:#1a1714;letter-spacing:.04em}
+#gate p{font-size:12.5px;color:#574e44;margin:0 0 18px}
+#gate input{width:100%;font-size:18px;text-align:center;letter-spacing:.3em;padding:12px;border:1px solid #c9bb9c;border-radius:9px;background:#fbf7ee;color:#1a1714;font-family:"SFMono-Regular",Consolas,monospace}
+#gate input:focus{outline:none;border-color:#c0392b;box-shadow:0 0 0 3px rgba(192,57,43,.15)}
+#gate button{margin-top:14px;width:100%;font-size:15px;font-weight:800;color:#fff;background:#c0392b;border:none;border-radius:9px;padding:13px;cursor:pointer;font-family:inherit}
+#gate button:hover{background:#a93226}
+#gate .err{color:#c0392b;font-size:12.5px;min-height:18px;margin-top:10px;font-weight:700}
+#gate .lock{font-size:30px;margin-bottom:6px}
+
+/* メニュー切り替えバー */
+#shellnav{position:sticky;top:0;z-index:60;background:#1f1b16;border-bottom:3px solid #c0392b;display:flex;align-items:center;gap:4px;padding:8px 12px}
+#shellnav .brand{font-size:13px;font-weight:800;color:#f6f1e7;letter-spacing:.04em;margin-right:6px}
+#shellnav .tabs{display:flex;gap:4px;margin-left:auto}
+#shellnav .tab{font-size:13px;font-weight:700;color:#cdbfa6;background:transparent;border:1px solid transparent;border-radius:8px;padding:7px 14px;cursor:pointer;font-family:inherit}
+#shellnav .tab:hover{color:#f6f1e7;background:rgba(255,255,255,.06)}
+#shellnav .tab.on{color:#1f1b16;background:#e9c98a}
+@media(max-width:480px){#shellnav .brand{display:none}#shellnav .tabs{margin-left:0;width:100%}#shellnav .tab{flex:1;text-align:center;padding:8px 6px}}
+
+.pane{display:none}
+.pane.on{display:block}
+#hidden-until-auth{display:none}
+
+#wrap-tora{
+  color-scheme: light only;
+  --ink:#1a1714;
+  --ink-soft:#4a4038;
+  --paper:#f6f1e7;
+  --paper-2:#efe7d6;
+  --card:#fffdf8;
+  --line:#d8ccb4;
+  --line-strong:#b7a583;
+  --accent:#c0392b;      /* 朱・太鼓橋の赤 */
+  --accent-2:#2c6e63;    /* 青緑・庭の水 */
+  --gold:#b8893b;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+  --shadow:0 1px 2px rgba(40,30,20,.06),0 4px 16px rgba(40,30,20,.06);
+}#wrap-tora *{box-sizing:border-box}#wrap-tora{scroll-behavior:smooth}#wrap-tora{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic UI","Meiryo",system-ui,sans-serif;
+  line-height:1.75;font-size:15px;-webkit-text-size-adjust:100%;
+}
+/* ダークモードのスマホでも必ずライト表示に固定（文字が見えにくくなる問題の対策）
+   ※ヘッダー/フッターの濃い背景部分は白文字のまま維持し、本文エリアだけ黒文字に固定する */
+@media (prefers-color-scheme: dark){#wrap-tora{background:var(--paper)!important;color:var(--ink)!important}#wrap-tora main p, #wrap-tora main li, #wrap-tora main h3, #wrap-tora main h4, #wrap-tora main td, #wrap-tora main th, #wrap-tora main summary, #wrap-tora main .note, #wrap-tora main .warn, #wrap-tora main .card, #wrap-tora main .mini, #wrap-tora main .lead, #wrap-tora main .sec-head h2, #wrap-tora main .sec-head .sub{color:var(--ink)!important}#wrap-tora main .note{background:#eef5f3!important}#wrap-tora main .warn{background:#fbeae7!important}#wrap-tora main .card{background:var(--card)!important}#wrap-tora main table td{background:#fbf8f1!important}#wrap-tora main table th{background:var(--paper-2)!important}#wrap-tora nav.toc{background:rgba(246,241,231,.98)!important}#wrap-tora nav.toc a{color:var(--ink-soft)!important}#wrap-tora nav.toc a.on{color:var(--paper)!important}#wrap-tora /* 濃い背景のヘッダーは白系文字を維持 */
+  header.hero h1{color:#f6f1e7!important}#wrap-tora header.hero p{color:#cdc4b4!important}#wrap-tora header.hero .kicker{color:var(--gold)!important}#wrap-tora header.hero .flow{color:#e8dfce!important}#wrap-tora header.hero .flow b{color:#fff!important}
+}
+@media (prefers-reduced-motion:reduce){#wrap-tora{scroll-behavior:auto}#wrap-tora *{animation:none!important;transition:none!important}}#wrap-tora /* ===== Layout ===== */
+.wrap{max-width:1040px;margin:0 auto;padding:0 18px}#wrap-tora header.hero{
+  background:linear-gradient(180deg,#1f1b16,#2c2620);color:#f6f1e7;
+  padding:38px 0 30px;border-bottom:3px solid var(--accent);
+}#wrap-tora .hero .wrap{display:flex;flex-direction:column;gap:6px}#wrap-tora .hero .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}#wrap-tora .hero h1{margin:2px 0 0;font-size:clamp(24px,5vw,38px);font-weight:800;letter-spacing:.02em;line-height:1.2}#wrap-tora .hero p{margin:8px 0 0;color:#cdc4b4;font-size:14px;max-width:62ch}#wrap-tora .hero .flow{
+  margin-top:16px;font-family:var(--mono);font-size:12px;color:#e8dfce;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;padding:10px 14px;line-height:1.9;
+}#wrap-tora .hero .flow b{color:#fff}#wrap-tora /* ===== Sticky nav ===== */
+nav.toc{
+  position:sticky;top:0;z-index:50;background:rgba(246,241,231,.94);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+}#wrap-tora nav.toc .wrap{display:flex;gap:4px;overflow-x:auto;padding:8px 18px;scrollbar-width:thin}#wrap-tora nav.toc a{
+  flex:0 0 auto;font-size:12.5px;color:var(--ink-soft);text-decoration:none;
+  padding:7px 12px;border-radius:8px;white-space:nowrap;font-weight:600;
+}#wrap-tora nav.toc a:hover{background:var(--paper-2);color:var(--ink)}#wrap-tora nav.toc a.on{background:var(--ink);color:var(--paper)}#wrap-tora main{padding:30px 0 80px}#wrap-tora section{margin:0 0 46px;scroll-margin-top:64px}#wrap-tora .sec-head{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid var(--ink);padding-bottom:8px;margin-bottom:18px;flex-wrap:wrap}#wrap-tora .sec-head .no{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:700}#wrap-tora .sec-head h2{margin:0;font-size:clamp(19px,3.4vw,24px);font-weight:800;letter-spacing:.01em}#wrap-tora .sec-head .sub{font-size:12.5px;color:var(--ink-soft);margin-left:auto}#wrap-tora p.lead{margin:0 0 16px;color:var(--ink-soft);max-width:70ch}#wrap-tora /* ===== Cards / callouts ===== */
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow);margin:0 0 16px}#wrap-tora .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}#wrap-tora .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:720px){#wrap-tora .grid2, #wrap-tora .grid3{grid-template-columns:1fr}}#wrap-tora .tag{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;padding:3px 8px;border-radius:999px;background:var(--paper-2);color:var(--ink-soft);border:1px solid var(--line);margin:0 4px 4px 0}#wrap-tora .tag.red{background:#f7e4e1;color:#922;border-color:#e3b8b1}#wrap-tora .tag.green{background:#e2efec;color:#1f5249;border-color:#b9d6cf}#wrap-tora .tag.gold{background:#f3e7cf;color:#7c5a1e;border-color:#e0c896}#wrap-tora .note{border-left:4px solid var(--accent-2);background:#eef5f3;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:14px}#wrap-tora .warn{border-left:4px solid var(--accent);background:#fbeae7;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:14px}#wrap-tora .warn b, #wrap-tora .note b{font-weight:700}#wrap-tora h3{font-size:16.5px;margin:22px 0 8px;font-weight:800;display:flex;align-items:center;gap:8px}#wrap-tora h3 .dot{width:8px;height:8px;border-radius:2px;background:var(--accent);display:inline-block;flex:0 0 auto}#wrap-tora h4{font-size:14px;margin:16px 0 6px;font-weight:700;color:var(--ink)}#wrap-tora ul.clean{margin:8px 0;padding-left:1.2em}#wrap-tora ul.clean li{margin:5px 0}#wrap-tora ul.clean li::marker{color:var(--accent-2)}#wrap-tora /* ===== Tables ===== */
+.tblwrap{overflow-x:auto;margin:12px 0}#wrap-tora table{border-collapse:collapse;width:100%;font-size:13px;min-width:460px}#wrap-tora th, #wrap-tora td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}#wrap-tora th{background:var(--paper-2);font-weight:700;font-size:12px;letter-spacing:.02em}#wrap-tora td code{font-family:var(--mono);font-size:12px;background:var(--paper-2);padding:1px 5px;border-radius:4px}#wrap-tora tr:nth-child(even) td{background:#fbf8f1}#wrap-tora /* ===== Code / copy blocks ===== */
+.copybox{position:relative;margin:12px 0 18px;border:1px solid var(--line-strong);border-radius:10px;overflow:hidden;background:#241f1a}#wrap-tora .copybox .bar{display:flex;align-items:center;gap:10px;background:#1b1712;padding:9px 12px;border-bottom:1px solid #3a322a}#wrap-tora .copybox .bar .ttl{font-family:var(--mono);font-size:11.5px;color:#e9c98a;letter-spacing:.05em;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#wrap-tora .copybox .bar .btn{flex:0 0 auto;font-size:12px;font-weight:700;color:#241f1a;background:#e9c98a;border:none;border-radius:7px;padding:6px 14px;cursor:pointer;font-family:inherit}#wrap-tora .copybox .bar .btn:hover{background:#f1d8a4}#wrap-tora .copybox .bar .btn.done{background:#7fc4a8;color:#0d2a20}#wrap-tora .copybox pre{margin:0;padding:14px 16px;overflow-x:auto;max-height:520px}#wrap-tora .copybox code{font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#f0e9dd;white-space:pre;display:block}#wrap-tora .copybox .fill{color:#e9c98a;font-weight:700}#wrap-tora details.acc{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--card);overflow:hidden}#wrap-tora details.acc>summary{cursor:pointer;padding:13px 16px;font-weight:700;font-size:14px;list-style:none;display:flex;align-items:center;gap:10px}#wrap-tora details.acc>summary::-webkit-details-marker{display:none}#wrap-tora details.acc>summary::before{content:"▸";color:var(--accent);font-size:13px;transition:transform .2s}#wrap-tora details.acc[open]>summary::before{transform:rotate(90deg)}#wrap-tora details.acc>summary:hover{background:var(--paper-2)}#wrap-tora details.acc .body{padding:0 16px 16px}#wrap-tora .kbd{font-family:var(--mono);font-size:12px;background:var(--paper-2);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px}#wrap-tora .steps{counter-reset:s;list-style:none;padding:0;margin:14px 0}#wrap-tora .steps li{counter-increment:s;position:relative;padding:10px 0 10px 44px;border-bottom:1px dashed var(--line)}#wrap-tora .steps li:last-child{border-bottom:none}#wrap-tora .steps li::before{content:counter(s);position:absolute;left:0;top:10px;width:28px;height:28px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:700}#wrap-tora footer{border-top:1px solid var(--line);padding:24px 0 60px;color:var(--ink-soft);font-size:12px}#wrap-tora footer .wrap{display:flex;flex-direction:column;gap:6px}#wrap-tora .pill-row{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}#wrap-tora .mini{font-size:12px;color:var(--ink-soft)}#wrap-tora mark{background:#f6e3a8;padding:0 3px;border-radius:3px}#wrap-tora .x{color:var(--accent);font-weight:700}#wrap-tora .o{color:var(--accent-2);font-weight:700}
+/* ===== ワークフロー図 ===== */
+#wrap-tora .wf{display:flex;flex-direction:column;gap:0;margin:18px 0 8px}
+#wrap-tora .wf-step{display:flex;gap:14px;align-items:flex-start;position:relative;padding-bottom:18px}
+#wrap-tora .wf-step:last-child{padding-bottom:0}
+#wrap-tora .wf-step:not(:last-child)::before{content:"";position:absolute;left:18px;top:40px;bottom:-2px;width:2px;background:var(--line-strong)}
+#wrap-tora .wf-num{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:15px;font-weight:700;z-index:1}
+#wrap-tora .wf-num.gold{background:var(--gold)}
+#wrap-tora .wf-num.green{background:var(--accent-2)}
+#wrap-tora .wf-body{flex:1;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;box-shadow:var(--shadow)}
+#wrap-tora .wf-body h4{margin:0 0 4px;font-size:15px}
+#wrap-tora .wf-body p{margin:0;font-size:13px;color:var(--ink-soft)}
+#wrap-tora .wf-body .where{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:2px 9px;margin-top:7px;color:var(--ink-soft)}
+#wrap-tora .pick{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+@media(max-width:640px){#wrap-tora .pick{grid-template-columns:1fr}}
+#wrap-tora .pick .opt{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--card);box-shadow:var(--shadow)}
+#wrap-tora .pick .opt h4{margin:0 0 6px;font-size:15px;display:flex;align-items:center;gap:7px}
+#wrap-tora .pick .opt .seq{font-family:var(--mono);font-size:11.5px;color:var(--accent-2);background:#e2efec;border:1px solid #b9d6cf;border-radius:7px;padding:6px 9px;margin:8px 0;line-height:1.7;display:block}
+#wrap-tora .pick .opt ul{margin:6px 0 0;padding-left:1.1em;font-size:12.5px;color:var(--ink-soft)}
+#wrap-tora .pick .opt ul li{margin:3px 0}
+/* ===== 2フェーズ見出し ===== */
+#wrap-tora .phase{display:flex;align-items:center;gap:10px;margin:24px 0 8px}
+#wrap-tora .phase .badge{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:#fff;background:var(--ink);border-radius:999px;padding:5px 13px;flex:0 0 auto}
+#wrap-tora .phase.prep .badge{background:var(--gold)}
+#wrap-tora .phase.make .badge{background:var(--accent-2)}
+#wrap-tora .phase .ttl{font-size:15.5px;font-weight:800}
+#wrap-tora .phase .freq{font-size:11.5px;color:var(--ink-soft);margin-left:auto;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:3px 10px;flex:0 0 auto}
+#wrap-tora .onceframe{border:1px dashed var(--gold);background:#fbf6ea;border-radius:12px;padding:6px 14px 14px;margin:6px 0 4px}
+#wrap-tora .makeframe{border:1px dashed var(--accent-2);background:#eef5f3;border-radius:12px;padding:6px 14px 14px;margin:6px 0 4px}
+#wrap-tora .loop{text-align:center;font-size:12px;color:var(--accent-2);font-weight:700;margin:8px 0 0}
+
+#wrap-script{
+  color-scheme: light only;
+  --ink:#211d18; --ink2:#574e44; --paper:#f4efe4; --sheet:#fffdf8;
+  --line:#ddd1ba; --accent:#b23b2e; --accent2:#2c6e63; --gold:#9a7531;
+}#wrap-script{ --ink2:#574e44; }#wrap-script *{box-sizing:border-box}#wrap-script{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){#wrap-script{scroll-behavior:auto}}#wrap-script{
+  margin:0; background:#e9e2d2; color:#211d18 !important;
+  font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+  line-height:2.0; font-size:16px;
+}
+/* ダークモードでも必ずライト表示を強制 */
+@media (prefers-color-scheme: dark){#wrap-script{ background:#e9e2d2; color:#211d18 !important; }
+}#wrap-script .topbar{
+  position:sticky; top:0; z-index:30; background:#211d18; color:#f4efe4;
+  border-bottom:3px solid var(--accent); padding:12px 16px;
+  display:flex; align-items:center; gap:12px;
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic UI",sans-serif;
+}#wrap-script .topbar .t{font-weight:800; font-size:15px; letter-spacing:.04em}#wrap-script .topbar .meta{font-size:11.5px; color:#cdbfa6; margin-left:auto}#wrap-script .topbar button{
+  font-family:inherit; font-size:12px; font-weight:700; cursor:pointer;
+  background:#e9c98a; color:#211d18; border:none; border-radius:7px; padding:7px 12px;
+}#wrap-script .topbar button:hover{background:#f1d8a4}#wrap-script .layout{max-width:760px; margin:0 auto; padding:0 0 80px}#wrap-script /* 表紙 */
+.cover{
+  background:var(--sheet); margin:18px 14px; padding:40px 28px 34px;
+  border:1px solid var(--line); border-radius:6px;
+  box-shadow:0 2px 14px rgba(40,30,20,.08); text-align:center;
+}#wrap-script .cover .k{font-family:sans-serif; font-size:11px; letter-spacing:.4em; color:var(--gold)}#wrap-script .cover h1{font-size:30px; margin:14px 0 6px; letter-spacing:.08em; color:#211d18}#wrap-script .cover .by{font-size:14px; color:#574e44; margin-top:18px}#wrap-script .cover .date{font-family:sans-serif; font-size:11px; color:#8a7d68; margin-top:4px}#wrap-script /* 目次 */
+.toc-card{
+  background:var(--sheet); margin:0 14px 22px; padding:18px 22px;
+  border:1px solid var(--line); border-radius:6px;
+}#wrap-script .toc-card h3{
+  margin:0 0 10px; font-size:13px; font-family:sans-serif; letter-spacing:.1em;
+  color:var(--accent); font-weight:800;
+}#wrap-script .toc-grid{display:grid; grid-template-columns:1fr 1fr; gap:4px 18px}
+@media(max-width:560px){#wrap-script .toc-grid{grid-template-columns:1fr}}#wrap-script .toc-grid a{
+  font-family:sans-serif; font-size:13px; color:#574e44; text-decoration:none;
+  padding:5px 6px; border-radius:5px; border-bottom:1px dotted var(--line);
+}#wrap-script .toc-grid a:hover{background:#f4ecdb; color:var(--accent)}#wrap-script /* 本文シート */
+.sheet{
+  background:var(--sheet); margin:0 14px; padding:30px 30px 44px;
+  border:1px solid var(--line); border-radius:6px;
+  box-shadow:0 2px 14px rgba(40,30,20,.07);
+}
+@media(max-width:560px){#wrap-script .sheet{padding:24px 18px 36px}}#wrap-script h2.scene{
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic UI",sans-serif;
+  font-size:18px; font-weight:800; color:#211d18;
+  margin:40px 0 16px; padding:8px 14px; background:#efe6d3;
+  border-left:5px solid var(--accent); border-radius:0 5px 5px 0;
+  scroll-margin-top:64px; letter-spacing:.04em;
+}#wrap-script h2.scene:first-child{margin-top:0}#wrap-script p{margin:0 0 14px}#wrap-script .desc{color:#2c2620; text-indent:0}#wrap-script .title{
+  text-align:center; font-weight:800; font-size:22px; letter-spacing:.12em;
+  color:#211d18; margin:26px 0; padding:14px; background:#f1e7d3;
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+}#wrap-script .credit{
+  font-family:sans-serif; font-size:13.5px; color:#1f5249; font-weight:700;
+  text-align:center; margin:22px 0; letter-spacing:.03em;
+}#wrap-script .note{
+  font-family:sans-serif; font-size:12.5px; line-height:1.85; color:#7a5a1c;
+  background:#f7efd9; border:1px dashed #d8bd84; border-radius:6px;
+  padding:11px 14px; margin:16px 0;
+}#wrap-script .line{display:flex; gap:2px; margin:0 0 10px; align-items:baseline; flex-wrap:wrap}#wrap-script .line .who{
+  font-family:sans-serif; font-weight:800; font-size:14px; color:var(--accent2);
+  flex:0 0 auto; min-width:5.5em; padding-right:4px;
+}#wrap-script .line .say{color:#211d18; flex:1; min-width:60%}#wrap-script /* スクロール進捗 */
+.prog{position:fixed; top:0; left:0; height:3px; background:var(--accent); width:0; z-index:40; transition:width .1s}#wrap-script footer{font-family:sans-serif; text-align:center;  font-size:11.5px; padding:26px 16px 50px; color:#7a6e58}#wrap-script .totop{
+  position:fixed; right:16px; bottom:16px; z-index:35;
+  background:#211d18; color:#f4efe4; border:none; border-radius:50%;
+  width:46px; height:46px; font-size:18px; cursor:pointer; box-shadow:0 3px 10px rgba(0,0,0,.2);
+  opacity:0; pointer-events:none; transition:opacity .2s;
+}#wrap-script .totop.show{opacity:1; pointer-events:auto}
+
+</style>
+</head>
+<body>
+
+<!-- パスワードゲート -->
+<div id="gate">
+  <div class="box">
+    <div class="lock">🔒</div>
+    <div class="k">PROJECT M — PRIVATE</div>
+    <h1>制作資料</h1>
+    <p>チーム限定のページです。<br>パスワードを入力してください。</p>
+    <input id="gate-input" type="password" inputmode="numeric" autocomplete="off" placeholder="パスワード">
+    <div class="err" id="gate-err"></div>
+    <button id="gate-btn">入る</button>
+  </div>
+</div>
+
+<div id="hidden-until-auth">
+  <!-- メニュー切り替えバー -->
+  <div id="shellnav">
+    <span class="brand">Project M</span>
+    <div class="tabs">
+      <button class="tab on" data-pane="tora">📖 虎の巻</button>
+      <button class="tab" data-pane="script">📜 脚本</button>
+    </div>
+  </div>
+
+  <!-- ペイン：虎の巻 -->
+  <div class="pane on" id="pane-tora">
+    <div id="wrap-tora">
+<header class="hero">
+  <div class="wrap">
+    <span class="kicker">PROJECT M · PRODUCTION HANDBOOK</span>
+    <h1>生成プロンプト 虎の巻</h1>
+    <p>TapNow（GPT Image 2 / Seedance 2.0）で、チームの誰がやっても最高品質の画像・動画が作れるための共通ツール集。脚本やストーリーボードを用意したら、下のシステムプロンプトをコピーしてAIに渡すだけ。</p>
+    <div class="flow">
+      <b>使い方の流れ</b><br>
+      ① 目的に合うシステムプロンプトを「コピー」 → ② TapNowのキャンバス（または任意のLLM）に貼る → ③ 続けて脚本・絵コンテ・素材の説明を貼る → ④ AIが設計図どおりにプロンプトを組み立てる → ⑤ そのプロンプトで画像 / 動画を生成
+    </div>
+  </div>
+</header>
+
+<nav class="toc" id="toc">
+  <div class="wrap">
+    <a href="#start">はじめに</a>
+    <a href="#workflow">使い方の流れ</a>
+    <a href="#sys-img">①画像 SYS</a>
+    <a href="#sys-oneshot">②動画ワンショット SYS</a>
+    <a href="#sys-multi">③動画マルチカット SYS</a>
+    <a href="#tpl-space">④空間把握シート</a>
+    <a href="#tpl-cut">⑤CUT分解シート</a>
+    <a href="#dialogue">⑥台詞・芝居</a>
+    <a href="#spec">⑦語彙・仕様</a>
+    <a href="#rules">⑧規約・運用</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ===== はじめに ===== -->
+<section id="start">
+  <div class="sec-head"><span class="no">00</span><h2>はじめに — このツールの考え方</h2></div>
+  <p class="lead">「システムプロンプト」は、AIに渡す<b>設計指示書</b>です。これを先に読ませると、AIはその後に貼った脚本やストーリーボードを、Seedance 2.0 / GPT Image 2 の作法どおりに最適なプロンプトへ組み立て直してくれます。チーム全員が同じ設計図を使うことで、誰がやっても品質がブレなくなります。</p>
+
+  <div class="grid3">
+    <div class="card">
+      <span class="tag gold">3つのSYS</span>
+      <h4 style="margin-top:6px">用途で選ぶ</h4>
+      <p class="mini">画像生成・動画ワンショット・動画マルチカットの3種。作りたいものに合うものをコピーして使います。</p>
+    </div>
+    <div class="card">
+      <span class="tag green">2つのTPL</span>
+      <h4 style="margin-top:6px">設計を固める</h4>
+      <p class="mini">空間把握シートとCUT分解シート。素材の前段で「世界観」と「動き」を固定するための型です。</p>
+    </div>
+    <div class="card">
+      <span class="tag red">守る順番</span>
+      <h4 style="margin-top:6px">SYS → 素材</h4>
+      <p class="mini">必ずシステムプロンプトを先、脚本・絵コンテ・参照の説明を後。逆だとAIが設計を無視しがちです。</p>
+    </div>
+  </div>
+
+  <div class="note"><b>共通の鉄則（3つ全部に効く）</b><br>
+  ・<b>@タグは必ず明示</b>：参照画像は <code>@Image1</code>、参照動画は <code>@Video1</code> と役割つきで書く。<br>
+  ・<b>1ビート1動詞</b>：1文に動作を詰めない。複合動作はビート分け。<br>
+  ・<b>カメラは1ショット1移動</b>：pan/dolly/orbit等から1つだけ。<br>
+  ・<b>台詞はひらがな</b>：音声の誤読防止（掛け声・固有名詞は除く）。<br>
+  ・<b>IP回避</b>：作品名・キャラ名は出さず、外見描写に置き換える。</div>
+
+  <div class="warn"><b>TapNowで使う前提</b><br>
+  素材生成はすべてTapNow内のGPT Image 2 / Seedance 2.0 で行います。TapNowのキャンバスに直接これらのSYSを貼ってもよいし、別のLLMにSYS＋脚本を渡してプロンプトだけ作らせ、できたプロンプトをTapNowに持ち込む使い方でもOKです。</div>
+</section>
+
+
+<!-- ===== ワークフロー ===== -->
+<section id="workflow">
+  <div class="sec-head"><span class="no">0.5</span><h2>使い方の流れ</h2><span class="sub">下ごしらえは1回だけ・あとは演出メモだけで回る</span></div>
+  <p class="lead">この虎の巻は<b>2段階</b>で使います。最初に<b>「準備フェーズ」</b>でキャラと世界観を一度だけ固定しておけば、あとは<b>「制作フェーズ」</b>で<b>脚本の抜粋＋演出メモを書くだけ</b>で、毎回ブレない最高のプロンプトが出ます。AIが返すのは生成用プロンプト（設計図）で、それをTapNowで生成する流れです。</p>
+
+  <!-- 準備フェーズ -->
+  <div class="phase prep"><span class="badge">PHASE 1 · 準備</span><span class="ttl">下ごしらえ（最初に1回だけ）</span><span class="freq">最初だけ</span></div>
+  <p class="mini">なぜ要るか：これを省くと、AIが映美やモモエの顔・服を毎回バラバラに想像して<b>キャラが崩れます</b>。一度「いつもの参照」を作れば、以降ずっと使い回せます。</p>
+  <div class="onceframe">
+    <div class="wf">
+      <div class="wf-step">
+        <div class="wf-num gold">A</div>
+        <div class="wf-body"><h4>主要キャラの設計図を作る</h4>
+          <p><b>①画像SYS</b>をコピー → AIに貼る → 映美・モモエ等の見た目を渡す → 出たプロンプトをTapNowのGPT Image 2で生成。これが今後の <code>@Image1</code>（キャラ参照）になる。</p>
+          <span class="where">①画像SYS ＋ GPT Image 2</span></div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num gold">B</div>
+        <div class="wf-body"><h4>各時代パートの世界観を固定する</h4>
+          <p><b>④空間把握シート</b>で背景・光・色を1枚に。各時代パート（60s公園・70s城・ピーチの世界…）ごとに作っておくと、背景がブレない。</p>
+          <span class="where">④空間把握シート ＋ GPT Image 2</span></div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num gold">C</div>
+        <div class="wf-body"><h4>「参照素材」として保存</h4>
+          <p>できたキャラ設計図・空間把握シートをまとめて保存。これが制作フェーズで毎回使う「いつもの参照」になる。</p>
+          <span class="where">Discord / Drive 等に保管</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 制作フェーズ -->
+  <div class="phase make"><span class="badge">PHASE 2 · 制作</span><span class="ttl">毎カットの作業（ここがメイン）</span><span class="freq">カットごとに繰り返し</span></div>
+  <p class="mini">準備が済めば、ここからは<b>脚本の抜粋＋演出メモを書くだけ</b>。キャラと世界観は参照を指すだけでOK。</p>
+  <div class="makeframe">
+    <div class="wf">
+      <div class="wf-step">
+        <div class="wf-num">1</div>
+        <div class="wf-body"><h4>脚本から該当箇所をコピー</h4>
+          <p>動かしたいカットのト書き・台詞を、脚本タブからそのままコピーする。</p>
+          <span class="where">📜 脚本タブ</span></div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">2</div>
+        <div class="wf-body"><h4>演出メモを一言そえる</h4>
+          <p>「涙を誘うようにゆっくり寄って」「静かな空気で」など、<b>狙いだけ</b>書く。カメラ用語に翻訳するのはAIの仕事なので、感覚的でOK。</p>
+          <span class="where">自分の言葉でOK</span></div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num">3</div>
+        <div class="wf-body"><h4>SYSをコピペ＋参照を指す</h4>
+          <p>作りたいものに合うSYS（動画1カット＝②／複数カット＝③／画像＝①）をコピーして貼り、「<code>@Image1＝映美の設計図</code>」のように準備した参照を一行で指定する。</p>
+          <span class="where">①〜⑤ から選ぶ</span></div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num gold">4</div>
+        <div class="wf-body"><h4>AIが最高のプロンプトを設計</h4>
+          <p>@タグ・1ビート1動詞・カメラ語彙・台詞ひらがな・IP回避まで全部組み込んだ英語プロンプトが返ってくる。</p>
+          <span class="where">AIの返答</span></div>
+      </div>
+      <div class="wf-step">
+        <div class="wf-num green">5</div>
+        <div class="wf-body"><h4>TapNowのノードで生成</h4>
+          <p>そのプロンプトを使い、ノードで<b>画像素材＋音声素材を繋げて動画生成</b>。または<b>画像素材を入れて空間把握／ストーリーボード生成</b>。一発完璧は前提にせず、弱い箇所だけ作り直す（画像3〜5割再生成・動画は2リロールまで）。</p>
+          <span class="where">TapNow（GPT Image 2 / Seedance 2.0）</span></div>
+      </div>
+    </div>
+    <p class="loop">↻ 2〜5 をカットの数だけ繰り返す</p>
+  </div>
+
+  <h3><span class="dot"></span>つまり毎回やることは、これだけ</h3>
+  <p class="mini">素材（キャラシート・背景・小物・音声）を<b>ノードで繋いであれば</b>、参照は書かなくてOK。AIが繋がった素材を自動で役割判定します。ユーザーは<b>演出の狙いだけ</b>を書きます。</p>
+
+  <div class="copybox" data-copy="cp-wf-node">
+    <div class="bar"><span class="ttl">★ ノード接続あり用（メイン）演出メモだけ</span><button class="btn" onclick="copyBox('cp-wf-node',this)">コピー</button></div>
+    <pre><code id="cp-wf-node">＝＝＝ここから素材＝＝＝
+【脚本の抜粋】<span class="fill">[脚本タブからコピーしたト書き・台詞をそのまま貼る]</span>
+【台詞】<span class="fill">[あれば書く（感情も添えてOK。例：泣きそうに「そばにいるよ」）。無ければ空欄／「なし」]</span>
+【演出の狙い】<span class="fill">[感覚的でOK。例：ドラマティックに／ダイナミックに／ハリウッド映画みたいに／涙を誘うように静かに]</span>
+【尺】<span class="fill">[例：5秒／カット数]</span>
+＝＝＝ここまで＝＝＝
+このノードに接続済みの素材（キャラシート・背景・小物・音声）を役割ごとに自動判定し、@タグ参照として使ってください。不足する参照は創作しないこと。台詞があるときだけ芝居つきで出力し（ひらがなに変換）、無いときは喋らせず無音やアンビエンスにしてください。BGM（音楽・スコア）は出力しないでください（"No background music. No score."）。カメラワーク・アングル／人物の動線／位置関係は具体的に言語化してください。上のSYSの作法どおり、英語の動画生成プロンプト（1ビート1動詞・カメラ語彙・IP回避込み）に整えてください。</code></pre>
+  </div>
+
+  <details class="acc"><summary>予備：ノードを使わず手書きで参照を指定する場合</summary>
+  <div class="body">
+    <p class="mini">別のLLMでプロンプトだけ先に作るときや、まだノードに素材を繋いでいないときはこちら。参照を文字で指定します。</p>
+    <div class="copybox" data-copy="cp-wf-vid">
+      <div class="bar"><span class="ttl">手書き版 貼り付け例文（動画）</span><button class="btn" onclick="copyBox('cp-wf-vid',this)">コピー</button></div>
+      <pre><code id="cp-wf-vid">＝＝＝ここから素材＝＝＝
+【脚本の抜粋】<span class="fill">[脚本タブからコピーしたト書き・台詞をそのまま貼る]</span>
+【参照】<span class="fill">[例：@Image1＝映美の設計図／@Image2＝モモエの設計図／背景は〇〇の空間把握シート]</span>
+【演出メモ】<span class="fill">[狙いだけ。例：涙を誘うようにゆっくり寄って、静かな空気で]</span>
+【尺】<span class="fill">[例：5秒／カット数]</span>
+＝＝＝ここまで＝＝＝
+上のSYSの作法どおり、英語の動画生成プロンプト（@タグ・1ビート1動詞・IP回避込み）に整えてください。台詞はひらがなに変換してください。</code></pre>
+    </div>
+    <div class="copybox" data-copy="cp-wf-img">
+      <div class="bar"><span class="ttl">準備フェーズ用 貼り付け例文（キャラ設計図・画像）</span><button class="btn" onclick="copyBox('cp-wf-img',this)">コピー</button></div>
+      <pre><code id="cp-wf-img">＝＝＝ここから素材＝＝＝
+【キャラ】<span class="fill">[名前]</span>。<span class="fill">[年齢感・髪・目・服装・体格・持ち物・特徴を一息で]</span>。崩れたら戻す目印＝<span class="fill">[いちばん目立つ特徴を1〜2点]</span>。
+【場面】<span class="fill">[正面・横・後ろの三面図／または基準となる立ち姿]</span>。
+【画づくり】<span class="fill">[ねらい。例：記憶の質感／静かな温かさ]</span>。
+【用途】今後の動画生成で @Image1（キャラ参照）として使い回す設計図。
+＝＝＝ここまで＝＝＝
+上のSYSの作法どおり、英語の画像生成プロンプトに整えてください。</code></pre>
+    </div>
+  </div>
+  </details>
+
+  <div class="warn"><b>最後に大事な確認</b>：AIはプロンプト段階のIP回避はしてくれますが、<b>「実在作品を想起させすぎていないか」の最終判断は人間（チーム）の仕事</b>です。各年代パートは生成前に一度チームで見て、安全側に倒してください。</div>
+</section>
+
+<!-- ===== ① 画像 SYS ===== -->
+<section id="sys-img">
+  <div class="sec-head"><span class="no">01</span><h2>システムプロンプト：画像生成（GPT Image 2）</h2><span class="sub">キャラ設計図・絵コンテのコマ・コンセプトアート用</span></div>
+  <p class="lead">キャラクターの一貫性を保ちながら、Seedanceに渡す静止画（キーフレーム）を作るためのSYS。これをコピーして貼り、続けて「誰が・何を・どこで」を書けば、AIが完成プロンプトに整えます。</p>
+
+  <div class="copybox" data-copy="sys-img">
+    <div class="bar"><span class="ttl">SYSTEM PROMPT — IMAGE (GPT Image 2)</span><button class="btn" onclick="copyBox('cp-sys-img',this)">コピー</button></div>
+    <pre><code id="cp-sys-img">あなたはGPT Image 2向けのアニメ画像生成プロンプト設計のプロです。私が後から渡す「脚本・場面・キャラ説明・参照素材の説明」をもとに、最高品質の画像生成プロンプトを英語で設計してください。
+
+【あなたが守る設計ルール】
+1. 出力は英語プロンプト。ただし画像内に表示する文字（看板・字幕など）は原語のまま " " で囲んで指定する。
+2. GPT Image 2 は Thinking モードで多パネルの一貫性が上がる前提で設計する。1プロンプトで一貫性が確実なのは3〜5コマ。6コマ以上は「後半でキャラがdriftする」前提にし、参照画像を挟む運用を注記する。
+3. 参照素材があれば必ず @Image1, @Image2... と役割つきで明示する（例：@Image1 = character identity reference）。【ノード接続運用】ユーザーが演出メモしか書かず接続済み画像だけがある場合は、接続された @Image を内容から役割自動判定（人物＝キャラ参照、背景＝環境参照、小物＝プロップ参照）し、それを活かす前提で書く。不足参照は創作しない。
+4. 顔より小物（アクセサリ・持ち物）が崩れやすい。重要な小道具は、それが映るコマにだけ登場させる。背景の細かい小物は描き込まない。
+5. イラスト調（cel shading）は一貫性が保ちやすい。スタイルは「線の太さ・塗り・陰影・発色・仕上げ」まで具体化する。曖昧な「アニメ風」で済ませない。
+6. ストーリーボードのコマには「動きの方向」を描き込む（後でSeedanceに渡すと動きが良くなる）。
+7. IP・作品名・キャラ名・ブランド名は出さない。必ず外見描写に置き換える。
+8. レンズ感（24mm/85mm等）は画像側では使ってよい（動画SYSとは使い分ける）。
+
+【出力フォーマット】以下の構造で英語プロンプトを書く：
+[Reference] @Image1 = ... （あれば）
+[Subject/Character] 年齢感・髪・目・服装・体格・持ち物・特徴。崩れても戻せる「見た目アンカー」を1〜2点。
+[Action/Expression] 何をしている瞬間か。表情・視線・仕草・感情。
+[Location/Background] 場所・時間帯・季節・天候・空気感。
+[Composition/Camera] shot size（wide/medium/close）＋ angle（eye/low/high）＋ lens feel。
+[Lighting/Color] 光源と方向（golden hour / soft diffused / high contrast 等の具体語）＋色温度・トーン。
+[Key Details] 手・小物・服の素材・髪の流れなど崩れると困る細部。
+[Constraints] Maintain @Image1's character design, proportions, and art style. No identity drift. No extra limbs, no distorted hands.
+[Art Style] 1本の強い軸で。形容詞を盛りすぎない。
+
+【出力前チェック】
+- @タグを明示したか／見た目アンカーを入れたか／スタイルを1軸に絞ったか／IP固有名詞が無いか／6コマ超なら参照運用を注記したか。
+
+準備ができたら「画像の脚本・場面・キャラを渡してください」とだけ返答してください。</code></pre>
+  </div>
+
+  <details class="acc"><summary>このSYSの使用例（貼ったあとに続けて書く内容）</summary>
+  <div class="body">
+    <p class="mini">SYSを貼ったあと、こんな風に素材を渡します：</p>
+    <div class="copybox" data-copy="ex-img">
+      <div class="bar"><span class="ttl">続けて貼る例</span><button class="btn" onclick="copyBox('cp-ex-img',this)">コピー</button></div>
+      <pre><code id="cp-ex-img">キャラ：108歳の祖母モモエ。小柄、銀髪を低いお団子、丸眼鏡、深い皺、温かいニットのショール、梅色の和装ブラウス。優しい三日月の目。
+場面：差し込む朝日の畳の部屋。曾孫の映美（10歳・黒髪ボブ・黄色いジャケット）と手をつないで向かい合い、互いの額を寄せる。塵が光の中を漂う。
+ねらい：「記憶の質感」。派手さより静かな温かさ。3コマの絵コンテ（手をつなぐ→額を寄せる→一粒の色がともる）にしたい。</code></pre>
+    </div>
+  </div>
+  </details>
+</section>
+
+<!-- ===== ② 動画ワンショット SYS ===== -->
+<section id="sys-oneshot">
+  <div class="sec-head"><span class="no">02</span><h2>システムプロンプト：動画ワンショット（Seedance 2.0）</h2><span class="sub">1カット・1場面を動かす</span></div>
+  <p class="lead">1枚の画像（または1場面）を動かす単一ショット用。1ビート1動詞・カメラ1移動を徹底し、アニメ専用エフェクトまで設計させます。</p>
+
+  <div class="copybox" data-copy="sys-one">
+    <div class="bar"><span class="ttl">SYSTEM PROMPT — VIDEO ONE-SHOT (Seedance 2.0)</span><button class="btn" onclick="copyBox('cp-sys-one',this)">コピー</button></div>
+    <pre><code id="cp-sys-one">あなたはSeedance 2.0向けのアニメ動画生成プロンプト設計のプロです。私が後から渡す「場面・動き・参照素材の説明」をもとに、単一ショットの最高品質な動画プロンプトを英語で設計してください。
+
+【Seedance 2.0 の核心仕様（必ず守る）】
+1. @タグ参照：アップロード素材は @Image1 / @Video1 / @Audio1 として、必ず役割つきで明示する（例：@Image1 = identity & style reference, @Video1 = camera motion reference）。役割を1ファイル1つに絞る（カメラ参照と被写体指示を同じ文に混ぜない）。【ノード接続運用】ユーザーが素材説明を書かず接続済み素材だけがある場合は、接続された @Image / @Video / @Audio を内容から役割自動判定する（人物像＝キャラ参照、背景画＝環境参照、小物＝プロップ参照、音声＝リズム/リップシンク参照）。不足している参照は勝手に創作せず、プロンプト側は接続素材を活かす前提で書く。
+2. 1ビート1動詞：1文に動作を詰めない。複合動作は Beat 1 / Beat 2 / Beat 3 と分ける（3〜4ビートが目安）。
+3. カメラは1ショット1移動：push-in / pull-out / pan / tracking / orbit / aerial / handheld / fixed から1つだけ。複合が必要なら「Start: A. Then: B for final X sec.」と時間で区切る。
+4. カメラはリズム語で書く（slow, smooth, gradual, gentle）。技術用語（85mm, f/2.8, 24fps）は動画では使わない。速度は「slow push-in」など速さ＋方向で。
+5. 200語以内/ショット。情報過多は精度を下げる。
+6. アニメエフェクトは明示しないと出ない：speed lines（シャープな線、ブラー不可）/ impact frame（接触時0.3秒フリーズ＋十字フラッシュ）/ smear frame（最速の一瞬を伸縮）/ cel shading（フラット色面＋ハード影）。
+7. キャラのidentity drift防止を必ず明記：Maintain @Image1's character design and art style throughout. No identity drift.
+8. 台詞・ナレーション・掛け声はひらがな表記（音声誤読防止。固有名詞・定着した掛け声「ふん！」等は除く）。【台詞の出し分け】渡された脚本・素材に台詞があるときだけ台詞として出力する（引用符で囲み、直前に感情・トーンを添える。例：calm, holding back tears: "..."）。台詞が無いときは無理に喋らせず、無音またはアンビエンス/SEのみにする。台詞を創作しない。
+9. IP・作品名・キャラ名・ブランド名は出さず外見描写に置換。
+
+【出力フォーマット】英語で：
+[Reference Assets] @Image1 = ... / @Video1 = ...（あれば）＋ identity drift防止文。
+[Motion/Action — ONE VERB PER BEAT] Beat 1: ... / Beat 2: ... / Beat 3: ...
+[Camera — ONE MOVEMENT] shot size + 1 movement + speed/方向。
+[Location/Background] 背景の動き（花びら・雨・塵など）。
+[Lighting/Color] 時間で光が変わるか＋具体語。
+[Anime-Specific Effects] speed lines / impact frame / smear frame / cel shading の要否とタイミング。
+[Duration/Loop] 尺の目安・ループ可否。
+[Constraints] No identity drift. No extra limbs, no distorted hands, no morphing background.
+[Audio] 【BGMは出力しない（最重要）】原則 "No background music. No score." を必ず入れる。音は台詞・SE・アンビエンスのみ（BGMは編集で後付けする方針）。台詞はひらがな。完全無音なら "Complete silence. No music. No SFX."
+
+【出力前チェック】@タグ明示／1ビート1動詞／カメラ1移動／エフェクト指定／drift防止／200語前後／IP無し／台詞ひらがな。
+
+準備ができたら「ワンショットの場面・動き・参照を渡してください」とだけ返答してください。</code></pre>
+  </div>
+
+  <div class="note"><b>画像SYSとの違い</b>：レンズmm表記は画像側でのみOK。動画側は <code>slow push-in</code> のようなリズム語で書きます（Seedanceは写真用語より人間的なリズム語を正確に解釈するため）。</div>
+</section>
+
+<!-- ===== ③ 動画マルチカット SYS ===== -->
+<section id="sys-multi">
+  <div class="sec-head"><span class="no">03</span><h2>システムプロンプト：動画マルチカット（Seedance 2.0）</h2><span class="sub">複数カットを1本に・台詞や可変速も</span></div>
+  <p class="lead">複数ショットを連続シーケンスとして1回で組む用。タイムスタンプをカット指示として使い、ショット間のキャラ一貫性・可変速・台詞まで設計させます。Seedanceは1プロンプトで最大5ラベルのショットまで安定して追従します。</p>
+
+  <div class="copybox" data-copy="sys-multi">
+    <div class="bar"><span class="ttl">SYSTEM PROMPT — VIDEO MULTI-CUT (Seedance 2.0)</span><button class="btn" onclick="copyBox('cp-sys-multi',this)">コピー</button></div>
+    <pre><code id="cp-sys-multi">あなたはSeedance 2.0向けのアニメ動画生成プロンプト設計のプロです。私が後から渡す「脚本・絵コンテ・参照素材の説明」をもとに、複数カットを1本のシネマティックなシーケンスにする最高品質な動画プロンプトを英語で設計してください。
+
+【Seedance 2.0 の核心仕様（必ず守る）】
+1. @タグ参照：@Image1 / @Image2（サブキャラ）/ @Video1（動き・カメラ参照）/ @Audio1（リズム・リップシンク）を役割つきで明示。1ファイル1役割。【ノード接続運用】ユーザーが演出メモしか書かず接続済み素材だけがある場合は、接続された全 @Image / @Video / @Audio を内容から役割自動判定する（人物＝キャラ参照、背景＝環境参照、小物＝プロップ参照、音声＝リズム/リップシンク参照）。不足参照は創作せず、接続素材を活かす前提でプロンプトを書く。
+2. マルチショット：1プロンプトで最大5ラベルのショットまで安定。各ショットを SHOT 1 / SHOT 2... とラベルし、絵コンテのコマ順を厳守。代替カットを勝手に作らない。
+3. タイムスタンプはカット指示：[0-3s] [3-7s] のように書くと、Seedanceは説明ラベルでなく実際の編集カット点として扱う。各タイムに「画＋動作＋ディテール」を対応させる。
+4. 1ビート1動詞／カメラは1ショット1移動（push-in / pull-out / pan / tracking / orbit / aerial / handheld / fixed）。複合は時間で区切る。カメラはリズム語で（技術用語は使わない）。
+5. 全ショット共通でキャラ一貫性を固定：Maintain each character's design and art style across all shots. No identity drift between shots.
+6. アニメエフェクトは明示：speed lines / impact frame（接触時0.3秒フリーズ＋十字フラッシュ）/ smear frame / cel shading。必要なショットにだけ。
+7. 台詞・ナレーション・掛け声はひらがな（誤読防止。固有名詞・定着した掛け声は除く）。台詞は引用符で囲み、直前に感情・トーンを置く（例：calm, holding back tears: "..."）。1台詞5〜10語、8秒以内。長い台詞は分割。【台詞の出し分け】渡された脚本・素材に台詞があるときだけ台詞を出力する。台詞が無いカットは無理に喋らせず、無音またはアンビエンス/SEのみにする。台詞を創作しない。
+8. 構成：最も激しい/感情の山は後半1/3に置く。動作の結果を明示する（"impact creates a shockwave" 等）。
+9. IP・作品名・キャラ名・ブランド名は出さず外見描写に置換。
+10. 【BGMは出力しない（最重要）】各ショット・全体とも "No background music. No score." を必ず明記する。音は台詞・SE・アンビエンスのみ。BGMは編集で後付けする方針。
+11. 【Seedanceの制約を前提に書く】Seedanceは i2v（画像→動画）と画像リファレンスを同時に使えない。よって演出の制御はストーリーボード（コンテ）で行う前提とし、プロンプトには各ショットの「カメラワーク・アングル／人物の動線／位置関係」を具体的に言語化して埋め込む（これが生成のブレ＝ガチャ回数を減らす）。
+
+【出力フォーマット】英語で：
+[Reference Assets] @Image1=... / @Image2=... / @Video1=... ＋ 全ショットdrift防止文。
+[SHOT 1 — タイトル | 0-Xs]
+  Beat 1: ... / Beat 2: ...
+  Camera: shot size + 1 movement + speed.
+  Anime effects: ...
+  Audio / Voice：【BGMは出力しない】"No background music. No score." を必ず入れる。音は台詞・SE・アンビエンスのみ。台詞がある場合のみ感情ラベル＋ひらがな台詞。
+[SHOT 2 — タイトル | X-Ys] （同様に繰り返し、最大5ショット）
+[Speed Map]（可変速がある場合のみ：0-Xs normal / Xs instant cut / X-Ys ramp / Ys impact freeze 0.3s）
+[Lighting/Color — 全ショット共通] カラーグレード方針。
+[Art Style — 全ショット共通] 1軸で。Maintain art style and identity throughout every shot.
+[Constraints] Each character consistent across all shots. No identity drift. Effects only where specified.
+
+【出力前チェック】@タグ／ショット5つ以内・コマ順厳守／タイムスタンプ／1ビート1動詞／カメラ1移動／台詞は感情ラベル＋ひらがな／山は後半／IP無し。
+
+準備ができたら「脚本・絵コンテ・参照を渡してください」とだけ返答してください。</code></pre>
+  </div>
+
+  <details class="acc"><summary>再生成の判断ツリー（思い通りにならない時）</summary>
+  <div class="body">
+    <p class="mini">1回の再生成で変えるのは<b>1要素だけ</b>。あれこれ同時に変えると原因が分からなくなります。</p>
+    <div class="tblwrap"><table>
+      <tr><th>症状</th><th>対処</th></tr>
+      <tr><td>フレーミングは合うが動きが違う</td><td>Cameraだけ調整。Subject/Actionは触らない</td></tr>
+      <tr><td>動きがふらつく・速すぎる</td><td><code>handheld</code>↔<code>gimbal/fixed</code>を切替、speedを明示</td></tr>
+      <tr><td>スタイル・色が安定しない</td><td>Art Styleを1軸に絞り、形容詞を減らす</td></tr>
+      <tr><td>キャラが変わる(人数増・小物変化)</td><td>@Image参照を見直し、Subjectを名詞1つにシンプル化</td></tr>
+      <tr><td>手・ラベル等のアーティファクトが3回連続</td><td>Constraintsを強化、構成を見直す</td></tr>
+      <tr><td>台詞のリップシンクがズレる</td><td>台詞を短く・感情ラベル追加。2回試して直らなければ編集で対処</td></tr>
+    </table></div>
+    <p class="mini"><b>2リロール制限</b>：初回＝基準、2回目＝音声/プロンプトを変えれば約6割改善、3回目＝小改善と引き換えに新たな癖。2回で決まらなければ生成を止めて編集で仕上げる。</p>
+  </div>
+  </details>
+</section>
+
+<!-- ===== ④ 空間把握シート TPL ===== -->
+<section id="tpl-space">
+  <div class="sec-head"><span class="no">04</span><h2>テンプレート：空間把握ロケーションシート</h2><span class="sub">世界観・背景の「聖典」を1枚に</span></div>
+  <p class="lead">ロケや世界観の設計図。撮影ポイント・光・動線を1枚に固定し、Seedanceで同じ背景を複数カット作るときの一貫性を担保します。<code>[ ]</code>を差し替えてGPT Image 2に渡すと、Image1（俯瞰マップ資料）のような図が作れます。</p>
+
+  <div class="copybox" data-copy="tpl-space">
+    <div class="bar"><span class="ttl">TEMPLATE — SPACE / LOCATION SHEET (GPT Image 2)</span><button class="btn" onclick="copyBox('cp-tpl-space',this)">コピー</button></div>
+    <pre><code id="cp-tpl-space">Create a single high-resolution 16:9 infographic-style reference sheet (2K, flat vector + soft illustration hybrid, clean editorial layout, thin hairline borders, generous white space, professional production-document look). Render ALL labels as crisp, perfectly legible text exactly as written in quotes. Do NOT invent extra text. This is a designed document, NOT a photo. No watermarks, no logos.
+
+[TITLE BLOCK — top left]
+kicker: "<span class="fill">[LOCATION_NAME 例：日本庭園風の公園]</span>"
+title: "空間把握ロケーション資料"
+sub: "ロケーションの特徴・動線・環境を一目で把握できる俯瞰マップ"
+
+[META HEADER — top center, boxed]
+"用途：<span class="fill">[PURPOSE]</span>" / "季節の目安：<span class="fill">[SEASON]</span>" / "時間帯の目安：<span class="fill">[TIME]</span>"
+
+[LEGEND — top right, boxed, titled "凡例"]
+red dashed arrow = "入口方向" / blue dashed arrow = "視線方向" / red star = "撮影ポイント" / music note = "音環境" / sun icon = "日照" / yellow dashed ellipse = "滞留しやすい場所"
+
+[CENTER — main bird's-eye illustrated map, ~55% of canvas]
+A soft watercolor-illustration aerial overview of <span class="fill">[LOCATION_NAME]</span>. Show full geography and how spots connect. Overlay: a red dashed arrow at bottom "入口方向"; blue dashed sightline arrows; numbered red markers ① ② ③ ④ ⑤ on their spots; yellow dashed ellipses on rest areas; a compass "N" lower-right. Palette: <span class="fill">[PALETTE_MOOD]</span>. Calm, readable, low-clutter.
+
+[SPOT CARDS — around the map, ① to ⑤, each with thumbnail + SAME 4-axis format]
+"① <span class="fill">[SPOT_1]</span>" + one-line feature + "★ 撮影ポイント"… + "♪ 音環境"… + "☀ 日照"…
+(repeat identically for ② <span class="fill">[SPOT_2]</span> / ③ <span class="fill">[SPOT_3]</span> / ④ <span class="fill">[SPOT_4]</span> / ⑤ <span class="fill">[SPOT_5]</span>)
+
+[BOTTOM — two boxes]
+left "全体の環境メモ": columns "♪ 音環境" "☀ 日照" "滞留しやすい場所" with 2-3 bullets each.
+right "おすすめ撮影時間帯": "早朝 / 午前 / 午後 / 夕方" mini sun-icons + one-line quality each.
+
+[FOOTER] "※季節・天候・時間帯により環境は変化します。現地確認を推奨します。"</code></pre>
+  </div>
+  <div class="note"><b>差し替え変数</b>：<code>[LOCATION_NAME]</code>ロケ名 ／ <code>[PURPOSE]</code>用途 ／ <code>[SEASON]</code><code>[TIME]</code>季節・時間 ／ <code>[SPOT_1〜5]</code>スポット名 ／ <code>[PALETTE_MOOD]</code>色調。各時代パート（60s公園・70s宇宙ステーション・パプリカ世界…）ごとに1枚作るのがおすすめ。</div>
+</section>
+
+<!-- ===== ⑤ CUT分解シート TPL ===== -->
+<section id="tpl-cut">
+  <div class="sec-head"><span class="no">05</span><h2>テンプレート：CUT分解ストーリーボードシート</h2><span class="sub">動きの設計図を1枚に</span></div>
+  <p class="lead">SHOT／キーフレーム／ビート／カメラパスを1枚にまとめる動きの設計図。<code>[ ]</code>を差し替えてGPT Image 2に渡すと、Image2（特攻服倒産シート）のような図が作れます。ここで作ったKFをSeedanceのFirst/Last Frameに渡すと動きが安定します。</p>
+
+  <div class="copybox" data-copy="tpl-cut">
+    <div class="bar"><span class="ttl">TEMPLATE — CUT BREAKDOWN SHEET (GPT Image 2)</span><button class="btn" onclick="copyBox('cp-tpl-cut',this)">コピー</button></div>
+    <pre><code id="cp-tpl-cut">Create a single high-resolution 16:9 storyboard breakdown sheet (2K, clean production-document layout, thin colored borders, dark-on-light editorial style). Render ALL labels as crisp, perfectly legible text exactly as written in quotes. Do NOT invent extra text. Designed document, NOT a photo. No watermarks.
+
+[HEADER BAR]
+title: "<span class="fill">[CUT_ID]</span>_<span class="fill">[CUT_NAME]</span>"
+spec line: "ショット分解 ― <span class="fill">[SHOT_COUNT]</span>ショット｜<span class="fill">[KF_COUNT]</span>キーフレーム｜<span class="fill">[BEAT_COUNT]</span>ビート｜<span class="fill">[DURATION]</span>"
+
+[CENTER — three SHOT rows, each = 2 keyframe panels side by side]
+ROW1 "SHOT A <span class="fill">[SHOT_A_NAME]</span>" timecode "0:00–0:01" rating "カオス度 ★★☆☆☆"
+  Panel "KF1": <span class="fill">[KF1_DESC]</span>. Overlay yellow arrows=motion, blue dashed=camera. Caption below.
+  Panel "KF2": <span class="fill">[KF2_DESC]</span>. Same overlays. Caption.
+ROW2 "SHOT B <span class="fill">[SHOT_B_NAME]</span>" "0:01–0:02" "カオス度 ★★★☆☆"
+  Panel "KF3": <span class="fill">[KF3_DESC]</span>. / Panel "KF4": <span class="fill">[KF4_DESC]</span>.
+ROW3 "SHOT C <span class="fill">[SHOT_C_NAME]</span>" "0:02–0:03" "カオス度 ★★★★☆"
+  Panel "KF5": <span class="fill">[KF5_DESC]</span>. / Panel "KF6": <span class="fill">[KF6_DESC]</span>.
+Keep the main subject visually consistent across all six panels.
+
+[LEFT SIDEBAR — 3 boxes]
+"リファレンス": thumbnail of <span class="fill">[REFERENCE_DESC]</span>.
+"VFX": grid of 6 small effect icons with one-word labels.
+"カラーパレット": 5 swatches with hex "<span class="fill">[PALETTE_HEX 例：#FF1493 ...]</span>".
+
+[RIGHT SIDEBAR — 3 boxes]
+"カオス度カーブ": small line chart, x="A(0:00)/B(0:01)/C(0:02)", y="カオス度", rising line + one-line arc summary.
+"カメラパス": 3 mini diagrams "A. <span class="fill">[CAMERA_A]</span>" "B. <span class="fill">[CAMERA_B]</span>" "C. <span class="fill">[CAMERA_C]</span>".
+"技術メモ": 4 short bullets (reference fidelity / show clearly / chaos ★★→★★★→★★★★★ / one hard constraint).
+
+[BOTTOM LEGEND BAR]
+yellow arrow="黄：動き" / red arrow="赤：インパクト" / blue dashed="青破線：カメラ" / thin white line="白：スロー・連続".
+
+[CONTROL NOTES — render as a small side note on the sheet]
+"BGM出力なし（音は台詞・SE・環境音のみ）" / "カメラワーク・アングルを明示" / "人物の動線を矢印で" / "位置関係（キャラ・小物・背景）を固定"</code></pre>
+  </div>
+  <div class="note"><b>差し替え変数</b>：<code>[CUT_ID]</code><code>[CUT_NAME]</code>カット名 ／ <code>[SHOT/KF/BEAT_COUNT]</code><code>[DURATION]</code>構成サマリ ／ <code>[SHOT_A/B/C_NAME]</code>ショット名 ／ <code>[KF1〜6_DESC]</code>各コマ内容 ／ <code>[PALETTE_HEX]</code>HEX5色 ／ <code>[CAMERA_A/B/C]</code>カメラパス ／ <code>[REFERENCE_DESC]</code>参照素材。</div>
+
+  <div class="warn"><b>コンテで"演出を制御"する（Seedance運用の要）</b><br>
+  Seedanceは i2v と画像リファレンスを同時に使えないため、<b>演出はストーリーボードで伝えるのが基本</b>です。コンテに次の4点をビジュアルで描き込むと、生成が安定してガチャ回数が減ります：<br>
+  ① <b>BGMは出さない</b>（音は台詞・SE・アンビエンスのみ。BGMは編集で後付け）<br>
+  ② <b>カメラワーク・アングル</b>（寄り/引き/見上げ等を矢印や枠で）<br>
+  ③ <b>人物の動線</b>（誰がどこへ動くかを矢印で）<br>
+  ④ <b>位置関係</b>（キャラ・小物・背景の配置）<br>
+  さらに、可能なら<b>その時代パートの空間把握シート（④）も一緒に参照</b>させると背景の矛盾が減ります（※全シーン分の用意は時間的に厳しいので、背景が複雑な重要シーンを優先）。</div>
+
+  <div class="warn"><b>KF→Seedance 受け渡しの作法</b><br>
+  ① <b>First/Last Frameモード</b>で KF1=開始フレーム、KF2=終了フレームに指定（間が補間される）。<br>
+  ② カメラは8種から1つだけ。複合は「主 then 副」。<br>
+  ③ リズム語で書く（slow/smooth/gradual）。<br>
+  ④ @参照は役割明示（@Video1=カメラのみ参照、外見は@Image1）。<br>
+  ⑤ 参照は最大12ファイル。動き用の参照動画は4枚目の参照画像より優先。</div>
+</section>
+
+<!-- ===== ⑥ 台詞・芝居 ===== -->
+<section id="dialogue">
+  <div class="sec-head"><span class="no">06</span><h2>台詞で「いい芝居」をさせる</h2><span class="sub">Seedance 2.0 のリップシンク＆演技Tips</span></div>
+  <p class="lead">台詞を入れたとき自然な芝居をさせる鍵は、<b>台詞の直前に感情・話し方のアンカーを置く</b>こと。これが芝居の質を決める最大の要因です。</p>
+
+  <h3><span class="dot"></span>最重要：感情＋話し方アンカー</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>✕ 素っ気ない指示</h4>
+      <p class="mini"><span class="x">make actor natural</span> → 中立的な無表情、タイミングもズレがち。</p>
+    </div>
+    <div class="card">
+      <h4>○ 豊かなアンカー</h4>
+      <p class="mini"><span class="o">calm, slightly amused: pause before the punchline</span> → 音声と表情の意図が揃い、リップシンクも安定。</p>
+    </div>
+  </div>
+  <div class="tblwrap"><table>
+    <tr><th>種類</th><th>書き方の例</th><th>効果</th></tr>
+    <tr><td>感情アンカー</td><td><code>calm, warm, low-energy</code> / <code>excited, breathy, fast-paced</code></td><td>口の開き・呼吸パターンを設定</td></tr>
+    <tr><td>話し方スタイル</td><td><code>deliberate enunciation</code> / <code>quick, conversational</code></td><td>子音の出方を調整</td></tr>
+    <tr><td>マイクロ演出</td><td><code>pause 240ms before "but"</code></td><td>難しい転換点の同期に効く</td></tr>
+    <tr><td>過剰演技の抑制</td><td><code>natural, quiet, emotionally grounded, never theatrical</code></td><td>情感シーンの説得力UP</td></tr>
+  </table></div>
+
+  <h3><span class="dot"></span>台詞の書き方ルール</h3>
+  <ul class="clean">
+    <li><b>引用符＋直前に感情ラベル</b>：<code>calm, holding back tears: "そばに　いるよ"</code> のように。文脈なしの台詞より明確に良くなる。</li>
+    <li><b>ひらがな表記</b>：音声合成の漢字誤読を防ぐ。「正義は勝つ」→「せいぎは　かつ」。固有名詞・定着した掛け声（「ふん！」「はっ！」）は除く。</li>
+    <li><b>1台詞 5〜10語・8秒以内</b>：長いと口の動きが曖昧に。長台詞は2回に分けて生成して繋ぐ。</li>
+    <li><b>物理動作でなく感情と「間」を描く</b>：「一拍の沈黙。ゆっくり一度うなずく」のように、台詞のない間こそ芝居になる。</li>
+  </ul>
+
+  <h3><span class="dot"></span>@参照の役割（芝居まわり）</h3>
+  <div class="tblwrap"><table>
+    <tr><th>タグ</th><th>役割</th><th>コツ</th></tr>
+    <tr><td><code>@Audio1</code></td><td>リズムアンカー（リップシンク・拍合わせ）</td><td>音声参照を使うなら「台詞を一字一句追え」と明示</td></tr>
+    <tr><td><code>@Video1</code></td><td>動きアンカー（カメラ・振付の転写）</td><td>カメラ参照と被写体指示を同じ文に混ぜない</td></tr>
+    <tr><td><code>@Image1</code></td><td>ビジュアルアンカー（顔・衣装・スタイル）</td><td>シンプルな構図の上半身ポートレートが最適</td></tr>
+  </table></div>
+
+  <div class="note"><b>音声を自前で用意する場合</b>（TapNow内で完結するなら参考程度）：自然な話速の約80%で録音。フレーズ間に150〜400msの自然な間を残す（間を削りすぎると早口で不明瞭に）。</div>
+
+  <div class="warn"><b>2リロール制限</b>：初回＝基準、2回目で音声/プロンプトを変えれば約6割改善、3回目は小改善と引き換えに新たな癖が出がち。2回で決まらなければ生成を止めて編集で直す。</div>
+</section>
+
+<!-- ===== ⑦ 語彙・仕様 ===== -->
+<section id="spec">
+  <div class="sec-head"><span class="no">07</span><h2>語彙集・仕様リファレンス</h2><span class="sub">手元に置く早見表</span></div>
+
+  <details class="acc" open><summary>カメラ語彙（1ショット1つだけ選ぶ）</summary>
+  <div class="body"><div class="tblwrap"><table>
+    <tr><th>移動</th><th>効果</th></tr>
+    <tr><td><code>push-in</code>（寄り）</td><td>感情の高まり。closeで小さく効かせる</td></tr>
+    <tr><td><code>pull-out</code>（引き）</td><td>環境のリビール</td></tr>
+    <tr><td><code>pan</code></td><td>横方向の情報開示。ゆっくり保つ</td></tr>
+    <tr><td><code>tracking / dolly</code></td><td>被写体を追う・並行移動。映画的</td></tr>
+    <tr><td><code>orbit</code></td><td>被写体を中心に回り込む</td></tr>
+    <tr><td><code>aerial</code></td><td>空撮・俯瞰</td></tr>
+    <tr><td><code>handheld</code></td><td>微細な揺れ・素人感。テキスト表示には不向き</td></tr>
+    <tr><td><code>fixed</code></td><td>固定。安定・緊張</td></tr>
+  </table></div>
+  <p class="mini">ショットサイズ：<code>wide</code>（空間説明）/<code>medium</code>（被写体＋文脈）/<code>close</code>（感情）/<code>extreme close-up</code>（強調）。複合移動は「Start: A. Then: B for final X sec.」。</p>
+  </div></details>
+
+  <details class="acc"><summary>ライティング語彙（Seedanceが正確に解釈する語）</summary>
+  <div class="body">
+    <div class="pill-row">
+      <span class="tag">golden hour</span><span class="tag">overcast</span><span class="tag">neon-lit</span><span class="tag">high contrast</span><span class="tag">soft diffused</span><span class="tag">candlelight</span>
+    </div>
+    <p class="mini">「いい感じのlight」のような曖昧表現は精度を下げる。必ず光源・方向・質を具体語で。</p>
+  </div></details>
+
+  <details class="acc"><summary>アニメ専用エフェクト（明示しないと出ない）</summary>
+  <div class="body"><div class="tblwrap"><table>
+    <tr><th>エフェクト</th><th>書き方</th></tr>
+    <tr><td>スピードライン</td><td><code>Speed lines radiating from the point of motion, sharp and clean, not blurred.</code></td></tr>
+    <tr><td>インパクトフレーム</td><td><code>Impact frame: freeze 0.3s at contact, bright cross-shaped flash.</code></td></tr>
+    <tr><td>スミアフレーム</td><td><code>Smear frame at peak velocity — stretched, smeared single-frame motion.</code></td></tr>
+    <tr><td>セルシェーディング</td><td><code>Clean cel-shaded 2D anime. Flat color blocks with hard shadow edges.</code></td></tr>
+  </table></div>
+  <p class="mini"><b>結果を明示するフレーズ</b>：<code>impact creates a shockwave ripple expanding outward</code> / <code>shatters into a million pieces, fragments scattering in slow motion</code> / <code>the strike connects with a bright cross-shaped flash</code></p>
+  </div></details>
+
+  <details class="acc"><summary>IP回避：外見描写への置換表</summary>
+  <div class="body"><div class="tblwrap"><table>
+    <tr><th>✕ NG（固有名詞）</th><th>○ OK（外見描写）</th></tr>
+    <tr><td>特定キャラ cosplay</td><td>spiky silver wig, dark military jacket with shoulder guard and many belts</td></tr>
+    <tr><td>Western comic book</td><td>Dynamic 2D illustrated action sequence</td></tr>
+    <tr><td>halftone</td><td>bold dot-pattern shading</td></tr>
+    <tr><td>Ghibli-inspired</td><td>soft painterly background, hand-drawn texture, warm muted palette</td></tr>
+    <tr><td>90s anime aesthetic</td><td>retro cel-shaded look, slightly soft line work, muted color grading</td></tr>
+  </table></div></div></details>
+
+  <details class="acc"><summary>推奨スペック＆構成の黄金パターン</summary>
+  <div class="body">
+    <div class="tblwrap"><table>
+      <tr><th>項目</th><th>推奨</th></tr>
+      <tr><td>フレームレート</td><td>24fps（標準）/ 60fps（高速アクションのスロー用）</td></tr>
+      <tr><td>解像度</td><td>1080p または 4K</td></tr>
+      <tr><td>アスペクト比</td><td>16:9 / 9:16 / 1:1</td></tr>
+      <tr><td>1ショット尺</td><td>2〜15秒（最大15秒/生成）</td></tr>
+      <tr><td>プロンプト語数</td><td>200語以内/ショット</td></tr>
+      <tr><td>一貫性の安全圏</td><td>画像は3〜5コマ・動画は5ショットまで</td></tr>
+    </table></div>
+    <p class="mini"><b>短尺の構成</b>：前半1/3＝状況設定・伏線／中盤＝緊張・小さな衝突／後半1/3＝最大の山・余韻。感情のアーク（喜び→緊張→衝撃→解決）を明示的に設計する。</p>
+  </div></details>
+
+  <details class="acc"><summary>反復改善の4ステップ（公式推奨）</summary>
+  <div class="body"><ol class="steps">
+    <li><b>Baseline</b>：標準プロンプトで2〜3パターン生成</li>
+    <li><b>1変数だけ変更</b>：カメラ／動きの強度／スタイルのどれか1つ</li>
+    <li><b>採点</b>：一貫性・指示再現度・編集での使いやすさで評価</li>
+    <li><b>選択</b>：最高得点を採用。良いプロンプトはチームで保存・再利用</li>
+  </ol></div></details>
+</section>
+
+<!-- ===== ⑧ 規約・運用 ===== -->
+<section id="rules">
+  <div class="sec-head"><span class="no">08</span><h2>規約・運用メモ</h2><span class="sub">コンテスト対応で外せない点</span></div>
+  <div class="grid2">
+    <div class="card">
+      <h4>ログ保存（必須）</h4>
+      <ul class="clean">
+        <li>全プロンプト・参照画像・使用ツール名・モデル名・用途を保存</li>
+        <li>どの経路で生成したか（TapNow内のどのモデル等）も記録</li>
+        <li>削除・閲覧不能にしない</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>第三者著作物の回避</h4>
+      <ul class="clean">
+        <li>作品名・キャラ名・商標を想起させる内容は脚本・プロンプト・記入欄すべてで禁止</li>
+        <li>外見描写に置き換える（⑦の置換表を使う）</li>
+        <li>各時代パートの背景・小道具も要チェック</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note"><b>バージョン固定</b>：本番運用ではモデルのバージョンを記録・固定すると、生成のブレを抑えられ、ログ保存とも相性が良い。</div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Project M ｜ 生成プロンプト 虎の巻 — チーム内限定の制作資料です。第三者への共有・転載はご遠慮ください。</span>
+    <span class="mini">コピーボタンで各システムプロンプト・テンプレートをそのまま取得できます。SYSを先、脚本・素材を後の順で貼ってください。</span>
+  </div>
+</footer>
+    </div>
+  </div>
+
+  <!-- ペイン：脚本 -->
+  <div class="pane" id="pane-script">
+    <div id="wrap-script">
+<div class="prog" id="prog"></div>
+<div class="layout">
+  <div class="cover">
+    <div class="k">PROJECT M — SCRIPT</div>
+    <h1>1世紀旅行記</h1>
+    <div class="by">初稿　脚本　杜崎まさかず</div>
+    <div class="date">R8.6.17</div>
+  </div>
+
+  <div class="toc-card">
+    <h3>シーン目次</h3>
+    <div class="toc-grid">
+<a href="#scene-1">【シーン1】</a>
+<a href="#scene-2">【シーン2】</a>
+<a href="#scene-3">【シーン3】</a>
+<a href="#scene-4">【シーン4】</a>
+<a href="#scene-5">【シーン5（１）】</a>
+<a href="#scene-6">【シーン5（2）】</a>
+<a href="#scene-7">【シーン5（1）】</a>
+<a href="#scene-8">【シーン5(2)】</a>
+<a href="#scene-9">【シーン5（1）】</a>
+<a href="#scene-10">【シーン5（2）】</a>
+<a href="#scene-11">【シーン6】</a>
+<a href="#scene-12">【シーン7】</a>
+<a href="#scene-13">【シーン8】</a>
+<a href="#scene-14">【シーン9】</a>
+<a href="#scene-15">【シーン10】</a>
+<a href="#scene-16">【シーン10】</a>
+<a href="#scene-17">【シーン11】</a>
+<a href="#scene-18">【シーン 12】</a>
+<a href="#scene-19">【シーン13】</a>
+<a href="#scene-20">【シーン14】</a>
+    </div>
+  </div>
+
+  <div class="sheet">
+<p class="desc">R8.6.17</p>
+<p class="title">コロテック脚本『１世紀旅行記』　初稿</p>
+<p class="desc">杜崎まさかず</p>
+<p class="desc">題『１世紀旅行記』</p>
+<h2 class="scene" id="scene-1">【シーン1】</h2>
+<p class="desc">1920年代アニメの代表作『蒸気機関車ピーチ』の光景からはじまる。</p>
+<p class="desc">モノクロのアニメの世界。カートゥーン調の画風で、丸みを帯びた丘陵と、そこに敷かれた線路が描かれている。跳ねるようにして走る可愛らしい蒸気機関車が、ふわふわとした黒煙を出しながら通り過ぎていく。汽笛が鳴る。アニメの主人公であり、マスコットキャラのピーチが車窓から顔を出し笑っている。</p>
+<p class="desc">牧歌的な風景。しかし、そこに突如としてノイズが走る。風景の端では、地面が盛り上がって化け物のような何かが顔を出しているのが一瞬見切れる。ＰＣの液晶画面が不調を起こしたようなノイズは次第に画面を埋め尽くし、終いにはガビガビに。</p>
+<p class="desc">砂嵐のような画面を背景にタイトルが表示される。</p>
+<p class="title">1世紀旅行記</p>
+<p class="desc">背景は、タイトルが表示されたのをきっかけに、素早く巻き戻しされる。『蒸気機関車ピーチ』のアニメ世界の中へ主人公の映美とモモエが入り込むまでの、以降のストーリーの早戻しだ。</p>
+<p class="desc">タイトルの『1世紀旅行記』は、スロットのように文字を縦に回転。表示文字は</p>
+<p class="title">３０分前の記</p>
+<p class="desc">と変わる。</p>
+<h2 class="scene" id="scene-2">【シーン2】</h2>
+<p class="desc">ＴＶの画面のズーム。内容は近代アニメ史を振り返るバラエティ番組だ。</p>
+<p class="desc">そこには、</p>
+<p class="desc">『まちかど！　ハナコちゃん』</p>
+<p class="desc">『ナイトブライド』</p>
+<p class="desc">『ユニコーンボール』</p>
+<p class="desc">『翼機械獣ダンゲイン』</p>
+<p class="desc">『１世紀旅行記』</p>
+<p class="desc">と、各年代のトレンドであるアニメの名前のテロップが並んでいる。</p>
+<p class="line"><span class="who">ＴＶアナウンサー</span><span class="say">「来月には劇場版第3弾の公開も決まっている、令和の大人気アニメといえば『1世紀旅行記』ですよね。『1世紀旅行記』に絶大な影響を与えた作品こそが、なんと100年前にテレビ放映された『蒸気機関車ピーチ』なんです」</span></p>
+<p class="desc">「へー」「そうなんだぁ」「見たことないなぁ」など、スタジオのタレントの声が入る。</p>
+<p class="desc">ＴＶ画面では、1920年代当時に放映されていた『蒸気機関車ピーチ』の映像をハイライト的に流れる。</p>
+<p class="line"><span class="who">ＴＶアナウンサー</span><span class="say">「『蒸気機関車ピーチ』の内容はごくごくシンプルで、この主人公、汽車の運転手であるピーチが大好物のニンジンほしさに、さまざまなトラブルの解決に奮闘するという――」</span></p>
+<p class="desc">画面に缶ビールの空き缶が投げ付けられる。</p>
+<p class="desc">画面は現代、2026年の一般家屋の居間に変わる。そこは、主人公の映美、その1個差の兄・茂樹の両親の実家である。</p>
+<h2 class="scene" id="scene-3">【シーン3】</h2>
+<p class="desc">主人公の映美が、1歳年上の兄・茂樹に対し、空き缶を拾いに行きながら注意する。缶ビールの缶をＴＶに投げつけた茂樹に対して怒っているのだ。</p>
+<p class="line"><span class="who">映美</span><span class="say">「お兄ちゃんやめて！　モモエちゃんの誕生日に何やってんの」</span></p>
+<p class="desc">以降、かけ合いの中で、居間の風景が程よく差し込まれる。</p>
+<p class="desc">・『モモエひいおばあちゃん☆茶寿☆108歳』と丸文字で書かれた紙看板に、折り紙で作った輪飾り。映美とその両親が作ったであろう手製の祝いの席だとわかる。</p>
+<p class="desc">・食卓は、豪華な食事があらかた片付いた後であることがわかり、中央には半分ほどカットされたホールケーキが置かれている。食卓の映美の近くには、映美のスマホが置いてある。スマホには、アニメ『１世紀旅行記』のタイトルが書かれたストラップが繋がっている。</p>
+<p class="desc">・車椅子に座り、ぼーっとＴＶを眺めているのが、108歳を迎えた、映美の曾祖母であるモモエだ。モモエは加齢もあって、表情が乏しく、言葉もほとんど発しない。祝われていることを理解しているのか、外からではわからない状態だ。</p>
+<p class="line"><span class="who">茂樹</span><span class="say">「ガキじゃあるめえし、いい大人が揃いも揃ってアニメなんか見て馬鹿みてえ」</span></p>
+<p class="desc">茂樹は嘆くように吐き捨て、新しい缶ビールをあけて一口すする。既に泥酔状態である。</p>
+<p class="desc">声のボルテージは、掛け合い後半にかけて上がっていく。</p>
+<p class="line"><span class="who">映美</span><span class="say">「お兄ちゃんが観てるんじゃないの、モモエちゃんが観てるんだよ。モモエちゃんアニメ大好きだったでしょ？　私も観てるし」</span></p>
+<p class="line"><span class="who">茂樹</span><span class="say">「いい加減、ひいばあのこと『モモエちゃん』って呼ぶのやめたら？　ずっとお前はガキのまんまだよな」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「なによ」</span></p>
+<p class="line"><span class="who">茂樹</span><span class="say">「20代も半ばの社会人が、推しのアニメ見て『なになにくんカッコイイ～』ですか。へえ、こんなもんチャラチャラ着けてよ」</span></p>
+<p class="desc">茂樹、食卓に置かれた映美のスマホに着いているアニメ『１世紀旅行記』のストラップを触る。</p>
+<p class="desc">映美は反射的に、スマホを取り上げる。</p>
+<p class="line"><span class="who">茂樹</span><span class="say">「田舎出て東京で他人の脳味噌いじる商売してたら、てめえの脳味噌までわいちまったんだな」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「脳味噌いじるって、そんな言い方……医療器具の開発メーカーだって！　人の脳細胞を活性化させるっていう繊細な仕事を――」</span></p>
+<p class="line"><span class="who">茂樹</span><span class="say">「自慢？」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「違う、そういうんじゃ――」</span></p>
+<p class="line"><span class="who">茂樹</span><span class="say">「田舎こもって親父の農業の手伝いしかしてねえ俺と違って、自分はシティガールですから、頭の出来が違いますから一緒にしないでくださいって言いてえの」</span></p>
+<p class="line"><span class="who">映美の父</span><span class="say">「おい、茂樹、飲み過ぎだぞ！」</span></p>
+<p class="desc">映美の父の怒鳴り声で、一瞬居間は静まり返る。</p>
+<p class="desc">映美の父、咳払いをした後、茂樹に語り出す。</p>
+<p class="line"><span class="who">映美の父</span><span class="say">「明日は早くに春夏ニンジン収穫して市場まで持っていかなきゃならない。二日酔いじゃ動けんだろ。映美と違ってお前は体動かさないと仕事に――」</span></p>
+<p class="line"><span class="who">茂樹</span><span class="say">「ほら、親父も俺のこと土いじるしか能がねえ馬鹿だって言ってんじゃん」</span></p>
+<p class="desc">茂樹、鼻で笑う。</p>
+<p class="desc">映美の父、諭すような口調で言う。</p>
+<p class="line"><span class="who">映美の父</span><span class="say">「お前な、そろそろ跡取り長男の自覚を――」</span></p>
+<p class="line"><span class="who">茂樹</span><span class="say">「なりたくてなったんじゃねえよ」</span></p>
+<p class="line"><span class="who">映美の父</span><span class="say">「なに！？」</span></p>
+<p class="line"><span class="who">茂樹</span><span class="say">「人体実験する妹に、田舎に閉じ込める親父」</span></p>
+<p class="line"><span class="who">映美の父</span><span class="say">「馬鹿野郎、もういっぺん言ってみろ！」</span></p>
+<p class="desc">茂樹、立ち上がって玄関へ向かう。</p>
+<p class="line"><span class="who">茂樹</span><span class="say">「……もう、いいよ」</span></p>
+<p class="desc">茂樹、玄関へ向かう途中で歩いている途中でポケットから煙草を取り出し火を点ける。</p>
+<p class="line"><span class="who">映美の父</span><span class="say">「おい、家の中で煙草吸うなとあれほど――」</span></p>
+<p class="desc">注意する映美の父の声に茂樹は振り返りもせず、勢いよく玄関のドアを閉める音で遮った。</p>
+<p class="desc">映美は、モモエに目を向ける。</p>
+<p class="desc">モモエは、相も変わらず、『近代アニメ史』を振り返るＴＶ画面をぼーっと眺め続けている。</p>
+<h2 class="scene" id="scene-4">【シーン4】</h2>
+<p class="desc">引き続き、映美の両親宅、居間の風景。</p>
+<p class="desc">茂樹以外の家族が、誕生日会の飾りや、食卓の食器を片付けている。</p>
+<p class="line"><span class="who">映美の母が</span><span class="say">「茂樹どこまで行ったのかしら」と心配するが、父はぶっきらぼうに「すぐ帰って来るだろ、あいつには家出する度胸なんてないよ」と返す。</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「お父さん、ちょっと、モモエちゃん連れて外の風当たって来るね」</span></p>
+<p class="line"><span class="who">映美の父</span><span class="say">「おう、気を付けてな」</span></p>
+<p class="desc">映美の父の表情は、茂樹に向けた顔と違って朗らかだ。</p>
+<p class="line"><span class="who">映美の母</span><span class="say">「茂樹見かけたら帰って来なさいって言っといてね」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「うん」</span></p>
+<p class="desc">映美の母の言葉に、映美はモモエに外履きを履かせながら背中で応える。</p>
+<h2 class="scene" id="scene-5">【シーン5（１）】</h2>
+<p class="desc">映美がモモエの車椅子を押して向かった先は、有料駐車場に停めた映美の車。</p>
+<p class="desc">車のキーは、『１世紀旅行記』のキーケース付きで、バックミラーにも『１世紀旅行記』のストラップが吊るされている。</p>
+<p class="desc">後部座席にモモエを乗せ、横並びに映美も乗り込んだ。</p>
+<p class="line"><span class="who">映美</span><span class="say">「モモエちゃん、TV面白かった？」</span></p>
+<p class="desc">モモエ、反応はない。</p>
+<p class="line"><span class="who">映美</span><span class="say">「アニメ振り返れた？　108歳のアニオタなんて、きっとモモエちゃんだけだよ、すごいよ」</span></p>
+<p class="desc">モモエ、反応はない。</p>
+<p class="line"><span class="who">映美</span><span class="say">「モモエちゃんのおかげでアニメの世界を知ったんだよ。モモエちゃんに教えてもらったアニメを全部観て……今でも観てるよ」</span></p>
+<p class="desc">モモエ、反応はない。</p>
+<p class="desc">昔のような快活な反応がないモモエに切なさが込み上げてきた映美は、空元気気味に声を上げておどける。</p>
+<p class="line"><span class="who">映美</span><span class="say">「そんなアニオタモモエちゃんに、とっておきの誕プレがあるよ！」</span></p>
+<p class="desc">映美は足元のダンボールから頭部装着型の機具を取り出し掲げる。</p>
+<p class="line"><span class="who">映美</span><span class="say">「じゃーん！　『アニメ旅行キット』～～～！」</span></p>
+<p class="desc">ドラえもんが秘密道具を取り出した時のようなノリである。</p>
+<p class="desc">それをモモエの頭に被せる。</p>
+<p class="line"><span class="who">映美</span><span class="say">「この機械はね、自分の好きなアニメの映像を脳波にして直接脳神経に送ることができるんだ。つ・ま・り！　私たちが主人公になって、アニメの世界で遊べるようになるの。でも安心して！　イメージだから、敵キャラと闘っても痛みは感じないから！　何度も自分で試して平気だったから、安心安全の映美クオリティ！　へへ」</span></p>
+<p class="desc">映美の空元気は少しずつ、その効力を失ってくる。自分がどれだけ明るく振舞おうと、目の前にいるのは無反応で空を見つめるばかりのモモエなのだ。</p>
+<p class="line"><span class="who">映美</span><span class="say">「モモエちゃん昔教わったアニメ、年代順に全部インプットしてきた。モモエちゃんが一番元気だった頃の体で、アニメ旅行を楽しめる。一緒にアニメの主人公になろ。お誕生日おめでとう」</span></p>
+<p class="desc">切なさは限界に達し、映美は目を伏せて心情を吐露してしまう。</p>
+<p class="line"><span class="who">映美</span><span class="say">「……なんて、ね。本当は自分のために作ったのに。カッコつけちゃって、馬鹿みたい」</span></p>
+<p class="desc">足元のダンボールをごそごそ探って、もう一つ機具を取り出す。</p>
+<p class="line"><span class="who">映美</span><span class="say">「私がアニメの世界に逃げちゃいたかっただけなのに」</span></p>
+<p class="desc">自分の頭部に機具を装着して、無理やり笑顔を作る。</p>
+<h2 class="scene" id="scene-6">【シーン5（2）】</h2>
+<p class="note">※シーン5（１）の映美の音声が流れるまま、画面だけが切り替わります。以降、【シーン(2)】と記述したものは同様の差し込み方をしていただきたいです。</p>
+<p class="desc">画面は農道を千鳥足で歩く茂樹を映す。</p>
+<p class="desc">茂樹の手にはコンビニのビニール袋がぶら下がっていて、缶ビールを買ったことがわかる。</p>
+<p class="desc">煙草を咥えている。農道は、実家の春夏ニンジン畑に囲まれている。</p>
+<h2 class="scene" id="scene-7">【シーン5（1）】</h2>
+<p class="line"><span class="who">映美</span><span class="say">「お兄ちゃんがさ、私の仕事、人体実験だって。笑っちゃうよね。いつの時代の話だよって」</span></p>
+<p class="desc">モモエを見つめているうちに、すぐに笑顔は崩れる。</p>
+<h2 class="scene" id="scene-8">【シーン5(2)】</h2>
+<p class="desc">茂樹は酔った足がもつれ、畑に倒れる。</p>
+<p class="desc">目の前には、憎たらしくも元気よく葉を伸ばす春夏ニンジン。</p>
+<p class="desc">倒れたまま一本引き抜く。</p>
+<h2 class="scene" id="scene-9">【シーン5（1）】</h2>
+<p class="line"><span class="who">映美</span><span class="say">「どーせそんなこと言われるんだろうなって思ったら、実家に帰るの怖くなって。ホントは来たくなかったんだ。でも、モモエちゃんとアニメの話できるならって。ねえ、最近『1世紀旅行記』ってアニメがすんごく面白くて、仕事で嫌なことあったらさ絶対観るように――」</span></p>
+<p class="desc">映美は、自分の好きなアニメをかつての快活なモモエに話そうと興奮気味に顔を向けるが、すぐにそれが幻影だと覚った。</p>
+<p class="desc">モモエはぼんやりと虚空を見つめ続ける。108歳の、表情がわからない、喜怒哀楽すら不明な、モモエ。</p>
+<p class="desc">映美の目からは涙がひと筋、ふた筋と流れているが、映美自身はそれに気付いていない。</p>
+<p class="line"><span class="who">映美</span><span class="say">「笑ってよ、あの頃みたいに」</span></p>
+<p class="desc">映美はやっと気付いた涙を隠すように、モモエを抱きしめる。</p>
+<p class="line"><span class="who">映美</span><span class="say">「アニメ、教えてくれてありがとう」</span></p>
+<p class="desc">抱きしめたまま、モモエと自分の機具にスイッチを入れる。機具から鳴るモーター音が徐々に大きくなり、共鳴するように機具が青白い光を放つ。</p>
+<p class="line"><span class="who">映美</span><span class="say">「モモエちゃん、愛してる」</span></p>
+<p class="desc">映美の、涙声をきっかけにモーター音は最大音量になる。</p>
+<h2 class="scene" id="scene-10">【シーン5（2）】</h2>
+<p class="desc">茂樹、引き抜いた春夏ニンジンにジュっと煙草を押し付ける。</p>
+<p class="desc">画面は真っ白になる。</p>
+<h2 class="scene" id="scene-11">【シーン6】</h2>
+<p class="credit">〈『1960年　まちかど！　ハナコちゃん』のクレジット〉</p>
+<p class="desc">真っ白な画面が、60年代らしい少しセピアがかった色彩と画風の世界へと変わる。</p>
+<p class="desc">場所は公園。映美はそこで目を覚ます。</p>
+<p class="desc">遠くから、アイリッシュハープを撫でたような「シャラララン♪」というキラキラした音が聞こえる。音の元では、映美そっくりな若い女性が、ガラスにひびの入った古い手鏡をかざしている。</p>
+<p class="line"><span class="who">謎の女性</span><span class="say">「やー！」</span></p>
+<p class="desc">女性が元気な声を放つと、唐草模様の風呂敷を背負った泥棒の一味——『カゲカゲ団』がふわりと宙に浮かび、風呂敷に包んでいたであろう黒いモヤが手鏡の中に吸い込まれていく。</p>
+<p class="desc">キセルをくわえた親分ガラ助、団子を頬張るチビのポン吉、足音だけ大きいノッポのヒョロ松、そして一味でいちばん強いおばちゃんのオツネ。四人一斉に「せっかく集めた影がぁ～」と情けない声をこぼすと、女性が「それーっ！」と手鏡を高く掲げる。「シャラララン♪」の音と共に一味はくるくる回されて空の彼方へ飛んでいく。</p>
+<p class="line"><span class="who">若きモモエ</span><span class="say">「あ、映美ちゃんだ！映美ちゃーん！」</span></p>
+<p class="desc">元気な声で手を振るその女性こそが、若かりし頃のモモエだった。</p>
+<p class="desc">映美とモモエだけは、年代が変わろうと色彩も画風も現代のままだ。</p>
+<p class="desc">モモエが映美に向けて手鏡を自慢げにかざすと、その体がふわりと浮いて、モモエのそばまで引き寄せられる。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「ひ孫から告白される人生になると思わなかったねぇ」</span></p>
+<p class="desc">映美は口をパクパクさせるだけで、返す言葉が出ない。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「こんなもんを作れるのは、わしの血かね。賢い子に育ったねぇ」</span></p>
+<p class="desc">映美は口を手で覆って、顔を赤らめる。</p>
+<p class="desc">その感情を、モモエは目を細めて汲み取った。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「全部伝わってるよ。ありがとね」</span></p>
+<p class="desc">涙を流す映美を笑い飛ばして、モモエが言う。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「泣き虫なのはわしと似なかったねぇ。さあ、もうわしらはアニメの主人公さ！</span></p>
+<p class="desc">バディものだねぇ！はしゃぐよ！」</p>
+<p class="desc">映美は、涙で潤んだ目を輝かせて、現実シーンでは見せなかった心の底からの笑顔で「うん！」と頷く。</p>
+<h2 class="scene" id="scene-12">【シーン7】</h2>
+<p class="note">※シーン７~9のアニメ旅行パートは、映美とモモエがアニメ旅行を楽しんでる様子を短く映せたら最高です。各30秒ほど（もっと短くてもいいかも）を想定しています。</p>
+<p class="credit">〈『1970年　ナイトブライド』のクレジット〉</p>
+<p class="desc">美しい中性的な男性に変身したモモエに、映美が「えっ！モモエちゃん、イケメンー！」とはしゃぐ。お城の最上階の窓に、ふたりの影が見える。本来ならばロマンチックなキスシーンになりそうなところを、モモエがマシンガンのようなキスを映美に10回ほどする。映美、鬱陶しがりながらも楽しそう。</p>
+<h2 class="scene" id="scene-13">【シーン8】</h2>
+<p class="credit">〈『1980年　ユニコーンボール』のクレジット〉</p>
+<p class="note">※著作権回避をしたシーンを思案中です。いただいたアイデアをもとに、戦闘シーン中心で台詞はひと言、ふた言にする予定であります。</p>
+<h2 class="scene" id="scene-14">【シーン9】</h2>
+<p class="credit">〈『1990年　翼機械獣ダンゲイン』のクレジット〉</p>
+<p class="desc">翼が生えた動物(ライオン)っぽい機体に乗ったモモエが「燃やしつくせー！」と叫びながら搭乗している機体の口から火炎放射しているが、「もうみんなやっつけたよ」と映美が指摘したり。モモエがピンクの体のラインがわかるピッタリとしたパイロットスーツを着た映美に「え？もう終わったの？炎で見えなくて」と言って、火炎放射をしたまま映美の方を向く。映美、逃げ惑う。</p>
+<p class="desc">そんな楽しいひとときのなか、倒したはずの敵にノイズが走り始める。冷徹な司令官っぽいキャラは応答がなく無表情のまま、虚空を見つめている。音がなくなる。</p>
+<p class="desc">途端、景色は轟音を立て、高速エレベーターのように風景が流れ落ちる。ふたりの悲鳴。</p>
+<h2 class="scene" id="scene-15">【シーン10】</h2>
+<p class="desc">映美とモモエが目を覚ますと、景色のすべてはモノクロだった。丸みを帯びた線路が丘陵に敷かれ、蒸気機関車が黒煙を出して跳ねるように走っている。野原一面はニンジン畑だ。</p>
+<p class="desc">（【シーン1】と同じ風景）</p>
+<p class="desc">映美とモモエだけに、色がついている。</p>
+<p class="desc">モモエにはそれが『蒸気機関車ピーチ』の世界であることがひと目でわかり、大はしゃぎだ。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「ピーチや！」</span></p>
+<p class="desc">興奮状態で叫ぶモモエ。</p>
+<p class="credit">〈『1920年　蒸気機関車ピーチ』のクレジット】</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「どうしてわかったの！？　わしが1番好きなアニメ！」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「え、うそ」</span></p>
+<p class="line"><span class="who">モモエ</span><span class="say">「わしの唯一の憩いだったのさ！　お父さんには殴られるわ、近所のガキには手鏡壊されるわ、もう散々だったわしを救ってくれたアニメだよ！　映美ちゃんに前に話したんかねぇ」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「いや、そんなはず――」</span></p>
+<p class="desc">映美は戸惑う。それもそのはず。年代順に組んだアニメのプレイリストが逆行して1990年代→1920年代に飛ぶわけはなく、何より映美は『蒸気機関車ピーチ』をプレイリストに組んでいなかったからだ。</p>
+<p class="desc">映美の募る不安をよそに、モモエは蒸気機関車へと駆け出す。</p>
+<p class="desc">映美とモモエの間の地面が盛り上がり、巨大な化け物が何体も這い出てくる。その姿は、これまでのアニメ旅行で登場した悪党や敵たちの複合体、キメラだ。各年代の色彩がツギハギになっている。</p>
+<h2 class="scene" id="scene-16">【シーン10】</h2>
+<p class="desc">シーンは現代に戻る。</p>
+<p class="desc">夏の夜。開いた窓から手を伸ばし、寄り添う映美とモモエの頭部の機具に、茂樹が缶ビールをかけている。目は虚ろ。廃人のようにも見える。</p>
+<p class="line"><span class="who">茂樹</span><span class="say">「やっぱそうじゃねえか。ひいばあまで実験体にしやがった」</span></p>
+<p class="desc">茂樹の目に車のバックミラーにかかったアニメ『１世紀旅行記』のストラップが目に入る。</p>
+<p class="desc">空になった缶を握り潰しながら、弱々しく呟く。</p>
+<p class="line"><span class="who">茂樹</span><span class="say">「映美よぉ。アニメはそんなに楽しいか？　東京でアニメ観ながら俺を思い出したことあるか？　昔は一緒にアニメ観てたじゃんか。思い出すわけねえよな、俺とお前じゃ出来が違うんだから。俺が田舎で土いじってる間、何考えてるかわかるか？　わかんねえよな、俺とお前じゃ人生が違うんだから。俺だってさ、ホントはさ、ガキの頃はさ……東京出てアニメ作りたかったよ」</span></p>
+<p class="line"><span class="who">潰しきった缶を</span><span class="say">「シカトこいてんじゃねえよ！！！」と怒鳴りつけて映美の頭の機具に投げつけた。</span></p>
+<h2 class="scene" id="scene-17">【シーン11】</h2>
+<p class="desc">アニメ世界へ戻る（可能なら空き缶が当たったタイミングでシーンをアニメに切り替えたい）。</p>
+<p class="line"><span class="who">映美</span><span class="say">「痛っ……なんで、痛みは感じないはずなのに」</span></p>
+<p class="desc">映美が手を見ると、大きなあざができていた。巨大なキメラが地面をかち割り、その破片が飛んできたのだ。</p>
+<p class="desc">モモエの身の危険を察した映美は、キメラの攻撃を避けながら必死にモモエの元へ駆け出す。</p>
+<p class="credit">〈モモエを間一髪で助けたり、攻撃を避けてキメラが木に突っ込んだりするアクションシーン〉</p>
+<h2 class="scene" id="scene-18">【シーン 12】</h2>
+<p class="desc">攻撃の風圧で蒸気機関車に転がり込むふたり。モモエに血眼で説明する映美。</p>
+<p class="line"><span class="who">映美</span><span class="say">「モモエちゃん聞いて！　機械がバグを起こした！　見てこのあざ、この世界に痛覚は存在しないはずなの！　でも痛かった。何かのトラブルで痛覚までアニメが侵食してるの！」</span></p>
+<p class="desc">説明の間もキメラからの攻撃は続く。しかしモモエは膝からへたり込んで、呆然としていた。先ほどの楽しそうな表情とは違う、感慨と驚嘆の混じったような表情だ。</p>
+<p class="desc">そこには『蒸気機関車ピーチ』の主人公でありマスコットキャラのピーチが、口笛を吹きながら石炭をスコップで火室に放り込んでいた。石炭庫の扉には「☆8時間働いたらニンジン1本ボーナス☆」と書かれたポスターが貼ってある。</p>
+<p class="desc">その姿を見て、手で口を抑え涙を流すモモエ。かつての憧れ、辛い現実から救ってくれたヒーローが目の前にいることが、嬉しくて仕方がなかったのだ。</p>
+<p class="desc">轟音とともに、蒸気機関車の後方の線路がキメラの攻撃によって壊される。飛び跳ねてびっくりするピーチ。その動きは古いアニメのスラップスティックそのものだった。</p>
+<p class="line"><span class="who">映美</span><span class="say">「モモエちゃん、すぐに機関車も壊されるよ、早く逃げよ！」</span></p>
+<p class="line"><span class="who">モモエ</span><span class="say">「待って」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「殺されちゃうよ！　脳に繋がってるんだよ！？　戻れなくなるよ！」</span></p>
+<p class="line"><span class="who">モモエ</span><span class="say">「もうちょっとだけ」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「モモエちゃんってば！」</span></p>
+<p class="line"><span class="who">モモエ</span><span class="say">「映美ちゃんがアニメを観る理由って何？」</span></p>
+<p class="desc">映美は突然の問いに動きを止める。モモエは依然、涙で潤った眼差しをピーチに向けている。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「わしは、アニメだけが居場所だったのよ」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「……そんなことを言ってる場合じゃない、早く逃げよ！」</span></p>
+<p class="line"><span class="who">モモエ</span><span class="say">「平気よ」</span></p>
+<p class="desc">モモエ、映美に顔を向ける。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「わし、ここに来てからすぐ気付いたのさ。あの怪物がすることって、全部お父さんとか友達にされたことなのよ。憂さ晴らしに殴られもしたし、汽車の模型も、大事にしてた手鏡も壊された。ピーチばっかりかじりつくように見てたからさ、ピーチの好物がニンジンだって知ったお父さんからニンジン叩きつけられたり。わしが生きていい世界なんてなかったのさ」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「え、じゃあ、あれはモモエちゃんの――」</span></p>
+<p class="line"><span class="who">モモエ</span><span class="say">「そう、トラウマ。映美ちゃんの作ったもんは利口だねぇ、頭に残ってる記憶を全部汲み取ってる」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「……ごめんなさい、私、そんなつもりじゃ――」</span></p>
+<p class="desc">モモエは映美の髪を撫でて、首を横に振る。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「だから平気なの。だってそのとき救ってくれたのは、アニメだもん。ピーチだもんね」</span></p>
+<p class="line"><span class="who">モモエは映美を抱いて、</span><span class="say">「連れてきてくれてありがとう」と耳元で声を震わせてつぶやく。</span></p>
+<p class="desc">映美はモモエの言葉を聞いて、自分がアニメを観る理由を思い出す。</p>
+<p class="desc">（可能であれば、現実の社会で苦しむ映美と、家でアニメを観て泣き笑いする映美のフラッシュバックを挿入したい）</p>
+<p class="desc">世知辛く、うまくいかないことばかりの現実の中で、アニメは居場所になってくれていた。アニメが、自分を生かしてくれていた。</p>
+<p class="desc">ピーチはふたりの様子に拍手をして、どこから出したのかわからないバカでかいクラッカーを鳴らし、自分でびっくりする。モモエの腕の中、映美は二つ目の気付きを得た。</p>
+<p class="line"><span class="who">映美</span><span class="say">「アニメって、逃げじゃないんだね」</span></p>
+<p class="line"><span class="who">モモエ</span><span class="say">「ん？」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「モモエちゃん、わかったよ」</span></p>
+<p class="line"><span class="who">モモエ</span><span class="say">「なにが？」</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「戻れる方法。ピーチに救ってもらうんだよ！」</span></p>
+<p class="desc">モモエはあまりピンと来ていない様子だが、映美は肩を叩いてすぐに畑のニンジンを一本引き抜きにいく。</p>
+<p class="credit">〈ここでモモエと映美が命からがら汽車から飛び降りてニンジンを収穫するアクション〉</p>
+<p class="desc">映美の持ったニンジンを見て、目の形をニンジン型にしてよだれをたらすピーチ。ニンジンをエサにピーチを誘導しているのだ。</p>
+<p class="desc">ここはカートゥーンの世界。なんでもありの、現実ではあり得ないことが起こる世界だ。線路から外れてドタドタと走る汽車がキメラに突っ込み、画面に『BOM!!』と大きく表示される。</p>
+<p class="desc">トラウマを乗り越えることで脳内のストーリーを完結させて、アニメを終わらせたのだった。</p>
+<h2 class="scene" id="scene-19">【シーン13】</h2>
+<p class="desc">現実シーン。車の中。</p>
+<p class="desc">映美の思惑は成功し、モモエが目を覚ます。それを涙ぐむ映美の両親が眺める。あまりに長い散歩だったからと、映美の両親が心配して探しにきたのだという。</p>
+<p class="desc">茂樹の姿はない。映美の父は「こんなことやるのは茂樹しかいない！　あいつどこ行きやがった」と茂樹に激しく怒っている。映美の母は「頭のそれがバチバチいってるからどうしようかと思ったの！　救急車呼んだからね、外せそう？　それ外してもいいもの？」と心配に心配を重ねパニックになってる（ここの二者の台詞ははっきりとは聞き取れなくてOKです。ともかく各々の様相でパニックになっている状態を伝えたいです）。</p>
+<p class="desc">モモエは映美に目を向ける。映美は依然、ビールで濡れたまま眠っている。</p>
+<p class="desc">モモエは映美の両親に、ひねり出すように声を出した。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「なあ……」</span></p>
+<p class="desc">映美の両親、モモエが喋ったことに驚愕するモーション。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「頼みが……」</span></p>
+<p class="desc">バックミラーに吊るされた、アニメ『1世紀旅行記』のストラップを一瞬映す。</p>
+<h2 class="scene" id="scene-20">【シーン14】</h2>
+<p class="desc">アニメ世界へ戻る。</p>
+<p class="desc">映美は、自分がよく観ていた2000年代アニメの世界にいた。砂漠の真ん中。ひとり取り残され、呆然と立ち尽くす映美。</p>
+<p class="desc">手元にはモノクロのニンジン。モモエが現実世界に戻れているかどうかを思うが、結論は出ない。大好きなモモエに酷いことをしてしまった罪悪感に押しつぶされそうになり、映美はニンジンを額に当ててしゃがみ込む。</p>
+<p class="desc">そこへ、遠くから色彩豊かなパレードがやってくる。華やかで奇妙なBGM。</p>
+<p class="desc">アニメ世界へ戻ってきたモモエが、パレードの中心の高座で王冠を被ってやってくる。</p>
+<p class="desc">映美は目を丸くする。</p>
+<p class="line"><span class="who">映美</span><span class="say">「どうして！？」</span></p>
+<p class="line"><span class="who">モモエ</span><span class="say">「どうしても何も、映美ちゃんのトラウマをぶっ飛ばしにきたんだよぉ！</span></p>
+<p class="line"><span class="who">映美</span><span class="say">「戻ったんじゃないの！？」</span></p>
+<p class="line"><span class="who">モモエ</span><span class="say">「戻れたよ。戻れたけど、こっちに戻ってきたのさ。もう現実に戻れる方法はわかってる、映美ちゃんのトラウマ退治だよ」</span></p>
+<p class="desc">映美の表情に希望が宿る。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「平気よ。ピーチがいたんだもん。映美ちゃんのピーチがいるんでしょ、このアニメにはさ」</span></p>
+<p class="desc">パレードの玉座から降りて、モモエが手を差し出す。</p>
+<p class="desc">手を勢いよく繋いだパンっという音で、画面は真っ白になる。</p>
+<p class="credit">〈クレジット『2026年　1世紀旅行記』〉</p>
+<p class="desc">ゆっくりと、</p>
+<p class="desc">『── to 2126年 ──』とフェードイン。</p>
+<p class="desc">終わり</p>
+  </div>
+
+  <footer>この脚本は Project M チーム内限定の制作資料です。第三者への共有・転載はご遠慮ください。</footer>
+</div>
+
+<button class="totop" id="totop" aria-label="トップへ戻る">↑</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// ===== パスワードゲート =====
+var PASS = "56109";
+var gate=document.getElementById("gate");
+var gi=document.getElementById("gate-input");
+var ge=document.getElementById("gate-err");
+var content=document.getElementById("hidden-until-auth");
+function tryUnlock(){
+  if(gi.value.trim()===PASS){
+    try{sessionStorage.setItem("pm_auth","1");}catch(e){}
+    unlock();
+  }else{
+    ge.textContent="パスワードが違います";
+    gi.value="";gi.focus();
+  }
+}
+function unlock(){
+  gate.style.display="none";
+  content.style.display="block";
+  initPanes();
+}
+document.getElementById("gate-btn").addEventListener("click",tryUnlock);
+gi.addEventListener("keydown",function(e){if(e.key==="Enter")tryUnlock();});
+// セッション中は再入力不要
+try{ if(sessionStorage.getItem("pm_auth")==="1"){ unlock(); } else { gi.focus(); } }catch(e){ gi.focus(); }
+
+// ===== メニュー切り替え =====
+function showPane(name){
+  var panes=document.querySelectorAll(".pane");
+  panes.forEach(function(p){p.classList.toggle("on",p.id==="pane-"+name);});
+  document.querySelectorAll("#shellnav .tab").forEach(function(t){t.classList.toggle("on",t.dataset.pane===name);});
+  window.scrollTo(0,0);
+}
+document.querySelectorAll("#shellnav .tab").forEach(function(t){
+  t.addEventListener("click",function(){showPane(t.dataset.pane);});
+});
+
+var panesInited=false;
+function initPanes(){
+  if(panesInited)return; panesInited=true;
+  showPane("tora");  // 初期表示：虎の巻
+  initToraJS();
+  initViewJS();
+}
+
+// ===== 虎の巻 JS =====
+function initToraJS(){
+
+// TOC active highlight
+var secs=[].slice.call(document.querySelectorAll("#wrap-tora main section"));
+var links=[].slice.call(document.querySelectorAll("#wrap-tora nav.toc a"));
+var map={};links.forEach(function(a){map[a.getAttribute("href").slice(1)]=a;});
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.remove("on");});var a=map[e.target.id];if(a){a.classList.add("on");a.scrollIntoView({block:"nearest",inline:"center"});}}});
+},{rootMargin:"-20% 0px -70% 0px"});
+secs.forEach(function(s){obs.observe(s);});
+
+}
+// copyBox はグローバル必要（onclick属性から呼ばれる）
+function copyBox(id,btn){
+  var el=document.getElementById(id);
+  var text=el.innerText;
+  navigator.clipboard.writeText(text).then(function(){
+    var orig=btn.textContent;btn.textContent="コピーしました";btn.classList.add("done");
+    setTimeout(function(){btn.textContent=orig;btn.classList.remove("done");},1600);
+  }).catch(function(){
+    var r=document.createRange();r.selectNodeContents(el);
+    var s=window.getSelection();s.removeAllRanges();s.addRange(r);
+    try{document.execCommand("copy");btn.textContent="コピーしました";btn.classList.add("done");
+    setTimeout(function(){btn.textContent="コピー";btn.classList.remove("done");},1600);}catch(e){}
+    s.removeAllRanges();
+  });
+}
+
+// ===== 脚本ビューア JS =====
+function initViewJS(){
+
+// scroll progress
+var prog=document.getElementById("prog"), totop=document.getElementById("totop");
+function onScroll(){
+  var h=document.documentElement.scrollHeight-window.innerHeight;
+  var p=h>0?(window.scrollY/h*100):0;
+  prog.style.width=p+"%";
+  totop.classList.toggle("show", window.scrollY>600);
+}
+window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
+totop.addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});});
+
+}
+
+</script>
+</body>
+</html>
