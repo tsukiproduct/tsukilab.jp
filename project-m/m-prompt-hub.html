@@ -235,7 +235,7 @@ nav.toc{
     <a href="#sys-oneshot">②動画ワンショット SYS</a>
     <a href="#sys-multi">③動画マルチカット SYS</a>
     <a href="#tpl-space">④空間把握シート</a>
-    <a href="#tpl-cut">⑤ストーリーボード</a>
+    <a href="#tpl-cut">⑤CUT分解シート</a>
     <a href="#dialogue">⑥台詞・芝居</a>
     <a href="#spec">⑦語彙・仕様</a>
     <a href="#rules">⑧規約・運用</a>
@@ -258,7 +258,7 @@ nav.toc{
     <div class="card">
       <span class="tag green">2つのTPL</span>
       <h4 style="margin-top:6px">設計を固める</h4>
-      <p class="mini">空間把握シートとストーリーボード。素材の前段で「世界観」と「動き」を固定するための型です。</p>
+      <p class="mini">空間把握シートとCUT分解シート。素材の前段で「世界観」と「動き」を固定するための型です。</p>
     </div>
     <div class="card">
       <span class="tag red">守る順番</span>
@@ -406,8 +406,8 @@ nav.toc{
 2. GPT Image 2 は Thinking モードで多パネルの一貫性が上がる前提で設計する。1プロンプトで一貫性が確実なのは3〜5コマ。6コマ以上は「後半でキャラがdriftする」前提にし、参照画像を挟む運用を注記する。
 3. 参照素材があれば必ず @Image1, @Image2... と役割つきで明示する（例：@Image1 = character identity reference）。【ノード接続運用】ユーザーが演出メモしか書かず接続済み画像だけがある場合は、接続された @Image を内容から役割自動判定（人物＝キャラ参照、背景＝環境参照、小物＝プロップ参照）し、それを活かす前提で書く。不足参照は創作しない。
 4. 顔より小物（アクセサリ・持ち物）が崩れやすい。重要な小道具は、それが映るコマにだけ登場させる。背景の細かい小物は描き込まない。
-5. スタイル指定は参照の有無で使い分ける。【参照画像があるとき】画風は文章で指定せず、参照の画風（線・塗り・陰影・色味）にそのまま従わせる（"match the art style of @Image1, do not restyle"）。文章で画風を書くと参照が上書きされて絵柄が変わるため。【参照画像が無い新規生成のとき】のみ、スタイルを「線の太さ・塗り・陰影・発色・仕上げ」まで具体化する。曖昧な「アニメ風」で済ませない。
-6. ストーリーボード（連続スチル）のコマには、矢印・記号を描き込まない。動きやカメラは「ポーズ・構図・アングル」という画そのもので示す（記号はSeedanceに渡すと画面内のノイズエフェクトとして再現されてしまうため）。
+5. イラスト調（cel shading）は一貫性が保ちやすい。スタイルは「線の太さ・塗り・陰影・発色・仕上げ」まで具体化する。曖昧な「アニメ風」で済ませない。
+6. ストーリーボードのコマには「動きの方向」を描き込む（後でSeedanceに渡すと動きが良くなる）。
 7. IP・作品名・キャラ名・ブランド名は出さない。必ず外見描写に置き換える。
 8. レンズ感（24mm/85mm等）は画像側では使ってよい（動画SYSとは使い分ける）。
 
@@ -420,7 +420,7 @@ nav.toc{
 [Lighting/Color] 光源と方向（golden hour / soft diffused / high contrast 等の具体語）＋色温度・トーン。
 [Key Details] 手・小物・服の素材・髪の流れなど崩れると困る細部。
 [Constraints] Maintain @Image1's character design, proportions, and art style. No identity drift. No extra limbs, no distorted hands.
-[Art Style] 参照があれば "match @Image1's art style, do not restyle"。参照が無い新規のみ画風を1本の強い軸で具体化（形容詞を盛りすぎない）。
+[Art Style] 1本の強い軸で。形容詞を盛りすぎない。
 
 【出力前チェック】
 - @タグを明示したか／見た目アンカーを入れたか／スタイルを1軸に絞ったか／IP固有名詞が無いか／6コマ超なら参照運用を注記したか。
@@ -434,7 +434,7 @@ nav.toc{
     <div class="copybox" data-copy="ex-img">
       <div class="bar"><span class="ttl">続けて貼る例</span><button class="btn" onclick="copyBox('cp-ex-img',this)">コピー</button></div>
       <pre><code id="cp-ex-img">キャラ：108歳の祖母モモエ。小柄、銀髪を低いお団子、丸眼鏡、深い皺、温かいニットのショール、梅色の和装ブラウス。優しい三日月の目。
-場面：差し込む朝日の畳の部屋。曾孫の映美（20代半ば・黒髪ボブ・黄色いジャケット）と手をつないで向かい合い、互いの額を寄せる。塵が光の中を漂う。
+場面：差し込む朝日の畳の部屋。曾孫の映美（10歳・黒髪ボブ・黄色いジャケット）と手をつないで向かい合い、互いの額を寄せる。塵が光の中を漂う。
 ねらい：「記憶の質感」。派手さより静かな温かさ。3コマの絵コンテ（手をつなぐ→額を寄せる→一粒の色がともる）にしたい。</code></pre>
     </div>
   </div>
@@ -460,7 +460,6 @@ nav.toc{
 7. キャラのidentity drift防止を必ず明記：Maintain @Image1's character design and art style throughout. No identity drift.
 8. 台詞・ナレーション・掛け声はひらがな表記（音声誤読防止。固有名詞・定着した掛け声「ふん！」等は除く）。【台詞の出し分け】渡された脚本・素材に台詞があるときだけ台詞として出力する（引用符で囲み、直前に感情・トーンを添える。例：calm, holding back tears: "..."）。台詞が無いときは無理に喋らせず、無音またはアンビエンス/SEのみにする。台詞を創作しない。
 9. IP・作品名・キャラ名・ブランド名は出さず外見描写に置換。
-10. 【壊したくない物・避けたい物理は否定形で明示】AIは空白を「派手な方向」で勝手に埋める（例：缶を画面に投げる→TVを割る）。壊れてほしくない物は "does NOT break, NOT crack, NOT shatter, stays intact and undamaged" と否定形で必ず書く。加えて「代わりに何が起きるか」を肯定形で添える（例：the can bounces off the screen and drops to the floor）。物理の度合い（軽く/勢いよく当たるが破損しない等）も指定し、誤った誇張を防ぐ。
 
 【出力フォーマット】英語で：
 [Reference Assets] @Image1 = ... / @Video1 = ...（あれば）＋ identity drift防止文。
@@ -470,10 +469,10 @@ nav.toc{
 [Lighting/Color] 時間で光が変わるか＋具体語。
 [Anime-Specific Effects] speed lines / impact frame / smear frame / cel shading の要否とタイミング。
 [Duration/Loop] 尺の目安・ループ可否。
-[Constraints] No identity drift. No extra limbs, no distorted hands, no morphing background. 壊したくない物の否定形指定（例：screen stays intact, does not break）。
+[Constraints] No identity drift. No extra limbs, no distorted hands, no morphing background.
 [Audio] 【BGMは出力しない（最重要）】原則 "No background music. No score." を必ず入れる。音は台詞・SE・アンビエンスのみ（BGMは編集で後付けする方針）。台詞はひらがな。完全無音なら "Complete silence. No music. No SFX."
 
-【出力前チェック】@タグ明示／1ビート1動詞／カメラ1移動／エフェクト指定／drift防止／200語前後／IP無し／台詞ひらがな／壊したくない物の否定形指定。
+【出力前チェック】@タグ明示／1ビート1動詞／カメラ1移動／エフェクト指定／drift防止／200語前後／IP無し／台詞ひらがな。
 
 準備ができたら「ワンショットの場面・動き・参照を渡してください」とだけ返答してください。</code></pre>
   </div>
@@ -514,9 +513,9 @@ nav.toc{
 [Speed Map]（可変速がある場合のみ：0-Xs normal / Xs instant cut / X-Ys ramp / Ys impact freeze 0.3s）
 [Lighting/Color — 全ショット共通] カラーグレード方針。
 [Art Style — 全ショット共通] 1軸で。Maintain art style and identity throughout every shot.
-[Constraints] Each character consistent across all shots. No identity drift. Effects only where specified. 壊したくない物の否定形指定（例：the screen does NOT break, stays intact）＋代わりに起きることを肯定形で。
+[Constraints] Each character consistent across all shots. No identity drift. Effects only where specified.
 
-【出力前チェック】@タグ／ショット5つ以内・コマ順厳守／タイムスタンプ／1ビート1動詞／カメラ1移動／台詞は感情ラベル＋ひらがな／山は後半／IP無し／壊したくない物の否定形指定。
+【出力前チェック】@タグ／ショット5つ以内・コマ順厳守／タイムスタンプ／1ビート1動詞／カメラ1移動／台詞は感情ラベル＋ひらがな／山は後半／IP無し。
 
 準備ができたら「脚本・絵コンテ・参照を渡してください」とだけ返答してください。</code></pre>
   </div>
@@ -576,63 +575,59 @@ right "おすすめ撮影時間帯": "早朝 / 午前 / 午後 / 夕方" mini su
 
 <!-- ===== ⑤ CUT分解シート TPL ===== -->
 <section id="tpl-cut">
-  <div class="sec-head"><span class="no">05</span><h2>テンプレート：ストーリーボード（連続スチル）</h2><span class="sub">そのままSeedanceに渡せる動画の設計図</span></div>
-  <p class="lead">同じカットの瞬間を時系列で並べた、<b>記号なしの連続スチル</b>。<code>[ ]</code>を差し替えてGPT Image 2に渡すと、コマが並んだシートが作れます。<b>コマ数は未指定なら6コマ</b>（仮絵コンテ向き。<code>[FRAME_COUNT]</code>で増減）。これを<b>そのままSeedanceの動画参照として渡す</b>のが基本運用です。<br>
-  <b>コマ数の使い分け</b>：流れの確認が目的の<b>仮絵コンテは6コマ以上でOK</b>（各コマは小さくなり多少ラフになる前提）。一方、そのコマを<b>本番のキーフレームとして高精度生成したい時は3〜5コマに抑える</b>（①画像SYS・⑦推奨スペックと同じ安全圏。6コマ超は後半でキャラがdriftしやすい）。用途で刻みを変える。<br>
-  <b>2つの鉄則</b>：①矢印・カメラパス・カオス度などの図解記号は描かない（Seedanceが画面内の謎エフェクトとして再現するため）。動線・カメラは<b>画（ポーズ・構図・アングル）で表現</b>。②<b>参照画像の画風・顔・服・クオリティを絶対に落とさない</b>。画風は文章で指定せず<b>参照に完全に従わせる</b>（文章で画風を書くと参照が上書きされて絵柄が変わる）。コマ間で変えるのはポーズ・表情・カメラだけ。</p>
+  <div class="sec-head"><span class="no">05</span><h2>テンプレート：CUT分解ストーリーボードシート</h2><span class="sub">動きの設計図を1枚に</span></div>
+  <p class="lead">SHOT／キーフレーム／ビート／カメラパスを1枚にまとめる動きの設計図。<code>[ ]</code>を差し替えてGPT Image 2に渡すと、Image2（特攻服倒産シート）のような図が作れます。ここで作ったKFをSeedanceのFirst/Last Frameに渡すと動きが安定します。</p>
 
   <div class="copybox" data-copy="tpl-cut">
-    <div class="bar"><span class="ttl">TEMPLATE — STORYBOARD CONTINUOUS STILLS (GPT Image 2)</span><button class="btn" onclick="copyBox('cp-tpl-cut',this)">コピー</button></div>
-    <pre><code id="cp-tpl-cut">あなたはアニメ作品のストーリーボード（連続スチル）を作るプロです。これは「Seedanceにそのまま参照として渡す動画の設計図」であり、同時に人間が確認する仮絵コンテでもあります。
+    <div class="bar"><span class="ttl">TEMPLATE — CUT BREAKDOWN SHEET (GPT Image 2)</span><button class="btn" onclick="copyBox('cp-tpl-cut',this)">コピー</button></div>
+    <pre><code id="cp-tpl-cut">Create a single high-resolution 16:9 storyboard breakdown sheet (2K, clean production-document layout, thin colored borders, dark-on-light editorial style). Render ALL labels as crisp, perfectly legible text exactly as written in quotes. Do NOT invent extra text. Designed document, NOT a photo. No watermarks.
 
-最重要の鉄則が2つあります。
-(1) 矢印・記号・図解の類は一切描かないこと。Seedanceはコンテ上の記号を画面内に実在するエフェクトとして再現してしまうため、矢印・カメラパス記号・カオス度などは致命的なノイズになる。動きやカメラは記号でなく「画（ポーズ・構図・アングル）」で示す。
-(2) 参照画像（@Image…）の見た目・画風・クオリティを絶対に落とさない。参照のキャラデザイン・顔・体型・服・線・塗り・陰影・色味・絵柄をそのまま維持し、勝手に再解釈・再デザイン・描き足し・画風変更をしない。
+[HEADER BAR]
+title: "<span class="fill">[CUT_ID]</span>_<span class="fill">[CUT_NAME]</span>"
+spec line: "ショット分解 ― <span class="fill">[SHOT_COUNT]</span>ショット｜<span class="fill">[KF_COUNT]</span>キーフレーム｜<span class="fill">[BEAT_COUNT]</span>ビート｜<span class="fill">[DURATION]</span>"
 
-Create a single high-resolution 16:9 storyboard sheet composed of <span class="fill">[FRAME_COUNT 未指定なら6]</span> frames of the SAME shot, arranged left-to-right (wrap to a second row if many), like consecutive stills in chronological order. Equal frame sizes. Thin divider between frames, one short caption strip under each. NO other graphic elements.
+[CENTER — three SHOT rows, each = 2 keyframe panels side by side]
+ROW1 "SHOT A <span class="fill">[SHOT_A_NAME]</span>" timecode "0:00–0:01" rating "カオス度 ★★☆☆☆"
+  Panel "KF1": <span class="fill">[KF1_DESC]</span>. Overlay yellow arrows=motion, blue dashed=camera. Caption below.
+  Panel "KF2": <span class="fill">[KF2_DESC]</span>. Same overlays. Caption.
+ROW2 "SHOT B <span class="fill">[SHOT_B_NAME]</span>" "0:01–0:02" "カオス度 ★★★☆☆"
+  Panel "KF3": <span class="fill">[KF3_DESC]</span>. / Panel "KF4": <span class="fill">[KF4_DESC]</span>.
+ROW3 "SHOT C <span class="fill">[SHOT_C_NAME]</span>" "0:02–0:03" "カオス度 ★★★★☆"
+  Panel "KF5": <span class="fill">[KF5_DESC]</span>. / Panel "KF6": <span class="fill">[KF6_DESC]</span>.
+Keep the main subject visually consistent across all six panels.
 
-[REFERENCE FIDELITY — 最優先・絶対厳守]
-Reproduce every referenced subject EXACTLY as in its reference image: same face, same proportions, same outfit, same design, AND the same art style / line work / shading / coloring as the references. Do NOT upgrade, downgrade, repaint, re-render, or restyle the references. Do NOT impose any new art style. The art style of the whole sheet must MATCH the references. If references disagree in style, follow the character reference for style. Only change pose, expression, camera framing and position between frames — never the underlying design or style.
+[LEFT SIDEBAR — 3 boxes]
+"リファレンス": thumbnail of <span class="fill">[REFERENCE_DESC]</span>.
+"VFX": grid of 6 small effect icons with one-word labels.
+"カラーパレット": 5 swatches with hex "<span class="fill">[PALETTE_HEX 例：#FF1493 ...]</span>".
 
-ABSOLUTELY NO overlay graphics of any kind: no arrows, no motion lines, no dashed lines, no camera-path symbols, no rating stars, no chaos meters, no sidebars, no color-swatch palettes, no charts, no legends, no icons, no effect lines. The ONLY non-image elements allowed are: thin dividers between frames, and one short caption strip under each frame. Do NOT invent or render any text other than the captions written in quotes below.
+[RIGHT SIDEBAR — 3 boxes]
+"カオス度カーブ": small line chart, x="A(0:00)/B(0:01)/C(0:02)", y="カオス度", rising line + one-line arc summary.
+"カメラパス": 3 mini diagrams "A. <span class="fill">[CAMERA_A]</span>" "B. <span class="fill">[CAMERA_B]</span>" "C. <span class="fill">[CAMERA_C]</span>".
+"技術メモ": 4 short bullets (reference fidelity / show clearly / chaos ★★→★★★→★★★★★ / one hard constraint).
 
-[TITLE STRIP — top, small]
-"<span class="fill">[CUT_ID]</span>_<span class="fill">[CUT_NAME]</span>　<span class="fill">[DURATION 例：約8秒]</span>"
+[BOTTOM LEGEND BAR]
+yellow arrow="黄：動き" / red arrow="赤：インパクト" / blue dashed="青破線：カメラ" / thin white line="白：スロー・連続".
 
-[FRAMES — chronological, same shot continuity]
-FRAME 1 — caption "<span class="fill">[F1_CAPTION]</span>": <span class="fill">[F1_DESC 何が・どこで・どんな表情と動きの瞬間か。カメラの寄り引き・アングルは"画"で表現（例：medium shot, slightly low angle）。@参照を使う対象は「@Image1の男」のように紐づけて書く]</span>.
-FRAME 2 — caption "<span class="fill">[F2_CAPTION]</span>": <span class="fill">[F2_DESC]</span>.
-FRAME 3 — caption "<span class="fill">[F3_CAPTION]</span>": <span class="fill">[F3_DESC]</span>.
-FRAME 4 — caption "<span class="fill">[F4_CAPTION]</span>": <span class="fill">[F4_DESC]</span>.
-FRAME 5 — caption "<span class="fill">[F5_CAPTION]</span>": <span class="fill">[F5_DESC]</span>.
-FRAME 6 — caption "<span class="fill">[F6_CAPTION]</span>": <span class="fill">[F6_DESC]</span>.
-（コマ数の指定に合わせて FRAME 行を増減する）
-
-[CONSISTENCY]
-Keep every referenced subject identical to its reference across all frames: <span class="fill">[CONSISTENCY_NOTE 例：the man = @Image1, the room = @Image2, the can = @Image3]</span>. Consistent lighting (<span class="fill">[LIGHTING 例：warm tungsten night interior]</span>) and consistent reference-matched art style across all frames.
-
-[TONE — 必ず指定]
-<span class="fill">[TONE 例：Serious, grounded, emotional. Natural restrained acting]</span>. 作品のトーンを固定し、それ以外の調子に流れないこと（例：シリアスな場面で勝手にコメディ・誇張・スラップスティックにしない）。
-
-【出力前チェック】コマ数が指定どおりか／矢印・記号・サイドバーが一切無いか／参照の顔・服・体型・画風が変わっていないか／新しい画風を足していないか／キャプション以外の文字を描いていないか／壊したくない物を勝手に壊していないか（割れたTV等。否定形で指定し、各コマで無傷を保つ）。</code></pre>
+[CONTROL NOTES — render as a small side note on the sheet]
+"BGM出力なし（音は台詞・SE・環境音のみ）" / "カメラワーク・アングルを明示" / "人物の動線を矢印で" / "位置関係（キャラ・小物・背景）を固定"</code></pre>
   </div>
-  <div class="note"><b>差し替え変数</b>：<code>[FRAME_COUNT]</code>コマ数（未指定なら6） ／ <code>[CUT_ID]</code><code>[CUT_NAME]</code>カット名 ／ <code>[DURATION]</code>尺 ／ <code>[F1〜_CAPTION]</code>各コマの短いキャプション ／ <code>[F1〜_DESC]</code>各コマの内容（カメラ寄り引き・アングルは"画"で表現、@参照と紐づけて書く） ／ <code>[CONSISTENCY_NOTE]</code>崩したくない要素を@参照と紐づけて明記 ／ <code>[LIGHTING]</code>光 ／ <code>[TONE]</code>作品トーン（必ず指定）。<br><b>画風は変数にしない</b>：参照画像がある前提なので画風は参照に従わせる。文章で画風を指定すると参照が上書きされて絵柄が変わるため書かない。<br><b>参照の入れ方</b>：人物・背景・小物など手元の素材は全て参照接続し、本文で <code>@Image1=人物</code> <code>@Image2=背景</code> <code>@Image3=小物</code> のように役割を明示。手元にある素材は新規創作させず必ず参照を使わせる。</div>
+  <div class="note"><b>差し替え変数</b>：<code>[CUT_ID]</code><code>[CUT_NAME]</code>カット名 ／ <code>[SHOT/KF/BEAT_COUNT]</code><code>[DURATION]</code>構成サマリ ／ <code>[SHOT_A/B/C_NAME]</code>ショット名 ／ <code>[KF1〜6_DESC]</code>各コマ内容 ／ <code>[PALETTE_HEX]</code>HEX5色 ／ <code>[CAMERA_A/B/C]</code>カメラパス ／ <code>[REFERENCE_DESC]</code>参照素材。</div>
 
   <div class="warn"><b>コンテで"演出を制御"する（Seedance運用の要）</b><br>
-  Seedanceは i2v と画像リファレンスを同時に使えないため、<b>演出はストーリーボードで伝えるのが基本</b>です。ただし矢印・記号では伝えず、次の4点を<b>「画そのもの」で</b>描き込みます（記号は画面にノイズとして出るため厳禁）：<br>
-  ① <b>カメラワーク・アングル</b>：寄り/引き/見上げを、実際のフレーミングと構図で表現する<br>
-  ② <b>人物の動線</b>：誰がどこへ動くかを、各コマのポーズと位置の変化で見せる<br>
-  ③ <b>位置関係</b>：キャラ・小物・背景の配置を各コマで一貫させる<br>
-  ④ <b>BGMは出さない</b>（音は台詞・SE・アンビエンスのみ。BGMは編集で後付け）<br>
+  Seedanceは i2v と画像リファレンスを同時に使えないため、<b>演出はストーリーボードで伝えるのが基本</b>です。コンテに次の4点をビジュアルで描き込むと、生成が安定してガチャ回数が減ります：<br>
+  ① <b>BGMは出さない</b>（音は台詞・SE・アンビエンスのみ。BGMは編集で後付け）<br>
+  ② <b>カメラワーク・アングル</b>（寄り/引き/見上げ等を矢印や枠で）<br>
+  ③ <b>人物の動線</b>（誰がどこへ動くかを矢印で）<br>
+  ④ <b>位置関係</b>（キャラ・小物・背景の配置）<br>
   さらに、可能なら<b>その時代パートの空間把握シート（④）も一緒に参照</b>させると背景の矛盾が減ります（※全シーン分の用意は時間的に厳しいので、背景が複雑な重要シーンを優先）。</div>
 
-  <div class="warn"><b>ストーリーボード→Seedance 受け渡しの作法</b><br>
-  ① <b>ストーリーボード（連続スチル）を動画の参照 <code>@Image1</code> としてそのまま渡す</b>（コマ順・構図・動線の設計図として効く）。<br>
-  ② 人物・背景・小物も<b>別々の参照</b>として併せて渡し、本文で役割を明示（例：<code>@Image1=ストーリーボード</code> <code>@Image2=人物</code> <code>@Image3=背景</code> <code>@Image4=小物</code>）。<br>
-  ③ <b>動画側にも「矢印・線・閃光・グラフィックを足すな」と明記</b>（万一コンテに記号が残っても打ち消せる）。<br>
-  ④ カメラは8種から1つだけ。複合は「主 then 副」。リズム語で書く（slow/smooth/gradual）。<br>
-  ⑤ 音声を使う場合 <code>@Audio1</code> は<b>声質（音色）の参照のみ</b>。台詞はプロンプトのテキストで指定し、そのテキストにリップシンクさせる（サンプルの中身は喋らせない）。<br>
-  ⑥ 参照は最大12ファイル。動き用の参照動画は4枚目の参照画像より優先。</div>
+  <div class="warn"><b>KF→Seedance 受け渡しの作法</b><br>
+  ① <b>First/Last Frameモード</b>で KF1=開始フレーム、KF2=終了フレームに指定（間が補間される）。<br>
+  ② カメラは8種から1つだけ。複合は「主 then 副」。<br>
+  ③ リズム語で書く（slow/smooth/gradual）。<br>
+  ④ @参照は役割明示（@Video1=カメラのみ参照、外見は@Image1）。<br>
+  ⑤ 参照は最大12ファイル。動き用の参照動画は4枚目の参照画像より優先。</div>
 </section>
 
 <!-- ===== ⑥ 台詞・芝居 ===== -->
@@ -666,16 +661,6 @@ Keep every referenced subject identical to its reference across all frames: <spa
     <li><b>1台詞 5〜10語・8秒以内</b>：長いと口の動きが曖昧に。長台詞は2回に分けて生成して繋ぐ。</li>
     <li><b>物理動作でなく感情と「間」を描く</b>：「一拍の沈黙。ゆっくり一度うなずく」のように、台詞のない間こそ芝居になる。</li>
   </ul>
-
-  <h3><span class="dot"></span>細部のコントロール（壊したくない物・避けたい物理）</h3>
-  <p class="mini">AIは指示の空白を<b>「派手な方向」で勝手に埋める</b>癖があります。例：缶を画面に投げる→<b>TVを割る</b>／机を叩く→食器が飛び散る／ドアを閉める→ガラスが砕ける。これを防ぐには、<b>壊れてほしくない物を否定形で名指しし、代わりに何が起きるかを肯定形で書く</b>のが最も効きます。画像（コンテ）・動画どちらでも有効です。</p>
-  <ul class="clean">
-    <li><b>否定形で名指し</b>：<code>The TV screen does NOT break, NOT crack, NOT shatter. It stays intact and undamaged.</code></li>
-    <li><b>代わりに起きることを肯定形で</b>：<code>The empty can bounces off the screen and drops to the floor.</code></li>
-    <li><b>物理の度合いを指定</b>：<code>hits with a light thud, no destruction</code> / <code>strikes hard but the object stays whole</code></li>
-    <li><b>各コマ・各ショットで無傷を維持</b>：連続スチルや複数ショットでは、後半コマで勝手に破損させないよう「intact in every frame」と添える。</li>
-  </ul>
-  <div class="note"><b>コピー用ひな型</b>：<code>[OBJECT] does NOT break / crack / shatter; it stays intact and undamaged in every frame. Instead, [WHAT ACTUALLY HAPPENS]. Impact is [LIGHT / HARD] but causes no destruction.</code></div>
 
   <h3><span class="dot"></span>@参照の役割（芝居まわり）</h3>
   <div class="tblwrap"><table>
@@ -726,7 +711,6 @@ Keep every referenced subject identical to its reference across all frames: <spa
     <tr><td>セルシェーディング</td><td><code>Clean cel-shaded 2D anime. Flat color blocks with hard shadow edges.</code></td></tr>
   </table></div>
   <p class="mini"><b>結果を明示するフレーズ</b>：<code>impact creates a shockwave ripple expanding outward</code> / <code>shatters into a million pieces, fragments scattering in slow motion</code> / <code>the strike connects with a bright cross-shaped flash</code></p>
-  <div class="warn"><b>破壊フレーズは「壊すのが演出意図のとき」だけ使う</b>：上の <code>shatters...</code> 等は意図的な破壊シーン専用。日常シーンで安易に使うと、AIが余計な物まで壊す（缶を投げる→TVが割れる等）。壊したくない物がある場面では、逆に⑥の「<b>does NOT break / shatter, stays intact</b>」を必ず添える。</div>
   </div></details>
 
   <details class="acc"><summary>IP回避：外見描写への置換表</summary>
@@ -992,8 +976,17 @@ Keep every referenced subject identical to its reference across all frames: <spa
 <p class="credit">〈『1970年　ナイトブライド』のクレジット〉</p>
 <p class="desc">美しい中性的な男性に変身したモモエに、映美が「えっ！モモエちゃん、イケメンー！」とはしゃぐ。お城の最上階の窓に、ふたりの影が見える。本来ならばロマンチックなキスシーンになりそうなところを、モモエがマシンガンのようなキスを映美に10回ほどする。映美、鬱陶しがりながらも楽しそう。</p>
 <h2 class="scene" id="scene-13">【シーン8】</h2>
-<p class="credit">〈『1980年　ユニコーンボール』のクレジット〉</p>
-<p class="note">※著作権回避をしたシーンを思案中です。いただいたアイデアをもとに、戦闘シーン中心で台詞はひと言、ふた言にする予定であります。</p>
+<p class="credit">〈『1980年　ユニコーン 将』のクレジット〉</p>
+<p class="desc">荒野に立つ巨大な敵を前に、モモエが両手を突き出して叫ぶ。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「超ウルトラモモエビーム！」</span></p>
+<p class="desc">虹色の極太ビームが敵を直撃し、敵は派手に爆散する。決着はついた。……はずなのに、その勢いのまま敵の背後に広がる大地一帯まで焼け野原になっていく。</p>
+<p class="line"><span class="who">モモエ</span><span class="say">「まだまだぁ～」</span></p>
+<p class="line"><span class="who">敵</span><span class="say">「ぬわああああ！」</span></p>
+<p class="line"><span class="who">モモエ</span><span class="say">「これでもかぁ～！」</span></p>
+<p class="line"><span class="who">敵</span><span class="say">「……」</span></p>
+<p class="line"><span class="who">モモエ</span><span class="say">「もういっちょ～！」</span></p>
+<p class="desc">敵はもうボロボロで、黒い煙をプスプスと出している。遠くの山肌まで焦げ、空には昭和アニメらしい大げさな爆煙が何重にも立ちのぼる。</p>
+<p class="line"><span class="who">映美</span><span class="say">「やれやれ……」</span></p>
 <h2 class="scene" id="scene-14">【シーン9】</h2>
 <p class="credit">〈『1990年　翼機械獣ダンゲイン』のクレジット〉</p>
 <p class="desc">翼が生えた動物(ライオン)っぽい機体に乗ったモモエが「燃やしつくせー！」と叫びながら搭乗している機体の口から火炎放射しているが、「もうみんなやっつけたよ」と映美が指摘したり。モモエがピンクの体のラインがわかるピッタリとしたパイロットスーツを着た映美に「え？もう終わったの？炎で見えなくて」と言って、火炎放射をしたまま映美の方を向く。映美、逃げ惑う。</p>
