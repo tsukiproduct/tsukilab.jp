@@ -332,7 +332,7 @@ nav.toc{
       <div class="wf-step">
         <div class="wf-num">3</div>
         <div class="wf-body"><h4>SYSをコピペ＋参照を指す</h4>
-          <p>作りたいものに合うSYS（動画1カット＝②／複数カット＝③／画像＝①）をコピーして貼る。ノード接続がある場合は素材説明を書かなくてOK。手書き運用では「<code>@Image1＝映美/現代画風固定</code>」「<code>@ImageStoryboard1＝構図・尺・動線参照</code>」「<code>@Audio1＝映美の声質サンプル</code>」のように役割を指定する。</p>
+          <p>作りたいものに合うSYS（動画1カット＝②／複数カット＝③／画像＝①）をコピーして貼る。ノード接続がある場合は素材説明を書かなくてOK。手書き運用では「<code>@Image1＝映美/現代画風固定</code>」「<code>@ImageStoryboard1＝構図・尺・動線参照（画像内の矢印・文字注釈なし）</code>」「<code>@Audio1＝映美の声質サンプル</code>」のように役割を指定する。</p>
           <span class="where">①〜⑤ から選ぶ</span></div>
       </div>
       <div class="wf-step">
@@ -380,7 +380,7 @@ nav.toc{
 【年代画風】<span class="fill">[例：1960s / 1970s / 1980s / 1990s / 2000s。現代なら空欄]</span>
 【尺】<span class="fill">[例：5秒／カット数]</span>
 ＝＝＝ここまで＝＝＝
-上のSYSの作法どおり、英語の動画生成プロンプト（@タグ・1ビート1動詞・IP回避込み）に整えてください。台詞はひらがなに変換してください。台詞がある場合は、未添付でも <code>@Audio1</code> の声質参照欄を必ず残してください。複雑なカットや複数カットでは、未添付でも <code>@ImageStoryboard1</code> の構図参照欄を残してください。</code></pre>
+上のSYSの作法どおり、英語の動画生成プロンプト（@タグ・1ビート1動詞・IP回避込み）に整えてください。台詞はひらがなに変換してください。台詞がある場合は、未添付でも <code>@Audio1</code> の声質参照欄を必ず残してください。複雑なカットや複数カットでは、未添付でも <code>@ImageStoryboard1</code> の構図参照欄を残してください。ストーリーボード画像を動画参照に入れる場合は、画像内に矢印・カメラ線・文字注釈・ラベルを描かないでください。動きやカメラ指示はプロンプト本文のテキスト欄に分離してください。</code></pre>
     </div>
     <div class="copybox" data-copy="cp-wf-img">
       <div class="bar"><span class="ttl">準備フェーズ用 貼り付け例文（キャラ設計図・画像）</span><button class="btn" onclick="copyBox('cp-wf-img',this)">コピー</button></div>
@@ -468,11 +468,11 @@ nav.toc{
 9. 台詞は脚本にあるものだけ使う。ひらがな表記にし、引用符で囲み、直前に感情・声の出し方を置く。台詞を創作しない。
 10. サンプルボイス：台詞がある場合は、動画生成時に必ず @Audio1 を使う前提でプロンプトを書く。未添付でも @Audio1 の予約欄を出す。@Audio は台詞内容ではなく、声質・年齢感・話速・抑揚・息づかい・間・イントネーションだけを参照する。@Audio内の別台詞や単語を引用しない。脚本の台詞を、@Audioの声質と抑揚で自然に読ませる。サービスが音声添付非対応の場合も、同じ声質・抑揚指示をテキストで残す。
 11. BGMは出力しない。必ず "No background music. No score." 音は台詞・SE・アンビエンスのみ。
-12. ストーリーボード：複雑なカット、複数人物、乗り物、戦闘、火炎・爆発・ビーム、画風分離がある場合は @ImageStoryboard1 を使う前提でプロンプトを書く。未添付でも予約欄を出し、動画生成時に添付するよう明記する。
+12. ストーリーボード：複雑なカット、複数人物、乗り物、戦闘、火炎・爆発・ビーム、画風分離がある場合は @ImageStoryboard1 を使う前提でプロンプトを書く。未添付でも予約欄を出し、動画生成時に添付するよう明記する。動画参照に入れるストーリーボード画像には、矢印・カメラ線・文字注釈・ラベルを描かない。動き・カメラ・尺はプロンプト本文で説明する。
 13. IP・作品名・キャラ名・ブランド名は出さず外見描写に置換。
 
 【出力フォーマット】英語で：
-[Reference Priority] @Image1=... / @Image2=... / @ImageStoryboard1=storyboard reference for composition, shot order, camera, timing, and action beats. If not attached yet, reserve this slot and tell the user to attach it during video generation. / @Audio1=voice sample for timbre, pacing, intonation, breath, and natural pauses only; required whenever dialogue exists; not transcript. State exact preservation rules.
+[Reference Priority] @Image1=... / @Image2=... / @ImageStoryboard1=clean storyboard reference for composition, shot order, character placement, timing, and action beats. The storyboard image must contain only the scene frames, with no arrows, no camera lines, no labels, no captions, and no written annotations inside the image. If not attached yet, reserve this slot and tell the user to attach it during video generation. / @Audio1=voice sample for timbre, pacing, intonation, breath, and natural pauses only; required whenever dialogue exists; not transcript. State exact preservation rules.
 [Scene Reading] protagonist, action, emotional peak, must-show moment.
 [Style Layers] Layer A modern character references for Emi/Momoe; Layer B era world/background/effects. Do not blend layers.
 [Motion/Action — ONE VERB PER BEAT] Beat 1: ... / Beat 2: ... / Beat 3: ...
@@ -513,12 +513,12 @@ nav.toc{
 9. 台詞は脚本にあるものだけ。ひらがな表記、引用符、直前に感情・トーン。1台詞5〜10語、8秒以内。台詞を創作しない。
 10. サンプルボイス：台詞がある場合は、動画生成時に必ず @Audio1 を使う前提でプロンプトを書く。未添付でも @Audio1 の予約欄を出す。@Audio は声質・年齢感・話速・抑揚・息づかい・間・イントネーションのみ参照。@Audio内の別台詞や単語は絶対に引用しない。脚本の台詞を、@Audioの声質と抑揚で自然に読ませる。サービスが音声添付非対応の場合も、同じ声質・抑揚指示をテキストで残す。
 11. BGMは出力しない。各ショットと全体に "No background music. No score." 音は台詞・SE・アンビエンスのみ。
-12. ストーリーボード：複雑なカット、複数人物、乗り物、戦闘、火炎・爆発・ビーム、画風分離がある場合は @ImageStoryboard1 を使う前提でプロンプトを書く。未添付でも予約欄を出し、動画生成時に添付するよう明記する。
+12. ストーリーボード：複雑なカット、複数人物、乗り物、戦闘、火炎・爆発・ビーム、画風分離がある場合は @ImageStoryboard1 を使う前提でプロンプトを書く。未添付でも予約欄を出し、動画生成時に添付するよう明記する。動画参照に入れるストーリーボード画像には、矢印・カメラ線・文字注釈・ラベルを描かない。動き・カメラ・尺はプロンプト本文で説明する。
 13. IP・作品名・キャラ名・ブランド名は出さず外見描写に置換。
 14. Seedanceは i2v と画像リファレンスを同時に使えない前提。演出制御はストーリーボードと言語化で行い、人物の動線・位置関係・カメラ・見せ場を具体化する。
 
 【出力フォーマット】英語で：
-[Reference Priority] @Image1=... / @Image2=... / @Image3=... / @ImageStoryboard1=storyboard reference for composition, shot order, camera, timing, and action beats. If not attached yet, reserve this slot and tell the user to attach it during video generation. / @Audio1=voice sample for timbre, pacing, intonation, breath, and natural pauses only; required whenever dialogue exists; not transcript. State exact preservation rules for each.
+[Reference Priority] @Image1=... / @Image2=... / @Image3=... / @ImageStoryboard1=clean storyboard reference for composition, shot order, character placement, timing, and action beats. The storyboard image must contain only the scene frames, with no arrows, no camera lines, no labels, no captions, and no written annotations inside the image. If not attached yet, reserve this slot and tell the user to attach it during video generation. / @Audio1=voice sample for timbre, pacing, intonation, breath, and natural pauses only; required whenever dialogue exists; not transcript. State exact preservation rules for each.
 [Scene Reading] overall purpose, emotional arc, climax, must-show details, what can be omitted.
 [Global Style Layers] Layer A modern character references for Emi/Momoe; Layer B era world/background/enemies/effects. Do not blend layers.
 [SHOT 1 — title | 0-Xs]
@@ -593,49 +593,48 @@ right "おすすめ撮影時間帯": "早朝 / 午前 / 午後 / 夕方" mini su
 <!-- ===== ⑤ CUT分解シート TPL ===== -->
 <section id="tpl-cut">
   <div class="sec-head"><span class="no">05</span><h2>テンプレート：CUT分解ストーリーボードシート</h2><span class="sub">動きの設計図を1枚に</span></div>
-  <p class="lead">SHOT／キーフレーム／ビート／カメラパスを1枚にまとめる動きの設計図。<code>[ ]</code>を差し替えてGPT Image 2に渡すと、Image2（特攻服倒産シート）のような図が作れます。ここで作ったKFをSeedanceのFirst/Last Frameに渡すと動きが安定します。</p>
+  <p class="lead">SHOT／キーフレーム／ビート／カメラパスを1枚にまとめる動きの設計図。動画参照に入れるため、画像コマ内には矢印・文字注釈・ラベルを描かず、動きやカメラ指示はコマ下のテキスト欄に分離します。ここで作ったKFをSeedanceのFirst/Last Frameや参照画像に渡すと動きが安定します。</p>
 
   <div class="copybox" data-copy="tpl-cut">
     <div class="bar"><span class="ttl">TEMPLATE — CUT BREAKDOWN SHEET (GPT Image 2)</span><button class="btn" onclick="copyBox('cp-tpl-cut',this)">コピー</button></div>
-    <pre><code id="cp-tpl-cut">Create a single high-resolution 16:9 storyboard breakdown sheet (2K, clean production-document layout, thin colored borders, dark-on-light editorial style). Render ALL labels as crisp, perfectly legible text exactly as written in quotes. Do NOT invent extra text. Designed document, NOT a photo. No watermarks.
+    <pre><code id="cp-tpl-cut">Create a single high-resolution 16:9 storyboard breakdown sheet (2K, clean production-document layout). This sheet will be used as a video reference, so the storyboard image panels must contain ONLY clean scene frames.
 
-[HEADER BAR]
-title: "<span class="fill">[CUT_ID]</span>_<span class="fill">[CUT_NAME]</span>"
-spec line: "ショット分解 ― <span class="fill">[SHOT_COUNT]</span>ショット｜<span class="fill">[KF_COUNT]</span>キーフレーム｜<span class="fill">[BEAT_COUNT]</span>ビート｜<span class="fill">[DURATION]</span>"
+IMPORTANT VISUAL RULE:
+Do NOT draw arrows, motion arrows, camera lines, dashed lines, labels, captions, speech bubbles, handwritten notes, UI marks, frame numbers, or any text inside the storyboard images. These marks may be copied into the generated video. Put all camera/action notes in the separate text blocks below each panel, outside the image area.
 
-[CENTER — three SHOT rows, each = 2 keyframe panels side by side]
-ROW1 "SHOT A <span class="fill">[SHOT_A_NAME]</span>" timecode "0:00–0:01" rating "カオス度 ★★☆☆☆"
-  Panel "KF1": <span class="fill">[KF1_DESC]</span>. Overlay yellow arrows=motion, blue dashed=camera. Caption below.
-  Panel "KF2": <span class="fill">[KF2_DESC]</span>. Same overlays. Caption.
-ROW2 "SHOT B <span class="fill">[SHOT_B_NAME]</span>" "0:01–0:02" "カオス度 ★★★☆☆"
-  Panel "KF3": <span class="fill">[KF3_DESC]</span>. / Panel "KF4": <span class="fill">[KF4_DESC]</span>.
-ROW3 "SHOT C <span class="fill">[SHOT_C_NAME]</span>" "0:02–0:03" "カオス度 ★★★★☆"
-  Panel "KF5": <span class="fill">[KF5_DESC]</span>. / Panel "KF6": <span class="fill">[KF6_DESC]</span>.
-Keep the main subject visually consistent across all six panels.
+layout:
+- 3 clean 16:9 image panels: "KF1", "KF2", "KF3".
+- Under each panel, add a separate plain text note area with: Camera / Action / Timing / Audio.
+- Panel images should look like clean keyframes from the final animation, not annotated diagrams.
+- Use attached references as the highest-priority visual truth. Preserve character designs, props, costumes, background structure, and color anchors.
 
-[LEFT SIDEBAR — 3 boxes]
-"リファレンス": thumbnail of <span class="fill">[REFERENCE_DESC]</span>.
-"VFX": grid of 6 small effect icons with one-word labels.
-"カラーパレット": 5 swatches with hex "<span class="fill">[PALETTE_HEX 例：#FF1493 ...]</span>".
+scene:
+CUT_ID: <span class="fill">[CUT_ID]</span>
+CUT_NAME: <span class="fill">[CUT_NAME]</span>
+DURATION: <span class="fill">[DURATION]</span>
 
-[RIGHT SIDEBAR — 3 boxes]
-"カオス度カーブ": small line chart, x="A(0:00)/B(0:01)/C(0:02)", y="カオス度", rising line + one-line arc summary.
-"カメラパス": 3 mini diagrams "A. <span class="fill">[CAMERA_A]</span>" "B. <span class="fill">[CAMERA_B]</span>" "C. <span class="fill">[CAMERA_C]</span>".
-"技術メモ": 4 short bullets (reference fidelity / show clearly / chaos ★★→★★★→★★★★★ / one hard constraint).
+KF1 image only: <span class="fill">[KF1_DESC]</span>
+KF1 note below image: Camera=<span class="fill">[CAMERA_1]</span> / Action=<span class="fill">[ACTION_1]</span> / Timing=<span class="fill">[TIME_1]</span> / Audio=<span class="fill">[AUDIO_1]</span>
 
-[BOTTOM LEGEND BAR]
-yellow arrow="黄：動き" / red arrow="赤：インパクト" / blue dashed="青破線：カメラ" / thin white line="白：スロー・連続".
+KF2 image only: <span class="fill">[KF2_DESC]</span>
+KF2 note below image: Camera=<span class="fill">[CAMERA_2]</span> / Action=<span class="fill">[ACTION_2]</span> / Timing=<span class="fill">[TIME_2]</span> / Audio=<span class="fill">[AUDIO_2]</span>
 
-[CONTROL NOTES — render as a small side note on the sheet]
-"BGM出力なし（音は台詞・SE・環境音のみ）" / "カメラワーク・アングルを明示" / "人物の動線を矢印で" / "位置関係（キャラ・小物・背景）を固定"</code></pre>
+KF3 image only: <span class="fill">[KF3_DESC]</span>
+KF3 note below image: Camera=<span class="fill">[CAMERA_3]</span> / Action=<span class="fill">[ACTION_3]</span> / Timing=<span class="fill">[TIME_3]</span> / Audio=<span class="fill">[AUDIO_3]</span>
+
+reference notes:
+<span class="fill">[REFERENCE_DESC]</span>
+
+negative constraints:
+No arrows inside images. No labels inside images. No captions inside images. No speech bubbles inside images. No camera guide lines inside images. No handwritten notes inside images. No watermark. No extra text. No redesign. No identity drift.</code></pre>
   </div>
   <div class="note"><b>差し替え変数</b>：<code>[CUT_ID]</code><code>[CUT_NAME]</code>カット名 ／ <code>[SHOT/KF/BEAT_COUNT]</code><code>[DURATION]</code>構成サマリ ／ <code>[SHOT_A/B/C_NAME]</code>ショット名 ／ <code>[KF1〜6_DESC]</code>各コマ内容 ／ <code>[PALETTE_HEX]</code>HEX5色 ／ <code>[CAMERA_A/B/C]</code>カメラパス ／ <code>[REFERENCE_DESC]</code>参照素材。</div>
 
-  <div class="warn"><b>コンテで"演出を制御"する（Seedance運用の要）</b><br>
-  Seedanceは i2v と画像リファレンスを同時に使えないため、<b>演出はストーリーボードで伝えるのが基本</b>です。コンテに次の4点をビジュアルで描き込むと、生成が安定してガチャ回数が減ります：<br>
+  <div class="warn"><b>コンテで"演出を制御"する（動画参照用は矢印なし）</b><br>
+  Seedanceは i2v と画像リファレンスを同時に使えないため、<b>演出はストーリーボードで伝えるのが基本</b>です。コンテは動画に混入しない清潔な絵として作り、次の4点は画像内ではなくプロンプト本文・コマ下テキストに分けると、生成が安定してガチャ回数が減ります：<br>
   ① <b>BGMは出さない</b>（音は台詞・SE・アンビエンスのみ。BGMは編集で後付け）<br>
-  ② <b>カメラワーク・アングル</b>（寄り/引き/見上げ等を矢印や枠で）<br>
-  ③ <b>人物の動線</b>（誰がどこへ動くかを矢印で）<br>
+  ② <b>カメラワーク・アングル</b>（寄り/引き/見上げ等は画像内に描かず、コマ下テキストで指定）<br>
+  ③ <b>人物の動線</b>（誰がどこへ動くかは画像内に矢印を描かず、プロンプト本文で指定）<br>
   ④ <b>位置関係</b>（キャラ・小物・背景の配置）<br>
   さらに、可能なら<b>その時代パートの空間把握シート（④）も一緒に参照</b>させると背景の矛盾が減ります（※全シーン分の用意は時間的に厳しいので、背景が複雑な重要シーンを優先）。</div>
 
