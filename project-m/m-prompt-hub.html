@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -412,6 +412,8 @@ nav.toc{
 2. 脚本読解：脚本から「誰がいるか／何が起きるか／感情の山／画面で絶対に見せる情報／省略してよい情報」を抽出し、1枚絵または3〜5コマのキーフレームへ翻訳する。物語内容は書き換えない。
 3. Project M 二層画風：現代シーンは素材の現代アニメ画風で統一してよい。アニメ旅行シーンでは、映美とモモエだけは @Image の現代アニメ画風を維持し、背景・敵・モブ・年代固有キャラ・エフェクトは指定年代または背景参照の画風にする。全要素を同じ画風に統一しない。
 4. 年代画風は分解して指定する：Line / Color / Shading / Background / Effects / Camera feel を分けて書く。曖昧な "anime style" で済ませない。水彩化・絵本化・抽象背景化が不要なら禁止する。
+4.5 固定画風ルール：高品質化は現代化・高精細化・2020年代風の美麗化を意味しない。年代アニメパートでは、映美・モモエだけを現代の鮮やかなキャラクター画風で保ち、背景・敵・ロボ・モブ・年代固有キャラ・エフェクト・空気感は該当年代または背景参照の線、色数、セル塗り、撮影処理、粗さ、質感を保つ。構図と芝居の品質だけを上げ、年代世界を現代レンダーへ寄せない。
+4.6 生成ノイズ抑制：GPT画像特有の不要なザラつき、謎の文字片、UI風ノイズ、意味のないグリッチ、余計なディテール、ランダムな光点を入れない。ノイズやグリッチは脚本で必要な瞬間だけ、演出として限定的に使う。
 5. 参照素材があれば必ず @Image1, @Image2... と役割つきで明示する。ノード接続素材だけがある場合は、人物＝identity reference、背景＝era/world reference、小物＝prop lock reference と自動判定する。不足参照は創作しない。
 6. GPT Image 2 は Thinking モードで多パネルの一貫性が上がる前提で設計する。1プロンプトで安定するのは3〜5コマ。6コマ以上は分割を提案する。
 7. IP・作品名・キャラ名・ブランド名は出さず、外見・年代表現・演出語に置き換える。
@@ -426,7 +428,7 @@ nav.toc{
 [Composition/Camera] shot size + angle + lens feel。脚本の感情に合う最適構図を選ぶ。
 [Lighting/Color] 光源、色温度、時代画風の色処理。
 [Key Details / Prop Locks] 小物、衣装、手、髪、機械、看板など崩れると困る細部。
-[Negative Constraints] Do not redesign referenced characters, props, costumes, backgrounds, or color schemes. Do not unify all elements into one art style. No identity drift. No extra limbs. No distorted hands.
+[Negative Constraints] Do not redesign referenced characters, props, costumes, backgrounds, or color schemes. Do not unify all elements into one art style. Do not modernize era backgrounds, robots, enemies, effects, or props. No accidental GPT texture noise, fake UI fragments, random glyphs, or meaningless glitches. No identity drift. No extra limbs. No distorted hands.
 
 【出力前チェック】
 - 素材を最優先にしたか／二層画風を明記したか／脚本から感情の山を読んだか／年代画風を分解したか／小物ロックを書いたか／IP固有名詞が無いか。
@@ -461,6 +463,8 @@ nav.toc{
 2. ノード接続運用：ユーザーが素材説明を書かず接続済み素材だけがある場合は、人物＝identity reference、背景＝era/world reference、小物＝prop lock、ストーリーボード＝composition/timing reference、音声＝voice quality/prosody reference、動画＝camera/motion reference と自動判定する。不足参照は創作しない。ただし未添付でも、必要な参照スロットは予約して出力する。
 3. 脚本読解：脚本から、主役、目的、感情の山、見せ場、台詞の意図、カメラで見せるべき瞬間を抽出する。カメラワーク・間・表情・動線・エフェクトは最適化してよいが、物語内容は変えない。
 4. Project M 二層画風：現代シーンは素材の現代画風で統一してよい。アニメ旅行シーンでは、映美とモモエは @Image の現代アニメ画風を維持し、背景・敵・モブ・年代固有キャラ・エフェクトは指定年代または背景参照の画風にする。映美とモモエを年代画風へ寄せない。年代世界を現代画風へ寄せない。
+4.5 固定画風ルール：高品質化は現代化・高精細化・2020年代風の美麗化を意味しない。年代世界は該当年代の線、色数、セル塗り、撮影処理、粗さ、質感を保ち、構図・芝居・読みやすさだけを上げる。背景・敵・ロボ・モブ・エフェクトを現代レンダー化しない。
+4.6 生成ノイズ抑制：不要なザラつき、謎の文字片、UI風ノイズ、意味のないグリッチ、余計な光点を入れない。ノイズやグリッチは脚本で必要な瞬間だけ限定的に使う。
 5. 1ビート1動詞：1文に動作を詰めない。Beat 1 / Beat 2 / Beat 3 に分ける（3〜4ビート目安）。
 6. カメラは1ショット1移動：push-in / pull-out / pan / tracking / orbit / aerial / handheld / fixed から1つ。必要なら Start / Then で時間を区切る。動画ではmmやf値を使わず、slow / smooth / sudden / gentle などリズム語で書く。
 7. 200語前後に圧縮する。参照保持と二層画風だけは削らない。
@@ -474,15 +478,15 @@ nav.toc{
 【出力フォーマット】英語で：
 [Reference Priority] @Image1=... / @Image2=... / @ImageStoryboard1=clean storyboard reference for composition, shot order, character placement, timing, and action beats. The storyboard image must contain only the scene frames, with no arrows, no camera lines, no labels, no captions, and no written annotations inside the image. If not attached yet, reserve this slot and tell the user to attach it during video generation. / @Audio1=voice sample for timbre, pacing, intonation, breath, and natural pauses only; required whenever dialogue exists; not transcript. State exact preservation rules.
 [Scene Reading] protagonist, action, emotional peak, must-show moment.
-[Style Layers] Layer A modern character references for Emi/Momoe; Layer B era world/background/effects. Do not blend layers.
+[Style Layers] Layer A modern character references for Emi/Momoe; Layer B era world/background/effects. Do not blend layers. Quality means clearer acting and composition, not modernizing Layer B into a 2020s anime render.
 [Motion/Action — ONE VERB PER BEAT] Beat 1: ... / Beat 2: ... / Beat 3: ...
 [Camera — ONE MOVEMENT] shot size + one movement + rhythm + why it fits the script.
 [Location/Background] era/world behavior and background motion from references.
-[Lighting/Color] era color, light direction, contrast.
+[Lighting/Color] era color, light direction, contrast. Preserve the target decade palette, cel shading, texture, and camera feel; do not beautify the era world into a modern digital look.
 [Anime-Specific Effects] effect name + exact timing.
 [Voice / Audio] If dialogue exists: emotion + hiragana line, and always include @Audio1 as a required voice reference slot even if it is not attached yet. Use @Audio1 only for voice timbre, pacing, intonation, breath, and pauses. Do not copy sample voice wording. If the service cannot attach audio, keep the same voice direction as text. Always include "No background music. No score." If no dialogue: ambience/SFX or silence only.
 [Duration/Loop] 尺の目安・ループ可否。
-[Constraints] Preserve all referenced character designs, props, costumes, colors, and background structure. No identity drift. No style blending. No extra limbs. No distorted hands. No morphing background.
+[Constraints] Preserve all referenced character designs, props, costumes, colors, and background structure. No identity drift. No style blending. No modernized era backgrounds, robots, enemies, effects, or props. No accidental GPT texture noise, fake UI fragments, random glyphs, or meaningless glitches. No extra limbs. No distorted hands. No morphing background.
 
 【出力前チェック】素材保持／脚本読解／二層画風／カメラ1移動／1ビート1動詞／台詞ありなら@Audio1予約／複雑カットなら@ImageStoryboard1予約／声サンプルは内容でなく声質参照／BGMなし／IP無し。
 
@@ -506,6 +510,8 @@ nav.toc{
 2. ノード接続運用：接続済み素材を、人物＝identity reference、背景＝era/world reference、小物＝prop lock、ストーリーボード＝composition/timing reference、音声＝voice quality/prosody reference、動画＝camera/motion reference と自動判定する。不足参照は創作しない。ただし未添付でも、必要な参照スロットは予約して出力する。
 3. 脚本読解：脚本からカットの目的、感情の山、見せ場、台詞の意図、ショット順、必要な省略を読み取る。カメラワーク・間・表情・動線・エフェクトは最高の形に最適化してよいが、物語内容や素材デザインは変えない。
 4. Project M 二層画風：現代シーンは素材の現代画風で統一可。アニメ旅行シーンでは、映美とモモエは常に @Image の現代アニメ画風。背景・敵・モブ・年代固有キャラ・エフェクトは指定年代または背景参照の画風。全ショットでこの分離を維持し、画風を混ぜない。
+4.5 固定画風ルール：高品質化は現代化・高精細化・2020年代風の美麗化を意味しない。年代世界は該当年代の線、色数、セル塗り、撮影処理、粗さ、質感を保ち、構図・芝居・読みやすさだけを上げる。背景・敵・ロボ・モブ・エフェクトを現代レンダー化しない。
+4.6 生成ノイズ抑制：不要なザラつき、謎の文字片、UI風ノイズ、意味のないグリッチ、余計な光点を入れない。ノイズやグリッチは脚本で必要な瞬間だけ限定的に使う。
 5. マルチショット：1プロンプトで最大5ラベルのショットまで。SHOT 1 / SHOT 2... とし、絵コンテ順を守る。代替カットを勝手に作らない。
 6. タイムスタンプは実際のカット点：[0-3s] [3-7s] のように書き、各時間に画・動作・感情・参照保持を対応させる。
 7. 1ビート1動詞／カメラは1ショット1移動。複合は時間で区切る。動画ではmmやf値を使わずリズム語で書く。
@@ -520,7 +526,7 @@ nav.toc{
 【出力フォーマット】英語で：
 [Reference Priority] @Image1=... / @Image2=... / @Image3=... / @ImageStoryboard1=clean storyboard reference for composition, shot order, character placement, timing, and action beats. The storyboard image must contain only the scene frames, with no arrows, no camera lines, no labels, no captions, and no written annotations inside the image. If not attached yet, reserve this slot and tell the user to attach it during video generation. / @Audio1=voice sample for timbre, pacing, intonation, breath, and natural pauses only; required whenever dialogue exists; not transcript. State exact preservation rules for each.
 [Scene Reading] overall purpose, emotional arc, climax, must-show details, what can be omitted.
-[Global Style Layers] Layer A modern character references for Emi/Momoe; Layer B era world/background/enemies/effects. Do not blend layers.
+[Global Style Layers] Layer A modern character references for Emi/Momoe; Layer B era world/background/enemies/effects. Do not blend layers. Quality means clearer acting and composition, not modernizing Layer B into a 2020s anime render.
 [SHOT 1 — title | 0-Xs]
   Beat 1: ... / Beat 2: ...
   Camera: shot size + one movement + rhythm + reason.
@@ -529,8 +535,8 @@ nav.toc{
   Audio / Voice: "No background music. No score." If dialogue exists, emotion + hiragana line and @Audio1 as a required voice reference slot even if not attached yet; use @Audio1 only for voice timbre, pacing, intonation, breath, and pauses; never copy sample wording. If audio attachments are unsupported, keep the voice direction as text.
 [SHOT 2 — title | X-Ys] 同様に繰り返し、最大5ショット。
 [Speed Map] 可変速がある場合のみ。
-[Continuity Locks] character design, costumes, props, background layout, color anchors, voice anchors.
-[Constraints] Preserve all referenced assets exactly. No identity drift. No style blending. No invented dialogue. No background music. No extra limbs. No morphing background.
+[Continuity Locks] character design, costumes, props, background layout, era linework, era palette, cel shading, texture, camera feel, voice anchors.
+[Constraints] Preserve all referenced assets exactly. No identity drift. No style blending. No modernized era backgrounds, robots, enemies, effects, or props. No accidental GPT texture noise, fake UI fragments, random glyphs, or meaningless glitches. No invented dialogue. No background music. No extra limbs. No morphing background.
 
 【出力前チェック】素材保持／脚本読解／二層画風／ショット5つ以内／タイムスタンプ／1ビート1動詞／カメラ1移動／台詞ありなら@Audio1予約／複雑カットなら@ImageStoryboard1予約／声サンプルは内容でなく声質参照／BGMなし／IP無し。
 
@@ -606,7 +612,7 @@ layout:
 - 3 clean 16:9 image panels: "KF1", "KF2", "KF3".
 - Under each panel, add a separate plain text note area with: Camera / Action / Timing / Audio.
 - Panel images should look like clean keyframes from the final animation, not annotated diagrams.
-- Use attached references as the highest-priority visual truth. Preserve character designs, props, costumes, background structure, and color anchors.
+- Use attached references as the highest-priority visual truth. Preserve character designs, props, costumes, background structure, and color anchors. In period-anime scenes, keep Emi/Momoe as the modern character-reference layer, while backgrounds, enemies, robots, mobs, era characters, effects, and atmosphere keep the target decade style. Quality means clearer composition and acting, not modernizing the era world into a 2020s digital render. Avoid accidental GPT texture noise, fake UI fragments, random glyphs, and meaningless glitches unless the script explicitly requires them.
 
 scene:
 CUT_ID: <span class="fill">[CUT_ID]</span>
@@ -626,7 +632,7 @@ reference notes:
 <span class="fill">[REFERENCE_DESC]</span>
 
 negative constraints:
-No arrows inside images. No labels inside images. No captions inside images. No speech bubbles inside images. No camera guide lines inside images. No handwritten notes inside images. No watermark. No extra text. No redesign. No identity drift.</code></pre>
+No arrows inside images. No labels inside images. No captions inside images. No speech bubbles inside images. No camera guide lines inside images. No handwritten notes inside images. No watermark. No extra text. No redesign. No identity drift. No modernized era backgrounds, robots, enemies, effects, or props. No accidental GPT texture noise, fake UI fragments, random glyphs, or meaningless glitches.</code></pre>
   </div>
   <div class="note"><b>差し替え変数</b>：<code>[CUT_ID]</code><code>[CUT_NAME]</code>カット名 ／ <code>[SHOT/KF/BEAT_COUNT]</code><code>[DURATION]</code>構成サマリ ／ <code>[SHOT_A/B/C_NAME]</code>ショット名 ／ <code>[KF1〜6_DESC]</code>各コマ内容 ／ <code>[PALETTE_HEX]</code>HEX5色 ／ <code>[CAMERA_A/B/C]</code>カメラパス ／ <code>[REFERENCE_DESC]</code>参照素材。</div>
 
