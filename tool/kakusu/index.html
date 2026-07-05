@@ -552,17 +552,53 @@ function loadVideo(file){
   state.fileName = file.name.replace(/\.[^.]+$/, "");
   state.videoURL = URL.createObjectURL(file);
   state.masks = []; state.selectedId = null;
-  video.src = state.videoURL;
+  toast("読み込んでいます…");
+
+  let metaDone = false;
+  const ready = ()=>{ if(metaDone) return; metaDone = true; onMeta(); };
+
   video.muted = false;
-  video.addEventListener("loadedmetadata", onMeta, {once:true});
-  video.addEventListener("error", ()=>toast("この動画は読み込めませんでした"), {once:true});
+  video.preload = "auto";
+  video.playsInline = true;
+  video.src = state.videoURL;
+  video.load();
+  video.addEventListener("loadedmetadata", ready, {once:true});
+  video.addEventListener("error", ()=>{
+    toast("この動画は読み込めませんでした（形式非対応の可能性があります）");
+  }, {once:true});
+
+  // iPhone/iPad対策：再生操作があるまでmetadataを返さない場合があるため、
+  // 無音インライン再生で一瞬だけデコードを起こす
+  setTimeout(()=>{
+    if(metaDone || video.readyState >= 1) { if(!metaDone && video.readyState>=1) ready(); return; }
+    video.muted = true;
+    video.play().then(()=>{
+      video.pause(); video.currentTime = 0; video.muted = false;
+      ready();
+    }).catch(()=>{
+      if(video.readyState >= 1) ready();
+    });
+  }, 700);
+
+  // 最終フォールバック：それでも読めない場合は案内
+  setTimeout(()=>{
+    if(!metaDone && video.readyState < 1){
+      toast("読み込めません。iPhone撮影の動画はSafariで開くとうまくいきます");
+    }
+  }, 5000);
 }
 
 function onMeta(){
-  canvas.width = video.videoWidth || 1280;
-  canvas.height = video.videoHeight || 720;
-  $("timeline").max = video.duration;
+  if(!video.videoWidth){
+    toast("映像をデコードできません。この端末では非対応の形式です（HEVC等はSafari推奨）");
+    return;
+  }
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  $("timeline").max = (isFinite(video.duration) && video.duration > 0) ? video.duration : 0;
   $("exportName").value = state.fileName + "_masked";
+  // 最初のフレームを強制デコードして黒画面を防ぐ
+  try{ video.currentTime = 0.001; }catch(e){}
   goStep(2);
   refreshMaskList(); refreshAdjustPanel(); refreshKfMarks();
   toast("読み込みました。隠したい所をなぞってね");
