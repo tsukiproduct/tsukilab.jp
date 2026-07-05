@@ -227,7 +227,7 @@ function drawSun(t) {
 }
 
 // ============================================================
-//  キャラクター (ピンクのワイヤーフレーム) — 奥から回転して飛び出す
+//  キャラクター (色違いのワイヤーフレーム) — 奥から回転して飛び出す
 // ============================================================
 
 // --- ジオメトリ生成ヘルパー: エッジ(線分)の配列を返す ---
@@ -299,81 +299,6 @@ function buildBear() {
   return E;
 }
 
-// --- 人型ヘルパー: 関節を線分でつなぐ。太さは細リングで表現(線を細かく=飛び出し感) ---
-function limb(a, b, segs) {
-  // a→bを結ぶ線 + 中間に細いリングを入れて"肉付き"のワイヤーに
-  const edges = [];
-  edges.push([a, b]);
-  const n = segs || 2;
-  for (let i = 1; i < n; i++) {
-    const t = i/n;
-    const c = [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t, a[2]+(b[2]-a[2])*t];
-    edges.push(...ring(c[0], c[1], c[2], 4, 5, 'xz'));
-  }
-  return edges;
-}
-// 関節群(pose)から人体ワイヤーを組む。poseは各部位の3D座標。
-function humanFromPose(P) {
-  const E = [];
-  // 頭
-  E.push(...sphere(P.head[0], P.head[1], P.head[2], 11, 4, 7));
-  // 胴 (肩中心→腰中心)
-  E.push(...limb(P.neck, P.hip, 3));
-  // 肩ライン・腰ライン
-  E.push(...limb(P.shoulderL, P.shoulderR, 2));
-  E.push(...limb(P.hipL, P.hipR, 2));
-  // 腕
-  E.push(...limb(P.shoulderL, P.elbowL, 2), ...limb(P.elbowL, P.handL, 2));
-  E.push(...limb(P.shoulderR, P.elbowR, 2), ...limb(P.elbowR, P.handR, 2));
-  // 脚
-  E.push(...limb(P.hipL, P.kneeL, 2), ...limb(P.kneeL, P.footL, 2));
-  E.push(...limb(P.hipR, P.kneeR, 2), ...limb(P.kneeR, P.footR, 2));
-  return E;
-}
-
-// --- 女性: 音楽に乗る(両手を上げてノる) ---
-function buildWoman() {
-  return humanFromPose({
-    head:[0,52,0], neck:[0,40,0], hip:[0,0,0],
-    shoulderL:[-13,38,0], shoulderR:[13,38,0],
-    elbowL:[-22,50,4], elbowR:[22,50,4],      // 肘を上げ
-    handL:[-18,64,6], handR:[18,64,6],         // 手を頭上へ
-    hipL:[-9,0,0], hipR:[9,0,0],
-    kneeL:[-11,-26,2], kneeR:[11,-26,-2],
-    footL:[-12,-52,0], footR:[12,-52,4]        // 軽くステップ
-  });
-}
-// --- 男性ブレイクダンサー: フリーズ気味の片手支持ポーズ ---
-function buildBreaker() {
-  return humanFromPose({
-    head:[18,-40,0], neck:[12,-30,0], hip:[-4,6,0],
-    shoulderL:[6,-24,-8], shoulderR:[16,-30,8],
-    elbowL:[0,-40,-6], elbowR:[20,-14,10],
-    handL:[2,-54,0], handR:[16,2,8],           // 片手を床方向に支持
-    hipL:[-10,4,-6], hipR:[2,10,6],
-    kneeL:[-24,18,-4], kneeR:[-6,30,10],       // 脚を跳ね上げ
-    footL:[-38,10,0], footR:[-14,44,14]
-  });
-}
-// --- DJ: ターンテーブルに両手、頭を振る ---
-function buildDJ() {
-  const E = humanFromPose({
-    head:[0,48,4], neck:[0,38,0], hip:[0,2,0],
-    shoulderL:[-14,36,0], shoulderR:[14,36,0],
-    elbowL:[-20,22,8], elbowR:[20,22,8],
-    handL:[-24,10,20], handR:[24,10,20],       // 前のターンテーブルへ
-    hipL:[-9,2,0], hipR:[9,2,0],
-    kneeL:[-10,-24,2], kneeR:[10,-24,2],
-    footL:[-11,-50,0], footR:[11,-50,0]
-  });
-  // ターンテーブル(前に2枚のリング)
-  E.push(...ring(-24, 2, 24, 12, 12, 'xz'));
-  E.push(...ring( 24, 2, 24, 12, 12, 'xz'));
-  E.push(...ring(-24, 2, 24, 5, 8, 'xz'));
-  E.push(...ring( 24, 2, 24, 5, 8, 'xz'));
-  return E;
-}
-
 // --- 3D回転 (Y軸→X軸) ---
 function rotate(p, ry, rx) {
   let [x,y,z] = p;
@@ -398,10 +323,10 @@ function projChar(p, worldZ) {
 
 // --- キャラ定義: 奥から手前へ、時間差で登場 (順にブワーッと飛び出す) ---
 const characters = [
-  { edges: buildBear(),    phase: 0.00 },  // クマ
-  { edges: buildWoman(),   phase: 0.25 },  // 音楽に乗る女性
-  { edges: buildBreaker(), phase: 0.50 },  // 男性ブレイクダンサー
-  { edges: buildDJ(),      phase: 0.75 },  // DJ
+  { edges: buildBear(), phase: 0.00, color: '255,90,200' },   // ピンク
+  { edges: buildBear(), phase: 0.25, color: '80,230,255'  },  // シアン
+  { edges: buildBear(), phase: 0.50, color: '150,255,90'  },  // ライム
+  { edges: buildBear(), phase: 0.75, color: '255,160,60'  },  // オレンジ
 ];
 const CHAR_CYCLE = 5.0;               // 1体が奥→手前を横切る秒数 (30の約数=シームレス)
 const CHAR_ZFAR = 1400;               // 出現する奥のZ
@@ -413,10 +338,10 @@ function drawOneChar(char, localT) {
   const ry = localT * Math.PI * 6;    // クルクル横回転
   const rx = Math.sin(localT * Math.PI * 2) * 0.35;
 
-  // 近いほど明るいピンク
+  // 近いほど明るい (キャラごとの色)
   const near = 1 - (worldZ - CHAR_ZNEAR) / (CHAR_ZFAR - CHAR_ZNEAR);
   const a = 0.25 + near * 0.75;
-  bx.strokeStyle = `rgba(255,90,200,${a})`; // ピンク
+  bx.strokeStyle = `rgba(${char.color},${a})`;
   bx.lineWidth = 1;
   bx.beginPath();
   for (const [p0, p1] of char.edges) {
@@ -480,12 +405,30 @@ function frame(ts) {
 }
 
 // ---- CRT post-processing onto output canvas ----
+let isRecording = false; // 録画中は重い後処理を簡略化してフレーム落ちを防ぐ
 let noiseCanvas = document.createElement('canvas');
 noiseCanvas.width = LOW_W; noiseCanvas.height = LOW_H;
 let ncx = noiseCanvas.getContext('2d');
 
 function composite(t) {
   ox.clearRect(0,0,LOW_W,LOW_H);
+
+  // --- 録画中は軽量パス: 重いブルーム(3枚描画)とスキャンライン(全行ループ)を省略。
+  //     単純ブリット＋ローリングスキャンバーだけ残し、captureStreamの取りこぼしを防ぐ ---
+  if (isRecording) {
+    ox.globalCompositeOperation = 'source-over';
+    ox.drawImage(buf, 0, 0);
+    const barY2 = (t * 60) % LOW_H;
+    const grd2 = ox.createLinearGradient(0, barY2-20, 0, barY2+20);
+    grd2.addColorStop(0,'rgba(255,255,255,0)');
+    grd2.addColorStop(0.5,'rgba(120,255,200,0.06)');
+    grd2.addColorStop(1,'rgba(255,255,255,0)');
+    ox.globalCompositeOperation = 'lighter';
+    ox.fillStyle = grd2;
+    ox.fillRect(0, barY2-20, LOW_W, 40);
+    ox.globalCompositeOperation = 'source-over';
+    return;
+  }
 
   // slight chromatic bloom: draw buffer 3x with green dominance
   ox.globalCompositeOperation = 'source-over';
@@ -552,19 +495,26 @@ function toggleRec() {
   }
 
   const mime = pickMime();
-  const stream = out.captureStream(30);
-  let opts = {};
+  const stream = out.captureStream(30); // 30fps固定でキャプチャ
+  // ビットレートを明示し、フレーム毎のばらつきを抑える(VFR崩れの緩和)
+  let opts = { videoBitsPerSecond: 8000000 };
   if (mime) opts.mimeType = mime;
   try {
     mediaRecorder = new MediaRecorder(stream, opts);
   } catch (e) {
-    try { mediaRecorder = new MediaRecorder(stream); }
-    catch (e2) { stat.textContent = '録画を開始できません'; return; }
+    // ビットレート指定を落として再試行 → それでも駄目ならデフォルト
+    try {
+      mediaRecorder = new MediaRecorder(stream, mime ? { mimeType: mime } : {});
+    } catch (e2) {
+      try { mediaRecorder = new MediaRecorder(stream); }
+      catch (e3) { stat.textContent = '録画を開始できません'; return; }
+    }
   }
 
   recChunks = [];
   mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size) recChunks.push(e.data); };
   mediaRecorder.onstop = () => {
+    isRecording = false;           // フル画質のCRT合成に復帰
     clearInterval(recTimer);
     const type = mediaRecorder.mimeType || mime || 'video/webm';
     const blob = new Blob(recChunks, { type });
@@ -581,7 +531,8 @@ function toggleRec() {
     stat.textContent = (isMp4 ? 'MP4' : 'WebM') + 'を保存しました';
   };
 
-  mediaRecorder.start();
+  isRecording = true;              // 描画を軽量パスに切替
+  mediaRecorder.start(1000);       // 1秒ごとにチャンク確定(取りこぼし・巨大末尾チャンクを回避)
   recStartMs = Date.now();
   btn.classList.add('on');
   btn.textContent = '■ STOP';
