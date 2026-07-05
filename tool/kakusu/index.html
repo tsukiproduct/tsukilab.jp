@@ -299,9 +299,15 @@ footer b{color:var(--mint)}
       <span class="chip">目安 500MB まで</span>
     </div>
   </div>
-  <input type="file" id="fileInput" accept="video/*,.mp4,.mov,.webm" hidden>
+  <input type="file" id="fileInput" accept="video/*,.mp4,.mov,.webm,.m4v,.3gp,.avi,.mkv,.wmv" hidden>
 
   <div class="privacy">🔒 動画は外部に送信されません。すべてこの端末の中だけで処理します。</div>
+
+  <div id="frameNotice" style="display:none;margin:14px auto 0;max-width:640px;padding:12px 16px;border-radius:14px;background:rgba(255,200,92,.1);border:1px solid rgba(255,200,92,.4);color:var(--warn);font-size:13px;font-weight:700;text-align:center">
+    ⚠ チャット内プレビューで開いています。動画の読み込みが制限される場合があります。<br>うまくいかない時は、このファイルをダウンロードして Safari / Chrome で直接開いてください。
+  </div>
+
+  <div id="diag" style="display:none;margin:14px auto 0;max-width:640px;padding:12px 16px;border-radius:14px;background:var(--surface);border:1px solid var(--line);color:var(--sub);font-size:12px;line-height:1.7;font-family:ui-monospace,monospace"></div>
 
   <div class="threestep">
     <div class="card"><div class="em">📂</div><b>1. えらぶ</b><span>動画を読み込む</span></div>
@@ -519,6 +525,11 @@ const clamp = (v,a,b)=>Math.min(b,Math.max(a,v));
 const fmtTime = s => { s=Math.max(0,s||0); const m=Math.floor(s/60); return m+":"+String(Math.floor(s%60)).padStart(2,"0"); };
 
 /* ---------- 2) 画面遷移 ---------- */
+// チャット内プレビュー（iframe内）の場合は制限の可能性を案内
+try{
+  if(window.self !== window.top) $("frameNotice").style.display = "block";
+}catch(e){ $("frameNotice").style.display = "block"; }
+
 function goStep(n){
   [1,2,3].forEach(i=>{
     $("screen"+i).classList.toggle("show", i===n);
@@ -541,21 +552,31 @@ dz.addEventListener("drop", e=>{
   if(f) loadVideo(f);
 });
 
+function diag(line, reset){
+  const d = $("diag");
+  d.style.display = "block";
+  if(reset) d.innerHTML = "";
+  d.innerHTML += line + "<br>";
+}
+
 function loadVideo(file){
-  if(!/video|mp4|quicktime|webm/i.test(file.type + file.name)){
-    toast("動画ファイルを選んでください（MP4 / MOV / WebM）"); return;
+  diag("📄 受け取り: " + file.name + "（" + (file.size/1024/1024).toFixed(1) + "MB / type: " + (file.type || "不明") + "）", true);
+
+  const ext = (file.name.match(/\.([^.]+)$/) || [,""])[1].toLowerCase();
+  if(["avi","wmv","flv","mpg","mpeg","mkv"].includes(ext)){
+    diag("⚠ ." + ext + " はブラウザが再生できない形式です。MP4に変換してからお試しください");
   }
   if(file.size > 500*1024*1024){
-    toast("500MBを超えています。うまく動かない場合があります");
+    diag("⚠ 500MB超。端末によっては動かない場合があります");
   }
   if(state.videoURL) URL.revokeObjectURL(state.videoURL);
   state.fileName = file.name.replace(/\.[^.]+$/, "");
   state.videoURL = URL.createObjectURL(file);
   state.masks = []; state.selectedId = null;
-  toast("読み込んでいます…");
+  diag("🔗 動画URLを生成 → デコード開始…");
 
   let metaDone = false;
-  const ready = ()=>{ if(metaDone) return; metaDone = true; onMeta(); };
+  const ready = ()=>{ if(metaDone) return; metaDone = true; diag("✅ 読み込み成功（" + video.videoWidth + "×" + video.videoHeight + "）"); onMeta(); };
 
   video.muted = false;
   video.preload = "auto";
@@ -564,13 +585,18 @@ function loadVideo(file){
   video.load();
   video.addEventListener("loadedmetadata", ready, {once:true});
   video.addEventListener("error", ()=>{
-    toast("この動画は読み込めませんでした（形式非対応の可能性があります）");
+    const code = video.error ? video.error.code : 0;
+    const msg = {1:"読み込みが中断されました",2:"読み込みに失敗しました",3:"映像をデコードできません（この端末では非対応の形式）",4:"この形式は再生できません"}[code] || "不明なエラー";
+    diag("❌ エラー: " + msg + "（code " + code + "）");
+    diag("💡 対処: ①MP4(H.264)に変換 ②iPhone撮影の動画はSafariで開く ③チャット内プレビューではなくダウンロードしてブラウザで開く");
+    toast("読み込めませんでした。画面の案内をご覧ください");
   }, {once:true});
 
   // iPhone/iPad対策：再生操作があるまでmetadataを返さない場合があるため、
   // 無音インライン再生で一瞬だけデコードを起こす
   setTimeout(()=>{
     if(metaDone || video.readyState >= 1) { if(!metaDone && video.readyState>=1) ready(); return; }
+    diag("⏳ 応答なし → 起こしてみます…");
     video.muted = true;
     video.play().then(()=>{
       video.pause(); video.currentTime = 0; video.muted = false;
@@ -582,8 +608,10 @@ function loadVideo(file){
 
   // 最終フォールバック：それでも読めない場合は案内
   setTimeout(()=>{
-    if(!metaDone && video.readyState < 1){
-      toast("読み込めません。iPhone撮影の動画はSafariで開くとうまくいきます");
+    if(!metaDone && video.readyState < 1 && !video.error){
+      diag("❌ 5秒待っても応答がありません（readyState: " + video.readyState + "）");
+      diag("💡 チャット内プレビューで開いている場合は、ファイルをダウンロードして Safari / Chrome で直接開いてください");
+      toast("読み込めません。画面の案内をご覧ください");
     }
   }, 5000);
 }
