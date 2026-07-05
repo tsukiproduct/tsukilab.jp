@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WIREFRAME CITY // CRT SCROLL</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    background: #000;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Courier New', monospace;
+  }
+  #wrap {
+    position: relative;
+    width: 100vw; max-width: 960px;
+    aspect-ratio: 16 / 9;
+    background: #000;
+  }
+  canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+  /* CRT vignette + curvature illusion overlay */
+  #vig {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 100% 100% at 50% 50%,
+                rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%);
+    mix-blend-mode: multiply;
+  }
+  #rec {
+    position: absolute; right: 12px; top: 12px; z-index: 10;
+    display: flex; gap: 8px; align-items: center;
+  }
+  #recBtn {
+    font-family: 'Courier New', monospace; font-size: 13px; letter-spacing: 1px;
+    color: #ff5ac8; background: rgba(0,0,0,0.55);
+    border: 1px solid #ff5ac8; border-radius: 4px;
+    padding: 7px 12px; cursor: pointer; user-select: none;
+    text-shadow: 0 0 6px #ff5ac8aa;
+  }
+  #recBtn.on { color:#fff; background:#c81e6e; border-color:#fff; }
+  #recStat { font-size: 11px; color:#ff9ad8; letter-spacing:1px; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="scene"></canvas>
+  <div id="vig"></div>
+  <div id="rec">
+    <span id="recStat"></span>
+    <div id="recBtn" onclick="toggleRec()">● REC</div>
+  </div>
+</div>
+<script>
+// ---- config ----
+const LOW_W = 480, LOW_H = 270;   // internal low-res (ドット感)
+const CAM_Y = 300;                // カメラの高さ (低層は画面内・高層は上帯を突破する値)
+const HORIZON = LOW_H * 0.34;     // 地平線位置
+const FOV = 260;                  // 投影焦点距離
+const SPEED = 560;                // 前進速度 (units/sec) — 高速化
+const LOOP_SECONDS = 30;
+const BAR_H = Math.round(LOW_H * 0.13); // シネスコープ黒帯の高さ(上下各)
+
+// low-res buffer (擬似3Dはここに描く)
+const buf = document.createElement('canvas');
+buf.width = LOW_W; buf.height = LOW_H;
+const bx = buf.getContext('2d');
+
+// display canvas (CRT合成先)
+const out = document.getElementById('scene');
+out.width = LOW_W; out.height = LOW_H;
+const ox = out.getContext('2d');
+
+// ---- world: buildings placed along Z on both sides ----
+const FAR = 2800;        // 描画する最遠Z (SPEED*30 = 16800 = FAR*6 でシームレスループ)
+const SEG = 100;         // 建物の奥行き間隔 (FAR/28 = 100, 割り切れる)
+const buildings = [];
+function rnd(a,b){ return a + Math.random()*(b-a); }
+(function seed(){
+  for (let z = SEG; z < FAR + SEG; z += SEG) {
+    // left & right sides
+    for (const side of [-1, 1]) {
+      buildings.push({
+        z,
+        side,
+        x: side * rnd(140, 230),
+        w: rnd(70, 120),
+        // 3割を高層タワー(飛び出し役)、残りを低〜中層にして高低差を強調
+        h: Math.random() < 0.3 ? rnd(620, 940) : rnd(150, 380),
+        floors: Math.floor(rnd(4, 12)),
+        cols: Math.floor(rnd(3, 6))
+      });
+    }
+  }
+})();
+
+// project a 3D point (x world, y world height, z depth) to screen
+function project(x, y, z) {
+  const s = FOV / z;
+  return {
+    sx: LOW_W/2 + x * s,
+    sy: HORIZON - (y - CAM_Y) * s,  // カメラ高さCAM_Yから見下ろす
+    s
+  };
+}
+
+function drawGrid(scrollZ) {
+  bx.lineWidth = 1;
+  // floor grid lines receding to horizon
+  bx.strokeStyle = 'rgba(40,220,150,0.5)';
+  bx.beginPath();
+  const GSTEP = 70;
+  for (let gz = GSTEP; gz < 1800; gz += GSTEP) {
+    let z = gz - (scrollZ % GSTEP);
+    if (z <= 2) z += GSTEP;
+    const yy = HORIZON - (0 - CAM_Y) * (FOV / z); // 地面(y=0)を見下ろし投影
+    if (yy > LOW_H + 40) continue;
+    const alpha = Math.max(0.05, 0.5 * (1 - z / 1800));
+    bx.globalAlpha = alpha;
+    bx.moveTo(0, yy);
+    bx.lineTo(LOW_W, yy);
+  }
+  bx.stroke();
+  bx.globalAlpha = 1;
+  // vertical rails (perspective)
+  bx.strokeStyle = 'rgba(40,220,150,0.28)';
+  bx.beginPath();
+  for (let vx = -420; vx <= 420; vx += 60) {
+    const near = project(vx, 0, 120);
+    const far  = project(vx, 0, 1700);
+    bx.moveTo(near.sx, near.sy);
+    bx.lineTo(far.sx, far.sy);
+  }
+  bx.stroke();
+}
+
+function drawBuilding(b, scrollZ, pop) {
+  let z = b.z - scrollZ;
+  // wrap: recycle building to the far distance
+  while (z <= 20) z += FAR;
+  if (z > FAR) return;
+
+  const depth = 46; // building thickness in Z
+  // 8 corners: front face (z) and back face (z+depth)
+  const x0 = b.x - b.side * b.w/2;
+  const x1 = b.x + b.side * b.w/2;
+
+  const fBL = project(x0, 0,   z);
+  const fBR = project(x1, 0,   z);
+  const fTL = project(x0, b.h, z);
+  const fTR = project(x1, b.h, z);
+  const bBL = project(x0, 0,   z+depth);
+  const bBR = project(x1, 0,   z+depth);
+  const bTL = project(x0, b.h, z+depth);
+  const bTR = project(x1, b.h, z+depth);
+
+  // color/alpha by distance (近いほど明るい)
+  const fade = Math.max(0, Math.min(1, 1 - z / FAR));
+
+  // --- 飛び出しモード: 手前に来て帯に重なったビルを高さ問わず帯の上へ再描画 ---
+  // 通常描画と同じ内容(窓グリッド含む)を帯にクリップして描くので、
+  // 他のビルと同じ密度で飛び出して見える。pop='top'=上帯, 'bottom'=下帯。
+  if (pop) {
+    const roofTop = Math.min(fTL.sy, fTR.sy, bTL.sy, bTR.sy);   // ビル最上点
+    const baseBot = Math.max(fBL.sy, fBR.sy, bBL.sy, bBR.sy);   // ビル最下点(足元)
+    if (pop === 'top') {
+      if (roofTop >= BAR_H) return;          // 屋上が上帯に届かない → 描かない
+      bx.save();
+      bx.beginPath();
+      bx.rect(0, 0, LOW_W, BAR_H);           // 上帯の内側だけに限定
+      bx.clip();
+    } else { // 'bottom'
+      if (baseBot <= LOW_H - BAR_H) return;  // 足元が下帯に届かない → 描かない
+      bx.save();
+      bx.beginPath();
+      bx.rect(0, LOW_H - BAR_H, LOW_W, BAR_H); // 下帯の内側だけに限定
+      bx.clip();
+    }
+  }
+
+  const a = pop ? (0.65 + fade * 0.35) : (0.15 + fade * 0.85); // 飛び出し部は明るく
+  const glow = pop ? '120,255,200' : '60,255,170';
+  bx.strokeStyle = `rgba(${glow},${a})`;
+  bx.lineWidth = 1;
+
+  bx.beginPath();
+  // front face
+  bx.moveTo(fBL.sx,fBL.sy); bx.lineTo(fTL.sx,fTL.sy);
+  bx.lineTo(fTR.sx,fTR.sy); bx.lineTo(fBR.sx,fBR.sy); bx.closePath();
+  // back face
+  bx.moveTo(bBL.sx,bBL.sy); bx.lineTo(bTL.sx,bTL.sy);
+  bx.lineTo(bTR.sx,bTR.sy); bx.lineTo(bBR.sx,bBR.sy); bx.closePath();
+  // connect edges
+  bx.moveTo(fTL.sx,fTL.sy); bx.lineTo(bTL.sx,bTL.sy);
+  bx.moveTo(fTR.sx,fTR.sy); bx.lineTo(bTR.sx,bTR.sy);
+  bx.moveTo(fBL.sx,fBL.sy); bx.lineTo(bBL.sx,bBL.sy);
+  bx.moveTo(fBR.sx,fBR.sy); bx.lineTo(bBR.sx,bBR.sy);
+  bx.stroke();
+
+  // window grid on front face (only if close enough to matter)
+  if (pop || fade > 0.22) {
+    bx.strokeStyle = `rgba(${glow},${a*0.5})`;
+    bx.beginPath();
+    for (let f = 1; f < b.floors; f++) {
+      const t = f / b.floors;
+      const L = { x: fBL.sx + (fTL.sx-fBL.sx)*t, y: fBL.sy + (fTL.sy-fBL.sy)*t };
+      const R = { x: fBR.sx + (fTR.sx-fBR.sx)*t, y: fBR.sy + (fTR.sy-fBR.sy)*t };
+      bx.moveTo(L.x, L.y); bx.lineTo(R.x, R.y);
+    }
+    for (let c = 1; c < b.cols; c++) {
+      const t = c / b.cols;
+      const B = { x: fBL.sx + (fBR.sx-fBL.sx)*t, y: fBL.sy + (fBR.sy-fBL.sy)*t };
+      const T = { x: fTL.sx + (fTR.sx-fTL.sx)*t, y: fTL.sy + (fTR.sy-fTL.sy)*t };
+      bx.moveTo(B.x, B.y); bx.lineTo(T.x, T.y);
+    }
+    bx.stroke();
+  }
+
+  if (pop) bx.restore(); // 飛び出し時のクリップ解除
+}
+
+function drawSun(t) {
+  // retro sun / horizon glow band
+  const cx = LOW_W/2, cy = HORIZON;
+  bx.fillStyle = 'rgba(20,120,90,0.12)';
+  bx.fillRect(0, HORIZON-1, LOW_W, 2);
+}
+
+// ============================================================
+//  キャラクター (ピンクのワイヤーフレーム) — 奥から回転して飛び出す
+// ============================================================
+
+// --- ジオメトリ生成ヘルパー: エッジ(線分)の配列を返す ---
+// 円リング (指定平面) — segで分割
+function ring(cx, cy, cz, r, seg, plane) {
+  const pts = [];
+  for (let i = 0; i < seg; i++) {
+    const a = (i / seg) * Math.PI * 2;
+    let x=cx, y=cy, z=cz;
+    if (plane === 'xy') { x = cx + Math.cos(a)*r; y = cy + Math.sin(a)*r; }
+    if (plane === 'xz') { x = cx + Math.cos(a)*r; z = cz + Math.sin(a)*r; }
+    if (plane === 'yz') { y = cy + Math.cos(a)*r; z = cz + Math.sin(a)*r; }
+    pts.push([x,y,z]);
+  }
+  const edges = [];
+  for (let i = 0; i < seg; i++) edges.push([pts[i], pts[(i+1)%seg]]);
+  return edges;
+}
+// 球体ワイヤー: 緯線+経線 (線を細かく=飛び出し感UP)
+function sphere(cx, cy, cz, r, lat, lon) {
+  const edges = [];
+  // 緯線 (横リング)
+  for (let i = 1; i < lat; i++) {
+    const phi = Math.PI * (i/lat) - Math.PI/2;
+    const rr = Math.cos(phi)*r, yy = cy + Math.sin(phi)*r;
+    edges.push(...ring(cx, yy, cz, rr, lon, 'xz'));
+  }
+  // 経線 (縦リング)
+  for (let j = 0; j < lon; j++) {
+    const th = (j/lon)*Math.PI*2;
+    const pts = [];
+    for (let i = 0; i <= lat; i++) {
+      const phi = Math.PI*(i/lat) - Math.PI/2;
+      pts.push([
+        cx + Math.cos(phi)*Math.cos(th)*r,
+        cy + Math.sin(phi)*r,
+        cz + Math.cos(phi)*Math.sin(th)*r
+      ]);
+    }
+    for (let i = 0; i < lat; i++) edges.push([pts[i], pts[i+1]]);
+  }
+  return edges;
+}
+// 単一線分
+function seg(a, b) { return [[a, b]]; }
+
+// --- クマ: 丸い頭+耳+顔+ずんぐり胴体 ---
+function buildBear() {
+  const E = [];
+  // 頭 (中央やや上)
+  E.push(...sphere(0, 26, 0, 26, 6, 10));
+  // 耳 (左右) — 小さいリングを縦に
+  E.push(...ring(-20, 46, 0, 9, 8, 'xy'));
+  E.push(...ring( 20, 46, 0, 9, 8, 'xy'));
+  E.push(...ring(-20, 46, 6, 6, 8, 'xy'));
+  E.push(...ring( 20, 46, 6, 6, 8, 'xy'));
+  // 鼻先 (前に突き出す小球)
+  E.push(...sphere(0, 20, 24, 7, 4, 6));
+  // 目 (前面の小リング×2)
+  E.push(...ring(-10, 30, 23, 3.5, 6, 'xy'));
+  E.push(...ring( 10, 30, 23, 3.5, 6, 'xy'));
+  // 胴体 (下のずんぐり球)
+  E.push(...sphere(0, -20, 0, 28, 6, 10));
+  // 手足 (小球4つ)
+  E.push(...sphere(-26, -10, 8, 9, 3, 5));
+  E.push(...sphere( 26, -10, 8, 9, 3, 5));
+  E.push(...sphere(-16, -44, 8, 10, 3, 5));
+  E.push(...sphere( 16, -44, 8, 10, 3, 5));
+  return E;
+}
+
+// --- 人型ヘルパー: 関節を線分でつなぐ。太さは細リングで表現(線を細かく=飛び出し感) ---
+function limb(a, b, segs) {
+  // a→bを結ぶ線 + 中間に細いリングを入れて"肉付き"のワイヤーに
+  const edges = [];
+  edges.push([a, b]);
+  const n = segs || 2;
+  for (let i = 1; i < n; i++) {
+    const t = i/n;
+    const c = [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t, a[2]+(b[2]-a[2])*t];
+    edges.push(...ring(c[0], c[1], c[2], 4, 5, 'xz'));
+  }
+  return edges;
+}
+// 関節群(pose)から人体ワイヤーを組む。poseは各部位の3D座標。
+function humanFromPose(P) {
+  const E = [];
+  // 頭
+  E.push(...sphere(P.head[0], P.head[1], P.head[2], 11, 4, 7));
+  // 胴 (肩中心→腰中心)
+  E.push(...limb(P.neck, P.hip, 3));
+  // 肩ライン・腰ライン
+  E.push(...limb(P.shoulderL, P.shoulderR, 2));
+  E.push(...limb(P.hipL, P.hipR, 2));
+  // 腕
+  E.push(...limb(P.shoulderL, P.elbowL, 2), ...limb(P.elbowL, P.handL, 2));
+  E.push(...limb(P.shoulderR, P.elbowR, 2), ...limb(P.elbowR, P.handR, 2));
+  // 脚
+  E.push(...limb(P.hipL, P.kneeL, 2), ...limb(P.kneeL, P.footL, 2));
+  E.push(...limb(P.hipR, P.kneeR, 2), ...limb(P.kneeR, P.footR, 2));
+  return E;
+}
+
+// --- 女性: 音楽に乗る(両手を上げてノる) ---
+function buildWoman() {
+  return humanFromPose({
+    head:[0,52,0], neck:[0,40,0], hip:[0,0,0],
+    shoulderL:[-13,38,0], shoulderR:[13,38,0],
+    elbowL:[-22,50,4], elbowR:[22,50,4],      // 肘を上げ
+    handL:[-18,64,6], handR:[18,64,6],         // 手を頭上へ
+    hipL:[-9,0,0], hipR:[9,0,0],
+    kneeL:[-11,-26,2], kneeR:[11,-26,-2],
+    footL:[-12,-52,0], footR:[12,-52,4]        // 軽くステップ
+  });
+}
+// --- 男性ブレイクダンサー: フリーズ気味の片手支持ポーズ ---
+function buildBreaker() {
+  return humanFromPose({
+    head:[18,-40,0], neck:[12,-30,0], hip:[-4,6,0],
+    shoulderL:[6,-24,-8], shoulderR:[16,-30,8],
+    elbowL:[0,-40,-6], elbowR:[20,-14,10],
+    handL:[2,-54,0], handR:[16,2,8],           // 片手を床方向に支持
+    hipL:[-10,4,-6], hipR:[2,10,6],
+    kneeL:[-24,18,-4], kneeR:[-6,30,10],       // 脚を跳ね上げ
+    footL:[-38,10,0], footR:[-14,44,14]
+  });
+}
+// --- DJ: ターンテーブルに両手、頭を振る ---
+function buildDJ() {
+  const E = humanFromPose({
+    head:[0,48,4], neck:[0,38,0], hip:[0,2,0],
+    shoulderL:[-14,36,0], shoulderR:[14,36,0],
+    elbowL:[-20,22,8], elbowR:[20,22,8],
+    handL:[-24,10,20], handR:[24,10,20],       // 前のターンテーブルへ
+    hipL:[-9,2,0], hipR:[9,2,0],
+    kneeL:[-10,-24,2], kneeR:[10,-24,2],
+    footL:[-11,-50,0], footR:[11,-50,0]
+  });
+  // ターンテーブル(前に2枚のリング)
+  E.push(...ring(-24, 2, 24, 12, 12, 'xz'));
+  E.push(...ring( 24, 2, 24, 12, 12, 'xz'));
+  E.push(...ring(-24, 2, 24, 5, 8, 'xz'));
+  E.push(...ring( 24, 2, 24, 5, 8, 'xz'));
+  return E;
+}
+
+// --- 3D回転 (Y軸→X軸) ---
+function rotate(p, ry, rx) {
+  let [x,y,z] = p;
+  // Y軸まわり (クルクル横回転)
+  let cy = Math.cos(ry), sy = Math.sin(ry);
+  let x1 = x*cy + z*sy, z1 = -x*sy + z*cy;
+  // X軸まわり (少し傾け)
+  let cx = Math.cos(rx), sx = Math.sin(rx);
+  let y1 = y*cx - z1*sx, z2 = y*sx + z1*cx;
+  return [x1, y1, z2];
+}
+
+// --- キャラ専用の中央投影 (画面中央基準・奥行きスケール) ---
+const CHAR_FOV = 260;
+function projChar(p, worldZ) {
+  const [x,y,z] = p;
+  const zz = worldZ + z;            // モデル局所z + 迫ってくるworldZ
+  if (zz <= 1) return null;
+  const s = CHAR_FOV / zz;
+  return { sx: LOW_W/2 + x*s, sy: LOW_H/2 - y*s, s, zz };
+}
+
+// --- キャラ定義: 奥から手前へ、時間差で登場 (順にブワーッと飛び出す) ---
+const characters = [
+  { edges: buildBear(),    phase: 0.00 },  // クマ
+  { edges: buildWoman(),   phase: 0.25 },  // 音楽に乗る女性
+  { edges: buildBreaker(), phase: 0.50 },  // 男性ブレイクダンサー
+  { edges: buildDJ(),      phase: 0.75 },  // DJ
+];
+const CHAR_CYCLE = 5.0;               // 1体が奥→手前を横切る秒数 (30の約数=シームレス)
+const CHAR_ZFAR = 1400;               // 出現する奥のZ
+const CHAR_ZNEAR = 70;                // 飛び出しきる手前のZ (小さいほど画面を突き抜ける)
+
+function drawOneChar(char, localT) {
+  // localT: 0(奥)→1(手前) でループ
+  const worldZ = CHAR_ZFAR - (CHAR_ZFAR - CHAR_ZNEAR) * localT;
+  const ry = localT * Math.PI * 6;    // クルクル横回転
+  const rx = Math.sin(localT * Math.PI * 2) * 0.35;
+
+  // 近いほど明るいピンク
+  const near = 1 - (worldZ - CHAR_ZNEAR) / (CHAR_ZFAR - CHAR_ZNEAR);
+  const a = 0.25 + near * 0.75;
+  bx.strokeStyle = `rgba(255,90,200,${a})`; // ピンク
+  bx.lineWidth = 1;
+  bx.beginPath();
+  for (const [p0, p1] of char.edges) {
+    const q0 = projChar(rotate(p0, ry, rx), worldZ);
+    const q1 = projChar(rotate(p1, ry, rx), worldZ);
+    if (!q0 || !q1) continue;
+    bx.moveTo(q0.sx, q0.sy);
+    bx.lineTo(q1.sx, q1.sy);
+  }
+  bx.stroke();
+}
+
+function drawCharacters(t) {
+  // 各キャラのlocalTとworldZを求め、奥(worldZ大)から手前へ描く
+  const list = characters.map(char => {
+    const localT = ((t / CHAR_CYCLE) + char.phase) % 1;
+    const worldZ = CHAR_ZFAR - (CHAR_ZFAR - CHAR_ZNEAR) * localT;
+    return { char, localT, worldZ };
+  }).sort((a, b) => b.worldZ - a.worldZ);
+  for (const it of list) drawOneChar(it.char, it.localT);
+}
+
+
+let start = null;
+function frame(ts) {
+  if (!start) start = ts;
+  const t = ((ts - start) / 1000);
+  const loopT = t % LOOP_SECONDS;
+  const scrollZ = (SPEED * loopT) % FAR;
+
+  // background
+  bx.fillStyle = '#000';
+  bx.fillRect(0,0,LOW_W,LOW_H);
+
+  // faint sky gradient (dark teal top)
+  const g = bx.createLinearGradient(0,0,0,HORIZON);
+  g.addColorStop(0, 'rgba(0,30,24,1)');
+  g.addColorStop(1, 'rgba(0,8,6,1)');
+  bx.fillStyle = g;
+  bx.fillRect(0,0,LOW_W,HORIZON);
+
+  drawSun(t);
+  drawGrid(scrollZ);
+
+  // draw far -> near for correct overlap
+  const sorted = buildings
+    .map(b => ({ b, zc: ((b.z - scrollZ) % FAR + FAR) % FAR }))
+    .sort((a,z) => z.zc - a.zc);
+  for (const item of sorted) drawBuilding(item.b, scrollZ);
+
+  // --- シネスコープ黒帯（上下）を敷く。遠景ビルはここに隠れる ---
+  bx.fillStyle = '#000';
+  bx.fillRect(0, 0, LOW_W, BAR_H);          // 上帯
+  bx.fillRect(0, LOW_H - BAR_H, LOW_W, BAR_H); // 下帯
+
+  // --- キャラ飛び出しレイヤー: 奥から回転しながら迫り、帯を突き破って飛び出す ---
+  drawCharacters(t);
+
+  composite(t);
+  requestAnimationFrame(frame);
+}
+
+// ---- CRT post-processing onto output canvas ----
+let noiseCanvas = document.createElement('canvas');
+noiseCanvas.width = LOW_W; noiseCanvas.height = LOW_H;
+let ncx = noiseCanvas.getContext('2d');
+
+function composite(t) {
+  ox.clearRect(0,0,LOW_W,LOW_H);
+
+  // slight chromatic bloom: draw buffer 3x with green dominance
+  ox.globalCompositeOperation = 'source-over';
+  ox.drawImage(buf, 0, 0);
+
+  // bloom pass
+  ox.globalCompositeOperation = 'lighter';
+  ox.globalAlpha = 0.35;
+  ox.drawImage(buf, -1, 0);
+  ox.drawImage(buf, 1, 0);
+  ox.globalAlpha = 1;
+  ox.globalCompositeOperation = 'source-over';
+
+  // scanlines
+  ox.globalCompositeOperation = 'multiply';
+  ox.fillStyle = 'rgba(0,0,0,0.0)';
+  for (let y = 0; y < LOW_H; y += 2) {
+    ox.fillStyle = 'rgba(0,0,0,0.35)';
+    ox.fillRect(0, y, LOW_W, 1);
+  }
+  // rolling scan bar
+  const barY = (t * 60) % LOW_H;
+  const grd = ox.createLinearGradient(0, barY-20, 0, barY+20);
+  grd.addColorStop(0,'rgba(255,255,255,0)');
+  grd.addColorStop(0.5,'rgba(120,255,200,0.06)');
+  grd.addColorStop(1,'rgba(255,255,255,0)');
+  ox.globalCompositeOperation = 'lighter';
+  ox.fillStyle = grd;
+  ox.fillRect(0, barY-20, LOW_W, 40);
+  ox.globalCompositeOperation = 'source-over';
+}
+
+// ============================================================
+//  録画機能: 表示キャンバスをMP4(不可ならWebM)で録画しダウンロード
+// ============================================================
+let mediaRecorder = null, recChunks = [], recTimer = null, recStartMs = 0;
+
+function pickMime() {
+  const cands = [
+    'video/mp4;codecs=h264',
+    'video/mp4',
+    'video/webm;codecs=vp9',
+    'video/webm;codecs=vp8',
+    'video/webm'
+  ];
+  if (typeof MediaRecorder === 'undefined') return null;
+  for (const m of cands) {
+    try { if (MediaRecorder.isTypeSupported(m)) return m; } catch(e){}
+  }
+  return '';
+}
+
+function toggleRec() {
+  const btn = document.getElementById('recBtn');
+  const stat = document.getElementById('recStat');
+
+  if (mediaRecorder && mediaRecorder.state === 'recording') {
+    mediaRecorder.stop();
+    return;
+  }
+  if (typeof MediaRecorder === 'undefined' || !out.captureStream) {
+    stat.textContent = 'この端末は録画に非対応';
+    return;
+  }
+
+  const mime = pickMime();
+  const stream = out.captureStream(30);
+  let opts = {};
+  if (mime) opts.mimeType = mime;
+  try {
+    mediaRecorder = new MediaRecorder(stream, opts);
+  } catch (e) {
+    try { mediaRecorder = new MediaRecorder(stream); }
+    catch (e2) { stat.textContent = '録画を開始できません'; return; }
+  }
+
+  recChunks = [];
+  mediaRecorder.ondataavailable = (e) => { if (e.data && e.data.size) recChunks.push(e.data); };
+  mediaRecorder.onstop = () => {
+    clearInterval(recTimer);
+    const type = mediaRecorder.mimeType || mime || 'video/webm';
+    const blob = new Blob(recChunks, { type });
+    const isMp4 = type.indexOf('mp4') !== -1;
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'wireframe-city.' + (isMp4 ? 'mp4' : 'webm');
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1000);
+    btn.classList.remove('on');
+    btn.textContent = '● REC';
+    stat.textContent = (isMp4 ? 'MP4' : 'WebM') + 'を保存しました';
+  };
+
+  mediaRecorder.start();
+  recStartMs = Date.now();
+  btn.classList.add('on');
+  btn.textContent = '■ STOP';
+  recTimer = setInterval(() => {
+    const s = Math.floor((Date.now() - recStartMs) / 1000);
+    stat.textContent = '録画中 ' + String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+  }, 250);
+}
+
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
