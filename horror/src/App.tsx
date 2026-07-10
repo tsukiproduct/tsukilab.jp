@@ -114,6 +114,16 @@ const generateGlitchText = (text: string): string => {
   }).join('');
 };
 
+const introText = `このサイトは、ある事件の記録です。
+
+20XX 年、ある研究施設で不可解な出来事が起こりました。
+研究者たちは次々と失踪し、残されたのは歪んだ記録だけ...
+
+あなたは真実を知りたいですか？
+それとも、知らずにいたいですか？
+
+選択はあなたにあります。
+しかし...一度知ってしまった真実から逃れることはできません。`;
 // メイン App コンポーネント
 export default function App() {
   const [scene, setScene] = useState<'warning' | 'intro' | 'main' | 'puzzle' | 'ending'>('warning');
@@ -131,6 +141,7 @@ export default function App() {
   const [showEyes, setShowEyes] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { enabled: soundEnabled, play: playSound, toggle: toggleSound } = useSound();
+  const { displayedText } = useTypewriter(introText, 80, scene === 'intro');
 
   // マウス位置追跡
   useEffect(() => {
@@ -348,18 +359,6 @@ export default function App() {
 
   // イントロ画面
   if (scene === 'intro') {
-    const introText = `このサイトは、ある事件の記録です。
-            
-20XX 年、ある研究施設で不可解な出来事が起こりました。
-研究者たちは次々と失踪し、残されたのは歪んだ記録だけ...
-
-あなたは真実を知りたいですか？
-それとも、知らずにいたいですか？
-
-選択はあなたにあります。
-しかし...一度知ってしまった真実から逃れることはできません。`;
-
-    const { displayedText } = useTypewriter(introText, 80, true);
 
     return (
       <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
