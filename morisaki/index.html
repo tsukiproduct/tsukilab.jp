@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MM OS ─ 杜崎まさかず Official</title>
+<meta name="description" content="小説家・杜崎まさかずの公式サイト。独自OS「MM」にログインして、掌編刑務所の作品群と公式PVをご覧ください。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Shippori+Mincho:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --desk:#10131c;          /* 深夜の藍鉄 */
+  --desk-2:#171c2b;
+  --paper:#ece7da;         /* 生成り紙 */
+  --paper-2:#e2dccb;
+  --ink:#1d1b17;
+  --ink-2:#4d4a42;
+  --shu:#c73e3a;           /* 朱 */
+  --nibi:#8b93a5;          /* 鈍色 */
+  --bar:#0b0e15;
+  --line:#c9c2ae;
+  --shadow:0 18px 50px rgba(0,0,0,.55);
+  --dot:'DotGothic16',monospace;
+  --min:'Shippori Mincho',serif;
+  --sans:'Noto Sans JP',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--sans);background:var(--desk);color:var(--paper);user-select:none}
+::selection{background:var(--shu);color:#fff}
+
+/* ============ LOGIN ============ */
+#login{
+  position:fixed;inset:0;z-index:9999;background:#05070c;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
+  transition:opacity .8s ease,filter .8s ease;
+}
+#login.off{opacity:0;filter:blur(6px);pointer-events:none}
+#login .lg-logo{width:92px;height:92px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(236,231,218,.25))}
+#login .lg-ttl{font-family:var(--dot);font-size:26px;letter-spacing:.3em;color:var(--paper)}
+#login .lg-ttl em{font-style:normal;color:var(--shu)}
+.finger{
+  width:104px;height:104px;border-radius:50%;border:2px solid var(--nibi);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
+  transition:border-color .25s,transform .15s;background:rgba(236,231,218,.04);
+}
+.finger:hover{border-color:var(--paper)}
+.finger:active{transform:scale(.95)}
+.finger img{width:62px;height:62px;object-fit:contain;opacity:.85}
+.finger .scan{
+  position:absolute;left:6%;right:6%;height:3px;background:var(--shu);
+  box-shadow:0 0 14px var(--shu);top:-10px;opacity:0;
+}
+.finger.scanning{border-color:var(--shu)}
+.finger.scanning .scan{opacity:1;animation:scan 1.1s ease-in-out}
+@keyframes scan{0%{top:6%}50%{top:92%}100%{top:6%}}
+.finger.ok{border-color:#3fa34d}
+#login .lg-msg{font-family:var(--dot);font-size:13px;letter-spacing:.24em;color:var(--nibi);min-height:20px}
+.lg-career{
+  font-family:var(--min);font-size:11.5px;color:var(--nibi);letter-spacing:.12em;
+  text-align:center;line-height:2.1;border-top:1px solid rgba(139,147,165,.3);
+  padding-top:16px;margin-top:2px;
+}
+#login .lg-msg.ok{color:#7bc48a}
+#login .lg-copy{position:absolute;bottom:26px;font-family:var(--dot);font-size:10px;letter-spacing:.2em;color:#3d4356}
+
+/* ============ MENU BAR (top) ============ */
+#menubar{
+  position:fixed;top:0;left:0;right:0;height:32px;z-index:6000;
+  background:linear-gradient(180deg,#161a26,var(--bar));border-bottom:1px solid rgba(236,231,218,.14);
+  display:flex;align-items:center;padding:0 8px;gap:2px;
+}
+#menubar .mtitle{display:flex;align-items:center;gap:7px;padding:0 10px;height:100%}
+#menubar .mtitle img{width:16px;height:16px;object-fit:contain}
+#menubar .mtitle b{font-family:var(--dot);font-size:13px;letter-spacing:.14em}
+#menubar .mtitle b em{font-style:normal;color:var(--shu)}
+.mitem{position:relative;height:100%}
+.mitem>button{
+  height:100%;padding:0 12px;background:none;border:0;color:var(--paper);cursor:pointer;
+  font-family:var(--dot);font-size:12px;letter-spacing:.1em;
+}
+.mitem>button:hover,.mitem.open>button{background:rgba(199,62,58,.3)}
+.mdrop{
+  position:absolute;top:100%;left:0;min-width:210px;display:none;
+  background:var(--bar);border:1px solid var(--shu);box-shadow:var(--shadow);
+}
+.mitem.open .mdrop{display:block}
+.mdrop button,.mdrop span{
+  display:block;width:100%;text-align:left;padding:10px 14px;background:none;border:0;
+  color:var(--paper);font-family:var(--dot);font-size:12px;letter-spacing:.08em;cursor:pointer;
+}
+.mdrop span{color:#5a6070;cursor:default}
+.mdrop button:hover{background:rgba(199,62,58,.25)}
+#mclock{margin-left:auto;font-family:var(--dot);font-size:12px;color:var(--nibi);letter-spacing:.1em;padding:0 8px}
+
+/* ============ DESKTOP ============ */
+#desktop{
+  position:fixed;inset:0;top:32px;bottom:48px;overflow:hidden;
+  background:
+    radial-gradient(1100px 600px at 78% 18%,rgba(199,62,58,.10),transparent 60%),
+    radial-gradient(900px 700px at 12% 85%,rgba(90,110,160,.14),transparent 60%),
+    linear-gradient(160deg,var(--desk-2),var(--desk) 55%);
+}
+#desktop::before{
+  content:"";position:absolute;inset:0;opacity:.05;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+}
+.moon{
+  position:absolute;top:7%;right:8%;width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle at 38% 34%,#f2eddc,#cdc6ad 62%,#9b957e);
+  box-shadow:0 0 60px 18px rgba(236,231,218,.10);opacity:.85;pointer-events:none;
+}
+.moon::after{content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 62% 60%,transparent 55%,rgba(16,19,28,.35) 76%)}
+.desk-caption{position:absolute;right:26px;bottom:16px;text-align:right;pointer-events:none;font-family:var(--min);color:rgba(236,231,218,.4)}
+.desk-caption b{display:block;font-size:22px;letter-spacing:.32em;font-weight:500}
+.desk-caption small{font-family:var(--dot);font-size:11px;letter-spacing:.22em}
+
+/* ---- icons ---- */
+#icons{position:absolute;top:20px;left:18px;display:grid;grid-template-columns:repeat(2,96px);gap:6px 8px}
+#trashicon{position:absolute;right:22px;bottom:86px}
+.icon{
+  width:96px;padding:11px 6px 9px;border-radius:8px;border:1px solid transparent;
+  display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;
+  transition:background .15s,border-color .15s,transform .15s;
+}
+.icon:hover{background:rgba(236,231,218,.07);border-color:rgba(236,231,218,.18);transform:translateY(-2px)}
+.icon:active{transform:scale(.96)}
+.icon svg{width:40px;height:40px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
+.icon .lbl{font-family:var(--dot);font-size:11px;color:var(--paper);letter-spacing:.05em;text-align:center;line-height:1.5;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.icon .lbl small{display:block;color:var(--nibi);font-size:9px}
+
+/* ============ WINDOWS ============ */
+.win{
+  position:absolute;min-width:300px;background:var(--paper);color:var(--ink);
+  border:2px solid var(--ink);box-shadow:var(--shadow);
+  display:none;flex-direction:column;border-radius:4px;overflow:hidden;animation:winin .22s ease;
+}
+@keyframes winin{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.win.open{display:flex}
+.win.front{outline:2px solid var(--shu)}
+.tbar{
+  height:38px;flex:none;display:flex;align-items:center;gap:10px;padding:0 10px;
+  background:linear-gradient(180deg,#2a2721,#1d1b17);color:var(--paper);cursor:grab;touch-action:none;
+}
+.tbar:active{cursor:grabbing}
+.tbar .tico{width:14px;height:14px;flex:none}
+.tbar .ttl{font-family:var(--dot);font-size:13px;letter-spacing:.1em;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbtn{
+  width:24px;height:24px;flex:none;border:1px solid var(--nibi);background:transparent;color:var(--paper);
+  font-family:var(--dot);font-size:12px;line-height:1;cursor:pointer;border-radius:3px;transition:background .12s;
+}
+.tbtn:hover{background:rgba(236,231,218,.18)}
+.tbtn.x:hover{background:var(--shu);border-color:var(--shu)}
+.wbody{flex:1;overflow-y:auto;overscroll-behavior:contain;line-height:1.85;user-select:text}
+.wbody::-webkit-scrollbar{width:10px}
+.wbody::-webkit-scrollbar-track{background:var(--paper-2)}
+.wbody::-webkit-scrollbar-thumb{background:var(--ink-2);border:2px solid var(--paper-2)}
+
+/* ---- 掌編刑務所 ---- */
+.prison-head{
+  padding:24px 26px 18px;border-bottom:2px solid var(--ink);
+  background:repeating-linear-gradient(90deg,transparent 0 46px,rgba(29,27,23,.08) 46px 52px),var(--paper);
+}
+.prison-head h2{font-family:var(--min);font-size:25px;font-weight:700;letter-spacing:.22em}
+.prison-head h2 .stamp{
+  display:inline-block;margin-left:12px;padding:2px 8px;border:2px solid var(--shu);color:var(--shu);
+  font-size:11px;letter-spacing:.28em;transform:rotate(-4deg);font-family:var(--dot);vertical-align:middle;
+}
+.prison-head p{font-size:12.5px;color:var(--ink-2);margin-top:8px}
+.cells{list-style:none}
+.cell{
+  position:relative;display:block;padding:17px 24px 17px 26px;border-bottom:1px solid var(--line);
+  cursor:pointer;overflow:hidden;transition:background .18s;color:inherit;
+}
+.cell::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 42px,rgba(29,27,23,.16) 42px 46px);
+  transition:transform .35s ease,opacity .35s ease;
+}
+.cell:hover{background:#e6e0cf}
+.cell:hover::before{transform:translateX(14px);opacity:.25}
+.cell .no{font-family:var(--dot);font-size:11px;color:var(--shu);letter-spacing:.2em}
+.cell h3{font-family:var(--min);font-size:17.5px;font-weight:600;margin:3px 0 4px;letter-spacing:.06em}
+.cell p{font-size:12.5px;color:var(--ink-2);line-height:1.7}
+.cell .go{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-family:var(--dot);font-size:12px;color:var(--ink-2)}
+.cell:hover .go{color:var(--shu)}
+.prison-foot{padding:18px 26px 22px;text-align:center}
+.btn{
+  display:inline-block;padding:12px 30px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);
+  font-family:var(--dot);font-size:13px;letter-spacing:.18em;text-decoration:none;border-radius:3px;
+  transition:background .18s,color .18s,transform .18s;cursor:pointer;
+}
+.btn:hover{background:var(--shu);border-color:var(--shu);transform:translateY(-2px)}
+
+/* ---- 刑務所所長 = PDF資料風 ---- */
+.pdfview{background:#4a4741;padding:22px 18px;min-height:100%}
+.pdfbar{
+  display:flex;align-items:center;gap:12px;background:#2e2c28;color:#cfcabb;
+  font-family:var(--dot);font-size:11px;letter-spacing:.12em;padding:8px 14px;margin:-22px -18px 20px;
+}
+.pdfbar .pg{margin-left:auto}
+.a4{
+  background:#fdfbf4;max-width:560px;margin:0 auto;padding:40px 42px 46px;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);position:relative;overflow:hidden;
+}
+.a4::before{ /* 透かし */
+  content:"複製厳禁";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--min);font-size:82px;font-weight:700;color:rgba(199,62,58,.055);
+  letter-spacing:.28em;transform:rotate(-16deg);pointer-events:none;white-space:nowrap;
+}
+.doc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;border-bottom:3px double var(--ink);padding-bottom:14px}
+.doc-no{font-family:var(--dot);font-size:9.5px;color:var(--ink-2);letter-spacing:.14em;line-height:2;text-align:right;white-space:nowrap}
+.doc-eyebrow{font-family:var(--dot);font-size:10px;letter-spacing:.26em;color:var(--shu)}
+.doc-title{font-family:var(--min);font-size:27px;font-weight:700;letter-spacing:.42em;margin-top:6px}
+.doc-grid{display:grid;grid-template-columns:110px 1fr;gap:16px;margin-top:20px;align-items:start}
+.doc-photo{
+  aspect-ratio:3/4;border:1.5px dashed var(--ink-2);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:6px;color:var(--ink-2);background:rgba(29,27,23,.03);
+}
+.doc-photo span{font-family:var(--dot);font-size:10.5px;letter-spacing:.2em;writing-mode:vertical-rl}
+.doc-photo small{font-size:9px;letter-spacing:.08em}
+.doc-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.doc-tbl th{
+  font-family:var(--dot);font-size:10.5px;font-weight:400;color:var(--shu);letter-spacing:.18em;
+  border:1px solid var(--ink);background:rgba(29,27,23,.05);padding:9px 10px;width:84px;
+  text-align:left;vertical-align:top;white-space:nowrap;
+}
+.doc-tbl td{border:1px solid var(--ink);padding:9px 12px;line-height:1.95;vertical-align:top}
+.doc-tbl td small{display:block;font-family:var(--dot);font-size:9.5px;color:var(--ink-2);letter-spacing:.2em}
+.doc-tbl.full{margin-top:16px}
+.doc-remark{margin-top:18px;font-family:var(--min);font-size:14px;line-height:2.3;border-left:3px solid var(--shu);padding-left:16px}
+.doc-foot{display:flex;justify-content:flex-end;align-items:center;gap:22px;margin-top:26px}
+.doc-finger{display:flex;flex-direction:column;align-items:center;gap:5px}
+.doc-finger .fbox{width:58px;height:58px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;background:#fff}
+.doc-finger img{width:40px;height:40px;object-fit:contain;opacity:.75}
+.doc-finger span{font-family:var(--dot);font-size:9px;color:var(--ink-2);letter-spacing:.2em}
+.doc-seal{
+  width:56px;height:56px;border:2px solid rgba(199,62,58,.85);color:rgba(199,62,58,.92);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-family:var(--min);font-size:14px;
+  line-height:1.3;text-align:center;transform:rotate(-6deg);letter-spacing:.05em;
+}
+.doc-credit{margin-top:20px;font-family:var(--dot);font-size:9.5px;color:var(--ink-2);letter-spacing:.14em;text-align:right}
+
+/* ---- 受刑者データ ---- */
+.inmates{padding:24px}
+.inmates .note{font-size:12px;color:var(--ink-2);margin-bottom:18px}
+.dossier{
+  border:1.5px solid var(--ink);margin-bottom:16px;background:#f4f0e3;
+  display:grid;grid-template-columns:96px 1fr;overflow:hidden;
+}
+.dossier .mug{
+  background:repeating-linear-gradient(0deg,#dcd6c2 0 14px,#cfc8b1 14px 16px);
+  display:flex;align-items:center;justify-content:center;border-right:1.5px solid var(--ink);
+  font-family:var(--min);font-size:30px;color:var(--ink-2);
+}
+.dossier .dd{padding:14px 18px}
+.dossier .dd .no{font-family:var(--dot);font-size:10px;color:var(--shu);letter-spacing:.2em}
+.dossier .dd h3{font-family:var(--min);font-size:17px;letter-spacing:.08em;margin:2px 0 5px}
+.dossier .dd p{font-size:12.5px;color:var(--ink-2);line-height:1.8}
+
+/* ---- イベント ---- */
+.eventv{padding:24px}
+.eventv h2{font-family:var(--min);font-size:21px;font-weight:700;letter-spacing:.14em;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.eventv .ev-lat{font-family:var(--dot);font-size:10px;letter-spacing:.3em;color:var(--shu)}
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.gal a{display:block;border:2px solid var(--ink);overflow:hidden;background:#0a0c12}
+.gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease,opacity .3s}
+.gal a:hover img{transform:scale(1.04);opacity:.92}
+.eventv .ev-cap{font-size:12px;color:var(--ink-2);margin-top:14px;line-height:1.9}
+
+/* ---- MoriTUBE ---- */
+.moritube{background:#141414;color:#efefef;padding:0 0 22px;min-height:100%}
+.mt-head{display:flex;align-items:center;gap:8px;padding:12px 18px;font-family:var(--dot);letter-spacing:.1em;font-size:15px}
+.mt-head .play{width:26px;height:18px;background:var(--shu);border-radius:4px;display:flex;align-items:center;justify-content:center}
+.mt-head .play::after{content:"";border-left:7px solid #fff;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent}
+.mt-head b{font-weight:400}
+.mt-head b i{font-style:normal;color:var(--shu)}
+.mt-vid{aspect-ratio:16/9;background:#000}
+.mt-vid video,.mt-vid iframe{width:100%;height:100%;display:block;background:#000;border:0}
+.mt-yt{display:inline-block;margin-top:12px;font-family:var(--dot);font-size:11px;letter-spacing:.12em;color:#e6e6e6;text-decoration:none;border:1px solid #555;padding:7px 14px;border-radius:3px;transition:border-color .15s,color .15s}
+.mt-yt:hover{border-color:var(--shu);color:var(--shu)}
+.mt-info{padding:14px 18px 0}
+.mt-info h3{font-size:15.5px;font-weight:500;letter-spacing:.04em}
+.mt-info .ch{display:flex;align-items:center;gap:10px;margin-top:12px}
+.mt-info .ch .av{width:34px;height:34px;border-radius:50%;background:var(--shu);display:flex;align-items:center;justify-content:center;font-family:var(--min);font-size:15px;color:#fff}
+.mt-info .ch b{font-size:12.5px;font-weight:500}
+.mt-info .ch small{display:block;font-size:10.5px;color:#9a9a9a}
+
+/* ---- Browser ---- */
+.browserv{display:flex;flex-direction:column;min-height:300px;height:100%}
+.burl{display:flex;gap:8px;align-items:center;padding:9px 12px;background:#d7d1bf;border-bottom:1.5px solid var(--ink)}
+.burl .dotset{display:flex;gap:5px}
+.burl .dotset i{width:9px;height:9px;border-radius:50%;background:var(--ink-2);opacity:.5}
+.burl input{
+  flex:1;border:1.5px solid var(--ink);background:#fdfbf4;font-family:var(--dot);font-size:12px;
+  padding:6px 10px;color:var(--ink);letter-spacing:.06em;
+}
+.bblank{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--ink-2);padding:30px;text-align:center}
+.bblank b{font-family:var(--dot);font-size:14px;letter-spacing:.18em}
+.bblank p{font-size:12px}
+.bblank .blinks{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.bblank .blinks a{
+  font-family:var(--dot);font-size:11.5px;letter-spacing:.1em;color:var(--shu);
+  border:1.5px solid var(--shu);padding:8px 14px;text-decoration:none;transition:background .15s,color .15s;
+}
+.bblinks a:hover,.bblank .blinks a:hover{background:var(--shu);color:#fff}
+
+/* ---- 購買部 books ---- */
+.shop{padding:24px}
+.shop-lead{font-size:12.5px;color:var(--ink-2);margin-bottom:18px;line-height:1.9}
+.bk{
+  display:block;border:1.5px solid var(--ink);background:#f4f0e3;padding:18px 20px 16px;
+  margin-bottom:14px;text-decoration:none;color:inherit;position:relative;
+  transition:transform .18s,box-shadow .18s,background .18s;
+}
+.bk::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--shu)}
+.bk:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(29,27,23,.18);background:#efe9d6}
+.bk-tag{font-family:var(--dot);font-size:10px;color:var(--shu);letter-spacing:.18em}
+.bk h3{font-family:var(--min);font-size:18px;font-weight:700;letter-spacing:.08em;margin:5px 0 7px}
+.bk p{font-size:12.5px;color:var(--ink-2);line-height:1.9}
+.bk-buy{display:inline-block;margin-top:10px;font-family:var(--dot);font-size:11.5px;letter-spacing:.14em;color:var(--ink)}
+.bk:hover .bk-buy{color:var(--shu)}
+
+/* ---- contact 面会申請 ---- */
+.contact{padding:28px 28px 30px}
+.c-eyebrow{font-family:var(--dot);font-size:10px;letter-spacing:.28em;color:var(--shu)}
+.contact h2{font-family:var(--min);font-size:24px;font-weight:700;letter-spacing:.34em;margin:8px 0 14px;border-bottom:3px double var(--ink);padding-bottom:12px}
+.c-lead{font-size:13px;color:var(--ink-2);line-height:2.1}
+.c-btns{display:grid;gap:12px;margin-top:20px}
+.c-btns .btn{text-align:center}
+.btn.c-ghost{background:transparent;color:var(--ink)}
+.btn.c-ghost:hover{background:var(--shu);color:var(--paper)}
+.c-note{margin-top:16px;font-family:var(--dot);font-size:10px;color:var(--ink-2);letter-spacing:.12em;text-align:center}
+
+/* ---- readme / reader ---- */
+.readme{padding:26px;font-family:var(--min);font-size:14.5px;line-height:2.3}
+.readme h2{font-family:var(--dot);font-size:15px;letter-spacing:.24em;color:var(--shu);margin-bottom:14px}
+.readme p+p{margin-top:13px}
+.reader{padding:28px 30px 34px;font-family:var(--min)}
+.reader .no{font-family:var(--dot);font-size:11px;color:var(--shu);letter-spacing:.24em}
+.reader h2{font-size:23px;font-weight:700;letter-spacing:.12em;margin:8px 0 18px;border-bottom:2px solid var(--ink);padding-bottom:13px}
+.reader .txt{font-size:15px;line-height:2.5;white-space:pre-line}
+.reader .cont{margin-top:24px;text-align:center}
+
+/* ---- ごみ箱 dialog ---- */
+#trashdlg{
+  position:fixed;inset:0;z-index:8000;display:none;align-items:center;justify-content:center;
+  background:rgba(5,7,12,.55);
+}
+#trashdlg.open{display:flex}
+.dlg{
+  width:min(400px,86vw);background:var(--paper);color:var(--ink);border:2px solid var(--ink);
+  box-shadow:var(--shadow);animation:winin .2s ease;
+}
+.dlg .dh{background:linear-gradient(180deg,#2a2721,#1d1b17);color:var(--paper);font-family:var(--dot);font-size:13px;letter-spacing:.12em;padding:9px 14px}
+.dlg .db{padding:26px 24px;text-align:center}
+.dlg .db p{font-family:var(--min);font-size:15.5px;letter-spacing:.06em;line-height:2}
+.dlg .df{display:flex;gap:12px;justify-content:center;padding:0 24px 24px}
+.dlg .df button{
+  padding:10px 26px;font-family:var(--dot);font-size:12.5px;letter-spacing:.14em;cursor:pointer;
+  border:2px solid var(--ink);background:var(--paper);color:var(--ink);transition:background .15s,color .15s;
+}
+.dlg .df button:hover{background:var(--ink);color:var(--paper)}
+.dlg .df button.warn:hover{background:var(--shu);border-color:var(--shu)}
+
+/* ============ TASKBAR ============ */
+#taskbar{
+  position:fixed;left:0;right:0;bottom:0;height:48px;z-index:5000;
+  background:linear-gradient(180deg,#12151f,var(--bar));border-top:1px solid rgba(236,231,218,.14);
+  display:flex;align-items:center;gap:8px;padding:0 10px;padding-bottom:env(safe-area-inset-bottom);
+}
+#tasks{flex:1;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+#tasks::-webkit-scrollbar{display:none}
+.task{
+  height:32px;padding:0 13px;border:1px solid rgba(236,231,218,.22);background:rgba(236,231,218,.06);
+  color:var(--paper);font-family:var(--dot);font-size:11px;letter-spacing:.08em;cursor:pointer;
+  border-radius:4px;white-space:nowrap;transition:background .15s;
+}
+.task.on{background:rgba(199,62,58,.24);border-color:var(--shu)}
+#tb-copy{font-family:var(--dot);font-size:10px;color:#4a5164;letter-spacing:.12em;padding:0 6px;white-space:nowrap}
+
+/* ============ MOBILE ============ */
+@media (max-width:767px){
+  #icons{top:14px;left:10px;right:10px;grid-template-columns:repeat(3,1fr)}
+  #trashicon{position:static}
+  .icon{width:auto;padding:12px 4px 10px}
+  .moon{width:70px;height:70px;top:auto;bottom:18%;right:7%}
+  .desk-caption{right:14px;bottom:12px}
+  .desk-caption b{font-size:15px}
+  .win{
+    inset:32px 0 48px 0 !important;width:auto !important;height:auto !important;
+    min-width:0;border-width:0;border-top:2px solid var(--ink);border-radius:0;transform:none !important;
+  }
+  .win.front{outline:none}
+  .tbar{cursor:default}
+  .a4{padding:32px 24px 40px}
+  .a4 dl{grid-template-columns:80px 1fr}
+  .gal{grid-template-columns:1fr}
+  .dossier{grid-template-columns:72px 1fr}
+  #mclock .d{display:none}
+  #tb-copy{display:none}
+  .mitem.mhide{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+</style>
+</head>
+<body>
+
+<!-- ======== LOGIN ======== -->
+<div id="login">
+  <img class="lg-logo" src="https://test-serve-tsuki.web.app/images/mmlogo.webp" alt="MM OS" onerror="this.style.display='none'">
+  <div class="lg-ttl">M<em>M</em> LOGIN</div>
+  <div class="finger" id="finger" role="button" tabindex="0" aria-label="指紋認証">
+    <img src="https://test-serve-tsuki.web.app/images/simon.webp" alt="指紋" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'◉',style:'font-size:44px;color:#8b93a5'}))">
+    <span class="scan"></span>
+  </div>
+  <div class="lg-msg" id="lgmsg">認証してください</div>
+  <div class="lg-career">第7回 空華文学賞 ／ NovelJam Award 2024 内藤みか賞<br>第10回 ジャンプホラー小説大賞 選評掲載 ／ 第6回 文芸思潮新人賞 入選</div>
+  <div class="lg-copy">MM OS ─ TSUKI PRODUCT</div>
+</div>
+
+<!-- ======== MENU BAR ======== -->
+<nav id="menubar">
+  <div class="mtitle"><img src="https://test-serve-tsuki.web.app/images/mmlogo.webp" alt="" onerror="this.style.display='none'"><b>M<em>M</em></b></div>
+  <div class="mitem" data-menu>
+    <button>MM</button>
+    <div class="mdrop">
+      <button onclick="openWin('readme')">このOSについて...</button>
+      <button onclick="openWin('contact')">面会申請（CONTACT）</button>
+      <button onclick="openWin('books')">購買部（BOOKS）</button>
+      <span>製作 TSUKI PRODUCT</span>
+      <button onclick="logout()">ログアウト</button>
+    </div>
+  </div>
+  <div class="mitem mhide" data-menu><button>ファイル</button><div class="mdrop"><span>オプションはありません</span></div></div>
+  <div class="mitem mhide" data-menu><button>編集</button><div class="mdrop"><span>オプションはありません</span></div></div>
+  <div class="mitem mhide" data-menu><button>表示</button><div class="mdrop"><span>オプションはありません</span></div></div>
+  <div id="mclock"><span class="d">----.--.--</span> <span class="t">--:--</span></div>
+</nav>
+
+<!-- ======== DESKTOP ======== -->
+<div id="desktop">
+  <div class="moon" aria-hidden="true"></div>
+  <div class="desk-caption"><b>杜崎まさかず</b><small>MORISAKI MASAKAZU / NOVELIST</small></div>
+
+  <div id="icons">
+    <div class="icon" onclick="openWin('prison')" role="button" tabindex="0">
+      <svg viewBox="0 0 48 48" fill="none"><rect x="5" y="10" width="38" height="30" rx="2" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><path d="M12 10v30M18 10v30M24 10v30M30 10v30M36 10v30" stroke="#1d1b17" stroke-width="2"/><rect x="5" y="6" width="38" height="6" rx="2" fill="#c73e3a"/></svg>
+      <span class="lbl">掌編刑務所<small>SHORT STORIES</small></span>
+    </div>
+    <div class="icon" onclick="openWin('warden')" role="button" tabindex="0">
+      <svg viewBox="0 0 48 48" fill="none"><path d="M11 5h20l8 8v30H11z" fill="#fdfbf4" stroke="#1d1b17" stroke-width="2"/><path d="M31 5v8h8" stroke="#1d1b17" stroke-width="2" fill="none"/><circle cx="24" cy="21" r="5" fill="none" stroke="#c73e3a" stroke-width="2"/><path d="M16 34c2-5 14-5 16 0" stroke="#c73e3a" stroke-width="2" fill="none"/></svg>
+      <span class="lbl">刑務所所長<small>PROFILE</small></span>
+    </div>
+    <div class="icon" onclick="openWin('inmates')" role="button" tabindex="0">
+      <svg viewBox="0 0 48 48" fill="none"><rect x="7" y="8" width="34" height="32" rx="2" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><circle cx="17" cy="19" r="4" fill="none" stroke="#1d1b17" stroke-width="2"/><path d="M25 15h10M25 21h10M12 30h24M12 35h16" stroke="#c73e3a" stroke-width="2"/></svg>
+      <span class="lbl">受刑者データ<small>CHARACTERS</small></span>
+    </div>
+    <div class="icon" onclick="openWin('event')" role="button" tabindex="0">
+      <svg viewBox="0 0 48 48" fill="none"><rect x="5" y="9" width="38" height="30" rx="2" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><path d="M5 31l11-10 8 7 7-6 12 9" stroke="#1d1b17" stroke-width="2" fill="none"/><circle cx="33" cy="17" r="3.5" fill="#c73e3a"/></svg>
+      <span class="lbl">イベント<small>EVENT</small></span>
+    </div>
+    <div class="icon" onclick="openWin('moritube')" role="button" tabindex="0">
+      <svg viewBox="0 0 48 48" fill="none"><rect x="5" y="11" width="38" height="26" rx="6" fill="#c73e3a"/><path d="M20 18l10 6-10 6z" fill="#fff"/></svg>
+      <span class="lbl">MoriTUBE<small>OFFICIAL PV</small></span>
+    </div>
+    <div class="icon" onclick="openWin('browser')" role="button" tabindex="0">
+      <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="17" fill="none" stroke="#ece7da" stroke-width="2"/><ellipse cx="24" cy="24" rx="8" ry="17" fill="none" stroke="#ece7da" stroke-width="2"/><path d="M8 19h32M8 29h32" stroke="#c73e3a" stroke-width="2"/></svg>
+      <span class="lbl">Browser<small>WEB</small></span>
+    </div>
+    <div class="icon" onclick="openWin('books')" role="button" tabindex="0">
+      <svg viewBox="0 0 48 48" fill="none"><path d="M8 8h14a4 4 0 0 1 4 4v28a4 4 0 0 0-4-4H8z" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><path d="M40 8H26a4 4 0 0 0-4 4v28a4 4 0 0 1 4-4h14z" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><path d="M12 15h8M12 21h8M28 15h8M28 21h8" stroke="#c73e3a" stroke-width="2"/></svg>
+      <span class="lbl">購買部<small>BOOKS</small></span>
+    </div>
+    <div class="icon" onclick="openWin('contact')" role="button" tabindex="0">
+      <svg viewBox="0 0 48 48" fill="none"><rect x="6" y="11" width="36" height="26" rx="2" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><path d="M6 14l18 13 18-13" stroke="#1d1b17" stroke-width="2" fill="none"/><circle cx="37" cy="32" r="6" fill="#c73e3a"/><path d="M34.5 32l1.8 1.8 3.2-3.6" stroke="#fff" stroke-width="1.8" fill="none"/></svg>
+      <span class="lbl">面会申請<small>CONTACT</small></span>
+    </div>
+    <div class="icon" onclick="openX()" role="button" tabindex="0">
+      <svg viewBox="0 0 48 48"><rect x="6" y="6" width="36" height="36" rx="8" fill="#0a0c12" stroke="#ece7da" stroke-width="2"/><path d="M15 14h6l6 8 6-8h4l-8 11 9 11h-6l-7-9-7 9h-4l9-11z" fill="#ece7da"/></svg>
+      <span class="lbl">公式X<small>FOLLOW</small></span>
+    </div>
+  </div>
+
+  <div class="icon" id="trashicon" onclick="openTrash()" role="button" tabindex="0">
+    <svg viewBox="0 0 48 48" fill="none"><path d="M12 14h24l-2.5 26h-19z" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><path d="M9 14h30M19 14v-4h10v4" stroke="#1d1b17" stroke-width="2"/><path d="M19 21v12M24 21v12M29 21v12" stroke="#c73e3a" stroke-width="2"/></svg>
+    <span class="lbl">ごみ箱<small>TRASH</small></span>
+  </div>
+
+  <!-- ==== WIN: 掌編刑務所 ==== -->
+  <section class="win" id="win-prison" style="left:15%;top:5%;width:min(640px,72vw);height:80%">
+    <header class="tbar">
+      <svg class="tico" viewBox="0 0 14 14"><rect width="14" height="14" fill="#c73e3a"/></svg>
+      <span class="ttl">掌編刑務所 ─ TANPEN_PRISON</span>
+      <button class="tbtn" onclick="minWin('prison')" aria-label="最小化">_</button>
+      <button class="tbtn x" onclick="closeWin('prison')" aria-label="閉じる">×</button>
+    </header>
+    <div class="wbody">
+      <div class="prison-head">
+        <h2>掌編刑務所<span class="stamp">収監中</span></h2>
+        <p>小説に罪を償ってもらうための刑務所。隔週土曜日、新たな小説が収監されます。<br>コメントをいただけますと、刑期が軽くなります。</p>
+      </div>
+      <ul class="cells" id="celllist"></ul>
+      <div class="prison-foot"><a class="btn" id="notelink" href="#" target="_blank" rel="noopener">全作品を note で読む ▸</a></div>
+    </div>
+  </section>
+
+  <!-- ==== WIN: READER ==== -->
+  <section class="win" id="win-reader" style="left:24%;top:9%;width:min(560px,70vw);height:74%">
+    <header class="tbar">
+      <svg class="tico" viewBox="0 0 14 14"><rect width="14" height="14" fill="#ece7da"/></svg>
+      <span class="ttl" id="reader-ttl">VIEWER</span>
+      <button class="tbtn" onclick="minWin('reader')" aria-label="最小化">_</button>
+      <button class="tbtn x" onclick="closeWin('reader')" aria-label="閉じる">×</button>
+    </header>
+    <div class="wbody"><div class="reader">
+      <div class="no" id="reader-no"></div><h2 id="reader-title"></h2>
+      <div class="txt" id="reader-txt"></div>
+      <div class="cont"><a class="btn" id="reader-link" href="#" target="_blank" rel="noopener">続きを note で読む ▸</a></div>
+    </div></div>
+  </section>
+
+  <!-- ==== WIN: 刑務所所長（PDF資料風プロフィール） ==== -->
+  <section class="win" id="win-warden" style="left:26%;top:6%;width:min(620px,74vw);height:82%">
+    <header class="tbar">
+      <svg class="tico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="7" fill="#ece7da"/></svg>
+      <span class="ttl">刑務所所長 ─ WARDEN.pdf</span>
+      <button class="tbtn" onclick="minWin('warden')" aria-label="最小化">_</button>
+      <button class="tbtn x" onclick="closeWin('warden')" aria-label="閉じる">×</button>
+    </header>
+    <div class="wbody">
+      <div class="pdfview">
+        <div class="pdfbar">WARDEN.pdf ─ 所長身分調書<span class="pg">1 / 1</span></div>
+        <div class="a4">
+          <div class="doc-head">
+            <div>
+              <div class="doc-eyebrow">掌編刑務所 文書 第MM-001号 ─ 機密区分：所内限</div>
+              <h2 class="doc-title">身分調書</h2>
+            </div>
+            <div class="doc-no">作成庁　MM OS ARCHIVES<br>永年保存</div>
+          </div>
+          <div class="doc-grid">
+            <div class="doc-photo"><span>写真貼付欄</span><small>縦4cm×横3cm</small></div>
+            <table class="doc-tbl">
+              <tr><th>氏名</th><td>杜崎まさかず<small>MORISAKI MASAKAZU</small></td></tr>
+              <tr><th>役職</th><td>掌編刑務所 所長（小説家）</td></tr>
+              <tr><th>所属</th><td>ツキモリスタジオ（杜崎まさかず × 月真猫）</td></tr>
+            </table>
+          </div>
+          <table class="doc-tbl full">
+            <tr><th>筆歴</th><td>第7回 空華文学賞<br>NovelJam Award 2024 内藤みか賞<br>第10回 ジャンプホラー小説大賞 最終候補一歩手前作品 筆頭選出<br>第6回 文芸思潮新人賞 入選</td></tr>
+            <tr><th>管理棟</th><td>猛悪凶徒棟（1万字以上の短編）／ 晒し牢（読みやすい小説）／ 先談・全5話 ／ 雑居房（怖くない小説）</td></tr>
+            <tr><th>運営方針</th><td>note にて小説に罪を償わせる「掌編刑務所」を運営。隔週土曜日、小説を収監。読者のコメントにより刑期は軽減される。物語・脚本を担当し、AI動画クリエイター・月真猫とともに映像ドラマ作品を制作。</td></tr>
+          </table>
+          <p class="doc-remark">所見 ─ 物語は、読み終えたあとも読者の中で服役を続ける。短くても、逃がさない。それが当刑務所の流儀である。</p>
+          <div class="doc-foot">
+            <div class="doc-finger">
+              <div class="fbox"><img src="https://test-serve-tsuki.web.app/images/simon.webp" alt="指印" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'◉',style:'font-size:26px;color:#4d4a42'}))"></div>
+              <span>所長指印</span>
+            </div>
+            <div class="doc-seal">所長<br>之印</div>
+          </div>
+          <p class="doc-credit">本調書の複製・持出を禁ずる ─ 掌編刑務所 庶務課</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== WIN: 受刑者データ ==== -->
+  <section class="win" id="win-inmates" style="left:32%;top:10%;width:min(560px,70vw);height:74%">
+    <header class="tbar">
+      <svg class="tico" viewBox="0 0 14 14"><rect x="1" y="1" width="12" height="12" fill="none" stroke="#ece7da" stroke-width="2"/></svg>
+      <span class="ttl">受刑者データ ─ INMATES</span>
+      <button class="tbtn" onclick="minWin('inmates')" aria-label="最小化">_</button>
+      <button class="tbtn x" onclick="closeWin('inmates')" aria-label="閉じる">×</button>
+    </header>
+    <div class="wbody">
+      <div class="inmates">
+        <p class="note">作中に登場する人物たちの記録。キャラクター紹介・こぼれ話を随時収監します。</p>
+        <div id="inmatelist"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== WIN: イベント ==== -->
+  <section class="win" id="win-event" style="left:20%;top:8%;width:min(640px,74vw);height:78%">
+    <header class="tbar">
+      <svg class="tico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" fill="#c73e3a"/></svg>
+      <span class="ttl">イベント ─ EVENT</span>
+      <button class="tbtn" onclick="minWin('event')" aria-label="最小化">_</button>
+      <button class="tbtn x" onclick="closeWin('event')" aria-label="閉じる">×</button>
+    </header>
+    <div class="wbody">
+      <div class="eventv">
+        <div class="ev-lat">EVENT ARCHIVE</div>
+        <h2>イベント</h2>
+        <div style="border:2px dashed var(--ink-2);margin-top:18px;padding:46px 24px;text-align:center;">
+          <b style="font-family:var(--dot);font-size:16px;letter-spacing:.3em;color:var(--shu);display:block">COMING SOON</b>
+          <p style="font-size:13px;color:var(--ink-2);margin-top:12px;line-height:2">開催予定のイベントは、まだ収監されていません。<br>決まり次第、この房に掲示されます。</p>
+        </div>
+        <p class="ev-cap">※ イベント開催時は、画像・告知文をここに掲載できます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== WIN: MoriTUBE ==== -->
+  <section class="win" id="win-moritube" style="left:17%;top:12%;width:min(700px,78vw)">
+    <header class="tbar">
+      <svg class="tico" viewBox="0 0 14 14"><path d="M3 2l9 5-9 5z" fill="#c73e3a"/></svg>
+      <span class="ttl">MoriTUBE ─ 公式チャンネル</span>
+      <button class="tbtn" onclick="minWin('moritube')" aria-label="最小化">_</button>
+      <button class="tbtn x" onclick="closeWin('moritube')" aria-label="閉じる">×</button>
+    </header>
+    <div class="wbody">
+      <div class="moritube">
+        <div class="mt-head"><span class="play"></span><b>Mori<i>TUBE</i></b></div>
+        <div class="mt-vid">
+          <iframe id="pv" src="https://www.youtube.com/embed/AQtgqJsVqOw" title="【公式PV】掌編刑務所" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <div class="mt-info">
+          <h3>【公式PV】掌編刑務所</h3>
+          <div class="ch"><span class="av">杜</span><div><b>杜崎まさかず公式チャンネル</b><small>MORISAKI MASAKAZU OFFICIAL</small></div></div>
+          <a class="mt-yt" href="https://youtu.be/AQtgqJsVqOw" target="_blank" rel="noopener">▶ YouTube で開く</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== WIN: Browser ==== -->
+  <section class="win" id="win-browser" style="left:36%;top:16%;width:min(520px,68vw);height:62%">
+    <header class="tbar">
+      <svg class="tico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="none" stroke="#ece7da" stroke-width="2"/></svg>
+      <span class="ttl">Browser</span>
+      <button class="tbtn" onclick="minWin('browser')" aria-label="最小化">_</button>
+      <button class="tbtn x" onclick="closeWin('browser')" aria-label="閉じる">×</button>
+    </header>
+    <div class="wbody">
+      <div class="browserv">
+        <div class="burl"><span class="dotset"><i></i><i></i><i></i></span><input value="about:blank" readonly aria-label="アドレスバー"></div>
+        <div class="bblank">
+          <b>about:blank</b>
+          <p>このブラウザはまだ、どこへも行けません。<br>代わりに、外の世界への扉をご用意しました。</p>
+          <div class="blinks">
+            <!-- ▼ URLを実際のものに差し替え -->
+            <a href="https://note.com/gorilla_egg" target="_blank" rel="noopener">note ─ 掌編刑務所</a>
+            <a href="#" target="_blank" rel="noopener">TSUKIMORI STUDIO</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== WIN: 購買部（BOOKS） ==== -->
+  <section class="win" id="win-books" style="left:22%;top:7%;width:min(560px,72vw);height:78%">
+    <header class="tbar">
+      <svg class="tico" viewBox="0 0 14 14"><path d="M2 2h4a2 2 0 0 1 2 2v8a2 2 0 0 0-2-2H2zM12 2H8a2 2 0 0 0-2 2v8a2 2 0 0 1 2-2h4z" fill="#ece7da"/></svg>
+      <span class="ttl">購買部 ─ BOOKS</span>
+      <button class="tbtn" onclick="minWin('books')" aria-label="最小化">_</button>
+      <button class="tbtn x" onclick="closeWin('books')" aria-label="閉じる">×</button>
+    </header>
+    <div class="wbody">
+      <div class="shop">
+        <p class="shop-lead">紙とインクに封じられた作品たち。差し入れ（ご購入）は Amazon にて受け付けています。</p>
+        <!-- 書棚：①ねむるどろ ②はてのミックス ③空華文学賞作品集（ご本人確認済みの順序） -->
+        <a class="bk" href="https://amzn.asia/d/0eQn1VEI" target="_blank" rel="noopener">
+          <span class="bk-tag">単著</span>
+          <h3>ねむるどろ</h3>
+          <p>著：杜崎まさかず<br>※ あらすじ・紹介文をここに追記してください。</p>
+          <span class="bk-buy">Amazon で見る ▸</span>
+        </a>
+        <a class="bk" href="https://amzn.asia/d/03atvmjB" target="_blank" rel="noopener">
+          <span class="bk-tag">NovelJam 2024 ─ 内藤みか賞 受賞作</span>
+          <h3>はてのミックス</h3>
+          <p>著：杜崎まさかず ／ 編：森田玲花 ／ 装丁：織田桂子<br>会ったこともないのに『じゃんけんトリオ』と呼ばれた高校生たち。片田舎の日常、手芸部、そして消えた宮沢を巡る物語。</p>
+          <span class="bk-buy">Amazon で見る ▸</span>
+        </a>
+        <a class="bk" href="https://amzn.asia/d/0cJt8Jt9" target="_blank" rel="noopener">
+          <span class="bk-tag">第7回 空華文学賞 ─ 受賞作収録</span>
+          <h3>空華文学賞 作品集</h3>
+          <p>杜崎まさかずの空華文学賞受賞作を収録した作品集。<br>※ 正式な書名・収録作名に差し替えてください。</p>
+          <span class="bk-buy">Amazon で見る ▸</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== WIN: 面会申請（CONTACT） ==== -->
+  <section class="win" id="win-contact" style="left:40%;top:14%;width:min(460px,64vw)">
+    <header class="tbar">
+      <svg class="tico" viewBox="0 0 14 14"><rect x="1" y="3" width="12" height="8" fill="none" stroke="#ece7da" stroke-width="2"/><path d="M1 4l6 4 6-4" stroke="#ece7da" stroke-width="1.6" fill="none"/></svg>
+      <span class="ttl">面会申請 ─ CONTACT</span>
+      <button class="tbtn" onclick="minWin('contact')" aria-label="最小化">_</button>
+      <button class="tbtn x" onclick="closeWin('contact')" aria-label="閉じる">×</button>
+    </header>
+    <div class="wbody">
+      <div class="contact">
+        <div class="c-eyebrow">VISITATION REQUEST FORM</div>
+        <h2>面会申請書</h2>
+        <p class="c-lead">執筆のご依頼、映像化・コラボレーションのご相談、その他お問い合わせは、下記のいずれかの窓口までご申請ください。所長が房から出て対応いたします。</p>
+        <!-- ▼ メールアドレスとXのURLを実際のものに差し替えてください -->
+        <div class="c-btns">
+          <a class="btn" href="https://note.com/gorilla_egg/message" target="_blank" rel="noopener">note お問い合わせフォーム</a>
+          <a class="btn c-ghost" href="https://x.com/morisaki_prison" target="_blank" rel="noopener">𝕏 のDMで申請する</a>
+        </div>
+        <p class="c-note">※ 面会は随時受付。差し入れはお言葉のみで結構です。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==== WIN: このOSについて ==== -->
+  <section class="win" id="win-readme" style="left:38%;top:20%;width:min(480px,64vw);height:58%">
+    <header class="tbar">
+      <svg class="tico" viewBox="0 0 14 14"><rect x="1" y="1" width="12" height="12" fill="none" stroke="#ece7da" stroke-width="2"/></svg>
+      <span class="ttl">このOSについて</span>
+      <button class="tbtn" onclick="minWin('readme')" aria-label="最小化">_</button>
+      <button class="tbtn x" onclick="closeWin('readme')" aria-label="閉じる">×</button>
+    </header>
+    <div class="wbody">
+      <div class="readme">
+        <h2>── MM OS へようこそ ──</h2>
+        <p>ここは、小説家・杜崎まさかずの頭の中を模した架空のオペレーティングシステム「MM OS」です。</p>
+        <p>デスクトップに並ぶアイコンは、それぞれが物語への扉。「掌編刑務所」の房を開ければ小説に、MoriTUBEでは公式PVに出会えます。</p>
+        <p>気の向くままにクリックして、どうぞ迷子になってください。出口は、あなたが読み終えるまで見つかりません。</p>
+        <p style="font-family:var(--dot);font-size:11px;color:var(--ink-2);margin-top:20px">MM OS ver 2.0<br>製作 TSUKI PRODUCT ─ TSUKIMORI STUDIO</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ======== TRASH DIALOG ======== -->
+<div id="trashdlg" role="dialog" aria-modal="true" aria-label="確認">
+  <div class="dlg">
+    <div class="dh">確認</div>
+    <div class="db"><p>一体何を捨てようとしているんだい？</p></div>
+    <div class="df">
+      <button onclick="closeTrash('memory')">記憶</button>
+      <button class="warn" onclick="closeTrash('nothing')">何も</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======== TASKBAR ======== -->
+<nav id="taskbar">
+  <div id="tasks"></div>
+  <div id="tb-copy">©MORISAKI MASAKAZU 2025</div>
+</nav>
+
+<script>
+/* =====================================================
+   ▼▼▼ 収監作品リスト（ここを編集するだけで更新できます）▼▼▼
+   note の実際の作品タイトル・あらすじ・URLに差し替えてください
+===================================================== */
+const NOTE_TOP_URL = "https://note.com/gorilla_egg";
+const STORIES = [
+  { no:"収監番号 006 ─ 短編", title:"プラモデル奇譚", crime:"使用窃盗",
+    lead:"娘を喪ったラーメン店主の前に、漆黒の男が現れる。「神世戸籍」の取引が始まる、真夏の怪奇譚。",
+    excerpt:"この房の本文は note に収監されています。\n下のボタンから面会をどうぞ。\n\n※ この欄に冒頭数行を貼り付けると、房内ビューアで直接読めるようになります。",
+    url:"https://note.com/gorilla_egg/n/nbc993d2cff92" },
+  { no:"収監番号 005 ─ 中編", title:"のうぼつ プロローグ～首筆～",
+    lead:"仏と交信するため、狂騒の修行に励む僧侶たち。写経・霊感商法・カルトを描く、創作大賞2025応募ホラー。",
+    excerpt:"この房の本文は note に収監されています。\n下のボタンから面会をどうぞ。\n\n※ この欄に冒頭数行を貼り付けると、房内ビューアで直接読めるようになります。",
+    url:"https://note.com/gorilla_egg/n/n8b81d534a2b4" },
+  { no:"連続収監 001-005", title:"先談（全5話）",
+    lead:"ヤマカガシを信仰するカルト神社を巡る嫌ミスホラー。第10回ジャンプホラー小説大賞にて選評を受けた代表作。",
+    excerpt:"全5話がまとめて収監されています。\nnote の連載マガジンから、第1話より面会をどうぞ。",
+    url:"https://note.com/gorilla_egg" }, // ← 先談マガジンのURLに差し替え推奨
+  { no:"収監番号 004 ─ 掌編", title:"悪霊の作り方",
+    lead:"家族、カレー、初日の出、そして幽霊。年の初めに読む、後を引く掌編ホラー。",
+    excerpt:"この房の本文は note に収監されています。\n下のボタンから面会をどうぞ。\n\n※ この欄に冒頭数行を貼り付けると、房内ビューアで直接読めるようになります。",
+    url:"https://note.com/gorilla_egg/n/n602072d9aa18" },
+  { no:"収監番号 003 ─ 掌編", title:"インク商法", crime:"使用窃盗罪",
+    lead:"髭が濃いのではない、太く硬くしぶといのだ。髭剃りをめぐるショートショート。",
+    excerpt:"この房の本文は note に収監されています。\n下のボタンから面会をどうぞ。\n\n※ この欄に冒頭数行を貼り付けると、房内ビューアで直接読めるようになります。",
+    url:"https://note.com/gorilla_egg/n/ne24082308ef6" },
+  { no:"収監番号 002 ─ 掌編", title:"作文『発見したこと』",
+    lead:"物をなくしてばかりの小学生が書いた、一枚の作文。無垢な文体の底に潜むもの。",
+    excerpt:"この房の本文は note に収監されています。\n下のボタンから面会をどうぞ。\n\n※ この欄に冒頭数行を貼り付けると、房内ビューアで直接読めるようになります。",
+    url:"https://note.com/gorilla_egg/n/n4b5b1b3c3dcb" }
+];
+/* ▼ 受刑者データ（登場人物）── ネタバレ回避のため紹介は冒頭レベルに留めています */
+const INMATES = [
+  { no:"受刑者 No.0001 ─『プラモデル奇譚』", name:"木間井（きまい）", kanji:"麺",
+    desc:"ラーメン店『人々軒』の店主。先代から嫌々店を継いだ。唯一の趣味はプラモデルで、宝物は『鬼童戦士オニダム』のPG（パーフェクトグレード）。" },
+  { no:"受刑者 No.0002 ─『プラモデル奇譚』", name:"ハツミ", kanji:"娘",
+    desc:"木間井の娘。高校中退後、店のホールをひとりで回している。父とは、しばしば衝突する。" },
+  { no:"受刑者 No.0003 ─『プラモデル奇譚』", name:"有部（アリブ）", kanji:"闇",
+    desc:"闇より深い漆黒をまとった痩せぎすの営業マン。名刺は切らしている。取扱商品は『神世（じんせい）戸籍』。" },
+  { no:"受刑者 No.0004 ─『インク商法』", name:"社長と商品開発部長", kanji:"剃",
+    desc:"10枚刃の剃刀を破格で売り出した会社の経営陣。ただし、本当に売りたいのは剃刀ではないらしい。" }
+];
+const X_URL = "https://x.com/morisaki_prison"; // 公式X
+const NOTE_CONTACT_URL = "https://note.com/gorilla_egg/message"; // noteお問い合わせ
+/* ▲▲▲ 編集ここまで ▲▲▲ */
+
+const isMobile=()=>matchMedia("(max-width:767px)").matches;
+let z=100; const openWins=new Set();
+
+/* ---- login ---- */
+const finger=document.getElementById("finger"), lgmsg=document.getElementById("lgmsg");
+let authed=false;
+function auth(){
+  if(authed)return; authed=true;
+  finger.classList.add("scanning"); lgmsg.textContent="スキャン中 ...";
+  setTimeout(()=>{
+    finger.classList.remove("scanning"); finger.classList.add("ok");
+    lgmsg.textContent="ようこそ、面会人。"; lgmsg.classList.add("ok");
+    setTimeout(()=>{
+      document.getElementById("login").classList.add("off");
+      setTimeout(()=>openWin("warden"),650);
+    },750);
+  },1150);
+}
+finger.addEventListener("click",auth);
+finger.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();auth()}});
+function logout(){
+  authed=false;
+  finger.classList.remove("ok"); lgmsg.classList.remove("ok"); lgmsg.textContent="認証してください";
+  document.querySelectorAll(".win.open").forEach(w=>w.classList.remove("open"));
+  openWins.clear(); renderTasks();
+  document.getElementById("login").classList.remove("off");
+}
+
+/* ---- clock ---- */
+function tick(){
+  const d=new Date(),p=n=>String(n).padStart(2,"0");
+  document.querySelector("#mclock .t").textContent=p(d.getHours())+":"+p(d.getMinutes());
+  document.querySelector("#mclock .d").textContent=d.getFullYear()+"."+p(d.getMonth()+1)+"."+p(d.getDate());
+}
+tick(); setInterval(tick,10000);
+
+/* ---- windows ---- */
+const TITLES={prison:"掌編刑務所",warden:"刑務所所長",inmates:"受刑者データ",event:"イベント",moritube:"MoriTUBE",browser:"Browser",books:"購買部",contact:"面会申請",readme:"このOSについて",reader:"VIEWER"};
+const el=id=>document.getElementById("win-"+id);
+function openWin(id){
+  const w=el(id); w.classList.add("open"); front(id);
+  if(!openWins.has(id)){openWins.add(id);renderTasks()}
+  markTasks(id);
+}
+function closeWin(id){
+  el(id).classList.remove("open"); openWins.delete(id); renderTasks();
+  if(id==="moritube"){const v=document.getElementById("pv"); if(v)v.src=v.src}
+}
+function minWin(id){el(id).classList.remove("open");markTasks(null)}
+function front(id){
+  document.querySelectorAll(".win").forEach(w=>w.classList.remove("front"));
+  const w=el(id); w.style.zIndex=++z; w.classList.add("front"); markTasks(id);
+}
+function renderTasks(){
+  const t=document.getElementById("tasks"); t.innerHTML="";
+  openWins.forEach(id=>{
+    const b=document.createElement("button");
+    b.className="task"; b.dataset.id=id; b.textContent=TITLES[id];
+    b.onclick=()=>{const w=el(id);(w.classList.contains("open")&&w.classList.contains("front"))?minWin(id):openWin(id)};
+    t.appendChild(b);
+  });
+}
+function markTasks(id){
+  document.querySelectorAll(".task").forEach(b=>b.classList.toggle("on",b.dataset.id===id&&el(id).classList.contains("open")));
+}
+
+/* ---- drag (PC) ---- */
+document.querySelectorAll(".win").forEach(w=>{
+  const bar=w.querySelector(".tbar");
+  w.addEventListener("pointerdown",()=>front(w.id.replace("win-","")));
+  bar.addEventListener("pointerdown",e=>{
+    if(isMobile()||e.target.closest(".tbtn"))return;
+    const r=w.getBoundingClientRect(),dx=e.clientX-r.left,dy=e.clientY-r.top;
+    bar.setPointerCapture(e.pointerId);
+    const mv=ev=>{
+      let x=ev.clientX-dx,y=ev.clientY-dy;
+      x=Math.max(-r.width*0.6,Math.min(innerWidth-60,x));
+      y=Math.max(32,Math.min(innerHeight-110,y));
+      w.style.left=x+"px";w.style.top=y+"px";
+    };
+    const up=()=>{bar.removeEventListener("pointermove",mv);bar.removeEventListener("pointerup",up)};
+    bar.addEventListener("pointermove",mv); bar.addEventListener("pointerup",up);
+  });
+});
+
+/* ---- prison ---- */
+const list=document.getElementById("celllist");
+STORIES.forEach((s,i)=>{
+  const li=document.createElement("li");
+  const crime=s.crime?`<span style="font-family:var(--dot);font-size:10px;color:var(--ink-2);letter-spacing:.14em;margin-left:10px;border:1px solid var(--ink-2);padding:1px 6px">罪状：${s.crime}</span>`:"";
+  li.innerHTML=`<div class="cell" role="button" tabindex="0">
+    <div class="no">${s.no}${crime}</div><h3>${s.title}</h3><p>${s.lead}</p><span class="go">面会 ▸</span></div>`;
+  li.querySelector(".cell").addEventListener("click",()=>openReader(i));
+  list.appendChild(li);
+});
+document.getElementById("notelink").href=NOTE_TOP_URL;
+function openReader(i){
+  const s=STORIES[i];
+  document.getElementById("reader-ttl").textContent="VIEWER ─ "+s.title;
+  document.getElementById("reader-no").textContent=s.no+(s.crime?"　─　罪状："+s.crime:"");
+  document.getElementById("reader-title").textContent=s.title;
+  document.getElementById("reader-txt").textContent=s.excerpt;
+  document.getElementById("reader-link").href=s.url;
+  openWin("reader");
+}
+
+/* ---- inmates ---- */
+const il=document.getElementById("inmatelist");
+INMATES.forEach(c=>{
+  const d=document.createElement("div");
+  d.className="dossier";
+  d.innerHTML=`<div class="mug">${c.kanji}</div>
+    <div class="dd"><div class="no">${c.no}</div><h3>${c.name}</h3><p>${c.desc}</p></div>`;
+  il.appendChild(d);
+});
+
+/* ---- X / trash ---- */
+function openX(){window.open(X_URL,"_blank","noopener")}
+function openTrash(){document.getElementById("trashdlg").classList.add("open")}
+function closeTrash(){document.getElementById("trashdlg").classList.remove("open")}
+document.getElementById("trashdlg").addEventListener("click",e=>{if(e.target.id==="trashdlg")closeTrash()});
+
+/* ---- menus ---- */
+document.querySelectorAll(".mitem>button").forEach(b=>{
+  b.addEventListener("click",e=>{
+    e.stopPropagation();
+    const it=b.parentElement,was=it.classList.contains("open");
+    document.querySelectorAll(".mitem").forEach(m=>m.classList.remove("open"));
+    if(!was)it.classList.add("open");
+  });
+});
+document.addEventListener("click",()=>document.querySelectorAll(".mitem").forEach(m=>m.classList.remove("open")));
+
+/* keyboard */
+document.querySelectorAll(".icon,.cell").forEach(n=>{
+  n.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();n.click()}});
+});
+</script>
+</body>
+</html>
