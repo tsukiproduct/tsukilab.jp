@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+/* ホラーサイト用カスタムアニメーション */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+  52% { opacity: 0.2; }
+  54% { opacity: 0.8; }
+  56% { opacity: 0.1; }
+  58% { opacity: 0.8; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 10px rgba(220, 38, 38, 0.5); }
+  50% { box-shadow: 0 0 30px rgba(220, 38, 38, 0.8); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glitch {
+  0% { clip-path: inset(50% 0 30% 0); transform: translate(-5px, 0); }
+  20% { clip-path: inset(20% 0 60% 0); transform: translate(5px, 0); }
+  40% { clip-path: inset(70% 0 10% 0); transform: translate(-5px, 0); }
+  60% { clip-path: inset(10% 0 80% 0); transform: translate(5px, 0); }
+  80% { clip-path: inset(40% 0 40% 0); transform: translate(-5px, 0); }
+  100% { clip-path: inset(50% 0 30% 0); transform: translate(5px, 0); }
+}
+
+@keyframes breathing {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes text-glitch {
+  0% { text-shadow: 2px 0 red, -2px 0 blue; }
+  25% { text-shadow: -2px 0 red, 2px 0 blue; }
+  50% { text-shadow: 2px 0 blue, -2px 0 red; }
+  75% { text-shadow: -2px 0 blue, 2px 0 red; }
+  100% { text-shadow: 2px 0 red, -2px 0 blue; }
+}
+
+@keyframes vignette {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.animate-flicker {
+  animation: flicker 2s infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s infinite;
+}
+
+.animate-pulse-red {
+  animation: pulse-red 2s infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glitch {
+  animation: glitch 0.3s infinite;
+}
+
+.animate-breathing {
+  animation: breathing 4s ease-in-out infinite;
+}
+
+.animate-text-glitch {
+  animation: text-glitch 0.5s infinite;
+}
+
+/* カスタムスクロールバー */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7f1d1d;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #991b1b;
+}
+
+/* 選択色 */
+::selection {
+  background: #7f1d1d;
+  color: #ffffff;
+}
+
+/* 全体的なホラーフィルター */
+body {
+  background-color: #000000;
+  cursor: crosshair;
+}
+
+/* CRT 効果 */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  z-index: 1000;
+}
+
+/* ビネット効果 */
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
+  z-index: 999;
+}
+
+/* スキャンライン */
+.scanline {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 0, 0, 0.3);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 998;
+}
