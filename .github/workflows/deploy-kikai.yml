@@ -1,0 +1,56 @@
+name: Deploy KIKAI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "kikai/**"
+      - ".github/workflows/deploy-kikai.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: kikai-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: kikai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: kikai/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - name: Make public asset paths relative
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'dist/index.html';
+          let html = fs.readFileSync(path, 'utf8');
+          html = html.replaceAll('"/images/', '"./images/').replaceAll("'/images/", "'./images/");
+          fs.writeFileSync(path, html);
+          NODE
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: kikai/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
