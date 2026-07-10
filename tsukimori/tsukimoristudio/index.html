@@ -153,6 +153,38 @@ section{padding:110px 0}
   transform:rotate(-3deg);
 }
 
+/* ============ PLAY 膳函（不在連絡票） ============ */
+.slip{
+  display:block;max-width:640px;margin:56px auto 0;background:var(--paper);color:var(--ink);
+  text-decoration:none;transform:rotate(-.6deg);position:relative;
+  box-shadow:0 24px 60px rgba(0,0,0,.55);transition:transform .35s,box-shadow .35s;
+}
+.slip::before{ /* 封緘テープ */
+  content:"";position:absolute;top:-14px;left:50%;transform:translateX(-50%) rotate(1.5deg);
+  width:150px;height:28px;background:rgba(217,164,65,.5);
+  box-shadow:inset 0 0 8px rgba(0,0,0,.15);
+}
+.slip:hover{transform:rotate(0deg) translateY(-5px);box-shadow:0 32px 70px rgba(0,0,0,.65)}
+.slip-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 26px 14px;border-bottom:2px solid var(--ink);
+}
+.slip-title{font-family:var(--min);font-size:21px;font-weight:700;letter-spacing:.4em}
+.slip-tag{
+  font-size:11px;letter-spacing:.22em;color:#b0402f;border:1.5px solid #b0402f;
+  padding:4px 10px;transform:rotate(-3deg);white-space:nowrap;
+}
+.slip-body{padding:18px 26px 6px}
+.slip-row{display:flex;gap:14px;font-size:13.5px;line-height:2;padding:7px 0;border-bottom:1px dashed rgba(37,32,26,.3)}
+.slip-row b{flex:0 0 52px;font-size:11px;letter-spacing:.18em;color:#8a7c60;font-weight:500;padding-top:4px}
+.slip-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 26px 20px;flex-wrap:wrap}
+.slip-caution{font-size:10.5px;color:#8a7c60;letter-spacing:.06em}
+.slip-cta{
+  font-family:var(--min);font-size:14px;letter-spacing:.26em;color:var(--night);
+  background:var(--lamp);padding:11px 24px;transition:background .25s;white-space:nowrap;
+}
+.slip:hover .slip-cta{background:var(--lamp-soft)}
+
 /* ============ WORKS ============ */
 .works-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:60px}
 .work{
@@ -234,6 +266,7 @@ footer .copy{font-size:11px;color:#6d6353;margin-top:30px;letter-spacing:.12em}
   <ul onclick="this.classList.remove('open')">
     <li><a href="#about">About</a></li>
     <li><a href="#members">Members</a></li>
+    <li><a href="#play">Play</a></li>
     <li><a href="#works">Works</a></li>
     <li><a href="#follow">Follow</a></li>
   </ul>
@@ -278,8 +311,8 @@ footer .copy{font-size:11px;color:#6d6353;margin-top:30px;letter-spacing:.12em}
         <h3>杜崎まさかず</h3>
         <p class="kana">MORISAKI MASAKAZU</p>
         <p>小説家。note にて掌編小説シリーズ「掌編刑務所」を連載。短い頁数に閉じ込めた、後を引く読後感が持ち味。スタジオでは物語・脚本を担当。</p>
-        <!-- ▼ 杜崎さんHP(MM OS)のURLに差し替え -->
-        <a class="cta" href="#" >MM OS ─ 公式サイトへ</a>
+        <!-- 杜崎さんHP（MM OS）公式URL -->
+        <a class="cta" href="https://tsukilab.jp/morisaki/" target="_blank" rel="noopener">MM OS ─ 公式サイトへ</a>
       </article>
       <article class="mem rv">
         <span class="seal">月真</span>
@@ -291,6 +324,31 @@ footer .copy{font-size:11px;color:#6d6353;margin-top:30px;letter-spacing:.12em}
         <a class="cta" href="#">公式サイトへ</a>
       </article>
     </div>
+  </div>
+</section>
+
+<!-- ============ PLAY（膳函） ============ -->
+<section id="play">
+  <div class="wrap">
+    <div class="rv"><p class="eyebrow">Play</p>
+    <h2 class="sec">読む、遊ぶ</h2>
+    <p class="sec-lead">小説とゲームがひとつになった、ツキモリスタジオの実験作。ブラウザでそのまま遊べます。</p></div>
+    <a class="slip rv" href="https://tsukilab.jp/tsukimori/tsukiapp/zenibako" target="_blank" rel="noopener">
+      <div class="slip-head">
+        <span class="slip-title">不在連絡票</span>
+        <span class="slip-tag">小説 × ゲーム</span>
+      </div>
+      <div class="slip-body">
+        <p class="slip-row"><b>品名</b>膳函（ぜにはこ）─ 記録綴り・全一巻</p>
+        <p class="slip-row"><b>差出人</b>三島</p>
+        <p class="slip-row"><b>備考</b>一枚の不在連絡票から始まる、読むホラー。三つの綴り──調査員・配達員・祈祷師──を読み終え、三つの焼印を集めた者だけが、最後の封を開けられる。</p>
+        <p class="slip-row"><b>制作</b>月真猫（ツキモリスタジオ）</p>
+      </div>
+      <div class="slip-foot">
+        <span class="slip-caution">※ 読後、耳鳴りを覚えた場合は閲覧を中止してください。</span>
+        <span class="slip-cta">封を開ける ▸</span>
+      </div>
+    </a>
   </div>
 </section>
 
