@@ -1,0 +1,1114 @@
+@import "tailwindcss";
+
+:root {
+  color: #d8d7cf;
+  background: #080908;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  font-synthesis: none;
+  --ink: #d8d7cf;
+  --muted: #898b83;
+  --red: #9e2228;
+  --line: rgba(216, 215, 207, 0.19);
+  --cursor-x: 50vw;
+  --cursor-y: 50vh;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  background: #080908;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #080908;
+}
+
+button, input { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; text-decoration: none; }
+::selection { color: #f0eee5; background: #7d171d; }
+
+.site-shell {
+  position: relative;
+  overflow: clip;
+  background: #080908;
+}
+
+.site-shell.is-disturbed {
+  animation: body-shift 160ms steps(2, end);
+  filter: contrast(1.18);
+}
+
+.entry-gate {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: #050605;
+}
+
+.entry-image, .entry-vignette { position: absolute; inset: 0; }
+
+.entry-image {
+  background-image: url("/images/kikai-witness.jpg");
+  background-position: center;
+  background-size: cover;
+  filter: grayscale(1) sepia(0.16) brightness(0.27) contrast(1.35);
+  animation: slow-drift 22s ease-in-out infinite alternate;
+}
+
+.entry-vignette {
+  background:
+    radial-gradient(circle at 50% 46%, transparent 0, rgba(0, 0, 0, 0.18) 33%, rgba(0, 0, 0, 0.9) 89%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.56), transparent 42%, rgba(0, 0, 0, 0.45));
+}
+
+.entry-content {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  width: min(720px, calc(100% - 40px));
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.entry-kana, .hero-kana {
+  margin: 0 0 -0.4rem;
+  color: #a8aaa2;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.62em;
+}
+
+.entry-brand {
+  position: relative;
+  margin: 0;
+  color: #e2e0d7;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(6.8rem, 18vw, 11rem);
+  font-weight: 500;
+  line-height: 0.94;
+  letter-spacing: -0.08em;
+  text-shadow: 0 0 42px rgba(205, 205, 194, 0.11);
+}
+
+.entry-brand::after {
+  position: absolute;
+  inset: 0;
+  content: attr(data-text);
+  color: rgba(138, 21, 28, 0.52);
+  clip-path: inset(52% 0 37% 0);
+  transform: translateX(3px);
+  animation: title-glitch 7s steps(1, end) infinite;
+}
+
+.entry-roman {
+  margin: 0.7rem 0 2.4rem;
+  color: #7f827a;
+  font-family: "Courier New", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+}
+
+.entry-lead {
+  margin: 0;
+  color: #d8d7cf;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(1.2rem, 2.6vw, 1.55rem);
+  letter-spacing: 0.11em;
+}
+
+.entry-warning {
+  margin: 1.25rem 0 1.8rem;
+  color: #94958e;
+  font-size: 0.7rem;
+  line-height: 1.85;
+}
+
+.entry-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.primary-action, .hero-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  border: 1px solid rgba(225, 223, 213, 0.6);
+  color: #e2e0d7;
+  background: rgba(5, 6, 5, 0.48);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  transition: color 280ms ease, background 280ms ease, border-color 280ms ease;
+}
+
+.primary-action { min-width: 245px; padding: 1rem 1.25rem; cursor: pointer; }
+
+.primary-action:hover, .hero-action:hover {
+  border-color: #e5e3da;
+  color: #080908;
+  background: #e5e3da;
+}
+
+.quiet-action {
+  border: 0;
+  border-bottom: 1px solid rgba(216, 215, 207, 0.22);
+  padding: 0 0 0.28rem;
+  color: #878980;
+  background: transparent;
+  font-size: 0.66rem;
+  cursor: pointer;
+}
+
+.site-header {
+  position: absolute;
+  z-index: 30;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.8rem clamp(1.25rem, 4vw, 4rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.header-brand { display: flex; align-items: baseline; gap: 0.75rem; }
+
+.header-brand span, .footer-brand span {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.15em;
+}
+
+.header-brand small, .footer-brand small {
+  color: #8d8f87;
+  font-family: "Courier New", monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+}
+
+.desktop-nav {
+  display: flex;
+  gap: clamp(1.6rem, 4vw, 3.5rem);
+  margin-left: auto;
+  margin-right: clamp(1.5rem, 5vw, 5rem);
+  color: #b3b4ad;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+}
+
+.desktop-nav a { position: relative; }
+
+.desktop-nav a::after {
+  position: absolute;
+  right: 100%;
+  bottom: -0.55rem;
+  left: 0;
+  height: 1px;
+  content: "";
+  background: #a52128;
+  transition: right 250ms ease;
+}
+
+.desktop-nav a:hover::after { right: 0; }
+
+.sound-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  border: 0;
+  color: #b3b4ad;
+  background: transparent;
+  font-family: "Courier New", monospace;
+  font-size: 0.59rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.hero {
+  position: relative;
+  display: flex;
+  min-height: 100svh;
+  align-items: flex-end;
+  overflow: hidden;
+  background: #060706;
+}
+
+.hero-image, .hero-shade { position: absolute; inset: 0; }
+
+.hero-image {
+  background-image: url("/images/kikai-witness.jpg");
+  background-position: center;
+  background-size: cover;
+  filter: grayscale(0.84) sepia(0.14) brightness(0.45) contrast(1.18) saturate(0.7);
+}
+
+.hero-shade {
+  background:
+    linear-gradient(90deg, rgba(4, 5, 4, 0.9) 0%, rgba(4, 5, 4, 0.39) 48%, rgba(4, 5, 4, 0.22) 76%),
+    linear-gradient(0deg, rgba(4, 5, 4, 0.92) 0%, transparent 58%, rgba(4, 5, 4, 0.34) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 5;
+  width: min(100%, 1500px);
+  margin: 0 auto;
+  padding: 9rem clamp(1.25rem, 7vw, 7.2rem) clamp(4rem, 10vh, 7.5rem);
+}
+
+.hero-kana { width: fit-content; margin-left: 0.5rem; }
+
+.hero-brand {
+  margin: 0;
+  width: fit-content;
+  color: #dfded5;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(8.2rem, 21vw, 17rem);
+  font-weight: 500;
+  line-height: 0.82;
+  letter-spacing: -0.1em;
+  text-shadow: 0 0 80px rgba(0, 0, 0, 0.72);
+}
+
+.hero-title {
+  margin: 2.25rem 0 0;
+  color: #d7d6ce;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(1.25rem, 2.6vw, 2.1rem);
+  letter-spacing: 0.12em;
+}
+
+.hero-copy {
+  max-width: 510px;
+  margin: 1rem 0 1.8rem;
+  color: #a3a49d;
+  font-size: 0.78rem;
+  line-height: 2;
+  letter-spacing: 0.06em;
+}
+
+.hero-action { padding: 0.9rem 1.15rem; }
+
+.scanlines, .grain {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+}
+
+.scanlines {
+  opacity: 0.12;
+  background: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(0, 0, 0, 0.65) 4px);
+}
+
+.grain {
+  inset: -30%;
+  opacity: 0.1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+  animation: grain-jump 0.28s steps(2) infinite;
+}
+
+.case-section, .evidence-section { padding: clamp(5rem, 11vw, 10rem) clamp(1.25rem, 6vw, 6rem); }
+.case-section { position: relative; background: #0a0b0a; }
+
+.section-rule {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--line);
+  color: #6f716b;
+  font-family: "Courier New", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+}
+
+.case-heading {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.45fr) 1.55fr;
+  align-items: start;
+  margin: clamp(4rem, 8vw, 8rem) 0 clamp(3rem, 7vw, 6rem);
+}
+
+.section-index {
+  margin: 0;
+  color: var(--red);
+  font-family: "Courier New", monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.2em;
+}
+
+.case-heading h2, .evidence-heading h2, .decode-inner h2, .ending-content h2 {
+  margin: 0;
+  color: #d8d7cf;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+.case-heading h2 {
+  max-width: 880px;
+  font-size: clamp(2.4rem, 6vw, 5.7rem);
+  line-height: 1.3;
+}
+
+.case-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  gap: clamp(2.5rem, 7vw, 8rem);
+  align-items: center;
+}
+
+.case-photo {
+  position: relative;
+  min-height: min(72vh, 780px);
+  overflow: hidden;
+  background-image: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.76)), url("/images/kikai-stairwell.jpg");
+  background-position: center;
+  background-size: cover;
+  filter: grayscale(0.78) sepia(0.11) brightness(0.68) contrast(1.12);
+}
+
+.case-photo::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  box-shadow: inset 0 0 110px rgba(0, 0, 0, 0.62);
+}
+
+.photo-time {
+  position: absolute;
+  z-index: 2;
+  right: 1.2rem;
+  bottom: 1.1rem;
+  color: rgba(235, 234, 224, 0.74);
+  font-family: "Courier New", monospace;
+  font-size: 0.67rem;
+  letter-spacing: 0.08em;
+}
+
+.photo-caption {
+  margin: 0.75rem 0 0;
+  color: #686a64;
+  font-family: "Courier New", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+}
+
+.case-copy { color: #92948d; font-size: 0.82rem; line-height: 2.25; }
+
+.case-intro {
+  margin-top: 0;
+  color: #c7c6be;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  line-height: 2;
+}
+
+.case-data { margin: 3rem 0 0; border-top: 1px solid var(--line); }
+
+.case-data div {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.case-data dt { color: #686a64; font-size: 0.65rem; letter-spacing: 0.15em; }
+
+.case-data dd {
+  margin: 0;
+  color: #a4a59e;
+  font-family: "Courier New", monospace;
+  font-size: 0.7rem;
+}
+
+.redacted {
+  width: fit-content;
+  color: transparent !important;
+  background: #1a1b19;
+  text-shadow: 0 0 7px #797a73;
+  user-select: none;
+}
+
+.evidence-section { background: #d6d4ca; color: #171816; }
+
+.evidence-heading {
+  display: grid;
+  max-width: 1100px;
+  margin: 0 auto clamp(3.5rem, 7vw, 6.5rem);
+  grid-template-columns: 0.42fr 1.58fr;
+  row-gap: 1rem;
+}
+
+.evidence-heading h2 { color: #161715; font-size: clamp(2.6rem, 6vw, 5.8rem); line-height: 1.2; }
+
+.evidence-heading > p:last-child {
+  grid-column: 2;
+  margin: 0;
+  color: #66675f;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+
+.evidence-console {
+  display: grid;
+  max-width: 1320px;
+  min-height: 680px;
+  margin: 0 auto;
+  grid-template-columns: 0.34fr 0.66fr;
+  border-top: 1px solid rgba(23, 24, 22, 0.28);
+  border-bottom: 1px solid rgba(23, 24, 22, 0.28);
+}
+
+.evidence-list { border-right: 1px solid rgba(23, 24, 22, 0.28); }
+
+.evidence-list button {
+  position: relative;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 38px 1fr auto;
+  gap: 0.35rem 1rem;
+  align-items: center;
+  border: 0;
+  border-bottom: 1px solid rgba(23, 24, 22, 0.2);
+  padding: 1.6rem 1.3rem;
+  color: #77786f;
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+  transition: color 250ms ease, background 250ms ease;
+}
+
+.evidence-list button:hover, .evidence-list button.active { color: #11120f; background: rgba(17, 18, 15, 0.055); }
+
+.evidence-list button.active::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  width: 3px;
+  content: "";
+  background: var(--red);
+}
+
+.evidence-list button > span {
+  grid-row: 1 / 3;
+  color: var(--red);
+  font-family: "Courier New", monospace;
+  font-size: 0.68rem;
+}
+
+.evidence-list strong {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.evidence-list small {
+  color: #82837a;
+  font-family: "Courier New", monospace;
+  font-size: 0.53rem;
+  letter-spacing: 0.06em;
+}
+
+.evidence-list svg { grid-column: 3; grid-row: 1 / 3; }
+
+.evidence-view {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: #11120f;
+  color: #cecdc4;
+}
+
+.recording-panel, .camera-panel, .phone-panel { min-height: 680px; }
+.recording-panel { padding: clamp(2rem, 5vw, 5rem); }
+
+.tape-label {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(216, 215, 207, 0.2);
+  color: #76786f;
+  font-family: "Courier New", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.11em;
+}
+
+.tape-label strong { color: #bebdb5; font-weight: 400; }
+
+.waveform {
+  display: flex;
+  height: 140px;
+  align-items: center;
+  gap: 3px;
+  margin: 3.5rem 0 2rem;
+  opacity: 0.42;
+}
+
+.waveform i { width: 2px; min-height: 4px; background: #9d9e95; transform-origin: center; }
+.waveform.playing i { animation: waveform 800ms ease-in-out infinite alternate; }
+.waveform.playing i:nth-child(3n) { animation-delay: -420ms; }
+.waveform.playing i:nth-child(4n) { animation-delay: -180ms; }
+
+.play-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  border: 0;
+  border-bottom: 1px solid #77786f;
+  padding: 0.5rem 0;
+  color: #cbcac2;
+  background: transparent;
+  font-size: 0.69rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.transcript {
+  margin-top: 2.8rem;
+  opacity: 0.16;
+  filter: blur(4px);
+  transition: opacity 1s ease, filter 1.3s ease;
+}
+
+.transcript.visible { opacity: 1; filter: blur(0); }
+
+.transcript p {
+  margin: 0 0 0.85rem;
+  color: #a4a59e;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 0.85rem;
+  line-height: 1.8;
+}
+
+.transcript time {
+  margin-right: 1rem;
+  color: #61635c;
+  font-family: "Courier New", monospace;
+  font-size: 0.6rem;
+}
+
+.transcript .anomaly-line { color: #9e3a3e; }
+.camera-panel { display: flex; flex-direction: column; }
+
+.camera-frame {
+  position: relative;
+  flex: 1;
+  min-height: 520px;
+  overflow: hidden;
+  background: #030403;
+}
+
+.camera-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.95) brightness(0.56) contrast(1.35) sepia(0.14);
+  transform: scale(1.03);
+}
+
+.camera-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.22;
+  background: repeating-linear-gradient(0deg, transparent 0, transparent 4px, rgba(255, 255, 255, 0.1) 5px);
+  animation: camera-roll 5s linear infinite;
+}
+
+.rec-dot, .camera-time {
+  position: absolute;
+  top: 1rem;
+  font-family: "Courier New", monospace;
+  font-size: 0.65rem;
+}
+
+.rec-dot { left: 1rem; color: #b6383e; }
+
+.rec-dot::before {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.45rem;
+  border-radius: 50%;
+  content: "";
+  background: currentColor;
+  animation: blink 1.2s steps(1) infinite;
+}
+
+.camera-time { right: 1rem; color: #d1d0c7; }
+
+.camera-presence {
+  position: absolute;
+  top: 23%;
+  left: 53%;
+  width: 32px;
+  height: 118px;
+  border-radius: 48% 48% 14% 14%;
+  opacity: 0.8;
+  background: #020302;
+  box-shadow: 0 0 16px #020302;
+  animation: presence-jolt 180ms steps(2) infinite;
+}
+
+.scrubber {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1.4rem 1.6rem;
+  border-top: 1px solid rgba(216, 215, 207, 0.16);
+  font-family: "Courier New", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.05em;
+}
+
+.scrubber input { height: 2px; accent-color: #9e2228; cursor: ew-resize; }
+.scrubber span { color: #8d302f; }
+
+.found-message {
+  margin: 0;
+  padding: 0 1.6rem 1.3rem;
+  color: #b3b2a9;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 0.72rem;
+}
+
+.phone-panel {
+  padding: clamp(2rem, 5vw, 5rem);
+  background: radial-gradient(circle at 20% 0%, rgba(106, 117, 95, 0.12), transparent 35%), #10110e;
+}
+
+.phone-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(216, 215, 207, 0.17);
+  color: #777970;
+  font-family: "Courier New", monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+}
+
+.phone-message { margin-top: 4rem; }
+
+.phone-message p {
+  margin: 0 0 1.2rem;
+  color: #c3c2b9;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(1rem, 2.2vw, 1.45rem);
+  line-height: 1.6;
+}
+
+.phone-message .phone-cut {
+  width: fit-content;
+  color: #a44748;
+  background: linear-gradient(90deg, transparent 88%, #10110e 100%);
+}
+
+.signal-line {
+  position: relative;
+  height: 34px;
+  margin: 3rem 0 1rem;
+  overflow: hidden;
+  border-top: 1px solid rgba(216, 215, 207, 0.15);
+  border-bottom: 1px solid rgba(216, 215, 207, 0.15);
+}
+
+.signal-line span {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #777970;
+  box-shadow: 32px -6px 0 #777970, 34px 8px 0 #777970, 37px -12px 0 #777970;
+}
+
+.phone-note {
+  color: #64665f;
+  font-family: "Courier New", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.09em;
+}
+
+.decode-section {
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: 7rem 1.25rem;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(86, 93, 77, 0.11), transparent 30%),
+    repeating-linear-gradient(90deg, transparent, transparent calc(25% - 1px), rgba(216, 215, 207, 0.035) 25%),
+    #090a09;
+}
+
+.decode-inner { width: min(720px, 100%); text-align: center; }
+.decode-eye { width: 80px; margin: 0 auto 2.8rem; color: #555750; }
+.decode-eye svg { width: 100%; height: auto; }
+
+.decode-inner h2 {
+  margin: 1.5rem 0 1rem;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.35;
+}
+
+.decode-hint {
+  margin: 0 auto;
+  color: #7e8078;
+  font-size: 0.73rem;
+  line-height: 1.8;
+}
+
+.decode-form { width: min(520px, 100%); margin: 4rem auto 0; text-align: left; }
+
+.decode-form label {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: #62645e;
+  font-family: "Courier New", monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.17em;
+}
+
+.decode-form > div { display: flex; border-bottom: 1px solid #71736c; }
+
+.decode-form input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  outline: 0;
+  padding: 0.7rem 0;
+  color: #d8d7cf;
+  background: transparent;
+  font-family: "Courier New", monospace;
+  font-size: clamp(2.8rem, 9vw, 5.6rem);
+  letter-spacing: 0.2em;
+}
+
+.decode-form input::placeholder { color: #2f302d; }
+
+.decode-form button {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  align-self: center;
+  border: 0;
+  padding: 0.8rem 0 0.8rem 1rem;
+  color: #c7c6be;
+  background: transparent;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.decode-form button:disabled { opacity: 0.25; cursor: not-allowed; }
+
+.answer-status {
+  min-height: 1.5rem;
+  margin: 1.2rem 0 0;
+  opacity: 0;
+  color: #913137;
+  font-size: 0.68rem;
+  letter-spacing: 0.07em;
+}
+
+.answer-status.visible { opacity: 1; animation: wrong-answer 240ms steps(2); }
+
+.ending-section {
+  position: relative;
+  display: grid;
+  min-height: 85svh;
+  place-items: center;
+  overflow: hidden;
+  padding: 8rem 1.25rem;
+  color: #4f514b;
+  background: #060706;
+  text-align: center;
+  transition: color 1.5s ease, background 1.5s ease;
+}
+
+.ending-section.revealed {
+  color: #d5d4cb;
+  background: radial-gradient(ellipse at 50% 65%, rgba(100, 18, 24, 0.24), transparent 34%), #050605;
+}
+
+.ending-content { position: relative; z-index: 5; }
+
+.ending-content > p {
+  font-family: "Courier New", monospace;
+  font-size: 0.61rem;
+  letter-spacing: 0.23em;
+}
+
+.ending-content h2 {
+  margin-top: 1.5rem;
+  color: currentColor;
+  font-size: clamp(2.8rem, 7vw, 6.5rem);
+  line-height: 1.25;
+}
+
+.ending-copy {
+  max-width: 590px;
+  margin: 2rem auto 4rem;
+  color: #878980;
+  font-size: 0.77rem;
+  line-height: 2.1;
+}
+
+.observer-count {
+  display: grid;
+  width: min(260px, 100%);
+  margin: 0 auto;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(216, 215, 207, 0.2);
+  border-bottom: 1px solid rgba(216, 215, 207, 0.2);
+  text-align: left;
+}
+
+.observer-count span { color: #75776f; font-size: 0.66rem; letter-spacing: 0.15em; }
+
+.observer-count strong {
+  grid-row: 1 / 3;
+  grid-column: 2;
+  color: #a62b31;
+  font-family: "Courier New", monospace;
+  font-size: 3.6rem;
+  font-weight: 400;
+  line-height: 0.9;
+}
+
+.observer-count small {
+  margin-top: 0.35rem;
+  color: #bbb9b1;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 0.73rem;
+}
+
+.site-footer {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 1.5rem 3rem;
+  align-items: center;
+  padding: 3rem clamp(1.25rem, 5vw, 5rem);
+  border-top: 1px solid rgba(216, 215, 207, 0.12);
+  color: #5e6059;
+  background: #060706;
+  font-size: 0.57rem;
+  letter-spacing: 0.07em;
+}
+
+.footer-brand { display: flex; align-items: baseline; gap: 0.7rem; color: #92938c; }
+.site-footer a { border-bottom: 1px solid #474943; padding-bottom: 0.18rem; }
+
+.copyright {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-family: "Courier New", monospace;
+  text-align: right;
+}
+
+.cursor-light {
+  position: fixed;
+  z-index: 80;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  background: radial-gradient(circle 180px at var(--cursor-x) var(--cursor-y), rgba(214, 219, 200, 0.07), transparent 70%);
+  mix-blend-mode: screen;
+}
+
+.jump-scare {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #d8d7cf;
+}
+
+.scare-room {
+  position: absolute;
+  inset: -12%;
+  background-image: url("/images/kikai-witness.jpg");
+  background-position: center;
+  background-size: cover;
+  filter: grayscale(1) invert(0.9) contrast(2.4) brightness(0.75);
+  animation: scare-shake 80ms steps(2) infinite;
+}
+
+.scare-figure {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  width: min(62vw, 470px);
+  aspect-ratio: 0.82;
+  border-radius: 47% 49% 43% 45%;
+  background: radial-gradient(ellipse at 50% 46%, #85877f 0, #252624 46%, #030403 72%);
+  filter: blur(2px) contrast(1.7);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 90px #000;
+}
+
+.scare-eye {
+  position: absolute;
+  top: 40%;
+  width: 17%;
+  height: 12%;
+  border-radius: 50%;
+  background: #e1e0d8;
+  box-shadow: inset 0 0 10px #000, 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.scare-eye::after {
+  position: absolute;
+  top: 28%;
+  left: 38%;
+  width: 34%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  content: "";
+  background: #020302;
+}
+
+.scare-eye-left { left: 20%; transform: rotate(9deg); }
+.scare-eye-right { right: 20%; transform: rotate(-9deg); }
+
+.jump-scare p {
+  position: absolute;
+  z-index: 2;
+  bottom: 8%;
+  margin: 0;
+  color: #8c171d;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(3rem, 10vw, 8rem);
+  letter-spacing: 0.25em;
+  mix-blend-mode: multiply;
+}
+
+@keyframes grain-jump {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(3%, -5%); }
+  50% { transform: translate(-5%, 2%); }
+  75% { transform: translate(4%, 5%); }
+  100% { transform: translate(-2%, -3%); }
+}
+
+@keyframes slow-drift {
+  from { transform: scale(1.03) translate3d(-0.5%, 0, 0); }
+  to { transform: scale(1.1) translate3d(1.5%, -1%, 0); }
+}
+
+@keyframes title-glitch {
+  0%, 89%, 93%, 100% { transform: translateX(0); opacity: 0; }
+  90% { transform: translateX(6px); opacity: 0.8; }
+  91% { transform: translateX(-4px); opacity: 0.55; }
+  92% { transform: translateX(2px); opacity: 0.7; }
+}
+
+@keyframes body-shift {
+  0% { transform: translate(0); }
+  30% { transform: translate(4px, -2px); }
+  60% { transform: translate(-5px, 1px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes waveform { from { transform: scaleY(0.35); } to { transform: scaleY(1.1); } }
+@keyframes camera-roll { from { transform: translateY(-15%); } to { transform: translateY(15%); } }
+@keyframes blink { 50% { opacity: 0.2; } }
+@keyframes presence-jolt { 50% { transform: translateX(2px) scaleY(1.02); } }
+
+@keyframes wrong-answer {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  50% { transform: translateX(7px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes scare-shake {
+  0% { transform: translate(0) scale(1.07); }
+  50% { transform: translate(4px, -5px) scale(1.09); }
+  100% { transform: translate(-5px, 3px) scale(1.08); }
+}
+
+@media (max-width: 900px) {
+  .desktop-nav { display: none; }
+  .hero-content { padding-bottom: 4.5rem; }
+  .case-heading, .evidence-heading { grid-template-columns: 1fr; }
+  .evidence-heading > p:last-child { grid-column: 1; }
+  .case-layout { grid-template-columns: 1fr; }
+  .case-copy { max-width: 620px; }
+  .evidence-console { grid-template-columns: 1fr; }
+  .evidence-list { display: grid; grid-template-columns: repeat(3, 1fr); border-right: 0; }
+  .evidence-list button {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.1rem;
+    border-right: 1px solid rgba(23, 24, 22, 0.2);
+  }
+  .evidence-list button > span { grid-row: auto; }
+  .evidence-list button svg, .evidence-list small { display: none; }
+  .evidence-view, .recording-panel, .camera-panel, .phone-panel { min-height: 620px; }
+  .site-footer { grid-template-columns: 1fr; }
+  .copyright { grid-column: 1; text-align: left; }
+}
+
+@media (max-width: 600px) {
+  .site-header { padding: 1.2rem; }
+  .header-brand small, .sound-toggle span { display: none; }
+  .sound-toggle { padding: 0.55rem; }
+  .hero { align-items: flex-end; }
+  .hero-image { background-position: 63% center; }
+  .hero-content { padding: 8rem 1.25rem 3.2rem; }
+  .hero-brand { font-size: clamp(7rem, 40vw, 10rem); }
+  .hero-title { max-width: 320px; font-size: 1.25rem; line-height: 1.65; }
+  .hero-copy { max-width: 330px; }
+  .section-rule span:last-child { display: none; }
+  .case-heading { margin-top: 3rem; }
+  .case-heading h2 { font-size: 2.45rem; }
+  .case-photo { min-height: 64vh; }
+  .evidence-list strong { font-size: 0.75rem; }
+  .recording-panel, .phone-panel { padding: 1.4rem; }
+  .tape-label span:last-child { display: none; }
+  .waveform { gap: 2px; margin-top: 2rem; }
+  .waveform i { width: 1px; }
+  .camera-frame { min-height: 440px; }
+  .scrubber { grid-template-columns: 1fr; }
+  .phone-message { margin-top: 3rem; }
+  .decode-form input { font-size: 3.3rem; }
+  .entry-brand { font-size: clamp(6.8rem, 42vw, 9rem); }
+  .entry-warning { max-width: 310px; }
+  .cursor-light { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .grain { display: none; }
+}
