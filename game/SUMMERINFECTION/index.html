@@ -3,296 +3,39 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#050506">
   <title>SUMMER INFECTION</title>
-  <style>
-    :root { color-scheme: dark; font-family: "Courier New", "Noto Sans JP", monospace; }
-    * { box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #050505; }
-    body { display: grid; place-items: center; color: #eee; }
-    #shell { position: relative; width: min(100vw, 177.78vh); aspect-ratio: 16/9; background: #000; overflow: hidden; }
-    canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated; image-rendering: crisp-edges; }
-    #touch { position: absolute; inset: 0; pointer-events: none; }
-    .pad { position: absolute; left: 20px; bottom: 18px; width: 132px; height: 132px; display: none; pointer-events: auto; }
-    .pad button, #pauseBtn { position: absolute; width: 44px; height: 44px; border: 1px solid #9b9b9b; background: rgba(10,10,10,.72); color: #eee; border-radius: 4px; font: 700 18px monospace; touch-action: none; }
-    .pad button:active, #pauseBtn:active { background: rgba(150,20,20,.8); }
-    .up { left: 44px; top: 0; } .down { left: 44px; bottom: 0; }
-    .left { left: 0; top: 44px; } .right { right: 0; top: 44px; }
-    #pauseBtn { right: 18px; top: 18px; display: none; pointer-events: auto; font-size: 15px; }
-    @media (pointer: coarse) { .pad, #pauseBtn { display: block; } }
-  </style>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.166.1/build/three.module.js"}}
+  </script>
 </head>
 <body>
   <main id="shell" aria-label="SUMMER INFECTION game">
-    <canvas id="game" width="480" height="270"></canvas>
-    <div id="touch">
-      <div class="pad" aria-label="移動操作">
-        <button class="up" data-key="ArrowUp" aria-label="上">▲</button>
-        <button class="down" data-key="ArrowDown" aria-label="下">▼</button>
-        <button class="left" data-key="ArrowLeft" aria-label="左">◀</button>
-        <button class="right" data-key="ArrowRight" aria-label="右">▶</button>
-      </div>
-      <button id="pauseBtn" aria-label="ポーズ">Ⅱ</button>
+    <canvas id="game" aria-label="3D game view"></canvas>
+    <section id="hud" class="hidden" aria-live="polite">
+      <div class="stage-block"><span id="stageNumber">STAGE 1/4</span><strong id="stageName">SAMATEI FESTIVAL</strong></div>
+      <div class="vital-block"><span>VITAL</span><div class="meter"><i id="hpBar"></i></div></div>
+      <div class="stats"><span>LV <b id="level">1</b></span><span>KILL <b id="kills">0</b></span></div>
+      <time id="timer">60</time>
+      <div id="bossMeter" class="boss-meter hidden"><span>INFECTED GIRL</span><div class="meter"><i id="bossBar"></i></div></div>
+    </section>
+    <section id="curtain" class="curtain">
+      <p id="eyebrow">A PS1 SURVIVAL HORROR</p>
+      <h1 id="title"><span>SUMMER</span> INFECTION</h1>
+      <p id="subtitle">SURVIVE THE NIGHT</p>
+      <button id="startButton" type="button">START</button>
+      <p id="hint">WASD / ARROW KEYS</p>
+    </section>
+    <div id="message" class="message hidden"></div>
+    <button id="pauseButton" class="icon-button hidden" type="button" aria-label="ポーズ" title="ポーズ">Ⅱ</button>
+    <div id="touchControls" aria-label="移動操作">
+      <button class="up" data-key="ArrowUp" type="button" aria-label="上">▲</button>
+      <button class="left" data-key="ArrowLeft" type="button" aria-label="左">◀</button>
+      <button class="right" data-key="ArrowRight" type="button" aria-label="右">▶</button>
+      <button class="down" data-key="ArrowDown" type="button" aria-label="下">▼</button>
     </div>
   </main>
-  <script type="module">
-    const canvas = document.querySelector('#game');
-    const ctx = canvas.getContext('2d', { alpha: false });
-    ctx.imageSmoothingEnabled = false;
-
-    const W = canvas.width;
-    const H = canvas.height;
-    const fastMode = new URLSearchParams(location.search).has('fast');
-    const SURVIVE_SECONDS = fastMode ? 12 : 60;
-    const keys = new Set();
-    const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-    const rand = (min, max) => min + Math.random() * (max - min);
-    const dist2 = (a, b) => (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
-
-    const stages = [
-      { id: 1, name: 'SAMATEI FESTIVAL', subtitle: '1 MINUTE TO DAWN', palette: ['#17140f','#383126','#8f211c','#e28b3b'], spawn: 0.84 },
-      { id: 2, name: 'CONVENIENCE STORE', subtitle: 'THE LIGHTS ARE STILL ON', palette: ['#101716','#263b36','#a7c9a4','#d91e35'], spawn: 0.72 },
-      { id: 3, name: 'APARTMENT ENTRANCE', subtitle: 'SHE IS UPSTAIRS', palette: ['#111218','#30313a','#77756c','#8c1624'], spawn: 0.60 },
-      { id: 4, name: 'HER ROOM', subtitle: 'DAY 7', palette: ['#090b12','#17223d','#546b9b','#9c1725'], boss: true }
-    ];
-
-    const game = {
-      mode: 'title', stageIndex: 0, stageTime: 0, transitionTime: 0, paused: false,
-      score: 0, kills: 0, level: 1, xp: 0, shake: 0,
-      player: null, enemies: [], shots: [], particles: [], pickups: [], boss: null,
-      spawnClock: 0, attackClock: 0, message: '', messageTime: 0
-    };
-
-    function resetPlayer() {
-      game.player = { x: W / 2, y: H / 2 + 24, r: 7, hp: 100, maxHp: 100, speed: 76, inv: 0, facing: 1 };
-    }
-
-    function startGame() {
-      game.mode = 'transition'; game.stageIndex = 0; game.score = 0; game.kills = 0; game.level = 1; game.xp = 0;
-      resetPlayer(); beginStage();
-    }
-
-    function beginStage() {
-      game.stageTime = 0; game.transitionTime = 2.4; game.mode = 'transition'; game.enemies = []; game.shots = [];
-      game.pickups = []; game.particles = []; game.boss = null; game.spawnClock = .4; game.attackClock = 0;
-      game.player.x = W / 2; game.player.y = H / 2 + 28; game.player.hp = Math.min(game.player.maxHp, game.player.hp + 28);
-      if (stages[game.stageIndex].boss) spawnBoss();
-    }
-
-    function spawnBoss() {
-      game.boss = { x: W / 2, y: 66, r: 13, hp: 520, maxHp: 520, speed: 22, hit: 0, summon: 2.8, phase: 1 };
-    }
-
-    function spawnEnemy(forceType) {
-      const edge = Math.floor(Math.random() * 4);
-      const p = edge === 0 ? { x: rand(24,W-24), y: 45 } : edge === 1 ? { x: W-22, y: rand(54,H-22) } : edge === 2 ? { x: rand(22,W-22), y: H-18 } : { x: 20, y: rand(54,H-22) };
-      const type = forceType ?? Math.floor(Math.random() * 3);
-      const scale = 1 + game.stageIndex * .12 + game.stageTime / 180;
-      game.enemies.push({ ...p, type, r: 6 + type, hp: (18 + type * 9) * scale, maxHp: (18 + type * 9) * scale, speed: (20 + type * 4) * scale, hit: 0, seed: Math.random() * 10 });
-    }
-
-    function nearestTarget() {
-      let target = game.boss && game.boss.hp > 0 ? game.boss : null;
-      let best = target ? dist2(game.player, target) : Infinity;
-      for (const e of game.enemies) { const d = dist2(game.player, e); if (d < best) { best = d; target = e; } }
-      return target;
-    }
-
-    function autoAttack() {
-      const target = nearestTarget(); if (!target) return;
-      const dx = target.x - game.player.x, dy = target.y - game.player.y, len = Math.hypot(dx,dy) || 1;
-      const count = game.level >= 5 ? 3 : game.level >= 3 ? 2 : 1;
-      for (let i = 0; i < count; i++) {
-        const spread = (i - (count - 1) / 2) * .13;
-        const cs = Math.cos(spread), sn = Math.sin(spread);
-        const vx = (dx / len * cs - dy / len * sn) * 180, vy = (dx / len * sn + dy / len * cs) * 180;
-        game.shots.push({ x: game.player.x, y: game.player.y - 5, vx, vy, life: 1.15, r: 2.5, dmg: 13 + game.level * 3 });
-      }
-      game.player.facing = dx < 0 ? -1 : 1;
-    }
-
-    function damagePlayer(amount) {
-      const p = game.player; if (p.inv > 0 || game.mode !== 'play') return;
-      p.hp -= amount; p.inv = .62; game.shake = 4; burst(p.x,p.y,'#b3232a',8);
-      if (p.hp <= 0) { p.hp = 0; game.mode = 'gameover'; }
-    }
-
-    function burst(x,y,color,count=5) {
-      for (let i=0;i<count;i++) game.particles.push({x,y,vx:rand(-35,35),vy:rand(-35,20),life:rand(.25,.65),color});
-    }
-
-    function gainXp(x,y) { game.pickups.push({ x, y, r: 2, pulse: Math.random()*6 }); }
-
-    function levelUp() {
-      game.level++; game.player.maxHp += 5; game.player.hp = Math.min(game.player.maxHp, game.player.hp + 20);
-      game.message = `WEAPON LEVEL ${game.level}`; game.messageTime = 1.6;
-    }
-
-    function update(dt) {
-      if (game.paused) return;
-      if (game.mode === 'transition') {
-        game.transitionTime -= dt; if (game.transitionTime <= 0) game.mode = 'play'; return;
-      }
-      if (game.mode !== 'play') return;
-      const p = game.player; p.inv = Math.max(0,p.inv-dt); game.shake = Math.max(0,game.shake-dt*12);
-      game.messageTime = Math.max(0, game.messageTime-dt);
-
-      let dx = (keys.has('ArrowRight')||keys.has('KeyD')?1:0) - (keys.has('ArrowLeft')||keys.has('KeyA')?1:0);
-      let dy = (keys.has('ArrowDown')||keys.has('KeyS')?1:0) - (keys.has('ArrowUp')||keys.has('KeyW')?1:0);
-      if (dx || dy) { const l=Math.hypot(dx,dy); dx/=l; dy/=l; p.x += dx*p.speed*dt; p.y += dy*p.speed*dt; if(dx) p.facing=dx<0?-1:1; }
-      p.x=clamp(p.x,24,W-24); p.y=clamp(p.y,52,H-20);
-
-      game.stageTime += dt; game.attackClock -= dt;
-      if (game.attackClock <= 0) { autoAttack(); game.attackClock = Math.max(.22,.58-game.level*.045); }
-
-      const stage = stages[game.stageIndex];
-      if (!stage.boss) {
-        game.spawnClock -= dt;
-        if (game.spawnClock <= 0) { spawnEnemy(); if(game.stageTime>30 && Math.random()<.32) spawnEnemy(); game.spawnClock = stage.spawn * Math.max(.38,1-game.stageTime/105); }
-        if (game.stageTime >= SURVIVE_SECONDS) {
-          game.stageIndex++; beginStage(); return;
-        }
-      } else updateBoss(dt);
-
-      for (const e of game.enemies) {
-        e.hit=Math.max(0,e.hit-dt); const ex=p.x-e.x, ey=p.y-e.y, l=Math.hypot(ex,ey)||1;
-        e.x += ex/l*e.speed*dt; e.y += ey/l*e.speed*dt;
-        if (l < e.r+p.r+1) damagePlayer(8+e.type*2);
-      }
-
-      for (const s of game.shots) {
-        s.x+=s.vx*dt; s.y+=s.vy*dt; s.life-=dt;
-        const targets = game.boss && game.boss.hp>0 ? [game.boss,...game.enemies] : game.enemies;
-        for (const e of targets) if(!s.dead && dist2(s,e)<(s.r+e.r)**2){ e.hp-=s.dmg; e.hit=.1; s.dead=true; burst(s.x,s.y,'#f0d08a',3); }
-      }
-      game.shots=game.shots.filter(s=>s.life>0&&!s.dead&&s.x>0&&s.x<W&&s.y>35&&s.y<H);
-      for (const e of game.enemies) if(e.hp<=0&&!e.dead){e.dead=true;game.kills++;game.score+=100;gainXp(e.x,e.y);burst(e.x,e.y,'#776b4c',7);}
-      game.enemies=game.enemies.filter(e=>!e.dead);
-
-      for (const gem of game.pickups) {
-        gem.pulse+=dt*7; const gx=p.x-gem.x, gy=p.y-gem.y, l=Math.hypot(gx,gy)||1;
-        if(l<52){gem.x+=gx/l*110*dt;gem.y+=gy/l*110*dt;}
-        if(l<9){gem.dead=true;game.xp++;game.score+=20;if(game.xp>=game.level*7){game.xp=0;levelUp();}}
-      }
-      game.pickups=game.pickups.filter(g=>!g.dead);
-      for(const q of game.particles){q.x+=q.vx*dt;q.y+=q.vy*dt;q.vy+=45*dt;q.life-=dt;}
-      game.particles=game.particles.filter(q=>q.life>0);
-    }
-
-    function updateBoss(dt) {
-      const b=game.boss; if(!b||b.hp<=0)return;
-      b.hit=Math.max(0,b.hit-dt); b.summon-=dt;
-      b.phase=b.hp<b.maxHp*.5?2:1;
-      const dx=game.player.x-b.x,dy=game.player.y-b.y,l=Math.hypot(dx,dy)||1;
-      b.x+=dx/l*b.speed*(b.phase===2?1.45:1)*dt;b.y+=dy/l*b.speed*(b.phase===2?1.45:1)*dt;
-      if(l<b.r+game.player.r+2)damagePlayer(b.phase===2?18:13);
-      if(b.summon<=0){for(let i=0;i<(b.phase===2?3:2);i++)spawnEnemy(i%3);b.summon=b.phase===2?2.2:3.2;game.message='かゆい　うま';game.messageTime=1.1;}
-      if(b.hp<=0){b.hp=0;burst(b.x,b.y,'#b51f2e',24);game.mode='ending';game.transitionTime=0;}
-    }
-
-    function poly(points, fill, stroke) {
-      ctx.beginPath(); ctx.moveTo(points[0][0],points[0][1]); for(let i=1;i<points.length;i++)ctx.lineTo(points[i][0],points[i][1]);ctx.closePath();ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.stroke();}
-    }
-
-    function drawBackground(stage) {
-      ctx.fillStyle=stage.palette[0];ctx.fillRect(0,0,W,H);
-      const g=ctx.createLinearGradient(0,38,0,H);g.addColorStop(0,stage.palette[1]);g.addColorStop(1,'#090909');ctx.fillStyle=g;ctx.fillRect(0,38,W,H-38);
-      if(stage.id===1) drawFestival(stage); else if(stage.id===2) drawStore(stage); else if(stage.id===3) drawLobby(stage); else drawRoom(stage);
-      ctx.fillStyle='rgba(0,0,0,.18)';for(let y=40;y<H;y+=2)ctx.fillRect(0,y,W,1);
-    }
-
-    function drawFestival(s) {
-      ctx.fillStyle='#25231e';ctx.fillRect(34,54,W-68,H-72);ctx.strokeStyle='#514b3e';ctx.strokeRect(80,82,W-160,H-116);
-      ctx.fillStyle='#161616';ctx.fillRect(150,45,180,36);ctx.fillStyle='#b8a27e';ctx.fillRect(179,50,122,18);pixelText('SAMATEI',240,64,13,'#7b171b','center');
-      for(let x=58;x<=410;x+=44){ctx.fillStyle='#8f2520';ctx.fillRect(x,76,27,48);ctx.fillStyle='#d8c3a1';ctx.fillRect(x,76,27,7);}
-      for(let x=48;x<440;x+=32){ctx.fillStyle='#c04b2b';ctx.fillRect(x,43+(x%3)*3,4,6);ctx.fillStyle='#f0a24c';ctx.fillRect(x+1,44+(x%3)*3,2,3);}
-      ctx.strokeStyle='#6c655a';for(let x=50;x<W-40;x+=28){ctx.beginPath();ctx.moveTo(x,H-38);ctx.lineTo(x+18,H-38);ctx.stroke();}
-    }
-
-    function drawStore() {
-      ctx.fillStyle='#b9c9b7';ctx.fillRect(64,45,352,58);ctx.fillStyle='#1a2926';ctx.fillRect(64,53,352,12);
-      for(let x=83;x<380;x+=38){ctx.fillStyle='#90b29d';ctx.fillRect(x,67,32,31);ctx.fillStyle='#293938';ctx.fillRect(x+3,70,26,25);}
-      ctx.fillStyle='#7d121d';ctx.fillRect(385,69,16,30);ctx.fillStyle='#1f4056';ctx.fillRect(404,69,16,30);
-      ctx.fillStyle='#24282a';ctx.fillRect(34,105,W-68,H-124);ctx.strokeStyle='#d2d0bd';for(let x=85;x<410;x+=64){ctx.strokeRect(x,128,36,70);}
-      ctx.fillStyle='#15191b';ctx.fillRect(0,H-31,W,31);ctx.strokeStyle='#777';ctx.beginPath();ctx.moveTo(0,H-25);ctx.lineTo(W,H-25);ctx.stroke();
-    }
-
-    function drawLobby() {
-      ctx.fillStyle='#4b4b47';ctx.fillRect(44,45,W-88,H-63);ctx.fillStyle='#27292a';ctx.fillRect(178,45,124,36);ctx.fillStyle='#545054';ctx.fillRect(211,49,58,28);
-      ctx.fillStyle='#363a39';ctx.fillRect(45,81,70,105);ctx.fillStyle='#6f6b62';for(let y=87;y<178;y+=12)for(let x=51;x<106;x+=14)ctx.fillRect(x,y,11,8);
-      ctx.fillStyle='#222a31';ctx.fillRect(365,70,44,89);ctx.fillStyle='#343b45';ctx.fillRect(213,126,58,24);
-      ctx.fillStyle='#77756c';for(let y=84;y<H-18;y+=20)for(let x=118;x<365;x+=22)ctx.strokeRect(x,y,21,19);
-      ctx.fillStyle='#1c252b';ctx.fillRect(20,H-48,76,30);ctx.fillRect(W-96,H-48,76,30);
-    }
-
-    function drawRoom() {
-      ctx.fillStyle='#24324c';ctx.fillRect(40,44,W-80,H-62);ctx.fillStyle='#10182a';ctx.fillRect(174,44,132,42);ctx.fillStyle='#27436e';ctx.fillRect(181,48,58,35);ctx.fillRect(243,48,56,35);
-      ctx.fillStyle='#647baa';ctx.fillRect(43,77,104,139);ctx.fillStyle='#1e2942';for(let y=86;y<208;y+=15)ctx.fillRect(48,y,94,4);
-      ctx.fillStyle='#594635';ctx.fillRect(350,80,82,134);ctx.fillStyle='#75614c';for(let y=86;y<205;y+=24)ctx.fillRect(354,y,74,4);
-      ctx.fillStyle='#23222a';ctx.fillRect(182,216,116,38);ctx.fillStyle='#6d5138';ctx.fillRect(214,219,52,31);
-      ctx.fillStyle='#a0a8b8';for(let i=0;i<7;i++){ctx.save();ctx.translate(188+i*16,221+(i%2)*5);ctx.rotate((i-3)*.11);ctx.fillRect(-18,-2,36,4);ctx.restore();}
-      ctx.fillStyle='#111826';ctx.fillRect(44,94,8,84);pixelText('SAMATEI',65,108,7,'#d7d9df');
-      ctx.fillStyle='#d4d0c6';ctx.fillRect(120,146,13,14);ctx.fillStyle='#111';ctx.fillRect(123,151,2,2);ctx.fillRect(129,151,2,2);
-    }
-
-    function drawActor(a, kind='zombie') {
-      const flash=a.hit>0;ctx.save();ctx.translate(Math.round(a.x),Math.round(a.y));
-      const bob=Math.sin((performance.now()/120)+(a.seed||0))*1.2;ctx.translate(0,bob);
-      if(kind==='player')ctx.scale(a.facing,1);
-      const body=kind==='player'?'#8e1d24':kind==='boss'?'#15151b':['#756c58','#3b6261','#d2c9b6'][a.type||0];
-      const skin=flash?'#fff0df':kind==='player'?'#d7aa8a':'#9a947f';
-      ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillRect(-8,10,16,4);
-      poly([[-6,-14],[5,-15],[7,1],[-7,2]],body);
-      poly([[-5,1],[0,1],[-1,12],[-6,12]],'#17181b');poly([[1,1],[6,1],[7,12],[1,12]],'#202125');
-      poly([[-5,-26],[4,-26],[7,-20],[4,-14],[-5,-14],[-7,-20]],skin);
-      if(kind==='player'){poly([[-7,-28],[3,-30],[8,-24],[5,-18],[1,-23],[-6,-20]],'#351519');poly([[-7,-26],[-1,-29],[0,-18],[-5,-17]],'#d3202d');}
-      else if(kind==='boss'){poly([[-8,-29],[6,-29],[8,-18],[4,-13],[-6,-15]],'#121116');poly([[-7,-23],[7,-22],[5,-15],[-5,-15]],'#691d2b');ctx.fillStyle='#d6232f';ctx.fillRect(-4,-22,2,1);ctx.fillRect(2,-22,2,1);ctx.fillStyle='#681723';ctx.fillRect(-8,-5,16,3);}
-      else poly([[-7,-28],[5,-27],[7,-20],[3,-17],[-6,-18]],'#252422');
-      poly([[-7,-12],[-10,-2],[-8,7],[-5,0]],skin);poly([[6,-12],[10,-2],[8,7],[5,0]],skin);
-      if(kind==='player'){ctx.fillStyle='#111';ctx.fillRect(-8,-8,15,4);ctx.fillStyle='#ba1e29';ctx.fillRect(-8,-11,3,10);ctx.fillRect(5,-11,3,10);}
-      ctx.restore();
-    }
-
-    function drawHud(stage) {
-      ctx.fillStyle='rgba(0,0,0,.82)';ctx.fillRect(0,0,W,38);pixelText(`STAGE ${stage.id}/4`,12,13,8,'#aaa');pixelText(stage.name,12,28,10,'#eee');
-      const p=game.player;ctx.fillStyle='#2a2a2a';ctx.fillRect(312,9,112,7);ctx.fillStyle=p.hp>35?'#b7292e':'#e36b26';ctx.fillRect(313,10,110*(p.hp/p.maxHp),5);pixelText('VITAL',278,15,7,'#aaa');
-      pixelText(`LV ${game.level}`,434,15,7,'#ddd');pixelText(`${game.kills.toString().padStart(3,'0')} KILLS`,390,30,7,'#aaa');
-      if(stage.boss){ctx.fillStyle='#221115';ctx.fillRect(135,25,180,7);ctx.fillStyle='#9e1827';ctx.fillRect(136,26,178*((game.boss?.hp||0)/(game.boss?.maxHp||1)),5);pixelText('INFECTED GIRL',240,21,6,'#c9b9b9','center');}
-      else {const remain=Math.max(0,Math.ceil(SURVIVE_SECONDS-game.stageTime));pixelText(`${remain.toString().padStart(2,'0')}`,455,30,12,remain<10?'#df2a2f':'#eee','center');}
-    }
-
-    function pixelText(text,x,y,size=8,color='#fff',align='left') {ctx.font=`bold ${size}px "Courier New", monospace`;ctx.textAlign=align;ctx.textBaseline='alphabetic';ctx.fillStyle='#000';ctx.fillText(text,x+1,y+1);ctx.fillStyle=color;ctx.fillText(text,x,y);}
-
-    function render() {
-      const stage=stages[game.stageIndex]||stages[0];ctx.save();if(game.shake){ctx.translate(rand(-game.shake,game.shake),rand(-game.shake,game.shake));}
-      drawBackground(stage);
-      const sorted=[...game.enemies.map(e=>({a:e,k:'zombie'})),...(game.boss&&game.boss.hp>0?[{a:game.boss,k:'boss'}]:[]),...(game.player?[{a:game.player,k:'player'}]:[])].sort((a,b)=>a.a.y-b.a.y);
-      for(const item of sorted)drawActor(item.a,item.k);
-      for(const s of game.shots){ctx.fillStyle='#f6e2a2';ctx.fillRect(Math.round(s.x)-2,Math.round(s.y)-2,4,4);}
-      for(const g of game.pickups){ctx.fillStyle=Math.sin(g.pulse)>0?'#6de9dc':'#2aa9a0';poly([[g.x,g.y-3],[g.x+3,g.y],[g.x,g.y+3],[g.x-3,g.y]],ctx.fillStyle);}
-      for(const q of game.particles){ctx.globalAlpha=clamp(q.life*2,0,1);ctx.fillStyle=q.color;ctx.fillRect(q.x,q.y,2,2);}ctx.globalAlpha=1;
-      if(game.player)drawHud(stage);ctx.restore();
-      if(game.mode==='title')drawTitle();else if(game.mode==='transition')drawTransition(stage);else if(game.mode==='gameover')drawGameOver();else if(game.mode==='ending')drawEnding();
-      if(game.paused){ctx.fillStyle='rgba(0,0,0,.72)';ctx.fillRect(0,0,W,H);pixelText('PAUSED',W/2,H/2,18,'#eee','center');}
-      if(game.messageTime>0){ctx.fillStyle='rgba(0,0,0,.7)';ctx.fillRect(135,205,210,24);pixelText(game.message,W/2,221,10,'#eee','center');}
-      ctx.strokeStyle='rgba(0,0,0,.9)';ctx.lineWidth=7;ctx.strokeRect(3,3,W-6,H-6);
-    }
-
-    function drawTitle() {ctx.fillStyle='rgba(0,0,0,.6)';ctx.fillRect(0,0,W,H);pixelText('SUMMER',W/2,91,18,'#e6e1d8','center');pixelText('INFECTION',W/2,117,25,'#a51c27','center');pixelText('SURVIVE THE NIGHT',W/2,140,8,'#aaa','center');pixelText('PRESS ENTER / TAP',W/2,210,9,'#eee','center');pixelText('MOVE: WASD / ARROW KEYS',W/2,229,7,'#888','center');}
-    function drawTransition(stage){ctx.fillStyle='rgba(0,0,0,.88)';ctx.fillRect(0,0,W,H);pixelText(`STAGE ${stage.id}`,W/2,104,12,'#9c1d27','center');pixelText(stage.name,W/2,130,18,'#eee','center');pixelText(stage.subtitle,W/2,151,8,'#999','center');}
-    function drawGameOver(){ctx.fillStyle='rgba(0,0,0,.82)';ctx.fillRect(0,0,W,H);pixelText('YOU DIED',W/2,122,25,'#a51e29','center');pixelText('PRESS ENTER / TAP TO RETRY',W/2,164,8,'#ddd','center');}
-    function drawEnding(){ctx.fillStyle='rgba(0,0,0,.83)';ctx.fillRect(0,0,W,H);pixelText('THE ROOM IS QUIET.',W/2,101,11,'#ddd','center');pixelText('かゆい',W/2,129,10,'#bbb','center');pixelText('うま',W/2,146,10,'#bbb','center');pixelText('SUMMER INFECTION',W/2,190,16,'#9c1b26','center');pixelText('CLEAR',W/2,211,10,'#eee','center');pixelText('PRESS ENTER / TAP',W/2,239,7,'#777','center');}
-
-    let last=performance.now();
-    function loop(now){const dt=Math.min(.033,(now-last)/1000);last=now;update(dt);render();requestAnimationFrame(loop);}
-    requestAnimationFrame(loop);
-
-    function activate(){if(game.mode==='title'||game.mode==='gameover'||game.mode==='ending')startGame();}
-    addEventListener('keydown',e=>{keys.add(e.code);if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();if(e.code==='Enter')activate();if(e.code==='Escape'||e.code==='KeyP')game.paused=!game.paused;});
-    addEventListener('keyup',e=>keys.delete(e.code));
-    canvas.addEventListener('pointerdown',activate);
-    document.querySelectorAll('[data-key]').forEach(btn=>{const code=btn.dataset.key;btn.addEventListener('pointerdown',e=>{e.preventDefault();keys.add(code);btn.setPointerCapture(e.pointerId);});btn.addEventListener('pointerup',()=>keys.delete(code));btn.addEventListener('pointercancel',()=>keys.delete(code));});
-    document.querySelector('#pauseBtn').addEventListener('click',()=>game.paused=!game.paused);
-  </script>
+  <script type="module" src="./game.js"></script>
 </body>
 </html>
-
