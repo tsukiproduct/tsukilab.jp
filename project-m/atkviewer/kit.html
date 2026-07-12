@@ -246,6 +246,33 @@ body{
 /* --- ヘッダー常時脳波 --- */
 #hudEeg{width:84px;height:26px;border:1px solid var(--line);border-radius:3px;background:rgba(0,0,0,.25);flex:none}
 
+/* --- まう副音声パネル(NEURAL GUEST) --- */
+.mau{margin:10px 14px 0;border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.mau-head{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.24em;color:var(--ink-dim)}
+.mau-head::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--pink);box-shadow:0 0 8px var(--pink)}
+.mau-head .sp{flex:1}
+#mauQuick{
+  background:transparent;border:1px solid var(--line);color:var(--ink-dim);
+  font-family:'Noto Sans JP',sans-serif;font-size:11px;letter-spacing:.04em;
+  padding:7px 12px;border-radius:999px;cursor:pointer;min-height:34px;transition:all .2s;white-space:nowrap;
+}
+#mauQuick:hover{border-color:var(--pink);color:var(--pink)}
+.mau-log{max-height:230px;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;font-size:12px;line-height:1.75}
+.mau-log:empty{display:none}
+.mau-msg{padding:8px 12px;border-radius:8px;max-width:90%;overflow-wrap:anywhere}
+.mau-msg.user{align-self:flex-end;background:rgba(240,179,196,.13);border:1px solid rgba(240,179,196,.35)}
+.mau-msg.mau-r{align-self:flex-start;background:rgba(87,216,255,.08);border:1px solid rgba(87,216,255,.3)}
+.mau-msg .who{display:block;font-family:'Chakra Petch',monospace;font-size:9px;letter-spacing:.24em;color:var(--ink-dim);margin-bottom:3px}
+.mau-row{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
+#mauInput{flex:1;min-width:0;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:4px;color:var(--ink);font-family:'Noto Sans JP',sans-serif;font-size:13px;padding:11px 12px;min-height:46px;outline:none;transition:border-color .2s}
+#mauInput::placeholder{color:rgba(217,184,196,.45)}
+#mauInput:focus-visible{border-color:var(--pink)}
+#mauSend{background:linear-gradient(180deg,#f4c3d2,#e39fb4);color:#3d1422;border:0;border-radius:4px;font-weight:700;font-size:12px;letter-spacing:.1em;padding:0 16px;min-height:46px;cursor:pointer;transition:transform .12s}
+#mauSend:active{transform:scale(.97)}
+#mauNote{padding:0 12px 10px;font-size:10px;letter-spacing:.1em;color:var(--ink-dim);min-height:14px}
+#hudScene{font-size:9px;color:rgba(141,224,255,.8);letter-spacing:.12em;margin-top:3px;font-family:'Chakra Petch',monospace}
+@media (min-width:900px){.mau{margin:0}}
+
 /* --- 画面上HUD(操作系以外の情報を映像に重畳) --- */
 .hud-ovl{position:absolute;pointer-events:none;opacity:0;transition:opacity .3s;z-index:3}
 .screen-frame.hud-on .hud-ovl{opacity:1}
@@ -372,6 +399,7 @@ body{
           <div class="hud-ovl hud-meta" id="hudMeta" style="display:none">
             <div id="hudTitle"></div>
             <div id="hudCh" class="mono"></div>
+            <div id="hudScene"></div>
           </div>
           <div class="hud-ovl hud-live mono" id="hudLive">SYNC <b id="hudSync">--</b> · LOAD <b id="hudLoad">--</b></div>
           <div class="sub-lane"><div class="sub-line" id="subLine"><span class="tc" id="subTc"></span><span id="subTxt"></span></div></div>
@@ -426,6 +454,15 @@ body{
           </div>
         </div>
       </div>
+      <div class="mau">
+        <div class="mau-head mono">NEURAL GUEST — まう<span class="sp"></span><button id="mauQuick">このシーンどう?</button></div>
+        <div class="mau-log" id="mauLog"></div>
+        <div class="mau-row">
+          <input id="mauInput" type="text" placeholder="まうに話しかける(本編視聴中)" aria-label="まうへのメッセージ">
+          <button id="mauSend">送信</button>
+        </div>
+        <div class="mono" id="mauNote"></div>
+      </div>
       </aside>
     </div>
   </div>
@@ -441,6 +478,391 @@ body{
     </feComponentTransfer>
   </filter>
 </svg>
+
+<!-- シーン解説データ(『1世紀旅行記』本編・まう副音声用) -->
+<script type="text/plain" id="sceneData">
+[00:00-00:13] 1920年代『蒸気機関車ピーチ』
+内容: モノクロの丘陵、ニンジン畑、線路を走る蒸気機関車。
+見どころ: 古典カートゥーン調の世界観と、跳ねるような機関車の動き。
+感情: 牧歌的、懐かしさ。
+演出: 徐々に画面へ色収差やノイズが入り始める。
+
+[00:13-00:18] タイトル『1世紀旅行記』
+内容: 黒背景に作品タイトル。
+見どころ: 冒頭の異変から一転した静かなタイトル表示。
+感情: 不穏、期待感。
+
+[00:18-00:29] テレビで流れる『蒸気機関車ピーチ』
+内容: 2026年の居間。テレビ番組内で古いアニメが紹介されている。
+見どころ: モノクロアニメから現実世界へ自然に接続する構成。
+感情: 日常への帰還。
+
+[00:29-00:38] モモエ108歳の誕生日会
+内容: 食べ終えた料理、ケーキ、誕生日の飾り、車椅子のモモエ。
+見どころ: 家族の生活感と、手作りの祝いの席。
+感情: 温かさの中にある静けさ。
+
+[00:38-00:57] 映美が茂樹を注意する
+配役: 映美、茂樹、映美の父、モモエ。
+内容: 映美が、テレビへ缶を投げた茂樹をたしなめる。
+見どころ: 兄妹の性格と家庭内の空気が一気に伝わる。
+感情: 戸惑い、苛立ち。
+
+[00:57-01:13] アニメを巡る兄妹の口論
+配役: 映美、茂樹。
+内容: 茂樹がアニメを見る家族を馬鹿にし、映美が反論する。
+見どころ: 映美の怒りと、茂樹の投げやりな態度。
+感情: 緊張の上昇。
+
+[01:13-01:24] 映美のスマートフォン
+内容: アニメグッズの付いたスマートフォンを茂樹が取り上げる、または触れる。
+見どころ: 『1世紀旅行記』グッズが映美のアイデンティティーとして示される。
+感情: 不快感、警戒。
+
+[01:24-01:42] 茂樹が映美の仕事を侮辱する
+配役: 茂樹、映美。
+内容: 医療機器開発の仕事を「他人の脳味噌をいじる商売」と揶揄する。
+見どころ: 映美の傷ついた表情。
+感情: 怒り、屈辱。
+
+[01:42-02:03] 都会と田舎を巡る劣等感
+配役: 茂樹、映美。
+内容: 茂樹が、東京で働く妹と農業を手伝う自分を比較する。
+見どころ: 単なる酔客ではない、茂樹の劣等感が露出する。
+感情: 嫉妬、自己否定。
+
+[02:03-02:18] 父が仲裁に入る
+配役: 映美の父、茂樹。
+内容: 父が飲み過ぎを注意し、翌日のニンジン収穫について話す。
+見どころ: 仲裁のつもりの言葉が、逆に茂樹を追い詰める。
+感情: 家族間の亀裂。
+
+[02:18-02:31] 茂樹が家を出る
+配役: 茂樹、映美の父。
+内容: 茂樹が煙草に火をつけ、玄関へ向かう。
+見どころ: 闇の中へ消えていく茂樹。
+感情: 怒り、孤立。
+
+[02:31-02:49] 誕生日会の後片付け
+配役: 映美、映美の父、映美の母、モモエ。
+内容: 残った家族が食卓や飾りを片付ける。
+見どころ: 口論後の気まずい静けさ。
+感情: 心配、疲労。
+
+[02:49-03:00] 映美がモモエを外へ連れ出す
+内容: 車椅子を押して家を出る準備。
+見どころ: 父が映美には穏やかに接する対比。
+感情: 小さな安堵。
+
+[03:00-03:10] 車のキーとアニメグッズ
+内容: 『1世紀旅行記』のキャラクターが付いたキーが映る。
+見どころ: 映美の日常にアニメが深く根付いていることを示す小物演出。
+感情: 親しみ。
+
+[03:10-03:35] 車内でモモエに話しかける
+配役: 映美、モモエ。
+内容: 映美がテレビは面白かったか、昔のアニメを振り返れたかと尋ねる。
+見どころ: 明るく話す映美と、反応のないモモエ。
+感情: 優しさ、寂しさ。
+
+[03:35-03:45] 誕生日プレゼントの箱
+内容: 映美が段ボール箱を開き、装置を取り出す。
+見どころ: 物語の中心となる機械の初登場。
+感情: 期待。
+
+[03:45-04:02] 「アニメ旅行キット」初公開
+配役: 映美。
+内容: 映美が大げさな調子で装置を紹介する。
+見どころ: ピンク色の機械と、モモエの老いた手・顔の対比。
+感情: 好奇心、微笑ましさ。
+ネタ: 秘密道具を取り出すような紹介。
+
+[04:02-04:20] モモエに装置を装着
+内容: ゴーグル型の機具をモモエの頭へ取り付ける。
+見どころ: 青く光る大型レンズ。
+感情: 不安と期待。
+
+[04:20-04:34] 映美が安全性を説明
+配役: 映美。
+内容: 映像を脳波として送り、アニメ世界へ入れること、痛みはないことを説明する。
+見どころ: 自信満々に説明する映美。
+感情: 希望。
+ネタ: 「安心安全の映美クオリティ」。
+
+[04:34-04:45] 映美の表情が曇る
+内容: 明るく振る舞っていた映美の目に涙が浮かぶ。
+見どころ: 装置の説明から、個人的な本音へ感情が切り替わる。
+感情: 切なさ。
+
+[04:45-04:59] 夜の農道を歩く茂樹
+配役: 茂樹。
+内容: ビニール袋を持ち、ニンジン畑の間を歩く。
+見どころ: 車内の温かな光と、農道の暗闇の対比。
+感情: 孤独。
+
+[04:59-05:14] 映美がモモエへの思いを語る
+配役: 映美、モモエ。
+内容: モモエから教わったアニメを今でも見ていると話す。
+見どころ: モモエの無反応を前に崩れていく笑顔。
+感情: 愛情、悲しみ。
+
+[05:14-05:24] 青いレンズに映る映美の涙
+内容: 装置のレンズ越しに映美の目元が大きく映る。
+見どころ: 青い光と涙の反射。
+感情: 感情の頂点。
+
+[05:24-05:29] 装置起動
+配役: 映美。
+内容: 映美とモモエが装置を装着し、青白い光が強くなる。
+見どころ: 2台の機械が同期する発光。
+感情: 静かな決意。
+台詞: 「モモエちゃん、愛してる」。
+
+[05:29-05:34] 茂樹がニンジンへ煙草を押し付ける
+内容: 畑のニンジンに煙草を押し付け、画面が白くなる。
+見どころ: 起動シーンと茂樹の行動を結ぶ象徴的カット。
+感情: 不穏。
+
+[05:34-05:42] 1960年世界への転送
+内容: ノイズ混じりの映像から、色褪せたアニメ世界へ移行。
+見どころ: 現代的な映美と、60年代調背景のスタイル差。
+感情: 驚き。
+
+[05:42-05:48] 『まちかど!ハナコちゃん』タイトル
+内容: 作品タイトルの表示。
+見どころ: 当時のテレビアニメを模したロゴと色彩。
+感情: 懐かしさ。
+
+[05:48-06:03] カゲカゲ団との戦い
+配役: 若きモモエ、カゲカゲ団。
+内容: 手鏡を使い、悪党たちを吹き飛ばす。
+見どころ: 手鏡の光と、古いアニメらしいコミカルな動き。
+感情: 爽快、楽しさ。
+
+[06:03-06:14] 映美と若きモモエの再会
+配役: 映美、若きモモエ。
+内容: モモエが映美を発見し、手鏡を使って引き寄せる。
+見どころ: 108歳の姿から若々しい姿への変化。
+感情: 驚き、喜び。
+
+[06:14-06:29] 「全部伝わってるよ」
+配役: モモエ、映美。
+内容: モモエが、映美の告白や気持ちはすべて届いていたと話す。
+見どころ: 映美の涙と、モモエの朗らかな笑顔。
+感情: 安堵、感動。
+
+[06:29-06:40] バディとして旅を始める
+内容: モモエが映美を励まし、二人で次の世界へ向かう。
+見どころ: 初めて心から笑う映美。
+感情: 解放感、幸福。
+
+[06:40-06:47] 『ナイトブライド』タイトル
+内容: 1970年代の城と作品タイトル。
+見どころ: ロマンチックなゴシック世界への急転換。
+感情: 高揚。
+
+[06:47-07:05] 王子モモエと映美
+配役: 王子姿のモモエ、映美。
+内容: 城内でロマンチックな場面を楽しむ。
+見どころ: 中性的な王子姿のモモエ。
+感情: ときめき、笑い。
+ネタ: マシンガンのような連続キス。
+
+[07:05-07:12] 次のアニメ世界へ転送
+内容: 円形の光や縦方向の高速移動演出。
+見どころ: 年代を飛び越えるダイナミックな画面転換。
+感情: スピード感。
+
+[07:12-07:24] 1980年代・巨大な敵との対峙
+配役: モモエ、映美、巨大な敵。
+内容: 荒野に巨大な敵が現れる。
+見どころ: 昭和ロボットアニメ調の大仰な構図。
+感情: 緊張、期待。
+
+[07:24-07:39] 超ウルトラモモエビーム
+内容: 虹色・ピンク色の巨大ビームが敵を直撃する。
+見どころ: 画面を覆うほどの極太ビーム。
+感情: 爽快。
+ネタ: 必要以上に攻撃を続けるモモエ。
+
+[07:39-07:58] 爆発後も攻撃継続
+内容: 敵が倒れた後も爆発と地割れが続く。
+見どころ: 遠方まで破壊される過剰な必殺技。
+感情: 爆笑、呆れ。
+配役: 映美の「やれやれ」という反応。
+
+[07:58-08:09] 1990年代・翼機械獣の登場
+内容: 雲海と巨大な翼付きライオン型メカ。
+見どころ: セルアニメ風のメカニック描写。
+感情: 冒険心。
+
+[08:09-08:28] モモエが火炎放射
+配役: モモエ、映美。
+内容: 翼機械獣から炎を吐き続ける。
+見どころ: 空一面を覆う火炎と飛行アクション。
+感情: 爽快、コミカル。
+ネタ: 敵を倒した後も炎で何も見えていない。
+
+[08:28-08:39] 司令官と世界の異変
+内容: 冷徹な司令官の映像、反応しないキャラクター、ノイズ。
+見どころ: 楽しい旅行が突然停止する瞬間。
+感情: 違和感、恐怖。
+
+[08:39-08:51] 世界が高速で落下する
+内容: 白い閃光の後、風景が縦方向へ崩れ落ちる。
+見どころ: 高速エレベーターのような落下演出。
+感情: 混乱。
+
+[08:51-09:05] 1920年代世界で目を覚ます
+内容: 映美と若いモモエが、モノクロのニンジン畑に倒れている。
+見どころ: 二人だけに色が残った異質な画面。
+感情: 驚き。
+
+[09:05-09:18] 『蒸気機関車ピーチ』の世界
+配役: 映美、モモエ。
+内容: モモエが世界を見て興奮し、ピーチの名を叫ぶ。
+見どころ: 冒頭と同じ景色へ物語が戻る構成。
+感情: モモエの歓喜、映美の困惑。
+
+[09:18-09:36] 蒸気機関車を追う二人
+内容: 線路沿いを走り、ピーチを追いかける。
+見どころ: モノクロ背景を走るカラーの二人。
+感情: 高揚。
+
+[09:36-09:43] 映像にノイズが発生
+内容: 世界の一部がデジタルノイズで乱れる。
+見どころ: 古典アニメと現代的グリッチの衝突。
+感情: 不安。
+
+[09:43-10:17] 現実世界・茂樹の独白
+配役: 茂樹。
+内容: 眠る映美とモモエを見つけ、装置へビールをかける。妹への嫉妬や、アニメを作りたかった夢を語る。
+見どころ: 缶を握り潰しながら吐露される本音。
+感情: 劣等感、悲しみ、怒り。
+重要台詞: 「俺だってさ、ガキの頃はさ……東京出てアニメ作りたかったよ」。
+
+[10:17-10:24] 缶が装置に当たる
+内容: 茂樹が怒鳴り、潰した缶を機械へ投げる。
+見どころ: 現実とアニメ世界を接続する衝撃。
+感情: 恐怖。
+
+[10:24-10:34] アニメ世界で映美が痛みを感じる
+配役: 映美、モモエ。
+内容: キメラの攻撃を受け、映美にあざができる。
+見どころ: 「痛みのない世界」という前提の崩壊。
+感情: 緊迫。
+
+[10:34-10:44] 蒸気機関車内へ避難
+内容: 二人が車内へ転がり込み、映美が異常を説明する。
+見どころ: 外の破壊と、車内の古典的で穏やかな作画の対比。
+感情: 焦り。
+
+[10:44-10:55] ピーチ初登場
+内容: ピーチが口笛を吹きながら石炭を火室へ入れている。
+見どころ: モモエの憧れの存在が目の前に現れる。
+感情: 驚嘆、感動。
+ネタ: 「8じかんがんばったらニンジン1ぽんボーナス」の掲示。
+
+[10:55-11:11] モモエの幼少期
+内容: 幼いモモエ、父親、壊される物、燃える室内などの記憶。
+見どころ: モノクロ世界に現れる痛ましい記憶の断片。
+感情: 恐怖、悲しみ。
+
+[11:11-11:30] トラウマの正体
+配役: モモエ、映美。
+内容: 怪物の行動が、幼い頃に父や周囲から受けた仕打ちを再現していると説明する。
+見どころ: 現在の若い姿と、傷ついた幼少期の対比。
+感情: 苦痛、理解。
+
+[11:30-11:47] アニメだけが居場所だった
+配役: モモエ、映美。
+内容: モモエが、ピーチだけが現実から救ってくれたと話す。
+見どころ: 壊された手鏡や汽車の模型の記憶。
+感情: 悲しみ、救い。
+
+[11:47-11:59] 「連れてきてくれてありがとう」
+内容: モモエが映美を抱きしめる。
+見どころ: 世代を超えて共有される、アニメに救われた経験。
+感情: 感動、受容。
+
+[11:59-12:11] 映美が答えに気付く
+配役: 映美、モモエ。
+内容: 「アニメって逃げじゃない」と理解し、帰還方法を思いつく。
+見どころ: 涙から決意へ変わる映美の表情。
+感情: 希望。
+
+[12:11-12:25] ニンジンを使った作戦
+内容: 映美とモモエがキメラを避けながらニンジンを取りに行く。
+見どころ: シリアスな状況の中で展開されるカートゥーン的アクション。
+感情: 緊迫、楽しさ。
+
+[12:25-12:36] ピーチを誘導
+内容: ニンジンを見たピーチの目が変化し、列車が線路を外れて走り出す。
+見どころ: カートゥーンならではの誇張された表情と動き。
+感情: 爽快、笑い。
+
+[12:36-12:42] キメラ撃破
+内容: ピーチがキメラへ突撃し、大爆発。
+見どころ: モノクロ画面を覆う派手な爆発。
+感情: 解放感。
+
+[12:42-12:58] 現実世界へ帰還
+内容: 車内でモモエが目を覚ます。映美の両親が駆け寄る。
+見どころ: アニメ世界から実写的な現実空間へ戻る瞬間。
+感情: 安堵、混乱。
+
+[12:58-13:08] モモエが声を発する
+配役: モモエ、映美の父、映美の母。
+内容: モモエが「なあ……頼みが……」と声を絞り出す。
+見どころ: 長く無反応だったモモエが自分の意志で話す。
+感情: 驚き、希望。
+
+[13:08-13:17] 映美は戻っていない
+内容: 装置の表示、眠ったままの映美、暗転・転送処理。
+見どころ: 帰還が完全ではないことを示す。
+感情: 不安。
+
+[13:17-13:31] 砂漠に一人残された映美
+内容: 2000年代風のアニメ世界。映美がニンジンを抱え、砂漠で倒れ込む。
+見どころ: 色鮮やかだが孤独な世界。
+感情: 絶望、罪悪感。
+
+[13:31-13:43] 遠方からパレードが現れる
+内容: 奇妙で華やかなキャラクターたちの大行進。
+見どころ: 画面を埋め尽くすカラフルな群衆。
+感情: 驚き、期待。
+
+[13:43-13:58] 王冠を被ったモモエ
+内容: モモエがパレードの中央に立ち、映美の元へ戻ってくる。
+見どころ: 現実へ戻れたはずのモモエが、映美を救うため再登場。
+感情: 喜び、頼もしさ。
+
+[13:58-14:16] 映美のトラウマ退治へ
+配役: モモエ、映美。
+内容: モモエが、今度は映美の心の傷を倒す番だと告げる。
+見どころ: モモエが映美へ手を差し出す。
+感情: 希望、再出発。
+
+[14:16-14:22] 二人が手をつなぐ
+内容: 手を重ねた瞬間、画面が強い光に包まれる。
+見どころ: 世代を超えた二人のバディ関係を象徴するカット。
+感情: 高揚、安心。
+
+[14:22-14:26] 『1世紀旅行記』
+内容: タイトルカード。
+感情: 達成感。
+
+[14:26-14:51] エンドクレジット
+内容: 制作クレジット、作品内の印象的な画像。
+見どころ: 音楽とともに物語の余韻を残す。
+感情: 感動、余韻。
+
+[14:51-14:58] 「──to 2126年──」
+内容: 次の100年へつながるラストメッセージ。
+見どころ: 物語を未来へ開いたまま終える構成。
+感情: 希望、期待。
+</script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
 <script>
@@ -681,6 +1103,98 @@ function showViewer(){
 }
 
 /* ============================================================
+   ④ まう副音声(Phase 2):シーン文脈+まうWorker連携
+   ============================================================ */
+/* まうWorkerに追加した /watch エンドポイントのURLと合言葉を設定してください。
+   空のままの場合、まうパネルは「未接続」表示になります(他機能に影響なし) */
+const MAU_ENDPOINT='https://mau-chat.tsuki-product.workers.dev/watch';
+const MAU_TOKEN='mau-to-issho-2126';
+
+let scenes=[];
+(function(){
+  const raw=document.getElementById('sceneData');
+  if(!raw) return;
+  const t2s=str=>{ const m=str.split(':'); return (+m[0])*60+(+m[1]); };
+  for(const block of raw.textContent.split(/\n\s*\n/)){
+    const lines=block.trim().split('\n').map(l=>l.trim()).filter(Boolean);
+    if(!lines.length) continue;
+    const h=lines[0].match(/\[(\d+:\d+)-(\d+:\d+)\]\s*(.+)/);
+    if(!h) continue;
+    const sc={s:t2s(h[1]), e:t2s(h[2]), title:h[3], meta:{}};
+    for(const l of lines.slice(1)){
+      const m=l.match(/^([^:：]+)[:：]\s*(.+)$/);
+      if(m) sc.meta[m[1]]=m[2];
+    }
+    scenes.push(sc);
+  }
+  scenes.sort((a,b)=>a.s-b.s);
+})();
+function sceneAt(t){
+  const i=scenes.findIndex(sc=>t>=sc.s && t<sc.e);
+  return { cur:i>=0?scenes[i]:null, prev:i>0?scenes[i-1]:null, next:(i>=0&&i<scenes.length-1)?scenes[i+1]:null };
+}
+function sceneBrief(sc){
+  if(!sc) return 'なし';
+  return sc.title + (sc.meta['内容'] ? ' — '+sc.meta['内容'] : '');
+}
+function sceneDetail(sc){
+  if(!sc) return '(シーン情報なし)';
+  let out='タイトル: '+sc.title;
+  for(const k of ['内容','見どころ','感情','演出','配役','ネタ','台詞','重要台詞']){
+    if(sc.meta[k]) out+=' / '+k+': '+sc.meta[k];
+  }
+  return out;
+}
+
+const mauLog=document.getElementById('mauLog');
+const mauInput=document.getElementById('mauInput');
+const mauNote=document.getElementById('mauNote');
+let mauHistory=[], mauBusy=false;
+function addMauMsg(role,text){
+  const d=document.createElement('div');
+  d.className='mau-msg '+(role==='user'?'user':'mau-r');
+  const w=document.createElement('span'); w.className='who'; w.textContent=(role==='user'?'YOU':'まう');
+  d.appendChild(w); d.appendChild(document.createTextNode(text));
+  mauLog.appendChild(d); mauLog.scrollTop=mauLog.scrollHeight;
+}
+async function askMau(msg){
+  if(mauBusy || !msg) return;
+  if(!MAU_ENDPOINT){ mauNote.textContent='未接続:ファイル内の MAU_ENDPOINT を設定してください'; return; }
+  const v=document.getElementById('mainVideo');
+  if(!v){ mauNote.textContent='まうは本編視聴中のみ応答します(▶ 本編を受信してください)'; return; }
+  mauBusy=true;
+  addMauMsg('user',msg); mauHistory.push({role:'user',content:msg});
+  mauNote.textContent='まう思考中…';
+  try{
+    const ctx=sceneAt(v.currentTime);
+    const r=await fetch(MAU_ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Mau-Token':MAU_TOKEN},
+      body:JSON.stringify({
+        message:msg,
+        timecode:fmtTc(v.currentTime),
+        scene:sceneDetail(ctx.cur),
+        prev:sceneBrief(ctx.prev),
+        next:sceneBrief(ctx.next),
+        history:mauHistory.slice(-8)
+      })
+    });
+    if(!r.ok) throw new Error(r.status);
+    const j=await r.json();
+    const reply=(j && j.reply) ? j.reply : '(応答なし)';
+    addMauMsg('mau',reply); mauHistory.push({role:'assistant',content:reply});
+    mauNote.textContent='';
+  }catch(e){
+    mauNote.textContent='通信エラー:Worker側の設定・CORS・合言葉をご確認ください';
+    mauHistory.pop();
+  }
+  mauBusy=false;
+}
+document.getElementById('mauSend').addEventListener('click',()=>{ const m=mauInput.value.trim(); if(m){ mauInput.value=''; askMau(m); } });
+mauInput.addEventListener('keydown',e=>{ if(e.key==='Enter'){ const m=mauInput.value.trim(); if(m){ mauInput.value=''; askMau(m); } } });
+document.getElementById('mauQuick').addEventListener('click',()=>askMau('いまのシーン、どう思った?'));
+
+/* ============================================================
    ③ 閲覧UI:URL→再生+oEmbedメタデータ+フィルター
    ============================================================ */
 const frameEl=document.getElementById('frame');
@@ -714,7 +1228,7 @@ async function fetchMeta(id){
    MAIN_VIDEO_URL に GitHub Releases の動画URLを入れるとネイティブ再生
    (例: 'https://github.com/tsukiproduct/century-journey-media/releases/download/v1.0/century_journey.mp4')
    空文字のままの場合は X公式埋め込みにフォールバックします */
-const MAIN_VIDEO_URL='https://github.com/tsukiproduct/century-journey-media/releases/download/movie/movie.mp4';
+const MAIN_VIDEO_URL='https://github.com/tsukiproduct/century-journey-media/releases/download/movie/5.mp4';
 const MAIN_TWEET_ID='2072281475009925222';
 let xMode=false, twttrLoading=false;
 function loadTwttr(){
@@ -937,6 +1451,13 @@ setInterval(()=>{
     if(syncEl) syncEl.textContent=syncVal;
     if(hudSync) hudSync.textContent=syncVal;
     if(hudLoad) hudLoad.textContent=loadVal;
+    const hs=document.getElementById('hudScene');
+    if(hs){
+      if(mv && scenes.length){
+        const c=sceneAt(mv.currentTime).cur;
+        hs.textContent=c ? 'SCENE ANALYSIS: '+c.title : '';
+      }else hs.textContent='';
+    }
   }, reduceMotion?2000:420);
 })();
 document.getElementById('urlInput').addEventListener('keydown', e=>{ if(e.key==='Enter') load(); });
