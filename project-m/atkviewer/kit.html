@@ -102,6 +102,18 @@ body{
     radial-gradient(80% 80% at 50% 50%,#10202a 0%,#050a0e 100%);
 }
 #idleScreen .big{font-size:clamp(16px,4vw,22px);color:var(--cyan);letter-spacing:.3em;text-shadow:0 0 14px rgba(87,216,255,.6)}
+.mainbtn{
+  pointer-events:auto;cursor:pointer;
+  background:linear-gradient(180deg,#f4c3d2,#e39fb4);color:#3d1422;border:0;border-radius:6px;
+  font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:clamp(13px,2.8vw,16px);letter-spacing:.1em;
+  padding:14px 26px;min-height:52px;
+  box-shadow:0 0 22px rgba(240,179,196,.35), 0 3px 12px rgba(0,0,0,.4);
+  transition:transform .12s, box-shadow .2s;
+}
+.mainbtn:hover{box-shadow:0 0 30px rgba(240,179,196,.55), 0 3px 14px rgba(0,0,0,.4)}
+.mainbtn:active{transform:scale(.97)}
+#playerSlot{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#playerSlot .twitter-video, #playerSlot > div{max-width:100%;max-height:100%}
 
 /* オーバーレイ群(常にクリック透過) */
 .ovl{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .35s}
@@ -233,6 +245,61 @@ body{
 /* --- ヘッダー常時脳波 --- */
 #hudEeg{width:84px;height:26px;border:1px solid var(--line);border-radius:3px;background:rgba(0,0,0,.25);flex:none}
 
+/* --- 画面上HUD(操作系以外の情報を映像に重畳) --- */
+.hud-ovl{position:absolute;pointer-events:none;opacity:0;transition:opacity .3s;z-index:3}
+.screen-frame.hud-on .hud-ovl{opacity:1}
+.hud-meta{
+  top:10px;left:12px;max-width:62%;
+  font-size:11px;line-height:1.5;letter-spacing:.04em;
+  color:#dff6ff;text-shadow:0 0 8px rgba(0,0,0,.9),0 0 4px rgba(0,0,0,.9);
+  border-left:2px solid var(--cyan);padding-left:8px;
+  background:linear-gradient(90deg,rgba(4,12,18,.55),transparent);
+  padding-top:4px;padding-bottom:4px;padding-right:10px;border-radius:0 4px 4px 0;
+}
+#hudTitle{font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#hudCh{font-size:10px;color:rgba(141,224,255,.85);letter-spacing:.1em;margin-top:2px}
+.hud-live{
+  right:12px;bottom:12px;font-size:10px;letter-spacing:.16em;
+  color:rgba(141,224,255,.9);text-shadow:0 0 6px rgba(0,0,0,.9);
+  background:rgba(4,12,18,.5);border:1px solid rgba(87,216,255,.3);
+  padding:5px 10px;border-radius:3px;
+}
+.hud-live b{color:var(--cyan)}
+
+/* --- 追加フィルター:白黒/アニメ調/VHS --- */
+.f-mono iframe{filter:grayscale(1) contrast(1.14) brightness(1.04)}
+.f-mono .ovl-vig,.f-mono .ovl-glass{opacity:1}
+.f-anime iframe{filter:saturate(1.8) contrast(1.2) brightness(1.06) url(#celShade)}
+.f-anime .ovl-glass{opacity:1}
+.f-vhs iframe{filter:blur(.55px) saturate(1.45) contrast(1.06) brightness(1.02)}
+.f-vhs .ovl-scan,.f-vhs .ovl-rgb,.f-vhs .ovl-track,.f-vhs .ovl-vig{opacity:1}
+.ovl-track{
+  background:linear-gradient(180deg,transparent 0%,transparent 44%,rgba(255,255,255,.13) 48%,rgba(0,0,0,.3) 50%,rgba(255,255,255,.06) 52%,transparent 58%);
+  background-size:100% 260%;
+}
+.f-vhs .ovl-track{animation:track 4.2s linear infinite}
+@keyframes track{from{background-position:0 -130%}to{background-position:0 130%}}
+
+/* --- PC(横幅900px以上):2カラム・画面を主役に --- */
+.side{display:contents}
+@media (min-width:900px){
+  .v-body{flex-direction:row;align-items:stretch;gap:16px;padding:16px;overflow:hidden}
+  .screen-shell{flex:1;min-width:0;padding:0;display:flex;align-items:center;justify-content:center}
+  .screen-frame{
+    width:min(100%, calc((100dvh - 120px) * 16 / 9));
+    max-height:100%;
+  }
+  .side{
+    display:flex;flex-direction:column;gap:12px;
+    width:360px;flex:none;overflow-y:auto;min-height:0;
+    scrollbar-width:thin;
+  }
+  .spectrum{margin:0}
+  .ctrl{padding:0}
+  .info{margin:0}
+  .sub-line{font-size:clamp(14px,1.4vw,19px)}
+}
+
 @media (max-width:520px){
   .v-meters span:nth-child(2){display:none}
   .info-thumb{width:92px}
@@ -290,7 +357,8 @@ body{
           <div id="playerSlot"></div>
           <div id="idleScreen">
             <div class="big mono">AWAITING SIGNAL</div>
-            <div>下の入力欄に YouTube のURLを転送してください</div>
+            <button id="mainPlayBtn" class="mainbtn">▶ 本編『1世紀旅行記』を受信する</button>
+            <div>YouTubeを視聴する場合は、下の入力欄にURLを転送してください</div>
           </div>
           <div class="ovl ovl-scan"></div>
           <div class="ovl ovl-scan-g"></div>
@@ -299,11 +367,18 @@ body{
           <div class="ovl ovl-glass"></div>
           <div class="ovl ovl-flicker"></div>
           <svg class="ovl ovl-grain" width="100%" height="100%"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2"/></filter><rect width="100%" height="100%" filter="url(#n)" opacity=".16"/></svg>
+          <div class="ovl ovl-track"></div>
+          <div class="hud-ovl hud-meta" id="hudMeta" style="display:none">
+            <div id="hudTitle"></div>
+            <div id="hudCh" class="mono"></div>
+          </div>
+          <div class="hud-ovl hud-live mono" id="hudLive">SYNC <b id="hudSync">--</b> · LOAD <b id="hudLoad">--</b></div>
           <div class="sub-lane"><div class="sub-line" id="subLine"><span class="tc" id="subTc"></span><span id="subTxt"></span></div></div>
           <div class="filter-badge" id="badge"></div>
         </div>
       </div>
 
+      <aside class="side">
       <div class="spectrum" aria-hidden="true">
         <div class="spec-label mono">NEURAL<br>SPECTRUM</div>
         <div class="band"><div class="track"><div class="lv" id="bA"></div></div><div class="bname mono"><b>α</b> ALPHA</div></div>
@@ -324,11 +399,16 @@ body{
           <button class="fbtn" data-f="f-crt80">80年代ブラウン管</button>
           <button class="fbtn" data-f="f-green">黄緑CRT</button>
           <button class="fbtn" data-f="f-film">8mmフィルム</button>
+          <button class="fbtn" data-f="f-mono">白黒</button>
+          <button class="fbtn" data-f="f-anime">アニメ調</button>
+          <button class="fbtn" data-f="f-vhs">VHS</button>
           <button class="fbtn" data-f="f-hires">強制ハイレゾ</button>
         </div>
         <div class="sub-row">
+          <button class="tbtn" id="mainBtn">▶ 本編</button>
           <button class="tbtn" id="ccBtn">CC 純正字幕</button>
           <button class="tbtn" id="subFileBtn">字幕受信 (.srt/.vtt)</button>
+          <button class="tbtn sel" id="hudBtn">HUD</button>
           <input type="file" id="subFile" accept=".srt,.vtt,text/vtt" hidden>
           <span class="mono" id="subStatus"></span>
         </div>
@@ -345,9 +425,21 @@ body{
           </div>
         </div>
       </div>
+      </aside>
     </div>
   </div>
 </div>
+
+<!-- アニメ調(セルシェード)用SVGフィルター定義 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="celShade">
+    <feComponentTransfer>
+      <feFuncR type="discrete" tableValues="0 .18 .36 .54 .72 .9 1"/>
+      <feFuncG type="discrete" tableValues="0 .18 .36 .54 .72 .9 1"/>
+      <feFuncB type="discrete" tableValues="0 .18 .36 .54 .72 .9 1"/>
+    </feComponentTransfer>
+  </filter>
+</svg>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
 <script>
@@ -595,7 +687,9 @@ const slot=document.getElementById('playerSlot');
 const idle=document.getElementById('idleScreen');
 const err=document.getElementById('errMsg');
 const badge=document.getElementById('badge');
-const FILTER_NAMES={'':'','f-crt80':'CRT-1980','f-green':'PHOSPHOR-GRN','f-film':'FILM-8MM','f-hires':'FORCE-HIRES'};
+const FILTER_NAMES={'':'','f-crt80':'CRT-1980','f-green':'PHOSPHOR-GRN','f-film':'FILM-8MM','f-mono':'MONOCHROME','f-anime':'CEL-SHADE','f-vhs':'VHS-1990','f-hires':'FORCE-HIRES'};
+let hudOn=true;
+frameEl.classList.add('hud-on');
 
 function extractId(url){
   const m=(url||'').match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/);
@@ -615,6 +709,46 @@ async function fetchMeta(id){
   }
   return null;
 }
+/* --- 本編『1世紀旅行記』:X公式埋め込み(widgets.js) --- */
+const MAIN_TWEET_ID='2072281475009925222';
+let xMode=false, twttrLoading=false;
+function loadTwttr(){
+  return new Promise(res=>{
+    if(window.twttr && window.twttr.widgets){ res(window.twttr); return; }
+    if(!twttrLoading){
+      twttrLoading=true;
+      const s=document.createElement('script');
+      s.src='https://platform.twitter.com/widgets.js'; s.async=true;
+      document.head.appendChild(s);
+    }
+    const t=setInterval(()=>{ if(window.twttr && window.twttr.widgets){ clearInterval(t); res(window.twttr); } },120);
+  });
+}
+async function playMain(){
+  err.style.display='none';
+  if(ytPlayer && ytPlayer.destroy){ try{ytPlayer.destroy();}catch(e){} ytPlayer=null; }
+  currentVid=null; xMode=true; curCue=-1; hideCue();
+  slot.innerHTML='';
+  idle.style.display='none';
+  frameEl.classList.add('on');
+  // 受信情報(本編は固定メタデータ)
+  document.getElementById('vTitle').textContent='『1世紀旅行記』(Century Journey)本編';
+  document.getElementById('vChName').textContent='TSUKI PRODUCT / PROJECT M';
+  document.getElementById('vThumb').style.display='none';
+  document.getElementById('infoEmpty').style.display='none';
+  document.getElementById('infoBody').style.display='flex';
+  document.getElementById('hudTitle').textContent='『1世紀旅行記』(Century Journey)本編';
+  document.getElementById('hudCh').textContent='CH: TSUKI PRODUCT / PROJECT M';
+  document.getElementById('hudMeta').style.display='block';
+  const tw=await loadTwttr();
+  const w=await tw.widgets.createVideo(MAIN_TWEET_ID, slot, {theme:'dark', align:'center'});
+  if(!w){
+    slot.innerHTML='<div style="color:#dff6ff;font-size:12px;letter-spacing:.1em;text-align:center;padding:20px">埋め込みを受信できませんでした。<br><a href="https://x.com/Atg_Tsukimao/status/'+MAIN_TWEET_ID+'" target="_blank" rel="noopener noreferrer" style="color:#57d8ff">Xで本編を開く ↗</a></div>';
+  }
+}
+document.getElementById('mainPlayBtn').addEventListener('click', playMain);
+document.getElementById('mainBtn').addEventListener('click', playMain);
+
 /* --- YouTube IFrame Player API --- */
 let ytPlayer=null, ytApiReady=false, pendingId=null, currentVid=null, ccOn=false;
 (function(){ const s=document.createElement('script'); s.src='https://www.youtube.com/iframe_api'; document.head.appendChild(s); })();
@@ -635,7 +769,8 @@ async function load(){
   err.style.display='none';
   const id=extractId(document.getElementById('urlInput').value.trim());
   if(!id){ err.style.display='block'; return; }
-  currentVid=id; curCue=-1; hideCue();
+  currentVid=id; xMode=false; curCue=-1; hideCue();
+  document.getElementById('vThumb').style.display='';
   ytApiReady ? mountPlayer(id,0) : pendingId=id;
   idle.style.display='none';
   frameEl.classList.add('on');
@@ -645,6 +780,9 @@ async function load(){
   if(meta){
     document.getElementById('vTitle').textContent=meta.title||'—';
     document.getElementById('vChName').textContent=meta.author_name||'—';
+    document.getElementById('hudTitle').textContent=meta.title||'';
+    document.getElementById('hudCh').textContent='CH: '+(meta.author_name||'—');
+    document.getElementById('hudMeta').style.display='block';
     const th=document.getElementById('vThumb');
     th.src=meta.thumbnail_url||('https://i.ytimg.com/vi/'+id+'/hqdefault.jpg');
     emptyEl.style.display='none'; bodyEl.style.display='flex';
@@ -763,13 +901,18 @@ setInterval(()=>{
   // スペクトラム+同期率+皮質負荷
   const bands=['bA','bB','bT','bV'].map(id=>document.getElementById(id));
   const loadEl=document.getElementById('cortexLoad'), stateEl=document.getElementById('cortexState'), syncEl=document.getElementById('liveSync');
+  const hudSync=document.getElementById('hudSync'), hudLoad=document.getElementById('hudLoad');
   setInterval(()=>{
-    let playing=false; try{ playing=ytPlayer&&ytPlayer.getPlayerState&&ytPlayer.getPlayerState()===1; }catch(e){}
+    let playing=xMode; try{ playing=playing || (ytPlayer&&ytPlayer.getPlayerState&&ytPlayer.getPlayerState()===1); }catch(e){}
     const base=playing?58:16;
     bands.forEach((b,i)=>{ if(b) b.style.height=Math.max(6, Math.min(96, base+(Math.random()-.5)*46+(i===3&&playing?18:0)))+'%'; });
-    if(loadEl) loadEl.textContent=(playing? (62+Math.random()*30) : (8+Math.random()*10)).toFixed(1)+'%';
+    const loadVal=(playing? (62+Math.random()*30) : (8+Math.random()*10)).toFixed(1)+'%';
+    const syncVal=(97.8+Math.random()*2.1).toFixed(1)+'%';
+    if(loadEl) loadEl.textContent=loadVal;
     if(stateEl) stateEl.textContent=playing?'STREAMING':(cues.length?'SUB-READY':'IDLE');
-    if(syncEl) syncEl.textContent=(97.8+Math.random()*2.1).toFixed(1)+'%';
+    if(syncEl) syncEl.textContent=syncVal;
+    if(hudSync) hudSync.textContent=syncVal;
+    if(hudLoad) hudLoad.textContent=loadVal;
   }, reduceMotion?2000:420);
 })();
 document.getElementById('urlInput').addEventListener('keydown', e=>{ if(e.key==='Enter') load(); });
@@ -778,11 +921,18 @@ document.querySelectorAll('.fbtn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('sel'));
     btn.classList.add('sel');
-    frameEl.className='screen-frame on';
+    frameEl.className='screen-frame';
+    if(currentVid) frameEl.classList.add('on');
+    if(hudOn) frameEl.classList.add('hud-on');
     const f=btn.dataset.f;
     if(f) frameEl.classList.add(f);
     badge.textContent=FILTER_NAMES[f];
   });
+});
+document.getElementById('hudBtn').addEventListener('click', function(){
+  hudOn=!hudOn;
+  this.classList.toggle('sel', hudOn);
+  frameEl.classList.toggle('hud-on', hudOn);
 });
 </script>
 </body>
