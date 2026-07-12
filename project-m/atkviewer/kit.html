@@ -247,7 +247,7 @@ body{
 #hudEeg{width:84px;height:26px;border:1px solid var(--line);border-radius:3px;background:rgba(0,0,0,.25);flex:none}
 
 /* --- まう副音声パネル(NEURAL GUEST) --- */
-.mau{margin:10px 14px 0;border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
+.mau{margin:10px 14px 2px;border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden;display:flex;flex-direction:column}
 .mau-head{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.24em;color:var(--ink-dim)}
 .mau-head::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--pink);box-shadow:0 0 8px var(--pink)}
 .mau-head .sp{flex:1}
@@ -326,6 +326,8 @@ body{
   .ctrl{padding:0}
   .info{margin:0}
   .sub-line{font-size:clamp(14px,1.4vw,19px)}
+  /* PCではフィルターを横スクロールではなく折り返しで全表示 */
+  .filters{flex-wrap:wrap;overflow-x:visible}
 }
 
 @media (max-width:520px){
@@ -417,6 +419,16 @@ body{
         <div class="spec-read mono"><span>CORTEX LOAD</span><b id="cortexLoad">--%</b><span id="cortexState">IDLE</span></div>
       </div>
 
+      <div class="mau">
+        <div class="mau-head mono">NEURAL GUEST — まう<span class="sp"></span><button id="mauQuick">このシーンどう?</button></div>
+        <div class="mau-log" id="mauLog"></div>
+        <div class="mau-row">
+          <input id="mauInput" type="text" placeholder="まうに話しかける" aria-label="まうへのメッセージ">
+          <button id="mauSend">送信</button>
+        </div>
+        <div class="mono" id="mauNote"></div>
+      </div>
+
       <div class="ctrl">
         <div class="url-row">
           <input id="urlInput" type="url" inputmode="url" placeholder="https://www.youtube.com/watch?v=..." aria-label="YouTube動画のURL">
@@ -453,15 +465,6 @@ body{
             <div id="vChannel">CH: <b id="vChName"></b></div>
           </div>
         </div>
-      </div>
-      <div class="mau">
-        <div class="mau-head mono">NEURAL GUEST — まう<span class="sp"></span><button id="mauQuick">このシーンどう?</button></div>
-        <div class="mau-log" id="mauLog"></div>
-        <div class="mau-row">
-          <input id="mauInput" type="text" placeholder="まうに話しかける(本編視聴中)" aria-label="まうへのメッセージ">
-          <button id="mauSend">送信</button>
-        </div>
-        <div class="mono" id="mauNote"></div>
       </div>
       </aside>
     </div>
@@ -1160,24 +1163,35 @@ function addMauMsg(role,text){
 async function askMau(msg){
   if(mauBusy || !msg) return;
   if(!MAU_ENDPOINT){ mauNote.textContent='未接続:ファイル内の MAU_ENDPOINT を設定してください'; return; }
-  const v=document.getElementById('mainVideo');
-  if(!v){ mauNote.textContent='まうは本編視聴中のみ応答します(▶ 本編を受信してください)'; return; }
   mauBusy=true;
   addMauMsg('user',msg); mauHistory.push({role:'user',content:msg});
   mauNote.textContent='まう思考中…';
   try{
-    const ctx=sceneAt(v.currentTime);
+    const v=document.getElementById('mainVideo');
+    const payload={ message:msg, history:mauHistory.slice(-8) };
+    if(v){
+      // 本編視聴中:シーン文脈
+      const ctx=sceneAt(v.currentTime);
+      payload.mode='film';
+      payload.timecode=fmtTc(v.currentTime);
+      payload.scene=sceneDetail(ctx.cur);
+      payload.prev=sceneBrief(ctx.prev);
+      payload.next=sceneBrief(ctx.next);
+    }else if(currentVid){
+      // YouTube視聴中:動画メタデータ
+      payload.mode='youtube';
+      let t=0; try{ t=ytPlayer&&ytPlayer.getCurrentTime?ytPlayer.getCurrentTime():0; }catch(e){}
+      payload.timecode=fmtTc(t);
+      payload.videoTitle=document.getElementById('vTitle').textContent||'(タイトル不明)';
+      payload.videoChannel=document.getElementById('vChName').textContent||'(チャンネル不明)';
+    }else{
+      // 何も再生していない:世間話
+      payload.mode='chat';
+    }
     const r=await fetch(MAU_ENDPOINT,{
       method:'POST',
       headers:{'Content-Type':'application/json','X-Mau-Token':MAU_TOKEN},
-      body:JSON.stringify({
-        message:msg,
-        timecode:fmtTc(v.currentTime),
-        scene:sceneDetail(ctx.cur),
-        prev:sceneBrief(ctx.prev),
-        next:sceneBrief(ctx.next),
-        history:mauHistory.slice(-8)
-      })
+      body:JSON.stringify(payload)
     });
     if(!r.ok) throw new Error(r.status);
     const j=await r.json();
@@ -1192,7 +1206,10 @@ async function askMau(msg){
 }
 document.getElementById('mauSend').addEventListener('click',()=>{ const m=mauInput.value.trim(); if(m){ mauInput.value=''; askMau(m); } });
 mauInput.addEventListener('keydown',e=>{ if(e.key==='Enter'){ const m=mauInput.value.trim(); if(m){ mauInput.value=''; askMau(m); } } });
-document.getElementById('mauQuick').addEventListener('click',()=>askMau('いまのシーン、どう思った?'));
+document.getElementById('mauQuick').addEventListener('click',()=>{
+  const v=document.getElementById('mainVideo');
+  askMau(v ? 'いまのシーン、どう思った?' : (currentVid ? 'この動画どう思う?' : '最近どうう?'));
+});
 
 /* ============================================================
    ③ 閲覧UI:URL→再生+oEmbedメタデータ+フィルター
@@ -1265,9 +1282,20 @@ async function playMain(){
     const v=document.createElement('video');
     v.id='mainVideo';
     v.src=MAIN_VIDEO_URL;
-    v.controls=true; v.autoplay=true; v.playsInline=true; v.preload='metadata';
+    v.controls=true; v.playsInline=true; v.preload='auto';
+    v.setAttribute('playsinline','');
     v.style.position='absolute'; v.style.inset='0'; v.style.width='100%'; v.style.height='100%';
+    v.addEventListener('error',()=>{
+      const codes={1:'読み込み中断',2:'ネットワークエラー',3:'デコード失敗',4:'ソース非対応/取得不可(404等)'};
+      const c=v.error?v.error.code:0;
+      slot.innerHTML='<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#dff6ff;font-size:12px;letter-spacing:.1em;text-align:center;padding:20px;background:#050a0e">'
+        +'<div style="color:#ff9b9b;letter-spacing:.2em">SIGNAL ERROR ['+c+': '+(codes[c]||'不明')+']</div>'
+        +'<div>本編信号を受信できませんでした</div>'
+        +'<a href="'+MAIN_VIDEO_URL+'" target="_blank" rel="noopener noreferrer" style="color:#57d8ff">動画URLを直接開いて確認する ↗</a></div>';
+    });
     slot.appendChild(v);
+    const pr=v.play();
+    if(pr && pr.catch) pr.catch(()=>{ /* 自動再生ブロック時:コントロールの▶で手動再生可能 */ });
     return;
   }
   // フォールバック:X公式埋め込み
