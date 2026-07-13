@@ -1228,7 +1228,15 @@ async function askMau(msg){
     addMauMsg('mau',reply); mauHistory.push({role:'assistant',content:reply});
     mauNote.textContent='';
   }catch(e){
-    mauNote.textContent='通信エラー:Worker側の設定・CORS・合言葉をご確認ください';
+    const dg={
+      '401':'合言葉が不一致です。Workerの変数 WATCH_TOKEN が「mau-to-issho-2126」と完全一致か確認してください',
+      '403':'ドメイン不許可です。Workerの変数 WATCH_ORIGIN を「https://tsukilab.jp」(パスなし)にしてください',
+      '405':'Workerが旧バージョンです。最新のmau_worker_full.jsをデプロイしてください',
+      '429':'話しかけすぎです。1分ほど待ってください',
+      '500':'AI側の一時エラーです。もう一度お試しください'
+    };
+    mauNote.textContent = dg[e.message] ? '通信エラー['+e.message+']:'+dg[e.message]
+      : '通信エラー[CORS/ネット]:WATCH_ORIGINが「https://tsukilab.jp」(パスなし)か確認してください';
     mauHistory.pop();
   }
   mauBusy=false;
