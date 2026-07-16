@@ -1,4 +1,6 @@
-﻿import * as THREE from 'three';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { clone as cloneSkeleton } from 'three/addons/utils/SkeletonUtils.js';
 
 const canvas=document.querySelector('#game');
 const $=id=>document.querySelector(id);
@@ -11,7 +13,8 @@ const clock=new THREE.Clock();
 const keys=new Set();
 const fastMode=new URLSearchParams(location.search).has('fast');
 const SURVIVE_SECONDS=fastMode?12:60;
-const BOUNDS={x:8.2,z:5.1};
+const DEFAULT_BOUNDS={x:8.2,z:5.1};
+const currentBounds=()=>stages[state.stageIndex]?.bounds||DEFAULT_BOUNDS;
 const C={black:0x111116,charcoal:0x25252a,red:0xb31f2b,darkRed:0x5e1018,skin:0xc99578,pale:0xb7aaa0,denim:0x242a33};
 const materials=new Map();
 
@@ -35,7 +38,7 @@ function limb(length,radius,color){
   const pivot=new THREE.Group();pivot.add(cylinder(radius*.78,radius,length,color,0,-length/2,0,5));return pivot;
 }
 
-function createCharacter(kind='player',variant=0){
+function createProceduralCharacter(kind='player',variant=0){
   const root=new THREE.Group(),model=new THREE.Group();root.add(model);
   const player=kind==='player',boss=kind==='boss';
   const skin=boss?0xb89b8c:player?C.skin:[0x98917d,0x7e9187,0xafa392][variant%3];
@@ -63,7 +66,48 @@ function createCharacter(kind='player',variant=0){
   }
   root.userData.parts={model,leftArm,rightArm,leftLeg,rightLeg};root.scale.setScalar(boss?1.12:1);return root;
 }
+const modelAssets=new Map();
+const MODEL_FILES={
+  player:'./models/player_red_punk.glb?v=2',
+  boss:'./models/infected_girl.glb?v=2',
+  zombie0:'./models/zombie_a.glb?v=2',
+  zombie1:'./models/zombie_b.glb?v=2',
+  zombie2:'./models/zombie_c.glb?v=2'
+};
+
+async function loadModelAssets(){
+  const loader=new GLTFLoader();
+  ui.start.textContent='LOADING';ui.start.disabled=true;
+  const loaded=await Promise.all(Object.entries(MODEL_FILES).map(async([key,url])=>{
+    try{return[key,await loader.loadAsync(url)]}catch(error){console.warn('Model fallback:',key,error);return[key,null]}
+  }));
+  for(const[key,asset]of loaded)if(asset)modelAssets.set(key,asset);canvas.dataset.models=String(modelAssets.size);
+  ui.start.disabled=false;ui.start.textContent='START';
+}
+
+function modelKey(kind,variant){
+  if(kind==='player')return'player';if(kind==='boss')return'boss';return'zombie'+variant;
+}
+function setModelAction(root,name){
+  const actions=root.userData.actions;if(!actions||root.userData.actionName===name||!actions[name])return;
+  const next=actions[name],previous=actions[root.userData.actionName];
+  if(previous)previous.fadeOut(.12);
+  next.reset().fadeIn(.12);
+  if(name==='hit'||name==='death'){next.setLoop(THREE.LoopOnce,1);next.clampWhenFinished=true}else next.setLoop(THREE.LoopRepeat,Infinity);
+  next.play();root.userData.actionName=name;
+}
+function createCharacter(kind='player',variant=0){
+  const asset=modelAssets.get(modelKey(kind,variant));
+  if(!asset)return createProceduralCharacter(kind,variant);
+  const root=cloneSkeleton(asset.scene);
+  root.traverse(child=>{if(child.isMesh){child.frustumCulled=false;for(const material of(Array.isArray(child.material)?child.material:[child.material])){if(material){material.flatShading=true;material.needsUpdate=true}}}});
+  const mixer=new THREE.AnimationMixer(root),actions={};
+  for(const clip of asset.animations)actions[clip.name.toLowerCase()]=mixer.clipAction(clip);
+  root.userData.mixer=mixer;root.userData.actions=actions;root.userData.actionName='';
+  setModelAction(root,'idle');return root;
+}
 function animateCharacter(entity,time,moving=true){
+  if(entity.group.userData.mixer){setModelAction(entity.group,entity.hit>0?'hit':moving?'walk':'idle');return}
   const p=entity.group.userData.parts;if(!p)return;
   const pace=entity.kind==='boss'?5:8,swing=moving?Math.sin(time*pace+entity.phase)*.48:0;
   p.leftLeg.rotation.x=swing;p.rightLeg.rotation.x=-swing;
@@ -71,30 +115,30 @@ function animateCharacter(entity,time,moving=true){
   p.model.position.y=moving?Math.abs(Math.sin(time*pace+entity.phase))*.055:0;
 }
 
-function baseWorld(floor){
-  const w=new THREE.Group();w.add(box(18,.16,11.5,floor,0,-.1,0));
-  w.add(box(18.6,.5,.25,0x0d0d0f,0,.15,-5.65),box(18.6,.5,.25,0x0d0d0f,0,.15,5.65),box(.25,.5,11.5,0x0d0d0f,-9.2,.15,0),box(.25,.5,11.5,0x0d0d0f,9.2,.15,0));
+function baseWorld(floor,width=18,depth=11.5){
+  const w=new THREE.Group(),hx=width/2,hz=depth/2;w.add(box(width,.16,depth,floor,0,-.1,0));
+  w.add(box(width+.6,.5,.25,0x0d0d0f,0,.15,-hz-.15),box(width+.6,.5,.25,0x0d0d0f,0,.15,hz+.15),box(.25,.5,depth,0x0d0d0f,-hx-.2,.15,0),box(.25,.5,depth,0x0d0d0f,hx+.2,.15,0));
   return w;
 }
 function buildFestival(){
-  const w=baseWorld(0x2b251e);w.add(box(7.3,.65,2.1,0x19191c,0,.32,-4.35),box(7.4,.18,2.2,0x5b171b,0,2.65,-5.1));
-  addLabel(w,'SAMATEI',4.8,.95,0,2.7,-3.98,'#d9d2c5','#241014');
-  for(let i=-3;i<=3;i++){w.add(cylinder(.05,.05,1.65,0x8d7b62,i*2.2,.82,-2.85),mesh(new THREE.OctahedronGeometry(.14,0),mat(i%2?0xbc3129:0xe48a35,0x3a1005),i*2.2,1.72,-2.85))}
-  for(const x of[-7.3,6.8]){const s=new THREE.Group();s.add(box(2.2,1.5,1.6,0x6e1d1b,0,.75,0),box(2.45,.16,1.9,0xd8c49f,0,1.6,0));s.position.set(x,0,-1.7);w.add(s)}
-  for(let z=-1;z<4.5;z+=1.2)for(const x of[-8.3,8.3])w.add(box(.12,.75,.12,0x77736d,x,.38,z));return w;
+  const w=baseWorld(0x2b251e,28,18);w.add(box(10.5,.65,2.1,0x19191c,0,.32,-7.35),box(10.6,.18,2.2,0x5b171b,0,2.65,-8.1));
+  addLabel(w,'SAMATEI',6.2,.95,0,2.7,-6.98,'#d9d2c5','#241014');
+  for(let i=-3;i<=3;i++){w.add(cylinder(.05,.05,1.65,0x8d7b62,i*3.1,.82,-5.65),mesh(new THREE.OctahedronGeometry(.14,0),mat(i%2?0xbc3129:0xe48a35,0x3a1005),i*3.1,1.72,-5.65))}
+  for(const x of[-11,-7,7,11]){const s=new THREE.Group();s.add(box(2.2,1.5,1.6,0x6e1d1b,0,.75,0),box(2.45,.16,1.9,0xd8c49f,0,1.6,0));s.position.set(x,0,-3.1);w.add(s)}
+  for(let z=-4.8;z<7.4;z+=1.2)for(const x of[-12.7,12.7])w.add(box(.12,.75,.12,0x77736d,x,.38,z));return w;
 }
 function buildStore(){
-  const w=baseWorld(0x25282a);w.add(box(17.2,3.6,.45,0xb7c4b5,0,1.8,-5.15),box(17.3,.3,.5,0x264c45,0,2.85,-4.85),box(17.3,.22,.51,0xa91e2d,0,2.53,-4.84));
-  addLabel(w,'24 HOUR STORE',4.3,.66,-3.8,3.28,-4.91,'#183b35','#d8e2d5');
-  for(let x=-7.5;x<=6.2;x+=2.75)w.add(box(2.25,2,.12,0x8bb7a4,x,1.25,-4.86,0x10211b),box(.12,2.2,.3,0x22292a,x+1.22,1.25,-4.74));
-  w.add(box(2.25,.12,7.5,0xb6b3a7,5.9,.04,.6),box(1.2,1.7,.75,0xa51726,-7.3,.85,3.8),box(.9,.55,.8,0x183957,7.2,.28,3.6));
-  for(let z=-2.7;z<4;z+=1.15)w.add(box(2,.035,.08,0xe1ded0,5.9,.14,z));return w;
+  const w=baseWorld(0x25282a,28,18);w.add(box(27.2,3.6,.45,0xb7c4b5,0,1.8,-8.15),box(27.3,.3,.5,0x264c45,0,2.85,-7.85),box(27.3,.22,.51,0xa91e2d,0,2.53,-7.84));
+  addLabel(w,'24 HOUR STORE',4.3,.66,-5.8,3.28,-7.91,'#183b35','#d8e2d5');
+  for(let x=-12.5;x<=11.2;x+=2.75)w.add(box(2.25,2,.12,0x8bb7a4,x,1.25,-7.86,0x10211b),box(.12,2.2,.3,0x22292a,x+1.22,1.25,-7.74));
+  w.add(box(2.25,.12,11.5,0xb6b3a7,8.9,.04,.6),box(1.2,1.7,.75,0xa51726,-11.3,.85,5.8),box(.9,.55,.8,0x183957,11.2,.28,5.6));for(let x=-10;x<=10;x+=4)w.add(box(2.2,.18,.42,0xc6c0ad,x,.1,4.8));
+  for(let z=-4.7;z<6;z+=1.15)w.add(box(2,.035,.08,0xe1ded0,8.9,.14,z));return w;
 }
 function buildLobby(){
-  const w=baseWorld(0x555554);w.add(box(18,3.8,.45,0x44464a,0,1.9,-5.15),box(3.6,3.1,.18,0x25272a,0,1.55,-4.88),box(1.65,2.7,.14,0x727276,-.88,1.4,-4.75),box(1.65,2.7,.14,0x727276,.88,1.4,-4.75),box(.12,.08,.03,0xd33538,-.1,1.35,-4.63,0x550000));
-  for(let y=.55;y<=2.5;y+=.48)for(let x=-7.6;x<-3.2;x+=.7)w.add(box(.56,.34,.12,0x7a776d,x,y,-4.86));
-  w.add(box(3.1,.58,1.05,0x20272d,5.8,.29,-2.8),box(2.5,1.05,.5,0x30383e,6.1,.53,3.9));
-  for(let x=-8;x<=8;x++)w.add(box(.025,.02,10.5,0x696969,x,.01,0));for(let z=-5;z<=5;z++)w.add(box(17,.02,.025,0x696969,0,.01,z));return w;
+  const w=baseWorld(0x555554,28,18);w.add(box(28,3.8,.45,0x44464a,0,1.9,-8.15),box(3.6,3.1,.18,0x25272a,0,1.55,-7.88),box(1.65,2.7,.14,0x727276,-.88,1.4,-7.75),box(1.65,2.7,.14,0x727276,.88,1.4,-7.75),box(.12,.08,.03,0xd33538,-.1,1.35,-7.63,0x550000));
+  for(let y=.55;y<=2.5;y+=.48)for(let x=-12.6;x<-3.2;x+=.7)w.add(box(.56,.34,.12,0x7a776d,x,y,-7.86));
+  w.add(box(4.1,.58,1.05,0x20272d,9.2,.29,-4.8),box(3.5,1.05,.5,0x30383e,9.4,.53,5.9),box(2.8,.9,.65,0x292f35,-9.8,.45,5.8));
+  for(let x=-13;x<=13;x++)w.add(box(.025,.02,17,0x696969,x,.01,0));for(let z=-8;z<=8;z++)w.add(box(27,.02,.025,0x696969,0,.01,z));return w;
 }
 function buildRoom(){
   const w=baseWorld(0x594432);w.add(box(18,4.2,.35,0x8e877b,0,2.1,-5.22),box(.35,4.2,11,0x777168,-9,2.1,0));
@@ -107,9 +151,9 @@ function buildRoom(){
 }
 
 const stages=[
-  {name:'SAMATEI FESTIVAL',subtitle:'1 MINUTE TO DAWN',fog:0x15100e,camera:[0,13.2,14.8],spawn:.78,build:buildFestival},
-  {name:'CONVENIENCE STORE',subtitle:'THE LIGHTS ARE STILL ON',fog:0x0c1515,camera:[-1.5,12.5,15.5],spawn:.66,build:buildStore},
-  {name:'APARTMENT ENTRANCE',subtitle:'SHE IS UPSTAIRS',fog:0x111117,camera:[1.4,12.8,14.2],spawn:.55,build:buildLobby},
+  {name:'SAMATEI FESTIVAL',subtitle:'1 MINUTE TO DAWN',fog:0x15100e,camera:[0,19.2,22.5],bounds:{x:13,z:8},spawn:.78,build:buildFestival},
+  {name:'CONVENIENCE STORE',subtitle:'THE LIGHTS ARE STILL ON',fog:0x0c1515,camera:[-2,18.8,23.5],bounds:{x:13,z:8},spawn:.66,build:buildStore},
+  {name:'APARTMENT ENTRANCE',subtitle:'SHE IS UPSTAIRS',fog:0x111117,camera:[2,19.2,22.2],bounds:{x:13,z:8},spawn:.55,build:buildLobby},
   {name:'HER ROOM',subtitle:'DAY 7',fog:0x080a11,camera:[-.8,10.5,12.2],boss:true,build:buildRoom}
 ];
 const state={mode:'title',paused:false,stageIndex:0,stageTime:0,transitionTime:0,level:1,kills:0,xp:0,spawnClock:0,attackClock:0,messageTime:0,player:null,enemies:[],shots:[],particles:[],boss:null,world:null};
@@ -133,16 +177,16 @@ function resetPlayer(){
 function loadStage(index){
   clearEntities();if(state.world)scene.remove(state.world);
   const stage=stages[index];state.world=stage.build();scene.add(state.world);
-  scene.background=new THREE.Color(stage.fog);scene.fog=new THREE.Fog(stage.fog,15,30);lights(index);
+  scene.background=new THREE.Color(stage.fog);scene.fog=stage.bounds?new THREE.Fog(stage.fog,22,50):new THREE.Fog(stage.fog,15,30);lights(index);
   camera.position.fromArray(stage.camera);camera.lookAt(0,0,0);
   state.stageTime=0;state.spawnClock=.4;state.attackClock=0;
   state.player.position.set(0,0,2.5);state.player.hp=Math.min(state.player.maxHp,state.player.hp+24);
   if(stage.boss)spawnBoss();updateHud();
 }
 function spawnEnemy(){
-  const side=Math.floor(Math.random()*4),p=new THREE.Vector3();
-  if(side<2)p.set(side?BOUNDS.x:-BOUNDS.x,0,THREE.MathUtils.randFloat(-BOUNDS.z,BOUNDS.z));
-  else p.set(THREE.MathUtils.randFloat(-BOUNDS.x,BOUNDS.x),0,side===2?-BOUNDS.z:BOUNDS.z);
+  const side=Math.floor(Math.random()*4),p=new THREE.Vector3(),bounds=currentBounds();
+  if(side<2)p.set(side?bounds.x:-bounds.x,0,THREE.MathUtils.randFloat(-bounds.z,bounds.z));
+  else p.set(THREE.MathUtils.randFloat(-bounds.x,bounds.x),0,side===2?-bounds.z:bounds.z);
   const variant=Math.floor(Math.random()*3),group=createCharacter('zombie',variant);group.position.copy(p);scene.add(group);
   state.enemies.push({kind:'zombie',group,position:group.position,hp:34+state.stageIndex*10,speed:1.15+Math.random()*.48+state.stageIndex*.1,phase:Math.random()*6,hit:0});
 }
@@ -177,7 +221,7 @@ function gainKill(){
 function updatePlayer(dt,time){
   const x=(keys.has('ArrowRight')||keys.has('KeyD')?1:0)-(keys.has('ArrowLeft')||keys.has('KeyA')?1:0);
   const z=(keys.has('ArrowDown')||keys.has('KeyS')?1:0)-(keys.has('ArrowUp')||keys.has('KeyW')?1:0),moving=x!==0||z!==0;
-  if(moving){const d=new THREE.Vector3(x,0,z).normalize();state.player.position.addScaledVector(d,state.player.speed*dt);state.player.position.x=THREE.MathUtils.clamp(state.player.position.x,-BOUNDS.x,BOUNDS.x);state.player.position.z=THREE.MathUtils.clamp(state.player.position.z,-BOUNDS.z,BOUNDS.z);state.player.group.rotation.y=Math.atan2(d.x,d.z)}
+  if(moving){const d=new THREE.Vector3(x,0,z).normalize(),bounds=currentBounds();state.player.position.addScaledVector(d,state.player.speed*dt);state.player.position.x=THREE.MathUtils.clamp(state.player.position.x,-bounds.x,bounds.x);state.player.position.z=THREE.MathUtils.clamp(state.player.position.z,-bounds.z,bounds.z);state.player.group.rotation.y=Math.atan2(d.x,d.z)}
   state.player.inv=Math.max(0,state.player.inv-dt);state.player.group.visible=state.player.inv<=0||Math.floor(state.player.inv*18)%2===0;animateCharacter(state.player,time,moving);
 }
 function updateEnemies(dt,time){
@@ -250,7 +294,7 @@ function togglePause(){
 }
 function pressStart(){if(['title','gameover','ending'].includes(state.mode))startGame()}
 function animate(){
-  requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),time=clock.elapsedTime;updateGame(dt,time);renderer.render(scene,camera);
+  requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.05),time=clock.elapsedTime;updateGame(dt,time);const animated=[state.player,...state.enemies,state.boss].filter(Boolean);for(const entity of animated)entity.group.userData.mixer?.update(dt);renderer.render(scene,camera);
 }
 
 window.addEventListener('keydown',event=>{keys.add(event.code);if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(event.code))event.preventDefault();if(event.code==='Enter'||event.code==='Space')pressStart();if(event.code==='Escape'||event.code==='KeyP')togglePause()});
@@ -261,4 +305,5 @@ for(const button of ui.touch.querySelectorAll('button')){
   const release=()=>keys.delete(code);button.addEventListener('pointerup',release);button.addEventListener('pointercancel',release);button.addEventListener('pointerleave',release);
 }
 
+await loadModelAssets();
 resetPlayer();loadStage(0);state.player.group.position.set(0,0,1.7);state.player.group.rotation.y=Math.PI;ui.hud.classList.add('hidden');animate();
