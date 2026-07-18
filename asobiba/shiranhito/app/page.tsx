@@ -23,7 +23,7 @@ type Person = {
   photos: { title: string; caption: string; cell: number }[];
   posts: { no: number; author: string; date: string; body: string }[];
   friends: { slug: string; note: string }[];
-  palette: [string, string, string, string];
+  palette: string[];
   pattern: string;
   portrait: number;
 };
@@ -146,7 +146,7 @@ function Counter({ value }: { value: number }) {
 }
 
 function Portrait({ person }: { person: Person }) {
-  const sheet = person.portrait < 8 ? "/assets/portrait-sheet-a.png" : person.portrait < 16 ? "/assets/portrait-sheet-b.png" : "/assets/portrait-sheet-c.png";
+  const sheet = person.portrait < 8 ? "assets/portrait-sheet-a.png" : person.portrait < 16 ? "assets/portrait-sheet-b.png" : "assets/portrait-sheet-c.png";
   const cell = person.portrait < 16 ? person.portrait % 8 : person.portrait - 16;
   const col = cell % 4; const row = Math.floor(cell / 4);
   const rows = person.portrait < 16 ? 2 : 1;
@@ -155,7 +155,7 @@ function Portrait({ person }: { person: Person }) {
 
 function HobbyPhoto({ cell, title }: { cell: number; title: string }) {
   const col = cell % 4; const row = Math.floor(cell / 4);
-  return <div className="hobby-photo" role="img" aria-label={title} style={{backgroundImage:"url(/assets/hobby-sheet.png)",backgroundSize:"400% 200%",backgroundPosition:`${col * 33.333}% ${row * 100}%`}} />;
+  return <div className="hobby-photo" role="img" aria-label={title} style={{backgroundImage:"url(assets/hobby-sheet.png)",backgroundSize:"400% 200%",backgroundPosition:`${col * 33.333}% ${row * 100}%`}} />;
 }
 
 function setLocation(slug = "", tab: Tab = "home") {
