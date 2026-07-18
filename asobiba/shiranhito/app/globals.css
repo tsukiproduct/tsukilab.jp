@@ -277,6 +277,176 @@ button { cursor: pointer; }
 .theme-party .personal-nav { justify-content: center; background: #fff4a5; }
 .party-toy { color: #d60068; border: 5px double #ff2c91; background: #fff800; font-size: 24px; font-weight: 900; transform: rotate(1deg); }
 
+/* The sites do not share a page skeleton. Each owner arranged the same-era tools differently. */
+.random-door { width: 100%; margin: 4px 0 12px; padding: 7px; color: #700070; border: 4px outset #ead6ff; background: #fff0ff; font-weight: 700; }
+.personal-shell > div { min-width: 0; }
+.fax-file { grid-template-columns: minmax(0,1fr) 205px !important; grid-template-areas: "header header" "evidence margin" "footer footer" !important; }
+.fax-evidence { grid-area: evidence; padding: 10px 18px; }
+.fax-margin { grid-area: margin; padding: 8px; border-left: 1px solid #700; }
+.fax-margin .personal-nav { display: block; }
+.fax-margin .personal-nav button { width: 100%; margin: 2px 0; }
+.fax-margin .personal-owner > .portrait-crop { height: 160px; width: 140px; }
+
+.receipt-roll { width: min(520px,100%) !important; display: grid; grid-template-columns: 1fr !important; grid-template-areas: "header" "clerk" "nav" "copy" "footer" !important; box-shadow: 8px 8px 0 #54644e !important; }
+.receipt-clerk { grid-area: clerk; display: grid; grid-template-columns: 1fr 150px; border-bottom: 1px dashed #333; }
+.receipt-clerk .personal-owner { display: grid; grid-template-columns: 100px 1fr; text-align: left; }
+.receipt-clerk .personal-owner > .portrait-crop { grid-row: span 6; width: 88px; height: 118px; }
+.receipt-copy { grid-area: copy; padding: 0 16px 20px; }
+.receipt-roll > .personal-nav { grid-area: nav; justify-content: center; }
+
+.ledger-book { width: min(1080px,100%) !important; grid-template-columns: 1fr 1fr !important; grid-template-areas: "header header" "tabs tabs" "left right" "footer footer" !important; background: linear-gradient(90deg,#eee6cf 0 49.7%,#c2b89f 50%,#eee6cf 50.3%) !important; }
+.ledger-tabs { grid-area: tabs; }
+.ledger-tabs .personal-nav { justify-content: center; }
+.ledger-left { grid-area: left; padding: 18px 28px 30px; }
+.ledger-right { grid-area: right; padding: 18px 28px 30px; }
+.ledger-right .personal-owner { display: grid; grid-template-columns: 140px 1fr; text-align: left; }
+.ledger-right .personal-owner > .portrait-crop { grid-row: span 5; width: 125px; height: 155px; }
+
+.bakery-board { grid-template-columns: 190px minmax(0,1fr) !important; grid-template-areas: "header header" "menu main" "note main" "links main" "footer footer" !important; background: #fff4d7 !important; }
+.bakery-menu { grid-area: menu; padding: 12px; background: #77452c; }
+.bakery-menu .personal-nav { display: block; background: transparent; border: 0; }
+.bakery-menu .personal-nav button { width: 100%; margin: 4px 0; }
+.bakery-note { grid-area: note; margin: 10px; padding: 8px; background: #fff9ae; box-shadow: 2px 3px 4px #8c654e; transform: rotate(-1deg); }
+.bakery-note .personal-owner > .portrait-crop { width: 130px; height: 150px; }
+.bakery-main { grid-area: main; padding: 14px; }
+.bakery-board > .personal-links { grid-area: links; }
+
+.civic-file { width: min(820px,100%) !important; display: block !important; padding: 28px 42px; border-top: 18px solid #315f53 !important; }
+.civic-stamp { float: right; margin: 8px; padding: 5px 12px; border: 3px double #145449; color: #145449; transform: rotate(2deg); }
+.civic-summary { display: grid; grid-template-columns: 190px 1fr; clear: both; border: 1px solid #617f76; }
+.civic-summary .personal-owner > .portrait-crop { width: 145px; height: 175px; }
+.civic-appendix { margin-top: 20px; border-top: 4px double #315f53; }
+
+.race-board { grid-template-columns: minmax(0,1fr) 235px !important; grid-template-areas: "header header" "score paddock" "intro paddock" "footer footer" !important; }
+.race-score { grid-area: score; padding: 12px; }
+.race-paddock { grid-area: paddock; padding: 8px; background: #e5f5ff; border-left: 4px solid #f49b35; }
+.race-paddock .personal-nav { display: block; }
+.race-paddock .personal-nav button { width: 100%; }
+.race-paddock .personal-owner > .portrait-crop { width: 170px; height: 190px; }
+.race-board > .personal-intro { grid-area: intro; margin: 12px; }
+
+.radio-console { width: min(1180px,100%) !important; grid-template-columns: 225px minmax(0,1fr) 210px !important; grid-template-areas: "top top top" "dials screen logside" "footer footer footer" !important; }
+.radio-top { grid-area: top; display: grid; grid-template-columns: 1fr 280px; border-bottom: 7px ridge #34536d; }
+.radio-dials { grid-area: dials; background: #09111a; border-right: 7px ridge #34536d; }
+.radio-dials .personal-nav { display: block; }
+.radio-dials .personal-nav button { width: 100%; }
+.radio-dials .personal-owner > .portrait-crop { width: 160px; height: 175px; }
+.radio-screen { grid-area: screen; padding: 12px; }
+.radio-logside { grid-area: logside; padding: 8px; border-left: 7px ridge #34536d; }
+
+.doll-cabinet { width: min(1050px,100%) !important; grid-template-columns: 185px minmax(0,1fr) 180px !important; grid-template-areas: "plaque plaque plaque" "left center right" "footer footer footer" !important; }
+.cabinet-plaque { grid-area: plaque; }
+.cabinet-door { padding: 10px; background: #e4d2dc; box-shadow: inset 0 0 20px #735367; }
+.left-door { grid-area: left; }
+.right-door { grid-area: right; }
+.cabinet-center { grid-area: center; padding: 18px; }
+.cabinet-door .personal-nav { display: block; }
+.cabinet-door .personal-nav button { width: 100%; }
+.cabinet-door .personal-owner > .portrait-crop { width: 140px; height: 175px; }
+
+.field-notebook { width: min(920px,100%) !important; grid-template-columns: 230px minmax(0,1fr) !important; grid-template-areas: "cover page" "ribbon page" "pocket page" "footer footer" !important; background: #eee8bf !important; }
+.field-cover { grid-area: cover; color: #e8efc5; background: #29351f; }
+.field-cover .personal-owner > .portrait-crop { width: 175px; height: 200px; }
+.field-ribbon { grid-area: ribbon; }
+.field-ribbon .personal-nav { display: block; }
+.field-ribbon .personal-nav button { width: 100%; }
+.field-page { grid-area: page; padding: 18px 24px; background-image: repeating-linear-gradient(0deg,transparent 0 25px,#c9c396 26px); }
+.field-pocket { grid-area: pocket; padding: 8px; border-top: 1px solid #766b45; }
+
+.aquarium-window { width: min(1080px,100%) !important; grid-template-columns: minmax(0,1fr) 260px !important; grid-template-areas: "header counter" "glass counter" "footer footer" !important; }
+.aquarium-window > .personal-header { grid-area: header; }
+.tank-glass { grid-area: glass; min-height: 640px; padding: 18px; background: linear-gradient(#c9fbff,#80d3dd); box-shadow: inset 0 0 35px #078ca0; }
+.shop-counter { grid-area: counter; background: #efffff; border-left: 10px ridge #72c7d2; }
+.shop-counter .personal-nav { display: block; }
+.shop-counter .personal-nav button { width: 100%; }
+.shop-counter .personal-owner > .portrait-crop { width: 185px; height: 210px; }
+
+.archive-drawer { width: min(960px,100%) !important; grid-template-columns: 230px minmax(0,1fr) !important; grid-template-areas: "header header" "catalog desk" "slip desk" "footer footer" !important; }
+.card-catalog { grid-area: catalog; padding: 10px; background: #b7a982; box-shadow: inset -6px 0 #766b51; }
+.card-catalog .personal-nav { display: block; }
+.card-catalog .personal-nav button { width: 100%; }
+.card-catalog .personal-owner > .portrait-crop { width: 165px; height: 190px; }
+.reading-desk { grid-area: desk; padding: 24px; }
+.archive-slip { grid-area: slip; margin: 10px; background: #eee6cc; transform: rotate(1deg); }
+
+.crt-case { width: min(820px,100%) !important; display: block !important; padding: 22px; border: 18px outset #4d4d79 !important; border-radius: 26px; background: #24243c !important; }
+.crt-screen { padding: 12px 20px; border: 8px inset #555; border-radius: 35px / 22px; background: #000047; }
+.crt-screen .personal-nav { justify-content: center; }
+.cartridge-label { display: grid; grid-template-columns: 210px 1fr; margin-top: 15px; color: #111; background: #c9c3ba; }
+.cartridge-label .personal-owner > .portrait-crop { width: 160px; height: 180px; }
+.controller-port { color: #00ffff; background: #111; }
+
+.photo-studio { width: min(940px,100%) !important; grid-template-columns: 250px minmax(0,1fr) !important; grid-template-areas: "header header" "portrait desk" "envelope desk" "footer footer" !important; }
+.studio-portrait { grid-area: portrait; padding: 18px; background: #d7d4cb; }
+.studio-portrait .personal-owner > .portrait-crop { width: 200px; height: 270px; }
+.studio-desk { grid-area: desk; padding: 28px; }
+.studio-envelope { grid-area: envelope; margin: 12px; padding: 8px; border: 1px solid #777; background: #f5f0df; }
+.studio-envelope .personal-nav { display: block; }
+.studio-envelope .personal-nav button { width: 100%; }
+
+.sky-scrapbook { width: min(1020px,100%) !important; grid-template-columns: minmax(0,1fr) 270px !important; grid-template-areas: "header header" "map postcard" "map caption" "footer footer" !important; background: transparent !important; box-shadow: none !important; }
+.sky-map { grid-area: map; padding: 12px; background: #effaff; box-shadow: 3px 5px 12px #476f88; }
+.sky-postcard { grid-area: postcard; margin: 16px; background: #fff; box-shadow: 3px 4px 8px #567; transform: rotate(2deg); }
+.sky-postcard .personal-owner > .portrait-crop { width: 190px; height: 210px; }
+.sky-caption { grid-area: caption; margin: 10px; padding: 8px; background: #fffbd5; transform: rotate(-1deg); }
+
+.security-panel { width: min(1120px,100%) !important; grid-template-columns: 240px minmax(0,1fr) 220px !important; grid-template-areas: "cam cam cam" "controls monitor report" "footer footer footer" !important; background: #c6c8b3 !important; }
+.security-cam { grid-area: cam; display: grid; grid-template-columns: 1fr 260px; }
+.security-controls { grid-area: controls; border-right: 8px ridge #666; }
+.security-controls .personal-nav { display: block; }
+.security-controls .personal-nav button { width: 100%; }
+.security-controls .personal-owner > .portrait-crop { width: 170px; height: 190px; }
+.security-monitor { grid-area: monitor; padding: 14px; background: #111; }
+.security-report { grid-area: report; padding: 8px; border-left: 8px ridge #666; }
+
+.tearoom-letter { width: min(980px,100%) !important; grid-template-columns: minmax(0,1fr) 230px !important; grid-template-areas: "sign sign" "menu menu" "table corner" "footer footer" !important; padding: 25px; background: #eee7d8 !important; }
+.tearoom-sign { grid-area: sign; border-bottom: 1px solid #8c7a61; }
+.tearoom-menu { grid-area: menu; }
+.tearoom-table { grid-area: table; padding: 25px 35px; }
+.tearoom-corner { grid-area: corner; padding: 15px; border-left: 1px solid #8c7a61; }
+.tearoom-corner .personal-owner > .portrait-crop { width: 175px; height: 210px; }
+
+.school-board { width: min(1060px,100%) !important; grid-template-columns: 170px minmax(0,1fr) 230px !important; grid-template-areas: "header header header" "hooks center papers" "footer footer footer" !important; }
+.school-hooks { grid-area: hooks; padding: 9px; background: #d0aa69; }
+.school-hooks .personal-nav { display: block; }
+.school-hooks .personal-nav button { width: 100%; margin: 4px 0; }
+.school-center { grid-area: center; padding: 14px; }
+.school-papers { grid-area: papers; margin: 12px; padding: 8px; background: #fff; box-shadow: 2px 3px 4px #877; transform: rotate(1deg); }
+.school-papers .personal-owner > .portrait-crop { width: 175px; height: 190px; }
+
+.terminal-session { width: min(920px,100%) !important; display: block !important; padding: 14px 24px; }
+.terminal-banner { border-bottom: 1px dashed #1dbd58; }
+.terminal-command .personal-nav { justify-content: flex-start; }
+.terminal-command .personal-nav button::before { content: "["; }
+.terminal-command .personal-nav button::after { content: "]"; }
+.terminal-output { padding: 12px 0; }
+.terminal-who .personal-owner { display: grid; grid-template-columns: 150px 1fr; text-align: left; border-top: 1px dashed #1dbd58; }
+.terminal-who .personal-owner > .portrait-crop { width: 130px; height: 150px; }
+
+.ferry-logbook { width: min(1100px,100%) !important; grid-template-columns: 240px minmax(0,1fr) !important; grid-template-areas: "ticket ticket" "bunk window" "notice window" "footer footer" !important; }
+.ferry-ticket { grid-area: ticket; display: grid; grid-template-columns: 1fr auto; border-bottom: 5px dashed #8da4b6; }
+.ferry-bunk { grid-area: bunk; padding: 10px; background: #102a3d; }
+.ferry-bunk .personal-owner > .portrait-crop { width: 180px; height: 210px; }
+.ferry-window { grid-area: window; padding: 22px; background: linear-gradient(90deg,#0e2d45,#1b4864); }
+.ferry-notice { grid-area: notice; padding: 8px; }
+
+.party-invitation { width: min(1000px,100%) !important; grid-template-columns: 250px minmax(0,1fr) !important; grid-template-areas: "ribbon ribbon" "rsvp stage" "table stage" "footer footer" !important; }
+.party-ribbon { grid-area: ribbon; display: grid; grid-template-columns: 1fr 260px; }
+.party-rsvp { grid-area: rsvp; padding: 12px; background: #fff1ad; }
+.party-rsvp .personal-nav { display: block; }
+.party-rsvp .personal-nav button { width: 100%; }
+.party-rsvp .personal-owner > .portrait-crop { width: 190px; height: 210px; }
+.party-stage { grid-area: stage; padding: 20px; background: #fff; }
+.party-table { grid-area: table; background: #ffe2f3; }
+
+.web-pet { position: relative; min-height: 82px; overflow: hidden; }
+.web-pet i { display: block; font: 700 28px monospace; animation: pet-walk 5s linear infinite alternate; }
+.web-pet b, .web-pet small { display: block; }
+@keyframes pet-walk { from { transform: translateX(-35%); } to { transform: translateX(35%); } }
+.legacy-chat { text-align: left; background: #000; }
+.legacy-chat p { margin: 2px; }
+.chat-ended { color: #777; }
+
 @media (max-width: 760px) {
   body { font-size: 14px; }
   .archive-banner h1 { font-size: 30px; }
@@ -290,6 +460,10 @@ button { cursor: pointer; }
   .directory-copy { grid-column: 2; }
   .archive-intro span { display: none; }
   .personal-v2 { padding: 0; }
+  .fax-file, .receipt-roll, .ledger-book, .bakery-board, .civic-file, .race-board, .radio-console, .doll-cabinet, .field-notebook, .aquarium-window, .archive-drawer, .crt-case, .photo-studio, .sky-scrapbook, .security-panel, .tearoom-letter, .school-board, .terminal-session, .ferry-logbook, .party-invitation { display: block !important; width: 100% !important; padding-left: 0; padding-right: 0; border-left-width: 2px !important; border-right-width: 2px !important; }
+  .receipt-clerk, .ledger-right .personal-owner, .radio-top, .cartridge-label, .civic-summary, .security-cam, .ferry-ticket, .party-ribbon { display: block; }
+  .fax-margin, .race-paddock, .radio-logside, .shop-counter, .security-report, .tearoom-corner { border-left: 0; border-right: 0; border-top: 2px solid var(--accent); }
+  .cabinet-door, .field-cover, .card-catalog, .studio-portrait, .school-papers, .ferry-bunk, .party-rsvp { margin: 0; transform: none; }
   .personal-shell, .theme-occult .personal-shell, .theme-receipt .personal-shell, .theme-ledger .personal-shell, .theme-radio .personal-shell, .theme-doll .personal-shell, .theme-archive .personal-shell, .theme-pixel .personal-shell, .theme-memorial .personal-shell, .theme-security .personal-shell, .theme-tearoom .personal-shell, .theme-terminal .personal-shell, .theme-ferry .personal-shell { width: 100%; transform: none; grid-template-columns: 1fr; grid-template-areas: "header" "nav" "owner" "content" "links" "footer"; }
   .personal-header { grid-template-columns: 38px 1fr; text-align: left; }
   .personal-header h1, .theme-occult .personal-header h1, .theme-pixel .personal-header h1 { font-size: 25px; }

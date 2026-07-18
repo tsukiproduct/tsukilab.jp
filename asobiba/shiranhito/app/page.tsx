@@ -29,11 +29,10 @@ function ContactCrop({ kind, sheet, cell, label, compact = false }: { kind: "por
 
 function Archive({ count }: { count: number }) {
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState("all");
   const filtered = useMemo(() => peopleV2.filter((person) => {
     const haystack = `${person.name}${person.title}${person.job}${person.town}${person.tagline}`.toLowerCase();
-    return haystack.includes(query.toLowerCase()) && (filter === "all" || person.mood === filter);
-  }), [query, filter]);
+    return haystack.includes(query.toLowerCase());
+  }), [query]);
 
   return <main className="archive-v2">
     <header className="archive-banner">
@@ -52,9 +51,7 @@ function Archive({ count }: { count: number }) {
       <aside className="archive-control">
         <h2>◆ ページを探す ◆</h2>
         <label>名前・職業・気になる言葉<input value={query} onChange={(event) => setQuery(event.target.value)} /></label>
-        <div className="mood-buttons">
-          {[["all", "全部"], ["bright", "楽しい"], ["quiet", "真面目"], ["strange", "変"], ["dark", "不穏"]].map(([id, label]) => <button className={filter === id ? "selected" : ""} key={id} onClick={() => setFilter(id)}>{label}</button>)}
-        </div>
+        <button className="random-door" onClick={() => { const person = peopleV2[Math.floor(Math.random() * peopleV2.length)]; go(person.slug, person.pages[0].id); }}>おまかせで一軒</button>
         <div className="archive-note">
           <b>このリンク集について</b>
           <p>二十人は全員架空です。ただし、ページの中では互いを知っています。</p>
@@ -65,7 +62,7 @@ function Archive({ count }: { count: number }) {
 
       <section className="archive-list" id="people">
         <div className="archive-intro"><b>登録ページ {filtered.length}件</b><span>［怖いページには印を付けていません］</span></div>
-        {filtered.map((person, index) => <article className={`directory-card mood-${person.mood} card-${person.layout}`} key={person.slug}>
+        {filtered.map((person, index) => <article className={`directory-card card-${person.layout}`} key={person.slug}>
           <button className="directory-photo" onClick={() => go(person.slug, person.pages[0].id)} aria-label={`${person.title}を開く`}><ContactCrop kind="portrait" sheet={person.portraitSheet} cell={person.portraitCell} label={`${person.name}の写真`} compact /></button>
           <div className="directory-number">{String(index + 1).padStart(2, "0")} {person.icon}</div>
           <div className="directory-copy">
@@ -116,6 +113,11 @@ function ThemeToy({ person }: { person: PersonV2 }) {
   if (person.layout === "radio") return <div className="theme-toy wave-toy">⌁⌁⌁ ▂▅▇▃▁ ⌁⌁⌁</div>;
   if (person.layout === "party") return <div className="theme-toy party-toy">祝・別々の門出！</div>;
   if (person.layout === "security") return <div className="theme-toy security-toy"><i /> 戸締まり：確認したつもり</div>;
+  if (person.layout === "bakery") return <div className="theme-toy web-pet pet-yeast"><i>●</i><b>発酵くん</b><small>きょうも少しふくらみました</small></div>;
+  if (person.layout === "race") return <div className="theme-toy web-pet pet-pigeon"><i>⌁</i><b>部長号</b><small>おなか：■■■□　きげん：ふつう</small></div>;
+  if (person.layout === "aqua") return <div className="theme-toy web-pet pet-fish"><i>＜°)))彡</i><b>なまえはまだない</b><small>水温 25.1℃</small></div>;
+  if (person.layout === "school") return <div className="theme-toy web-pet pet-rabbit"><i>／(・x・)＼</i><b>飼育小屋から来たウサギ</b><small>クリックしても何も起きません</small></div>;
+  if (person.layout === "terminal") return <div className="theme-toy legacy-chat"><b>CHAT ROOM #放課後</b><p>&lt;risa&gt; まだいる？</p><p>&lt;guest_03&gt; ROMしてます</p><p className="chat-ended">*** 2001/07/24 02:11 接続が切れました</p></div>;
   return <div className="theme-toy simple-toy">{person.icon} {person.tagline}</div>;
 }
 
@@ -123,48 +125,39 @@ function PersonalSite({ person, pageId, count }: { person: PersonV2; pageId: str
   const page = person.pages.find((item) => item.id === pageId) || person.pages[0];
   const style = { "--bg": person.colors[0], "--ink": person.colors[1], "--accent": person.colors[2], "--paper": person.colors[3] } as React.CSSProperties;
 
-  return <main className={`personal-v2 theme-${person.layout} mood-${person.mood}`} style={style}>
-    <div className="personal-shell">
-      <header className="personal-header">
-        <div className="header-icon">{person.icon}</div>
-        <div><h1>{person.title}</h1><p>{person.tagline}</p></div>
-        <div className="header-since">SINCE {person.since}<br />LAST UPDATE {person.updated}</div>
-      </header>
+  const header = <header className="personal-header"><div className="header-icon">{person.icon}</div><div><h1>{person.title}</h1><p>{person.tagline}</p></div><div className="header-since">SINCE {person.since}<br />LAST UPDATE {person.updated}</div></header>;
+  const nav = <nav className="personal-nav" aria-label={`${person.title}のメニュー`}>{person.pages.map((item) => <button key={item.id} className={page.id === item.id ? "active" : ""} onClick={() => go(person.slug, item.id)}>{item.label}</button>)}<button onClick={() => go()}>リンク集へ戻る</button></nav>;
+  const owner = <aside className="personal-owner"><ContactCrop kind="portrait" sheet={person.portraitSheet} cell={person.portraitCell} label={`${person.name}の肖像`} /><h2>管理人</h2><p className="owner-name">{person.name}<small>（{person.kana}）</small></p><dl><dt>年齢</dt><dd>{person.age}歳</dd><dt>職業</dt><dd>{person.job}</dd><dt>所在地</dt><dd>{person.town}</dd></dl><ul>{person.profile.map((line) => <li key={line}>{line}</li>)}</ul><div className="owner-counter">あなたは<br /><Counter value={count} narrow /><br />人目のお客様</div></aside>;
+  const intro = <div className="personal-intro">{person.intro.map((paragraph, i) => <p key={i}>{paragraph}</p>)}</div>;
+  const content = <section className="personal-content"><div className="page-title"><span>{person.icon}</span><h2>{page.label}</h2><span>{person.icon}</span></div><div className="blocks">{page.blocks.map((block, index) => <BlockView block={block} person={person} index={index} key={`${block.title}-${index}`} />)}</div></section>;
+  const toy = <ThemeToy person={person} />;
+  const links = <aside className="personal-links"><h2>相互リンク</h2>{person.links.map((link) => { const friend = peopleBySlug.get(link.slug); return friend ? <button key={link.slug} onClick={() => go(friend.slug, friend.pages[0].id)}><b>{friend.icon} {friend.title}</b><small>{link.note}</small></button> : null; })}<p>当サイトはリンクフリーです。バナーはお持ち帰りください。</p></aside>;
+  const footer = <footer className="personal-footer"><p>このページに掲載された文章・写真の無断転載を禁じます。</p><p>Copyright (C) 1996-2001 {person.name}. All Rights Reserved.</p><button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>▲ PAGE TOP</button></footer>;
 
-      <nav className="personal-nav" aria-label={`${person.title}のメニュー`}>
-        {person.pages.map((item) => <button key={item.id} className={page.id === item.id ? "active" : ""} onClick={() => go(person.slug, item.id)}>{item.label}</button>)}
-        <button onClick={() => go()}>リンク集へ戻る</button>
-      </nav>
+  const frames: Record<string, React.ReactNode> = {
+    occult: <div className="personal-shell fax-file">{header}<div className="fax-evidence">{intro}{content}</div><div className="fax-margin">{nav}{toy}{owner}{links}</div>{footer}</div>,
+    receipt: <div className="personal-shell receipt-roll">{header}<div className="receipt-clerk">{owner}{toy}</div>{nav}<div className="receipt-copy">{intro}{content}{links}</div>{footer}</div>,
+    ledger: <div className="personal-shell ledger-book">{header}<div className="ledger-tabs">{nav}</div><div className="ledger-left">{intro}{content}</div><div className="ledger-right">{owner}{toy}{links}</div>{footer}</div>,
+    bakery: <div className="personal-shell bakery-board">{header}<div className="bakery-menu">{nav}</div><div className="bakery-note">{intro}{owner}</div><div className="bakery-main">{toy}{content}</div>{links}{footer}</div>,
+    civic: <div className="personal-shell civic-file">{header}<div className="civic-stamp">資料番号 {person.counter}</div>{nav}<div className="civic-summary">{owner}{intro}</div>{content}<div className="civic-appendix">{links}{toy}</div>{footer}</div>,
+    race: <div className="personal-shell race-board">{header}<div className="race-score">{toy}{content}</div><div className="race-paddock">{owner}{nav}{links}</div>{intro}{footer}</div>,
+    radio: <div className="personal-shell radio-console"><div className="radio-top">{header}{toy}</div><div className="radio-dials">{nav}{owner}</div><div className="radio-screen">{content}</div><div className="radio-logside">{intro}{links}</div>{footer}</div>,
+    doll: <div className="personal-shell doll-cabinet"><div className="cabinet-plaque">{header}</div><div className="cabinet-door left-door">{owner}{nav}</div><div className="cabinet-center">{intro}{content}</div><div className="cabinet-door right-door">{toy}{links}</div>{footer}</div>,
+    forest: <div className="personal-shell field-notebook"><div className="field-cover">{header}{owner}</div><div className="field-ribbon">{nav}</div><div className="field-page">{intro}{content}</div><div className="field-pocket">{links}{toy}</div>{footer}</div>,
+    aqua: <div className="personal-shell aquarium-window">{header}<div className="tank-glass">{toy}{content}</div><div className="shop-counter">{owner}{intro}{nav}{links}</div>{footer}</div>,
+    archive: <div className="personal-shell archive-drawer">{header}<div className="card-catalog">{nav}{owner}{links}</div><div className="reading-desk">{intro}{content}</div><div className="archive-slip">{toy}</div>{footer}</div>,
+    pixel: <div className="personal-shell crt-case"><div className="crt-screen">{header}{nav}{toy}{content}</div><div className="cartridge-label">{owner}{intro}</div><div className="controller-port">{links}</div>{footer}</div>,
+    memorial: <div className="personal-shell photo-studio">{header}<div className="studio-portrait">{owner}</div><div className="studio-desk">{intro}{content}</div><div className="studio-envelope">{nav}{links}{toy}</div>{footer}</div>,
+    sky: <div className="personal-shell sky-scrapbook">{header}<div className="sky-map">{nav}{content}</div><div className="sky-postcard">{owner}{intro}</div><div className="sky-caption">{toy}{links}</div>{footer}</div>,
+    security: <div className="personal-shell security-panel"><div className="security-cam">{header}{toy}</div><div className="security-controls">{nav}{owner}</div><div className="security-monitor">{content}</div><div className="security-report">{intro}{links}</div>{footer}</div>,
+    tearoom: <div className="personal-shell tearoom-letter"><div className="tearoom-sign">{header}</div><div className="tearoom-menu">{nav}</div><div className="tearoom-table">{intro}{content}</div><div className="tearoom-corner">{owner}{links}{toy}</div>{footer}</div>,
+    school: <div className="personal-shell school-board">{header}<div className="school-hooks">{nav}</div><div className="school-center">{toy}{content}</div><div className="school-papers">{owner}{intro}{links}</div>{footer}</div>,
+    terminal: <div className="personal-shell terminal-session"><div className="terminal-banner">{header}</div><div className="terminal-command">{nav}</div><div className="terminal-output">{intro}{content}{toy}</div><div className="terminal-who">{owner}{links}</div>{footer}</div>,
+    ferry: <div className="personal-shell ferry-logbook"><div className="ferry-ticket">{header}{nav}</div><div className="ferry-window">{content}</div><div className="ferry-bunk">{owner}{intro}</div><div className="ferry-notice">{links}{toy}</div>{footer}</div>,
+    party: <div className="personal-shell party-invitation"><div className="party-ribbon">{header}{toy}</div><div className="party-rsvp">{nav}{owner}</div><div className="party-stage">{intro}{content}</div><div className="party-table">{links}</div>{footer}</div>
+  };
 
-      <aside className="personal-owner">
-        <ContactCrop kind="portrait" sheet={person.portraitSheet} cell={person.portraitCell} label={`${person.name}の肖像`} />
-        <h2>管理人</h2>
-        <p className="owner-name">{person.name}<small>（{person.kana}）</small></p>
-        <dl><dt>年齢</dt><dd>{person.age}歳</dd><dt>職業</dt><dd>{person.job}</dd><dt>所在地</dt><dd>{person.town}</dd></dl>
-        <ul>{person.profile.map((line) => <li key={line}>{line}</li>)}</ul>
-        <div className="owner-counter">あなたは<br /><Counter value={count} narrow /><br />人目のお客様</div>
-      </aside>
-
-      <section className="personal-content">
-        <div className="personal-intro">{person.intro.map((paragraph, i) => <p key={i}>{paragraph}</p>)}</div>
-        <ThemeToy person={person} />
-        <div className="page-title"><span>{person.icon}</span><h2>{page.label}</h2><span>{person.icon}</span></div>
-        <div className="blocks">{page.blocks.map((block, index) => <BlockView block={block} person={person} index={index} key={`${block.title}-${index}`} />)}</div>
-      </section>
-
-      <aside className="personal-links">
-        <h2>相互リンク</h2>
-        {person.links.map((link) => { const friend = peopleBySlug.get(link.slug); return friend ? <button key={link.slug} onClick={() => go(friend.slug, friend.pages[0].id)}><b>{friend.icon} {friend.title}</b><small>{link.note}</small></button> : null; })}
-        <p>当サイトはリンクフリーです。バナーはお持ち帰りください。</p>
-      </aside>
-
-      <footer className="personal-footer">
-        <p>このページに掲載された文章・写真の無断転載を禁じます。</p>
-        <p>Copyright (C) 1996-2001 {person.name}. All Rights Reserved.</p>
-        <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>▲ PAGE TOP</button>
-      </footer>
-    </div>
-  </main>;
+  return <main className={`personal-v2 theme-${person.layout}`} style={style}>{frames[person.layout]}</main>;
 }
 
 export default function Home() {
@@ -193,6 +186,10 @@ export default function Home() {
     }, 0);
     return () => window.clearTimeout(timer);
   }, [route.slug]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [route.slug, route.page]);
 
   const person = peopleBySlug.get(route.slug);
   if (!person) return <Archive count={counts.archive || 88214} />;
