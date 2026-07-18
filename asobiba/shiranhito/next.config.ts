@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: { unoptimized: true },
   typescript: { ignoreBuildErrors: true },
+  env: { NEXT_PUBLIC_ASSET_BASE: "/asobiba/shiranhito" },
 };
 
 export default nextConfig;

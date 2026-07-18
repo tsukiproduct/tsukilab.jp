@@ -3,13 +3,13 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "知らん人のホームページ集",
-  description: "どこか懐かしい、20人の架空の個人ホームページを巡るリンク集。",
+  description: "二十人の、まるで知らない人たちが残した個人ホームページを巡る架空のリンク集。",
   other: {
     "codex-preview": "development",
   },
   icons: {
-    icon: "/asobiba/shiranhito/favicon.svg",
-    shortcut: "/asobiba/shiranhito/favicon.svg",
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
   },
 };
 
