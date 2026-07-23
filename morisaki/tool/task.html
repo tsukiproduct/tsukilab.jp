@@ -1,333 +1,413 @@
-import React, { useState, useMemo, useEffect } from "react";
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#15171A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>やることリスト</title>
+<style>
+  :root{
+    --page:#15171A; --card:#1E2126; --cardBorder:#2E3238; --field:#262A30;
+    --fieldBorder:#3A3F47; --text:#F2F4F6; --sub:#A2A9B2; --faint:#6E757E;
+    --accent:#F2F4F6; --accentText:#15171A;
+    --pHighBg:#3A1F22; --pHighFg:#FF8A80;
+    --pMidBg:#3A3220;  --pMidFg:#FFC864;
+    --pLowBg:#1F3128;  --pLowFg:#7FD1A6;
+    --startBg:#1E3050; --startFg:#93BDFF;
+    --doneBg:#1F3D2C;  --doneFg:#86E0AC;
+    --d0:#FF7A7A; --d3:#FF9E6B; --d5:#FFC978; --d7:#B9D97A; --dFar:#9AA0A6; --dOver:#FF6B6B;
+    --picker:invert(1);
+  }
+  html[data-theme="light"]{
+    --page:#F7F6F2; --card:#FFFFFF; --cardBorder:#E4E1D9; --field:#FFFFFF;
+    --fieldBorder:#D6D2C8; --text:#1B1D21; --sub:#5C636B; --faint:#8B9199;
+    --accent:#1B1D21; --accentText:#FFFFFF;
+    --pHighBg:#FFE4E1; --pHighFg:#B3261E;
+    --pMidBg:#FFF3D6;  --pMidFg:#8F5E00;
+    --pLowBg:#E6F2EC;  --pLowFg:#1F6144;
+    --startBg:#EAF1FF; --startFg:#1E4FA8;
+    --doneBg:#E4F3EA;  --doneFg:#1F6144;
+    --d0:#C62828; --d3:#D84315; --d5:#B26A00; --d7:#5C7A29; --dFar:#6B7280; --dOver:#8B0000;
+    --picker:none;
+  }
 
-const PRIORITY = {
-  high: { label: "高", rank: 0, bg: "#3A1F22", fg: "#FF8A80", lightBg: "#FFE4E1", lightFg: "#B3261E" },
-  mid: { label: "中", rank: 1, bg: "#3A3220", fg: "#FFC864", lightBg: "#FFF3D6", lightFg: "#8F5E00" },
-  low: { label: "低", rank: 2, bg: "#1F3128", fg: "#7FD1A6", lightBg: "#E6F2EC", lightFg: "#1F6144" },
-};
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--page); color:var(--text);
+    font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;
+    min-height:100vh;
+    -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:28px 18px calc(80px + env(safe-area-inset-bottom));}
 
-const STATUS = { todo: "未着手", doing: "進行中", done: "終わった" };
+  header{display:flex;align-items:flex-start;gap:12px;margin-bottom:22px;}
+  h1{font-size:28px;font-weight:900;letter-spacing:-.02em;margin:0;}
+  .count{font-size:13px;color:var(--sub);margin:6px 0 0;}
 
-function daysLeft(due) {
-  if (!due) return null;
-  const t = new Date();
-  t.setHours(0, 0, 0, 0);
-  return Math.round((new Date(due + "T00:00:00") - t) / 86400000);
-}
+  .card{background:var(--card);border:1px solid var(--cardBorder);border-radius:16px;padding:16px;margin-bottom:22px;}
+  label.lb{font-size:12px;color:var(--sub);font-weight:700;display:block;margin-bottom:6px;}
 
-function dueStyle(n, dark) {
-  if (n === null) return null;
-  const p = (light, darkC) => (dark ? darkC : light);
-  if (n < 0) return { text: `${Math.abs(n)}日超過`, color: p("#8B0000", "#FF6B6B"), weight: 800 };
-  if (n === 0) return { text: "今日まで", color: p("#C62828", "#FF7A7A"), weight: 800 };
-  if (n <= 3) return { text: `あと${n}日`, color: p("#D84315", "#FF9E6B"), weight: 700 };
-  if (n <= 5) return { text: `あと${n}日`, color: p("#B26A00", "#FFC978"), weight: 600 };
-  if (n <= 7) return { text: `あと${n}日`, color: p("#5C7A29", "#B9D97A"), weight: 600 };
-  return { text: `あと${n}日`, color: p("#6B7280", "#9AA0A6"), weight: 500 };
-}
+  input,select{
+    background:var(--field); border:1px solid var(--fieldBorder); color:var(--text);
+    border-radius:10px; font-size:16px; font-family:inherit;
+    width:100%; max-width:100%; min-width:0; outline:none;
+    height:48px; padding:0 14px;
+  }
+  input::placeholder{color:var(--faint);}
+  select option{color:#1B1D21;background:#fff;}
 
-export default function TaskApp() {
-  const [dark, setDark] = useState(true);
-  const [tasks, setTasks] = useState([]);
-  const [title, setTitle] = useState("");
-  const [due, setDue] = useState("");
-  const [priority, setPriority] = useState("mid");
-  const [tab, setTab] = useState("active");
-  const [sortBy, setSortBy] = useState("priority");
-  const [pop, setPop] = useState(null);
+  input[type="date"]{
+    -webkit-appearance:none; appearance:none; display:block; text-align:left;
+  }
+  input[type="date"]::-webkit-date-and-time-value{text-align:left;margin:0;min-height:auto;font-size:16px;}
+  input[type="date"]::-webkit-calendar-picker-indicator{margin-left:auto;opacity:.7;filter:var(--picker);}
 
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.matchMedia) {
-      setDark(window.matchMedia("(prefers-color-scheme: dark)").matches);
-    }
-  }, []);
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:14px;}
+  .col{min-width:0;}
 
-  useEffect(() => {
-    if (!pop) return;
-    const id = setTimeout(() => setPop(null), 1700);
-    return () => clearTimeout(id);
-  }, [pop]);
+  button{font-family:inherit;cursor:pointer;border:none;border-radius:10px;font-weight:700;}
+  button:disabled{cursor:not-allowed;}
+  :focus-visible{outline:3px solid #4C8DFF;outline-offset:2px;}
 
-  const C = dark
-    ? {
-        page: "#15171A", card: "#1E2126", cardBorder: "#2E3238", field: "#262A30",
-        fieldBorder: "#3A3F47", text: "#F2F4F6", sub: "#A2A9B2", faint: "#6E757E",
-        accent: "#F2F4F6", accentText: "#15171A", chip: "#262A30",
-      }
-    : {
-        page: "#F7F6F2", card: "#FFFFFF", cardBorder: "#E4E1D9", field: "#FFFFFF",
-        fieldBorder: "#D6D2C8", text: "#1B1D21", sub: "#5C636B", faint: "#8B9199",
-        accent: "#1B1D21", accentText: "#FFFFFF", chip: "#FFFFFF",
-      };
+  #addBtn{width:100%;margin-top:16px;height:50px;font-size:16px;background:var(--accent);color:var(--accentText);}
+  #addBtn:disabled{background:var(--field);color:var(--faint);border:1px solid var(--fieldBorder);}
 
-  const canAdd = title.trim().length > 0;
+  #themeBtn{background:var(--field);color:var(--sub);border:1px solid var(--cardBorder);height:40px;padding:0 16px;font-size:13px;}
 
-  const add = () => {
-    if (!canAdd) return;
-    setTasks((t) => [...t, { id: Date.now(), title: title.trim(), due, priority, status: "todo" }]);
-    setTitle("");
-    setDue("");
-    setPriority("mid");
+  .tabs{display:flex;gap:8px;margin-bottom:12px;}
+  .tab{flex:1;height:46px;border-radius:12px;font-size:15px;font-weight:800;
+       background:transparent;color:var(--sub);border:1px solid var(--cardBorder);}
+  .tab[aria-selected="true"]{background:var(--accent);color:var(--accentText);border-color:var(--accent);}
+  .tab .n{margin-left:8px;font-size:13px;opacity:.75;}
+
+  .sortRow{display:flex;justify-content:flex-end;margin-bottom:14px;}
+  .sortRow select{width:auto;height:38px;font-size:13px;padding:0 12px;}
+
+  .list{display:flex;flex-direction:column;gap:10px;}
+  .empty{text-align:center;padding:56px 0;color:var(--faint);font-size:14px;}
+
+  .item{background:var(--card);border:1px solid var(--cardBorder);border-radius:14px;
+        padding:14px;display:flex;gap:12px;align-items:flex-start;}
+  .pri{font-size:12px;font-weight:900;padding:6px 9px;border-radius:8px;flex-shrink:0;}
+  .pri.high{background:var(--pHighBg);color:var(--pHighFg);}
+  .pri.mid{background:var(--pMidBg);color:var(--pMidFg);}
+  .pri.low{background:var(--pLowBg);color:var(--pLowFg);}
+  .body{flex:1;min-width:0;}
+  .ttl{font-weight:600;font-size:15px;word-break:break-word;}
+  .ttl.done{color:var(--faint);text-decoration:line-through;}
+  .meta{display:flex;gap:12px;margin-top:6px;font-size:12px;flex-wrap:wrap;}
+  .meta .st{color:var(--sub);}
+  .acts{display:flex;flex-direction:column;gap:6px;flex-shrink:0;}
+  .acts button{font-size:13px;height:38px;padding:0 12px;}
+  .bStart{background:var(--startBg);color:var(--startFg);}
+  .bDone{background:var(--doneBg);color:var(--doneFg);}
+  .bBack{background:var(--field);color:var(--sub);border:1px solid var(--fieldBorder);}
+  .bDel{background:transparent;color:var(--faint);font-size:12px;height:32px;font-weight:600;}
+
+  #popLayer{position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+            pointer-events:none;z-index:50;}
+  #popLayer.on{display:flex;}
+  .pop{
+    width:280px;height:280px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;
+    filter:drop-shadow(0 8px 24px rgba(0,0,0,.35));
+    animation:popIn .45s cubic-bezier(.2,1.4,.4,1) both;
+    clip-path:polygon(50% 0%,61% 9%,75% 5%,80% 19%,95% 22%,92% 37%,100% 50%,92% 63%,95% 78%,80% 81%,75% 95%,61% 91%,50% 100%,39% 91%,25% 95%,20% 81%,5% 78%,8% 63%,0% 50%,8% 37%,5% 22%,20% 19%,25% 5%,39% 9%);
+  }
+  .pop.done{background:#FFE500;color:#C62828;}
+  .pop.start{background:#FF3B6B;color:#fff;}
+  .pop .big{font-size:34px;font-weight:900;line-height:1.15;}
+  .pop .small{font-size:13px;font-weight:700;margin-top:8px;opacity:.8;}
+  @keyframes popIn{
+    0%{transform:scale(.4) rotate(-8deg);opacity:0;}
+    55%{transform:scale(1.12) rotate(2deg);opacity:1;}
+    100%{transform:scale(1) rotate(-2deg);opacity:1;}
+  }
+  @media (prefers-reduced-motion:reduce){.pop{animation:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div style="flex:1">
+      <h1>やることリスト</h1>
+      <p class="count" id="count">残り 0 件 ／ 完了 0 件</p>
+    </div>
+    <button id="themeBtn" type="button">ライト</button>
+  </header>
+
+  <div class="card">
+    <label class="lb" for="title">やること</label>
+    <input id="title" type="text" placeholder="例：請求書を送る" autocomplete="off">
+
+    <div class="grid2">
+      <div class="col">
+        <label class="lb" for="due">期限（任意）</label>
+        <input id="due" type="date">
+      </div>
+      <div class="col">
+        <label class="lb" for="pri">優先度</label>
+        <select id="pri">
+          <option value="high">高</option>
+          <option value="mid" selected>中</option>
+          <option value="low">低</option>
+        </select>
+      </div>
+    </div>
+
+    <button id="addBtn" type="button" disabled>リストに追加</button>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" type="button" role="tab" data-tab="active" aria-selected="true">
+      やること<span class="n" id="nActive">0</span>
+    </button>
+    <button class="tab" type="button" role="tab" data-tab="done" aria-selected="false">
+      終わった<span class="n" id="nDone">0</span>
+    </button>
+  </div>
+
+  <div class="sortRow">
+    <select id="sort">
+      <option value="priority">優先順位でソート</option>
+      <option value="due">期限でソート</option>
+    </select>
+  </div>
+
+  <div class="list" id="list"></div>
+</div>
+
+<div id="popLayer"><div class="pop" id="pop"></div></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var KEY = "yarukoto.tasks.v1";
+  var THEME_KEY = "yarukoto.theme";
+
+  var PRI = {
+    high:{label:"高",rank:0},
+    mid: {label:"中",rank:1},
+    low: {label:"低",rank:2}
   };
+  var STATUS = { todo:"未着手", doing:"進行中", done:"終わった" };
 
-  const setStatus = (id, status) => {
-    setTasks((t) => t.map((x) => (x.id === id ? { ...x, status } : x)));
-    if (status === "done") setPop({ big: "お疲れ様！", small: "1件 完了", tone: "done" });
-    if (status === "doing") setPop({ big: "頑張ってね！", small: "スタート", tone: "start" });
-  };
+  var tasks = load();
+  var tab = "active";
 
-  const remove = (id) => setTasks((t) => t.filter((x) => x.id !== id));
+  var $ = function(id){ return document.getElementById(id); };
+  var titleEl=$("title"), dueEl=$("due"), priEl=$("pri"),
+      addBtn=$("addBtn"), listEl=$("list"), sortEl=$("sort"),
+      countEl=$("count"), nActive=$("nActive"), nDone=$("nDone"),
+      themeBtn=$("themeBtn"), popLayer=$("popLayer"), popEl=$("pop");
 
-  const sorted = useMemo(() => {
-    const list = tasks.filter((t) => (tab === "active" ? t.status !== "done" : t.status === "done"));
-    return [...list].sort((a, b) => {
-      if (sortBy === "priority") {
-        const d = PRIORITY[a.priority].rank - PRIORITY[b.priority].rank;
-        if (d !== 0) return d;
-      }
-      const ad = a.due ? new Date(a.due) : new Date(8640000000000);
-      const bd = b.due ? new Date(b.due) : new Date(8640000000000);
-      return ad - bd;
-    });
-  }, [tasks, tab, sortBy]);
+  /* ---------- 保存 ---------- */
+  function load(){
+    try{
+      var raw = localStorage.getItem(KEY);
+      if(!raw) return [];
+      var arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    }catch(e){ return []; }
+  }
+  function save(){
+    try{ localStorage.setItem(KEY, JSON.stringify(tasks)); }catch(e){}
+  }
 
-  const doneCount = tasks.filter((t) => t.status === "done").length;
-  const activeCount = tasks.length - doneCount;
+  /* ---------- テーマ ---------- */
+  function applyTheme(t){
+    document.documentElement.setAttribute("data-theme", t);
+    themeBtn.textContent = (t === "dark") ? "ライト" : "ダーク";
+    var m = document.querySelector('meta[name="theme-color"]');
+    if(m) m.setAttribute("content", t === "dark" ? "#15171A" : "#F7F6F2");
+  }
+  var savedTheme = null;
+  try{ savedTheme = localStorage.getItem(THEME_KEY); }catch(e){}
+  if(!savedTheme){
+    savedTheme = (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+  }
+  applyTheme(savedTheme);
 
-  const fieldStyle = {
-    background: C.field, border: `1px solid ${C.fieldBorder}`, color: C.text,
-    borderRadius: 10, padding: "12px 14px", fontSize: 16, outline: "none",
-    width: "100%", boxSizing: "border-box", maxWidth: "100%", minWidth: 0,
-    fontFamily: "inherit",
-  };
-
-  const btn = (bg, fg, extra = {}) => ({
-    background: bg, color: fg, border: "none", borderRadius: 10,
-    fontWeight: 700, cursor: "pointer", minHeight: 44, padding: "0 16px",
-    fontSize: 14, ...extra,
+  themeBtn.addEventListener("click", function(){
+    var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    applyTheme(next);
+    try{ localStorage.setItem(THEME_KEY, next); }catch(e){}
   });
 
-  return (
-    <div style={{ minHeight: "100vh", background: C.page, color: C.text,
-      fontFamily: "system-ui, -apple-system, 'Hiragino Sans', sans-serif" }}>
-      <style>{`
-        @keyframes popIn { 0%{transform:scale(.4) rotate(-8deg);opacity:0}
-          55%{transform:scale(1.12) rotate(2deg);opacity:1}
-          100%{transform:scale(1) rotate(-2deg);opacity:1} }
-        .pop{animation:popIn .45s cubic-bezier(.2,1.4,.4,1) both}
-        @media (prefers-reduced-motion: reduce){.pop{animation:none}}
-        button:focus-visible, input:focus-visible, select:focus-visible {
-          outline: 3px solid #4C8DFF; outline-offset: 2px;
+  /* ---------- 期限 ---------- */
+  function daysLeft(due){
+    if(!due) return null;
+    var t = new Date(); t.setHours(0,0,0,0);
+    var d = new Date(due + "T00:00:00");
+    if(isNaN(d.getTime())) return null;
+    return Math.round((d - t) / 86400000);
+  }
+  function dueInfo(n){
+    if(n === null) return null;
+    if(n < 0)  return { text:Math.abs(n)+"日超過", v:"--dOver", w:800 };
+    if(n === 0)return { text:"今日まで",           v:"--d0",   w:800 };
+    if(n <= 3) return { text:"あと"+n+"日",        v:"--d3",   w:700 };
+    if(n <= 5) return { text:"あと"+n+"日",        v:"--d5",   w:600 };
+    if(n <= 7) return { text:"あと"+n+"日",        v:"--d7",   w:600 };
+    return          { text:"あと"+n+"日",          v:"--dFar", w:500 };
+  }
+
+  /* ---------- ポップ ---------- */
+  var popTimer = null;
+  function showPop(big, small, tone){
+    popEl.className = "pop " + tone;
+    popEl.innerHTML = "";
+    var b = document.createElement("div"); b.className = "big"; b.textContent = big;
+    var s = document.createElement("div"); s.className = "small"; s.textContent = small;
+    popEl.appendChild(b); popEl.appendChild(s);
+    popLayer.classList.remove("on");
+    void popEl.offsetWidth;          /* アニメーション再生のため強制リフロー */
+    popLayer.classList.add("on");
+    clearTimeout(popTimer);
+    popTimer = setTimeout(function(){ popLayer.classList.remove("on"); }, 1700);
+  }
+
+  /* ---------- 操作 ---------- */
+  function refreshAddBtn(){ addBtn.disabled = titleEl.value.trim().length === 0; }
+  titleEl.addEventListener("input", refreshAddBtn);
+
+  addBtn.addEventListener("click", function(){
+    var v = titleEl.value.trim();
+    if(!v) return;
+    tasks.push({
+      id: Date.now() + "-" + Math.random().toString(36).slice(2,7),
+      title: v, due: dueEl.value, priority: priEl.value, status: "todo"
+    });
+    titleEl.value = ""; dueEl.value = ""; priEl.value = "mid";
+    refreshAddBtn(); save(); render();
+  });
+
+  function setStatus(id, st){
+    for(var i=0;i<tasks.length;i++){
+      if(tasks[i].id === id){ tasks[i].status = st; break; }
+    }
+    if(st === "done")  showPop("お疲れ様！","1件 完了","done");
+    if(st === "doing") showPop("頑張ってね！","スタート","start");
+    save(); render();
+  }
+  function removeTask(id){
+    tasks = tasks.filter(function(t){ return t.id !== id; });
+    save(); render();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(btn){
+    btn.addEventListener("click", function(){
+      tab = btn.getAttribute("data-tab");
+      Array.prototype.forEach.call(document.querySelectorAll(".tab"), function(b){
+        b.setAttribute("aria-selected", String(b === btn));
+      });
+      render();
+    });
+  });
+  sortEl.addEventListener("change", render);
+
+  /* ---------- 描画 ---------- */
+  function render(){
+    var doneCount = tasks.filter(function(t){ return t.status === "done"; }).length;
+    var activeCount = tasks.length - doneCount;
+    countEl.textContent = "残り " + activeCount + " 件 ／ 完了 " + doneCount + " 件";
+    nActive.textContent = activeCount;
+    nDone.textContent = doneCount;
+
+    var sortBy = sortEl.value;
+    var list = tasks.filter(function(t){
+      return tab === "active" ? t.status !== "done" : t.status === "done";
+    }).slice().sort(function(a,b){
+      if(sortBy === "priority"){
+        var d = PRI[a.priority].rank - PRI[b.priority].rank;
+        if(d !== 0) return d;
+      }
+      var ad = a.due ? new Date(a.due).getTime() : 8640000000000;
+      var bd = b.due ? new Date(b.due).getTime() : 8640000000000;
+      return ad - bd;
+    });
+
+    listEl.innerHTML = "";
+
+    if(list.length === 0){
+      var e = document.createElement("div");
+      e.className = "empty";
+      e.textContent = tab === "active"
+        ? "上の入力欄からやることを追加します。"
+        : "終わったタスクがここに集まります。";
+      listEl.appendChild(e);
+      return;
+    }
+
+    list.forEach(function(t){
+      var item = document.createElement("div"); item.className = "item";
+
+      var pri = document.createElement("span");
+      pri.className = "pri " + t.priority;
+      pri.textContent = PRI[t.priority].label;
+      item.appendChild(pri);
+
+      var body = document.createElement("div"); body.className = "body";
+      var ttl = document.createElement("div");
+      ttl.className = "ttl" + (t.status === "done" ? " done" : "");
+      ttl.textContent = t.title;                    /* textContent でXSS防止 */
+      body.appendChild(ttl);
+
+      var meta = document.createElement("div"); meta.className = "meta";
+      var st = document.createElement("span"); st.className = "st";
+      st.textContent = STATUS[t.status];
+      meta.appendChild(st);
+
+      if(t.due){
+        var info = dueInfo(daysLeft(t.due));
+        var dspan = document.createElement("span");
+        if(t.status === "done" || !info){
+          dspan.style.color = "var(--faint)";
+          dspan.textContent = t.due;
+        }else{
+          dspan.style.color = "var(" + info.v + ")";
+          dspan.style.fontWeight = info.w;
+          dspan.textContent = t.due + "・" + info.text;
         }
-        input::placeholder { color: ${C.faint}; }
-        select option { color: #1B1D21; background: #fff; }
+        meta.appendChild(dspan);
+      }
+      body.appendChild(meta);
+      item.appendChild(body);
 
-        /* iOS Safari の date 入力はネイティブUIが最小幅・最小高を強制するため個別に抑制 */
-        input[type="date"] {
-          -webkit-appearance: none;
-          appearance: none;
-          display: block;
-          width: 100%;
-          max-width: 100%;
-          min-width: 0;
-          height: 48px;
-          box-sizing: border-box;
-          text-align: left;
-        }
-        input[type="date"]::-webkit-date-and-time-value {
-          text-align: left;
-          margin: 0;
-          min-height: auto;
-          font-size: 16px;
-        }
-        input[type="date"]::-webkit-calendar-picker-indicator {
-          margin-left: auto;
-          opacity: .7;
-          ${dark ? "filter: invert(1);" : ""}
-        }
-      `}</style>
+      var acts = document.createElement("div"); acts.className = "acts";
 
-      <div style={{ maxWidth: 680, margin: "0 auto", padding: "28px 18px 80px" }}>
-        <header style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 22 }}>
-          <div style={{ flex: 1 }}>
-            <h1 style={{ fontSize: 28, fontWeight: 900, letterSpacing: "-0.02em", margin: 0 }}>
-              やることリスト
-            </h1>
-            <p style={{ fontSize: 13, color: C.sub, margin: "6px 0 0" }}>
-              残り {activeCount} 件 ／ 完了 {doneCount} 件
-            </p>
-          </div>
-          <button
-            onClick={() => setDark((d) => !d)}
-            style={btn(C.chip, C.sub, { border: `1px solid ${C.cardBorder}`, fontSize: 13, minHeight: 40 })}
-          >
-            {dark ? "ライト" : "ダーク"}
-          </button>
-        </header>
+      if(t.status === "todo"){
+        acts.appendChild(mkBtn("タスク開始","bStart",function(){ setStatus(t.id,"doing"); }));
+      }
+      if(t.status !== "done"){
+        acts.appendChild(mkBtn("終わった","bDone",function(){ setStatus(t.id,"done"); }));
+      }
+      if(t.status === "done"){
+        acts.appendChild(mkBtn("戻す","bBack",function(){ setStatus(t.id,"todo"); }));
+      }
+      acts.appendChild(mkBtn("削除","bDel",function(){
+        if(confirm("「" + t.title + "」を削除しますか？")) removeTask(t.id);
+      }));
 
-        {/* 入力 */}
-        <div style={{ background: C.card, border: `1px solid ${C.cardBorder}`,
-          borderRadius: 16, padding: 16, marginBottom: 22 }}>
-          <label style={{ fontSize: 12, color: C.sub, fontWeight: 700, display: "block", marginBottom: 6 }}>
-            やること
-          </label>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="例：請求書を送る"
-            style={fieldStyle}
-          />
+      item.appendChild(acts);
+      listEl.appendChild(item);
+    });
+  }
 
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-            gap: 12, marginTop: 14,
-          }}>
-            <div style={{ minWidth: 0 }}>
-              <label style={{ fontSize: 12, color: C.sub, fontWeight: 700, display: "block", marginBottom: 6 }}>
-                期限（任意）
-              </label>
-              <input type="date" value={due} onChange={(e) => setDue(e.target.value)}
-                style={{
-                  ...fieldStyle,
-                  colorScheme: dark ? "dark" : "light",
-                  height: 48,
-                  padding: "0 14px",
-                  lineHeight: "48px",
-                }} />
-            </div>
-            <div style={{ minWidth: 0 }}>
-              <label style={{ fontSize: 12, color: C.sub, fontWeight: 700, display: "block", marginBottom: 6 }}>
-                優先度
-              </label>
-              <select value={priority} onChange={(e) => setPriority(e.target.value)}
-                style={{ ...fieldStyle, height: 48, padding: "0 14px" }}>
-                <option value="high">高</option>
-                <option value="mid">中</option>
-                <option value="low">低</option>
-              </select>
-            </div>
-          </div>
+  function mkBtn(label, cls, fn){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = cls; b.textContent = label;
+    b.addEventListener("click", fn);
+    return b;
+  }
 
-          <button
-            onClick={add}
-            disabled={!canAdd}
-            style={btn(canAdd ? C.accent : C.field, canAdd ? C.accentText : C.faint, {
-              width: "100%", marginTop: 16, minHeight: 50, fontSize: 16,
-              cursor: canAdd ? "pointer" : "not-allowed",
-              border: canAdd ? "none" : `1px solid ${C.fieldBorder}`,
-            })}
-          >
-            リストに追加
-          </button>
-        </div>
-
-        {/* タブ */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-          {[["active", "やること", activeCount], ["done", "終わった", doneCount]].map(([k, l, n]) => {
-            const on = tab === k;
-            return (
-              <button key={k} onClick={() => setTab(k)} aria-pressed={on}
-                style={{
-                  flex: 1, minHeight: 46, borderRadius: 12, fontSize: 15, fontWeight: 800,
-                  cursor: "pointer",
-                  background: on ? C.accent : "transparent",
-                  color: on ? C.accentText : C.sub,
-                  border: `1px solid ${on ? C.accent : C.cardBorder}`,
-                }}>
-                {l}
-                <span style={{ marginLeft: 8, fontSize: 13, opacity: 0.75 }}>{n}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 14 }}>
-          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}
-            style={{ ...fieldStyle, width: "auto", padding: "8px 12px", fontSize: 13 }}>
-            <option value="priority">優先順位でソート</option>
-            <option value="due">期限でソート</option>
-          </select>
-        </div>
-
-        {/* リスト */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {sorted.length === 0 && (
-            <div style={{ textAlign: "center", padding: "56px 0", color: C.faint, fontSize: 14 }}>
-              {tab === "active" ? "上の入力欄からやることを追加します。" : "終わったタスクがここに集まります。"}
-            </div>
-          )}
-
-          {sorted.map((t) => {
-            const ds = dueStyle(daysLeft(t.due), dark);
-            const p = PRIORITY[t.priority];
-            return (
-              <div key={t.id} style={{
-                background: C.card, border: `1px solid ${C.cardBorder}`,
-                borderRadius: 14, padding: 14, display: "flex", gap: 12, alignItems: "flex-start",
-              }}>
-                <span style={{
-                  background: dark ? p.bg : p.lightBg, color: dark ? p.fg : p.lightFg,
-                  fontSize: 12, fontWeight: 900, padding: "6px 9px", borderRadius: 8, flexShrink: 0,
-                }}>{p.label}</span>
-
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{
-                    fontWeight: 600, fontSize: 15, wordBreak: "break-word",
-                    color: t.status === "done" ? C.faint : C.text,
-                    textDecoration: t.status === "done" ? "line-through" : "none",
-                  }}>{t.title}</div>
-                  <div style={{ display: "flex", gap: 12, marginTop: 6, fontSize: 12, flexWrap: "wrap" }}>
-                    <span style={{ color: C.sub }}>{STATUS[t.status]}</span>
-                    {t.due && (t.status === "done" || !ds
-                      ? <span style={{ color: C.faint }}>{t.due}</span>
-                      : <span style={{ color: ds.color, fontWeight: ds.weight }}>{t.due}・{ds.text}</span>)}
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", flexDirection: "column", gap: 6, flexShrink: 0 }}>
-                  {t.status === "todo" && (
-                    <button onClick={() => setStatus(t.id, "doing")}
-                      style={btn(dark ? "#1E3050" : "#EAF1FF", dark ? "#93BDFF" : "#1E4FA8",
-                        { fontSize: 13, minHeight: 38, padding: "0 12px" })}>タスク開始</button>
-                  )}
-                  {t.status !== "done" && (
-                    <button onClick={() => setStatus(t.id, "done")}
-                      style={btn(dark ? "#1F3D2C" : "#E4F3EA", dark ? "#86E0AC" : "#1F6144",
-                        { fontSize: 13, minHeight: 38, padding: "0 12px" })}>終わった</button>
-                  )}
-                  {t.status === "done" && (
-                    <button onClick={() => setStatus(t.id, "todo")}
-                      style={btn(C.field, C.sub, { fontSize: 13, minHeight: 38, padding: "0 12px",
-                        border: `1px solid ${C.fieldBorder}` })}>戻す</button>
-                  )}
-                  <button onClick={() => remove(t.id)}
-                    style={btn("transparent", C.faint, { fontSize: 12, minHeight: 32, fontWeight: 600 })}>
-                    削除
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {pop && (
-        <div style={{ position: "fixed", inset: 0, display: "flex", alignItems: "center",
-          justifyContent: "center", pointerEvents: "none", zIndex: 50 }}>
-          <div className="pop" style={{
-            background: pop.tone === "done" ? "#FFE500" : "#FF3B6B",
-            color: pop.tone === "done" ? "#C62828" : "#FFFFFF",
-            width: 280, height: 280, display: "flex", flexDirection: "column",
-            alignItems: "center", justifyContent: "center", textAlign: "center",
-            filter: "drop-shadow(0 8px 24px rgba(0,0,0,.35))",
-            clipPath: "polygon(50% 0%, 61% 9%, 75% 5%, 80% 19%, 95% 22%, 92% 37%, 100% 50%, 92% 63%, 95% 78%, 80% 81%, 75% 95%, 61% 91%, 50% 100%, 39% 91%, 25% 95%, 20% 81%, 5% 78%, 8% 63%, 0% 50%, 8% 37%, 5% 22%, 20% 19%, 25% 5%, 39% 9%)",
-          }}>
-            <div style={{ fontSize: 34, fontWeight: 900, lineHeight: 1.15 }}>{pop.big}</div>
-            <div style={{ fontSize: 13, fontWeight: 700, marginTop: 8, opacity: 0.8 }}>{pop.small}</div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+  refreshAddBtn();
+  render();
+})();
+</script>
+</body>
+</html>
