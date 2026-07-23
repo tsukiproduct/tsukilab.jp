@@ -1,0 +1,333 @@
+import React, { useState, useMemo, useEffect } from "react";
+
+const PRIORITY = {
+  high: { label: "高", rank: 0, bg: "#3A1F22", fg: "#FF8A80", lightBg: "#FFE4E1", lightFg: "#B3261E" },
+  mid: { label: "中", rank: 1, bg: "#3A3220", fg: "#FFC864", lightBg: "#FFF3D6", lightFg: "#8F5E00" },
+  low: { label: "低", rank: 2, bg: "#1F3128", fg: "#7FD1A6", lightBg: "#E6F2EC", lightFg: "#1F6144" },
+};
+
+const STATUS = { todo: "未着手", doing: "進行中", done: "終わった" };
+
+function daysLeft(due) {
+  if (!due) return null;
+  const t = new Date();
+  t.setHours(0, 0, 0, 0);
+  return Math.round((new Date(due + "T00:00:00") - t) / 86400000);
+}
+
+function dueStyle(n, dark) {
+  if (n === null) return null;
+  const p = (light, darkC) => (dark ? darkC : light);
+  if (n < 0) return { text: `${Math.abs(n)}日超過`, color: p("#8B0000", "#FF6B6B"), weight: 800 };
+  if (n === 0) return { text: "今日まで", color: p("#C62828", "#FF7A7A"), weight: 800 };
+  if (n <= 3) return { text: `あと${n}日`, color: p("#D84315", "#FF9E6B"), weight: 700 };
+  if (n <= 5) return { text: `あと${n}日`, color: p("#B26A00", "#FFC978"), weight: 600 };
+  if (n <= 7) return { text: `あと${n}日`, color: p("#5C7A29", "#B9D97A"), weight: 600 };
+  return { text: `あと${n}日`, color: p("#6B7280", "#9AA0A6"), weight: 500 };
+}
+
+export default function TaskApp() {
+  const [dark, setDark] = useState(true);
+  const [tasks, setTasks] = useState([]);
+  const [title, setTitle] = useState("");
+  const [due, setDue] = useState("");
+  const [priority, setPriority] = useState("mid");
+  const [tab, setTab] = useState("active");
+  const [sortBy, setSortBy] = useState("priority");
+  const [pop, setPop] = useState(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia) {
+      setDark(window.matchMedia("(prefers-color-scheme: dark)").matches);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!pop) return;
+    const id = setTimeout(() => setPop(null), 1700);
+    return () => clearTimeout(id);
+  }, [pop]);
+
+  const C = dark
+    ? {
+        page: "#15171A", card: "#1E2126", cardBorder: "#2E3238", field: "#262A30",
+        fieldBorder: "#3A3F47", text: "#F2F4F6", sub: "#A2A9B2", faint: "#6E757E",
+        accent: "#F2F4F6", accentText: "#15171A", chip: "#262A30",
+      }
+    : {
+        page: "#F7F6F2", card: "#FFFFFF", cardBorder: "#E4E1D9", field: "#FFFFFF",
+        fieldBorder: "#D6D2C8", text: "#1B1D21", sub: "#5C636B", faint: "#8B9199",
+        accent: "#1B1D21", accentText: "#FFFFFF", chip: "#FFFFFF",
+      };
+
+  const canAdd = title.trim().length > 0;
+
+  const add = () => {
+    if (!canAdd) return;
+    setTasks((t) => [...t, { id: Date.now(), title: title.trim(), due, priority, status: "todo" }]);
+    setTitle("");
+    setDue("");
+    setPriority("mid");
+  };
+
+  const setStatus = (id, status) => {
+    setTasks((t) => t.map((x) => (x.id === id ? { ...x, status } : x)));
+    if (status === "done") setPop({ big: "お疲れ様！", small: "1件 完了", tone: "done" });
+    if (status === "doing") setPop({ big: "頑張ってね！", small: "スタート", tone: "start" });
+  };
+
+  const remove = (id) => setTasks((t) => t.filter((x) => x.id !== id));
+
+  const sorted = useMemo(() => {
+    const list = tasks.filter((t) => (tab === "active" ? t.status !== "done" : t.status === "done"));
+    return [...list].sort((a, b) => {
+      if (sortBy === "priority") {
+        const d = PRIORITY[a.priority].rank - PRIORITY[b.priority].rank;
+        if (d !== 0) return d;
+      }
+      const ad = a.due ? new Date(a.due) : new Date(8640000000000);
+      const bd = b.due ? new Date(b.due) : new Date(8640000000000);
+      return ad - bd;
+    });
+  }, [tasks, tab, sortBy]);
+
+  const doneCount = tasks.filter((t) => t.status === "done").length;
+  const activeCount = tasks.length - doneCount;
+
+  const fieldStyle = {
+    background: C.field, border: `1px solid ${C.fieldBorder}`, color: C.text,
+    borderRadius: 10, padding: "12px 14px", fontSize: 16, outline: "none",
+    width: "100%", boxSizing: "border-box", maxWidth: "100%", minWidth: 0,
+    fontFamily: "inherit",
+  };
+
+  const btn = (bg, fg, extra = {}) => ({
+    background: bg, color: fg, border: "none", borderRadius: 10,
+    fontWeight: 700, cursor: "pointer", minHeight: 44, padding: "0 16px",
+    fontSize: 14, ...extra,
+  });
+
+  return (
+    <div style={{ minHeight: "100vh", background: C.page, color: C.text,
+      fontFamily: "system-ui, -apple-system, 'Hiragino Sans', sans-serif" }}>
+      <style>{`
+        @keyframes popIn { 0%{transform:scale(.4) rotate(-8deg);opacity:0}
+          55%{transform:scale(1.12) rotate(2deg);opacity:1}
+          100%{transform:scale(1) rotate(-2deg);opacity:1} }
+        .pop{animation:popIn .45s cubic-bezier(.2,1.4,.4,1) both}
+        @media (prefers-reduced-motion: reduce){.pop{animation:none}}
+        button:focus-visible, input:focus-visible, select:focus-visible {
+          outline: 3px solid #4C8DFF; outline-offset: 2px;
+        }
+        input::placeholder { color: ${C.faint}; }
+        select option { color: #1B1D21; background: #fff; }
+
+        /* iOS Safari の date 入力はネイティブUIが最小幅・最小高を強制するため個別に抑制 */
+        input[type="date"] {
+          -webkit-appearance: none;
+          appearance: none;
+          display: block;
+          width: 100%;
+          max-width: 100%;
+          min-width: 0;
+          height: 48px;
+          box-sizing: border-box;
+          text-align: left;
+        }
+        input[type="date"]::-webkit-date-and-time-value {
+          text-align: left;
+          margin: 0;
+          min-height: auto;
+          font-size: 16px;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+          margin-left: auto;
+          opacity: .7;
+          ${dark ? "filter: invert(1);" : ""}
+        }
+      `}</style>
+
+      <div style={{ maxWidth: 680, margin: "0 auto", padding: "28px 18px 80px" }}>
+        <header style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 22 }}>
+          <div style={{ flex: 1 }}>
+            <h1 style={{ fontSize: 28, fontWeight: 900, letterSpacing: "-0.02em", margin: 0 }}>
+              やることリスト
+            </h1>
+            <p style={{ fontSize: 13, color: C.sub, margin: "6px 0 0" }}>
+              残り {activeCount} 件 ／ 完了 {doneCount} 件
+            </p>
+          </div>
+          <button
+            onClick={() => setDark((d) => !d)}
+            style={btn(C.chip, C.sub, { border: `1px solid ${C.cardBorder}`, fontSize: 13, minHeight: 40 })}
+          >
+            {dark ? "ライト" : "ダーク"}
+          </button>
+        </header>
+
+        {/* 入力 */}
+        <div style={{ background: C.card, border: `1px solid ${C.cardBorder}`,
+          borderRadius: 16, padding: 16, marginBottom: 22 }}>
+          <label style={{ fontSize: 12, color: C.sub, fontWeight: 700, display: "block", marginBottom: 6 }}>
+            やること
+          </label>
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="例：請求書を送る"
+            style={fieldStyle}
+          />
+
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+            gap: 12, marginTop: 14,
+          }}>
+            <div style={{ minWidth: 0 }}>
+              <label style={{ fontSize: 12, color: C.sub, fontWeight: 700, display: "block", marginBottom: 6 }}>
+                期限（任意）
+              </label>
+              <input type="date" value={due} onChange={(e) => setDue(e.target.value)}
+                style={{
+                  ...fieldStyle,
+                  colorScheme: dark ? "dark" : "light",
+                  height: 48,
+                  padding: "0 14px",
+                  lineHeight: "48px",
+                }} />
+            </div>
+            <div style={{ minWidth: 0 }}>
+              <label style={{ fontSize: 12, color: C.sub, fontWeight: 700, display: "block", marginBottom: 6 }}>
+                優先度
+              </label>
+              <select value={priority} onChange={(e) => setPriority(e.target.value)}
+                style={{ ...fieldStyle, height: 48, padding: "0 14px" }}>
+                <option value="high">高</option>
+                <option value="mid">中</option>
+                <option value="low">低</option>
+              </select>
+            </div>
+          </div>
+
+          <button
+            onClick={add}
+            disabled={!canAdd}
+            style={btn(canAdd ? C.accent : C.field, canAdd ? C.accentText : C.faint, {
+              width: "100%", marginTop: 16, minHeight: 50, fontSize: 16,
+              cursor: canAdd ? "pointer" : "not-allowed",
+              border: canAdd ? "none" : `1px solid ${C.fieldBorder}`,
+            })}
+          >
+            リストに追加
+          </button>
+        </div>
+
+        {/* タブ */}
+        <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+          {[["active", "やること", activeCount], ["done", "終わった", doneCount]].map(([k, l, n]) => {
+            const on = tab === k;
+            return (
+              <button key={k} onClick={() => setTab(k)} aria-pressed={on}
+                style={{
+                  flex: 1, minHeight: 46, borderRadius: 12, fontSize: 15, fontWeight: 800,
+                  cursor: "pointer",
+                  background: on ? C.accent : "transparent",
+                  color: on ? C.accentText : C.sub,
+                  border: `1px solid ${on ? C.accent : C.cardBorder}`,
+                }}>
+                {l}
+                <span style={{ marginLeft: 8, fontSize: 13, opacity: 0.75 }}>{n}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 14 }}>
+          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}
+            style={{ ...fieldStyle, width: "auto", padding: "8px 12px", fontSize: 13 }}>
+            <option value="priority">優先順位でソート</option>
+            <option value="due">期限でソート</option>
+          </select>
+        </div>
+
+        {/* リスト */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {sorted.length === 0 && (
+            <div style={{ textAlign: "center", padding: "56px 0", color: C.faint, fontSize: 14 }}>
+              {tab === "active" ? "上の入力欄からやることを追加します。" : "終わったタスクがここに集まります。"}
+            </div>
+          )}
+
+          {sorted.map((t) => {
+            const ds = dueStyle(daysLeft(t.due), dark);
+            const p = PRIORITY[t.priority];
+            return (
+              <div key={t.id} style={{
+                background: C.card, border: `1px solid ${C.cardBorder}`,
+                borderRadius: 14, padding: 14, display: "flex", gap: 12, alignItems: "flex-start",
+              }}>
+                <span style={{
+                  background: dark ? p.bg : p.lightBg, color: dark ? p.fg : p.lightFg,
+                  fontSize: 12, fontWeight: 900, padding: "6px 9px", borderRadius: 8, flexShrink: 0,
+                }}>{p.label}</span>
+
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{
+                    fontWeight: 600, fontSize: 15, wordBreak: "break-word",
+                    color: t.status === "done" ? C.faint : C.text,
+                    textDecoration: t.status === "done" ? "line-through" : "none",
+                  }}>{t.title}</div>
+                  <div style={{ display: "flex", gap: 12, marginTop: 6, fontSize: 12, flexWrap: "wrap" }}>
+                    <span style={{ color: C.sub }}>{STATUS[t.status]}</span>
+                    {t.due && (t.status === "done" || !ds
+                      ? <span style={{ color: C.faint }}>{t.due}</span>
+                      : <span style={{ color: ds.color, fontWeight: ds.weight }}>{t.due}・{ds.text}</span>)}
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: 6, flexShrink: 0 }}>
+                  {t.status === "todo" && (
+                    <button onClick={() => setStatus(t.id, "doing")}
+                      style={btn(dark ? "#1E3050" : "#EAF1FF", dark ? "#93BDFF" : "#1E4FA8",
+                        { fontSize: 13, minHeight: 38, padding: "0 12px" })}>タスク開始</button>
+                  )}
+                  {t.status !== "done" && (
+                    <button onClick={() => setStatus(t.id, "done")}
+                      style={btn(dark ? "#1F3D2C" : "#E4F3EA", dark ? "#86E0AC" : "#1F6144",
+                        { fontSize: 13, minHeight: 38, padding: "0 12px" })}>終わった</button>
+                  )}
+                  {t.status === "done" && (
+                    <button onClick={() => setStatus(t.id, "todo")}
+                      style={btn(C.field, C.sub, { fontSize: 13, minHeight: 38, padding: "0 12px",
+                        border: `1px solid ${C.fieldBorder}` })}>戻す</button>
+                  )}
+                  <button onClick={() => remove(t.id)}
+                    style={btn("transparent", C.faint, { fontSize: 12, minHeight: 32, fontWeight: 600 })}>
+                    削除
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {pop && (
+        <div style={{ position: "fixed", inset: 0, display: "flex", alignItems: "center",
+          justifyContent: "center", pointerEvents: "none", zIndex: 50 }}>
+          <div className="pop" style={{
+            background: pop.tone === "done" ? "#FFE500" : "#FF3B6B",
+            color: pop.tone === "done" ? "#C62828" : "#FFFFFF",
+            width: 280, height: 280, display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center", textAlign: "center",
+            filter: "drop-shadow(0 8px 24px rgba(0,0,0,.35))",
+            clipPath: "polygon(50% 0%, 61% 9%, 75% 5%, 80% 19%, 95% 22%, 92% 37%, 100% 50%, 92% 63%, 95% 78%, 80% 81%, 75% 95%, 61% 91%, 50% 100%, 39% 91%, 25% 95%, 20% 81%, 5% 78%, 8% 63%, 0% 50%, 8% 37%, 5% 22%, 20% 19%, 25% 5%, 39% 9%)",
+          }}>
+            <div style={{ fontSize: 34, fontWeight: 900, lineHeight: 1.15 }}>{pop.big}</div>
+            <div style={{ fontSize: 13, fontWeight: 700, marginTop: 8, opacity: 0.8 }}>{pop.small}</div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
