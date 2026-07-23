@@ -107,6 +107,12 @@
   .bBack{background:var(--field);color:var(--sub);border:1px solid var(--fieldBorder);}
   .bDel{background:transparent;color:var(--faint);font-size:12px;height:32px;font-weight:600;}
 
+  .backup{display:flex;gap:8px;margin-top:22px;padding-top:18px;border-top:1px solid var(--cardBorder);}
+  .backup button{flex:1;height:44px;font-size:13px;background:var(--field);color:var(--sub);
+                 border:1px solid var(--fieldBorder);}
+  .backupNote{font-size:11px;color:var(--faint);margin:10px 0 0;line-height:1.6;}
+  #file{display:none;}
+
   #popLayer{position:fixed;inset:0;display:none;align-items:center;justify-content:center;
             pointer-events:none;z-index:50;}
   #popLayer.on{display:flex;}
@@ -178,6 +184,15 @@
   </div>
 
   <div class="list" id="list"></div>
+
+  <div class="backup">
+    <button id="exportBtn" type="button">バックアップを書き出す</button>
+    <button id="importBtn" type="button">ファイルから読み込む</button>
+  </div>
+  <p class="backupNote">
+    書き出したJSONは「ファイル」アプリに保存されます。履歴消去や機種変更に備えた保険としてお使いください。
+  </p>
+  <input id="file" type="file" accept="application/json,.json">
 </div>
 
 <div id="popLayer"><div class="pop" id="pop"></div></div>
