@@ -3,405 +3,502 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>MM OS ─ 杜崎まさかず Official</title>
-<meta name="description" content="小説家・杜崎まさかずの公式サイト。独自OS「MM」にログインして、掌編刑務所の作品群と公式PVをご覧ください。">
+<title>MM OS ─ 杜崎まさかず｜掌編刑務所</title>
+<link rel="icon" href="images/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<meta name="theme-color" content="#080a0f">
+<meta name="description" content="小説家・杜崎まさかず公式サイト。第7回空華文学賞、NovelJam Award 2024 内藤みか賞。note にて掌編小説シリーズ「掌編刑務所」を連載。">
+<meta property="og:title" content="MM OS ─ 杜崎まさかず">
+<meta property="og:description" content="物語は、読み終えたあとも読者の中で服役を続ける。">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Shippori+Mincho:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --desk:#10131c;          /* 深夜の藍鉄 */
-  --desk-2:#171c2b;
-  --paper:#ece7da;         /* 生成り紙 */
-  --paper-2:#e2dccb;
-  --ink:#1d1b17;
-  --ink-2:#4d4a42;
-  --shu:#c73e3a;           /* 朱 */
-  --nibi:#8b93a5;          /* 鈍色 */
-  --bar:#0b0e15;
-  --line:#c9c2ae;
-  --shadow:0 18px 50px rgba(0,0,0,.55);
-  --dot:'DotGothic16',monospace;
+  /* ── 環境（デスクトップ） ── */
+  --void:#080a0f;
+  --slate:#11151d;
+  --slate-2:#181d27;
+  --mist:#7c8593;
+  --mist-dim:#4a515e;
+
+  /* ── 書面（ウィンドウ内） ── */
+  --paper:#f2efe6;
+  --paper-2:#e8e3d5;
+  --paper-3:#dcd6c4;
+  --ink:#16140f;
+  --ink-2:#575147;
+  --ink-3:#8b8477;
+  --rule:#c5bda8;
+
+  /* ── 差し色 ── */
+  --vermilion:#b03e37;
+  --vermilion-soft:rgba(176,62,55,.12);
+
+  --mono:'Roboto Mono',ui-monospace,monospace;
   --min:'Shippori Mincho',serif;
-  --sans:'Noto Sans JP',sans-serif;
+  --sans:'Zen Kaku Gothic New',sans-serif;
+
+  --ease:cubic-bezier(.22,.68,.28,1);
+  --shadow-win:0 1px 2px rgba(0,0,0,.3),0 12px 28px rgba(0,0,0,.42),0 32px 68px rgba(0,0,0,.36);
+  --bar-h:34px;
+  --dock-h:50px;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden}
-body{font-family:var(--sans);background:var(--desk);color:var(--paper);user-select:none}
-::selection{background:var(--shu);color:#fff}
+body{
+  font-family:var(--sans);font-weight:300;background:var(--void);color:var(--paper);
+  user-select:none;-webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--vermilion);color:#fff}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit}
 
-/* ============ LOGIN ============ */
+/* ══════════ 認証 ══════════ */
 #login{
-  position:fixed;inset:0;z-index:9999;background:#05070c;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;
-  transition:opacity .8s ease,filter .8s ease;
+  position:fixed;inset:0;z-index:9999;background:#05070b;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .9s var(--ease),filter .9s var(--ease);
 }
-#login.off{opacity:0;filter:blur(6px);pointer-events:none}
-#login .lg-logo{width:92px;height:92px;object-fit:contain;filter:drop-shadow(0 0 24px rgba(236,231,218,.25))}
-#login .lg-ttl{font-family:var(--dot);font-size:26px;letter-spacing:.3em;color:var(--paper)}
-#login .lg-ttl em{font-style:normal;color:var(--shu)}
-.finger{
-  width:104px;height:104px;border-radius:50%;border:2px solid var(--nibi);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
-  transition:border-color .25s,transform .15s;background:rgba(236,231,218,.04);
+#login.off{opacity:0;filter:blur(10px);pointer-events:none}
+#login::before{ /* 微かな縦格子 */
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(90deg,transparent 0 56px,rgba(124,133,147,.045) 56px 57px);
+  mask-image:radial-gradient(circle at 50% 45%,#000 30%,transparent 78%);
+  -webkit-mask-image:radial-gradient(circle at 50% 45%,#000 30%,transparent 78%);
 }
-.finger:hover{border-color:var(--paper)}
-.finger:active{transform:scale(.95)}
-.finger img{width:62px;height:62px;object-fit:contain;opacity:.85}
-.finger .scan{
-  position:absolute;left:6%;right:6%;height:3px;background:var(--shu);
-  box-shadow:0 0 14px var(--shu);top:-10px;opacity:0;
+.lg-in{position:relative;display:flex;flex-direction:column;align-items:center;gap:30px;padding:0 24px}
+.lg-mark{
+  font-family:var(--mono);font-weight:300;font-size:32px;letter-spacing:.4em;text-indent:.4em;
+  color:var(--paper);opacity:0;animation:lgIn 1.1s var(--ease) .25s forwards;
 }
-.finger.scanning{border-color:var(--shu)}
-.finger.scanning .scan{opacity:1;animation:scan 1.1s ease-in-out}
-@keyframes scan{0%{top:6%}50%{top:92%}100%{top:6%}}
-.finger.ok{border-color:#3fa34d}
-#login .lg-msg{font-family:var(--dot);font-size:13px;letter-spacing:.24em;color:var(--nibi);min-height:20px}
-.lg-career{
-  font-family:var(--min);font-size:11.5px;color:var(--nibi);letter-spacing:.12em;
-  text-align:center;line-height:2.1;border-top:1px solid rgba(139,147,165,.3);
-  padding-top:16px;margin-top:2px;
+.lg-mark em{font-style:normal;color:var(--vermilion)}
+.lg-mark small{
+  display:block;font-size:9.5px;letter-spacing:.52em;text-indent:.52em;color:var(--mist-dim);
+  margin-top:12px;font-weight:400;
 }
-#login .lg-msg.ok{color:#7bc48a}
-#login .lg-copy{position:absolute;bottom:26px;font-family:var(--dot);font-size:10px;letter-spacing:.2em;color:#3d4356}
+@keyframes lgIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
-/* ============ MENU BAR (top) ============ */
-#menubar{
-  position:fixed;top:0;left:0;right:0;height:32px;z-index:6000;
-  background:linear-gradient(180deg,#161a26,var(--bar));border-bottom:1px solid rgba(236,231,218,.14);
-  display:flex;align-items:center;padding:0 8px;gap:2px;
+.finger{
+  width:96px;height:96px;border-radius:50%;cursor:pointer;position:relative;overflow:hidden;
+  border:1px solid rgba(124,133,147,.4);background:rgba(124,133,147,.05);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;animation:lgIn 1.1s var(--ease) .55s forwards;
+  transition:border-color .4s var(--ease),background .4s var(--ease),transform .18s var(--ease);
 }
-#menubar .mtitle{display:flex;align-items:center;gap:7px;padding:0 10px;height:100%}
-#menubar .mtitle img{width:16px;height:16px;object-fit:contain}
-#menubar .mtitle b{font-family:var(--dot);font-size:13px;letter-spacing:.14em}
-#menubar .mtitle b em{font-style:normal;color:var(--shu)}
+.finger:hover{border-color:rgba(242,239,230,.75);background:rgba(124,133,147,.1)}
+.finger:active{transform:scale(.955)}
+.finger svg{width:44px;height:44px;stroke:var(--mist);fill:none;stroke-width:1.4;stroke-linecap:round;transition:stroke .4s}
+.finger:hover svg{stroke:var(--paper)}
+.finger .scan{
+  position:absolute;left:8%;right:8%;height:1px;top:-4px;opacity:0;
+  background:linear-gradient(90deg,transparent,var(--vermilion),transparent);
+  box-shadow:0 0 14px 2px rgba(176,62,55,.6);
+}
+.finger.scanning{border-color:var(--vermilion)}
+.finger.scanning .scan{opacity:1;animation:scan 1.15s var(--ease)}
+@keyframes scan{0%{top:8%}50%{top:90%}100%{top:8%}}
+.finger.ok{border-color:rgba(242,239,230,.9)}
+.finger.ok svg{stroke:var(--paper)}
+
+.lg-msg{
+  font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--mist-dim);min-height:18px;
+  opacity:0;animation:lgIn 1.1s var(--ease) .75s forwards;transition:color .5s;
+}
+.lg-msg.ok{color:var(--paper)}
+.lg-cred{
+  opacity:0;animation:lgIn 1.2s var(--ease) 1.05s forwards;
+  border-top:1px solid rgba(124,133,147,.18);padding-top:20px;margin-top:4px;
+  max-width:400px;text-align:center;
+}
+.lg-cred p{font-family:var(--min);font-size:11.5px;color:var(--mist);letter-spacing:.14em;line-height:2.2}
+.lg-cred span{font-family:var(--mono);font-size:9px;letter-spacing:.36em;color:var(--mist-dim);display:block;margin-bottom:10px}
+.lg-foot{position:absolute;bottom:26px;font-family:var(--mono);font-size:9px;letter-spacing:.32em;color:#2c323d}
+
+/* ══════════ メニューバー ══════════ */
+#menubar{
+  position:fixed;top:0;left:0;right:0;height:var(--bar-h);z-index:6000;
+  background:rgba(10,13,18,.72);backdrop-filter:blur(20px) saturate(1.3);
+  -webkit-backdrop-filter:blur(20px) saturate(1.3);
+  border-bottom:1px solid rgba(242,239,230,.09);
+  display:flex;align-items:center;padding:0 6px;
+}
+.mtitle{display:flex;align-items:center;padding:0 12px;font-family:var(--mono);font-size:12px;letter-spacing:.22em;font-weight:500}
+.mtitle em{font-style:normal;color:var(--vermilion)}
 .mitem{position:relative;height:100%}
 .mitem>button{
-  height:100%;padding:0 12px;background:none;border:0;color:var(--paper);cursor:pointer;
-  font-family:var(--dot);font-size:12px;letter-spacing:.1em;
+  height:100%;padding:0 13px;background:none;border:0;cursor:pointer;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:rgba(242,239,230,.78);
+  transition:background .18s,color .18s;
 }
-.mitem>button:hover,.mitem.open>button{background:rgba(199,62,58,.3)}
+.mitem>button:hover,.mitem.open>button{background:rgba(242,239,230,.09);color:var(--paper)}
 .mdrop{
-  position:absolute;top:100%;left:0;min-width:210px;display:none;
-  background:var(--bar);border:1px solid var(--shu);box-shadow:var(--shadow);
+  position:absolute;top:calc(100% + 4px);left:6px;min-width:214px;display:none;padding:5px;
+  background:rgba(16,20,27,.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(242,239,230,.13);border-radius:8px;
+  box-shadow:0 16px 44px rgba(0,0,0,.6);animation:drop .18s var(--ease);
 }
+@keyframes drop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .mitem.open .mdrop{display:block}
-.mdrop button,.mdrop span{
-  display:block;width:100%;text-align:left;padding:10px 14px;background:none;border:0;
-  color:var(--paper);font-family:var(--dot);font-size:12px;letter-spacing:.08em;cursor:pointer;
+.mdrop button,.mdrop .dis{
+  display:block;width:100%;text-align:left;padding:9px 12px;background:none;border:0;border-radius:5px;
+  font-family:var(--sans);font-size:12.5px;font-weight:300;letter-spacing:.06em;color:var(--paper);cursor:pointer;
+  transition:background .15s;
 }
-.mdrop span{color:#5a6070;cursor:default}
-.mdrop button:hover{background:rgba(199,62,58,.25)}
-#mclock{margin-left:auto;font-family:var(--dot);font-size:12px;color:var(--nibi);letter-spacing:.1em;padding:0 8px}
+.mdrop .dis{color:var(--mist-dim);cursor:default}
+.mdrop button:hover{background:var(--vermilion)}
+.mdrop hr{border:0;border-top:1px solid rgba(242,239,230,.12);margin:5px 8px}
+#mclock{margin-left:auto;font-family:var(--mono);font-size:11px;color:rgba(242,239,230,.6);letter-spacing:.12em;padding:0 12px;font-weight:300}
 
-/* ============ DESKTOP ============ */
+/* ══════════ デスクトップ ══════════ */
 #desktop{
-  position:fixed;inset:0;top:32px;bottom:48px;overflow:hidden;
+  position:fixed;inset:var(--bar-h) 0 var(--dock-h) 0;overflow:hidden;
   background:
-    radial-gradient(1100px 600px at 78% 18%,rgba(199,62,58,.10),transparent 60%),
-    radial-gradient(900px 700px at 12% 85%,rgba(90,110,160,.14),transparent 60%),
-    linear-gradient(160deg,var(--desk-2),var(--desk) 55%);
+    radial-gradient(1000px 620px at 76% 14%,rgba(176,62,55,.07),transparent 62%),
+    radial-gradient(900px 720px at 8% 96%,rgba(88,108,152,.10),transparent 62%),
+    linear-gradient(168deg,var(--slate-2) 0%,var(--slate) 45%,var(--void) 100%);
 }
-#desktop::before{
-  content:"";position:absolute;inset:0;opacity:.05;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E");
+#desktop::before{ /* 独房の縦格子（極薄） */
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(90deg,transparent 0 84px,rgba(242,239,230,.028) 84px 85px);
+}
+#desktop::after{ /* ヴィネット＋粒子 */
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 50% 44%,transparent 42%,rgba(4,6,10,.55) 100%);
+}
+.grain{
+  position:absolute;inset:0;pointer-events:none;opacity:.032;z-index:1;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 .moon{
-  position:absolute;top:7%;right:8%;width:120px;height:120px;border-radius:50%;
-  background:radial-gradient(circle at 38% 34%,#f2eddc,#cdc6ad 62%,#9b957e);
-  box-shadow:0 0 60px 18px rgba(236,231,218,.10);opacity:.85;pointer-events:none;
+  position:absolute;top:9%;right:9%;width:104px;height:104px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 36% 32%,#f6f2e6,#cfc8b4 58%,#8e8878);
+  box-shadow:0 0 70px 22px rgba(242,239,230,.07);opacity:.6;
 }
-.moon::after{content:"";position:absolute;inset:0;border-radius:50%;
-  background:radial-gradient(circle at 62% 60%,transparent 55%,rgba(16,19,28,.35) 76%)}
-.desk-caption{position:absolute;right:26px;bottom:16px;text-align:right;pointer-events:none;font-family:var(--min);color:rgba(236,231,218,.4)}
-.desk-caption b{display:block;font-size:22px;letter-spacing:.32em;font-weight:500}
-.desk-caption small{font-family:var(--dot);font-size:11px;letter-spacing:.22em}
+.moon::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 64% 62%,transparent 52%,rgba(11,14,20,.5) 78%);
+}
+.sig{position:absolute;right:130px;bottom:26px;text-align:right;pointer-events:none}
+.sig b{display:block;font-family:var(--min);font-size:19px;font-weight:500;letter-spacing:.36em;color:rgba(242,239,230,.3)}
+.sig small{font-family:var(--mono);font-size:9px;letter-spacing:.3em;color:rgba(242,239,230,.17)}
 
-/* ---- icons ---- */
-#icons{position:absolute;top:20px;left:18px;display:grid;grid-template-columns:repeat(2,96px);gap:6px 8px}
-#trashicon{position:absolute;right:22px;bottom:86px}
+/* ── アイコン ── */
+#icons{position:absolute;top:22px;left:20px;display:grid;grid-template-columns:repeat(2,92px);gap:4px;z-index:2}
+#trashicon{position:absolute;right:22px;bottom:22px;z-index:2}
 .icon{
-  width:96px;padding:11px 6px 9px;border-radius:8px;border:1px solid transparent;
-  display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;
-  transition:background .15s,border-color .15s,transform .15s;
+  width:92px;padding:12px 4px 10px;border-radius:10px;border:1px solid transparent;
+  display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;
+  transition:background .22s var(--ease),border-color .22s var(--ease),transform .22s var(--ease);
 }
-.icon:hover{background:rgba(236,231,218,.07);border-color:rgba(236,231,218,.18);transform:translateY(-2px)}
+.icon:hover{background:rgba(242,239,230,.06);border-color:rgba(242,239,230,.13);transform:translateY(-2px)}
 .icon:active{transform:scale(.96)}
-.icon svg{width:40px;height:40px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.5))}
-.icon .lbl{font-family:var(--dot);font-size:11px;color:var(--paper);letter-spacing:.05em;text-align:center;line-height:1.5;text-shadow:0 1px 3px rgba(0,0,0,.8)}
-.icon .lbl small{display:block;color:var(--nibi);font-size:9px}
+.icon svg{width:34px;height:34px;stroke:rgba(242,239,230,.88);fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.icon svg .ac{stroke:var(--vermilion)}
+.icon svg .fl{fill:var(--vermilion);stroke:none}
+.icon .lbl{font-size:10.5px;font-weight:400;color:rgba(242,239,230,.92);text-align:center;line-height:1.55;letter-spacing:.03em;text-shadow:0 1px 4px rgba(0,0,0,.7)}
+.icon .lbl small{display:block;font-family:var(--mono);font-size:8px;color:var(--mist-dim);letter-spacing:.18em;margin-top:2px}
 
-/* ============ WINDOWS ============ */
+/* ══════════ ウィンドウ ══════════ */
 .win{
   position:absolute;min-width:300px;background:var(--paper);color:var(--ink);
-  border:2px solid var(--ink);box-shadow:var(--shadow);
-  display:none;flex-direction:column;border-radius:4px;overflow:hidden;animation:winin .22s ease;
+  border-radius:9px;overflow:hidden;display:none;flex-direction:column;z-index:10;
+  box-shadow:var(--shadow-win);border:1px solid rgba(0,0,0,.55);
+  animation:winIn .28s var(--ease);
 }
-@keyframes winin{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes winIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
 .win.open{display:flex}
-.win.front{outline:2px solid var(--shu)}
 .tbar{
-  height:38px;flex:none;display:flex;align-items:center;gap:10px;padding:0 10px;
-  background:linear-gradient(180deg,#2a2721,#1d1b17);color:var(--paper);cursor:grab;touch-action:none;
+  height:36px;flex:none;display:flex;align-items:center;gap:9px;padding:0 11px;
+  background:linear-gradient(180deg,#252119,#191610);
+  border-bottom:1px solid rgba(0,0,0,.5);cursor:grab;touch-action:none;
+  box-shadow:inset 0 1px 0 rgba(242,239,230,.09);
 }
 .tbar:active{cursor:grabbing}
-.tbar .tico{width:14px;height:14px;flex:none}
-.tbar .ttl{font-family:var(--dot);font-size:13px;letter-spacing:.1em;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tdot{width:7px;height:7px;border-radius:50%;background:var(--vermilion);flex:none;opacity:.9}
+.ttl{
+  font-family:var(--mono);font-size:10.5px;font-weight:400;letter-spacing:.2em;color:rgba(242,239,230,.82);
+  flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-transform:uppercase;
+}
 .tbtn{
-  width:24px;height:24px;flex:none;border:1px solid var(--nibi);background:transparent;color:var(--paper);
-  font-family:var(--dot);font-size:12px;line-height:1;cursor:pointer;border-radius:3px;transition:background .12s;
+  width:22px;height:22px;flex:none;border:0;border-radius:5px;background:rgba(242,239,230,.09);
+  color:rgba(242,239,230,.7);cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .16s,color .16s;
 }
-.tbtn:hover{background:rgba(236,231,218,.18)}
-.tbtn.x:hover{background:var(--shu);border-color:var(--shu)}
-.wbody{flex:1;overflow-y:auto;overscroll-behavior:contain;line-height:1.85;user-select:text}
-.wbody::-webkit-scrollbar{width:10px}
-.wbody::-webkit-scrollbar-track{background:var(--paper-2)}
-.wbody::-webkit-scrollbar-thumb{background:var(--ink-2);border:2px solid var(--paper-2)}
+.tbtn svg{width:10px;height:10px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round}
+.tbtn:hover{background:rgba(242,239,230,.2);color:var(--paper)}
+.tbtn.x:hover{background:var(--vermilion);color:#fff}
+.wbody{flex:1;overflow-y:auto;overscroll-behavior:contain;user-select:text;line-height:1.9}
+.wbody::-webkit-scrollbar{width:11px}
+.wbody::-webkit-scrollbar-track{background:transparent}
+.wbody::-webkit-scrollbar-thumb{background:rgba(22,20,15,.24);border:3px solid transparent;background-clip:padding-box;border-radius:9px}
+.wbody::-webkit-scrollbar-thumb:hover{background:rgba(22,20,15,.4);background-clip:padding-box}
 
-/* ---- 掌編刑務所 ---- */
-.prison-head{
-  padding:24px 26px 18px;border-bottom:2px solid var(--ink);
-  background:repeating-linear-gradient(90deg,transparent 0 46px,rgba(29,27,23,.08) 46px 52px),var(--paper);
-}
-.prison-head h2{font-family:var(--min);font-size:25px;font-weight:700;letter-spacing:.22em}
-.prison-head h2 .stamp{
-  display:inline-block;margin-left:12px;padding:2px 8px;border:2px solid var(--shu);color:var(--shu);
-  font-size:11px;letter-spacing:.28em;transform:rotate(-4deg);font-family:var(--dot);vertical-align:middle;
-}
-.prison-head p{font-size:12.5px;color:var(--ink-2);margin-top:8px}
+/* ── 共通の見出し ── */
+.sect-head{padding:30px 32px 22px;border-bottom:1px solid var(--rule)}
+.kicker{font-family:var(--mono);font-size:9.5px;letter-spacing:.34em;color:var(--vermilion);text-transform:uppercase}
+.sect-head h2{font-family:var(--min);font-size:24px;font-weight:600;letter-spacing:.24em;margin-top:9px}
+.sect-head p{font-size:12.5px;color:var(--ink-2);margin-top:11px;line-height:2;letter-spacing:.02em}
+
+/* ── 掌編刑務所 ── */
 .cells{list-style:none}
 .cell{
-  position:relative;display:block;padding:17px 24px 17px 26px;border-bottom:1px solid var(--line);
-  cursor:pointer;overflow:hidden;transition:background .18s;color:inherit;
+  position:relative;padding:20px 26px 20px 32px;border-bottom:1px solid var(--rule);
+  cursor:pointer;overflow:hidden;transition:background .22s var(--ease),padding-left .22s var(--ease);
 }
-.cell::before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:repeating-linear-gradient(90deg,transparent 0 42px,rgba(29,27,23,.16) 42px 46px);
-  transition:transform .35s ease,opacity .35s ease;
+.cell::before{ /* 房の扉 */
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--vermilion);
+  transform:scaleY(0);transform-origin:center;transition:transform .32s var(--ease);
 }
-.cell:hover{background:#e6e0cf}
-.cell:hover::before{transform:translateX(14px);opacity:.25}
-.cell .no{font-family:var(--dot);font-size:11px;color:var(--shu);letter-spacing:.2em}
-.cell h3{font-family:var(--min);font-size:17.5px;font-weight:600;margin:3px 0 4px;letter-spacing:.06em}
-.cell p{font-size:12.5px;color:var(--ink-2);line-height:1.7}
-.cell .go{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-family:var(--dot);font-size:12px;color:var(--ink-2)}
-.cell:hover .go{color:var(--shu)}
-.prison-foot{padding:18px 26px 22px;text-align:center}
-.btn{
-  display:inline-block;padding:12px 30px;border:2px solid var(--ink);background:var(--ink);color:var(--paper);
-  font-family:var(--dot);font-size:13px;letter-spacing:.18em;text-decoration:none;border-radius:3px;
-  transition:background .18s,color .18s,transform .18s;cursor:pointer;
+.cell:hover{background:var(--paper-2);padding-left:38px}
+.cell:hover::before{transform:scaleY(1)}
+.cell:last-child{border-bottom:0}
+.cell-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.cell-no{font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;color:var(--ink-3)}
+.crime{
+  font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;color:var(--vermilion);
+  border:1px solid rgba(176,62,55,.45);border-radius:3px;padding:2px 7px;
 }
-.btn:hover{background:var(--shu);border-color:var(--shu);transform:translateY(-2px)}
+.cell h3{font-family:var(--min);font-size:18px;font-weight:600;letter-spacing:.09em;margin:7px 0 6px}
+.cell p{font-size:12.5px;color:var(--ink-2);line-height:1.95;padding-right:60px}
+.cell .go{
+  position:absolute;right:24px;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--ink-3);transition:color .22s,transform .22s var(--ease);
+}
+.cell:hover .go{color:var(--vermilion);transform:translateY(-50%) translateX(4px)}
+.sect-foot{padding:26px 32px 30px;text-align:center;border-top:1px solid var(--rule)}
 
-/* ---- 刑務所所長 = PDF資料風 ---- */
-.pdfview{background:#4a4741;padding:22px 18px;min-height:100%}
+/* ── ボタン ── */
+.btn{
+  display:inline-block;padding:13px 30px;border-radius:5px;border:1px solid var(--ink);
+  background:var(--ink);color:var(--paper);text-decoration:none;cursor:pointer;
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  transition:background .25s var(--ease),border-color .25s,transform .2s var(--ease),box-shadow .25s;
+}
+.btn:hover{background:var(--vermilion);border-color:var(--vermilion);transform:translateY(-2px);box-shadow:0 8px 20px rgba(176,62,55,.3)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);border-color:var(--ink);color:var(--paper);box-shadow:0 8px 20px rgba(22,20,15,.25)}
+
+/* ── 身分調書 ── */
+.pdfview{background:#3d3a34;padding:0 20px 30px;min-height:100%}
 .pdfbar{
-  display:flex;align-items:center;gap:12px;background:#2e2c28;color:#cfcabb;
-  font-family:var(--dot);font-size:11px;letter-spacing:.12em;padding:8px 14px;margin:-22px -18px 20px;
+  display:flex;align-items:center;gap:12px;padding:9px 16px;margin:0 -20px 24px;
+  background:rgba(20,18,15,.7);backdrop-filter:blur(10px);
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;color:rgba(242,239,230,.62);
+  border-bottom:1px solid rgba(0,0,0,.4);position:sticky;top:0;z-index:2;
 }
 .pdfbar .pg{margin-left:auto}
 .a4{
-  background:#fdfbf4;max-width:560px;margin:0 auto;padding:40px 42px 46px;
-  box-shadow:0 10px 30px rgba(0,0,0,.4);position:relative;overflow:hidden;
+  background:#fbf9f3;max-width:552px;margin:0 auto;padding:46px 46px 40px;position:relative;overflow:hidden;
+  box-shadow:0 3px 8px rgba(0,0,0,.28),0 18px 44px rgba(0,0,0,.34);
 }
-.a4::before{ /* 透かし */
+.a4::before{
   content:"複製厳禁";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  font-family:var(--min);font-size:82px;font-weight:700;color:rgba(199,62,58,.055);
-  letter-spacing:.28em;transform:rotate(-16deg);pointer-events:none;white-space:nowrap;
+  font-family:var(--min);font-size:76px;font-weight:700;color:rgba(176,62,55,.045);
+  letter-spacing:.3em;transform:rotate(-15deg);pointer-events:none;white-space:nowrap;
 }
-.doc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;border-bottom:3px double var(--ink);padding-bottom:14px}
-.doc-no{font-family:var(--dot);font-size:9.5px;color:var(--ink-2);letter-spacing:.14em;line-height:2;text-align:right;white-space:nowrap}
-.doc-eyebrow{font-family:var(--dot);font-size:10px;letter-spacing:.26em;color:var(--shu)}
-.doc-title{font-family:var(--min);font-size:27px;font-weight:700;letter-spacing:.42em;margin-top:6px}
-.doc-grid{display:grid;grid-template-columns:110px 1fr;gap:16px;margin-top:20px;align-items:start}
+.doc-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;border-bottom:2.5px double var(--ink);padding-bottom:15px}
+.doc-cls{font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;color:var(--vermilion)}
+.doc-title{font-family:var(--min);font-size:26px;font-weight:700;letter-spacing:.44em;margin-top:9px;line-height:1}
+.doc-no{font-family:var(--mono);font-size:8px;color:var(--ink-3);letter-spacing:.16em;line-height:2.1;text-align:right;white-space:nowrap}
+.doc-grid{display:grid;grid-template-columns:104px 1fr;gap:16px;margin-top:22px;align-items:start}
 .doc-photo{
-  aspect-ratio:3/4;border:1.5px dashed var(--ink-2);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:6px;color:var(--ink-2);background:rgba(29,27,23,.03);
+  aspect-ratio:3/4;border:1px dashed var(--ink-3);border-radius:2px;background:rgba(22,20,15,.025);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:var(--ink-3);
 }
-.doc-photo span{font-family:var(--dot);font-size:10.5px;letter-spacing:.2em;writing-mode:vertical-rl}
-.doc-photo small{font-size:9px;letter-spacing:.08em}
+.doc-photo span{font-family:var(--min);font-size:10px;letter-spacing:.22em;writing-mode:vertical-rl}
+.doc-photo small{font-family:var(--mono);font-size:7.5px;letter-spacing:.1em}
 .doc-tbl{width:100%;border-collapse:collapse;font-size:13px}
 .doc-tbl th{
-  font-family:var(--dot);font-size:10.5px;font-weight:400;color:var(--shu);letter-spacing:.18em;
-  border:1px solid var(--ink);background:rgba(29,27,23,.05);padding:9px 10px;width:84px;
+  font-family:var(--mono);font-size:9px;font-weight:400;letter-spacing:.16em;color:var(--vermilion);
+  border:1px solid rgba(22,20,15,.4);background:rgba(22,20,15,.035);padding:10px 11px;width:86px;
   text-align:left;vertical-align:top;white-space:nowrap;
 }
-.doc-tbl td{border:1px solid var(--ink);padding:9px 12px;line-height:1.95;vertical-align:top}
-.doc-tbl td small{display:block;font-family:var(--dot);font-size:9.5px;color:var(--ink-2);letter-spacing:.2em}
+.doc-tbl td{border:1px solid rgba(22,20,15,.4);padding:10px 13px;line-height:2;vertical-align:top;font-weight:400}
+.doc-tbl td .ja{font-family:var(--min)}
+.doc-tbl td small{display:block;font-family:var(--mono);font-size:8.5px;color:var(--ink-3);letter-spacing:.2em;margin-top:3px}
 .doc-tbl.full{margin-top:16px}
-.doc-remark{margin-top:18px;font-family:var(--min);font-size:14px;line-height:2.3;border-left:3px solid var(--shu);padding-left:16px}
-.doc-foot{display:flex;justify-content:flex-end;align-items:center;gap:22px;margin-top:26px}
-.doc-finger{display:flex;flex-direction:column;align-items:center;gap:5px}
-.doc-finger .fbox{width:58px;height:58px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;background:#fff}
-.doc-finger img{width:40px;height:40px;object-fit:contain;opacity:.75}
-.doc-finger span{font-family:var(--dot);font-size:9px;color:var(--ink-2);letter-spacing:.2em}
+.doc-remark{
+  margin-top:20px;font-family:var(--min);font-size:13.5px;line-height:2.35;
+  border-left:2px solid var(--vermilion);padding:2px 0 2px 16px;
+}
+.doc-foot{display:flex;justify-content:flex-end;align-items:flex-end;gap:24px;margin-top:28px}
+.doc-finger{display:flex;flex-direction:column;align-items:center;gap:6px}
+.doc-finger .fbox{width:54px;height:54px;border:1px solid var(--ink-2);background:#fff;display:flex;align-items:center;justify-content:center}
+.doc-finger svg{width:32px;height:32px;stroke:var(--ink-2);fill:none;stroke-width:1.3;stroke-linecap:round}
+.doc-finger span{font-family:var(--mono);font-size:7.5px;color:var(--ink-3);letter-spacing:.2em}
 .doc-seal{
-  width:56px;height:56px;border:2px solid rgba(199,62,58,.85);color:rgba(199,62,58,.92);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;font-family:var(--min);font-size:14px;
-  line-height:1.3;text-align:center;transform:rotate(-6deg);letter-spacing:.05em;
+  width:54px;height:54px;border:1.5px solid rgba(176,62,55,.8);color:rgba(176,62,55,.9);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-family:var(--min);font-size:13px;
+  line-height:1.35;text-align:center;transform:rotate(-5deg);
 }
-.doc-credit{margin-top:20px;font-family:var(--dot);font-size:9.5px;color:var(--ink-2);letter-spacing:.14em;text-align:right}
+.doc-credit{margin-top:22px;font-family:var(--mono);font-size:8px;color:var(--ink-3);letter-spacing:.16em;text-align:right}
 
-/* ---- 受刑者データ ---- */
-.inmates{padding:24px}
-.inmates .note{font-size:12px;color:var(--ink-2);margin-bottom:18px}
+/* ── 受刑者データ ── */
+.pad{padding:26px 30px 30px}
 .dossier{
-  border:1.5px solid var(--ink);margin-bottom:16px;background:#f4f0e3;
-  display:grid;grid-template-columns:96px 1fr;overflow:hidden;
+  border:1px solid var(--rule);border-radius:6px;margin-bottom:14px;background:var(--paper-2);
+  display:grid;grid-template-columns:88px 1fr;overflow:hidden;transition:border-color .25s,box-shadow .25s,transform .25s var(--ease);
 }
-.dossier .mug{
-  background:repeating-linear-gradient(0deg,#dcd6c2 0 14px,#cfc8b1 14px 16px);
-  display:flex;align-items:center;justify-content:center;border-right:1.5px solid var(--ink);
-  font-family:var(--min);font-size:30px;color:var(--ink-2);
+.dossier:hover{border-color:var(--ink-3);box-shadow:0 8px 22px rgba(22,20,15,.1);transform:translateY(-2px)}
+.mug{
+  background:repeating-linear-gradient(0deg,var(--paper-3) 0 13px,#d2ccb8 13px 15px);
+  display:flex;align-items:center;justify-content:center;border-right:1px solid var(--rule);
+  font-family:var(--min);font-size:27px;color:var(--ink-2);
 }
-.dossier .dd{padding:14px 18px}
-.dossier .dd .no{font-family:var(--dot);font-size:10px;color:var(--shu);letter-spacing:.2em}
-.dossier .dd h3{font-family:var(--min);font-size:17px;letter-spacing:.08em;margin:2px 0 5px}
-.dossier .dd p{font-size:12.5px;color:var(--ink-2);line-height:1.8}
+.dd{padding:16px 20px}
+.dd .no{font-family:var(--mono);font-size:8.5px;color:var(--ink-3);letter-spacing:.2em}
+.dd h3{font-family:var(--min);font-size:16.5px;font-weight:600;letter-spacing:.1em;margin:5px 0 7px}
+.dd p{font-size:12.5px;color:var(--ink-2);line-height:1.95}
 
-/* ---- イベント ---- */
-.eventv{padding:24px}
-.eventv h2{font-family:var(--min);font-size:21px;font-weight:700;letter-spacing:.14em;border-bottom:2px solid var(--ink);padding-bottom:12px}
-.eventv .ev-lat{font-family:var(--dot);font-size:10px;letter-spacing:.3em;color:var(--shu)}
-.gal{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
-.gal a{display:block;border:2px solid var(--ink);overflow:hidden;background:#0a0c12}
-.gal img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease,opacity .3s}
-.gal a:hover img{transform:scale(1.04);opacity:.92}
-.eventv .ev-cap{font-size:12px;color:var(--ink-2);margin-top:14px;line-height:1.9}
-
-/* ---- MoriTUBE ---- */
-.moritube{background:#141414;color:#efefef;padding:0 0 22px;min-height:100%}
-.mt-head{display:flex;align-items:center;gap:8px;padding:12px 18px;font-family:var(--dot);letter-spacing:.1em;font-size:15px}
-.mt-head .play{width:26px;height:18px;background:var(--shu);border-radius:4px;display:flex;align-items:center;justify-content:center}
-.mt-head .play::after{content:"";border-left:7px solid #fff;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent}
-.mt-head b{font-weight:400}
-.mt-head b i{font-style:normal;color:var(--shu)}
-.mt-vid{aspect-ratio:16/9;background:#000}
-.mt-vid video,.mt-vid iframe{width:100%;height:100%;display:block;background:#000;border:0}
-.mt-yt{display:inline-block;margin-top:12px;font-family:var(--dot);font-size:11px;letter-spacing:.12em;color:#e6e6e6;text-decoration:none;border:1px solid #555;padding:7px 14px;border-radius:3px;transition:border-color .15s,color .15s}
-.mt-yt:hover{border-color:var(--shu);color:var(--shu)}
-.mt-info{padding:14px 18px 0}
-.mt-info h3{font-size:15.5px;font-weight:500;letter-spacing:.04em}
-.mt-info .ch{display:flex;align-items:center;gap:10px;margin-top:12px}
-.mt-info .ch .av{width:34px;height:34px;border-radius:50%;background:var(--shu);display:flex;align-items:center;justify-content:center;font-family:var(--min);font-size:15px;color:#fff}
-.mt-info .ch b{font-size:12.5px;font-weight:500}
-.mt-info .ch small{display:block;font-size:10.5px;color:#9a9a9a}
-
-/* ---- Browser ---- */
-.browserv{display:flex;flex-direction:column;min-height:300px;height:100%}
-.burl{display:flex;gap:8px;align-items:center;padding:9px 12px;background:#d7d1bf;border-bottom:1.5px solid var(--ink)}
-.burl .dotset{display:flex;gap:5px}
-.burl .dotset i{width:9px;height:9px;border-radius:50%;background:var(--ink-2);opacity:.5}
-.burl input{
-  flex:1;border:1.5px solid var(--ink);background:#fdfbf4;font-family:var(--dot);font-size:12px;
-  padding:6px 10px;color:var(--ink);letter-spacing:.06em;
-}
-.bblank{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--ink-2);padding:30px;text-align:center}
-.bblank b{font-family:var(--dot);font-size:14px;letter-spacing:.18em}
-.bblank p{font-size:12px}
-.bblank .blinks{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px}
-.bblank .blinks a{
-  font-family:var(--dot);font-size:11.5px;letter-spacing:.1em;color:var(--shu);
-  border:1.5px solid var(--shu);padding:8px 14px;text-decoration:none;transition:background .15s,color .15s;
-}
-.bblinks a:hover,.bblank .blinks a:hover{background:var(--shu);color:#fff}
-
-/* ---- 購買部 books ---- */
-.shop{padding:24px}
-.shop-lead{font-size:12.5px;color:var(--ink-2);margin-bottom:18px;line-height:1.9}
+/* ── 購買部 ── */
 .bk{
-  display:block;border:1.5px solid var(--ink);background:#f4f0e3;padding:18px 20px 16px;
-  margin-bottom:14px;text-decoration:none;color:inherit;position:relative;
-  transition:transform .18s,box-shadow .18s,background .18s;
+  display:block;border:1px solid var(--rule);border-radius:6px;background:var(--paper-2);
+  padding:20px 22px 18px 26px;margin-bottom:14px;text-decoration:none;color:inherit;position:relative;overflow:hidden;
+  transition:transform .28s var(--ease),box-shadow .28s,border-color .28s,background .28s;
 }
-.bk::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--shu)}
-.bk:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(29,27,23,.18);background:#efe9d6}
-.bk-tag{font-family:var(--dot);font-size:10px;color:var(--shu);letter-spacing:.18em}
-.bk h3{font-family:var(--min);font-size:18px;font-weight:700;letter-spacing:.08em;margin:5px 0 7px}
-.bk p{font-size:12.5px;color:var(--ink-2);line-height:1.9}
-.bk-buy{display:inline-block;margin-top:10px;font-family:var(--dot);font-size:11.5px;letter-spacing:.14em;color:var(--ink)}
-.bk:hover .bk-buy{color:var(--shu)}
+.bk::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--vermilion);opacity:.75;transition:width .28s var(--ease)}
+.bk:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(22,20,15,.14);border-color:var(--ink-3);background:#ece7d9}
+.bk:hover::before{width:6px;opacity:1}
+.bk-tag{font-family:var(--mono);font-size:8.5px;color:var(--vermilion);letter-spacing:.18em}
+.bk h3{font-family:var(--min);font-size:17.5px;font-weight:700;letter-spacing:.1em;margin:6px 0 8px}
+.bk p{font-size:12.5px;color:var(--ink-2);line-height:1.95}
+.bk-buy{display:inline-block;margin-top:11px;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--ink-3);transition:color .25s,transform .25s var(--ease)}
+.bk:hover .bk-buy{color:var(--vermilion);transform:translateX(3px)}
 
-/* ---- contact 面会申請 ---- */
-.contact{padding:28px 28px 30px}
-.c-eyebrow{font-family:var(--dot);font-size:10px;letter-spacing:.28em;color:var(--shu)}
-.contact h2{font-family:var(--min);font-size:24px;font-weight:700;letter-spacing:.34em;margin:8px 0 14px;border-bottom:3px double var(--ink);padding-bottom:12px}
-.c-lead{font-size:13px;color:var(--ink-2);line-height:2.1}
-.c-btns{display:grid;gap:12px;margin-top:20px}
+/* ── MoriTUBE ── */
+.moritube{background:#0f0f10;color:#eceaea;min-height:100%;padding-bottom:24px}
+.mt-head{display:flex;align-items:center;gap:9px;padding:14px 20px}
+.mt-head .play{width:25px;height:17px;background:var(--vermilion);border-radius:5px;display:flex;align-items:center;justify-content:center}
+.mt-head .play::after{content:"";border-left:6px solid #fff;border-top:4px solid transparent;border-bottom:4px solid transparent;margin-left:1px}
+.mt-head b{font-family:var(--mono);font-size:13px;font-weight:500;letter-spacing:.1em}
+.mt-head b i{font-style:normal;color:var(--vermilion)}
+.mt-vid{aspect-ratio:16/9;background:#000}
+.mt-vid iframe,.mt-vid video{width:100%;height:100%;display:block;border:0}
+.mt-info{padding:16px 20px 0}
+.mt-info h3{font-size:15px;font-weight:500;letter-spacing:.04em;line-height:1.6}
+.mt-ch{display:flex;align-items:center;gap:11px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(236,234,234,.12)}
+.mt-ch .av{width:33px;height:33px;border-radius:50%;background:var(--vermilion);display:flex;align-items:center;justify-content:center;font-family:var(--min);font-size:14px;color:#fff;flex:none}
+.mt-ch b{font-size:12px;font-weight:500;letter-spacing:.04em}
+.mt-ch small{display:block;font-family:var(--mono);font-size:9px;color:#8d8d8f;letter-spacing:.14em;margin-top:2px}
+.mt-yt{
+  display:inline-block;margin-top:16px;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;
+  color:#d6d4d4;text-decoration:none;border:1px solid rgba(236,234,234,.3);padding:9px 16px;border-radius:4px;
+  transition:border-color .25s,color .25s,background .25s;
+}
+.mt-yt:hover{border-color:var(--vermilion);color:#fff;background:var(--vermilion)}
+
+/* ── イベント（空房） ── */
+.empty{
+  border:1px dashed var(--ink-3);border-radius:6px;padding:52px 24px;text-align:center;background:rgba(22,20,15,.02);
+}
+.empty b{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.34em;color:var(--vermilion)}
+.empty p{font-size:12.5px;color:var(--ink-2);margin-top:14px;line-height:2.1}
+.note-s{margin-top:16px;font-family:var(--mono);font-size:8.5px;color:var(--ink-3);letter-spacing:.12em;text-align:center}
+
+/* ── ブラウザ ── */
+.browserv{display:flex;flex-direction:column;height:100%;min-height:280px}
+.burl{display:flex;gap:10px;align-items:center;padding:10px 14px;background:var(--paper-2);border-bottom:1px solid var(--rule)}
+.burl .dots{display:flex;gap:5px}
+.burl .dots i{width:8px;height:8px;border-radius:50%;background:var(--ink-3);opacity:.45}
+.burl input{
+  flex:1;border:1px solid var(--rule);border-radius:4px;background:#fbf9f3;color:var(--ink-2);
+  font-family:var(--mono);font-size:10.5px;padding:7px 11px;letter-spacing:.06em;
+}
+.bblank{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:36px 24px;text-align:center}
+.bblank b{font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--ink-2)}
+.bblank p{font-size:12.5px;color:var(--ink-2);line-height:2}
+.blinks{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px}
+.blinks a{
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--vermilion);text-decoration:none;
+  border:1px solid rgba(176,62,55,.5);border-radius:4px;padding:9px 15px;transition:background .22s,color .22s;
+}
+.blinks a:hover{background:var(--vermilion);color:#fff}
+
+/* ── 面会申請 ── */
+.contact h2{font-family:var(--min);font-size:23px;font-weight:700;letter-spacing:.36em;margin:9px 0 16px;border-bottom:2.5px double var(--ink);padding-bottom:14px}
+.c-lead{font-size:12.5px;color:var(--ink-2);line-height:2.15}
+.c-btns{display:grid;gap:11px;margin-top:22px}
 .c-btns .btn{text-align:center}
-.btn.c-ghost{background:transparent;color:var(--ink)}
-.btn.c-ghost:hover{background:var(--shu);color:var(--paper)}
-.c-note{margin-top:16px;font-family:var(--dot);font-size:10px;color:var(--ink-2);letter-spacing:.12em;text-align:center}
+.c-note{margin-top:18px;font-family:var(--mono);font-size:8.5px;color:var(--ink-3);letter-spacing:.14em;text-align:center}
 
-/* ---- readme / reader ---- */
-.readme{padding:26px;font-family:var(--min);font-size:14.5px;line-height:2.3}
-.readme h2{font-family:var(--dot);font-size:15px;letter-spacing:.24em;color:var(--shu);margin-bottom:14px}
-.readme p+p{margin-top:13px}
-.reader{padding:28px 30px 34px;font-family:var(--min)}
-.reader .no{font-family:var(--dot);font-size:11px;color:var(--shu);letter-spacing:.24em}
-.reader h2{font-size:23px;font-weight:700;letter-spacing:.12em;margin:8px 0 18px;border-bottom:2px solid var(--ink);padding-bottom:13px}
-.reader .txt{font-size:15px;line-height:2.5;white-space:pre-line}
-.reader .cont{margin-top:24px;text-align:center}
+/* ── 読み物（README / VIEWER） ── */
+.readme{padding:30px 32px 34px;font-family:var(--min);font-size:14px;line-height:2.35}
+.readme h2{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--vermilion);margin-bottom:18px;text-transform:uppercase}
+.readme p+p{margin-top:15px}
+.readme .ver{font-family:var(--mono);font-size:9px;color:var(--ink-3);letter-spacing:.16em;margin-top:24px;line-height:2}
+.reader{padding:30px 32px 36px;font-family:var(--min)}
+.reader .rno{font-family:var(--mono);font-size:9.5px;color:var(--ink-3);letter-spacing:.2em}
+.reader h2{font-size:22px;font-weight:700;letter-spacing:.14em;margin:10px 0 20px;border-bottom:1px solid var(--rule);padding-bottom:16px}
+.reader .txt{font-size:14.5px;line-height:2.5;white-space:pre-line;color:var(--ink)}
+.reader .cont{margin-top:28px;text-align:center}
 
-/* ---- ごみ箱 dialog ---- */
-#trashdlg{
-  position:fixed;inset:0;z-index:8000;display:none;align-items:center;justify-content:center;
-  background:rgba(5,7,12,.55);
-}
+/* ══════════ ダイアログ ══════════ */
+#trashdlg{position:fixed;inset:0;z-index:8000;display:none;align-items:center;justify-content:center;background:rgba(6,8,12,.6);backdrop-filter:blur(3px)}
 #trashdlg.open{display:flex}
-.dlg{
-  width:min(400px,86vw);background:var(--paper);color:var(--ink);border:2px solid var(--ink);
-  box-shadow:var(--shadow);animation:winin .2s ease;
-}
-.dlg .dh{background:linear-gradient(180deg,#2a2721,#1d1b17);color:var(--paper);font-family:var(--dot);font-size:13px;letter-spacing:.12em;padding:9px 14px}
-.dlg .db{padding:26px 24px;text-align:center}
-.dlg .db p{font-family:var(--min);font-size:15.5px;letter-spacing:.06em;line-height:2}
-.dlg .df{display:flex;gap:12px;justify-content:center;padding:0 24px 24px}
-.dlg .df button{
-  padding:10px 26px;font-family:var(--dot);font-size:12.5px;letter-spacing:.14em;cursor:pointer;
-  border:2px solid var(--ink);background:var(--paper);color:var(--ink);transition:background .15s,color .15s;
-}
-.dlg .df button:hover{background:var(--ink);color:var(--paper)}
-.dlg .df button.warn:hover{background:var(--shu);border-color:var(--shu)}
+.dlg{width:min(390px,86vw);background:var(--paper);color:var(--ink);border-radius:9px;overflow:hidden;box-shadow:var(--shadow-win);animation:winIn .24s var(--ease)}
+.dlg .dh{background:linear-gradient(180deg,#252119,#191610);color:rgba(242,239,230,.82);font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;padding:11px 16px;text-transform:uppercase}
+.dlg .db{padding:32px 26px 26px;text-align:center}
+.dlg .db p{font-family:var(--min);font-size:16px;letter-spacing:.08em;line-height:2}
+.dlg .df{display:flex;gap:11px;justify-content:center;padding:0 26px 26px}
 
-/* ============ TASKBAR ============ */
+/* ══════════ ドック ══════════ */
 #taskbar{
-  position:fixed;left:0;right:0;bottom:0;height:48px;z-index:5000;
-  background:linear-gradient(180deg,#12151f,var(--bar));border-top:1px solid rgba(236,231,218,.14);
-  display:flex;align-items:center;gap:8px;padding:0 10px;padding-bottom:env(safe-area-inset-bottom);
+  position:fixed;left:0;right:0;bottom:0;height:var(--dock-h);z-index:5000;
+  background:rgba(10,13,18,.74);backdrop-filter:blur(20px) saturate(1.3);
+  -webkit-backdrop-filter:blur(20px) saturate(1.3);
+  border-top:1px solid rgba(242,239,230,.09);
+  display:flex;align-items:center;gap:7px;padding:0 12px;padding-bottom:env(safe-area-inset-bottom);
 }
 #tasks{flex:1;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
 #tasks::-webkit-scrollbar{display:none}
 .task{
-  height:32px;padding:0 13px;border:1px solid rgba(236,231,218,.22);background:rgba(236,231,218,.06);
-  color:var(--paper);font-family:var(--dot);font-size:11px;letter-spacing:.08em;cursor:pointer;
-  border-radius:4px;white-space:nowrap;transition:background .15s;
+  height:30px;padding:0 14px;border-radius:15px;border:1px solid rgba(242,239,230,.16);
+  background:rgba(242,239,230,.05);color:rgba(242,239,230,.85);cursor:pointer;
+  font-size:11px;font-weight:400;letter-spacing:.04em;white-space:nowrap;
+  transition:background .2s,border-color .2s,color .2s;
 }
-.task.on{background:rgba(199,62,58,.24);border-color:var(--shu)}
-#tb-copy{font-family:var(--dot);font-size:10px;color:#4a5164;letter-spacing:.12em;padding:0 6px;white-space:nowrap}
+.task:hover{background:rgba(242,239,230,.11)}
+.task.on{background:var(--vermilion-soft);border-color:rgba(176,62,55,.6);color:#f7e3e2}
+#tb-copy{font-family:var(--mono);font-size:8.5px;color:#39404d;letter-spacing:.16em;white-space:nowrap;padding-left:4px}
 
-/* ============ MOBILE ============ */
+/* ══════════ モバイル ══════════ */
 @media (max-width:767px){
-  #icons{top:14px;left:10px;right:10px;grid-template-columns:repeat(3,1fr)}
-  #trashicon{position:static}
-  .icon{width:auto;padding:12px 4px 10px}
-  .moon{width:70px;height:70px;top:auto;bottom:18%;right:7%}
-  .desk-caption{right:14px;bottom:12px}
-  .desk-caption b{font-size:15px}
+  :root{--dock-h:48px}
+  #icons{top:16px;left:12px;right:12px;grid-template-columns:repeat(3,1fr);gap:2px}
+  #trashicon{position:absolute;right:12px;bottom:16px;width:82px}
+  .icon{width:auto;padding:13px 2px 11px}
+  .icon svg{width:30px;height:30px}
+  .moon{width:64px;height:64px;top:auto;bottom:20%;right:8%;opacity:.45}
+  .sig{left:16px;right:auto;bottom:14px;text-align:left}
+  .sig b{font-size:14px}
   .win{
-    inset:32px 0 48px 0 !important;width:auto !important;height:auto !important;
-    min-width:0;border-width:0;border-top:2px solid var(--ink);border-radius:0;transform:none !important;
+    inset:var(--bar-h) 0 var(--dock-h) 0 !important;width:auto !important;height:auto !important;
+    min-width:0;border-radius:0;border:0;transform:none !important;
+    box-shadow:0 -8px 30px rgba(0,0,0,.5);
   }
-  .win.front{outline:none}
-  .tbar{cursor:default}
-  .a4{padding:32px 24px 40px}
-  .a4 dl{grid-template-columns:80px 1fr}
-  .gal{grid-template-columns:1fr}
-  .dossier{grid-template-columns:72px 1fr}
+  .tbar{cursor:default;height:44px}
+  .sect-head{padding:24px 22px 18px}
+  .cell{padding:18px 20px 18px 24px}
+  .cell:hover{padding-left:28px}
+  .cell p{padding-right:0}
+  .cell .go{position:static;transform:none;display:inline-block;margin-top:9px}
+  .cell:hover .go{transform:translateX(3px)}
+  .pad,.readme,.reader{padding:22px 20px 26px}
+  .pdfview{padding:0 12px 24px}
+  .pdfbar{margin:0 -12px 18px}
+  .a4{padding:30px 22px 28px}
+  .doc-grid{grid-template-columns:84px 1fr;gap:12px}
+  .doc-title{font-size:21px;letter-spacing:.3em}
+  .dossier{grid-template-columns:66px 1fr}
+  .mitem.hide{display:none}
   #mclock .d{display:none}
   #tb-copy{display:none}
-  .mitem.mhide{display:none}
+  .lg-cred p{font-size:10.5px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
@@ -410,156 +507,156 @@ body{font-family:var(--sans);background:var(--desk);color:var(--paper);user-sele
 </head>
 <body>
 
-<!-- ======== LOGIN ======== -->
+<!-- ══════ 認証 ══════ -->
 <div id="login">
-  <img class="lg-logo" src="https://test-serve-tsuki.web.app/images/mmlogo.webp" alt="MM OS" onerror="this.style.display='none'">
-  <div class="lg-ttl">M<em>M</em> LOGIN</div>
-  <div class="finger" id="finger" role="button" tabindex="0" aria-label="指紋認証">
-    <img src="https://test-serve-tsuki.web.app/images/simon.webp" alt="指紋" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'◉',style:'font-size:44px;color:#8b93a5'}))">
-    <span class="scan"></span>
+  <div class="lg-in">
+    <div class="lg-mark">M<em>M</em><small>Operating System</small></div>
+    <div class="finger" id="finger" role="button" tabindex="0" aria-label="指紋認証して入館する">
+      <svg viewBox="0 0 24 24"><path d="M12 2.5c-3.6 0-6.5 2.9-6.5 6.5 0 1.4-.2 2.8-.6 4.1"/><path d="M8.6 4.2A6.5 6.5 0 0 1 18.5 9c0 3.4-.5 6.6-1.5 9.6"/><path d="M12 6.2A2.8 2.8 0 0 0 9.2 9c0 4-.7 7.8-2 11.4"/><path d="M14.8 9c0 4.4-.6 8.6-1.8 12.5"/><path d="M12 9v3.5c0 2.8-.3 5.5-1 8.1"/><path d="M20.8 15.5c.5-2.1.7-4.3.7-6.5"/></svg>
+      <span class="scan"></span>
+    </div>
+    <div class="lg-msg" id="lgmsg">TOUCH TO ENTER</div>
+    <div class="lg-cred">
+      <span>Morisaki Masakazu — Novelist</span>
+      <p>第7回 空華文学賞／NovelJam Award 2024 内藤みか賞<br>第10回 ジャンプホラー小説大賞 選評掲載／第6回 文芸思潮新人賞 入選</p>
+    </div>
   </div>
-  <div class="lg-msg" id="lgmsg">認証してください</div>
-  <div class="lg-career">第7回 空華文学賞 ／ NovelJam Award 2024 内藤みか賞<br>第10回 ジャンプホラー小説大賞 選評掲載 ／ 第6回 文芸思潮新人賞 入選</div>
-  <div class="lg-copy">MM OS ─ TSUKI PRODUCT</div>
+  <div class="lg-foot">MM OS ─ TSUKI PRODUCT</div>
 </div>
 
-<!-- ======== MENU BAR ======== -->
+<!-- ══════ メニューバー ══════ -->
 <nav id="menubar">
-  <div class="mtitle"><img src="https://test-serve-tsuki.web.app/images/mmlogo.webp" alt="" onerror="this.style.display='none'"><b>M<em>M</em></b></div>
-  <div class="mitem" data-menu>
+  <div class="mtitle">M<em>M</em></div>
+  <div class="mitem">
     <button>MM</button>
     <div class="mdrop">
-      <button onclick="openWin('readme')">このOSについて...</button>
-      <button onclick="openWin('contact')">面会申請（CONTACT）</button>
-      <button onclick="openWin('books')">購買部（BOOKS）</button>
-      <span>製作 TSUKI PRODUCT</span>
+      <button onclick="openWin('readme')">このOSについて</button>
+      <hr>
+      <button onclick="openWin('warden')">身分調書</button>
+      <button onclick="openWin('contact')">面会申請</button>
+      <button onclick="openWin('books')">購買部</button>
+      <hr>
+      <span class="dis">製作 ─ TSUKI PRODUCT</span>
       <button onclick="logout()">ログアウト</button>
     </div>
   </div>
-  <div class="mitem mhide" data-menu><button>ファイル</button><div class="mdrop"><span>オプションはありません</span></div></div>
-  <div class="mitem mhide" data-menu><button>編集</button><div class="mdrop"><span>オプションはありません</span></div></div>
-  <div class="mitem mhide" data-menu><button>表示</button><div class="mdrop"><span>オプションはありません</span></div></div>
+  <div class="mitem hide"><button>ファイル</button><div class="mdrop"><span class="dis">操作できる項目はありません</span></div></div>
+  <div class="mitem hide"><button>表示</button><div class="mdrop"><span class="dis">操作できる項目はありません</span></div></div>
   <div id="mclock"><span class="d">----.--.--</span> <span class="t">--:--</span></div>
 </nav>
 
-<!-- ======== DESKTOP ======== -->
+<!-- ══════ デスクトップ ══════ -->
 <div id="desktop">
+  <div class="grain" aria-hidden="true"></div>
   <div class="moon" aria-hidden="true"></div>
-  <div class="desk-caption"><b>杜崎まさかず</b><small>MORISAKI MASAKAZU / NOVELIST</small></div>
+  <div class="sig"><b>杜崎まさかず</b><small>MORISAKI MASAKAZU</small></div>
 
   <div id="icons">
     <div class="icon" onclick="openWin('prison')" role="button" tabindex="0">
-      <svg viewBox="0 0 48 48" fill="none"><rect x="5" y="10" width="38" height="30" rx="2" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><path d="M12 10v30M18 10v30M24 10v30M30 10v30M36 10v30" stroke="#1d1b17" stroke-width="2"/><rect x="5" y="6" width="38" height="6" rx="2" fill="#c73e3a"/></svg>
-      <span class="lbl">掌編刑務所<small>SHORT STORIES</small></span>
+      <svg viewBox="0 0 34 34"><rect class="ac" x="4" y="6" width="26" height="4" rx="1"/><rect x="4" y="10" width="26" height="20" rx="1"/><path d="M10 10v20M14.7 10v20M19.3 10v20M24 10v20"/></svg>
+      <span class="lbl">掌編刑務所<small>STORIES</small></span>
     </div>
     <div class="icon" onclick="openWin('warden')" role="button" tabindex="0">
-      <svg viewBox="0 0 48 48" fill="none"><path d="M11 5h20l8 8v30H11z" fill="#fdfbf4" stroke="#1d1b17" stroke-width="2"/><path d="M31 5v8h8" stroke="#1d1b17" stroke-width="2" fill="none"/><circle cx="24" cy="21" r="5" fill="none" stroke="#c73e3a" stroke-width="2"/><path d="M16 34c2-5 14-5 16 0" stroke="#c73e3a" stroke-width="2" fill="none"/></svg>
-      <span class="lbl">刑務所所長<small>PROFILE</small></span>
+      <svg viewBox="0 0 34 34"><path d="M8 4h13l5 5v21H8z"/><path d="M21 4v5h5"/><circle class="ac" cx="17" cy="17" r="3.4"/><path class="ac" d="M11.6 26c1.4-3.4 9.4-3.4 10.8 0"/></svg>
+      <span class="lbl">身分調書<small>PROFILE</small></span>
     </div>
     <div class="icon" onclick="openWin('inmates')" role="button" tabindex="0">
-      <svg viewBox="0 0 48 48" fill="none"><rect x="7" y="8" width="34" height="32" rx="2" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><circle cx="17" cy="19" r="4" fill="none" stroke="#1d1b17" stroke-width="2"/><path d="M25 15h10M25 21h10M12 30h24M12 35h16" stroke="#c73e3a" stroke-width="2"/></svg>
+      <svg viewBox="0 0 34 34"><rect x="4" y="6" width="26" height="22" rx="1.5"/><circle cx="12" cy="14" r="3"/><path class="ac" d="M18.5 11.5H26M18.5 16H26M8 22h18"/></svg>
       <span class="lbl">受刑者データ<small>CHARACTERS</small></span>
     </div>
-    <div class="icon" onclick="openWin('event')" role="button" tabindex="0">
-      <svg viewBox="0 0 48 48" fill="none"><rect x="5" y="9" width="38" height="30" rx="2" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><path d="M5 31l11-10 8 7 7-6 12 9" stroke="#1d1b17" stroke-width="2" fill="none"/><circle cx="33" cy="17" r="3.5" fill="#c73e3a"/></svg>
-      <span class="lbl">イベント<small>EVENT</small></span>
-    </div>
-    <div class="icon" onclick="openWin('moritube')" role="button" tabindex="0">
-      <svg viewBox="0 0 48 48" fill="none"><rect x="5" y="11" width="38" height="26" rx="6" fill="#c73e3a"/><path d="M20 18l10 6-10 6z" fill="#fff"/></svg>
-      <span class="lbl">MoriTUBE<small>OFFICIAL PV</small></span>
-    </div>
-    <div class="icon" onclick="openWin('browser')" role="button" tabindex="0">
-      <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="17" fill="none" stroke="#ece7da" stroke-width="2"/><ellipse cx="24" cy="24" rx="8" ry="17" fill="none" stroke="#ece7da" stroke-width="2"/><path d="M8 19h32M8 29h32" stroke="#c73e3a" stroke-width="2"/></svg>
-      <span class="lbl">Browser<small>WEB</small></span>
-    </div>
     <div class="icon" onclick="openWin('books')" role="button" tabindex="0">
-      <svg viewBox="0 0 48 48" fill="none"><path d="M8 8h14a4 4 0 0 1 4 4v28a4 4 0 0 0-4-4H8z" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><path d="M40 8H26a4 4 0 0 0-4 4v28a4 4 0 0 1 4-4h14z" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><path d="M12 15h8M12 21h8M28 15h8M28 21h8" stroke="#c73e3a" stroke-width="2"/></svg>
+      <svg viewBox="0 0 34 34"><path d="M5 6h9.5a2.5 2.5 0 0 1 2.5 2.5V28a2.5 2.5 0 0 0-2.5-2.5H5z"/><path d="M29 6h-9.5a2.5 2.5 0 0 0-2.5 2.5V28a2.5 2.5 0 0 1 2.5-2.5H29z"/><path class="ac" d="M8.5 11h5.5M8.5 15h5.5M20 11h5.5M20 15h5.5"/></svg>
       <span class="lbl">購買部<small>BOOKS</small></span>
     </div>
+    <div class="icon" onclick="openWin('moritube')" role="button" tabindex="0">
+      <svg viewBox="0 0 34 34"><rect x="3" y="8" width="28" height="18" rx="5"/><path class="fl" d="M14 13.5l7 3.5-7 3.5z"/></svg>
+      <span class="lbl">MoriTUBE<small>OFFICIAL PV</small></span>
+    </div>
+    <div class="icon" onclick="openWin('event')" role="button" tabindex="0">
+      <svg viewBox="0 0 34 34"><rect x="4" y="7" width="26" height="21" rx="1.5"/><path d="M4 13h26"/><path class="ac" d="M11 4v6M23 4v6"/><circle class="fl" cx="17" cy="20" r="2"/></svg>
+      <span class="lbl">イベント<small>EVENT</small></span>
+    </div>
     <div class="icon" onclick="openWin('contact')" role="button" tabindex="0">
-      <svg viewBox="0 0 48 48" fill="none"><rect x="6" y="11" width="36" height="26" rx="2" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><path d="M6 14l18 13 18-13" stroke="#1d1b17" stroke-width="2" fill="none"/><circle cx="37" cy="32" r="6" fill="#c73e3a"/><path d="M34.5 32l1.8 1.8 3.2-3.6" stroke="#fff" stroke-width="1.8" fill="none"/></svg>
+      <svg viewBox="0 0 34 34"><rect x="4" y="8" width="26" height="18" rx="2"/><path d="M4 10.5l13 9 13-9"/><circle class="fl" cx="26" cy="24" r="5"/><path d="M24 24l1.4 1.4L28 22.6" stroke="#fff" stroke-width="1.6"/></svg>
       <span class="lbl">面会申請<small>CONTACT</small></span>
     </div>
+    <div class="icon" onclick="openWin('browser')" role="button" tabindex="0">
+      <svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="13"/><ellipse cx="17" cy="17" rx="6" ry="13"/><path class="ac" d="M4.5 13h25M4.5 21h25"/></svg>
+      <span class="lbl">Browser<small>LINKS</small></span>
+    </div>
     <div class="icon" onclick="openX()" role="button" tabindex="0">
-      <svg viewBox="0 0 48 48"><rect x="6" y="6" width="36" height="36" rx="8" fill="#0a0c12" stroke="#ece7da" stroke-width="2"/><path d="M15 14h6l6 8 6-8h4l-8 11 9 11h-6l-7-9-7 9h-4l9-11z" fill="#ece7da"/></svg>
-      <span class="lbl">公式X<small>FOLLOW</small></span>
+      <svg viewBox="0 0 34 34"><rect x="4" y="4" width="26" height="26" rx="7"/><path d="M11 10.5h4l4 5.6 4.2-5.6H26l-6 7.8 6.4 8.2h-4.2l-4.4-5.9-4.5 5.9H10l6.7-8.4z" fill="rgba(242,239,230,.9)" stroke="none"/></svg>
+      <span class="lbl">公式X<small>@morisaki_prison</small></span>
     </div>
   </div>
 
   <div class="icon" id="trashicon" onclick="openTrash()" role="button" tabindex="0">
-    <svg viewBox="0 0 48 48" fill="none"><path d="M12 14h24l-2.5 26h-19z" fill="#ece7da" stroke="#1d1b17" stroke-width="2"/><path d="M9 14h30M19 14v-4h10v4" stroke="#1d1b17" stroke-width="2"/><path d="M19 21v12M24 21v12M29 21v12" stroke="#c73e3a" stroke-width="2"/></svg>
+    <svg viewBox="0 0 34 34"><path d="M8 10h18l-1.8 19H9.8z"/><path d="M5.5 10h23M13 10V6.5h8V10"/><path class="ac" d="M13.5 15v9M17 15v9M20.5 15v9"/></svg>
     <span class="lbl">ごみ箱<small>TRASH</small></span>
   </div>
 
-  <!-- ==== WIN: 掌編刑務所 ==== -->
-  <section class="win" id="win-prison" style="left:15%;top:5%;width:min(640px,72vw);height:80%">
-    <header class="tbar">
-      <svg class="tico" viewBox="0 0 14 14"><rect width="14" height="14" fill="#c73e3a"/></svg>
-      <span class="ttl">掌編刑務所 ─ TANPEN_PRISON</span>
-      <button class="tbtn" onclick="minWin('prison')" aria-label="最小化">_</button>
-      <button class="tbtn x" onclick="closeWin('prison')" aria-label="閉じる">×</button>
-    </header>
+  <!-- ══ 掌編刑務所 ══ -->
+  <section class="win" id="win-prison" style="left:10%;top:6%;width:min(600px,60vw);height:82%">
+    <header class="tbar"><span class="tdot"></span><span class="ttl">Tanpen Prison</span>
+      <button class="tbtn" onclick="minWin('prison')" aria-label="最小化"><svg viewBox="0 0 10 10"><path d="M1.5 8h7"/></svg></button>
+      <button class="tbtn x" onclick="closeWin('prison')" aria-label="閉じる"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button></header>
     <div class="wbody">
-      <div class="prison-head">
-        <h2>掌編刑務所<span class="stamp">収監中</span></h2>
-        <p>小説に罪を償ってもらうための刑務所。隔週土曜日、新たな小説が収監されます。<br>コメントをいただけますと、刑期が軽くなります。</p>
+      <div class="sect-head">
+        <p class="kicker">Short Stories</p>
+        <h2>掌編刑務所</h2>
+        <p>小説に罪を償ってもらうための刑務所です。隔週土曜日、新たな一編を収監しています。コメントをいただけますと、刑期が軽くなります。</p>
       </div>
       <ul class="cells" id="celllist"></ul>
-      <div class="prison-foot"><a class="btn" id="notelink" href="#" target="_blank" rel="noopener">全作品を note で読む ▸</a></div>
+      <div class="sect-foot"><a class="btn" id="notelink" href="#" target="_blank" rel="noopener">全作品を note で読む</a></div>
     </div>
   </section>
 
-  <!-- ==== WIN: READER ==== -->
-  <section class="win" id="win-reader" style="left:24%;top:9%;width:min(560px,70vw);height:74%">
-    <header class="tbar">
-      <svg class="tico" viewBox="0 0 14 14"><rect width="14" height="14" fill="#ece7da"/></svg>
-      <span class="ttl" id="reader-ttl">VIEWER</span>
-      <button class="tbtn" onclick="minWin('reader')" aria-label="最小化">_</button>
-      <button class="tbtn x" onclick="closeWin('reader')" aria-label="閉じる">×</button>
-    </header>
+  <!-- ══ ビューア ══ -->
+  <section class="win" id="win-reader" style="left:20%;top:9%;width:min(520px,54vw);height:76%">
+    <header class="tbar"><span class="tdot"></span><span class="ttl" id="reader-ttl">Viewer</span>
+      <button class="tbtn" onclick="minWin('reader')" aria-label="最小化"><svg viewBox="0 0 10 10"><path d="M1.5 8h7"/></svg></button>
+      <button class="tbtn x" onclick="closeWin('reader')" aria-label="閉じる"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button></header>
     <div class="wbody"><div class="reader">
-      <div class="no" id="reader-no"></div><h2 id="reader-title"></h2>
+      <div class="rno" id="reader-no"></div><h2 id="reader-title"></h2>
       <div class="txt" id="reader-txt"></div>
-      <div class="cont"><a class="btn" id="reader-link" href="#" target="_blank" rel="noopener">続きを note で読む ▸</a></div>
+      <div class="cont"><a class="btn" id="reader-link" href="#" target="_blank" rel="noopener">続きを note で読む</a></div>
     </div></div>
   </section>
 
-  <!-- ==== WIN: 刑務所所長（PDF資料風プロフィール） ==== -->
-  <section class="win" id="win-warden" style="left:26%;top:6%;width:min(620px,74vw);height:82%">
-    <header class="tbar">
-      <svg class="tico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="7" fill="#ece7da"/></svg>
-      <span class="ttl">刑務所所長 ─ WARDEN.pdf</span>
-      <button class="tbtn" onclick="minWin('warden')" aria-label="最小化">_</button>
-      <button class="tbtn x" onclick="closeWin('warden')" aria-label="閉じる">×</button>
-    </header>
+  <!-- ══ 身分調書 ══ -->
+  <section class="win" id="win-warden" style="left:17%;top:5%;width:min(576px,60vw);height:84%">
+    <header class="tbar"><span class="tdot"></span><span class="ttl">Warden.pdf</span>
+      <button class="tbtn" onclick="minWin('warden')" aria-label="最小化"><svg viewBox="0 0 10 10"><path d="M1.5 8h7"/></svg></button>
+      <button class="tbtn x" onclick="closeWin('warden')" aria-label="閉じる"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button></header>
     <div class="wbody">
       <div class="pdfview">
         <div class="pdfbar">WARDEN.pdf ─ 所長身分調書<span class="pg">1 / 1</span></div>
         <div class="a4">
           <div class="doc-head">
             <div>
-              <div class="doc-eyebrow">掌編刑務所 文書 第MM-001号 ─ 機密区分：所内限</div>
-              <h2 class="doc-title">身分調書</h2>
+              <div class="doc-cls">掌編刑務所 文書 第MM-001号 ─ 機密区分：所内限</div>
+              <h1 class="doc-title">身分調書</h1>
             </div>
-            <div class="doc-no">作成庁　MM OS ARCHIVES<br>永年保存</div>
+            <div class="doc-no">作成庁 MM OS ARCHIVES<br>保存期間 永年</div>
           </div>
           <div class="doc-grid">
             <div class="doc-photo"><span>写真貼付欄</span><small>縦4cm×横3cm</small></div>
             <table class="doc-tbl">
-              <tr><th>氏名</th><td>杜崎まさかず<small>MORISAKI MASAKAZU</small></td></tr>
+              <tr><th>氏名</th><td><span class="ja">杜崎まさかず</span><small>MORISAKI MASAKAZU</small></td></tr>
               <tr><th>役職</th><td>掌編刑務所 所長（小説家）</td></tr>
-              <tr><th>所属</th><td>ツキモリスタジオ（杜崎まさかず × 月真猫）</td></tr>
+              <tr><th>所属</th><td>ツキモリスタジオ<br>（杜崎まさかず × 月真猫）</td></tr>
             </table>
           </div>
           <table class="doc-tbl full">
             <tr><th>筆歴</th><td>第7回 空華文学賞<br>NovelJam Award 2024 内藤みか賞<br>第10回 ジャンプホラー小説大賞 最終候補一歩手前作品 筆頭選出<br>第6回 文芸思潮新人賞 入選</td></tr>
-            <tr><th>管理棟</th><td>猛悪凶徒棟（1万字以上の短編）／ 晒し牢（読みやすい小説）／ 先談・全5話 ／ 雑居房（怖くない小説）</td></tr>
+            <tr><th>著作</th><td>ねむるどろ／はてのミックス（NovelJam 2024 受賞作）／空華文学賞 作品集</td></tr>
+            <tr><th>管理棟</th><td>猛悪凶徒棟（1万字以上の短編）／晒し牢（読みやすい小説）／先談・全5話／雑居房（怖くない小説）</td></tr>
             <tr><th>運営方針</th><td>note にて小説に罪を償わせる「掌編刑務所」を運営。隔週土曜日、小説を収監。読者のコメントにより刑期は軽減される。物語・脚本を担当し、AI動画クリエイター・月真猫とともに映像ドラマ作品を制作。</td></tr>
           </table>
           <p class="doc-remark">所見 ─ 物語は、読み終えたあとも読者の中で服役を続ける。短くても、逃がさない。それが当刑務所の流儀である。</p>
           <div class="doc-foot">
             <div class="doc-finger">
-              <div class="fbox"><img src="https://test-serve-tsuki.web.app/images/simon.webp" alt="指印" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'◉',style:'font-size:26px;color:#4d4a42'}))"></div>
+              <div class="fbox"><svg viewBox="0 0 24 24"><path d="M12 2.5c-3.6 0-6.5 2.9-6.5 6.5 0 1.4-.2 2.8-.6 4.1"/><path d="M8.6 4.2A6.5 6.5 0 0 1 18.5 9c0 3.4-.5 6.6-1.5 9.6"/><path d="M12 6.2A2.8 2.8 0 0 0 9.2 9c0 4-.7 7.8-2 11.4"/><path d="M14.8 9c0 4.4-.6 8.6-1.8 12.5"/><path d="M12 9v3.5c0 2.8-.3 5.5-1 8.1"/></svg></div>
               <span>所長指印</span>
             </div>
             <div class="doc-seal">所長<br>之印</div>
@@ -570,51 +667,52 @@ body{font-family:var(--sans);background:var(--desk);color:var(--paper);user-sele
     </div>
   </section>
 
-  <!-- ==== WIN: 受刑者データ ==== -->
-  <section class="win" id="win-inmates" style="left:32%;top:10%;width:min(560px,70vw);height:74%">
-    <header class="tbar">
-      <svg class="tico" viewBox="0 0 14 14"><rect x="1" y="1" width="12" height="12" fill="none" stroke="#ece7da" stroke-width="2"/></svg>
-      <span class="ttl">受刑者データ ─ INMATES</span>
-      <button class="tbtn" onclick="minWin('inmates')" aria-label="最小化">_</button>
-      <button class="tbtn x" onclick="closeWin('inmates')" aria-label="閉じる">×</button>
-    </header>
+  <!-- ══ 受刑者データ ══ -->
+  <section class="win" id="win-inmates" style="left:24%;top:9%;width:min(520px,54vw);height:76%">
+    <header class="tbar"><span class="tdot"></span><span class="ttl">Inmates</span>
+      <button class="tbtn" onclick="minWin('inmates')" aria-label="最小化"><svg viewBox="0 0 10 10"><path d="M1.5 8h7"/></svg></button>
+      <button class="tbtn x" onclick="closeWin('inmates')" aria-label="閉じる"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button></header>
     <div class="wbody">
-      <div class="inmates">
-        <p class="note">作中に登場する人物たちの記録。キャラクター紹介・こぼれ話を随時収監します。</p>
-        <div id="inmatelist"></div>
+      <div class="sect-head"><p class="kicker">Characters</p><h2>受刑者データ</h2>
+        <p>作中に登場する人物たちの記録です。読む前に知りすぎないよう、紹介は物語の入口までに留めています。</p></div>
+      <div class="pad"><div id="inmatelist"></div></div>
+    </div>
+  </section>
+
+  <!-- ══ 購買部 ══ -->
+  <section class="win" id="win-books" style="left:15%;top:8%;width:min(528px,55vw);height:78%">
+    <header class="tbar"><span class="tdot"></span><span class="ttl">Books</span>
+      <button class="tbtn" onclick="minWin('books')" aria-label="最小化"><svg viewBox="0 0 10 10"><path d="M1.5 8h7"/></svg></button>
+      <button class="tbtn x" onclick="closeWin('books')" aria-label="閉じる"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button></header>
+    <div class="wbody">
+      <div class="sect-head"><p class="kicker">Publications</p><h2>購買部</h2>
+        <p>紙とインクに封じられた作品たち。差し入れ（ご購入）は Amazon にて受け付けています。</p></div>
+      <div class="pad">
+        <!-- 書棚：①ねむるどろ ②はてのミックス ③空華文学賞作品集 -->
+        <a class="bk" href="https://amzn.asia/d/0eQn1VEI" target="_blank" rel="noopener">
+          <span class="bk-tag">単著</span><h3>ねむるどろ</h3>
+          <p>著：杜崎まさかず<br>※ あらすじ・紹介文をここに追記してください。</p>
+          <span class="bk-buy">Amazon で見る ▸</span>
+        </a>
+        <a class="bk" href="https://amzn.asia/d/03atvmjB" target="_blank" rel="noopener">
+          <span class="bk-tag">NovelJam 2024 ─ 内藤みか賞 受賞作</span><h3>はてのミックス</h3>
+          <p>著：杜崎まさかず ／ 編：森田玲花 ／ 装丁：織田桂子<br>会ったこともないのに『じゃんけんトリオ』と呼ばれた高校生たち。片田舎の日常、手芸部、そして消えた宮沢を巡る物語。</p>
+          <span class="bk-buy">Amazon で見る ▸</span>
+        </a>
+        <a class="bk" href="https://amzn.asia/d/0cJt8Jt9" target="_blank" rel="noopener">
+          <span class="bk-tag">第7回 空華文学賞 ─ 受賞作収録</span><h3>空華文学賞 作品集</h3>
+          <p>杜崎まさかずの空華文学賞受賞作を収録した作品集。<br>※ 正式な書名・収録作名に差し替えてください。</p>
+          <span class="bk-buy">Amazon で見る ▸</span>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- ==== WIN: イベント ==== -->
-  <section class="win" id="win-event" style="left:20%;top:8%;width:min(640px,74vw);height:78%">
-    <header class="tbar">
-      <svg class="tico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="5" fill="#c73e3a"/></svg>
-      <span class="ttl">イベント ─ EVENT</span>
-      <button class="tbtn" onclick="minWin('event')" aria-label="最小化">_</button>
-      <button class="tbtn x" onclick="closeWin('event')" aria-label="閉じる">×</button>
-    </header>
-    <div class="wbody">
-      <div class="eventv">
-        <div class="ev-lat">EVENT ARCHIVE</div>
-        <h2>イベント</h2>
-        <div style="border:2px dashed var(--ink-2);margin-top:18px;padding:46px 24px;text-align:center;">
-          <b style="font-family:var(--dot);font-size:16px;letter-spacing:.3em;color:var(--shu);display:block">COMING SOON</b>
-          <p style="font-size:13px;color:var(--ink-2);margin-top:12px;line-height:2">開催予定のイベントは、まだ収監されていません。<br>決まり次第、この房に掲示されます。</p>
-        </div>
-        <p class="ev-cap">※ イベント開催時は、画像・告知文をここに掲載できます。</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==== WIN: MoriTUBE ==== -->
-  <section class="win" id="win-moritube" style="left:17%;top:12%;width:min(700px,78vw)">
-    <header class="tbar">
-      <svg class="tico" viewBox="0 0 14 14"><path d="M3 2l9 5-9 5z" fill="#c73e3a"/></svg>
-      <span class="ttl">MoriTUBE ─ 公式チャンネル</span>
-      <button class="tbtn" onclick="minWin('moritube')" aria-label="最小化">_</button>
-      <button class="tbtn x" onclick="closeWin('moritube')" aria-label="閉じる">×</button>
-    </header>
+  <!-- ══ MoriTUBE ══ -->
+  <section class="win" id="win-moritube" style="left:12%;top:13%;width:min(640px,64vw)">
+    <header class="tbar"><span class="tdot"></span><span class="ttl">MoriTUBE</span>
+      <button class="tbtn" onclick="minWin('moritube')" aria-label="最小化"><svg viewBox="0 0 10 10"><path d="M1.5 8h7"/></svg></button>
+      <button class="tbtn x" onclick="closeWin('moritube')" aria-label="閉じる"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button></header>
     <div class="wbody">
       <div class="moritube">
         <div class="mt-head"><span class="play"></span><b>Mori<i>TUBE</i></b></div>
@@ -623,29 +721,39 @@ body{font-family:var(--sans);background:var(--desk);color:var(--paper);user-sele
         </div>
         <div class="mt-info">
           <h3>【公式PV】掌編刑務所</h3>
-          <div class="ch"><span class="av">杜</span><div><b>杜崎まさかず公式チャンネル</b><small>MORISAKI MASAKAZU OFFICIAL</small></div></div>
-          <a class="mt-yt" href="https://youtu.be/AQtgqJsVqOw" target="_blank" rel="noopener">▶ YouTube で開く</a>
+          <div class="mt-ch"><span class="av">杜</span><div><b>杜崎まさかず公式チャンネル</b><small>MORISAKI MASAKAZU OFFICIAL</small></div></div>
+          <a class="mt-yt" href="https://youtu.be/AQtgqJsVqOw" target="_blank" rel="noopener">▶ YOUTUBE で開く</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ==== WIN: Browser ==== -->
-  <section class="win" id="win-browser" style="left:36%;top:16%;width:min(520px,68vw);height:62%">
-    <header class="tbar">
-      <svg class="tico" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="none" stroke="#ece7da" stroke-width="2"/></svg>
-      <span class="ttl">Browser</span>
-      <button class="tbtn" onclick="minWin('browser')" aria-label="最小化">_</button>
-      <button class="tbtn x" onclick="closeWin('browser')" aria-label="閉じる">×</button>
-    </header>
+  <!-- ══ イベント ══ -->
+  <section class="win" id="win-event" style="left:22%;top:15%;width:min(470px,50vw)">
+    <header class="tbar"><span class="tdot"></span><span class="ttl">Event</span>
+      <button class="tbtn" onclick="minWin('event')" aria-label="最小化"><svg viewBox="0 0 10 10"><path d="M1.5 8h7"/></svg></button>
+      <button class="tbtn x" onclick="closeWin('event')" aria-label="閉じる"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button></header>
+    <div class="wbody">
+      <div class="sect-head"><p class="kicker">Event</p><h2>イベント</h2></div>
+      <div class="pad">
+        <div class="empty"><b>COMING SOON</b><p>開催予定のイベントは、まだ収監されていません。<br>決まり次第、この房に掲示されます。</p></div>
+        <p class="note-s">※ 開催時は、キービジュアル・告知文をここに掲載できます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ブラウザ ══ -->
+  <section class="win" id="win-browser" style="left:27%;top:17%;width:min(460px,48vw);height:56%">
+    <header class="tbar"><span class="tdot"></span><span class="ttl">Browser</span>
+      <button class="tbtn" onclick="minWin('browser')" aria-label="最小化"><svg viewBox="0 0 10 10"><path d="M1.5 8h7"/></svg></button>
+      <button class="tbtn x" onclick="closeWin('browser')" aria-label="閉じる"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button></header>
     <div class="wbody">
       <div class="browserv">
-        <div class="burl"><span class="dotset"><i></i><i></i><i></i></span><input value="about:blank" readonly aria-label="アドレスバー"></div>
+        <div class="burl"><span class="dots"><i></i><i></i><i></i></span><input value="about:blank" readonly aria-label="アドレスバー"></div>
         <div class="bblank">
           <b>about:blank</b>
           <p>このブラウザはまだ、どこへも行けません。<br>代わりに、外の世界への扉をご用意しました。</p>
           <div class="blinks">
-            <!-- ▼ URLを実際のものに差し替え -->
             <a href="https://note.com/gorilla_egg" target="_blank" rel="noopener">note ─ 掌編刑務所</a>
             <a href="https://tsukilab.jp/tsukimori/tsukimoristudio/" target="_blank" rel="noopener">TSUKIMORI STUDIO</a>
           </div>
@@ -654,105 +762,63 @@ body{font-family:var(--sans);background:var(--desk);color:var(--paper);user-sele
     </div>
   </section>
 
-  <!-- ==== WIN: 購買部（BOOKS） ==== -->
-  <section class="win" id="win-books" style="left:22%;top:7%;width:min(560px,72vw);height:78%">
-    <header class="tbar">
-      <svg class="tico" viewBox="0 0 14 14"><path d="M2 2h4a2 2 0 0 1 2 2v8a2 2 0 0 0-2-2H2zM12 2H8a2 2 0 0 0-2 2v8a2 2 0 0 1 2-2h4z" fill="#ece7da"/></svg>
-      <span class="ttl">購買部 ─ BOOKS</span>
-      <button class="tbtn" onclick="minWin('books')" aria-label="最小化">_</button>
-      <button class="tbtn x" onclick="closeWin('books')" aria-label="閉じる">×</button>
-    </header>
+  <!-- ══ 面会申請 ══ -->
+  <section class="win" id="win-contact" style="left:29%;top:16%;width:min(430px,46vw)">
+    <header class="tbar"><span class="tdot"></span><span class="ttl">Contact</span>
+      <button class="tbtn" onclick="minWin('contact')" aria-label="最小化"><svg viewBox="0 0 10 10"><path d="M1.5 8h7"/></svg></button>
+      <button class="tbtn x" onclick="closeWin('contact')" aria-label="閉じる"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button></header>
     <div class="wbody">
-      <div class="shop">
-        <p class="shop-lead">紙とインクに封じられた作品たち。差し入れ（ご購入）は Amazon にて受け付けています。</p>
-        <!-- 書棚：①ねむるどろ ②はてのミックス ③空華文学賞作品集（ご本人確認済みの順序） -->
-        <a class="bk" href="https://amzn.asia/d/0eQn1VEI" target="_blank" rel="noopener">
-          <span class="bk-tag">単著</span>
-          <h3>ねむるどろ</h3>
-          <p>著：杜崎まさかず<br>※ あらすじ・紹介文をここに追記してください。</p>
-          <span class="bk-buy">Amazon で見る ▸</span>
-        </a>
-        <a class="bk" href="https://amzn.asia/d/03atvmjB" target="_blank" rel="noopener">
-          <span class="bk-tag">NovelJam 2024 ─ 内藤みか賞 受賞作</span>
-          <h3>はてのミックス</h3>
-          <p>著：杜崎まさかず ／ 編：森田玲花 ／ 装丁：織田桂子<br>会ったこともないのに『じゃんけんトリオ』と呼ばれた高校生たち。片田舎の日常、手芸部、そして消えた宮沢を巡る物語。</p>
-          <span class="bk-buy">Amazon で見る ▸</span>
-        </a>
-        <a class="bk" href="https://amzn.asia/d/0cJt8Jt9" target="_blank" rel="noopener">
-          <span class="bk-tag">第7回 空華文学賞 ─ 受賞作収録</span>
-          <h3>空華文学賞 作品集</h3>
-          <p>杜崎まさかずの空華文学賞受賞作を収録した作品集。<br>※ 正式な書名・収録作名に差し替えてください。</p>
-          <span class="bk-buy">Amazon で見る ▸</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==== WIN: 面会申請（CONTACT） ==== -->
-  <section class="win" id="win-contact" style="left:40%;top:14%;width:min(460px,64vw)">
-    <header class="tbar">
-      <svg class="tico" viewBox="0 0 14 14"><rect x="1" y="3" width="12" height="8" fill="none" stroke="#ece7da" stroke-width="2"/><path d="M1 4l6 4 6-4" stroke="#ece7da" stroke-width="1.6" fill="none"/></svg>
-      <span class="ttl">面会申請 ─ CONTACT</span>
-      <button class="tbtn" onclick="minWin('contact')" aria-label="最小化">_</button>
-      <button class="tbtn x" onclick="closeWin('contact')" aria-label="閉じる">×</button>
-    </header>
-    <div class="wbody">
-      <div class="contact">
-        <div class="c-eyebrow">VISITATION REQUEST FORM</div>
+      <div class="pad contact">
+        <p class="kicker">Visitation Request</p>
         <h2>面会申請書</h2>
         <p class="c-lead">執筆のご依頼、映像化・コラボレーションのご相談、その他お問い合わせは、下記のいずれかの窓口までご申請ください。所長が房から出て対応いたします。</p>
-        <!-- ▼ メールアドレスとXのURLを実際のものに差し替えてください -->
         <div class="c-btns">
           <a class="btn" href="https://note.com/gorilla_egg/message" target="_blank" rel="noopener">note お問い合わせフォーム</a>
-          <a class="btn c-ghost" href="https://x.com/morisaki_prison" target="_blank" rel="noopener">𝕏 のDMで申請する</a>
+          <a class="btn ghost" href="https://x.com/morisaki_prison" target="_blank" rel="noopener">X のDMで申請する</a>
         </div>
         <p class="c-note">※ 面会は随時受付。差し入れはお言葉のみで結構です。</p>
       </div>
     </div>
   </section>
 
-  <!-- ==== WIN: このOSについて ==== -->
-  <section class="win" id="win-readme" style="left:38%;top:20%;width:min(480px,64vw);height:58%">
-    <header class="tbar">
-      <svg class="tico" viewBox="0 0 14 14"><rect x="1" y="1" width="12" height="12" fill="none" stroke="#ece7da" stroke-width="2"/></svg>
-      <span class="ttl">このOSについて</span>
-      <button class="tbtn" onclick="minWin('readme')" aria-label="最小化">_</button>
-      <button class="tbtn x" onclick="closeWin('readme')" aria-label="閉じる">×</button>
-    </header>
+  <!-- ══ このOSについて ══ -->
+  <section class="win" id="win-readme" style="left:31%;top:20%;width:min(440px,46vw);height:54%">
+    <header class="tbar"><span class="tdot"></span><span class="ttl">About MM OS</span>
+      <button class="tbtn" onclick="minWin('readme')" aria-label="最小化"><svg viewBox="0 0 10 10"><path d="M1.5 8h7"/></svg></button>
+      <button class="tbtn x" onclick="closeWin('readme')" aria-label="閉じる"><svg viewBox="0 0 10 10"><path d="M2 2l6 6M8 2l-6 6"/></svg></button></header>
     <div class="wbody">
       <div class="readme">
         <h2>── MM OS へようこそ ──</h2>
         <p>ここは、小説家・杜崎まさかずの頭の中を模した架空のオペレーティングシステム「MM OS」です。</p>
-        <p>デスクトップに並ぶアイコンは、それぞれが物語への扉。「掌編刑務所」の房を開ければ小説に、MoriTUBEでは公式PVに出会えます。</p>
-        <p>気の向くままにクリックして、どうぞ迷子になってください。出口は、あなたが読み終えるまで見つかりません。</p>
-        <p style="font-family:var(--dot);font-size:11px;color:var(--ink-2);margin-top:20px">MM OS ver 2.0<br>製作 TSUKI PRODUCT ─ TSUKIMORI STUDIO</p>
+        <p>デスクトップに並ぶアイコンは、それぞれが物語への扉。掌編刑務所の房を開ければ小説に、MoriTUBE では公式PVに出会えます。</p>
+        <p>気の向くままに開いて、どうぞ迷子になってください。出口は、あなたが読み終えるまで見つかりません。</p>
+        <p class="ver">MM OS ver 3.0<br>製作 TSUKI PRODUCT ─ TSUKIMORI STUDIO</p>
       </div>
     </div>
   </section>
 </div>
 
-<!-- ======== TRASH DIALOG ======== -->
+<!-- ══════ ごみ箱 ══════ -->
 <div id="trashdlg" role="dialog" aria-modal="true" aria-label="確認">
   <div class="dlg">
     <div class="dh">確認</div>
     <div class="db"><p>一体何を捨てようとしているんだい？</p></div>
     <div class="df">
-      <button onclick="closeTrash('memory')">記憶</button>
-      <button class="warn" onclick="closeTrash('nothing')">何も</button>
+      <button class="btn ghost" onclick="closeTrash()">記憶</button>
+      <button class="btn" onclick="closeTrash()">何も</button>
     </div>
   </div>
 </div>
 
-<!-- ======== TASKBAR ======== -->
+<!-- ══════ ドック ══════ -->
 <nav id="taskbar">
   <div id="tasks"></div>
-  <div id="tb-copy">©MORISAKI MASAKAZU 2025</div>
+  <div id="tb-copy">© MORISAKI MASAKAZU</div>
 </nav>
 
 <script>
 /* =====================================================
    ▼▼▼ 収監作品リスト（ここを編集するだけで更新できます）▼▼▼
-   note の実際の作品タイトル・あらすじ・URLに差し替えてください
 ===================================================== */
 const NOTE_TOP_URL = "https://note.com/gorilla_egg";
 const STORIES = [
@@ -792,39 +858,41 @@ const INMATES = [
   { no:"受刑者 No.0004 ─『インク商法』", name:"社長と商品開発部長", kanji:"剃",
     desc:"10枚刃の剃刀を破格で売り出した会社の経営陣。ただし、本当に売りたいのは剃刀ではないらしい。" }
 ];
-const X_URL = "https://x.com/morisaki_prison"; // 公式X
-const NOTE_CONTACT_URL = "https://note.com/gorilla_egg/message"; // noteお問い合わせ
+const X_URL = "https://x.com/morisaki_prison";
 /* ▲▲▲ 編集ここまで ▲▲▲ */
 
 const isMobile=()=>matchMedia("(max-width:767px)").matches;
-let z=100; const openWins=new Set();
+let z=10; const openWins=new Set();
+const TITLES={prison:"掌編刑務所",warden:"身分調書",inmates:"受刑者データ",books:"購買部",moritube:"MoriTUBE",event:"イベント",browser:"Browser",contact:"面会申請",readme:"このOSについて",reader:"ビューア"};
+const el=id=>document.getElementById("win-"+id);
 
-/* ---- login ---- */
+/* ── 認証 ── */
 const finger=document.getElementById("finger"), lgmsg=document.getElementById("lgmsg");
 let authed=false;
 function auth(){
   if(authed)return; authed=true;
-  finger.classList.add("scanning"); lgmsg.textContent="スキャン中 ...";
+  finger.classList.add("scanning"); lgmsg.textContent="SCANNING …";
   setTimeout(()=>{
     finger.classList.remove("scanning"); finger.classList.add("ok");
     lgmsg.textContent="ようこそ、面会人。"; lgmsg.classList.add("ok");
     setTimeout(()=>{
       document.getElementById("login").classList.add("off");
-      setTimeout(()=>openWin("warden"),650);
-    },750);
-  },1150);
+      setTimeout(()=>openWin("warden"),700);
+    },820);
+  },1180);
 }
 finger.addEventListener("click",auth);
 finger.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();auth()}});
 function logout(){
   authed=false;
-  finger.classList.remove("ok"); lgmsg.classList.remove("ok"); lgmsg.textContent="認証してください";
+  finger.classList.remove("ok"); lgmsg.classList.remove("ok"); lgmsg.textContent="TOUCH TO ENTER";
   document.querySelectorAll(".win.open").forEach(w=>w.classList.remove("open"));
   openWins.clear(); renderTasks();
+  const v=document.getElementById("pv"); if(v)v.src=v.src;
   document.getElementById("login").classList.remove("off");
 }
 
-/* ---- clock ---- */
+/* ── 時計 ── */
 function tick(){
   const d=new Date(),p=n=>String(n).padStart(2,"0");
   document.querySelector("#mclock .t").textContent=p(d.getHours())+":"+p(d.getMinutes());
@@ -832,9 +900,7 @@ function tick(){
 }
 tick(); setInterval(tick,10000);
 
-/* ---- windows ---- */
-const TITLES={prison:"掌編刑務所",warden:"刑務所所長",inmates:"受刑者データ",event:"イベント",moritube:"MoriTUBE",browser:"Browser",books:"購買部",contact:"面会申請",readme:"このOSについて",reader:"VIEWER"};
-const el=id=>document.getElementById("win-"+id);
+/* ── ウィンドウ ── */
 function openWin(id){
   const w=el(id); w.classList.add("open"); front(id);
   if(!openWins.has(id)){openWins.add(id);renderTasks()}
@@ -845,16 +911,13 @@ function closeWin(id){
   if(id==="moritube"){const v=document.getElementById("pv"); if(v)v.src=v.src}
 }
 function minWin(id){el(id).classList.remove("open");markTasks(null)}
-function front(id){
-  document.querySelectorAll(".win").forEach(w=>w.classList.remove("front"));
-  const w=el(id); w.style.zIndex=++z; w.classList.add("front"); markTasks(id);
-}
+function front(id){const w=el(id); w.style.zIndex=++z; markTasks(id)}
 function renderTasks(){
   const t=document.getElementById("tasks"); t.innerHTML="";
   openWins.forEach(id=>{
     const b=document.createElement("button");
     b.className="task"; b.dataset.id=id; b.textContent=TITLES[id];
-    b.onclick=()=>{const w=el(id);(w.classList.contains("open")&&w.classList.contains("front"))?minWin(id):openWin(id)};
+    b.onclick=()=>{const w=el(id); w.classList.contains("open")?minWin(id):openWin(id)};
     t.appendChild(b);
   });
 }
@@ -862,7 +925,7 @@ function markTasks(id){
   document.querySelectorAll(".task").forEach(b=>b.classList.toggle("on",b.dataset.id===id&&el(id).classList.contains("open")));
 }
 
-/* ---- drag (PC) ---- */
+/* ── ドラッグ（PC） ── */
 document.querySelectorAll(".win").forEach(w=>{
   const bar=w.querySelector(".tbar");
   w.addEventListener("pointerdown",()=>front(w.id.replace("win-","")));
@@ -872,8 +935,8 @@ document.querySelectorAll(".win").forEach(w=>{
     bar.setPointerCapture(e.pointerId);
     const mv=ev=>{
       let x=ev.clientX-dx,y=ev.clientY-dy;
-      x=Math.max(-r.width*0.6,Math.min(innerWidth-60,x));
-      y=Math.max(32,Math.min(innerHeight-110,y));
+      x=Math.max(-r.width*0.55,Math.min(innerWidth-70,x));
+      y=Math.max(34,Math.min(innerHeight-104,y));
       w.style.left=x+"px";w.style.top=y+"px";
     };
     const up=()=>{bar.removeEventListener("pointermove",mv);bar.removeEventListener("pointerup",up)};
@@ -881,44 +944,47 @@ document.querySelectorAll(".win").forEach(w=>{
   });
 });
 
-/* ---- prison ---- */
+/* ── 房リスト ── */
 const list=document.getElementById("celllist");
 STORIES.forEach((s,i)=>{
   const li=document.createElement("li");
-  const crime=s.crime?`<span style="font-family:var(--dot);font-size:10px;color:var(--ink-2);letter-spacing:.14em;margin-left:10px;border:1px solid var(--ink-2);padding:1px 6px">罪状：${s.crime}</span>`:"";
+  const crime=s.crime?`<span class="crime">罪状 ${s.crime}</span>`:"";
   li.innerHTML=`<div class="cell" role="button" tabindex="0">
-    <div class="no">${s.no}${crime}</div><h3>${s.title}</h3><p>${s.lead}</p><span class="go">面会 ▸</span></div>`;
-  li.querySelector(".cell").addEventListener("click",()=>openReader(i));
+      <div class="cell-meta"><span class="cell-no">${s.no}</span>${crime}</div>
+      <h3>${s.title}</h3><p>${s.lead}</p><span class="go">面会 ▸</span>
+    </div>`;
+  const c=li.querySelector(".cell");
+  c.addEventListener("click",()=>openReader(i));
+  c.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openReader(i)}});
   list.appendChild(li);
 });
 document.getElementById("notelink").href=NOTE_TOP_URL;
 function openReader(i){
   const s=STORIES[i];
-  document.getElementById("reader-ttl").textContent="VIEWER ─ "+s.title;
-  document.getElementById("reader-no").textContent=s.no+(s.crime?"　─　罪状："+s.crime:"");
+  document.getElementById("reader-ttl").textContent=s.title;
+  document.getElementById("reader-no").textContent=s.no+(s.crime?"　罪状 "+s.crime:"");
   document.getElementById("reader-title").textContent=s.title;
   document.getElementById("reader-txt").textContent=s.excerpt;
   document.getElementById("reader-link").href=s.url;
   openWin("reader");
+  el("reader").querySelector(".wbody").scrollTop=0;
 }
 
-/* ---- inmates ---- */
+/* ── 受刑者 ── */
 const il=document.getElementById("inmatelist");
 INMATES.forEach(c=>{
   const d=document.createElement("div");
   d.className="dossier";
-  d.innerHTML=`<div class="mug">${c.kanji}</div>
-    <div class="dd"><div class="no">${c.no}</div><h3>${c.name}</h3><p>${c.desc}</p></div>`;
+  d.innerHTML=`<div class="mug">${c.kanji}</div><div class="dd"><div class="no">${c.no}</div><h3>${c.name}</h3><p>${c.desc}</p></div>`;
   il.appendChild(d);
 });
 
-/* ---- X / trash ---- */
+/* ── その他 ── */
 function openX(){window.open(X_URL,"_blank","noopener")}
 function openTrash(){document.getElementById("trashdlg").classList.add("open")}
 function closeTrash(){document.getElementById("trashdlg").classList.remove("open")}
 document.getElementById("trashdlg").addEventListener("click",e=>{if(e.target.id==="trashdlg")closeTrash()});
 
-/* ---- menus ---- */
 document.querySelectorAll(".mitem>button").forEach(b=>{
   b.addEventListener("click",e=>{
     e.stopPropagation();
@@ -928,9 +994,8 @@ document.querySelectorAll(".mitem>button").forEach(b=>{
   });
 });
 document.addEventListener("click",()=>document.querySelectorAll(".mitem").forEach(m=>m.classList.remove("open")));
-
-/* keyboard */
-document.querySelectorAll(".icon,.cell").forEach(n=>{
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeTrash();document.querySelectorAll(".mitem").forEach(m=>m.classList.remove("open"))}});
+document.querySelectorAll(".icon").forEach(n=>{
   n.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();n.click()}});
 });
 </script>
