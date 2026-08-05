@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light">
+<title>Googol! BETA</title>
+<style>
+  :root{
+    color-scheme: only light;
+    --link:#0000cc; --visited:#551a8b; --face:#d4d0c8; --hw:0.5;
+  }
+  *{box-sizing:border-box; forced-color-adjust:none}
+  html,body{margin:0;padding:0}
+  html{background:#ffffff}
+  body{
+    background:#ffffff; color:#000000;
+    font-family:"Times New Roman",Times,"ＭＳ Ｐ明朝",serif;
+    font-size:15px; line-height:1.35; -webkit-text-size-adjust:100%;
+  }
+  a{color:var(--link);text-decoration:underline}
+  a:visited{color:var(--visited)}
+  a:active{color:#ff0000}
+  a:focus-visible{outline:2px dotted #000;outline-offset:1px}
+  .wrap{max-width:640px;margin:0 auto;padding:14px}
+
+  .logo{font-weight:bold;letter-spacing:-1px;white-space:nowrap}
+  .logo span{text-shadow:2px 2px 0 #b8b8b8}
+  .c1{color:#0039b6}.c2{color:#c41200}.c3{color:#e8a400}.c4{color:#009925}
+  .bang{color:#c41200}
+
+  .home{text-align:center;padding-top:34px}
+  .home .logo{font-size:52px;line-height:1}
+  .beta{font-family:Verdana,Geneva,sans-serif;font-size:9px;font-weight:bold;
+    color:#666;vertical-align:super;letter-spacing:1px;text-shadow:none}
+  .tagline{margin:14px 0 18px}
+  .qbox{width:290px;max-width:76vw;font-size:16px;padding:2px 3px;
+    border:2px inset var(--face);font-family:inherit}
+  .btn{font-family:Verdana,Geneva,sans-serif;font-size:11px;
+    background:var(--face);color:#000;border:2px outset var(--face);
+    padding:3px 9px;margin:9px 4px 0;cursor:pointer}
+  .btn:active{border-style:inset}
+  .home .idx{margin-top:20px;font-size:13px;color:#333}
+  .cols{margin-top:22px;font-size:13px}
+  .cols b{display:block;margin-bottom:3px}
+  .cols div{margin-bottom:12px}
+  hr{border:0;border-top:1px solid #999;margin:20px 0 10px}
+  .fine{font-size:11px;color:#555;text-align:center;line-height:1.6}
+
+  .bar{border-bottom:1px solid #999;padding-bottom:8px;margin-bottom:6px}
+  .barrow{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap}
+  .bar .logo{font-size:26px}
+  .bar .qbox{width:230px}
+  .stat{background:#e8e8e8;border-top:1px solid #999;border-bottom:1px solid #999;
+    padding:2px 5px;font-size:12px;margin-bottom:14px}
+
+  .load{font-size:13px;color:#333;padding:8px 0}
+  .blink{animation:bl 1s steps(1) infinite}
+  @keyframes bl{50%{opacity:0}}
+  @media (prefers-reduced-motion:reduce){.blink{animation:none}}
+
+  /* ---- アスキーアート ---- */
+  .aactl{font-size:11px;color:#444;margin-bottom:8px;line-height:2.1}
+  .aactl button{font-family:Verdana,sans-serif;font-size:11px;
+    background:var(--face);border:2px outset var(--face);cursor:pointer;
+    padding:1px 7px;margin:0 1px}
+  .aactl button:active{border-style:inset}
+  .aactl .val{font-family:Verdana,sans-serif;color:#000}
+  .aactl .sep{color:#aaa;margin:0 6px}
+
+  .aabox{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding:4px 0 14px}
+  .aa{
+    font-family:"ＭＳ Ｐゴシック","MS PGothic",Monapo,"IPA モナー Pゴシック",
+      IPAMonaPGothic,Mona,"Hiragino Kaku Gothic ProN","Hiragino Sans",sans-serif;
+    font-size:15px; line-height:1.125; letter-spacing:0; color:#000;
+  }
+  /* そのまま表示（MS Pゴシックがある環境用） */
+  .aa.raw{display:inline-block;white-space:pre}
+  /* グリッド表示（1文字ずつ幅を固定して環境差を消す） */
+  .aa.grid .ln{white-space:nowrap;height:1.125em}
+  .aa.grid .h,.aa.grid .w{
+    display:inline-block;vertical-align:top;text-align:center;overflow:visible
+  }
+  .aa.grid .h{width:calc(var(--hw) * 1em)}
+  .aa.grid .w{width:1em}
+
+  /* 端末がダークモードでも 1998 年の配色を保つ */
+  @media (prefers-color-scheme: dark){
+    html,body{background:#ffffff;color:#000000}
+    .stat{background:#e8e8e8;color:#000}
+    .qbox{background:#ffffff;color:#000;border-color:var(--face)}
+    .btn,.aactl button{background:var(--face);color:#000;border-color:var(--face)}
+    a{color:var(--link)}
+    a:visited{color:var(--visited)}
+    .aa{color:#000}
+    hr{border-top-color:#999}
+  }
+
+  @media (max-width:420px){
+    .home{padding-top:20px}
+    .home .logo{font-size:38px}
+    .bar .logo{font-size:22px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+const app = document.getElementById('app');
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const mark = size => '<span class="logo" style="font-size:'+size+'px">'
+  + '<span class="c1">G</span><span class="c2">o</span><span class="c3">o</span>'
+  + '<span class="c1">g</span><span class="c4">o</span><span class="c2">l</span>'
+  + '<span class="bang">!</span></span>';
+
+let lastQuery = '';
+let aaSize = 15;
+let halfW  = 0.50;
+let aaMode = /Windows/i.test(navigator.userAgent) ? 'raw' : 'grid';
+
+/* ============ アスキーアート（ここを差し替えれば変更できます） ============ */
+const AA = String.raw`
+　　　　　　　　　　　　　　　　　／￣￣￣￣￣￣￣＼
+　　　　　　　　　　　  　　　　/;;　　　　   　::;ヽ
+　　　　　　　　　　  　　　　　|;; ｨ●ｧ　　ｨ●ｧ    ;;|
+　　　　　　　　　  　　　　　　|;;::　　　　　　:;;|
+　　　　　　　　  　　　　　　　|;;::　c{　っ　　:;;|
+　　 　　　　          ｎ　　　|;;::　＿＿　　 ;;;|　　　 ｎ
+　　 　 　　  　       |｜　　 ヽ;;::　ー　　::;;／　　　｜|
+　　 　 　  　　       |｜　　　　 ＼;;　　;;／　　　　 　|｜
+　　 　 　        　ｆ｢| |^ﾄ　　　　|;;　 ;;|　　　　 ｆ｢| |^ﾄ
+　　 　 　　       |: ::　 ! ]　　  |;;　 ;;|　　　　[: ::　! |
+　　 　　　          ヽ　　,ｲ／￣￣￣　　　　 ￣￣￣＼ ヽ　　,/
+　　　　　　　          ＼　＼｜ 　　　　　　　　　   ／ ／
+　　　　　　　　          ＼　＼  ＼　　　　　　 　 ／　／|
+　　　　　　　　           ＼　＼  ＼　　　　     ／　／ ／
+　　　　　　　　　　         ＼　＼  ＼　　　   ／  ／　／
+　　　　　　　　  　　         ＼　＼ ＼      ／　／  ／
+　　　　　　　 　　　　          ＼__  ＼ ＿ ／  ／
+`;
+/* ==================================================================== */
+
+/* 全角判定（半角カナ・半角記号は半角として扱う） */
+const WIDE = /[\u1100-\u115F\u2E80-\u303E\u3041-\u33FF\u3400-\u4DBF\u4E00-\u9FFF\uA000-\uA4CF\uAC00-\uD7A3\uF900-\uFAFF\uFE30-\uFE6F\uFF01-\uFF60\uFFE0-\uFFE6\u25A0-\u25FF\u2600-\u26FF]/;
+
+function home(){
+  app.innerHTML =
+  '<div class="home">'
+  + '<div>' + mark(52) + '<span class="beta">BETA</span></div>'
+  + '<div class="tagline">Search the web using Googol!</div>'
+  + '<div><input class="qbox" id="q" value="' + esc(lastQuery) + '" autocomplete="off" spellcheck="false"></div>'
+  + '<div><button class="btn" id="go">Googol Search</button>'
+  + '<button class="btn" id="lucky">I\'m feeling lucky</button></div>'
+  + '<div class="idx">Index contains ~25 million pages (soon to be much bigger)</div>'
+  + '<div class="cols">'
+  + '<div><b>Special Searches</b>'
+  + '<a href="#" onclick="return demo(\'Stanford Search\')">Stanford Search</a> · '
+  + '<a href="#" onclick="return demo(\'Linux Search\')">Linux Search</a></div>'
+  + '<div><b>Help!</b>'
+  + '<a href="#" onclick="return demo(\'About\')">About Googol!</a> · '
+  + '<a href="#" onclick="return demo(\'Feedback\')">Feedback</a></div>'
+  + '<div><b>Get Googol! updates monthly:</b><br>'
+  + '<input class="qbox" style="width:190px" placeholder="your@email.address">'
+  + '<button class="btn" onclick="alert(\'メーリングリストは現在準備中です。\')">Subscribe</button></div>'
+  + '</div><hr>'
+  + '<div class="fine">Copyright &copy;1998 &mdash; これは当時の検索エンジンへのオマージュ再現です。<br>'
+  + '実在の企業・サービスとは関係がありません。<br>'
+  + 'Best viewed with Netscape Navigator 4.0 at 640&times;480</div>'
+  + '</div>';
+
+  const q = document.getElementById('q');
+  document.getElementById('go').onclick = () => go(q.value);
+  document.getElementById('lucky').onclick = () => go(q.value);
+  q.addEventListener('keydown', e => { if(e.key === 'Enter') go(q.value); });
+}
+
+function demo(name){
+  alert(name + ' は 1998 年当時のリンクの再現です。この復刻版では中身がありません。');
+  return false;
+}
+
+function header(query){
+  return '<div class="bar"><div class="barrow">'
+  + '<a href="#" onclick="home();return false" style="text-decoration:none">' + mark(26) + '</a>'
+  + '<input class="qbox" id="q2" value="' + esc(query) + '" autocomplete="off">'
+  + '<button class="btn" onclick="go(document.getElementById(\'q2\').value)">Search</button>'
+  + '</div></div>';
+}
+
+function go(query){
+  query = (query||'').trim();
+  if(!query){ const q = document.getElementById('q') || document.getElementById('q2'); if(q) q.focus(); return; }
+  lastQuery = query;
+  app.innerHTML = header(query)
+    + '<div class="load">Searching 25,000,000 web pages<span class="blink">...</span><br>'
+    + '<span style="font-size:11px;color:#666">28.8kbps で接続しています</span></div>';
+  window.scrollTo(0,0);
+  setTimeout(() => showAA(query), 1200);
+}
+
+/* AA を1文字ずつ固定幅のマスに入れて描画する */
+function gridHTML(text){
+  return text.replace(/^\n|\n$/g,'').split('\n').map(line => {
+    let out = '<div class="ln">';
+    for(const ch of line){
+      const cls = WIDE.test(ch) ? 'w' : 'h';
+      out += '<span class="' + cls + '">' + (ch === ' ' || ch === '\u3000' ? '' : esc(ch)) + '</span>';
+    }
+    return out + '</div>';
+  }).join('');
+}
+
+function aaHTML(){
+  return aaMode === 'grid'
+    ? '<div class="aa grid" id="aa">' + gridHTML(AA) + '</div>'
+    : '<div class="aa raw" id="aa">' + esc(AA.replace(/^\n|\n$/g,'')) + '</div>';
+}
+
+function showAA(query){
+  const secs = (Math.random()*0.09 + 0.02).toFixed(2);
+  app.innerHTML = header(query)
+    + '<div class="stat">Showing results 1-1 of approximately 1 for <b>' + esc(query)
+    + '</b>. Search took ' + secs + ' seconds.</div>'
+    + '<div class="aactl">'
+    +   '文字サイズ <button onclick="zoom(-1)">-</button><button onclick="zoom(1)">+</button> '
+    +   '<span class="val" id="vsize"></span>'
+    +   '<span class="sep">|</span>'
+    +   '半角幅 <button onclick="wider(-0.02)">-</button><button onclick="wider(0.02)">+</button> '
+    +   '<span class="val" id="vhw"></span>'
+    +   '<span class="sep">|</span>'
+    +   '<button onclick="toggleMode()" id="vmode"></button>'
+    +   '<span class="sep">|</span>'
+    +   '<a href="#" onclick="home();return false">最初に戻る</a>'
+    + '</div>'
+    + '<div class="aabox" id="aabox">' + aaHTML() + '</div>';
+  applyStyle();
+  window.scrollTo(0,0);
+}
+
+function applyStyle(){
+  const el = document.getElementById('aa');
+  if(el) el.style.fontSize = aaSize + 'px';
+  document.documentElement.style.setProperty('--hw', halfW.toFixed(2));
+  const s = document.getElementById('vsize'); if(s) s.textContent = aaSize + 'px';
+  const h = document.getElementById('vhw');   if(h) h.textContent = halfW.toFixed(2) + 'em';
+  const m = document.getElementById('vmode'); if(m) m.textContent = aaMode === 'grid' ? '表示: グリッド' : '表示: そのまま';
+}
+function zoom(d){ aaSize = Math.min(30, Math.max(7, aaSize + d)); applyStyle(); }
+function wider(d){ halfW = Math.min(0.70, Math.max(0.22, halfW + d)); applyStyle(); }
+function toggleMode(){
+  aaMode = (aaMode === 'grid') ? 'raw' : 'grid';
+  document.getElementById('aabox').innerHTML = aaHTML();
+  applyStyle();
+}
+
+home();
+</script>
+</body>
+</html>
