@@ -65,13 +65,16 @@ body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#fff;
 @keyframes fr{0%{opacity:.95;background:radial-gradient(var(--orange) 38%,var(--red) 38%)}100%{opacity:0}}
 .flash-v{animation:fv .5s;}
 @keyframes fv{0%{opacity:.95;background:radial-gradient(var(--yellow) 32%,var(--pink) 32%)}100%{opacity:0}}
-#vita{position:absolute;inset:0;display:none;z-index:7;background:rgba(0,0,0,.45);
- justify-content:center;align-items:center;flex-direction:column;gap:10px;}
-#vitabtn{width:110px;height:110px;border-radius:50%;border:4px solid var(--yellow);
- background:radial-gradient(var(--yellow) 55%,var(--orange) 55%);color:var(--ink);
- font-size:22px;font-weight:900;box-shadow:0 0 26px var(--orange);
+/* ビタ押しチャレンジの「狙え」表示。リールを見ながら押す必要があるので
+   画面全体を覆わず、液晶の下寄りに帯で出す */
+#vita{position:absolute;left:0;right:0;bottom:4%;display:none;z-index:7;
+ background:rgba(0,0,0,.78);border-top:2px solid var(--orange);border-bottom:2px solid var(--orange);
+ padding:6px 0;justify-content:center;align-items:center;flex-direction:column;gap:1px;
  animation:vpulse .5s infinite alternate;}
-@keyframes vpulse{from{transform:scale(1)}to{transform:scale(1.12)}}
+@keyframes vpulse{from{box-shadow:0 0 0 rgba(255,138,0,0)}to{box-shadow:0 0 22px rgba(255,138,0,.85)}}
+.vitatarget{font-size:16px;font-weight:900;color:#fff;letter-spacing:.04em;}
+.vitatarget b{color:var(--red);font-size:20px;text-shadow:0 0 8px var(--red);}
+.vitahint{font-size:10px;color:var(--gold);letter-spacing:.1em;}
 
 /* ---- リール ----
    ベゼル画像を「背面」に敷き、リールを窓の実測位置(cabinet_bezel_source.png・1536x1024)に重ねる。

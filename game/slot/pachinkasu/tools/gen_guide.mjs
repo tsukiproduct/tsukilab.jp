@@ -19,8 +19,8 @@ import {
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 
-/** node tests/simulate.js 3000000 の実測値（300万G） */
-const PAYOUT = { 1: '95.4%', 2: '97.0%', 3: '98.3%', 4: '100.5%', 5: '102.8%', 6: '105.2%' };
+/** node tests/simulate.js 3000000 の実測値（300万G・技術介入なし＝ビタ全外し） */
+const PAYOUT = { 1: '95.0%', 2: '96.3%', 3: '98.2%', 4: '99.8%', 5: '102.0%', 6: '104.7%' };
 
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -120,7 +120,7 @@ a{color:var(--acc)}
     <h1>スロットぱちんかす</h1>
     <div class="meta">
       タイプ: <b>A+AT</b>　｜　純増: <b>約+0.5枚/G</b>　｜
-      ボーナス合算: <b>1/154.6〜1/113.8</b>　｜　機械割: <b>95.4〜105.2%</b>
+      ボーナス合算: <b>1/154.6〜1/113.8</b>　｜　機械割: <b>95.0〜104.7%</b>
     </div>
   </div>
 </header>
@@ -187,7 +187,7 @@ ${rareRows}
 <tr><th>獲得枚数</th><td class="hl">204枚</td></tr>
 <tr><th>消化G数</th><td>14G（15枚役）</td></tr>
 <tr><th>技術介入</th><td>ビタ押し 計3回</td></tr>
-<tr><th>AT期待度</th><td class="hl">50.0〜52.0%</td></tr>
+<tr><th>AT期待度</th><td class="hl">40.0〜100%</td></tr>
 </tbody>
 </table>
 </div>
@@ -204,10 +204,23 @@ ${rareRows}
 </table>
 </div>
 </div>
-<div class="note">
-<b>BIG中のビタチャレンジ</b>は累計60枚・120枚・180枚の到達時に発生。
-成功で<b>AT+10G かつ AT濃厚</b>、失敗でも救済+2G。3回とも成功すれば+30G。<br>
-また、BIG入賞時の<b>1/64でフリーズ</b>が発生。この場合はAT濃厚＋50G。
+<h3>BIG中のビタ押しチャレンジ</h3>
+<p>BIG中の<b>5G目・9G目・13G目</b>に発生。「中リール 赤7を狙え！」と表示されたら、
+中リールの中段に赤7が来る瞬間に停止ボタンを押す。<b>±1コマまで成功</b>。
+このゲームだけは制御でのすべりが効かないため、押した位置がそのまま結果になる。</p>
+<div class="scroll">
+<table>
+<thead><tr><th>ビタ成功回数</th><th>0回</th><th>1回</th><th>2回</th><th>3回</th></tr></thead>
+<tbody>
+<tr><th>AT当選率</th><td>40.0%</td><td>55.0%</td><td>70.0%</td><td class="hl" style="color:var(--hot)">AT濃厚</td></tr>
+<tr><th>獲得G数</th><td>+6G</td><td>+14G</td><td>+22G</td><td>+30G</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note warn">
+<b>3回すべて成功でAT濃厚。</b>失敗しても救済で+2G/回が乗るため、
+全外しでも40%のAT抽選は受けられる。<br>
+また、BIG入賞時の<b>1/64でフリーズ</b>が発生。この場合はビタの結果に関わらずAT濃厚＋50G。
 </div>
 
 <h2>AT「MOON TIME」</h2>
@@ -215,7 +228,7 @@ ${rareRows}
 <tbody>
 <tr><th>純増</th><td>約+0.5枚/G</td></tr>
 <tr><th>初期G数</th><td>40G（＋BIG中のビタ獲得分 最大+30G）</td></tr>
-<tr><th>突入契機</th><td>BIG終了時 50〜52% ／ REG終了時 1/16 ／ ビタ成功・フリーズで濃厚</td></tr>
+<tr><th>突入契機</th><td>BIG終了時 40〜70%（ビタ成功回数で変動）／ ビタ3回成功・フリーズで濃厚 ／ REG終了時 1/16</td></tr>
 <tr><th>上乗せ</th><td>AT中スイカ 50%で+10G ／ AT中BIG +30G</td></tr>
 <tr><th>終了条件</th><td>残りG数0 ／ 差枚+2400 or 1500G（完走）</td></tr>
 </tbody>

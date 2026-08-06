@@ -121,6 +121,8 @@ export function initDebug(api) {
       `内部中  : ${G.carry || '-'}\n` +
       `AT      : ${G.at ? `残${G.atG}G (通算${G.atTotalG})` : 'なし'}\n` +
       `前回役  : ${G.flag || '-'}\n` +
+      `ボーナス: ${G.phase !== 'NORMAL' ? `${G.phase} ${G.bonusPaid}/${G.bonusTotal}枚 (${G.bonusGame}G)` : '-'}\n` +
+      `ビタ成功: ${G.vitaHits}/3\n` +
       `強制    : ${forced}\n` +
       `速度    : ${DBG.speed}x`;
   }
@@ -176,8 +178,8 @@ export function initDebug(api) {
     Object.assign(G, {
       phase: 'NORMAL', credit: 1000, diff: 0, games: 0, bigC: 0, regC: 0,
       carry: null, flag: null, at: false, atG: 0, atTotalG: 0, atRunG: 0,
-      atStartDiff: 0, pendingAT: 0, vitaWon: false,
-      bonusPaid: 0, bonusTotal: 0, bonusVita: [],
+      atStartDiff: 0, pendingAT: 0, freezeWon: false,
+      bonusPaid: 0, bonusTotal: 0, bonusGame: 0, vitaHits: 0, vitaNow: false, vitaResult: null,
     });
     updateLCD(); seg(); refreshData(); refreshState();
   };

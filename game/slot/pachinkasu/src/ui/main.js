@@ -53,13 +53,35 @@ function drawReel(i, midIdx, glowMid=false){
   r.cells[1].src = glowMid ? SYMG(st[midIdx]) : SYM(st[midIdx]);
   r.cells[2].src = SYM(st[(midIdx+1)%n]);
 }
+/* 1tickで1コマ進める。2コマ飛ばしにすると「押した位置の±1コマ」が
+   時間的に連続しなくなり、ビタ押しの判定が体感と合わなくなるため。
+   33ms/コマ ≒ 0.7秒で1周（実機とほぼ同じ速度） */
+const REEL_TICK_MS = 33;
 function startSpin(i){
   const r = reels[i]; r.spinning = true; r.el.classList.add('spin');
-  r.timer = setInterval(()=>{ r.idx = (r.idx+2)%REEL_LEN; drawReel(i, r.idx); }, Math.max(8, 55/DBG.speed));
+  // idx を減らす向きに回す。中段(idx)の図柄が次tickで下段(idx+1)へ移る＝図柄が下へ流れる。
+  // 増やす向きだと図柄が上へ流れ、実機と逆回転に見える。
+  r.timer = setInterval(()=>{ r.idx = (r.idx-1+REEL_LEN)%REEL_LEN; drawReel(i, r.idx); },
+                        Math.max(5, REEL_TICK_MS/DBG.speed));
 }
 /** 停止: 押した瞬間の位置から制御表(core)で停止位置を決める */
 function stopReel(i){
   const r = reels[i]; clearInterval(r.timer); r.spinning=false; r.el.classList.remove('spin');
+  // ビタ押しチャレンジ中の中リールだけは制御表を通さない。
+  // すべらせてしまうと「狙って止める」技術介入にならないため、押した位置で判定する。
+  if(G.vitaNow && i===1 && G.vitaResult===null){
+    const pressed = r.idx;
+    G.vitaResult = reelDist(pressed, VITA_TARGET) <= VITA_TOLERANCE;
+    if(G.vitaResult) G.vitaHits++;
+    // 成功なら赤7をきっちり中段へ、失敗は押した位置のまま止める
+    const midIdx = G.vitaResult ? VITA_TARGET : pressed;
+    drawReel(i, midIdx, G.vitaResult);
+    G.mids[i] = STRIP[i][midIdx];
+    hideVitaTarget();
+    if(G.vitaResult){ nav("ビタ成功!! AT+10G",1600); flash('flash-w'); beep(1568,.2,"triangle",.09); }
+    else { nav("失敗… AT+2G",1600); beep(180,.2,"sawtooth",.06); }
+    return;
+  }
   const midIdx = controlStop(i, r.idx, G.plan, G.mids);
   drawReel(i, midIdx);
   G.mids[i] = STRIP[i][midIdx];
@@ -73,13 +95,30 @@ const G = {
   plan: null, mids: [null,null,null], align: null,
   stopsLeft: 0, replayNext: false,
   at: false, atG: 0, atTotalG: 0, atRunG: 0, atStartDiff: 0,
-  pendingAT: 0, vitaWon: false,
+  pendingAT: 0, freezeWon: false,
   // ボーナス中の進行（phase が BIG / REG のあいだ有効）
   bonusPaid: 0,     // このボーナスでの累計獲得枚数
   bonusTotal: 0,    // 終了条件の枚数（BIG=204 / REG=60）
-  bonusVita: [],    // 残りビタチャレンジの発生枚数
+  bonusGame: 0,     // このボーナスで消化したゲーム数
+  vitaHits: 0,      // ビタ押し成功回数（0〜3）
+  vitaNow: false,   // 今のゲームがビタ押しチャレンジか
+  vitaResult: null, // 直近のビタ判定（true=成功 / false=失敗 / null=未判定）
   busy: false,
 };
+
+/* ---- ビタ押しチャレンジ（仕様書§7.1 中リール指定図柄のビタ押し）----
+   BIG中の指定ゲームで中リールに赤7を狙わせる。押した瞬間の中段位置が
+   赤7から±1コマ以内なら成功。制御表を通さない＝すべらせないので本物のビタ押し。 */
+const VITA_TARGET = STRIP[1].indexOf('red7');  // 中リールの赤7位置
+const VITA_TOLERANCE = 1;                      // ±1コマまで成功
+const VITA_GAMES = [5, 9, 13];                 // 累計60/120/180枚に対応するゲーム目
+/** リール上の円環距離（0〜10コマ） */
+function reelDist(a, b){
+  const d = Math.abs(a - b) % REEL_LEN;
+  return Math.min(d, REEL_LEN - d);
+}
+/** 成功回数に応じたAT当選率。3回成功のみ濃厚、全外しでも40%は残す */
+const VITA_AT_RATE = [0.40, 0.55, 0.70, 1.00];
 function seg(){ $('credit').textContent=G.credit; $('game').textContent=G.games%1000; }
 function setBG(key){ $('lcd').style.backgroundImage = `url(${img(key)})`; }
 function badge(t){ $('stateBadge').textContent = t; }
@@ -141,10 +180,15 @@ async function doLever(){
 
   // ---- ボーナス中: 抽選を行わず、消化役（BIG=15枚のスイカ / REG=8枚のベル）を毎回引き込む ----
   if(G.phase !== "NORMAL"){
+    G.bonusGame++;
     G.flag = G.phase === "BIG" ? "MELON" : "BELL";
     G.plan = makePlan(G.flag, {});
     G.mids = [null,null,null];
     G.align = null;
+    // ビタ押しチャレンジのゲームか（BIGのみ・指定ゲーム目）
+    G.vitaNow = G.phase === "BIG" && VITA_GAMES.includes(G.bonusGame);
+    G.vitaResult = null;
+    if(G.vitaNow){ showVitaTarget(); beep(1200,.15,"triangle",.08); }
     [0,1,2].forEach(startSpin); G.stopsLeft = 3;
     setBtns(false,false,true);
     G.busy = false;
@@ -196,19 +240,20 @@ async function settle(){
 
   // ---- ボーナス中の消化 ----
   if(G.phase !== "NORMAL"){
-    [0,1,2].forEach(i=>drawReel(i,reels[i].idx,true));
-    document.querySelectorAll('.cell.mid').forEach(c=>c.classList.add('winline'));
-    setTimeout(()=>document.querySelectorAll('.cell.mid').forEach(c=>c.classList.remove('winline')),400);
+    // ビタ押しゲームは中リールに赤7を止めているので、揃い演出は成功時のみ
+    if(!G.vitaNow || G.vitaResult){
+      [0,1,2].forEach(i=>drawReel(i,reels[i].idx,true));
+      document.querySelectorAll('.cell.mid').forEach(c=>c.classList.add('winline'));
+      setTimeout(()=>document.querySelectorAll('.cell.mid').forEach(c=>c.classList.remove('winline')),400);
+    }
+    // ビタ押しの結果をATゲーム数に反映（成功+10G / 失敗は救済+2G）
+    if(G.vitaNow){ G.pendingAT += G.vitaResult ? 10 : 2; G.vitaNow=false; }
     // 1ゲームあたりの獲得。終了枚数を超える分は切り詰める
     const per = G.phase==="BIG" ? 15 : 8;
     const got = Math.min(per, G.bonusTotal - G.bonusPaid);
     G.bonusPaid += got; G.credit += got; G.diff += got;
     $('payout').textContent = got; seg(); drawBonusCount();
     beep(880,.09,"triangle");
-    // ビタチャレンジ（BIGのみ・指定枚数を超えたら発生）
-    if(G.bonusVita.length && G.bonusPaid >= G.bonusVita[0]){
-      G.bonusVita.shift(); await vitaChallenge();
-    }
     if(G.bonusPaid >= G.bonusTotal){ await endBonus(); }
     else { setBtns(true,false,false); G.busy=false; }
     return;
@@ -263,8 +308,8 @@ function enterAT(initG){
 async function startBonus(kind){
   G.carry=null; G.align=null; G.phase=kind;
   G.bonusPaid = 0;
-  G.bonusTotal = kind==="BIG" ? 204 : 60;              // 仕様書§7の終了条件
-  G.bonusVita = kind==="BIG" ? [60,120,180] : [];      // 仕様書§7.1 計3回
+  G.bonusTotal = kind==="BIG" ? 204 : 60;   // 仕様書§7の終了条件
+  G.bonusGame = 0; G.vitaHits = 0; G.vitaNow = false; G.vitaResult = null;
   if(kind==="BIG") G.bigC++; else G.regC++;
   updateLCD(); flash('flash-w');
   beep(523,.1);beep(659,.1);setTimeout(()=>beep(784,.15),120);
@@ -272,7 +317,7 @@ async function startBonus(kind){
   if(kind==="BIG" && (DBG.forceFreeze || subLottery(SUB_TABLE.FREEZE_ON_BIG))){
     DBG.forceFreeze = false;
     if(!(await playMovie('freeze'))){ flash('flash-v'); nav("FREEZE!!",2200); await wait(2000); }
-    G.pendingAT += 50; G.vitaWon = true; // フリーズ恩恵: AT確定+50G
+    G.pendingAT += 50; G.freezeWon = true; // フリーズ恩恵: AT濃厚+50G
   }
   // 確定ムービー（無ければ静止画）→ そのあと告知画面を固定表示にする
   if(!(await playMovie(kind==="BIG"?'big':'reg'))) await showAnn(kind==="BIG"?'an_big':'an_regb', 1700);
@@ -285,20 +330,25 @@ async function startBonus(kind){
 async function endBonus(){
   const kind = G.phase;
   hideBonusScreen();
-  // 仕様書§8: BIG後50%+設定差。ビタ成功時は確定、獲得Gは突入時に加算
+  // AT抽選。BIGはビタ押しの成功回数で当選率が変わる（3回成功のみ濃厚、全外しでも40%）
   let entered = false;
   const forceAT = DBG.forceATonBonus; DBG.forceATonBonus = false; // デバッグ: AT当選を強制
   if(kind==="BIG"){
     if(G.at){ G.atG+=30; nav("＋30G!!"); } // AT中のBIGは+30G固定
     else {
-      const rate = 0.50 + (G.setting-1)*0.004;
-      if(forceAT || G.vitaWon || rnd16()/DENOM < rate){ enterAT(40 + G.pendingAT); entered=true; }
+      const base = VITA_AT_RATE[Math.min(G.vitaHits, 3)];
+      // 3回成功とフリーズは濃厚なので設定差を乗せない
+      const rate = (base >= 1 || G.freezeWon) ? 1 : base + (G.setting-1)*0.004;
+      if(G.vitaHits >= 3) nav("ビタ3回成功!! AT濃厚",2000);
+      if(forceAT || rnd16()/DENOM < rate){ enterAT(40 + G.pendingAT); entered=true; }
     }
   } else {
     if(!G.at && (forceAT || subLottery(SUB_TABLE.AT_ON_REG))){ enterAT(30); entered=true; }
   }
-  G.pendingAT = 0; G.vitaWon = false; G.phase="NORMAL";
-  G.bonusPaid = 0; G.bonusTotal = 0; G.bonusVita = [];
+  G.pendingAT = 0; G.freezeWon = false; G.phase="NORMAL";
+  G.bonusPaid = 0; G.bonusTotal = 0;
+  G.bonusGame = 0; G.vitaHits = 0; G.vitaNow = false; G.vitaResult = null;
+  hideVitaTarget();
   if(entered){
     if(!(await playMovie('at_start'))) await showAnn('an_atstart',1700);
     nav("MOON TIME 突入!!"); beep(880,.2,"triangle",.08);
@@ -306,24 +356,16 @@ async function endBonus(){
   await endOfGame();
 }
 
-async function vitaChallenge(){
-  return new Promise(res=>{
-    const v=$('vita'); v.style.display='flex'; beep(1200,.15,"triangle",.08);
-    let done=false;
-    const t=setTimeout(()=>{ if(done)return; done=true; v.style.display='none';
-      G.pendingAT+=2; nav("残念… +2G"); res(); },1300); // 失敗: 救済+2G（AT当選時のみ加算）
-    $('vitabtn').onclick=()=>{ if(done)return; done=true; clearTimeout(t); v.style.display='none';
-      G.pendingAT+=10; G.vitaWon=true; // 成功: +10G & AT確定（仕様書§8）
-      nav("ビタ成功!! +10G"); flash('flash-w'); beep(1568,.2,"triangle",.09); res(); };
-  });
-}
+/** ビタ押しチャレンジの「狙え」表示。リール回転中ずっと出しておく */
+function showVitaTarget(){ $('vita').style.display='flex'; }
+function hideVitaTarget(){ $('vita').style.display='none'; }
 
 /* ================= メニュー ================= */
 const row = $('setrow');
 for(let s=1;s<=6;s++){ const b=document.createElement('button'); b.textContent=s;
   if(s===G.setting)b.classList.add('on');
   b.onclick=()=>{ G.setting=s; G.credit=1000;G.diff=0;G.games=0;G.bigC=0;G.regC=0;
-    G.at=false;G.atG=0;G.carry=null;G.pendingAT=0;G.vitaWon=false;
+    G.at=false;G.atG=0;G.carry=null;G.pendingAT=0;G.freezeWon=false;
     row.querySelectorAll('button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); refreshData(); seg(); updateLCD(); };
   row.appendChild(b); }
 function refreshData(){

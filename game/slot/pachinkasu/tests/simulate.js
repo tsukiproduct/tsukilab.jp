@@ -24,8 +24,11 @@ import { TABLE, DENOM, probabilities, assertTables } from '../src/core/tables.js
 assertTables();
 
 const N = Number(process.argv[2] || 1_000_000);
-const BIG_PAY = 204, REG_PAY = 60;      // 実装 runBonus の払い出し
-const VITA_FAIL_G = 6;                  // 救済+2G×3（技術介入なし）
+const BIG_PAY = 204, REG_PAY = 60;      // 実装 startBonus の払い出し
+const VITA_FAIL_G = 6;                  // 救済+2G×3（技術介入なし＝ビタ全外し）
+// ビタ押し成功回数ごとのAT当選率（main.js の VITA_AT_RATE と一致させること）。
+// このシミュレーションは技術介入なし＝成功0回として VITA_AT_RATE[0] を使う
+const AT_RATE_VITA0 = 0.40;
 const FREEZE_RATE = 4 / 256;            // SUB_TABLE.FREEZE_ON_BIG
 const FREEZE_BONUS_G = 50;
 const AT_ON_REG_RATE = 16 / 256;        // SUB_TABLE.AT_ON_REG
@@ -59,7 +62,8 @@ for (let setting = 1; setting <= 6; setting++) {
         const freeze = Math.random() < FREEZE_RATE;
         if (atG > 0) { atG += 30; }
         else {
-          const rate = 0.50 + (setting - 1) * 0.004;
+          // 技術介入なし＝ビタ全外しなので VITA_AT_RATE[0] を使う
+          const rate = AT_RATE_VITA0 + (setting - 1) * 0.004;
           if (freeze || Math.random() < rate) {
             atG = 40 + VITA_FAIL_G + (freeze ? FREEZE_BONUS_G : 0);
             atEnter++; atRunG = 0; atRunDiffStart = diff;

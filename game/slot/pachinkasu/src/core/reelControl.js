@@ -26,6 +26,12 @@ export const REEL_LEN = 21;
 /** 最大すべりコマ数（実機準拠） */
 export const SLIP_MAX = 4;
 
+/* すべりの向きについて:
+   リールは図柄が下へ流れる＝インデックスが減る向きに回っている（main.js の startSpin）。
+   ボタンを押したあともリールは同じ向きに進んでから止まるので、
+   停止位置は push - s（sコマ余分に進んだ位置）になる。
+   push + s にすると押した瞬間にリールが逆戻りして見えるので変更しないこと。 */
+
 /**
  * 入賞ライン（中段1ライン）で「揃ってよい形」の全リスト。
  * ここに無い並びはすべて「出目」であり、payout は発生しない。
@@ -110,12 +116,12 @@ export function controlStop(reel, push, plan, stoppedMids = [null, null, null], 
   if (t.want) {
     // 引き込み: リプレイ＞小役＞ボーナス の優先はフラグ決定時点で1目標に解決済み
     for (let s = 0; s <= SLIP_MAX; s++) {
-      if (t.want.includes(symAt(reel, push + s))) return norm(push + s);
+      if (t.want.includes(symAt(reel, push - s))) return norm(push - s);
     }
     if (assist) {
       // オートビタ: 全周から最短の目標を探す（手動目押し実装時はここを通さず「こぼし」に）
       for (let s = SLIP_MAX + 1; s < REEL_LEN; s++) {
-        if (t.want.includes(symAt(reel, push + s))) return norm(push + s);
+        if (t.want.includes(symAt(reel, push - s))) return norm(push - s);
       }
     }
     return norm(push); // 目標が配列に存在しない場合のみ（設計上起きない）
@@ -123,15 +129,15 @@ export function controlStop(reel, push, plan, stoppedMids = [null, null, null], 
 
   // 回避モード: 4コマ以内で 禁止図柄・入賞形・テンパイ を避ける
   for (let s = 0; s <= SLIP_MAX; s++) {
-    const sym = symAt(reel, push + s);
+    const sym = symAt(reel, push - s);
     if (t.avoid.includes(sym)) continue;
     if (makesWinShape(reel, sym, stoppedMids)) continue;
-    return norm(push + s);
+    return norm(push - s);
   }
   // 完全回避が不可能な窓（配列上ほぼ無い）: 禁止図柄の回避だけは死守する
   for (let s = 0; s <= SLIP_MAX; s++) {
-    const sym = symAt(reel, push + s);
-    if (!t.avoid.includes(sym)) return norm(push + s);
+    const sym = symAt(reel, push - s);
+    if (!t.avoid.includes(sym)) return norm(push - s);
   }
   return norm(push);
 }
