@@ -177,6 +177,7 @@ export function initDebug(api) {
       phase: 'NORMAL', credit: 1000, diff: 0, games: 0, bigC: 0, regC: 0,
       carry: null, flag: null, at: false, atG: 0, atTotalG: 0, atRunG: 0,
       atStartDiff: 0, pendingAT: 0, vitaWon: false,
+      bonusPaid: 0, bonusTotal: 0, bonusVita: [],
     });
     updateLCD(); seg(); refreshData(); refreshState();
   };

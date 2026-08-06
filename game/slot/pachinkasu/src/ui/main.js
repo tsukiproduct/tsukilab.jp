@@ -74,6 +74,10 @@ const G = {
   stopsLeft: 0, replayNext: false,
   at: false, atG: 0, atTotalG: 0, atRunG: 0, atStartDiff: 0,
   pendingAT: 0, vitaWon: false,
+  // ボーナス中の進行（phase が BIG / REG のあいだ有効）
+  bonusPaid: 0,     // このボーナスでの累計獲得枚数
+  bonusTotal: 0,    // 終了条件の枚数（BIG=204 / REG=60）
+  bonusVita: [],    // 残りビタチャレンジの発生枚数
   busy: false,
 };
 function seg(){ $('credit').textContent=G.credit; $('game').textContent=G.games%1000; }
@@ -82,6 +86,16 @@ function badge(t){ $('stateBadge').textContent = t; }
 function flash(cls){ const f=$('flashfx'); f.className=""; void f.offsetWidth; f.classList.add(cls); }
 function showCut(k, ms=900){ const c=$('cutin'); c.src=img(k); c.style.display='block'; setTimeout(()=>c.style.display='none', ms); }
 function showAnn(k, ms=1600){ return new Promise(res=>{ const a=$('announce'); a.src=img(k); a.style.display='block'; setTimeout(()=>{a.style.display='none';res();}, ms); }); }
+/** ボーナス中は告知画面を出しっぱなしにし、その上に累計獲得枚数を大きく表示する */
+function showBonusScreen(kind){
+  const a=$('announce'); a.src=img(kind==="BIG"?'an_big':'an_regb'); a.style.display='block';
+  $('bonusCount').style.display='block'; drawBonusCount();
+}
+function hideBonusScreen(){ $('announce').style.display='none'; $('bonusCount').style.display='none'; }
+function drawBonusCount(){
+  $('bonusNum').textContent = G.bonusPaid;
+  const c=$('bonusCount'); c.classList.remove('pulse'); void c.offsetWidth; c.classList.add('pulse');
+}
 function nav(t,ms=1400){ $('nav').textContent=t; if(ms) setTimeout(()=>{ if($('nav').textContent===t) $('nav').textContent=''; }, ms); }
 function updateLCD(){
   if(G.phase==="BIG"){ setBG('bg_big'); badge("BIG BONUS"); }
@@ -111,7 +125,10 @@ const setNavi = on => [0,1,2].forEach(i=>$('s'+i).classList.toggle('navi', on));
 let betted = false;
 function doBet(){
   if(G.busy||betted) return;
-  if(!G.replayNext){ if(G.credit<3){ G.credit+=500; nav("500枚 貸出"); } G.credit-=3; G.diff-=3; }
+  // ボーナス中は投入不要。払い出し総枚数(204/60)がそのまま純増になる＝
+  // tests/simulate.js の計算モデル（投入なしで一括加算）と一致させるため
+  const inBonus = G.phase !== "NORMAL";
+  if(!inBonus && !G.replayNext){ if(G.credit<3){ G.credit+=500; nav("500枚 貸出"); } G.credit-=3; G.diff-=3; }
   betted = true; seg(); beep(660,.05); setBtns(false,true,false);
 }
 $('bet').onclick = doBet;
@@ -120,7 +137,21 @@ async function doLever(){
   if(!betted||G.busy) return;
   G.busy = true; betted=false; G.replayNext=false; beep(220,.08,"sawtooth");
   $('payout').textContent = 0;
-  G.games++; if(G.at){ G.atG--; G.atTotalG++; G.atRunG++; }
+  G.games++;
+
+  // ---- ボーナス中: 抽選を行わず、消化役（BIG=15枚のスイカ / REG=8枚のベル）を毎回引き込む ----
+  if(G.phase !== "NORMAL"){
+    G.flag = G.phase === "BIG" ? "MELON" : "BELL";
+    G.plan = makePlan(G.flag, {});
+    G.mids = [null,null,null];
+    G.align = null;
+    [0,1,2].forEach(startSpin); G.stopsLeft = 3;
+    setBtns(false,false,true);
+    G.busy = false;
+    return;
+  }
+
+  if(G.at){ G.atG--; G.atTotalG++; G.atRunG++; }
   // ---- 抽選 ----
   const wasCarrying = !!G.carry;
   let flag = drawFlag(G.setting, wasCarrying);
@@ -162,6 +193,27 @@ $('lever').onclick = doLever;
 async function settle(){
   G.busy = true; setBtns(false,false,false); setNavi(false);
   const flag = G.flag;
+
+  // ---- ボーナス中の消化 ----
+  if(G.phase !== "NORMAL"){
+    [0,1,2].forEach(i=>drawReel(i,reels[i].idx,true));
+    document.querySelectorAll('.cell.mid').forEach(c=>c.classList.add('winline'));
+    setTimeout(()=>document.querySelectorAll('.cell.mid').forEach(c=>c.classList.remove('winline')),400);
+    // 1ゲームあたりの獲得。終了枚数を超える分は切り詰める
+    const per = G.phase==="BIG" ? 15 : 8;
+    const got = Math.min(per, G.bonusTotal - G.bonusPaid);
+    G.bonusPaid += got; G.credit += got; G.diff += got;
+    $('payout').textContent = got; seg(); drawBonusCount();
+    beep(880,.09,"triangle");
+    // ビタチャレンジ（BIGのみ・指定枚数を超えたら発生）
+    if(G.bonusVita.length && G.bonusPaid >= G.bonusVita[0]){
+      G.bonusVita.shift(); await vitaChallenge();
+    }
+    if(G.bonusPaid >= G.bonusTotal){ await endBonus(); }
+    else { setBtns(true,false,false); G.busy=false; }
+    return;
+  }
+
   // 発光演出: 入賞形が実際に並んだときだけ光らせる
   if(G.plan.mode==="WIN"||G.plan.mode==="ALIGN"){
     if(G.mids[0]===G.mids[1] && G.mids[1]===G.mids[2]) [0,1,2].forEach(i=>drawReel(i,reels[i].idx,true));
@@ -179,7 +231,7 @@ async function settle(){
   if(G.at && flag.startsWith("MELON") && subLottery(SUB_TABLE.MELON_UPGRADE_IN_AT)){ G.atG+=10; nav("＋10G!!"); flash('flash-v'); }
   seg();
   // ボーナス開始
-  if(G.align){ await runBonus(G.align); }
+  if(G.align){ await startBonus(G.align); }
   else await endOfGame();
 }
 
@@ -207,8 +259,14 @@ function enterAT(initG){
   G.at = true; G.atG = initG; G.atRunG = 0; G.atStartDiff = G.diff;
 }
 
-async function runBonus(kind){
-  G.carry=null; G.align=null; G.phase=kind; updateLCD(); flash('flash-w');
+/** ボーナス開始。告知を出したあと操作をプレイヤーに返す（消化は settle 側で進む） */
+async function startBonus(kind){
+  G.carry=null; G.align=null; G.phase=kind;
+  G.bonusPaid = 0;
+  G.bonusTotal = kind==="BIG" ? 204 : 60;              // 仕様書§7の終了条件
+  G.bonusVita = kind==="BIG" ? [60,120,180] : [];      // 仕様書§7.1 計3回
+  if(kind==="BIG") G.bigC++; else G.regC++;
+  updateLCD(); flash('flash-w');
   beep(523,.1);beep(659,.1);setTimeout(()=>beep(784,.15),120);
   // フリーズ抽選（BIG入賞時 1/64・仕様書§5.6）
   if(kind==="BIG" && (DBG.forceFreeze || subLottery(SUB_TABLE.FREEZE_ON_BIG))){
@@ -216,19 +274,18 @@ async function runBonus(kind){
     if(!(await playMovie('freeze'))){ flash('flash-v'); nav("FREEZE!!",2200); await wait(2000); }
     G.pendingAT += 50; G.vitaWon = true; // フリーズ恩恵: AT確定+50G
   }
-  // 確定ムービー（無ければ静止画）
+  // 確定ムービー（無ければ静止画）→ そのあと告知画面を固定表示にする
   if(!(await playMovie(kind==="BIG"?'big':'reg'))) await showAnn(kind==="BIG"?'an_big':'an_regb', 1700);
-  const total = kind==="BIG"?204:60;
-  let paid = 0, vitaAt = kind==="BIG" ? [60,120,180] : [];
-  if(kind==="BIG") G.bigC++; else G.regC++;
-  while(paid < total){
-    paid = Math.min(total, paid+6);
-    G.credit+=6; G.diff+=6; $('payout').textContent=paid; seg();
-    if((paid&24)===0) beep(700+paid,.03,"square",.03);
-    if(vitaAt.length && paid>=vitaAt[0]){ vitaAt.shift(); await vitaChallenge(); }
-    await wait(70);
-  }
-  // 終了処理: AT抽選（仕様書§8: BIG後50%+設定差。ビタ成功時は確定、獲得Gは突入時に加算）
+  showBonusScreen(kind);
+  nav(kind==="BIG" ? "BIG BONUS 消化中" : "REG BONUS 消化中", 1800);
+  setBtns(true,false,false); G.busy = false;   // ここからプレイヤーが打つ
+}
+
+/** 規定枚数に到達したときの終了処理（AT抽選はここ） */
+async function endBonus(){
+  const kind = G.phase;
+  hideBonusScreen();
+  // 仕様書§8: BIG後50%+設定差。ビタ成功時は確定、獲得Gは突入時に加算
   let entered = false;
   const forceAT = DBG.forceATonBonus; DBG.forceATonBonus = false; // デバッグ: AT当選を強制
   if(kind==="BIG"){
@@ -241,6 +298,7 @@ async function runBonus(kind){
     if(!G.at && (forceAT || subLottery(SUB_TABLE.AT_ON_REG))){ enterAT(30); entered=true; }
   }
   G.pendingAT = 0; G.vitaWon = false; G.phase="NORMAL";
+  G.bonusPaid = 0; G.bonusTotal = 0; G.bonusVita = [];
   if(entered){
     if(!(await playMovie('at_start'))) await showAnn('an_atstart',1700);
     nav("MOON TIME 突入!!"); beep(880,.2,"triangle",.08);

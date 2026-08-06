@@ -46,6 +46,18 @@ body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#fff;
 #announce{position:absolute;inset:0;margin:auto;height:96%;display:none;z-index:5;
  filter:drop-shadow(0 0 20px rgba(255,138,0,.5));animation:pop .25s;}
 @keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+/* ---- ボーナス中の累計獲得枚数 ----
+   固定表示される告知画面(#announce)の上に重ねるので、地の絵が何色でも読めるよう
+   黒フチ＋グローを強めにかける。z-indexは #announce(5) より上 */
+#bonusCount{position:absolute;left:0;right:0;bottom:6%;text-align:center;display:none;z-index:6;
+ pointer-events:none;font-weight:900;line-height:1;
+ color:var(--yellow);
+ text-shadow:0 0 4px #000,0 0 8px #000,0 2px 3px #000,0 0 18px var(--orange);}
+#bonusCount b{font-family:"Impact","Arial Black","Yu Gothic",sans-serif;
+ font-size:min(17vw,8.5vh);letter-spacing:.02em;}
+#bonusCount span{font-size:min(6vw,3vh);margin-left:.15em;}
+#bonusCount.pulse b{animation:bcPop .25s;}
+@keyframes bcPop{from{transform:scale(1.35);color:#fff}to{transform:scale(1)}}
 #flashfx{position:absolute;inset:0;pointer-events:none;z-index:6;opacity:0;}
 /* フラッシュは連続グラデを避け、2段のベタで焚く（原則3: 段階的トーン） */
 .flash-w{animation:fw .35s;}@keyframes fw{0%{opacity:.9;background:#fff}100%{opacity:0}}
