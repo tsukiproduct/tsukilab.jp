@@ -80,6 +80,7 @@ function stopReel(i){
     hideVitaTarget();
     if(G.vitaResult){ nav("ビタ成功!! AT+10G",1600); flash('flash-w'); beep(1568,.2,"triangle",.09); }
     else { nav("失敗… AT+2G",1600); beep(180,.2,"sawtooth",.06); }
+    DBG.onUpdate?.(G);   // デバッグ表示を即時反映（ポーリング待ちだと判定結果が遅れて見える）
     return;
   }
   const midIdx = controlStop(i, r.idx, G.plan, G.mids);
@@ -157,7 +158,24 @@ function beep(f=440,d=.06,type="square",g=.05){ try{ AC=AC||new (window.AudioCon
 
 /* ================= 遊技フロー ================= */
 const setBtns = (bet,lever,stops) => { $('bet').disabled=!bet; $('lever').disabled=!lever;
- [0,1,2].forEach(i=>$('s'+i).disabled=!stops); };
+ [0,1,2].forEach(i=>$('s'+i).disabled=!stops); syncPanelTap(); };
+
+/* ---- 下パネルのタップ操作面 ----
+   スマホで片手で打てるよう、下パネルを5分割して本体ボタンへ転送する。
+   「今押せる操作」だけラベルを光らせ、次に何を押すかが分かるようにする。 */
+const panelTaps = [...document.querySelectorAll('.ptap')];
+panelTaps.forEach(t => {
+  // 指を離した瞬間(click)ではなく押した瞬間(pointerdown)で反応させる。
+  // ビタ押しは押したタイミングで判定するので、click だと狙いがズレる
+  t.addEventListener('pointerdown', () => {
+    const b = $(t.dataset.for);
+    if(!b.disabled) b.click();
+  });
+});
+function syncPanelTap(){
+  panelTaps.forEach(t => t.classList.toggle('ready', !$(t.dataset.for).disabled));
+}
+
 setBtns(true,false,false);
 const setNavi = on => [0,1,2].forEach(i=>$('s'+i).classList.toggle('navi', on));
 
@@ -226,12 +244,20 @@ async function doLever(){
 }
 $('lever').onclick = doLever;
 
-[0,1,2].forEach(i => $('s'+i).onclick = () => {
+function pressStop(i){
   const r = reels[i]; if(!r.spinning) return;
   beep(140,.05,"square",.08);
   stopReel(i);
+  $('s'+i).disabled = true; syncPanelTap();  // 停止済みのリールは押せなくする
   G.stopsLeft--;
   if(G.stopsLeft===0) settle();
+}
+[0,1,2].forEach(i => {
+  const b = $('s'+i);
+  // 実操作は pointerdown で拾う。click(指を離した瞬間)だとビタ押しの狙いがズレるため
+  b.addEventListener('pointerdown', () => pressStop(i));
+  // キーボード操作とパネルタップからの .click() は detail=0 で届くので、それだけ通す
+  b.addEventListener('click', e => { if(e.detail === 0) pressStop(i); });
 });
 
 async function settle(){

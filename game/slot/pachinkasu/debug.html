@@ -54,7 +54,17 @@
     <button id="menu">MENU</button>
   </div>
 
-  <div id="panel"></div>
+  <!-- 下パネルはタップ操作面も兼ねる（スマホで片手で打つため）。
+       並び順は上の #ctrl と同じ MAXBET / レバー / 左 / 中 / 右 -->
+  <div id="panel">
+    <div id="paneltap">
+      <button class="ptap" data-for="bet"><span>MAX BET</span></button>
+      <button class="ptap" data-for="lever"><span>レバー</span></button>
+      <button class="ptap" data-for="s0"><span>左</span></button>
+      <button class="ptap" data-for="s1"><span>中</span></button>
+      <button class="ptap" data-for="s2"><span>右</span></button>
+    </div>
+  </div>
 
   <div class="overlay" id="titleov">
     <img src="assets/announce/an_title.jpg" alt="スロットぱちんかす">

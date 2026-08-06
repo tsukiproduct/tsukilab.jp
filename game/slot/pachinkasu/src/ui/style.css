@@ -140,9 +140,30 @@ button:disabled{filter:grayscale(.8) brightness(.55);}
    cover だとロゴが見切れるので contain。ロゴの縦横比を保って全体を見せる */
 /* パネル画像は3:1の横長。cover にすると文字の下が切れるので contain で全体を見せる。
    #app 幅の1/3が必要高さなので、flex-basis もそれに合わせておく */
-#panel{flex:0 0 auto;aspect-ratio:3/1;background:var(--ink) url(../../assets/frame/panel_logo.jpg) center/100% 100% no-repeat;
+#panel{flex:0 0 auto;aspect-ratio:3/1;position:relative;
+ background:var(--ink) url(../../assets/frame/panel_logo.jpg) center/100% 100% no-repeat;
  border-top:2px solid var(--gold3);transition:background-image .3s;}
 #panel.glow{background-image:url(../../assets/frame/panel_logo_g.jpg);}
+
+/* ---- 下パネルのタップ操作面（スマホで片手で打つため） ----
+   ロゴを隠さないよう通常は透明。押せる操作だけラベルを光らせて次の手を示す。
+   MENUボタン(z-index:8)より下に置き、MENUのタップを邪魔しない */
+#paneltap{position:absolute;inset:0;display:flex;z-index:2;}
+.ptap{flex:1;border:none;background:transparent;padding:0;position:relative;
+ -webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation;}
+.ptap + .ptap{border-left:1px solid rgba(240,194,75,.12);}
+.ptap span{position:absolute;left:0;right:0;bottom:4px;font-size:10px;font-weight:900;
+ letter-spacing:.04em;color:rgba(255,255,255,.22);
+ text-shadow:0 1px 2px #000,0 0 4px #000;
+ transition:color .12s,text-shadow .12s;pointer-events:none;}
+/* 今押せる操作は光らせる */
+.ptap.ready span{color:#fff;text-shadow:0 0 10px var(--orange),0 0 4px var(--orange),0 1px 2px #000;}
+.ptap.ready::after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(180deg,transparent 45%,rgba(255,138,0,.38));
+ box-shadow:inset 0 -2px 0 var(--orange);}
+.ptap:active::after{content:"";position:absolute;inset:0;background:rgba(255,255,255,.22);}
+/* 最後のゾーンはMENUボタンと重なるので、その分だけ右を空ける */
+.ptap:last-child{margin-right:46px;}
 
 /* ---- タイトル / メニュー ---- */
 .overlay{position:absolute;inset:0;background:rgba(10,10,15,.94);z-index:20;display:flex;
