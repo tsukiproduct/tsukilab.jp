@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>スロットぱちんかす — A+AT</title>
+<link rel="stylesheet" href="src/ui/style.css">
+</head>
+<body>
+<div id="app">
+  <div id="lcd">
+    <video id="lcdloop" muted playsinline loop></video>
+    <video id="lcdmovie" muted playsinline></video>
+    <div class="badge" id="stateBadge">通常</div>
+    <div id="atinfo">MOON TIME<br><b id="atg">0</b>G</div>
+    <img id="cutin" alt="">
+    <img id="announce" alt="">
+    <div id="nav"></div>
+    <div id="flashfx"></div>
+    <div id="vita">
+      <div class="vitalabel">ビタチャレンジ!</div>
+      <button id="vitabtn">PUSH</button>
+    </div>
+  </div>
+
+  <div id="reelzone">
+    <div class="reel" id="r0"><div class="cell"><img alt=""></div><div class="cell mid"><img alt=""></div><div class="cell"><img alt=""></div></div>
+    <div class="reel" id="r1"><div class="cell"><img alt=""></div><div class="cell mid"><img alt=""></div><div class="cell"><img alt=""></div></div>
+    <div class="reel" id="r2"><div class="cell"><img alt=""></div><div class="cell mid"><img alt=""></div><div class="cell"><img alt=""></div></div>
+  </div>
+
+  <!-- ラベル(CREDIT/PAYOUT/GAME)は seg_frame.jpg に焼き込み済み。数字だけを桁窓に重ねる -->
+  <div id="seg">
+    <span class="segnum" id="credit">1000</span>
+    <span class="segnum" id="payout">0</span>
+    <span class="segnum" id="game">0</span>
+  </div>
+
+  <div id="ctrl">
+    <button id="bet">MAX<br>BET</button>
+    <button id="lever"></button>
+    <button class="stop" id="s0"></button>
+    <button class="stop" id="s1"></button>
+    <button class="stop" id="s2"></button>
+    <button id="menu">MENU</button>
+  </div>
+
+  <div id="panel"></div>
+
+  <div class="overlay" id="titleov">
+    <img src="assets/announce/an_title.jpg" alt="スロットぱちんかす">
+    <button class="gbtn" id="startbtn">遊技開始</button>
+    <div class="small">A+AT機プロトタイプ ｜ 分母65536・完全確率</div>
+  </div>
+
+  <div class="overlay" id="menuov">
+    <div class="ttl">設定変更（変更でリセット）</div>
+    <div class="setrow" id="setrow"></div>
+    <div class="datap" id="dataview"></div>
+    <button class="gbtn" id="closebtn">閉じる</button>
+  </div>
+</div>
+<script type="module" src="src/ui/main.js"></script>
+</body>
+</html>

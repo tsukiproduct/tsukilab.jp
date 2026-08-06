@@ -1,0 +1,13 @@
+{
+  "name": "pachinkasu",
+  "version": "0.2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes serve . -p 3000",
+    "sim": "node tests/simulate.js",
+    "test:reel": "node tests/reel.js",
+    "crop": "python tools/crop.py",
+    "movies": "python tools/scan_movies.py"
+  }
+}
+

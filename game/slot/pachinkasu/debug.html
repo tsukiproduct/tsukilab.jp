@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>スロットぱちんかす — デバッグモード</title>
+</head>
+<body style="background:#0a0a0f;color:#eee;font-family:sans-serif;padding:2em">
+<p>デバッグモードへ移動しています…</p>
+<p><a id="lnk" href="index.html#debug" style="color:#FF8A00">自動で移動しない場合はこちら</a></p>
+<script>
+// デバッグモードへのブックマーク用エントリ。実体は index.html#debug。
+// クエリ(?debug=1)ではなくハッシュを使うのは、静的ホスティングのリダイレクト正規化で
+// クエリ文字列が落ちる場合があるため。main.js は両方を見ている。
+location.replace('index.html#debug');
+</script>
+</body>
+</html>

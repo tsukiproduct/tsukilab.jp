@@ -1,0 +1,150 @@
+/* スロットぱちんかす — UIスタイル
+   縦持ちスマホ基準。#app の幅は min(100vw,56vh) で常に縦長を維持 */
+
+/* 配色は docs/STYLE.md（レトロ4号機路線）で固定。ここ以外の色を足さないこと。
+   くすんだ中間色・パステル・紫がかったグレーは使用禁止（AIっぽさの主因になる） */
+:root{
+ --ink:#0A0A0F;        /* 地の黒 */
+ --red:#FF2D2D;        /* 朱: 赤7・BIG・警告 */
+ --orange:#FF8A00;     /* 橙: 炎・ナビ点灯 */
+ --yellow:#FFE100;     /* 黄: ベル・獲得枚数・強調 */
+ --green:#00E85A;      /* 緑: スイカ・通常時 */
+ --blue:#00A8E8;       /* 青: 青7・REG */
+ --pink:#FF3DA5;       /* 桃: プレミア */
+ --gold:#F0C24B;       /* 金1（明） */
+ --gold2:#B8860B;      /* 金2（中） */
+ --gold3:#6B4E0F;      /* 金3（暗） */
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;}
+html,body{height:100%;background:#000;overflow:hidden;}
+body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#fff;
+ display:flex;justify-content:center;align-items:center;}
+#app{width:min(100vw,56vh);height:100vh;max-height:180vw;display:flex;flex-direction:column;
+ background:var(--ink);position:relative;overflow:hidden;
+ border-left:1px solid var(--gold3);border-right:1px solid var(--gold3);}
+
+/* ---- 液晶エリア ---- */
+#lcd{position:relative;flex:0 0 34%;background:#000 center/cover;border-bottom:3px solid #3a2c14;
+ background-image:url(../../assets/bg/bg_st_a.jpg);transition:background-image .3s;overflow:hidden;}
+#lcd::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 40px #000;pointer-events:none;}
+/* 動画レイヤー: lcdloop=背景ループ(最背面) / lcdmovie=一発再生(演出層) */
+#lcdloop{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;z-index:0;}
+#lcdmovie{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;z-index:5;background:#000;}
+/* 4号機路線: 角丸を使わず直線・角で構成する（原則: 直線・角・シンメトリー） */
+.badge{position:absolute;top:6px;left:8px;font-size:10px;letter-spacing:.2em;color:var(--yellow);
+ background:rgba(0,0,0,.72);padding:3px 8px;border:1px solid var(--gold2);z-index:3;}
+#atinfo{position:absolute;top:6px;right:8px;text-align:right;z-index:3;display:none;
+ background:rgba(0,0,0,.72);padding:2px 7px;border:1px solid var(--orange);
+ font-size:9px;letter-spacing:.14em;line-height:1.3;}
+#atinfo b{color:var(--yellow);font-size:17px;letter-spacing:0;}
+#nav{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-weight:700;z-index:3;
+ color:var(--yellow);text-shadow:0 0 8px var(--orange);font-size:15px;min-height:20px;}
+#cutin{position:absolute;inset:auto 0 22%;margin:auto;width:92%;display:none;z-index:4;
+ filter:drop-shadow(0 0 14px #000);animation:pop .18s;}
+/* 告知(BIG BONUS等)は液晶ストリップ内に収める。画像自体を液晶比率(実測373:230≒1.6:1の横長)
+   に合わせて作ること。縦長絵を無理に押し込まない（docs/prompts/04_character_announce.md参照） */
+#announce{position:absolute;inset:0;margin:auto;height:96%;display:none;z-index:5;
+ filter:drop-shadow(0 0 20px rgba(255,138,0,.5));animation:pop .25s;}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+#flashfx{position:absolute;inset:0;pointer-events:none;z-index:6;opacity:0;}
+/* フラッシュは連続グラデを避け、2段のベタで焚く（原則3: 段階的トーン） */
+.flash-w{animation:fw .35s;}@keyframes fw{0%{opacity:.9;background:#fff}100%{opacity:0}}
+.flash-r{animation:fr .5s;}
+@keyframes fr{0%{opacity:.95;background:radial-gradient(var(--orange) 38%,var(--red) 38%)}100%{opacity:0}}
+.flash-v{animation:fv .5s;}
+@keyframes fv{0%{opacity:.95;background:radial-gradient(var(--yellow) 32%,var(--pink) 32%)}100%{opacity:0}}
+#vita{position:absolute;inset:0;display:none;z-index:7;background:rgba(0,0,0,.45);
+ justify-content:center;align-items:center;flex-direction:column;gap:10px;}
+#vitabtn{width:110px;height:110px;border-radius:50%;border:4px solid var(--yellow);
+ background:radial-gradient(var(--yellow) 55%,var(--orange) 55%);color:var(--ink);
+ font-size:22px;font-weight:900;box-shadow:0 0 26px var(--orange);
+ animation:vpulse .5s infinite alternate;}
+@keyframes vpulse{from{transform:scale(1)}to{transform:scale(1.12)}}
+
+/* ---- リール ----
+   ベゼル画像を「背面」に敷き、リールを窓の実測位置(cabinet_bezel_source.png・1536x1024)に重ねる。
+   窓の座標(%): left 9.51 / 38.41 / 67.64、width 22.85〜23.18、top 15.33、height 69.14
+   ベゼルを前面に screen 合成すると図柄まで明るくなってしまうので背面に置くこと。
+   ベゼルを生成し直したら docs/prompts/03_cabinet.md の測定手順で必ず測り直すこと。 */
+#reelzone{flex:0 0 30%;position:relative;background:#000
+ url(../../assets/frame/bezel.jpg) center/100% 100% no-repeat;}
+.reel{position:absolute;top:15.33%;height:69.14%;width:23%;background:var(--ink);
+ overflow:hidden;display:flex;flex-direction:column;box-shadow:inset 0 0 16px #000;}
+#r0{left:9.51%;} #r1{left:38.41%;} #r2{left:67.64%;}
+.cell{flex:1;display:flex;justify-content:center;align-items:center;overflow:hidden;position:relative;}
+.cell img{width:100%;height:100%;object-fit:contain;}
+.cell.mid{background:rgba(240,194,75,.07);}
+.reel.spin img{filter:blur(2.5px) brightness(1.15);}
+.winline{box-shadow:inset 0 0 0 2px var(--yellow),0 0 18px var(--orange)!important;}
+
+/* ---- 7セグ ----
+   ラベルと枠は seg_frame.jpg（実写寄り・§5.5）に含まれ、窓は生成時から空。ライブの数値だけを
+   桁窓(実測%)に重ねる。数値は実機同様に右詰め。
+   桁窓の実測(cabinet_seg_source.png書き出し後): CREDIT 7.71-30.89% / PAYOUT 38.30-61.66% /
+   GAME 69.10-92.33% / 縦 26.98% 高さ50.19%。枠を生成し直したら測り直すこと
+   （docs/prompts/03_cabinet.md）。 */
+#seg{flex:0 0 8%;position:relative;
+ background:#120d08 url(../../assets/frame/seg_frame.jpg) center/100% 100% no-repeat;}
+.segnum{position:absolute;top:26.98%;height:50.19%;display:flex;align-items:center;
+ justify-content:flex-end;padding-right:.35em;
+ font-family:"Courier New",monospace;font-weight:900;font-size:min(4.2vw,2vh);
+ color:var(--red);text-shadow:0 0 6px var(--red),0 0 2px #fff;letter-spacing:.06em;}
+#credit{left:7.71%;width:23.18%;}
+#payout{left:38.30%;width:23.36%;}
+#game{left:69.10%;width:23.23%;}
+
+/* ---- 操作部 ---- */
+#ctrl{flex:1;display:flex;justify-content:space-around;align-items:center;padding:2% 4%;
+ background:var(--ink);border-top:1px solid var(--gold3);gap:2%;}
+button{cursor:pointer;font-family:inherit;}
+/* ボタン類は筐体素材（assets/frame/）を使用。文字は画像に焼き込み済みなので透明化 */
+#bet{width:17%;aspect-ratio:1;border:none;color:transparent;font-size:1px;
+ background:url(../../assets/frame/btn_max.png) center/contain no-repeat;
+ filter:drop-shadow(0 3px 2px rgba(0,0,0,.6));}
+#bet:active{background-image:url(../../assets/frame/btn_max_p.png);}
+/* レバーは実機同様「パネルを見下ろした角度」の球。ほぼ正方形(320x375)なので
+   他のボタンと並べても違和感が出ないサイズに揃える */
+#lever{width:17%;aspect-ratio:320/375;border:none;
+ background:url(../../assets/frame/lever.jpg) center/contain no-repeat;
+ filter:drop-shadow(0 3px 3px rgba(0,0,0,.6));}
+#lever:active{background-image:url(../../assets/frame/lever_on.jpg);
+ filter:drop-shadow(0 0 16px rgba(255,120,0,.7));}
+/* §5.5実写寄りボタン。素材自体が光沢と陰影を持つのでCSS側の補正は最小限に */
+.stop{width:15.5%;aspect-ratio:1;border:none;
+ background:url(../../assets/frame/btn_stop.png) center/contain no-repeat;
+ filter:drop-shadow(0 3px 2px rgba(0,0,0,.6));transition:filter .1s;}
+.stop:active{background-image:url(../../assets/frame/btn_stop_p.png);}
+.stop.navi{background-image:url(../../assets/frame/btn_stop_n.png);
+ filter:drop-shadow(0 0 10px var(--orange));}
+button:active{transform:translateY(3px);box-shadow:none!important;}
+button:disabled{filter:grayscale(.8) brightness(.55);}
+#menu{position:absolute;bottom:4px;right:6px;font-size:9px;color:var(--gold);background:rgba(0,0,0,.8);
+ border:1px solid var(--gold3);padding:2px 7px;z-index:8;}
+
+/* ---- 下パネル（機種ロゴ・AT/ボーナス中は発光版） ----
+   cover だとロゴが見切れるので contain。ロゴの縦横比を保って全体を見せる */
+/* パネル画像は3:1の横長。cover にすると文字の下が切れるので contain で全体を見せる。
+   #app 幅の1/3が必要高さなので、flex-basis もそれに合わせておく */
+#panel{flex:0 0 auto;aspect-ratio:3/1;background:var(--ink) url(../../assets/frame/panel_logo.jpg) center/100% 100% no-repeat;
+ border-top:2px solid var(--gold3);transition:background-image .3s;}
+#panel.glow{background-image:url(../../assets/frame/panel_logo_g.jpg);}
+
+/* ---- タイトル / メニュー ---- */
+.overlay{position:absolute;inset:0;background:rgba(10,10,15,.94);z-index:20;display:flex;
+ flex-direction:column;justify-content:center;align-items:center;gap:14px;padding:20px;text-align:center;}
+.overlay img{max-height:62%;max-width:92%;filter:drop-shadow(0 0 20px rgba(255,138,0,.5));}
+/* 金は3段のベタで表現する（連続グラデを使わない） */
+.gbtn{background:linear-gradient(180deg,var(--gold) 50%,var(--gold2) 50%);color:var(--ink);
+ font-weight:900;border:2px solid var(--gold3);padding:12px 34px;font-size:16px;
+ box-shadow:0 0 18px rgba(255,138,0,.45);}
+#menuov{display:none;background:rgba(10,10,15,.94) url(../../assets/frame/menu_bg.jpg) center/auto 96% no-repeat;
+ background-blend-mode:lighten;}
+.setrow{display:flex;gap:8px;}
+.setrow button{width:40px;height:40px;border:1px solid var(--gold2);background:var(--ink);
+ color:var(--gold);font-weight:900;}
+.setrow button.on{background:var(--yellow);color:var(--ink);border-color:var(--yellow);}
+.datap{font-size:13px;color:#fff;line-height:2;}
+.small{font-size:11px;color:var(--gold2);}
+
+.vitalabel{font-weight:900;color:var(--yellow);text-shadow:0 0 8px var(--orange);}
+.overlay .ttl{color:var(--yellow);font-weight:900;}
