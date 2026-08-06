@@ -158,5 +158,10 @@ button:disabled{filter:grayscale(.8) brightness(.55);}
 .datap{font-size:13px;color:#fff;line-height:2;}
 .small{font-size:11px;color:var(--gold2);}
 
+/* タイトル画面から攻略ページ(guide/)への導線 */
+.guidelink{color:var(--gold);font-size:12px;text-decoration:none;border-bottom:1px solid var(--gold3);
+ padding-bottom:2px;letter-spacing:.04em;}
+.guidelink:hover{color:var(--yellow);border-color:var(--yellow);}
+
 .vitalabel{font-weight:900;color:var(--yellow);text-shadow:0 0 8px var(--orange);}
 .overlay .ttl{color:var(--yellow);font-weight:900;}
