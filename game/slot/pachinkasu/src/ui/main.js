@@ -305,13 +305,12 @@ markInput();
 seg(); updateLCD();
 
 /* ================= デバッグモード =================
- * ?debug=1 または #debug のときだけ debug.js を読み込む。
- *   通常:     .../pachinkasu/
- *   デバッグ: .../pachinkasu/?debug=1  または  .../pachinkasu/#debug
- * ハッシュも見るのは、静的ホスティングによってはリダイレクト時にクエリ文字列が
- * 落ちることがあるため（debug.html からの遷移で確実に効かせる）。
+ * 次のいずれかのときだけ debug.js を読み込む。
+ *   1. debug.html を開いた（window.__PACHINKASU_DEBUG__ が立っている）
+ *   2. URL に ?debug=1 が付いている
+ * 通常の index.html では debug.js へのリクエスト自体が発生しない。
  * debug.js が存在しない配布物では import が失敗するだけで、通常動作に影響しない。 */
-if(new URLSearchParams(location.search).has('debug') || location.hash === '#debug'){
+if(window.__PACHINKASU_DEBUG__ || new URLSearchParams(location.search).has('debug')){
   import('./debug.js')
     .then(m => m.initDebug({ DBG, G, enterAT, updateLCD, seg, refreshData, TABLE }))
     .catch(e => console.warn('debug.js を読み込めませんでした（通常モードで継続）', e));
