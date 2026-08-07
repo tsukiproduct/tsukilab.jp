@@ -19,12 +19,15 @@
 html,body{height:100%;background:#000;overflow:hidden;}
 body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#fff;
  display:flex;justify-content:center;align-items:center;}
-#app{width:min(100vw,56vh);height:100vh;max-height:180vw;display:flex;flex-direction:column;
+/* 縦持ちスマホ(縦横比 約2.17)で画面を使い切れるよう max-height は 230vw まで許容する。
+   180vw だと 375x812 の端末で 675px までしか使えず、上下に137pxの黒帯が出ていた。
+   各セクションの flex-basis は合計100%にすること（超えると下パネルが切れる）。 */
+#app{width:min(100vw,56vh);height:100vh;max-height:230vw;display:flex;flex-direction:column;
  background:var(--ink);position:relative;overflow:hidden;
  border-left:1px solid var(--gold3);border-right:1px solid var(--gold3);}
 
 /* ---- 液晶エリア ---- */
-#lcd{position:relative;flex:0 0 34%;background:#000 center/cover;border-bottom:3px solid #3a2c14;
+#lcd{position:relative;flex:0 0 33%;background:#000 center/cover;border-bottom:3px solid #3a2c14;
  background-image:url(../../assets/bg/bg_st_a.jpg);transition:background-image .3s;overflow:hidden;}
 #lcd::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 40px #000;pointer-events:none;}
 /* 動画レイヤー: lcdloop=背景ループ(最背面) / lcdmovie=一発再生(演出層) */
@@ -81,7 +84,7 @@ body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#fff;
    窓の座標(%): left 9.51 / 38.41 / 67.64、width 22.85〜23.18、top 15.33、height 69.14
    ベゼルを前面に screen 合成すると図柄まで明るくなってしまうので背面に置くこと。
    ベゼルを生成し直したら docs/prompts/03_cabinet.md の測定手順で必ず測り直すこと。 */
-#reelzone{flex:0 0 30%;position:relative;background:#000
+#reelzone{flex:0 0 29%;position:relative;background:#000
  url(../../assets/frame/bezel.jpg) center/100% 100% no-repeat;}
 .reel{position:absolute;top:15.33%;height:69.14%;width:23%;background:var(--ink);
  overflow:hidden;display:flex;flex-direction:column;box-shadow:inset 0 0 16px #000;}
@@ -98,7 +101,7 @@ body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#fff;
    桁窓の実測(cabinet_seg_source.png書き出し後): CREDIT 7.71-30.89% / PAYOUT 38.30-61.66% /
    GAME 69.10-92.33% / 縦 26.98% 高さ50.19%。枠を生成し直したら測り直すこと
    （docs/prompts/03_cabinet.md）。 */
-#seg{flex:0 0 8%;position:relative;
+#seg{flex:0 0 7%;position:relative;
  background:#120d08 url(../../assets/frame/seg_frame.jpg) center/100% 100% no-repeat;}
 .segnum{position:absolute;top:26.98%;height:50.19%;display:flex;align-items:center;
  justify-content:flex-end;padding-right:.35em;
@@ -109,7 +112,7 @@ body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#fff;
 #game{left:69.10%;width:23.23%;}
 
 /* ---- 操作部 ---- */
-#ctrl{flex:1;display:flex;justify-content:space-around;align-items:center;padding:2% 4%;
+#ctrl{flex:0 0 16%;min-height:0;display:flex;justify-content:space-around;align-items:center;padding:2% 4%;
  background:var(--ink);border-top:1px solid var(--gold3);gap:2%;}
 button{cursor:pointer;font-family:inherit;}
 /* ボタン類は筐体素材（assets/frame/）を使用。文字は画像に焼き込み済みなので透明化 */
@@ -140,7 +143,7 @@ button:disabled{filter:grayscale(.8) brightness(.55);}
    cover だとロゴが見切れるので contain。ロゴの縦横比を保って全体を見せる */
 /* パネル画像は3:1の横長。cover にすると文字の下が切れるので contain で全体を見せる。
    #app 幅の1/3が必要高さなので、flex-basis もそれに合わせておく */
-#panel{flex:0 0 auto;aspect-ratio:3/1;position:relative;
+#panel{flex:0 0 15%;position:relative;
  background:var(--ink) url(../../assets/frame/panel_logo.jpg) center/100% 100% no-repeat;
  border-top:2px solid var(--gold3);transition:background-image .3s;}
 #panel.glow{background-image:url(../../assets/frame/panel_logo_g.jpg);}
