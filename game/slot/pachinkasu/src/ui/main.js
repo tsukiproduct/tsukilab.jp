@@ -161,19 +161,32 @@ const setBtns = (bet,lever,stops) => { $('bet').disabled=!bet; $('lever').disabl
  [0,1,2].forEach(i=>$('s'+i).disabled=!stops); syncPanelTap(); };
 
 /* ---- 下パネルのタップ操作面 ----
-   スマホで片手で打てるよう、下パネルを5分割して本体ボタンへ転送する。
-   「今押せる操作」だけラベルを光らせ、次に何を押すかが分かるようにする。 */
-const panelTaps = [...document.querySelectorAll('.ptap')];
-panelTaps.forEach(t => {
-  // 指を離した瞬間(click)ではなく押した瞬間(pointerdown)で反応させる。
-  // ビタ押しは押したタイミングで判定するので、click だと狙いがズレる
-  t.addEventListener('pointerdown', () => {
-    const b = $(t.dataset.for);
-    if(!b.disabled) b.click();
-  });
+   スマホで片手で打てるよう、下パネル全体を1つのボタンにして
+   タップするたびに MAXBET→レバー→左→中→右 と順送りする。
+   ビタ押しチャレンジ中だけ停止順を 中→右→左 に変える（中リールを最初に狙うため）。 */
+const panelTap = $('paneltap'), panelTapLabel = $('paneltapLabel');
+const CTRL_LABEL = { bet:'MAX BET', lever:'レバー', s0:'左', s1:'中', s2:'右' };
+const STOP_ORDER_NORMAL = [0,1,2];   // 左→中→右
+const STOP_ORDER_VITA   = [1,2,0];   // 中→右→左（ビタ押しは中リールから）
+/** 次にタップで押される操作のID。押せるものが無ければ null */
+function nextControl(){
+  if(!$('bet').disabled)   return 'bet';
+  if(!$('lever').disabled) return 'lever';
+  const order = G.vitaNow ? STOP_ORDER_VITA : STOP_ORDER_NORMAL;
+  for(const i of order){ if(!$('s'+i).disabled) return 's'+i; }
+  return null;
+}
+// 指を離した瞬間(click)ではなく押した瞬間(pointerdown)で反応させる。
+// ビタ押しは押したタイミングで判定するので、click だと狙いがズレる
+panelTap.addEventListener('pointerdown', () => {
+  const id = nextControl();
+  if(id) $(id).click();
 });
 function syncPanelTap(){
-  panelTaps.forEach(t => t.classList.toggle('ready', !$(t.dataset.for).disabled));
+  const id = nextControl();
+  panelTap.classList.toggle('ready', !!id);
+  panelTap.classList.toggle('vita', !!G.vitaNow);
+  panelTapLabel.textContent = id ? CTRL_LABEL[id] : '';
 }
 
 setBtns(true,false,false);

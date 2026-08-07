@@ -146,24 +146,23 @@ button:disabled{filter:grayscale(.8) brightness(.55);}
 #panel.glow{background-image:url(../../assets/frame/panel_logo_g.jpg);}
 
 /* ---- 下パネルのタップ操作面（スマホで片手で打つため） ----
-   ロゴを隠さないよう通常は透明。押せる操作だけラベルを光らせて次の手を示す。
+   パネル全体が1つのボタン。タップするたびに次の操作へ順送りする。
+   ロゴを隠さないよう透明にし、次に押される操作名だけを下端に出す。
    MENUボタン(z-index:8)より下に置き、MENUのタップを邪魔しない */
-#paneltap{position:absolute;inset:0;display:flex;z-index:2;}
-.ptap{flex:1;border:none;background:transparent;padding:0;position:relative;
+#paneltap{position:absolute;inset:0;z-index:2;border:none;background:transparent;padding:0;
  -webkit-tap-highlight-color:transparent;cursor:pointer;touch-action:manipulation;}
-.ptap + .ptap{border-left:1px solid rgba(240,194,75,.12);}
-.ptap span{position:absolute;left:0;right:0;bottom:4px;font-size:10px;font-weight:900;
- letter-spacing:.04em;color:rgba(255,255,255,.22);
- text-shadow:0 1px 2px #000,0 0 4px #000;
- transition:color .12s,text-shadow .12s;pointer-events:none;}
-/* 今押せる操作は光らせる */
-.ptap.ready span{color:#fff;text-shadow:0 0 10px var(--orange),0 0 4px var(--orange),0 1px 2px #000;}
-.ptap.ready::after{content:"";position:absolute;inset:0;pointer-events:none;
- background:linear-gradient(180deg,transparent 45%,rgba(255,138,0,.38));
+#paneltapLabel{position:absolute;left:0;right:0;bottom:5px;font-size:11px;font-weight:900;
+ letter-spacing:.08em;color:#fff;pointer-events:none;
+ text-shadow:0 0 10px var(--orange),0 0 4px var(--orange),0 1px 2px #000;}
+/* 押せる操作があるときだけ下端を光らせる */
+#paneltap.ready::after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(180deg,transparent 62%,rgba(255,138,0,.34));
  box-shadow:inset 0 -2px 0 var(--orange);}
-.ptap:active::after{content:"";position:absolute;inset:0;background:rgba(255,255,255,.22);}
-/* 最後のゾーンはMENUボタンと重なるので、その分だけ右を空ける */
-.ptap:last-child{margin-right:46px;}
+#paneltap:active::after{background:rgba(255,255,255,.2);box-shadow:inset 0 -2px 0 var(--yellow);}
+/* ビタ押しチャレンジ中は赤く光らせて「中を狙う」ことを強調 */
+#paneltap.vita::after{background:linear-gradient(180deg,transparent 62%,rgba(255,45,45,.42));
+ box-shadow:inset 0 -2px 0 var(--red);}
+#paneltap.vita #paneltapLabel{text-shadow:0 0 10px var(--red),0 0 4px var(--red),0 1px 2px #000;}
 
 /* ---- タイトル / メニュー ---- */
 .overlay{position:absolute;inset:0;background:rgba(10,10,15,.94);z-index:20;display:flex;

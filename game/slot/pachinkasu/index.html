@@ -49,16 +49,11 @@
     <button id="menu">MENU</button>
   </div>
 
-  <!-- 下パネルはタップ操作面も兼ねる（スマホで片手で打つため）。
-       並び順は上の #ctrl と同じ MAXBET / レバー / 左 / 中 / 右 -->
+  <!-- 下パネル全体が1つのタップ操作面（スマホで片手で打つため）。
+       タップするたび MAXBET→レバー→左→中→右 と順に送られる。
+       次に何が押されるかは #paneltapLabel に出る -->
   <div id="panel">
-    <div id="paneltap">
-      <button class="ptap" data-for="bet"><span>MAX BET</span></button>
-      <button class="ptap" data-for="lever"><span>レバー</span></button>
-      <button class="ptap" data-for="s0"><span>左</span></button>
-      <button class="ptap" data-for="s1"><span>中</span></button>
-      <button class="ptap" data-for="s2"><span>右</span></button>
-    </div>
+    <button id="paneltap"><span id="paneltapLabel"></span></button>
   </div>
 
   <div class="overlay" id="titleov">
