@@ -44,11 +44,37 @@ body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#fff;
  color:var(--yellow);text-shadow:0 0 8px var(--orange);font-size:15px;min-height:20px;}
 #cutin{position:absolute;inset:auto 0 22%;margin:auto;width:92%;display:none;z-index:4;
  filter:drop-shadow(0 0 14px #000);animation:pop .18s;}
-/* 告知(BIG BONUS等)は液晶ストリップ内に収める。画像自体を液晶比率(実測373:230≒1.6:1の横長)
-   に合わせて作ること。縦長絵を無理に押し込まない（docs/prompts/04_character_announce.md参照） */
-#announce{position:absolute;inset:0;margin:auto;height:96%;display:none;z-index:5;
- filter:drop-shadow(0 0 20px rgba(255,138,0,.5));animation:pop .25s;}
+/* 告知(BIG BONUS等)。液晶の縦横比は端末によって 1.36:1〜1.70:1 まで動く
+   （#lcd が flex 33% で、#app の max-height:230vw に当たるかどうかで変わる）。
+   height:96% の縦合わせだと横長画面で左右がごっそり切れるので object-fit:contain で
+   必ず全体を映す。余った側は黒帯になる＝実機の液晶と同じ見え方。
+   画像は 3:2 (1.5:1) で作り、重要な要素は中央 88%×82% に収めること
+   （docs/prompts/04_character_announce.md 参照） */
+#announce{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+ background:#000;display:none;z-index:5;animation:pop .25s;}
 @keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+/* ---- ボーナス確定までの段階演出（カットイン→溜め→確定）----
+   .s1=カットイン / .s2=溜め（画面が震える）/ .s3=確定 の3段をJS側でclassで切り替える */
+#reveal{position:absolute;inset:0;display:none;z-index:8;overflow:hidden;
+ flex-direction:column;justify-content:center;align-items:center;gap:2%;
+ background:radial-gradient(circle at 50% 45%,rgba(0,0,0,.5),rgba(0,0,0,.93));}
+#reveal.on{display:flex;}
+/* カットイン素材は横長の帯(700x318)。液晶いっぱいに引き伸ばさず、
+   上半分に帯として置いて下に文字を出す。縦積みなので端末比が変わっても崩れない */
+#revealCut{width:86%;max-height:52%;object-fit:contain;
+ opacity:0;transform:scale(1.25);transition:opacity .16s,transform .55s;}
+#reveal.s1 #revealCut,#reveal.s2 #revealCut,#reveal.s3 #revealCut{opacity:1;transform:scale(1);}
+#reveal.s2{animation:rvShake .08s infinite;}
+@keyframes rvShake{0%{transform:translate(0,0)}25%{transform:translate(-3px,2px)}
+ 50%{transform:translate(2px,-3px)}75%{transform:translate(3px,1px)}100%{transform:translate(0,0)}}
+#revealText{position:relative;z-index:2;font-weight:900;text-align:center;line-height:1.05;
+ flex:0 0 auto;
+ color:var(--yellow);letter-spacing:.04em;
+ text-shadow:0 0 4px #000,0 3px 4px #000,0 0 26px var(--orange);}
+#reveal.s2 #revealText{font-size:min(24vw,12vh);color:#fff;}
+#reveal.s3 #revealText{font-size:min(13vw,6.5vh);animation:rvPop .3s;}
+@keyframes rvPop{from{transform:scale(2.4);opacity:0}to{transform:scale(1);opacity:1}}
+#revealText .sub{display:block;font-size:.44em;color:#fff;letter-spacing:.32em;margin-top:.35em;}
 /* ---- ボーナス中の累計獲得枚数 ----
    固定表示される告知画面(#announce)の上に重ねるので、地の絵が何色でも読めるよう
    黒フチ＋グローを強めにかける。z-indexは #announce(5) より上 */
@@ -61,7 +87,8 @@ body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#fff;
 #bonusCount span{font-size:min(6vw,3vh);margin-left:.15em;}
 #bonusCount.pulse b{animation:bcPop .25s;}
 @keyframes bcPop{from{transform:scale(1.35);color:#fff}to{transform:scale(1)}}
-#flashfx{position:absolute;inset:0;pointer-events:none;z-index:6;opacity:0;}
+/* 確定演出(#reveal, z:8)の上でも焚けるよう最前面に置く */
+#flashfx{position:absolute;inset:0;pointer-events:none;z-index:9;opacity:0;}
 /* フラッシュは連続グラデを避け、2段のベタで焚く（原則3: 段階的トーン） */
 .flash-w{animation:fw .35s;}@keyframes fw{0%{opacity:.9;background:#fff}100%{opacity:0}}
 .flash-r{animation:fr .5s;}

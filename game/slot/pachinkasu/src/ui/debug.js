@@ -48,7 +48,7 @@ body.dbgOn #app{margin-left:270px;}
 `;
 
 export function initDebug(api) {
-  const { DBG, G, enterAT, updateLCD, seg, refreshData } = api;
+  const { DBG, G, enterAT, updateLCD, seg, refreshData, SE, bonusRevealFx } = api;
 
   document.head.insertAdjacentHTML('beforeend', `<style>${CSS}</style>`);
   document.body.classList.add('dbgOn');
@@ -88,6 +88,14 @@ export function initDebug(api) {
       クレジット <input type="number" id="dbgCredit" value="1000" min="0"> <button id="dbgSetCredit">設定</button>
     </div>
 
+    <h3>■ 演出・音のテスト</h3>
+    <div class="dbgRow">
+      <button id="dbgReveal">確定演出</button>
+      <button id="dbgAnnounce">告知フラグON</button>
+    </div>
+    <div class="dbgGrid" id="dbgSounds"></div>
+    <p class="hint">確定演出はカットイン→溜め→濃厚の3段（演出速度に追従）</p>
+
     <h3>■ 演出速度</h3>
     <div class="dbgRow" id="dbgSpeed">
       <button data-s="1" class="on">1x</button>
@@ -118,7 +126,7 @@ export function initDebug(api) {
       `BIG/REG : ${G.bigC} / ${G.regC}\n` +
       `差枚    : ${G.diff > 0 ? '+' : ''}${G.diff}\n` +
       `クレジット: ${G.credit}\n` +
-      `内部中  : ${G.carry || '-'}\n` +
+      `内部中  : ${G.carry || '-'}${G.carry ? (G.announced ? ' [告知済]' : ' [未告知]') : ''}\n` +
       `AT      : ${G.at ? `残${G.atG}G (通算${G.atTotalG})` : 'なし'}\n` +
       `前回役  : ${G.flag || '-'}\n` +
       `ボーナス: ${G.phase !== 'NORMAL' ? `${G.phase} ${G.bonusPaid}/${G.bonusTotal}枚 (${G.bonusGame}G)` : '-'}\n` +
@@ -177,7 +185,8 @@ export function initDebug(api) {
   $d('dbgReset').onclick = () => {
     Object.assign(G, {
       phase: 'NORMAL', credit: 1000, diff: 0, games: 0, bigC: 0, regC: 0,
-      carry: null, flag: null, at: false, atG: 0, atTotalG: 0, atRunG: 0,
+      carry: null, flag: null, announced: false, justWon: false,
+      at: false, atG: 0, atTotalG: 0, atRunG: 0,
       atStartDiff: 0, pendingAT: 0, freezeWon: false,
       bonusPaid: 0, bonusTotal: 0, bonusGame: 0, vitaHits: 0, vitaNow: false, vitaResult: null,
     });
@@ -187,6 +196,31 @@ export function initDebug(api) {
     G.credit = Number($d('dbgCredit').value) || 0;
     seg(); refreshState();
   };
+
+  /* ---- 演出・音のテスト ---- */
+  $d('dbgReveal').onclick = () => { SE.unlock(); bonusRevealFx(); };
+  $d('dbgAnnounce').onclick = () => {
+    // 内部中でないと意味がないので、持っていなければBIGを持たせる
+    if (!G.carry) G.carry = 'BIG';
+    G.announced = true;
+    updateLCD(); refreshState();
+  };
+  /** 鳴らせる音の一覧。sound.js に足したらここにも追加する */
+  const SE_LABELS = {
+    bet: 'BET', lever: 'レバー', stop: '停止',
+    payout: '子役払出', medal: 'メダル', replay: 'リプレイ',
+    melon: 'スイカ', cherry: 'チェリー', chance: 'チャンス',
+    cutin: 'カットイン', charge: '溜め', reveal: '確定',
+    bonusStart: 'ボーナス', vitaOk: 'ビタ○', vitaNg: 'ビタ×',
+    freeze: 'フリーズ', atStart: 'AT突入',
+  };
+  const soundBox = $d('dbgSounds');
+  Object.entries(SE_LABELS).forEach(([key, label]) => {
+    const b = document.createElement('button');
+    b.textContent = label; b.title = key;
+    b.onclick = () => { SE.unlock(); SE[key](key === 'medal' ? 8 : undefined); };
+    soundBox.appendChild(b);
+  });
 
   /* ---- 速度 ---- */
   $d('dbgSpeed').onclick = e => {

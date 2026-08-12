@@ -20,6 +20,8 @@ export const MOVIES = {
   renzoku_b_lose:"mv_renzoku_b_lose",  // 連続演出B 失敗
   big:           "mv_big_kakutei",     // BIG確定
   reg:           "mv_reg_kakutei",     // REG確定
+  big_loop:      "mv_big_loop",        // BIG消化中の背景ループ（音アリで流す）
+  reg_loop:      "mv_reg_loop",        // REG消化中の背景ループ
   freeze:        "mv_freeze",          // フリーズ（プレミア）
   at_start:      "mv_at_start",        // AT突入
   at_loop_a:     "mv_at_loop_a",       // AT中背景ループ（前半）
@@ -113,10 +115,20 @@ export async function playMovie(key, hardCapMs = 8000) {
   });
 }
 
+/** その動画が配置されているか（静止画演出を出すかどうかの判定に使う） */
+export async function hasMovie(key) { return !!(await resolveSrc(key)); }
+
 let currentLoop = null;
 
-/** 背景ループ再生（#lcdloop）。同じキーなら何もしない。null で停止 */
-export async function setLoopMovie(key) {
+/**
+ * 背景ループ再生（#lcdloop）。同じキーなら何もしない。null で停止
+ *
+ * @param {string|null} key MOVIES のキー
+ * @param {boolean} sound 音アリで流すか（BIG中のMVなど）。
+ *   自動再生ポリシーで弾かれることがあるので、失敗したらミュートで鳴らし直す。
+ *   映像だけは必ず出す＝音を優先して真っ黒になる、という事故を防ぐ。
+ */
+export async function setLoopMovie(key, sound = false) {
   if (key === currentLoop) return;
   currentLoop = key;
   const v = $("lcdloop");
@@ -124,10 +136,16 @@ export async function setLoopMovie(key) {
   const url = await resolveSrc(key);
   if (currentLoop !== key) return; // 待っている間に切り替わった
   if (!url) { v.style.display = "none"; return; }
-  v.src = url; v.loop = true; v.muted = true;
+  // 0.75 は効果音（sound.js）と同時に鳴らしたとき、曲が主役のまま
+  // 払い出し音・停止音が埋もれない音量
+  v.src = url; v.loop = true; v.muted = !sound; v.volume = 0.75;
   v.style.display = "block";
   // 裏に回っている間は play() が弾かれることがある。表に戻ったとき再開させる（下の visibilitychange）
-  v.play().catch(() => {});
+  v.play().catch(() => {
+    if (!sound || currentLoop !== key) return;
+    v.muted = true;
+    v.play().catch(() => {});
+  });
 }
 
 // タブが表に戻ったらループ動画を再開する（裏で止まったまま復帰しないのを防ぐ）

@@ -15,9 +15,24 @@
 ## 規格（仕様書 §14.1）
 
 - 形式: **WebM(VP9) 推奨**。互換用に MP4(H.264) も可（同名で置けば webm → mp4 の順に探す）
-- 解像度/fps: 1080×768・30fps（液晶エリアと同一。表示は object-fit: cover）
-- 音声: 現状ミュート再生（自動再生ポリシー対応）。BGMはアプリ側シンセと将来統合
-- ループ動画は先頭・末尾フレーム完全一致
+  - ただし **iOS Safari が主ターゲットなら MP4(H.264+AAC) を選ぶ**。
+    iOS の WebM/VP9 対応は端末とOSバージョンで差があり、Opus音声だと鳴らないことがある
+- 解像度/fps: 横幅960px前後・30fps。表示は `object-fit: cover` なので**縦横比は自由**
+  （液晶の比は端末により 1.36:1〜1.70:1 で動くため、寄せても無駄。中央に主題を置く）
+- 音声:
+  - **一発再生(`playMovie`)は常にミュート**。ボーナス確定などの短い演出用
+  - **背景ループ(`setLoopMovie`)は音アリで流せる**。`mv_big_loop` / `mv_reg_loop` が該当。
+    自動再生ポリシーで弾かれた場合はミュートで鳴らし直すので、映像が消えることはない
+- ループ動画は先頭・末尾フレーム完全一致（BIGは14ゲーム＝1分前後なので、
+  尺が2分以上あるMVならループ点はほぼ踏まない）
+
+### 変換コマンド（元動画を web 用に落とす）
+
+```bash
+ffmpeg -i 元動画.mp4 -vf "scale=960:-2" -c:v libx264 -preset slow -crf 26 \
+  -pix_fmt yuv420p -c:a aac -b:a 96k -movflags +faststart \
+  assets/movies/mv_big_loop.mp4
+```
 
 ## ファイル名一覧（14本）
 
@@ -25,6 +40,8 @@
 |---|---|---|---|
 | `mv_big_kakutei.webm` | BIG確定（赤7揃い時） | 不可 | ✅ 再生される |
 | `mv_reg_kakutei.webm` | REG確定（BAR揃い時） | 不可 | ✅ 再生される |
+| `mv_big_loop.mp4` | **BIG消化中の背景（音アリ）** | 可 | ✅ 再生される |
+| `mv_reg_loop.webm` | REG消化中の背景（音アリ） | 可 | ✅ 再生される |
 | `mv_freeze.webm` | フリーズ（BIG入賞時 1/64） | 不可 | ✅ 再生される |
 | `mv_at_start.webm` | AT「MOON TIME」突入 | 不可 | ✅ 再生される |
 | `mv_at_loop_a.webm` | AT中背景ループ（前半） | 必須 | ✅ 再生される |

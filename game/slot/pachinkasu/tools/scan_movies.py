@@ -27,6 +27,8 @@ KEYS = {
     "renzoku_b_lose": "mv_renzoku_b_lose",
     "big": "mv_big_kakutei",
     "reg": "mv_reg_kakutei",
+    "big_loop": "mv_big_loop",
+    "reg_loop": "mv_reg_loop",
     "freeze": "mv_freeze",
     "at_start": "mv_at_start",
     "at_loop_a": "mv_at_loop_a",
@@ -48,8 +50,10 @@ with open(os.path.join(MOVIE_DIR, "manifest.json"), "w", encoding="utf-8") as f:
     f.write("\n")
 
 print(f"manifest.json を生成: {len(found)}/{len(KEYS)} 本が配置済み")
+# Windowsの既定コンソールは cp932 なので '✓' や '·' を出すと UnicodeEncodeError で落ちる。
+# ASCII 記号だけを使うこと
 for key in KEYS:
-    print(f"  {'✓' if key in found else '·'} {key:<14} {found.get(key, '(未配置)')}")
+    print(f"  {'[o]' if key in found else '[ ]'} {key:<14} {found.get(key, '(未配置)')}")
 
 # 想定外のファイルが置かれていたら知らせる（命名ミスの早期発見）
 known = set(found.values())
