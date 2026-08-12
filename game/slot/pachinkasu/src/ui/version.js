@@ -7,7 +7,7 @@
  * 【重要】package.json の "version" と同じ値にすること。
  *         表示に使うのはこのファイル（package.json は実行時に読み込まない）。
  */
-export const VERSION = '0.3.0';
+export const VERSION = '0.3.1';
 export const BUILD   = '2026-08-13';
 
 /** 例: "v0.3.0 (2026-08-13)" */

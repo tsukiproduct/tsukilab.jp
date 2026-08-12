@@ -93,6 +93,9 @@ export async function playFile(name, gain = 1){
   return true;
 }
 
+/** ボーナス入賞の確定音。ファイルが無ければ合成音にフォールバックする */
+const BONUS_SE = { BIG: 'se_big_start.mp3', REG: 'se_reg_start.mp3' };
+
 /* ===================== 操作音 ===================== */
 export const SE = {
   unlock, setVolume,
@@ -176,10 +179,11 @@ export const SE = {
 
   /**
    * ボーナス入賞の確定音。
-   * BIGは用意された音源(se_big_start.mp3)を鳴らす。読めなければ合成音に落ちる。
+   * BIG/REG それぞれ用意された音源を鳴らし、読めなければ合成音に落ちる。
    */
   async bonusStart(kind='BIG'){
-    if(kind==='BIG' && await playFile('se_big_start.mp3', 1)) return;
+    const file = BONUS_SE[kind];
+    if(file && await playFile(file, 1)) return;
     arp([523,659,784],.09,.16,{type:'square',gain:.15});
     tone(1046,.55,{type:'square',gain:.15,at:.27});
   },

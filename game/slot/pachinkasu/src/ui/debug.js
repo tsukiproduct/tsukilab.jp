@@ -219,23 +219,23 @@ export function initDebug(api) {
     if (!G.at) enterAT(3); else G.atG = 3;
     updateLCD(); refreshState();
   };
-  /** 鳴らせる音の一覧。sound.js に足したらここにも追加する */
-  const SE_LABELS = {
-    bet: 'BET', lever: 'レバー', stop: '停止',
-    payout: '子役払出', medal: 'メダル', replay: 'リプレイ',
-    melon: 'スイカ', cherry: 'チェリー', chance: 'チャンス',
-    cutin: 'カットイン', charge: '溜め', reveal: '確定',
-    bonusStart: 'BIG確定音', vitaOk: 'ビタ○', vitaNg: 'ビタ×',
-    freeze: 'フリーズ', atStart: 'AT突入',
-    result: 'リザルト', countdown: 'カウント',
-  };
+  /* 鳴らせる音の一覧。sound.js に足したらここにも追加する。
+     [表示名, SEのメソッド名, ...引数] の形で、引数付きの音も撃ち分けられる */
+  const SE_TESTS = [
+    ['BET', 'bet'], ['レバー', 'lever'], ['停止', 'stop'],
+    ['子役払出', 'payout'], ['メダル', 'medal', 8], ['リプレイ', 'replay'],
+    ['スイカ', 'melon'], ['チェリー', 'cherry'], ['チャンス', 'chance'],
+    ['カットイン', 'cutin'], ['溜め', 'charge'], ['確定', 'reveal'],
+    ['BIG確定音', 'bonusStart', 'BIG'], ['REG確定音', 'bonusStart', 'REG'],
+    ['ビタ○', 'vitaOk'], ['ビタ×', 'vitaNg'],
+    ['フリーズ', 'freeze'], ['AT突入', 'atStart'],
+    ['リザルト', 'result'], ['カウント3', 'countdown', 3], ['カウントLAST', 'countdown', 1],
+  ];
   const soundBox = $d('dbgSounds');
-  Object.entries(SE_LABELS).forEach(([key, label]) => {
+  SE_TESTS.forEach(([label, key, ...args]) => {
     const b = document.createElement('button');
-    b.textContent = label; b.title = key;
-    // medal は枚数、countdown は残りG数を引数に取る
-    b.onclick = () => { SE.unlock();
-      SE[key](key === 'medal' ? 8 : key === 'countdown' ? 3 : undefined); };
+    b.textContent = label; b.title = key + (args.length ? `(${args.join(',')})` : '');
+    b.onclick = () => { SE.unlock(); SE[key](...args); };
     soundBox.appendChild(b);
   });
 

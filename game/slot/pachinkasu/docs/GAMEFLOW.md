@@ -188,8 +188,8 @@ BIG入賞時の1/64で発生する**フリーズはビタの結果に関わら�
 | **払い出し** | `SE.medal(枚数)` | 枚数ぶん「チャリチャリ」（最大12回で打ち切り） |
 | カットイン | `SE.cutin(1〜3)` | 弱／中／強で派手さが変わる |
 | 確定演出の溜め／確定 | `SE.charge()` / `SE.reveal()` | 上昇する不安音／炸裂音 |
-| **BIG入賞** | `SE.bonusStart('BIG')` | **音源ファイル** `assets/se/se_big_start.mp3`。読めなければ合成音に落ちる |
-| REG入賞 | `SE.bonusStart('REG')` | 合成音のファンファーレ |
+| **BIG入賞** | `SE.bonusStart('BIG')` | **音源ファイル** `assets/se/se_big_start.mp3` |
+| **REG入賞** | `SE.bonusStart('REG')` | **音源ファイル** `assets/se/se_reg_start.mp3` |
 | リザルト画面 | `SE.result()` | 3音の和音 |
 | ATカウントダウン | `SE.countdown(残G)` | 3・2は2音、LASTだけ音を変える |
 | ビタ成功／失敗 | `SE.vitaOk()` / `SE.vitaNg()` | 上昇4音／下降するブザー |
@@ -209,8 +209,10 @@ BIG入賞時の1/64で発生する**フリーズはビタの結果に関わら�
 呼び元は必ず合成音にフォールバックさせること（ファイルが無い環境でも無音にならない）。
 
 ```js
+const BONUS_SE = { BIG:'se_big_start.mp3', REG:'se_reg_start.mp3' };
 async bonusStart(kind='BIG'){
-  if(kind==='BIG' && await playFile('se_big_start.mp3', 1)) return;
+  const file = BONUS_SE[kind];
+  if(file && await playFile(file, 1)) return;
   // ...合成音
 }
 ```
