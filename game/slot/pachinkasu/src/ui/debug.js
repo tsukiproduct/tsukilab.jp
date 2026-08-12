@@ -48,7 +48,7 @@ body.dbgOn #app{margin-left:270px;}
 `;
 
 export function initDebug(api) {
-  const { DBG, G, enterAT, updateLCD, seg, refreshData, SE, bonusRevealFx } = api;
+  const { DBG, G, enterAT, updateLCD, seg, refreshData, SE, bonusRevealFx, showResult } = api;
 
   document.head.insertAdjacentHTML('beforeend', `<style>${CSS}</style>`);
   document.body.classList.add('dbgOn');
@@ -92,6 +92,10 @@ export function initDebug(api) {
     <div class="dbgRow">
       <button id="dbgReveal">確定演出</button>
       <button id="dbgAnnounce">告知フラグON</button>
+    </div>
+    <div class="dbgRow">
+      <button id="dbgResult">リザルト画面</button>
+      <button id="dbgAt3">AT残り3Gに</button>
     </div>
     <div class="dbgGrid" id="dbgSounds"></div>
     <p class="hint">確定演出はカットイン→溜め→濃厚の3段（演出速度に追従）</p>
@@ -205,20 +209,33 @@ export function initDebug(api) {
     G.announced = true;
     updateLCD(); refreshState();
   };
+  $d('dbgResult').onclick = () => {
+    SE.unlock();
+    showResult({ title: 'BIG BONUS 終了', num: 204,
+      sub: 'ビタ押し 2/3 成功<br><span class="hit">AT 当選!!</span>' });
+  };
+  $d('dbgAt3').onclick = () => {
+    // カウントダウンを確認したいときに、AT残りを3Gまで飛ばす
+    if (!G.at) enterAT(3); else G.atG = 3;
+    updateLCD(); refreshState();
+  };
   /** 鳴らせる音の一覧。sound.js に足したらここにも追加する */
   const SE_LABELS = {
     bet: 'BET', lever: 'レバー', stop: '停止',
     payout: '子役払出', medal: 'メダル', replay: 'リプレイ',
     melon: 'スイカ', cherry: 'チェリー', chance: 'チャンス',
     cutin: 'カットイン', charge: '溜め', reveal: '確定',
-    bonusStart: 'ボーナス', vitaOk: 'ビタ○', vitaNg: 'ビタ×',
+    bonusStart: 'BIG確定音', vitaOk: 'ビタ○', vitaNg: 'ビタ×',
     freeze: 'フリーズ', atStart: 'AT突入',
+    result: 'リザルト', countdown: 'カウント',
   };
   const soundBox = $d('dbgSounds');
   Object.entries(SE_LABELS).forEach(([key, label]) => {
     const b = document.createElement('button');
     b.textContent = label; b.title = key;
-    b.onclick = () => { SE.unlock(); SE[key](key === 'medal' ? 8 : undefined); };
+    // medal は枚数、countdown は残りG数を引数に取る
+    b.onclick = () => { SE.unlock();
+      SE[key](key === 'medal' ? 8 : key === 'countdown' ? 3 : undefined); };
     soundBox.appendChild(b);
   });
 

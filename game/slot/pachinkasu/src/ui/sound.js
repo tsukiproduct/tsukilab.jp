@@ -65,6 +65,34 @@ function arp(freqs, step, dur, opt={}){
   freqs.forEach((f,i) => tone(f, dur, {...opt, at: i*step}));
 }
 
+/* ===================== 音源ファイルの再生 =====================
+ * 合成では作れない音（ボーカル入りのジングル等）は assets/se/ に置いて鳴らす。
+ * 読めなければ false を返すので、呼び元は合成音にフォールバックできる。 */
+const FILE_DIR = 'assets/se/';
+const fileCache = new Map();   // url -> AudioBuffer / null(読めなかった)
+
+/** @returns {Promise<boolean>} 鳴らせたら true */
+export async function playFile(name, gain = 1){
+  unlock();
+  if(!AC) return false;
+  const url = FILE_DIR + name;
+  let buf = fileCache.get(url);
+  if(buf === undefined){
+    try {
+      const res = await fetch(url);
+      if(!res.ok) throw new Error(res.status);
+      buf = await AC.decodeAudioData(await res.arrayBuffer());
+    } catch(e){ buf = null; }
+    fileCache.set(url, buf);   // 失敗も覚えて毎回取りに行かないようにする
+  }
+  if(!buf) return false;
+  const s = AC.createBufferSource(), g = AC.createGain();
+  s.buffer = buf; g.gain.value = gain;
+  s.connect(g); g.connect(master);
+  s.start();
+  return true;
+}
+
 /* ===================== 操作音 ===================== */
 export const SE = {
   unlock, setVolume,
@@ -146,8 +174,12 @@ export const SE = {
     noise(.5,{gain:.10,hz:4200,q:.8});
   },
 
-  /** BIG開始のファンファーレ */
-  bonusStart(){
+  /**
+   * ボーナス入賞の確定音。
+   * BIGは用意された音源(se_big_start.mp3)を鳴らす。読めなければ合成音に落ちる。
+   */
+  async bonusStart(kind='BIG'){
+    if(kind==='BIG' && await playFile('se_big_start.mp3', 1)) return;
     arp([523,659,784],.09,.16,{type:'square',gain:.15});
     tone(1046,.55,{type:'square',gain:.15,at:.27});
   },
@@ -171,5 +203,18 @@ export const SE = {
   /** AT突入 */
   atStart(){
     arp([659,784,988,1318,1568],.07,.4,{type:'triangle',gain:.15});
+  },
+
+  /** リザルト画面 */
+  result(){
+    tone(392,.5,{type:'triangle',gain:.10});
+    tone(587,.5,{type:'triangle',gain:.10,at:.06});
+    tone(784,.7,{type:'triangle',gain:.10,at:.12});
+  },
+
+  /** AT終了カウントダウン。remain=1（ラスト）だけ音を変えて緊張感を出す */
+  countdown(remain){
+    if(remain<=1){ tone(1568,.5,{type:'square',gain:.14,sweepTo:2093}); noise(.3,{gain:.07,hz:4000}); }
+    else { tone(880,.16,{type:'square',gain:.12}); tone(660,.16,{type:'square',gain:.10,at:.10}); }
   },
 };

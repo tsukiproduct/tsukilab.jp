@@ -48,7 +48,8 @@ src/ui/       描画・入力・演出。core を呼ぶ側
 assets/       生成物。直接編集しないこと（tools/crop.py の再実行で消える）
   _source/      元のシート画像7枚。すべての素材はここから切り出す
   symbols/ bg/ announce/ cutin/ frame/   切り出し済み素材
-  movies/       液晶ムービー置き場（README.md に14本の規格と命名）
+  movies/       液晶ムービー置き場（README.md に規格と命名。crop.py の対象外）
+  se/           効果音の音源ファイル置き場（crop.py の対象外・手で入れる）
 tools/crop.py 素材切り出しツール。座標の正はここ
 docs/SPEC.md  仕様書。数値の正はここ。実装と食い違ったら仕様書を正として直す
 docs/STYLE.md スタイルガイド（レトロ4号機路線）。**素材を作る・差し替える前に必ず読む**
@@ -81,6 +82,9 @@ tests/
 - ボーナス確定演出（カットイン→溜め→「BONUS 濃厚」の3段。成立ゲーム45%／内部中は毎G8%で告知）
 - 設定変更メニュー、データ表示
 - 効果音（`src/ui/sound.js`・WebAudio合成。役ごとに入賞音を分け、払い出し枚数ぶんメダル音を鳴らす）
+  - 音源ファイルも鳴らせる（`assets/se/`。BIG確定音は `se_big_start.mp3`。無ければ合成音へ）
+- ボーナス／AT中のMV再生（`assets/movies/mv_big_loop.mp4`。ボーナス→ATで途切れず継続）
+- ボーナス／AT終了時のリザルト画面、AT終了3G前からのカウントダウン（3→2→LAST）
 
 - リール制御表（`src/core/reelControl.js`・最大4コマすべり）とリーチ目144通り
 - 液晶ムービー層（`src/ui/movies.js`。ファイルを置けば自動再生）

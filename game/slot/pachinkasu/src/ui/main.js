@@ -158,13 +158,22 @@ function updateLCD(){
   else if(G.carry){ setBG('bg_zencho'); badge("チャンス!?"); }
   else { setBG(G.games%97>80 ? 'bg_st_b':'bg_st_a'); badge("通常"); }
   $('atinfo').style.display = G.at ? 'block':'none'; $('atg').textContent = G.atG;
-  // 背景ループ動画（あれば）。ボーナス中 > AT中 の優先度。
-  // ボーナス中のMVは音アリで流す（曲を聴かせるのが目的なので）
+  // 背景ループ動画（あれば）。ボーナス中 > AT中 の優先度。音アリで流す（曲を聴かせるため）
   if(G.phase==="BIG")      setLoopMovie('big_loop', true);
   else if(G.phase==="REG") setLoopMovie('reg_loop', true);
-  else setLoopMovie(G.at ? (G.atG<=10 ? 'at_loop_b' : 'at_loop_a') : null);
+  else if(G.at)            setATLoop();
+  else                     setLoopMovie(null);
   // 下パネル: AT・ボーナス中は発光版
   $('panel').classList.toggle('glow', G.at || G.phase!=="NORMAL");
+}
+
+/** AT中の背景ループ。専用動画(at_loop_a/b)が無ければBIGのMVをそのまま流用する */
+async function setATLoop(){
+  const want = G.atG<=10 ? 'at_loop_b' : 'at_loop_a';
+  let key = null;
+  if(await hasMovie(want)) key = want;
+  else if(await hasMovie('big_loop')) key = 'big_loop';
+  if(G.at && G.phase==="NORMAL") setLoopMovie(key, true);  // 待つ間に状態が変わっていたら何もしない
 }
 
 /* ================= 音 =================
@@ -269,7 +278,12 @@ async function doLever(){
     return;
   }
 
-  if(G.at){ G.atG--; G.atTotalG++; G.atRunG++; }
+  if(G.at){
+    const remain = G.atG;   // このゲームを含めた残りG数
+    G.atG--; G.atTotalG++; G.atRunG++;
+    // 残り3ゲームからカウントダウン（3→2→LAST）
+    if(remain>=1 && remain<=CD_GAMES) showCountdown(remain); else hideCountdown();
+  }
   // ---- 抽選 ----
   const wasCarrying = !!G.carry;
   let flag = drawFlag(G.setting, wasCarrying);
@@ -367,7 +381,8 @@ async function settle(){
   if(p.replay){ G.replayNext=true; nav("再遊技"); SE.replay(); }
   if(G.at && flag.startsWith("BELL")) nav("ナビ成功! +11枚");
   // AT中スイカ上乗せ (256分母)
-  if(G.at && flag.startsWith("MELON") && subLottery(SUB_TABLE.MELON_UPGRADE_IN_AT)){ G.atG+=10; nav("＋10G!!"); flash('flash-v'); }
+  // 上乗せでカウントダウン圏内から抜けるので表示を消す
+  if(G.at && flag.startsWith("MELON") && subLottery(SUB_TABLE.MELON_UPGRADE_IN_AT)){ G.atG+=10; nav("＋10G!!"); flash('flash-v'); hideCountdown(); }
   seg();
   // ボーナス告知。成立ゲームで45%、外れても内部中は毎ゲーム8%で抽選し続ける。
   // 入賞ゲーム(G.align)はこのあと7が揃うので告知しない
@@ -383,17 +398,22 @@ async function settle(){
 }
 
 async function endOfGame(){
-  // AT終了判定
-  if(G.at && G.atG<=0){
-    G.at=false;
-    await showAnn(G.setting===6?'an_s6':'an_title', G.setting===6?2000:1); // 設定6のみ示唆画面
-    nav("AT終了");
-  }
+  // ---- AT終了判定 ----
   // 完走: AT開始からの差枚+2400 または 1500G（有利区間相当・仕様書§8）
-  if(G.at && (G.diff-G.atStartDiff>=2400 || G.atRunG>=1500)){
-    G.at=false;
-    if(!(await playMovie('kanso'))){ setBG('bg_kanso'); await wait(2200); }
-    nav("完走!! おめでとう!",2500);
+  const kanso = G.at && (G.diff-G.atStartDiff>=2400 || G.atRunG>=1500);
+  if(G.at && (G.atG<=0 || kanso)){
+    const gained = G.diff - G.atStartDiff, ran = G.atRunG;
+    G.at=false; G.atG=0;
+    hideCountdown();
+    setLoopMovie(null);   // 最終ゲームなのでMVを止め、そのままリザルトへ
+    if(kanso && !(await playMovie('kanso'))){ setBG('bg_kanso'); await wait(2200); }
+    await showResult({
+      title: kanso ? "MOON TIME 完走" : "MOON TIME 終了",
+      num: (gained>0?'+':'') + gained,
+      sub: `消化 ${ran}G` + (kanso ? '<br><span class="hit">おめでとう!!</span>' : ''),
+    });
+    if(G.setting===6) await showAnn('an_s6', 2000);   // 設定6のみ示唆画面
+    nav(kanso ? "完走!! おめでとう!" : "AT終了", 2200);
   }
   updateLCD(); seg();
   setBtns(true,false,false); G.busy=false;
@@ -404,6 +424,7 @@ const wait = ms => new Promise(r=>setTimeout(r, ms/DBG.speed));
 /** AT突入の共通処理 */
 function enterAT(initG){
   G.at = true; G.atG = initG; G.atRunG = 0; G.atStartDiff = G.diff;
+  hideCountdown();
 }
 
 /** ボーナス開始。告知を出したあと操作をプレイヤーに返す（消化は settle 側で進む） */
@@ -413,7 +434,7 @@ async function startBonus(kind){
   G.bonusTotal = kind==="BIG" ? 204 : 60;   // 仕様書§7の終了条件
   G.bonusGame = 0; G.vitaHits = 0; G.vitaNow = false; G.vitaResult = null;
   if(kind==="BIG") G.bigC++; else G.regC++;
-  updateLCD(); flash('flash-w'); SE.bonusStart();
+  updateLCD(); flash('flash-w'); SE.bonusStart(kind);
   // フリーズ抽選（BIG入賞時 1/64・仕様書§5.6）
   if(kind==="BIG" && (DBG.forceFreeze || subLottery(SUB_TABLE.FREEZE_ON_BIG))){
     DBG.forceFreeze = false;
@@ -431,17 +452,20 @@ async function startBonus(kind){
 /** 規定枚数に到達したときの終了処理（AT抽選はここ） */
 async function endBonus(){
   const kind = G.phase;
+  const paid = G.bonusPaid, hits = G.vitaHits;
+  const wasAT = G.at;
   hideBonusScreen();
+  // 最終ゲームなのでMVを止める。この直後にリザルトを出す（止めると同時に切り替わって見える）
+  setLoopMovie(null);
   // AT抽選。BIGはビタ押しの成功回数で当選率が変わる（3回成功のみ濃厚、全外しでも40%）
   let entered = false;
   const forceAT = DBG.forceATonBonus; DBG.forceATonBonus = false; // デバッグ: AT当選を強制
   if(kind==="BIG"){
-    if(G.at){ G.atG+=30; nav("＋30G!!"); } // AT中のBIGは+30G固定
+    if(G.at){ G.atG+=30; nav("＋30G!!"); hideCountdown(); } // AT中のBIGは+30G固定
     else {
       const base = VITA_AT_RATE[Math.min(G.vitaHits, 3)];
       // 3回成功とフリーズは濃厚なので設定差を乗せない
       const rate = (base >= 1 || G.freezeWon) ? 1 : base + (G.setting-1)*0.004;
-      if(G.vitaHits >= 3) nav("ビタ3回成功!! AT濃厚",2000);
       if(forceAT || rnd16()/DENOM < rate){ enterAT(40 + G.pendingAT); entered=true; }
     }
   } else {
@@ -451,6 +475,15 @@ async function endBonus(){
   G.bonusPaid = 0; G.bonusTotal = 0;
   G.bonusGame = 0; G.vitaHits = 0; G.vitaNow = false; G.vitaResult = null;
   hideVitaTarget();
+  // ---- リザルト画面 ----
+  // AT当選の可否もここで見せる。AT中のボーナスは上乗せなので当否を出さない
+  const sub = kind==="BIG"
+    ? `ビタ押し ${hits}/3 成功<br>` +
+      (wasAT ? '<span class="hit">AT ＋30G</span>'
+             : entered ? '<span class="hit">AT 当選!!</span>' : 'AT 非当選')
+    : (wasAT ? '<span class="hit">AT 継続</span>'
+             : entered ? '<span class="hit">AT 当選!!</span>' : 'AT 非当選');
+  await showResult({ title: `${kind} BONUS 終了`, num: paid, sub });
   if(entered){
     if(!(await playMovie('at_start'))) await showAnn('an_atstart',1700);
     nav("MOON TIME 突入!!"); SE.atStart();
@@ -461,6 +494,33 @@ async function endBonus(){
 /** ビタ押しチャレンジの「狙え」表示。リール回転中ずっと出しておく */
 function showVitaTarget(){ $('vita').style.display='flex'; }
 function hideVitaTarget(){ $('vita').style.display='none'; }
+
+/* ================= リザルト画面 =================
+   ボーナス／AT の終了時に、MVを止めるのと同時に出す。 */
+async function showResult({ title, num, unit='枚', sub='', ms=2600 }){
+  $('rTtl').textContent = title;
+  $('rNum').textContent = num;
+  $('rUnit').textContent = unit;
+  $('rSub').innerHTML = sub;
+  const r = $('result');
+  r.classList.add('on');
+  SE.result();
+  await wait(ms);
+  r.classList.remove('on');
+}
+
+/* ---- AT終了3ゲーム前のカウントダウン ----
+   remain はこのゲームを含めた残りゲーム数（3→2→1）。1は「LAST」表示にする */
+const CD_GAMES = 3;
+function showCountdown(remain){
+  const c = $('countdown');
+  c.classList.remove('on','last'); void c.offsetWidth;   // 毎ゲーム頭からアニメさせる
+  if(remain===1){ $('cdNum').textContent='LAST'; $('cdLabel').textContent=''; c.classList.add('last'); }
+  else { $('cdNum').textContent=remain; $('cdLabel').textContent='G'; }
+  c.classList.add('on');
+  SE.countdown(remain);
+}
+function hideCountdown(){ $('countdown').classList.remove('on','last'); }
 
 /* ================= メニュー ================= */
 const row = $('setrow');
@@ -517,6 +577,6 @@ seg(); updateLCD();
  * debug.js が存在しない配布物では import が失敗するだけで、通常動作に影響しない。 */
 if(window.__PACHINKASU_DEBUG__ || new URLSearchParams(location.search).has('debug')){
   import('./debug.js')
-    .then(m => m.initDebug({ DBG, G, enterAT, updateLCD, seg, refreshData, TABLE, SE, bonusRevealFx }))
+    .then(m => m.initDebug({ DBG, G, enterAT, updateLCD, seg, refreshData, TABLE, SE, bonusRevealFx, showResult }))
     .catch(e => console.warn('debug.js を読み込めませんでした（通常モードで継続）', e));
 }

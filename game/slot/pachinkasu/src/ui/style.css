@@ -87,6 +87,45 @@ body{font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;color:#fff;
 #bonusCount span{font-size:min(6vw,3vh);margin-left:.15em;}
 #bonusCount.pulse b{animation:bcPop .25s;}
 @keyframes bcPop{from{transform:scale(1.35);color:#fff}to{transform:scale(1)}}
+/* ---- リザルト画面（ボーナス／AT終了時）----
+   MVを止めるのと同時に出す。背景を黒く落として数字だけを見せる */
+#result{position:absolute;inset:0;display:none;z-index:8;
+ flex-direction:column;justify-content:center;align-items:center;gap:1.5%;
+ background:linear-gradient(180deg,rgba(0,0,0,.88),rgba(0,0,0,.96));
+ text-align:center;}
+#result.on{display:flex;animation:rsIn .3s;}
+@keyframes rsIn{from{opacity:0}to{opacity:1}}
+#result .rttl{font-size:min(4.6vw,2.3vh);letter-spacing:.28em;color:var(--gold);
+ border-bottom:1px solid var(--gold2);padding-bottom:.4em;}
+#result .rmain{color:var(--yellow);line-height:1;
+ text-shadow:0 0 6px #000,0 0 22px var(--orange);animation:rsPop .35s;}
+@keyframes rsPop{from{transform:scale(1.6);opacity:0}to{transform:scale(1);opacity:1}}
+#result .rmain b{font-family:"Impact","Arial Black","Yu Gothic",sans-serif;
+ font-size:min(17vw,8.5vh);font-weight:900;letter-spacing:.02em;}
+#result .rmain span{font-size:min(5.5vw,2.8vh);margin-left:.2em;}
+#result .rsub{font-size:min(3.6vw,1.8vh);color:#fff;letter-spacing:.1em;line-height:1.7;}
+#result .rsub .hit{color:var(--yellow);font-weight:900;text-shadow:0 0 10px var(--orange);}
+/* ---- AT終了3ゲーム前のカウントダウン ----
+   画面は覆わずに数字だけ出す。右上は #atinfo（AT残G）と重なるので下寄せの中央に置く
+   （#nav の少し上。ボーナス中の #bonusCount とは同時に出ない） */
+#countdown{position:absolute;left:0;right:0;bottom:12%;display:none;z-index:7;
+ justify-content:center;pointer-events:none;line-height:1;}
+/* stretch にして数字と「G」の高さを揃える＝背景が1枚のプレートに繋がって見える */
+#countdown.on{display:flex;align-items:stretch;animation:cdPop .4s;}
+@keyframes cdPop{from{transform:scale(2.2);opacity:0}60%{transform:scale(1);opacity:1}to{opacity:1}}
+/* MVの上に出るので、地の絵が明るくても読めるよう暗いプレートを敷く */
+#countdown b,#countdown span{display:flex;align-items:flex-end;
+ background:rgba(0,0,0,.55);border-top:2px solid var(--red);border-bottom:2px solid var(--red);
+ color:var(--red);text-shadow:0 0 4px #000,0 3px 5px #000,0 0 28px var(--red);}
+#countdown b{font-family:"Impact","Arial Black","Yu Gothic",sans-serif;
+ font-size:min(20vw,10vh);font-weight:900;padding:.02em .06em .02em .2em;}
+#countdown span{font-size:min(5vw,2.5vh);letter-spacing:.12em;padding:0 .9em .55em .2em;}
+#countdown span:empty{display:none;}
+/* 最終ゲームは白く光らせて別格に見せる */
+#countdown.last b{font-size:min(13vw,6.5vh);color:#fff;letter-spacing:.06em;
+ text-shadow:0 0 4px #000,0 3px 5px #000,0 0 30px var(--yellow);
+ border-color:var(--yellow);padding:.12em .3em;}
+
 /* 確定演出(#reveal, z:8)の上でも焚けるよう最前面に置く */
 #flashfx{position:absolute;inset:0;pointer-events:none;z-index:9;opacity:0;}
 /* フラッシュは連続グラデを避け、2段のベタで焚く（原則3: 段階的トーン） */

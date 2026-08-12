@@ -132,10 +132,17 @@ export async function setLoopMovie(key, sound = false) {
   if (key === currentLoop) return;
   currentLoop = key;
   const v = $("lcdloop");
-  if (!key) { v.pause(); v.style.display = "none"; v.removeAttribute("src"); v.load(); return; }
+  /* 何に切り替えるにせよ、まず今の動画を確実に止める。
+     ここを「display:none にするだけ」にすると、配置されていないキー（at_loop_a 等）へ
+     切り替えたときに前の動画が画面外で鳴り続ける。
+     ボーナス終了後も通常画面でMVの音が流れ続けたのはこれが原因。 */
+  v.pause();
+  v.style.display = "none";
+  if (v.getAttribute("src")) { v.removeAttribute("src"); v.load(); }
+  if (!key) return;
   const url = await resolveSrc(key);
   if (currentLoop !== key) return; // 待っている間に切り替わった
-  if (!url) { v.style.display = "none"; return; }
+  if (!url) return;                // 未配置。上で停止済みなので何もしない
   // 0.75 は効果音（sound.js）と同時に鳴らしたとき、曲が主役のまま
   // 払い出し音・停止音が埋もれない音量
   v.src = url; v.loop = true; v.muted = !sound; v.volume = 0.75;
