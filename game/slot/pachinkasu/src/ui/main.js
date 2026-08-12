@@ -9,6 +9,7 @@ import { drawFlag, rnd16, subLottery, isBigFlag, isRegFlag, isBonusFlag, payoutO
 import { STRIP, REEL_LEN, makePlan, controlStop, isReachMoku } from '../core/reelControl.js';
 import { playMovie, setLoopMovie, hasMovie } from './movies.js';
 import { SE } from './sound.js';
+import { VERSION_LABEL } from './version.js';
 
 assertTables();
 
@@ -566,6 +567,10 @@ function markInput(){
 }
 document.addEventListener('pointerdown', markInput);
 markInput();
+
+// タイトル画面のバージョン表示。デバッグモードのときは分かるように付記する
+$('ver').textContent = VERSION_LABEL +
+  (window.__PACHINKASU_DEBUG__ || new URLSearchParams(location.search).has('debug') ? '  DEBUG' : '');
 
 seg(); updateLCD();
 

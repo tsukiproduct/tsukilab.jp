@@ -255,5 +255,9 @@ button:disabled{filter:grayscale(.8) brightness(.55);}
  padding-bottom:2px;letter-spacing:.04em;}
 .guidelink:hover{color:var(--yellow);border-color:var(--yellow);}
 
+/* バージョン表示。タイトルの下端に控えめに置く（Pagesのキャッシュ判別用） */
+.ver{position:absolute;bottom:10px;left:0;right:0;text-align:center;
+ font-size:10px;letter-spacing:.14em;color:var(--gold3);}
+
 .vitalabel{font-weight:900;color:var(--yellow);text-shadow:0 0 8px var(--orange);}
 .overlay .ttl{color:var(--yellow);font-weight:900;}

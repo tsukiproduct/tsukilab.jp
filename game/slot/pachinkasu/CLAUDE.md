@@ -41,7 +41,8 @@ src/core/     抽選エンジン・リール制御。純粋関数のみ。DOM・
   reelControl.js  リール配列(STRIP)、停止プラン決定、すべり制御、リーチ目判定
 src/ui/       描画・入力・演出。core を呼ぶ側
   main.js       状態機械、遊技フロー、演出制御（現状ここにGame層が同居＝要分離）
-  sound.js      効果音。WebAudioで合成する（音源ファイルなし）。鳴らすタイミングは main.js 側
+  version.js    バージョン。タイトル画面に出る。**リリースのたびに更新し package.json と揃える**
+  sound.js      効果音。WebAudioで合成する（音源ファイルは assets/se/）。鳴らすタイミングは main.js 側
   movies.js     液晶ムービー層。assets/movies/ に置くだけで再生、無ければ静止画へフォールバック
   debug.js      デバッグパネル。?debug=1 のときだけ動的importされる（本番には同梱しない）
   style.css
@@ -61,6 +62,13 @@ tests/
 **このプロジェクトは単体で完結している。** 外部フォルダ（旧版の `assets_work/` 等）を参照しないこと。
 
 **依存方向は ui → core の一方向のみ。** 演出層が抽選結果に影響する経路を作らないこと（実機のメイン基板／サブ基板の分離に相当する）。
+
+## リリース手順
+
+サイトへ反映する前に `src/ui/version.js` の `VERSION` と `BUILD` を更新し、
+`package.json` の `"version"` も同じ値に揃える。タイトル画面の下端に
+`v0.3.0 (2026-08-13)` の形で出るので、**GitHub Pages のキャッシュで
+古い版を見ていないか**をここで判別できる（デバッグ版は末尾に `DEBUG` が付く）。
 
 ## 絶対に守るルール
 
