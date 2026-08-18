@@ -5,9 +5,9 @@
  * TODO(next): Game層の分離（src/game/stateMachine.js / atManager.js へ切り出し）
  */
 import { TABLE, DENOM, probabilities, assertTables, SUB_TABLE,
-         AT_INIT_G, EMPEROR_UP_G } from '../core/tables.js';
+         AT_INIT_G, EMPEROR_UP_G, PENALTY_GAMES } from '../core/tables.js';
 import { drawFlag, rnd16, subLottery, isBigFlag, isRegFlag, isBonusFlag, payoutOf,
-         drawATUpgrade, isStrongMelon } from '../core/lottery.js';
+         drawATUpgrade, isStrongMelon, drawBellOrder, isMidCherry } from '../core/lottery.js';
 import { STRIP, REEL_LEN, LINES, makePlan, controlStop, isReachMoku, winningLines } from '../core/reelControl.js';
 import { playMovie, setLoopMovie, hasMovie } from './movies.js';
 import { SE, setBGM } from './sound.js';
@@ -109,6 +109,10 @@ const G = {
   vitaHits: 0,      // ビタ押し成功回数（0〜3）
   vitaNow: false,   // 今のゲームがビタ押しチャレンジか
   vitaResult: null, // 直近のビタ判定（true=成功 / false=失敗 / null=未判定）
+  bellOrder: -1,    // 押し順ベルの正解リール（第一停止）。-1=押し順ベルではない
+  firstStop: -1,    // このゲームで最初に止めたリール
+  pushOk: false,    // 押し順ベルを取れたか
+  penalty: 0,       // 変則押しのペナルティ残ゲーム数（この間はナビを出さない）
   song: null,       // 選択中の楽曲キー（起動時に localStorage から復元）
   emperorWins: 0,   // エンペラータイムの連勝数（演出用）
   justWon: false,   // このゲームでボーナスに当選したか（告知抽選の重み分けに使う）
@@ -174,7 +178,9 @@ function highlightWin(stops, ms=700){
     if(row === 1) drawReel(reel, stops[reel], true);
   });
   cells.forEach(c => c.classList.add('winline'));
-  setTimeout(() => cells.forEach(c => c.classList.remove('winline')), ms);
+  // 消灯も演出速度に合わせる。等速のままだと高速消化時に前ゲームの発光が残り、
+  // 複数ラインが同時に光っているように見える
+  setTimeout(() => cells.forEach(c => c.classList.remove('winline')), ms / DBG.speed);
 }
 
 function nav(t,ms=1400){ $('nav').textContent=t; if(ms) setTimeout(()=>{ if($('nav').textContent===t) $('nav').textContent=''; }, ms); }
@@ -324,7 +330,14 @@ function syncPanelTap(){
 }
 
 setBtns(true,false,false);
-const setNavi = on => [0,1,2].forEach(i=>$('s'+i).classList.toggle('navi', on));
+/** 押し順ナビ。reel=-1 で消灯。液晶にも「1st 左」と出す */
+function showNavi(reel){
+  [0,1,2].forEach(i => $('s'+i).classList.toggle('navi', i === reel));
+  const n = $('navipush');
+  if(reel < 0){ n.classList.remove('on'); return; }
+  n.textContent = ['左','中','右'][reel];
+  n.classList.remove('on'); void n.offsetWidth; n.classList.add('on');
+}
 
 let betted = false;
 function doBet(){
@@ -345,6 +358,7 @@ async function doLever(){
 
   // ---- ボーナス中: 抽選を行わず、消化役（BIG=15枚のスイカ / REG=8枚のベル）を毎回引き込む ----
   if(G.phase !== "NORMAL"){
+    G.firstStop = -1; G.pushOk = false; G.bellOrder = -1;
     G.bonusGame++;
     G.flag = G.phase === "BIG" ? "MELON_STRONG" : "BELL";
     G.plan = makePlan(G.flag, {});
@@ -360,6 +374,8 @@ async function doLever(){
     return;
   }
 
+  G.firstStop = -1; G.pushOk = false;
+  if(G.penalty > 0) G.penalty--;
   if(G.at){
     const remain = G.atG;   // このゲームを含めた残りG数
     G.atG--; G.atTotalG++; G.atRunG++;
@@ -376,9 +392,18 @@ async function doLever(){
     if(!(wasCarrying && isBonusFlag(f))) flag = f;
   }
   const justWon = isBonusFlag(flag) && !wasCarrying;
-  if(justWon){ G.carry = isBigFlag(flag) ? "BIG":"REG"; G.announced = false; }
+  if(justWon){
+    G.carry = isBigFlag(flag) ? "BIG":"REG";
+    // 中段チェリー＋BAR は出目の時点で濃厚なので、告知を待たせない
+    G.announced = isMidCherry(flag);
+    // この形からのフリーズ（1/4）。BIG入賞時の1/64とは別枠のプレミア
+    if(flag === "CHERRY_BIG" && subLottery(SUB_TABLE.FREEZE_ON_MID_CHERRY)) DBG.forceFreeze = true;
+  }
   G.justWon = justWon;
   G.flag = flag;
+  /* 押し順ベルは第一停止3択。ナビが出るのはAT中かつペナルティ中でないときだけ。
+     通常時はナビが無いので、左から打つ定石だと 1/3 でしか正解しない＝こぼす。 */
+  G.bellOrder = flag === "BELL_PUSH" ? drawBellOrder() : -1;
   // ---- 停止プラン（リール制御表） ----
   // 内部中×ハズレ → ボーナス入賞ゲーム（オートビタ）
   G.align = (wasCarrying && flag==="HAZURE") ? G.carry : null;
@@ -386,13 +411,17 @@ async function doLever(){
   G.stops = [null,null,null];
   // ---- 演出 ----
   if(/RIICHI/.test(flag)) { showCut('cut_s'); flash('flash-v'); SE.cutin(3); }
+  // 中段チェリー＋右中段BAR はボーナス濃厚の出目。専用に強い演出を当てる
+  else if(isMidCherry(flag)) { showCut('cut_s'); flash('flash-v'); SE.cutin(3); }
   // 強スイカ（中段揃い）は弱スイカ（斜め）より格上。ボーナス重複も強スイカ扱い
   else if(/_BIG$|_REG$/.test(flag)) { showCut('cut_m'); flash('flash-r'); SE.cutin(2); }
+  else if(flag === "CHERRY_TRIPLE") { showCut('cut_m'); flash('flash-r'); SE.cutin(2); }
   else if(flag === "MELON_STRONG") { showCut('cut_m'); flash('flash-r'); SE.cutin(2); }
-  else if(["MELON_WEAK","CHERRY","ONE_COIN"].includes(flag) && rnd16()%4===0) { showCut('cut_w'); SE.cutin(1); }
+  else if(["MELON_WEAK","CHERRY_WEAK","ONE_COIN"].includes(flag) && rnd16()%4===0) { showCut('cut_w'); SE.cutin(1); }
   // 告知済みの内部中はずっと「7を狙え」。プレイヤーが何をすべきか迷わないようにする
   if(G.carry && G.announced) nav("7を狙え!!", 0);
-  setNavi(G.at && flag.startsWith("BELL")); // AT中ベルナビ: 停止ボタン点灯
+  // AT中ベルナビ: 正解リールの停止ボタンだけ点灯。ペナルティ中は出さない
+  showNavi(G.at && G.penalty === 0 && G.bellOrder >= 0 ? G.bellOrder : -1);
   updateLCD();
   // ---- リール始動 ----
   [0,1,2].forEach(startSpin); G.stopsLeft = 3;
@@ -403,6 +432,20 @@ $('lever').onclick = doLever;
 
 function pressStop(i){
   const r = reels[i]; if(!r.spinning) return;
+  // 第一停止を覚える。押し順ベルの正誤と変則押しペナルティの判定に使う
+  if(G.firstStop < 0){
+    G.firstStop = i;
+    /* 変則押しペナルティ（AT機の生命線）:
+       通常時は左リールから止めるのが定石。自由な押し順でベルを狙えると
+       ナビ無しでも押し順ベルを取り放題になり、AT（＝ナビ）の価値が消えて
+       機械割が崩壊する。だから通常時の変則押しは罰する。
+       AT中はナビに従うだけなので対象外。 */
+    if(!G.at && G.phase==="NORMAL" && i !== 0){
+      G.penalty = PENALTY_GAMES;
+      nav("変則押し ペナルティ", 1800);
+      SE.penalty();
+    }
+  }
   SE.stop();
   stopReel(i);
   $('s'+i).disabled = true; syncPanelTap();  // 停止済みのリールは押せなくする
@@ -418,7 +461,7 @@ function pressStop(i){
 });
 
 async function settle(){
-  G.busy = true; setBtns(false,false,false); setNavi(false);
+  G.busy = true; setBtns(false,false,false); showNavi(-1);
   const flag = G.flag;
 
   // ---- ボーナス中の消化 ----
@@ -444,23 +487,37 @@ async function settle(){
     // 弱スイカ（斜め）と強スイカ（中段）はどのラインで揃ったかを言葉でも出す
     if(flag === "MELON_WEAK") nav("スイカ（弱）", 1200);
     else if(isStrongMelon(flag)) { nav("スイカ（強）!!", 1600); flash('flash-r'); }
+    else if(flag === "CHERRY_WEAK") nav("単チェリー", 1000);
+    else if(flag === "CHERRY_STRONG") { nav("中段チェリー!!", 1600); flash('flash-r'); }
+    else if(flag === "CHERRY_TRIPLE") { nav("3連チェリー!!", 1800); flash('flash-r'); }
+    else if(isMidCherry(flag)) { nav("中段チェリー＋BAR!! ボーナス濃厚", 2400); flash('flash-v'); }
   }
   // リーチ目告知（ボーナス成立ゲームのみ出現し得る出目）
   if(G.plan.mode==="REACH" && isReachMoku(G.stops)){ flash('flash-v'); nav("・・・！？",1800); }
   // 払い出し
-  const p = payoutOf(flag, G.at);
+  /* 押し順ベルの正誤判定。
+     変則押し（通常時に左以外から止めた）ゲームは強制的に不正解にする。 */
+  if(G.bellOrder >= 0){
+    const henso = !G.at && G.phase==="NORMAL" && G.firstStop !== 0;
+    G.pushOk = !henso && G.firstStop === G.bellOrder;
+  }
+  const p = payoutOf(flag, { pushOk: G.pushOk });
   if(p.coins){
     G.credit+=p.coins; G.diff+=p.coins; $('payout').textContent=p.coins;
     // 入賞音は役ごとに変える（音だけで何が入ったか分かるようにする）。
     // そのあと払い出し枚数ぶんメダル音を重ねる
     if(flag.startsWith("MELON")) SE.melon();
     else if(flag.startsWith("CHERRY")) SE.cherry();
+    else if(flag === "BELL_PUSH" && !G.pushOk) SE.miss();
     else if(flag.startsWith("ONE_COIN")) SE.chance();
     else SE.payout();
     SE.medal(p.coins, .12);
   }
   if(p.replay){ G.replayNext=true; nav("再遊技"); SE.replay(); }
-  if(G.at && flag.startsWith("BELL")) nav("ナビ成功! +11枚");
+  if(flag === "BELL_PUSH"){
+    if(G.pushOk) nav(G.at ? "ナビ成功! +8枚" : "押し順正解! +8枚");
+    else nav("こぼし… +1枚", 1200);
+  }
   // AT中スイカ上乗せ (256分母)
   // AT中のレア役上乗せ。抽選は core（drawATUpgrade）に持たせてシミュレーターと共有する
   if(G.at){

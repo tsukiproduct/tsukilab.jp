@@ -7,7 +7,7 @@
  *   2. スイカの強弱が出目で区別できる（弱=右下がり / 強=中段）
  *   3. 通常時ハズレ(SAFE)では
  *      - 5ラインのどれも入賞しない
- *      - 左リールの上中下いずれにも 7/BAR が止まらない（＝リーチ目が出得ない）
+ *      - 左中段に 7/BAR が止まらない（＝リーチ目が出得ない）
  *      - 左中段にチェリーが止まらない
  *   4. ボーナス成立ゲーム(REACH)では必ずリーチ目が出る
  *   5. リーチ目の種類数を数える（仕様書§6.2 目標: 数百通り以上）
@@ -57,6 +57,9 @@ function allOutcomes(plan) {
 }
 
 /** ライン li の並びが3図柄すべて sym か */
+/** 左リールの窓に見えているチェリーの数 */
+const cherryCount = (idx) => [0,1,2].filter((r) => symAtRow(0, idx, r) === 'cherry').length;
+
 const lineIs = (stops, li, ...syms) => {
   const s = lineSyms(gridOf(stops), li);
   return syms.every((x, i) => s[i] === x);
@@ -70,18 +73,33 @@ console.log('[1] 成立役の引き込み（全押下位置で狙ったライン
 const LINE_MID = 0, LINE_DOWN = 3;
 const winCases = [
   ['REPLAY',       (s) => lineIs(s, LINE_MID, 'replay','replay','replay'), '中段リプレイ'],
-  ['BELL',         (s) => lineIs(s, LINE_MID, 'bell','bell','bell'),       '中段ベル'],
+  ['BELL_COMMON',  (s) => lineIs(s, LINE_MID, 'bell','bell','bell'),       '中段ベル(共通)'],
+  ['BELL_PUSH',    (s) => lineIs(s, LINE_MID, 'bell','bell','bell'),       '中段ベル(押し順正解)'],
   ['MELON_STRONG', (s) => lineIs(s, LINE_MID, 'melon','melon','melon'),    '中段スイカ(強)'],
   ['MELON_WEAK',   (s) => lineIs(s, LINE_DOWN,'melon','melon','melon'),    '右下がりスイカ(弱)'],
-  ['CHERRY',       (s) => symAtRow(0, s[0], 1) === 'cherry',               '左中段チェリー'],
+  ['CHERRY_WEAK',  (s) => cherryCount(s[0]) === 1 && symAtRow(0, s[0], 1) !== 'cherry', '角チェリー'],
+  ['CHERRY_STRONG',(s) => cherryCount(s[0]) === 1 && symAtRow(0, s[0], 1) === 'cherry', '中段チェリー'],
+  ['CHERRY_TRIPLE',(s) => cherryCount(s[0]) === 3,                        '3連チェリー'],
+  ['CHERRY_BIG',   (s) => symAtRow(0, s[0], 1) === 'cherry' && symAtRow(2, s[2], 1) === 'bar', '中段チェリー+右中段BAR'],
   ['ONE_COIN',     (s) => lineIs(s, LINE_MID, 'star','star','bar'),        '中段1枚役'],
   ['RIICHI_BIG',   (s) => lineIs(s, LINE_MID, 'star','star','star'),       '中段リーチ目役'],
 ];
 for (const [flag, ok, label] of winCases) {
-  const res = allOutcomes(makePlan(flag, {}));
+  const plan = makePlan(flag, {});
+  const res = allOutcomes(plan);
   const bad = res.filter((s) => !ok(s)).length;
   if (bad) ng(`${flag} が ${bad}/${res.length} 通りで入賞しない`);
   else console.log(`  OK  ${flag.padEnd(13)} ${res.length}通りすべて入賞（${label}）`);
+  /* 狙った1本以外が道連れで揃っていないか。
+     ここを見ていなかったため「中段リプレイ＋上段ベル＋下段スイカ」が同時に出ていた。
+     チェリーは1リール役なのでライン概念の対象外 */
+  if (!flag.startsWith('CHERRY')) {
+    const multi = res.filter((s) => winningLines(s).some((li) => li !== plan.line));
+    if (multi.length) {
+      const ex = winningLines(multi[0]).map((i) => LINES[i].name).join('+');
+      ng(`${flag} が狙ったライン以外も揃える: ${multi.length}通り  例 ${ex}`);
+    } else console.log(`      └ 他ラインの道連れ入賞: 0`);
+  }
 }
 
 // --- 2. スイカ強弱の区別 ---
@@ -97,18 +115,43 @@ console.log('\n[2] スイカの強弱が出目で区別できるか');
   else console.log('  OK  強スイカは必ず中段に揃う');
 }
 
+// --- 2b. チェリー3種の区別 ---
+console.log('\n[2b] チェリーが出目で3段階に分かれるか');
+{
+  const kinds = [
+    ['CHERRY_WEAK',   '角チェリー',   (s) => cherryCount(s[0]) === 1 && symAtRow(0,s[0],1) !== 'cherry'],
+    ['CHERRY_STRONG', '中段チェリー', (s) => cherryCount(s[0]) === 1 && symAtRow(0,s[0],1) === 'cherry'],
+    ['CHERRY_TRIPLE', '3連チェリー',  (s) => cherryCount(s[0]) === 3],
+  ];
+  for (const [flag, label, ok] of kinds) {
+    const res = allOutcomes(makePlan(flag, {}));
+    // 自分の形になり、かつ他の2種の形にはならないこと
+    const others = kinds.filter((k) => k[0] !== flag);
+    const bad = res.filter((s) => !ok(s) || others.some((k) => k[2](s))).length;
+    if (bad) ng(`${flag} が ${bad} 通りで ${label} にならない／他の形と重なる`);
+    else console.log(`  OK  ${label.padEnd(7)} は他の2種と重ならない`);
+    // 7/BARが窓に見えていないこと（紛らわしい出目の防止）
+    const bon = res.filter((s) => [0,1,2].some((r) => ['red7','blue7','bar'].includes(symAtRow(0,s[0],r)))).length;
+    if (bon) ng(`${flag} の左窓に7/BARが見える: ${bon}通り`);
+  }
+  const mb = allOutcomes(makePlan('CHERRY_BIG', {}));
+  const bad = mb.filter((s) => symAtRow(2, s[2], 1) !== 'bar').length;
+  if (bad) ng(`中段チェリー+BAR で右中段BARにならない: ${bad}通り`);
+  else console.log('  OK  ボーナス重複は必ず 右リール中段BAR（＝濃厚の出目）');
+}
+
 // --- 3. 通常時ハズレの安全性 ---
 console.log('\n[3] 通常時ハズレ(SAFE)の安全性');
 {
   const res = allOutcomes(makePlan('HAZURE', {}));
   const g = (s) => gridOf(s);
-  const leftBonus = res.filter((s) => [0,1,2].some((r) => ['red7','blue7','bar'].includes(g(s)[0][r]))).length;
+  const leftBonus = res.filter((s) => ['red7','blue7','bar'].includes(symAtRow(0, s[0], 1))).length;
   const leftCherry = res.filter((s) => symAtRow(0, s[0], 1) === 'cherry').length;
   const won = res.filter((s) => winningLines(s).length > 0);
   const reach = res.filter((s) => isReachMoku(s)).length;
 
-  if (leftBonus) ng(`左リールに7/BARが見えた回数: ${leftBonus} / ${res.length}`);
-  else console.log(`  OK  左リールに 7/BAR が見えた回数: 0 / ${res.length}`);
+  if (leftBonus) ng(`左中段に7/BARが停止: ${leftBonus} / ${res.length}`);
+  else console.log(`  OK  左中段の 7/BAR 停止: 0 / ${res.length}`);
   if (leftCherry) ng(`左中段にチェリーが停止: ${leftCherry}`);
   else console.log('  OK  左中段のチェリー停止: 0');
   if (won.length) {

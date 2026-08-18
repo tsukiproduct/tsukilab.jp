@@ -16,9 +16,12 @@
 
 /** 強制できるフラグ一覧。tables.js の TABLE のキー順＋HAZURE */
 const FLAG_LABELS = {
-  REPLAY: 'リプレイ', BELL: 'ベル',
-  MELON_WEAK: '弱スイカ', MELON_STRONG: '強スイカ', CHERRY: 'チェリー', ONE_COIN: '1枚役',
-  CHERRY_BIG: 'チェリー+BIG', CHERRY_REG: 'チェリー+REG',
+  REPLAY: 'リプレイ',
+  BELL_COMMON: '共通ベル', BELL_PUSH: '押し順ベル',
+  MELON_WEAK: '弱スイカ', MELON_STRONG: '強スイカ',
+  CHERRY_WEAK: '単チェリー', CHERRY_STRONG: '中段チェリー', CHERRY_TRIPLE: '3連チェリー',
+  ONE_COIN: '1枚役',
+  CHERRY_BIG: '中段チェ+BIG', CHERRY_REG: '中段チェ+REG',
   MELON_BIG: 'スイカ+BIG', MELON_REG: 'スイカ+REG',
   ONE_COIN_BIG: '1枚役+BIG',
   RIICHI_BIG: 'リーチ目+BIG', RIICHI_REG: 'リーチ目+REG',
@@ -128,6 +131,13 @@ export function initDebug(api) {
 
   const $d = id => document.getElementById(id);
 
+  /* テーブルにフラグを足したのにここへ追加し忘れると、そのフラグを
+     デバッグから引けないまま気づけない。起動時に照合して警告する。 */
+  {
+    const missing = Object.keys(api.TABLE || {}).filter(k => !(k in FLAG_LABELS));
+    if (missing.length) console.warn('[debug] FLAG_LABELS に未登録:', missing.join(', '));
+  }
+
   /* ---- 状態表示 ---- */
   function refreshState() {
     const forced = DBG.forceFlag ? `${DBG.forceFlag}${DBG.keepForce ? '(継続)' : '(単発)'}` : 'なし';
@@ -142,6 +152,8 @@ export function initDebug(api) {
       `前回役  : ${G.flag || '-'}\n` +
       `ボーナス: ${G.phase !== 'NORMAL' ? `${G.phase} ${G.bonusPaid}/${G.bonusTotal}枚 (${G.bonusGame}G)` : '-'}\n` +
       `ビタ成功: ${G.vitaHits}/3\n` +
+      `押し順  : ${G.bellOrder >= 0 ? ['左','中','右'][G.bellOrder] + (G.pushOk ? ' 正解' : '') : '-'}\n` +
+      `ペナルティ: ${G.penalty > 0 ? G.penalty + 'G' : 'なし'}\n` +
       `強制    : ${forced}\n` +
       `楽曲    : ${(SONGS.find((x) => x.key === G.song) || {}).title || '-'}
 ` +
@@ -199,6 +211,7 @@ export function initDebug(api) {
     Object.assign(G, {
       phase: 'NORMAL', credit: 1000, diff: 0, games: 0, bigC: 0, regC: 0,
       carry: null, flag: null, announced: false, justWon: false,
+      bellOrder: -1, firstStop: -1, pushOk: false, penalty: 0,
       at: false, atG: 0, atTotalG: 0, atRunG: 0,
       atStartDiff: 0, pendingAT: 0, freezeWon: false,
       bonusPaid: 0, bonusTotal: 0, bonusGame: 0, vitaHits: 0, vitaNow: false, vitaResult: null,

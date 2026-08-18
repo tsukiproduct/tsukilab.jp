@@ -335,3 +335,17 @@ button:disabled{filter:grayscale(.8) brightness(.55);}
 .emptotal{position:relative;z-index:2;font-size:min(4.4vw,2.2vh);color:#fff;letter-spacing:.1em;}
 .emptotal b{font-family:"Impact","Arial Black",sans-serif;font-size:min(11vw,5.5vh);
  color:var(--yellow);margin:0 .1em;text-shadow:0 0 4px #000,0 0 20px var(--orange);}
+
+/* ---- 押し順ナビ ----
+   停止ボタンの点灯（.navi）だけだと下を見ないと分からないので、
+   液晶にも第一停止のリールを大きく出す */
+#navipush{position:absolute;left:0;right:0;top:38%;display:none;z-index:7;
+ text-align:center;pointer-events:none;line-height:1;
+ font-family:"Impact","Arial Black","Yu Gothic",sans-serif;
+ font-size:min(22vw,11vh);color:var(--yellow);
+ text-shadow:0 0 6px #000,0 3px 6px #000,0 0 30px var(--orange);}
+#navipush.on{display:block;animation:npPop .35s;}
+@keyframes npPop{from{transform:scale(1.8);opacity:0}60%{transform:scale(1);opacity:1}to{opacity:1}}
+#navipush::before{content:"1st";display:block;font-family:inherit;
+ font-size:.28em;letter-spacing:.3em;color:#fff;margin-bottom:.1em;
+ text-shadow:0 0 4px #000,0 2px 3px #000;}

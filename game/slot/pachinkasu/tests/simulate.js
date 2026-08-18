@@ -12,7 +12,8 @@
  *     初期 AT_INIT_G.BIG + ビタ獲得分（技術介入なし想定: ビタ3回全失敗＝救済+2G×3）
  *   - フリーズ(1/64): AT確定+50G
  *   - REG中: 1/16でAT（初期 AT_INIT_G.REG）
- *   - AT中: ベル+3枚(ナビ11枚)、レア役で上乗せ(drawATUpgrade)、完走(AT開始差枚+2400 or 1500G)
+ *   - AT中: 押し順ベルを必ず正解（通常時は1/3）、レア役で上乗せ(drawATUpgrade)、
+ *     完走(AT開始差枚+2400 or 1500G)
  *   - エンペラータイム: AT当選時に1/8（ビタ3回成功なら濃厚だが技術介入なし想定なので抽選のみ）。
  *     継続率約80%で1勝ごとに+20G
  *
@@ -21,6 +22,7 @@
  *   - 機械割の目標: 設定1 ≒95.2% / 設定6 ≒102.9%（技術介入なし・仕様書§10.2）
  */
 import { drawFlag, isBigFlag, isRegFlag, payoutOf, drawATUpgrade } from '../src/core/lottery.js';
+import { BELL_ORDERS } from '../src/core/tables.js';
 import { TABLE, DENOM, SUB_TABLE, SUB_DENOM, AT_INIT_G, EMPEROR_UP_G, probabilities, assertTables } from '../src/core/tables.js';
 
 assertTables();
@@ -63,7 +65,11 @@ for (let setting = 1; setting <= 6; setting++) {
     if (inAT) { atG--; atRunG++; atGamesTotal++; }
 
     const flag = drawFlag(setting, !!carry);
-    const p = payoutOf(flag, inAT); // AT中ベルはナビ成功前提で11枚（実装と同じ）
+    /* 押し順ベル: AT中はナビが出るので必ず正解。通常時はナビが無く、
+       左から打つ定石だと正解リールが左のときだけ当たる＝1/3。
+       これがAT（アシストタイム）の純増の正体で、払い出し自体は通常時と同じ。 */
+    const pushOk = flag === 'BELL_PUSH' && (inAT || Math.random() < 1 / BELL_ORDERS);
+    const p = payoutOf(flag, { pushOk });
     coinsOut += p.coins; diff += p.coins;
     if (p.replay) replayNext = true;
 

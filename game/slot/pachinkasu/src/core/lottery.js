@@ -2,7 +2,7 @@
  * 抽選エンジン（仕様書 §5.1 / §5.2）
  * この層は純粋関数のみ。DOM・演出・音に一切依存しないこと（シミュレーターから直接呼ぶため）。
  */
-import { TABLE, DENOM, SUB_DENOM, SUB_TABLE, AT_UP_G } from './tables.js';
+import { TABLE, DENOM, SUB_DENOM, SUB_TABLE, AT_UP_G, BELL_ORDERS, BELL_PUSH_PAY } from './tables.js';
 
 /** 16bit一様乱数。Math.randomの下位ビット偏りを避けるためcryptoを使う */
 export function rnd16() {
@@ -39,15 +39,33 @@ export const isBigFlag = (f) => /BIG/.test(f);
 export const isRegFlag = (f) => /REG$/.test(f);
 export const isBonusFlag = (f) => isBigFlag(f) || isRegFlag(f);
 
-/** 小役の払い出し枚数（AT中のベルはナビ成功で11枚） */
-export function payoutOf(flag, inAT = false) {
+/** 押し順ベルの正解リール（第一停止）を引く。0=左 1=中 2=右 */
+export function drawBellOrder() { return rnd16() % BELL_ORDERS; }
+
+/**
+ * 小役の払い出し枚数
+ * @param {string} flag
+ * @param {object} opt
+ * @param {boolean} opt.pushOk 押し順ベルの正解を取れたか（通常時はナビが無いので1/3）
+ *
+ * 【重要】AT中かどうかで枚数を変えない。AT中に増えるのは
+ * 「ナビが出るから押し順ベルを毎回正解できる」ぶんだけであり、
+ * 払い出しそのものは通常時と同じ。ここを混ぜると純増の出所が分からなくなる。
+ */
+export function payoutOf(flag, { pushOk = false } = {}) {
   if (flag === 'REPLAY') return { coins: 0, replay: true };
-  if (flag.startsWith('BELL')) return { coins: inAT ? 11 : 8, replay: false };
+  if (flag === 'BELL_PUSH') {
+    return { coins: pushOk ? BELL_PUSH_PAY.ok : BELL_PUSH_PAY.ng, replay: false };
+  }
+  if (flag.startsWith('BELL')) return { coins: 8, replay: false };
   if (flag.startsWith('MELON')) return { coins: 15, replay: false };
   if (flag.startsWith('CHERRY')) return { coins: 2, replay: false };
   if (flag.startsWith('ONE_COIN') || flag.startsWith('RIICHI')) return { coins: 1, replay: false };
   return { coins: 0, replay: false };
 }
+
+/** 中段チェリー＋BAR（ボーナス濃厚の最上位形）か */
+export const isMidCherry = (f) => f === 'CHERRY_BIG' || f === 'CHERRY_REG';
 
 /** その役が「強スイカ」扱いか（弱スイカ以外のスイカ＝重複含む）。演出と上乗せの出し分けに使う */
 export const isStrongMelon = (f) => f.startsWith('MELON') && f !== 'MELON_WEAK';

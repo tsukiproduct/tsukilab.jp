@@ -13,10 +13,13 @@ export const SETTINGS = [1, 2, 3, 4, 5, 6];
 /** 小役グループ: 表示名 → そのグループを構成するフラグ名 */
 export const ROLE_GROUPS = {
   'リプレイ':   ['REPLAY'],
-  'ベル':       ['BELL'],
+  'ベル(共通)': ['BELL_COMMON'],
+  'ベル(押し順)': ['BELL_PUSH'],
   '弱スイカ':   ['MELON_WEAK'],
   '強スイカ':   ['MELON_STRONG', 'MELON_BIG', 'MELON_REG'],
-  'チェリー':   ['CHERRY', 'CHERRY_BIG', 'CHERRY_REG'],
+  '単チェリー': ['CHERRY_WEAK'],
+  '中段チェリー': ['CHERRY_STRONG', 'CHERRY_BIG', 'CHERRY_REG'],
+  '3連チェリー': ['CHERRY_TRIPLE'],
   '1枚役':      ['ONE_COIN', 'ONE_COIN_BIG'],
   'リーチ目役': ['RIICHI_BIG', 'RIICHI_REG'],
 };
@@ -25,7 +28,9 @@ export const ROLE_GROUPS = {
 export const RARE_ROLES = {
   '弱スイカ':   { all: ['MELON_WEAK'], big: [], reg: [] },
   '強スイカ':   { all: ['MELON_STRONG', 'MELON_BIG', 'MELON_REG'], big: ['MELON_BIG'], reg: ['MELON_REG'] },
-  'チェリー':   { all: ['CHERRY', 'CHERRY_BIG', 'CHERRY_REG'], big: ['CHERRY_BIG'], reg: ['CHERRY_REG'] },
+  '単チェリー': { all: ['CHERRY_WEAK'], big: [], reg: [] },
+  '中段チェリー': { all: ['CHERRY_STRONG', 'CHERRY_BIG', 'CHERRY_REG'], big: ['CHERRY_BIG'], reg: ['CHERRY_REG'] },
+  '3連チェリー': { all: ['CHERRY_TRIPLE'], big: [], reg: [] },
   '1枚役':      { all: ['ONE_COIN', 'ONE_COIN_BIG'], big: ['ONE_COIN_BIG'], reg: [] },
   'リーチ目役': { all: ['RIICHI_BIG', 'RIICHI_REG'], big: ['RIICHI_BIG'], reg: ['RIICHI_REG'] },
 };

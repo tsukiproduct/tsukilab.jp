@@ -1,4 +1,8 @@
-# サイト用リポジトリへの同期（PowerShell）
+﻿# サイト用リポジトリへの同期（PowerShell）
+#
+# 【重要】このファイルは UTF-8 BOM 付きで保存すること。
+#   Windows PowerShell 5.1 は BOM の無いUTF-8をANSIとして読むため、
+#   日本語コメントが化けてパースエラーになる。
 #
 #   powershell -File tools/deploy_sync.ps1 -Dest <tsukilab.jp のクローン>
 #

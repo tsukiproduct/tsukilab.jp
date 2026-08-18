@@ -275,6 +275,16 @@ export const SE = {
     noise(.5,{gain:.06,hz:400,q:.5});
   },
 
+  /** 押し順ベルのこぼし（1枚）。空振り感のある鈍い音 */
+  miss(){ tone(220,.18,{type:'square',gain:.10,sweepTo:150}); },
+
+  /** 変則押しペナルティ。明確に「やってはいけない」と分かる警告音 */
+  penalty(){
+    tone(180,.22,{type:'sawtooth',gain:.14});
+    tone(140,.30,{type:'sawtooth',gain:.14,at:.20});
+    noise(.3,{gain:.06,hz:600,q:.6});
+  },
+
   /** 楽曲選択を開く */
   songOpen(){ tone(440,.12,{type:'square',gain:.10,sweepTo:880}); noise(.1,{gain:.05,hz:3000}); },
 
