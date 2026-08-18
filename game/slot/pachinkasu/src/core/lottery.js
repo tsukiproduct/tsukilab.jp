@@ -2,7 +2,7 @@
  * 抽選エンジン（仕様書 §5.1 / §5.2）
  * この層は純粋関数のみ。DOM・演出・音に一切依存しないこと（シミュレーターから直接呼ぶため）。
  */
-import { TABLE, DENOM, SUB_DENOM } from './tables.js';
+import { TABLE, DENOM, SUB_DENOM, SUB_TABLE, AT_UP_G } from './tables.js';
 
 /** 16bit一様乱数。Math.randomの下位ビット偏りを避けるためcryptoを使う */
 export function rnd16() {
@@ -47,4 +47,30 @@ export function payoutOf(flag, inAT = false) {
   if (flag.startsWith('CHERRY')) return { coins: 2, replay: false };
   if (flag.startsWith('ONE_COIN') || flag.startsWith('RIICHI')) return { coins: 1, replay: false };
   return { coins: 0, replay: false };
+}
+
+/** その役が「強スイカ」扱いか（弱スイカ以外のスイカ＝重複含む）。演出と上乗せの出し分けに使う */
+export const isStrongMelon = (f) => f.startsWith('MELON') && f !== 'MELON_WEAK';
+
+/**
+ * AT中のレア役上乗せ抽選（仕様書§8.2）
+ * スイカは当選しにくいぶん、当たれば大きい。強スイカは50G以上が確定する。
+ * @returns {number} 上乗せゲーム数（0=非当選）
+ */
+export function drawATUpgrade(flag) {
+  if (flag.startsWith('CHERRY')) {
+    return subLottery(SUB_TABLE.AT_UP_CHERRY) ? AT_UP_G.CHERRY : 0;
+  }
+  if (flag.startsWith('ONE_COIN')) {
+    return subLottery(SUB_TABLE.AT_UP_ONE_COIN) ? AT_UP_G.ONE_COIN : 0;
+  }
+  if (flag === 'MELON_WEAK') {
+    return subLottery(SUB_TABLE.AT_UP_MELON_WEAK) ? AT_UP_G.MELON_WEAK : 0;
+  }
+  if (isStrongMelon(flag)) {
+    if (!subLottery(SUB_TABLE.AT_UP_MELON_STRONG)) return 0;
+    const t = AT_UP_G.MELON_STRONG;
+    return t[rnd16() % t.length];
+  }
+  return 0;
 }

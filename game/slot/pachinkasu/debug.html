@@ -25,6 +25,14 @@
     <div id="nav"></div>
     <!-- ボーナス確定までの段階演出（カットイン→溜め→濃厚告知） -->
     <div id="reveal"><img id="revealCut" alt=""><div id="revealText"></div></div>
+    <!-- 楽曲切替ボタン（BIG中・AT中のみ表示） -->
+    <button id="songbtn" title="楽曲を切り替える">♪</button>
+    <!-- エンペラータイム（特化ゾーン） -->
+    <div id="emperor">
+      <div class="empttl">EMPEROR TIME</div>
+      <div class="empwin" id="empWin">BATTLE</div>
+      <div class="emptotal">＋<b id="empNum">0</b>G</div>
+    </div>
     <!-- AT終了3ゲーム前からのカウントダウン -->
     <div id="countdown"><b id="cdNum">3</b><span id="cdLabel">G</span></div>
     <!-- ボーナス／AT終了時のリザルト画面 -->
@@ -78,6 +86,25 @@
     <a class="guidelink" href="guide/">▶ 機種スペック・解析を見る</a>
     <!-- バージョン。中身は src/ui/version.js が入れる -->
     <div class="ver" id="ver"></div>
+  </div>
+
+
+  <!-- 楽曲選択（ペルソナ5風: 赤×黒×白・斜め・切り抜き文字） -->
+  <div class="overlay" id="songsel">
+    <div class="songttl"><span>SELECT</span><b>MUSIC</b></div>
+    <div class="songlist">
+      <button class="songcard" data-song="song1">
+        <span class="no">01</span>
+        <span class="tt">回胴式の魔法</span>
+        <span class="sb">KAIDOU-SHIKI NO MAHOU</span>
+      </button>
+      <button class="songcard" data-song="song2">
+        <span class="no">02</span>
+        <span class="tt">ひきよわヒーロー</span>
+        <span class="sb">HIKIYOWA HERO</span>
+      </button>
+    </div>
+    <button class="gbtn songskip" id="songskip">この曲で開始</button>
   </div>
 
   <div class="overlay" id="menuov">

@@ -16,7 +16,8 @@
 
 /** 強制できるフラグ一覧。tables.js の TABLE のキー順＋HAZURE */
 const FLAG_LABELS = {
-  REPLAY: 'リプレイ', BELL: 'ベル', MELON: 'スイカ', CHERRY: 'チェリー', ONE_COIN: '1枚役',
+  REPLAY: 'リプレイ', BELL: 'ベル',
+  MELON_WEAK: '弱スイカ', MELON_STRONG: '強スイカ', CHERRY: 'チェリー', ONE_COIN: '1枚役',
   CHERRY_BIG: 'チェリー+BIG', CHERRY_REG: 'チェリー+REG',
   MELON_BIG: 'スイカ+BIG', MELON_REG: 'スイカ+REG',
   ONE_COIN_BIG: '1枚役+BIG',
@@ -48,7 +49,8 @@ body.dbgOn #app{margin-left:270px;}
 `;
 
 export function initDebug(api) {
-  const { DBG, G, enterAT, updateLCD, seg, refreshData, SE, bonusRevealFx, showResult } = api;
+  const { DBG, G, enterAT, updateLCD, seg, refreshData, SE, bonusRevealFx, showResult,
+          runEmperor, openSongSelect, SONGS } = api;
 
   document.head.insertAdjacentHTML('beforeend', `<style>${CSS}</style>`);
   document.body.classList.add('dbgOn');
@@ -97,6 +99,11 @@ export function initDebug(api) {
       <button id="dbgResult">リザルト画面</button>
       <button id="dbgAt3">AT残り3Gに</button>
     </div>
+    <div class="dbgRow">
+      <button id="dbgEmperor">エンペラー実行</button>
+      <button id="dbgEmpForce">次のATで強制</button>
+      <button id="dbgSong">楽曲選択</button>
+    </div>
     <div class="dbgGrid" id="dbgSounds"></div>
     <p class="hint">確定演出はカットイン→溜め→濃厚の3段（演出速度に追従）</p>
 
@@ -136,6 +143,8 @@ export function initDebug(api) {
       `ボーナス: ${G.phase !== 'NORMAL' ? `${G.phase} ${G.bonusPaid}/${G.bonusTotal}枚 (${G.bonusGame}G)` : '-'}\n` +
       `ビタ成功: ${G.vitaHits}/3\n` +
       `強制    : ${forced}\n` +
+      `楽曲    : ${(SONGS.find((x) => x.key === G.song) || {}).title || '-'}
+` +
       `速度    : ${DBG.speed}x`;
   }
   DBG.onUpdate = refreshState;
@@ -193,6 +202,7 @@ export function initDebug(api) {
       at: false, atG: 0, atTotalG: 0, atRunG: 0,
       atStartDiff: 0, pendingAT: 0, freezeWon: false,
       bonusPaid: 0, bonusTotal: 0, bonusGame: 0, vitaHits: 0, vitaNow: false, vitaResult: null,
+      emperorWins: 0,
     });
     updateLCD(); seg(); refreshData(); refreshState();
   };
@@ -209,6 +219,17 @@ export function initDebug(api) {
     G.announced = true;
     updateLCD(); refreshState();
   };
+  $d('dbgEmperor').onclick = async () => {
+    SE.unlock();
+    const got = await runEmperor();
+    if (G.at) G.atG += got;
+    updateLCD(); refreshState();
+  };
+  $d('dbgEmpForce').onclick = (e) => {
+    DBG.forceEmperor = !DBG.forceEmperor;
+    e.target.classList.toggle('on', DBG.forceEmperor);
+  };
+  $d('dbgSong').onclick = () => { SE.unlock(); openSongSelect(false); };
   $d('dbgResult').onclick = () => {
     SE.unlock();
     showResult({ title: 'BIG BONUS 終了', num: 204,

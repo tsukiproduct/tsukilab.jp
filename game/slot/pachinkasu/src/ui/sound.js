@@ -93,6 +93,30 @@ export async function playFile(name, gain = 1){
   return true;
 }
 
+/* ===================== BGM =====================
+ * 映像を持たない場面（REGボーナス）用のループ再生。
+ * 映像がある場面（BIG中・AT中）は movies.js の動画側の音を鳴らすので、こちらは使わない。
+ * <audio> を使うのは、長い曲を AudioContext に全部デコードして載せると
+ * メモリを食ううえ、途中から始める・止めるが面倒なため。 */
+let bgmEl = null, bgmSrc = null;
+
+/** BGMを差し替える。null で停止。同じ曲なら何もしない */
+export function setBGM(file, volume = 0.75) {
+  if (file === bgmSrc) return;
+  bgmSrc = file;
+  if (!bgmEl) {
+    bgmEl = new Audio();
+    bgmEl.loop = true;
+    bgmEl.preload = 'none';
+  }
+  bgmEl.pause();
+  if (!file) { bgmEl.removeAttribute('src'); bgmEl.load(); return; }
+  bgmEl.src = FILE_DIR + file;
+  bgmEl.volume = volume;
+  bgmEl.currentTime = 0;
+  bgmEl.play().catch(() => {});   // 自動再生が弾かれても無音になるだけ
+}
+
 /** ボーナス入賞の確定音。ファイルが無ければ合成音にフォールバックする */
 const BONUS_SE = { BIG: 'se_big_start.mp3', REG: 'se_reg_start.mp3' };
 
@@ -215,6 +239,47 @@ export const SE = {
     tone(587,.5,{type:'triangle',gain:.10,at:.06});
     tone(784,.7,{type:'triangle',gain:.10,at:.12});
   },
+
+  /** AT中の上乗せ（通常）*/
+  upgrade(){
+    arp([784,988,1318],.05,.2,{type:'triangle',gain:.14});
+  },
+
+  /** AT中の大量上乗せ（強スイカの50G以上）。別格に聞こえるよう長く派手に */
+  bigUpgrade(){
+    arp([523,659,784,1046,1318,1568],.06,.45,{type:'square',gain:.15});
+    noise(.5,{gain:.09,hz:4600,q:.8});
+  },
+
+  /** エンペラータイム突入 */
+  emperorStart(){
+    tone(110,.9,{type:'sawtooth',gain:.15,sweepTo:880,attack:.08});
+    noise(.9,{gain:.08,hz:1800,q:.6});
+    arp([659,880,1318],.10,.5,{type:'square',gain:.14,at:.55});
+  },
+
+  /** エンペラータイムの1戦（溜め）*/
+  emperorBattle(){
+    tone(300,.35,{type:'sawtooth',gain:.11,sweepTo:600});
+  },
+
+  /** エンペラータイムの勝利。連勝数に応じて音程を上げていく */
+  emperorWin(streak){
+    const base = 784 * Math.pow(2, Math.min(streak, 12) / 12);
+    arp([base, base*1.26, base*1.5],.05,.22,{type:'square',gain:.15});
+  },
+
+  /** エンペラータイムの敗北 */
+  emperorLose(){
+    tone(330,.7,{type:'sawtooth',gain:.13,sweepTo:110});
+    noise(.5,{gain:.06,hz:400,q:.5});
+  },
+
+  /** 楽曲選択を開く */
+  songOpen(){ tone(440,.12,{type:'square',gain:.10,sweepTo:880}); noise(.1,{gain:.05,hz:3000}); },
+
+  /** 楽曲を選んだ */
+  songPick(){ arp([880,1318,1760],.04,.18,{type:'square',gain:.13}); },
 
   /** AT終了カウントダウン。remain=1（ラスト）だけ音を変えて緊張感を出す */
   countdown(remain){

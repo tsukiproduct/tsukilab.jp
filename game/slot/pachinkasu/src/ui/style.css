@@ -261,3 +261,77 @@ button:disabled{filter:grayscale(.8) brightness(.55);}
 
 .vitalabel{font-weight:900;color:var(--yellow);text-shadow:0 0 8px var(--orange);}
 .overlay .ttl{color:var(--yellow);font-weight:900;}
+
+/* ================= 楽曲選択（ペルソナ5風） =================
+   赤×黒×白の3色だけ、斜めに振ったパネル、切り抜きの太字。
+   ゲーム本体のレトロ4号機トーン（docs/STYLE.md）とは意図的に別世界にしている。
+   ここだけ現代的なグラフィックにすることで「液晶の中のUI」として浮かせる狙い。 */
+#songsel{display:none;background:#0a0000;overflow:hidden;gap:0;padding:0;}
+#songsel.on{display:flex;flex-direction:column;justify-content:center;align-items:center;}
+/* 背景の斜めストライプ。動かして落ち着かない感じを出す */
+#songsel::before{content:"";position:absolute;inset:-30%;pointer-events:none;
+ background:repeating-linear-gradient(115deg,#e60012 0 6px,#0a0000 6px 26px);
+ opacity:.22;animation:p5flow 9s linear infinite;}
+@keyframes p5flow{to{transform:translate(-26px,56px)}}
+#songsel::after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(ellipse at 50% 45%,transparent 35%,rgba(10,0,0,.92) 100%);}
+
+.songttl{position:relative;z-index:2;transform:skewY(-4deg);margin-bottom:5%;text-align:center;}
+.songttl span{display:block;font-size:min(3.4vw,1.7vh);letter-spacing:.5em;color:#fff;
+ background:#e60012;padding:.25em .2em .25em .7em;transform:skewX(-12deg);}
+.songttl b{display:block;font-family:"Impact","Arial Black","Yu Gothic",sans-serif;
+ font-size:min(13vw,6.5vh);color:#fff;letter-spacing:.02em;line-height:1;margin-top:.12em;
+ -webkit-text-stroke:2px #e60012;transform:skewX(-8deg);}
+
+.songlist{position:relative;z-index:2;display:flex;flex-direction:column;gap:3.5%;width:88%;}
+/* カード。既定は白地・黒文字、選択中は赤地・白文字で反転させる */
+.songcard{position:relative;display:block;width:100%;text-align:left;cursor:pointer;
+ background:#fff;color:#0a0000;border:none;padding:3.2% 5% 3.2% 17%;
+ transform:skewX(-9deg);transition:transform .14s,background .14s,color .14s;
+ box-shadow:6px 6px 0 #e60012;}
+.songcard:nth-child(2){transform:skewX(-9deg) translateX(4%);}
+.songcard:hover{transform:skewX(-9deg) translateX(2%) scale(1.02);}
+.songcard:nth-child(2):hover{transform:skewX(-9deg) translateX(6%) scale(1.02);}
+.songcard .no{position:absolute;left:3%;top:50%;transform:translateY(-50%) skewX(9deg);
+ font-family:"Impact","Arial Black",sans-serif;font-size:min(10vw,5vh);color:#e60012;line-height:1;}
+.songcard .tt{display:block;transform:skewX(9deg);font-weight:900;
+ font-size:min(5.6vw,2.8vh);letter-spacing:.02em;line-height:1.2;}
+.songcard .sb{display:block;transform:skewX(9deg);font-size:min(2.6vw,1.3vh);
+ letter-spacing:.22em;opacity:.6;margin-top:.3em;}
+.songcard.sel{background:#e60012;color:#fff;box-shadow:6px 6px 0 #fff;}
+.songcard.sel .no{color:#fff;}
+.songcard.sel::after{content:"NOW PLAYING";position:absolute;right:4%;top:50%;
+ transform:translateY(-50%) skewX(9deg);font-size:min(2.4vw,1.2vh);letter-spacing:.2em;
+ background:#fff;color:#e60012;padding:.2em .6em;font-weight:900;}
+.songskip{position:relative;z-index:2;margin-top:6%;background:#fff;color:#0a0000;
+ border:2px solid #e60012;box-shadow:5px 5px 0 #e60012;transform:skewX(-9deg);}
+
+/* 楽曲切替ボタン（液晶の左下） */
+#songbtn{position:absolute;left:8px;bottom:8px;z-index:7;display:none;
+ width:34px;height:34px;border-radius:50%;border:2px solid #e60012;
+ background:rgba(10,0,0,.8);color:#fff;font-size:17px;line-height:1;cursor:pointer;
+ box-shadow:0 0 12px rgba(230,0,18,.6);}
+#songbtn.on{display:block;}
+#songbtn:hover{background:#e60012;}
+
+/* ================= エンペラータイム =================
+   特化ゾーン。1戦ずつ勝敗を見せて上乗せする */
+#emperor{position:absolute;inset:0;display:none;z-index:8;overflow:hidden;
+ flex-direction:column;justify-content:center;align-items:center;gap:3%;
+ background:radial-gradient(circle at 50% 40%,rgba(60,0,0,.86),rgba(0,0,0,.96));}
+#emperor.on{display:flex;}
+#emperor::before{content:"";position:absolute;inset:-40%;pointer-events:none;
+ background:repeating-conic-gradient(from 0deg,rgba(255,215,0,.10) 0 6deg,transparent 6deg 12deg);
+ animation:empSpin 6s linear infinite;}
+@keyframes empSpin{to{transform:rotate(360deg)}}
+.empttl{position:relative;z-index:2;font-family:"Impact","Arial Black",sans-serif;
+ font-size:min(8vw,4vh);letter-spacing:.16em;color:var(--yellow);
+ text-shadow:0 0 4px #000,0 0 22px var(--orange);}
+.empwin{position:relative;z-index:2;font-weight:900;font-size:min(11vw,5.5vh);
+ color:#fff;text-shadow:0 0 4px #000,0 3px 5px #000;letter-spacing:.04em;}
+.empwin.win{color:var(--yellow);animation:empPop .3s;text-shadow:0 0 4px #000,0 0 26px var(--orange);}
+.empwin.lose{color:#888;}
+@keyframes empPop{from{transform:scale(2);opacity:0}to{transform:scale(1);opacity:1}}
+.emptotal{position:relative;z-index:2;font-size:min(4.4vw,2.2vh);color:#fff;letter-spacing:.1em;}
+.emptotal b{font-family:"Impact","Arial Black",sans-serif;font-size:min(11vw,5.5vh);
+ color:var(--yellow);margin:0 .1em;text-shadow:0 0 4px #000,0 0 20px var(--orange);}

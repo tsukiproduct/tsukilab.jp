@@ -3,16 +3,25 @@
  * 純粋関数のみ。DOM・演出・音に依存しないこと（テスト・シミュレーターから直接呼ぶため）。
  *
  * 方式:
- *   - レバーオン時に makePlan() で停止プラン（各リールの狙い）を決定
+ *   - レバーオン時に makePlan() で停止プラン（狙うライン＋各リールの狙い）を決定
  *   - 停止操作ごとに controlStop() が「押下位置から最大4コマすべり」の範囲で停止位置を返す
  *   - 現状はオートビタ（入賞目標はすべり上限を超えて全周引き込み = assist）。
  *     手動目押しモードを実装するときは assist を切り、届かない場合の「こぼし」を実装すること
  *
+ * 有効ラインは5本（中段・上段・下段・右下がり・右上がり）。
+ *
+ * 【重要】払い出しは「成立役に対して1回」であり、ラインごとには発生しない。
+ *   5ラインは出目の表現（弱スイカ＝斜め／強スイカ＝中段、リーチ目の多様化）に使う。
+ *   実機はライン毎に払い出すが、そこを合わせるとテーブルのカウント値を全面的に
+ *   下げ直す必要があり、機械割の調整が5ライン化と混ざって追えなくなる。
+ *   払い出し口は payoutOf() ただ一つに保つこと。
+ *
  * リーチ目の設計（A+AT機の肝）:
- *   通常時ハズレ(SAFE)では左リール中段に 7 / BAR / チェリー を絶対に停止させない。
- *   したがって「左中段に 7 or BAR が停止し、かつ何も入賞していない出目」は
+ *   通常時ハズレ(SAFE)では左リールの上中下いずれにも 7 / BAR を停止させない。
+ *   したがって「左リールに 7 or BAR が見えていて、かつ何も入賞していない出目」は
  *   ボーナス成立ゲーム(REACH)でしか出現しない = リーチ目。
- *   （左7/BAR × 中バラケ × 右バラケ の組合せで数十〜数百通りが自然発生する）
+ *   1ライン時代は「左中段のみ」の禁止で足りたが、5ラインでは上段・下段も
+ *   有効ラインに乗るため、3段すべてを禁止しないとリーチ目が日常的に出てしまう。
  */
 
 /** リール配列（21コマ×3）。UI もここから参照する（重複定義禁止） */
@@ -33,9 +42,22 @@ export const SLIP_MAX = 4;
    push + s にすると押した瞬間にリールが逆戻りして見えるので変更しないこと。 */
 
 /**
- * 入賞ライン（中段1ライン）で「揃ってよい形」の全リスト。
- * ここに無い並びはすべて「出目」であり、payout は発生しない。
- * ハズレ制御はこのリストの完成形・テンパイ形の両方を回避する。
+ * 有効ライン。rows[reel] = 0:上段 / 1:中段 / 2:下段
+ * 停止インデックス idx のリールは row r に STRIP[idx + r - 1] を表示する
+ * （中段=idx、上段=idx-1、下段=idx+1。main.js の drawReel と同じ並び）
+ */
+export const LINES = [
+  { key: "mid",    name: "中段",     rows: [1, 1, 1] },
+  { key: "top",    name: "上段",     rows: [0, 0, 0] },
+  { key: "bottom", name: "下段",     rows: [2, 2, 2] },
+  { key: "down",   name: "右下がり", rows: [0, 1, 2] },
+  { key: "up",     name: "右上がり", rows: [2, 1, 0] },
+];
+export const LINE_MID = 0, LINE_DOWN = 3, LINE_UP = 4;
+
+/**
+ * 「揃ってよい形」の全リスト。ここに無い並びはすべて出目であり payout は発生しない。
+ * ハズレ制御は全5ラインについて、この完成形・テンパイ形の両方を回避する。
  */
 export const WIN_PATTERNS = [
   ["replay", "replay", "replay"],
@@ -48,8 +70,10 @@ export const WIN_PATTERNS = [
   ["bar", "bar", "bar"],      // REG
 ];
 
-/** 通常時ハズレで左中段に置いてはならない図柄（リーチ目・チェリー誤認の防止） */
-const LEFT_BAN = ["red7", "blue7", "bar", "cherry"];
+/** 通常時ハズレで左リールの「どの段にも」出してはならない図柄（リーチ目の防止） */
+const LEFT_BAN_ALL = ["red7", "blue7", "bar"];
+/** 左リール中段のみ禁止（チェリーは左中段だけが有効＝角チェリーは無効） */
+const LEFT_BAN_MID = ["cherry"];
 
 /** ボーナス絵柄（リーチ目の左停止候補） */
 const BONUS_SYMS = ["red7", "blue7", "bar"];
@@ -57,48 +81,190 @@ const BONUS_SYMS = ["red7", "blue7", "bar"];
 const norm = (p) => ((p % REEL_LEN) + REEL_LEN) % REEL_LEN;
 const symAt = (reel, pos) => STRIP[reel][norm(pos)];
 
+/** 停止インデックス idx のリール reel が row に表示する図柄 */
+export const symAtRow = (reel, idx, row) => symAt(reel, idx + row - 1);
+
+/** 停止インデックス配列から見える3x3。grid[reel][row]（未停止は null） */
+export function gridOf(stops) {
+  return [0, 1, 2].map((i) =>
+    stops[i] == null ? [null, null, null] : [0, 1, 2].map((r) => symAtRow(i, stops[i], r))
+  );
+}
+
+/** ライン li に並んだ3図柄 */
+export function lineSyms(grid, li) {
+  const rows = LINES[li].rows;
+  return [0, 1, 2].map((i) => grid[i][rows[i]]);
+}
+
+/** そのラインが入賞形か */
+const isWinLine = (syms) =>
+  WIN_PATTERNS.some((p) => [0, 1, 2].every((i) => syms[i] === p[i]));
+
+/** 入賞しているライン番号の一覧（演出・テスト用） */
+export function winningLines(stops) {
+  const g = gridOf(stops);
+  const out = [];
+  for (let li = 0; li < LINES.length; li++) if (isWinLine(lineSyms(g, li))) out.push(li);
+  return out;
+}
+
 /**
  * 停止プランの決定（レバーオン時に1回呼ぶ）
  * @param {string} flag   成立フラグ
  * @param {object} opt
  * @param {boolean} opt.justWon  このゲームでボーナスが「成立」したか（持ち越し初日）
  * @param {?string} opt.align    'BIG'|'REG' なら入賞ゲーム（内部中×ハズレ）
- * @returns {{mode:string, targets:Array<{want?:string[], avoid?:string[]}>}}
+ * @returns {{mode:string, line:number, targets:Array<object>}}
  *   mode: WIN=入賞 / ALIGN=ボーナス入賞 / REACH=リーチ目 / SAFE=通常ハズレ出目
+ *   line: 揃えるライン番号（SAFEでは未使用）
  */
 export function makePlan(flag, { justWon = false, align = null } = {}) {
-  const W = (...syms) => ({ want: syms });
-  const A = (...syms) => ({ avoid: syms });
+  /** 指定ラインに want を止めるプランを組む */
+  const plan = (mode, line, wants) => ({
+    mode, line,
+    targets: wants.map((w, i) => ({ want: w, row: LINES[line].rows[i] })),
+  });
 
   if (align) {
-    return align === "BIG"
-      ? { mode: "ALIGN", targets: [W("red7"), W("red7"), W("red7")] }
-      : { mode: "ALIGN", targets: [W("bar"), W("bar"), W("bar")] };
+    const s = align === "BIG" ? "red7" : "bar";
+    return plan("ALIGN", LINE_MID, [[s], [s], [s]]);
   }
-  if (flag === "REPLAY") return { mode: "WIN", targets: [W("replay"), W("replay"), W("replay")] };
-  if (flag.startsWith("BELL")) return { mode: "WIN", targets: [W("bell"), W("bell"), W("bell")] };
-  if (flag.startsWith("MELON")) return { mode: "WIN", targets: [W("melon"), W("melon"), W("melon")] };
-  if (flag.startsWith("CHERRY")) return { mode: "WIN", targets: [W("cherry"), A(), A()] };
-  if (flag.startsWith("ONE_COIN")) return { mode: "WIN", targets: [W("star"), W("star"), W("bar")] };
-  if (flag.startsWith("RIICHI")) return { mode: "WIN", targets: [W("star"), W("star"), W("star")] };
+  if (flag === "REPLAY") return plan("WIN", LINE_MID, [["replay"], ["replay"], ["replay"]]);
+  if (flag.startsWith("BELL")) return plan("WIN", LINE_MID, [["bell"], ["bell"], ["bell"]]);
+
+  /* ---- スイカの強弱は「揃うライン」で見せる ----
+     弱スイカ = 右下がり（斜め） / 強スイカ = 中段揃い。払い出しはどちらも15枚。
+     ボーナスとの重複（MELON_BIG / MELON_REG）は強スイカ扱いにして期待度を上げる。 */
+  if (flag === "MELON_WEAK") return plan("WIN", LINE_DOWN, [["melon"], ["melon"], ["melon"]]);
+  if (flag.startsWith("MELON")) return plan("WIN", LINE_MID, [["melon"], ["melon"], ["melon"]]);
+
+  // チェリーは左リール中段のみ有効（角チェリーは無効）
+  if (flag.startsWith("CHERRY")) {
+    return { mode: "WIN", line: LINE_MID,
+      targets: [{ want: ["cherry"], row: 1 }, { avoid: [] }, { avoid: [] }] };
+  }
+  if (flag.startsWith("ONE_COIN")) return plan("WIN", LINE_MID, [["star"], ["star"], ["bar"]]);
+  if (flag.startsWith("RIICHI")) return plan("WIN", LINE_MID, [["star"], ["star"], ["star"]]);
   if (flag.startsWith("SOLO") && justWon) {
-    // 単独ボーナス成立ゲーム: リーチ目を出す（左に7/BAR + 非入賞形）
-    return { mode: "REACH", targets: [W(...BONUS_SYMS), A(), A()] };
+    // 単独ボーナス成立ゲーム: リーチ目を出す（左中段に7/BAR + 非入賞形）
+    /* noWin: 引き込みはするが入賞形は作らせない。
+       左リールが最後に止まる押し順だと、7/BARを引き込んだ結果その場でボーナスが
+       揃ってしまう（リーチ目のつもりが入賞）。それを防ぐための指定。 */
+    return { mode: "REACH", line: LINE_MID,
+      targets: [{ want: BONUS_SYMS, row: 1, noWin: true }, { avoid: [] }, { avoid: [] }] };
   }
   // 通常時ハズレ / 内部中の小役なしゲームの前段
-  return { mode: "SAFE", targets: [A(...LEFT_BAN), A(), A()] };
+  return { mode: "SAFE", line: LINE_MID,
+    targets: [{ avoid: [], leftSafe: true }, { avoid: [] }, { avoid: [] }] };
 }
 
+/* ハズレ制御の優先順位について:
+   1ライン時代は「入賞もテンパイも起こさない」を同じ強さで課していたが、
+   5ラインでは2リール停止の時点でどれかのラインがテンパイするのが普通で、
+   両方を4コマ以内で満たせる位置が無くなり、結果として入賞を許してしまう。
+   そこで
+     絶対条件: どのラインも入賞させない（払い出しの整合性）
+     努力目標: 生きたテンパイを作らない（ガセテンパイを減らす）
+   の2段階にしている。リーチ目の一意性は左リールの 7/BAR 禁止だけで担保できるので、
+   テンパイを許容しても「リーチ目がハズレで出る」ことは起きない。 */
+
+/** その停止位置でいずれかのラインが入賞してしまうか（3リール揃ったときのみ成立し得る） */
+function completesWin(reel, idx, stops) {
+  const st = [...stops];
+  st[reel] = idx;
+  if (st.some((x) => x == null)) return false;
+  const g = gridOf(st);
+  for (let li = 0; li < LINES.length; li++) if (isWinLine(lineSyms(g, li))) return true;
+  return false;
+}
+
+/** その停止位置でいずれかのラインが「まだ入賞に到達し得る」形になるか（生きたテンパイ） */
+function makesLiveTempai(reel, idx, stops) {
+  const st = [...stops];
+  st[reel] = idx;
+  if (st.filter((x) => x != null).length < 2) return false;
+  const g = gridOf(st);
+  for (let li = 0; li < LINES.length; li++) {
+    const syms = lineSyms(g, li);
+    if (WIN_PATTERNS.some((p) => [0, 1, 2].every((i) => syms[i] == null || syms[i] === p[i]))) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/* ================= 詰み回避の先読み =================
+   制御は押された順に貪欲に決めるので、1停目・2停目を目先の都合だけで止めると、
+   最後のリールがどこに止めても入賞してしまう窓に追い込まれることがある。
+   実測では
+     - ハズレで左リールが最後に来る押し順（中→右→左 / 右→中→左）
+     - リーチ目で中リールが最後に来る押し順（右→左→中）
+   が詰んで、ベルやリプレイが勝手に揃っていた。
+
+   そこで「この位置に止めたあと、残りのリールを"全押下位置・全停止順"で
+   入賞させずに止め切れるか」を再帰で確かめる。実機の制御テーブルが
+   押し順ごとの停止位置を持っているのと同じ役割。
+   状態数は高々 3×21 + 3×21×21 なのでメモ化すれば一度きりのコストで済む。 */
+
+/** その押下位置から届く停止位置の候補（引き込みは全周＝オートビタ前提） */
+function candidatesFor(reel, push, t) {
+  const out = [];
+  if (t.want) {
+    for (let s = 0; s < REEL_LEN; s++) {
+      const idx = norm(push - s);
+      if (t.want.includes(symAtRow(reel, idx, t.row))) out.push(idx);
+    }
+  } else {
+    for (let s = 0; s <= SLIP_MAX; s++) {
+      const idx = norm(push - s);
+      if (t.leftSafe && !leftSafeOk(idx)) continue;
+      out.push(idx);
+    }
+  }
+  return out;
+}
+
+const feasCache = new Map();
+
 /**
- * 候補図柄を置いたとき「入賞形」または「入賞形への生きたテンパイ」になるか。
- * 2リール以上確定した時点からチェックする（第1停止は自由）。
+ * 残りのリールを、どの押下位置・どの停止順で来られても入賞させずに止め切れるか。
+ * 入賞を「させたい」WIN/ALIGN では使わない（noWinPlan() で判定）。
  */
-function makesWinShape(reel, sym, stoppedMids) {
-  const mids = [...stoppedMids];
-  mids[reel] = sym;
-  if (mids.filter(Boolean).length < 2) return false;
-  // 確定済みの図柄がすべてパターンと一致するなら、その形は入賞に到達し得る
-  return WIN_PATTERNS.some((p) => [0, 1, 2].every((i) => !mids[i] || mids[i] === p[i]));
+function feasible(stops, plan) {
+  const rem = [0, 1, 2].filter((i) => stops[i] == null);
+  if (rem.length === 0) return true;
+  const key = plan.mode + '|' + stops.join(',');
+  const hit = feasCache.get(key);
+  if (hit !== undefined) return hit;
+
+  let ok = true;
+  for (const r of rem) {           // プレイヤーが次にどのリールを押しても
+    const t = plan.targets[r];
+    let allPushOk = true;
+    for (let push = 0; push < REEL_LEN && allPushOk; push++) {   // どの位置で押しても
+      let found = false;
+      for (const idx of candidatesFor(r, push, t)) {
+        if (completesWin(r, idx, stops)) continue;
+        const st = [...stops]; st[r] = idx;
+        if (!feasible(st, plan)) continue;
+        found = true; break;
+      }
+      if (!found) allPushOk = false;
+    }
+    if (!allPushOk) { ok = false; break; }
+  }
+  feasCache.set(key, ok);
+  return ok;
+}
+
+/** 入賞を作ってはいけないプランか（ハズレ・リーチ目） */
+const noWinPlan = (plan) => plan.mode === 'SAFE' || plan.mode === 'REACH';
+
+/** 通常時ハズレの左リール制約を満たすか */
+function leftSafeOk(idx) {
+  for (let r = 0; r < 3; r++) if (LEFT_BAN_ALL.includes(symAtRow(0, idx, r))) return false;
+  return !LEFT_BAN_MID.includes(symAtRow(0, idx, 1));
 }
 
 /**
@@ -106,44 +272,71 @@ function makesWinShape(reel, sym, stoppedMids) {
  * @param {number} reel        0-2
  * @param {number} push        押下位置（この位置の図柄が「今中段にある」状態で押した）
  * @param {object} plan        makePlan() の戻り値
- * @param {Array<?string>} stoppedMids 停止済みリールの中段図柄（未停止は null）
+ * @param {Array<?number>} stops 停止済みリールの停止インデックス（未停止は null）
  * @param {boolean} assist     true=オートビタ（4コマを超えて引き込む）
- * @returns {number} 中段に停止させる配列インデックス
+ * @returns {number} 中段に来る配列インデックス
  */
-export function controlStop(reel, push, plan, stoppedMids = [null, null, null], assist = true) {
+export function controlStop(reel, push, plan, stops = [null, null, null], assist = true) {
   const t = plan.targets[reel];
 
   if (t.want) {
-    // 引き込み: リプレイ＞小役＞ボーナス の優先はフラグ決定時点で1目標に解決済み
-    for (let s = 0; s <= SLIP_MAX; s++) {
-      if (t.want.includes(symAt(reel, push - s))) return norm(push - s);
-    }
-    if (assist) {
-      // オートビタ: 全周から最短の目標を探す（手動目押し実装時はここを通さず「こぼし」に）
-      for (let s = SLIP_MAX + 1; s < REEL_LEN; s++) {
-        if (t.want.includes(symAt(reel, push - s))) return norm(push - s);
+    const row = t.row;
+    const hit = (idx) => t.want.includes(symAtRow(reel, idx, row));
+    const last = assist ? REEL_LEN : SLIP_MAX + 1;
+    if (noWinPlan(plan)) {
+      // リーチ目の左リール: 引き込むが入賞はさせない。さらに残りが詰まない位置を選ぶ
+      for (let s = 0; s < last; s++) {
+        const idx = norm(push - s);
+        if (!hit(idx) || completesWin(reel, idx, stops)) continue;
+        const st = [...stops]; st[reel] = idx;
+        if (feasible(st, plan)) return idx;
+      }
+      for (let s = 0; s < last; s++) {
+        const idx = norm(push - s);
+        if (hit(idx) && !completesWin(reel, idx, stops)) return idx;
       }
     }
+    for (let s = 0; s < last; s++) if (hit(push - s)) return norm(push - s);
     return norm(push); // 目標が配列に存在しない場合のみ（設計上起きない）
   }
 
-  // 回避モード: 4コマ以内で 禁止図柄・入賞形・テンパイ を避ける
+  // 回避モード。上の優先順位に従って段階的に探す
+  const leftOk = (idx) => !t.leftSafe || leftSafeOk(idx);
+  const base = (idx) => leftOk(idx) && !completesWin(reel, idx, stops);
+  const escapes = (idx) => {
+    const st = [...stops]; st[reel] = idx;
+    return feasible(st, plan);
+  };
+  // 1) 入賞なし・テンパイなし・残りが詰まない（いちばん綺麗な出目）
   for (let s = 0; s <= SLIP_MAX; s++) {
-    const sym = symAt(reel, push - s);
-    if (t.avoid.includes(sym)) continue;
-    if (makesWinShape(reel, sym, stoppedMids)) continue;
-    return norm(push - s);
+    const idx = push - s;
+    if (base(idx) && !makesLiveTempai(reel, idx, stops) && escapes(idx)) return norm(idx);
   }
-  // 完全回避が不可能な窓（配列上ほぼ無い）: 禁止図柄の回避だけは死守する
+  // 2) テンパイは許容。詰まないことだけは守る
   for (let s = 0; s <= SLIP_MAX; s++) {
-    const sym = symAt(reel, push - s);
-    if (!t.avoid.includes(sym)) return norm(push - s);
+    const idx = push - s;
+    if (base(idx) && escapes(idx)) return norm(idx);
+  }
+  // 3) 先読みも諦める。入賞だけは絶対に避ける
+  for (let s = 0; s <= SLIP_MAX; s++) {
+    const idx = push - s;
+    if (base(idx)) return norm(idx);
+  }
+  // 4) ここに来るのは設計上ありえない（tests/reel.js が総当たりで担保している）。
+  //    最後の砦として左リール制約＝リーチ目の防止だけは死守する
+  if (t.leftSafe) {
+    for (let s = 0; s <= SLIP_MAX; s++) if (leftSafeOk(push - s)) return norm(push - s);
   }
   return norm(push);
 }
 
-/** 出目がリーチ目か（左中段7/BAR かつ 非入賞形）。演出・デバッグ用 */
-export function isReachMoku(mids) {
-  if (!BONUS_SYMS.includes(mids[0])) return false;
-  return !WIN_PATTERNS.some((p) => [0, 1, 2].every((i) => mids[i] === p[i]));
+/**
+ * 出目がリーチ目か（左リールのいずれかの段に7/BAR、かつ全ライン非入賞）。演出・デバッグ用
+ * @param {Array<?number>} stops 3リールの停止インデックス
+ */
+export function isReachMoku(stops) {
+  if (stops.some((s) => s == null)) return false;
+  const g = gridOf(stops);
+  if (![0, 1, 2].some((r) => BONUS_SYMS.includes(g[0][r]))) return false;
+  return winningLines(stops).length === 0;
 }

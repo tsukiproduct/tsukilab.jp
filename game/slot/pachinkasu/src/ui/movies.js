@@ -20,8 +20,9 @@ export const MOVIES = {
   renzoku_b_lose:"mv_renzoku_b_lose",  // 連続演出B 失敗
   big:           "mv_big_kakutei",     // BIG確定
   reg:           "mv_reg_kakutei",     // REG確定
-  big_loop:      "mv_big_loop",        // BIG消化中の背景ループ（音アリで流す）
-  reg_loop:      "mv_reg_loop",        // REG消化中の背景ループ
+  song1:         "mv_song1",           // 楽曲1「回胴式の魔法」BIG中・AT中
+  song2:         "mv_song2",           // 楽曲2「ひきよわヒーロー」BIG中・AT中
+  reg_loop:      "mv_reg_loop",        // REG消化中の背景ループ（未配置ならBGMのみ）
   freeze:        "mv_freeze",          // フリーズ（プレミア）
   at_start:      "mv_at_start",        // AT突入
   at_loop_a:     "mv_at_loop_a",       // AT中背景ループ（前半）

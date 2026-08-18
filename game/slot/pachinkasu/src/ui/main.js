@@ -4,11 +4,13 @@
  *
  * TODO(next): Game層の分離（src/game/stateMachine.js / atManager.js へ切り出し）
  */
-import { TABLE, DENOM, probabilities, assertTables, SUB_TABLE } from '../core/tables.js';
-import { drawFlag, rnd16, subLottery, isBigFlag, isRegFlag, isBonusFlag, payoutOf } from '../core/lottery.js';
-import { STRIP, REEL_LEN, makePlan, controlStop, isReachMoku } from '../core/reelControl.js';
+import { TABLE, DENOM, probabilities, assertTables, SUB_TABLE,
+         AT_INIT_G, EMPEROR_UP_G } from '../core/tables.js';
+import { drawFlag, rnd16, subLottery, isBigFlag, isRegFlag, isBonusFlag, payoutOf,
+         drawATUpgrade, isStrongMelon } from '../core/lottery.js';
+import { STRIP, REEL_LEN, LINES, makePlan, controlStop, isReachMoku, winningLines } from '../core/reelControl.js';
 import { playMovie, setLoopMovie, hasMovie } from './movies.js';
-import { SE } from './sound.js';
+import { SE, setBGM } from './sound.js';
 import { VERSION_LABEL } from './version.js';
 
 assertTables();
@@ -25,6 +27,7 @@ export const DBG = {
   keepForce: false,   // true なら毎ゲーム forceFlag を適用し続ける
   forceFreeze: false, // 次のBIGでフリーズを強制
   forceATonBonus: false, // 次のボーナス終了時にAT当選を強制
+  forceEmperor: false,   // 次のAT突入でエンペラータイムを強制
   speed: 1,           // 演出速度の倍率（1=通常、大きいほど速い）
   onUpdate: null,     // (G)=>void 1ゲーム終わるごとに呼ばれる（デバッグ表示の更新用）
 };
@@ -78,16 +81,16 @@ function stopReel(i){
     // 成功なら赤7をきっちり中段へ、失敗は押した位置のまま止める
     const midIdx = G.vitaResult ? VITA_TARGET : pressed;
     drawReel(i, midIdx, G.vitaResult);
-    G.mids[i] = STRIP[i][midIdx];
+    G.stops[i] = midIdx;
     hideVitaTarget();
     if(G.vitaResult){ nav("ビタ成功!! AT+10G",1600); flash('flash-w'); SE.vitaOk(); }
     else { nav("失敗… AT+2G",1600); SE.vitaNg(); }
     DBG.onUpdate?.(G);   // デバッグ表示を即時反映（ポーリング待ちだと判定結果が遅れて見える）
     return;
   }
-  const midIdx = controlStop(i, r.idx, G.plan, G.mids);
+  const midIdx = controlStop(i, r.idx, G.plan, G.stops);
   drawReel(i, midIdx);
-  G.mids[i] = STRIP[i][midIdx];
+  G.stops[i] = midIdx;
 }
 [0,1,2].forEach(i=>drawReel(i, i*4));
 
@@ -95,7 +98,7 @@ function stopReel(i){
 const G = {
   setting: 1, phase: "NORMAL", credit: 1000, diff: 0, games: 0,
   bigC: 0, regC: 0, carry: null, flag: null,
-  plan: null, mids: [null,null,null], align: null,
+  plan: null, stops: [null,null,null], align: null,
   stopsLeft: 0, replayNext: false,
   at: false, atG: 0, atTotalG: 0, atRunG: 0, atStartDiff: 0,
   pendingAT: 0, freezeWon: false,
@@ -106,6 +109,8 @@ const G = {
   vitaHits: 0,      // ビタ押し成功回数（0〜3）
   vitaNow: false,   // 今のゲームがビタ押しチャレンジか
   vitaResult: null, // 直近のビタ判定（true=成功 / false=失敗 / null=未判定）
+  song: null,       // 選択中の楽曲キー（起動時に localStorage から復元）
+  emperorWins: 0,   // エンペラータイムの連勝数（演出用）
   justWon: false,   // このゲームでボーナスに当選したか（告知抽選の重み分けに使う）
   announced: false, // 内部中のボーナスを告知済みか（告知後は「7を狙え」に切り替わる）
   busy: false,
@@ -137,7 +142,7 @@ function showAnn(k, ms=1600){ return new Promise(res=>{ const a=$('announce'); a
  */
 async function showBonusScreen(kind){
   const a=$('announce');
-  if(await hasMovie(kind==="BIG" ? 'big_loop' : 'reg_loop')){
+  if(await hasMovie(kind==="BIG" ? G.song : 'reg_loop')){
     a.style.display='none';       // 静止画は動画を隠してしまうので出さない
   } else {
     a.src=img(kind==="BIG"?'an_big':'an_regb'); a.style.display='block';
@@ -149,6 +154,29 @@ function drawBonusCount(){
   $('bonusNum').textContent = G.bonusPaid;
   const c=$('bonusCount'); c.classList.remove('pulse'); void c.offsetWidth; c.classList.add('pulse');
 }
+/**
+ * 入賞したラインのコマを光らせる。
+ * 1ライン時代は中段だけ光らせればよかったが、5ラインでは斜めにも揃うので
+ * winningLines() が返したラインのセルだけを指定して光らせる。
+ */
+function highlightWin(stops, ms=700){
+  const lines = winningLines(stops);
+  if(!lines.length) return;
+  const cells = [];
+  for(const li of lines){
+    LINES[li].rows.forEach((row, reel) => {
+      const c = reels[reel].cells[row].parentElement;   // img -> .cell
+      if(!cells.includes(c)) cells.push(c);
+    });
+  }
+  // 揃った図柄だけ発光版の画像に差し替える
+  for(const li of lines) LINES[li].rows.forEach((row, reel) => {
+    if(row === 1) drawReel(reel, stops[reel], true);
+  });
+  cells.forEach(c => c.classList.add('winline'));
+  setTimeout(() => cells.forEach(c => c.classList.remove('winline')), ms);
+}
+
 function nav(t,ms=1400){ $('nav').textContent=t; if(ms) setTimeout(()=>{ if($('nav').textContent===t) $('nav').textContent=''; }, ms); }
 function updateLCD(){
   if(G.phase==="BIG"){ setBG('bg_big'); badge("BIG BONUS"); }
@@ -160,21 +188,74 @@ function updateLCD(){
   else { setBG(G.games%97>80 ? 'bg_st_b':'bg_st_a'); badge("通常"); }
   $('atinfo').style.display = G.at ? 'block':'none'; $('atg').textContent = G.atG;
   // 背景ループ動画（あれば）。ボーナス中 > AT中 の優先度。音アリで流す（曲を聴かせるため）
-  if(G.phase==="BIG")      setLoopMovie('big_loop', true);
-  else if(G.phase==="REG") setLoopMovie('reg_loop', true);
-  else if(G.at)            setATLoop();
-  else                     setLoopMovie(null);
+  // BIG中・AT中は選択した楽曲のMV（音アリ）。REGは映像を持たないのでBGMだけ鳴らす
+  if(G.phase==="BIG" || (G.at && G.phase==="NORMAL")) setLoopMovie(G.song, true);
+  else if(G.phase==="REG") setLoopMovie('reg_loop', false);
+  else setLoopMovie(null);
+  setBGM(G.phase==="REG" ? 'bgm_reg.mp3' : null);
+  // 楽曲切替ボタンはBIG中とAT中だけ出す
+  $('songbtn').classList.toggle('on', G.phase==="BIG" || G.at);
   // 下パネル: AT・ボーナス中は発光版
   $('panel').classList.toggle('glow', G.at || G.phase!=="NORMAL");
 }
 
-/** AT中の背景ループ。専用動画(at_loop_a/b)が無ければBIGのMVをそのまま流用する */
-async function setATLoop(){
-  const want = G.atG<=10 ? 'at_loop_b' : 'at_loop_a';
-  let key = null;
-  if(await hasMovie(want)) key = want;
-  else if(await hasMovie('big_loop')) key = 'big_loop';
-  if(G.at && G.phase==="NORMAL") setLoopMovie(key, true);  // 待つ間に状態が変わっていたら何もしない
+/* ================= 楽曲選択 =================
+   BIG中とAT中に流すMVを2曲から選べる。BIG開始前に一度聞き、
+   AT中は液晶の♪ボタンからいつでも切り替えられる。
+   選択は localStorage に残すので、次に遊ぶときも同じ曲で始まる。 */
+export const SONGS = [
+  { key:'song1', title:'回胴式の魔法',   sub:'KAIDOU-SHIKI NO MAHOU', no:'01' },
+  { key:'song2', title:'ひきよわヒーロー', sub:'HIKIYOWA HERO',        no:'02' },
+];
+const SONG_STORE = 'pachinkasu.song';
+function loadSong(){
+  try { const v = localStorage.getItem(SONG_STORE);
+        if(SONGS.some(x=>x.key===v)) return v; } catch(e){}
+  return SONGS[0].key;
+}
+function saveSong(key){ try { localStorage.setItem(SONG_STORE, key); } catch(e){} }
+
+/** ボーナス中・AT中に流す曲を今の選択に合わせる */
+function applySongLoop(){
+  if(G.phase==="BIG" || G.at) setLoopMovie(G.song, true);
+}
+
+/**
+ * 楽曲選択画面を開く。
+ * @param {boolean} auto true=BIG開始前の自動表示（一定時間で今の選択のまま閉じる）
+ * @returns {Promise<void>} 閉じたら解決
+ */
+function openSongSelect(auto = false){
+  const ov = $('songsel');
+  return new Promise((resolve) => {
+    let closed = false, timer = null;
+    const close = () => {
+      if(closed) return; closed = true;
+      clearTimeout(timer);
+      ov.classList.remove('on');
+      ov.querySelectorAll('.songcard').forEach(c => c.onclick = null);
+      $('songskip').onclick = null;
+      resolve();
+    };
+    ov.querySelectorAll('.songcard').forEach((card) => {
+      card.classList.toggle('sel', card.dataset.song === G.song);
+      card.onclick = () => {
+        G.song = card.dataset.song;
+        saveSong(G.song);
+        ov.querySelectorAll('.songcard').forEach(c => c.classList.toggle('sel', c === card));
+        SE.songPick();
+        applySongLoop();
+        setTimeout(close, 320);   // 選んだ感触を見せてから閉じる
+      };
+    });
+    $('songskip').onclick = () => { SE.bet(); close(); };
+    $('songskip').textContent = auto ? 'この曲で開始' : '閉じる';
+    ov.classList.add('on');
+    SE.songOpen();
+    // BIG開始前は待たせすぎないよう、無操作なら今の選択のまま進む
+    // 無操作の待ち時間も演出速度に合わせる（デバッグの20倍速で9秒待たされないように）
+    if(auto) timer = setTimeout(close, 9000 / DBG.speed);
+  });
 }
 
 /* ================= 音 =================
@@ -265,9 +346,9 @@ async function doLever(){
   // ---- ボーナス中: 抽選を行わず、消化役（BIG=15枚のスイカ / REG=8枚のベル）を毎回引き込む ----
   if(G.phase !== "NORMAL"){
     G.bonusGame++;
-    G.flag = G.phase === "BIG" ? "MELON" : "BELL";
+    G.flag = G.phase === "BIG" ? "MELON_STRONG" : "BELL";
     G.plan = makePlan(G.flag, {});
-    G.mids = [null,null,null];
+    G.stops = [null,null,null];
     G.align = null;
     // ビタ押しチャレンジのゲームか（BIGのみ・指定ゲーム目）
     G.vitaNow = G.phase === "BIG" && VITA_GAMES.includes(G.bonusGame);
@@ -302,11 +383,13 @@ async function doLever(){
   // 内部中×ハズレ → ボーナス入賞ゲーム（オートビタ）
   G.align = (wasCarrying && flag==="HAZURE") ? G.carry : null;
   G.plan = makePlan(flag, { justWon, align: G.align });
-  G.mids = [null,null,null];
+  G.stops = [null,null,null];
   // ---- 演出 ----
   if(/RIICHI/.test(flag)) { showCut('cut_s'); flash('flash-v'); SE.cutin(3); }
-  else if(/MELON_|CHERRY_|ONE_COIN_/.test(flag)) { showCut('cut_m'); flash('flash-r'); SE.cutin(2); }
-  else if(["MELON","CHERRY","ONE_COIN"].includes(flag) && rnd16()%4===0) { showCut('cut_w'); SE.cutin(1); }
+  // 強スイカ（中段揃い）は弱スイカ（斜め）より格上。ボーナス重複も強スイカ扱い
+  else if(/_BIG$|_REG$/.test(flag)) { showCut('cut_m'); flash('flash-r'); SE.cutin(2); }
+  else if(flag === "MELON_STRONG") { showCut('cut_m'); flash('flash-r'); SE.cutin(2); }
+  else if(["MELON_WEAK","CHERRY","ONE_COIN"].includes(flag) && rnd16()%4===0) { showCut('cut_w'); SE.cutin(1); }
   // 告知済みの内部中はずっと「7を狙え」。プレイヤーが何をすべきか迷わないようにする
   if(G.carry && G.announced) nav("7を狙え!!", 0);
   setNavi(G.at && flag.startsWith("BELL")); // AT中ベルナビ: 停止ボタン点灯
@@ -341,11 +424,7 @@ async function settle(){
   // ---- ボーナス中の消化 ----
   if(G.phase !== "NORMAL"){
     // ビタ押しゲームは中リールに赤7を止めているので、揃い演出は成功時のみ
-    if(!G.vitaNow || G.vitaResult){
-      [0,1,2].forEach(i=>drawReel(i,reels[i].idx,true));
-      document.querySelectorAll('.cell.mid').forEach(c=>c.classList.add('winline'));
-      setTimeout(()=>document.querySelectorAll('.cell.mid').forEach(c=>c.classList.remove('winline')),400);
-    }
+    if(!G.vitaNow || G.vitaResult) highlightWin(G.stops, 400);
     // ビタ押しの結果をATゲーム数に反映（成功+10G / 失敗は救済+2G）
     if(G.vitaNow){ G.pendingAT += G.vitaResult ? 10 : 2; G.vitaNow=false; }
     // 1ゲームあたりの獲得。終了枚数を超える分は切り詰める
@@ -361,12 +440,13 @@ async function settle(){
 
   // 発光演出: 入賞形が実際に並んだときだけ光らせる
   if(G.plan.mode==="WIN"||G.plan.mode==="ALIGN"){
-    if(G.mids[0]===G.mids[1] && G.mids[1]===G.mids[2]) [0,1,2].forEach(i=>drawReel(i,reels[i].idx,true));
-    document.querySelectorAll('.cell.mid').forEach(c=>c.classList.add('winline'));
-    setTimeout(()=>document.querySelectorAll('.cell.mid').forEach(c=>c.classList.remove('winline')),700);
+    highlightWin(G.stops);
+    // 弱スイカ（斜め）と強スイカ（中段）はどのラインで揃ったかを言葉でも出す
+    if(flag === "MELON_WEAK") nav("スイカ（弱）", 1200);
+    else if(isStrongMelon(flag)) { nav("スイカ（強）!!", 1600); flash('flash-r'); }
   }
   // リーチ目告知（ボーナス成立ゲームのみ出現し得る出目）
-  if(G.plan.mode==="REACH" && isReachMoku(G.mids)){ flash('flash-v'); nav("・・・！？",1800); }
+  if(G.plan.mode==="REACH" && isReachMoku(G.stops)){ flash('flash-v'); nav("・・・！？",1800); }
   // 払い出し
   const p = payoutOf(flag, G.at);
   if(p.coins){
@@ -382,8 +462,16 @@ async function settle(){
   if(p.replay){ G.replayNext=true; nav("再遊技"); SE.replay(); }
   if(G.at && flag.startsWith("BELL")) nav("ナビ成功! +11枚");
   // AT中スイカ上乗せ (256分母)
-  // 上乗せでカウントダウン圏内から抜けるので表示を消す
-  if(G.at && flag.startsWith("MELON") && subLottery(SUB_TABLE.MELON_UPGRADE_IN_AT)){ G.atG+=10; nav("＋10G!!"); flash('flash-v'); hideCountdown(); }
+  // AT中のレア役上乗せ。抽選は core（drawATUpgrade）に持たせてシミュレーターと共有する
+  if(G.at){
+    const up = drawATUpgrade(flag);
+    if(up){
+      G.atG += up;
+      hideCountdown();   // 上乗せでカウントダウン圏内から抜けるので表示を消す
+      if(up >= 50){ nav(`＋${up}G!!!`, 2200); flash('flash-v'); SE.bigUpgrade(); }
+      else { nav(`＋${up}G!!`, 1600); flash('flash-v'); SE.upgrade(); }
+    }
+  }
   seg();
   // ボーナス告知。成立ゲームで45%、外れても内部中は毎ゲーム8%で抽選し続ける。
   // 入賞ゲーム(G.align)はこのあと7が揃うので告知しない
@@ -428,6 +516,51 @@ function enterAT(initG){
   hideCountdown();
 }
 
+/* ================= エンペラータイム（特化ゾーン） =================
+   ルシエルが勝ち続ける限り上乗せが続く。1勝 = +20G。
+   突入契機はビタ押し3回成功（濃厚）か、AT当選時の 1/8 抽選。
+   この台の技術介入（ビタ押し）に報いる位置づけなので、
+   ビタを極めた人ほど伸びる設計にしてある。 */
+
+/** エンペラータイムに突入するか。vitaHits=3 なら濃厚 */
+function drawEmperor(vitaHits){
+  return vitaHits >= 3 || subLottery(SUB_TABLE.EMPEROR_ON_AT);
+}
+
+/** 1戦ずつ見せながら上乗せする。戻り値は上乗せ合計G数 */
+async function runEmperor(){
+  G.emperorWins = 0;
+  const ov = $('emperor'), num = $('empNum'), win = $('empWin');
+  ov.classList.add('on');
+  SE.emperorStart();
+  await wait(1400);
+  let total = 0;
+  for(;;){
+    win.classList.remove('lose','win'); void win.offsetWidth;
+    win.textContent = 'BATTLE';
+    SE.emperorBattle();
+    await wait(650);
+    if(!subLottery(SUB_TABLE.EMPEROR_CONTINUE)){
+      win.textContent = 'LOSE…'; win.classList.add('lose');
+      SE.emperorLose();
+      await wait(1200);
+      break;
+    }
+    G.emperorWins++; total += EMPEROR_UP_G;
+    win.textContent = `WIN! ＋${EMPEROR_UP_G}G`; win.classList.add('win');
+    num.textContent = total;
+    flash('flash-v'); SE.emperorWin(G.emperorWins);
+    await wait(750);
+  }
+  ov.classList.remove('on');
+  if(total){
+    await showResult({ title:'エンペラータイム 終了', num:`+${total}`, unit:'G',
+      sub:`${G.emperorWins} 連勝`, ms:2200 });
+  }
+  G.emperorWins = 0;
+  return total;
+}
+
 /** ボーナス開始。告知を出したあと操作をプレイヤーに返す（消化は settle 側で進む） */
 async function startBonus(kind){
   G.carry=null; G.align=null; G.announced=false; G.phase=kind;
@@ -445,6 +578,8 @@ async function startBonus(kind){
   }
   // 確定ムービー（無ければ静止画）→ そのあと告知画面を固定表示にする
   if(!(await playMovie(kind==="BIG"?'big':'reg'))) await showAnn(kind==="BIG"?'an_big':'an_regb', 1700);
+  // BIGは消化を始める前に曲を選ばせる（REGは専用BGM固定なので出さない）
+  if(kind==="BIG") await openSongSelect(true);
   await showBonusScreen(kind);
   nav(kind==="BIG" ? "BIG BONUS 消化中" : "REG BONUS 消化中", 1800);
   setBtns(true,false,false); G.busy = false;   // ここからプレイヤーが打つ
@@ -459,7 +594,7 @@ async function endBonus(){
   // 最終ゲームなのでMVを止める。この直後にリザルトを出す（止めると同時に切り替わって見える）
   setLoopMovie(null);
   // AT抽選。BIGはビタ押しの成功回数で当選率が変わる（3回成功のみ濃厚、全外しでも40%）
-  let entered = false;
+  let entered = false, emperor = false;
   const forceAT = DBG.forceATonBonus; DBG.forceATonBonus = false; // デバッグ: AT当選を強制
   if(kind==="BIG"){
     if(G.at){ G.atG+=30; nav("＋30G!!"); hideCountdown(); } // AT中のBIGは+30G固定
@@ -467,11 +602,18 @@ async function endBonus(){
       const base = VITA_AT_RATE[Math.min(G.vitaHits, 3)];
       // 3回成功とフリーズは濃厚なので設定差を乗せない
       const rate = (base >= 1 || G.freezeWon) ? 1 : base + (G.setting-1)*0.004;
-      if(forceAT || rnd16()/DENOM < rate){ enterAT(40 + G.pendingAT); entered=true; }
+      if(forceAT || rnd16()/DENOM < rate){
+        enterAT(AT_INIT_G.BIG + G.pendingAT); entered = true;
+        emperor = DBG.forceEmperor || drawEmperor(hits);
+      }
     }
   } else {
-    if(!G.at && (forceAT || subLottery(SUB_TABLE.AT_ON_REG))){ enterAT(30); entered=true; }
+    if(!G.at && (forceAT || subLottery(SUB_TABLE.AT_ON_REG))){
+      enterAT(AT_INIT_G.REG); entered = true;
+      emperor = DBG.forceEmperor || drawEmperor(0);
+    }
   }
+  DBG.forceEmperor = false;
   G.pendingAT = 0; G.freezeWon = false; G.phase="NORMAL";
   G.bonusPaid = 0; G.bonusTotal = 0;
   G.bonusGame = 0; G.vitaHits = 0; G.vitaNow = false; G.vitaResult = null;
@@ -481,13 +623,19 @@ async function endBonus(){
   const sub = kind==="BIG"
     ? `ビタ押し ${hits}/3 成功<br>` +
       (wasAT ? '<span class="hit">AT ＋30G</span>'
-             : entered ? '<span class="hit">AT 当選!!</span>' : 'AT 非当選')
+             : entered ? (emperor ? '<span class="hit">エンペラータイム 突入!!</span>'
+                                  : '<span class="hit">AT 当選!!</span>')
+                       : 'AT 非当選')
     : (wasAT ? '<span class="hit">AT 継続</span>'
-             : entered ? '<span class="hit">AT 当選!!</span>' : 'AT 非当選');
+             : entered ? (emperor ? '<span class="hit">エンペラータイム 突入!!</span>'
+                                  : '<span class="hit">AT 当選!!</span>')
+                       : 'AT 非当選');
   await showResult({ title: `${kind} BONUS 終了`, num: paid, sub });
   if(entered){
     if(!(await playMovie('at_start'))) await showAnn('an_atstart',1700);
     nav("MOON TIME 突入!!"); SE.atStart();
+    // エンペラータイムはAT突入演出のあと。上乗せぶんを足してから通常のATへ入る
+    if(emperor) G.atG += await runEmperor();
   }
   await endOfGame();
 }
@@ -568,6 +716,10 @@ function markInput(){
 document.addEventListener('pointerdown', markInput);
 markInput();
 
+// 楽曲切替ボタン（BIG中・AT中に液晶の左下へ出る）
+G.song = loadSong();
+$('songbtn').onclick = () => { if(!G.busy || G.phase!=="NORMAL" || G.at) openSongSelect(false); };
+
 // タイトル画面のバージョン表示。デバッグモードのときは分かるように付記する
 $('ver').textContent = VERSION_LABEL +
   (window.__PACHINKASU_DEBUG__ || new URLSearchParams(location.search).has('debug') ? '  DEBUG' : '');
@@ -582,6 +734,7 @@ seg(); updateLCD();
  * debug.js が存在しない配布物では import が失敗するだけで、通常動作に影響しない。 */
 if(window.__PACHINKASU_DEBUG__ || new URLSearchParams(location.search).has('debug')){
   import('./debug.js')
-    .then(m => m.initDebug({ DBG, G, enterAT, updateLCD, seg, refreshData, TABLE, SE, bonusRevealFx, showResult }))
+    .then(m => m.initDebug({ DBG, G, enterAT, updateLCD, seg, refreshData, TABLE, SE, bonusRevealFx, showResult,
+                  runEmperor, openSongSelect, SONGS }))
     .catch(e => console.warn('debug.js を読み込めませんでした（通常モードで継続）', e));
 }

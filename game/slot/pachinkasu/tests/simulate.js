@@ -8,18 +8,20 @@
  * モデル化している実装挙動:
  *   - ボーナス成立 → 持ち越し → 内部中ハズレのゲームで入賞（そのGのBET3枚は消費・払い出しなし）
  *   - BIG=204枚 / REG=60枚 加算（入賞Gとは別に払い出しのみ）
- *   - BIG終了時: AT中なら+30G固定。非AT中は 50%+設定×0.4% で突入、初期40G+ビタ獲得分
- *     （技術介入なし想定: ビタ3回全て失敗＝救済+2G×3。成功時の確定フローは含めない）
- *   - フリーズ(1/64): AT確定+50G（実装 runBonus 参照）
- *   - REG中: 1/16でAT+30G
- *   - AT中: ベル+3枚(ナビ11枚)、スイカ50%で+10G、完走(AT開始差枚+2400 or 1500G)
+ *   - BIG終了時: AT中なら+30G固定。非AT中は VITA_AT_RATE[0]+設定×0.4% で突入、
+ *     初期 AT_INIT_G.BIG + ビタ獲得分（技術介入なし想定: ビタ3回全失敗＝救済+2G×3）
+ *   - フリーズ(1/64): AT確定+50G
+ *   - REG中: 1/16でAT（初期 AT_INIT_G.REG）
+ *   - AT中: ベル+3枚(ナビ11枚)、レア役で上乗せ(drawATUpgrade)、完走(AT開始差枚+2400 or 1500G)
+ *   - エンペラータイム: AT当選時に1/8（ビタ3回成功なら濃厚だが技術介入なし想定なので抽選のみ）。
+ *     継続率約80%で1勝ごとに+20G
  *
  * 合格基準:
  *   - 各役の出現率が理論値と有意差なし
  *   - 機械割の目標: 設定1 ≒95.2% / 設定6 ≒102.9%（技術介入なし・仕様書§10.2）
  */
-import { drawFlag, isBigFlag, isRegFlag, payoutOf } from '../src/core/lottery.js';
-import { TABLE, DENOM, probabilities, assertTables } from '../src/core/tables.js';
+import { drawFlag, isBigFlag, isRegFlag, payoutOf, drawATUpgrade } from '../src/core/lottery.js';
+import { TABLE, DENOM, SUB_TABLE, SUB_DENOM, AT_INIT_G, EMPEROR_UP_G, probabilities, assertTables } from '../src/core/tables.js';
 
 assertTables();
 
@@ -31,8 +33,20 @@ const VITA_FAIL_G = 6;                  // 救済+2G×3（技術介入なし＝�
 const AT_RATE_VITA0 = 0.40;
 const FREEZE_RATE = 4 / 256;            // SUB_TABLE.FREEZE_ON_BIG
 const FREEZE_BONUS_G = 50;
-const AT_ON_REG_RATE = 16 / 256;        // SUB_TABLE.AT_ON_REG
-const MELON_UP_RATE = 128 / 256;        // SUB_TABLE.MELON_UPGRADE_IN_AT
+const AT_ON_REG_RATE = SUB_TABLE.AT_ON_REG / SUB_DENOM;
+const EMPEROR_RATE = SUB_TABLE.EMPEROR_ON_AT / SUB_DENOM;
+const EMPEROR_CONT = SUB_TABLE.EMPEROR_CONTINUE / SUB_DENOM;
+
+/** エンペラータイム: 勝ち続ける限り+20G。突入時に一括で消化ゲーム数を確定させる */
+function emperorGain() {
+  let g = 0;
+  while (Math.random() < EMPEROR_CONT) g += EMPEROR_UP_G;
+  return g;
+}
+/** AT突入時の初期ゲーム数（エンペラータイム抽選込み） */
+function atStartG(base) {
+  return base + (Math.random() < EMPEROR_RATE ? emperorGain() : 0);
+}
 
 console.log(`=== ${N.toLocaleString()} ゲーム シミュレーション（実装準拠モデル） ===\n`);
 
@@ -40,7 +54,7 @@ for (let setting = 1; setting <= 6; setting++) {
   let coinsIn = 0, coinsOut = 0, big = 0, reg = 0;
   let carry = null, replayNext = false;
   let atG = 0, atRunDiffStart = 0, atRunG = 0, diff = 0;
-  let atEnter = 0, atGamesTotal = 0;
+  let atEnter = 0, atGamesTotal = 0, emperor = 0, upG = 0;
 
   for (let g = 0; g < N; g++) {
     const inAT = atG > 0;
@@ -65,19 +79,23 @@ for (let setting = 1; setting <= 6; setting++) {
           // 技術介入なし＝ビタ全外しなので VITA_AT_RATE[0] を使う
           const rate = AT_RATE_VITA0 + (setting - 1) * 0.004;
           if (freeze || Math.random() < rate) {
-            atG = 40 + VITA_FAIL_G + (freeze ? FREEZE_BONUS_G : 0);
+            const emp = Math.random() < EMPEROR_RATE ? emperorGain() : 0;
+            if (emp) emperor++;
+            atG = AT_INIT_G.BIG + VITA_FAIL_G + (freeze ? FREEZE_BONUS_G : 0) + emp;
             atEnter++; atRunG = 0; atRunDiffStart = diff;
           }
         }
       } else {
         reg++; coinsOut += REG_PAY; diff += REG_PAY;
-        if (atG <= 0 && Math.random() < AT_ON_REG_RATE) { atG = 30; atEnter++; atRunG = 0; atRunDiffStart = diff; }
+        if (atG <= 0 && Math.random() < AT_ON_REG_RATE) {
+          atG = atStartG(AT_INIT_G.REG); atEnter++; atRunG = 0; atRunDiffStart = diff;
+        }
       }
       carry = null;
     }
 
-    // AT中スイカ上乗せ
-    if (inAT && flag.startsWith('MELON') && Math.random() < MELON_UP_RATE) atG += 10;
+    // AT中のレア役上乗せ（実装と同じ drawATUpgrade を通す）
+    if (inAT) { const up = drawATUpgrade(flag); if (up) { atG += up; upG += up; } }
     // 完走（AT開始からの差枚+2400 or 1500G）
     if (atG > 0 && (diff - atRunDiffStart >= 2400 || atRunG >= 1500)) atG = 0;
   }
@@ -88,7 +106,8 @@ for (let setting = 1; setting <= 6; setting++) {
     `設定${setting}: 機械割 ${rate.toFixed(2)}%  ` +
     `BIG 1/${(N / big).toFixed(1)} (理論1/${th.bigRate.toFixed(1)})  ` +
     `REG 1/${(N / reg).toFixed(1)} (理論1/${th.regRate.toFixed(1)})  ` +
-    `AT突入${atEnter}回・平均${(atGamesTotal / Math.max(1, atEnter)).toFixed(1)}G`
+    `AT突入${atEnter}回・平均${(atGamesTotal / Math.max(1, atEnter)).toFixed(1)}G` +
+    `・上乗せ計${upG}G・エンペラー${emperor}回`
   );
 }
 
