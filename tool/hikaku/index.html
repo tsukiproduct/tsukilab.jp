@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>生成AIツールセレクター</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:#131a2e;
+      --panel2:#1a2240;
+      --text:#eef2ff;
+      --sub:#a7b1d1;
+      --line:#2a3358;
+      --accent:#7c9cff;
+      --accent2:#8b5cf6;
+      --ok:#22c55e;
+      --warn:#f59e0b;
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sans","Noto Sans JP",sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(124,156,255,.12), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(139,92,246,.12), transparent 25%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:32px 16px 80px;
+    }
+
+    .hero{
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow);
+      margin-bottom:24px;
+    }
+
+    .hero h1{
+      margin:0 0 10px;
+      font-size:clamp(28px,4vw,42px);
+      line-height:1.1;
+    }
+
+    .hero p{
+      margin:0;
+      color:var(--sub);
+      font-size:15px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:18px;
+    }
+
+    @media (min-width: 900px){
+      .grid{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+
+    .card{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+
+    .card h2{
+      margin:0 0 12px;
+      font-size:20px;
+    }
+
+    .help{
+      color:var(--sub);
+      font-size:13px;
+      margin-bottom:14px;
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .chip{
+      border:1px solid var(--line);
+      background:var(--panel2);
+      color:var(--text);
+      padding:11px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      transition:.18s ease;
+      font-size:14px;
+      user-select:none;
+    }
+
+    .chip:hover{
+      transform:translateY(-1px);
+      border-color:#5162a9;
+    }
+
+    .chip.active{
+      background:linear-gradient(135deg, rgba(124,156,255,.22), rgba(139,92,246,.18));
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(124,156,255,.18) inset;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:22px;
+    }
+
+    .btn{
+      border:none;
+      border-radius:14px;
+      padding:14px 18px;
+      cursor:pointer;
+      font-weight:700;
+      transition:.18s ease;
+      font-size:15px;
+    }
+
+    .btn.primary{
+      background:linear-gradient(135deg, var(--accent), var(--accent2));
+      color:white;
+    }
+
+    .btn.secondary{
+      background:#20294a;
+      color:var(--text);
+      border:1px solid var(--line);
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.04);
+    }
+
+    .toggle{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      background:var(--panel2);
+      border:1px solid var(--line);
+      border-radius:14px;
+      margin-top:16px;
+      width:fit-content;
+    }
+
+    .toggle input{
+      transform:scale(1.2);
+      cursor:pointer;
+    }
+
+    .preview{
+      margin-top:22px;
+      background:rgba(255,255,255,.03);
+      border:1px dashed var(--line);
+      border-radius:16px;
+      padding:16px;
+      color:var(--sub);
+      font-size:14px;
+    }
+
+    .footer-note{
+      margin-top:16px;
+      color:var(--sub);
+      font-size:12px;
+    }
+
+    dialog{
+      width:min(980px, calc(100vw - 24px));
+      border:none;
+      border-radius:24px;
+      background:#0f1528;
+      color:var(--text);
+      padding:0;
+      box-shadow:0 40px 100px rgba(0,0,0,.55);
+    }
+
+    dialog::backdrop{
+      background:rgba(0,0,0,.6);
+      backdrop-filter:blur(4px);
+    }
+
+    .dialog-header{
+      padding:22px 22px 10px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+    }
+
+    .dialog-header h3{
+      margin:0;
+      font-size:24px;
+    }
+
+    .dialog-header p{
+      margin:6px 0 0;
+      color:var(--sub);
+      font-size:14px;
+    }
+
+    .close-btn{
+      background:#20294a;
+      color:var(--text);
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px 12px;
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    .dialog-body{
+      padding:20px 22px 24px;
+    }
+
+    .summary{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:18px;
+    }
+
+    .summary-tag{
+      background:#1a2240;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:8px 12px;
+      color:#dce4ff;
+      font-size:13px;
+    }
+
+    .section-title{
+      font-size:16px;
+      margin:22px 0 12px;
+      color:#dfe6ff;
+    }
+
+    .results{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+    }
+
+    @media (min-width: 760px){
+      .results{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+
+    .result-card{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .result-top{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      margin-bottom:10px;
+    }
+
+    .result-name{
+      margin:0;
+      font-size:20px;
+    }
+
+    .score{
+      white-space:nowrap;
+      background:rgba(34,197,94,.15);
+      color:#b8ffd0;
+      border:1px solid rgba(34,197,94,.35);
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .result-desc{
+      color:var(--sub);
+      font-size:14px;
+      margin-bottom:12px;
+    }
+
+    .tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:12px;
+    }
+
+    .tag{
+      font-size:12px;
+      padding:6px 8px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:#18203a;
+      color:#dbe4ff;
+    }
+
+    .reason-title{
+      font-size:13px;
+      color:#cad4ff;
+      margin:0 0 8px;
+      font-weight:700;
+    }
+
+    .reason-list{
+      margin:0;
+      padding-left:18px;
+      color:#e9edff;
+      font-size:14px;
+    }
+
+    .workflow{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#141b34;
+      padding:16px;
+    }
+
+    .flow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      margin-top:10px;
+    }
+
+    .flow-step{
+      padding:10px 12px;
+      border-radius:12px;
+      background:#20294a;
+      border:1px solid var(--line);
+      font-size:14px;
+    }
+
+    .arrow{
+      color:#8ea2ff;
+      font-weight:700;
+    }
+
+    .small{
+      font-size:13px;
+      color:var(--sub);
+      margin-top:10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>生成AIツールセレクター</h1>
+      <p>
+        作りたいものをボタンで選ぶと、<strong>今の用途に向いている画像生成AI / 動画生成AI</strong> を提案します。
+        2026年9月時点の整理をベースにした、用途重視の簡易ナビです。
+      </p>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>1. 何を作りたい？</h2>
+        <div class="help">まずは出力タイプを選択</div>
+        <div class="chips" id="outputChips">
+          <button class="chip active" data-group="output" data-value="image">静止画</button>
+          <button class="chip" data-group="output" data-value="video">動画</button>
+          <button class="chip" data-group="output" data-value="i2v">画像→動画</button>
+          <button class="chip" data-group="output" data-value="edit">編集</button>
+        </div>
+
+        <div class="toggle">
+          <input type="checkbox" id="commercialSafe" />
+          <label for="commercialSafe">商用安全・権利面を重視する</label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2. どんなテイスト？</h2>
+        <div class="help">作風に近いものを選択</div>
+        <div class="chips" id="styleChips">
+          <button class="chip active" data-group="style" data-value="anime">アニメ・イラスト</button>
+          <button class="chip" data-group="style" data-value="liveaction">実写・シネマティック</button>
+          <button class="chip" data-group="style" data-value="surreal">不思議映像・シュール</button>
+          <button class="chip" data-group="style" data-value="product">商品・広告</button>
+          <button class="chip" data-group="style" data-value="talk">人物・会話</button>
+          <button class="chip" data-group="style" data-value="mv">MV・ダンス</button>
+          <button class="chip" data-group="style" data-value="textdesign">文字・ロゴ・ポスター</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>3. 何を一番重視する？</h2>
+        <div class="help">優先したいポイントを選択</div>
+        <div class="chips" id="priorityChips">
+          <button class="chip active" data-group="priority" data-value="beauty">美しさ・画作り</button>
+          <button class="chip" data-group="priority" data-value="prompt">指示通り</button>
+          <button class="chip" data-group="priority" data-value="text">文字の正確さ</button>
+          <button class="chip" data-group="priority" data-value="consistency">人物・キャラ一貫性</button>
+          <button class="chip" data-group="priority" data-value="cost">コスパ</button>
+          <button class="chip" data-group="priority" data-value="editability">編集のしやすさ</button>
+          <button class="chip" data-group="priority" data-value="audio">音声つき</button>
+          <button class="chip" data-group="priority" data-value="longform">長尺・複数ショット</button>
+          <button class="chip" data-group="priority" data-value="realism">写実感・物理</button>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="showResultBtn">おすすめを見る</button>
+          <button class="btn secondary" id="resetBtn">リセット</button>
+        </div>
+
+        <div class="preview" id="previewText">
+          現在の選択：
+          静止画 / アニメ・イラスト / 美しさ・画作り
+        </div>
+
+        <div class="footer-note">
+          ※ これは「どれが絶対最強か」ではなく、「今の用途に何が向いているか」を返すページです。
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>このページでできること</h2>
+        <div class="help">用途別の判断を簡単にするための簡易版です</div>
+        <ul style="margin:0; padding-left:18px; color:var(--sub);">
+          <li>アニメ / 実写 / 不思議映像などの方向性で絞り込み</li>
+          <li>静止画 / 動画 / 画像→動画 / 編集 の4系統に対応</li>
+          <li>文字重視・人物一貫性・長尺・音声などで最適化</li>
+          <li>おすすめツールだけでなく、簡単なワークフローも表示</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <dialog id="resultDialog">
+    <div class="dialog-header">
+      <div>
+        <h3>おすすめツール</h3>
+        <p>選択内容に合わせて、相性のよいツールを表示しています。</p>
+      </div>
+      <button class="close-btn" id="closeDialogBtn">閉じる</button>
+    </div>
+    <div class="dialog-body">
+      <div class="summary" id="summaryTags"></div>
+
+      <div class="section-title">おすすめ上位</div>
+      <div class="results" id="results"></div>
+
+      <div class="section-title">おすすめワークフロー</div>
+      <div class="workflow">
+        <strong id="workflowTitle">まずはこれで進めると安定</strong>
+        <div class="flow" id="workflowFlow"></div>
+        <div class="small" id="workflowNote"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    const state = {
+      output: "image",
+      style: "anime",
+      priority: "beauty",
+      commercialSafe: false
+    };
+
+    const labelMap = {
+      output: {
+        image: "静止画",
+        video: "動画",
+        i2v: "画像→動画",
+        edit: "編集"
+      },
+      style: {
+        anime: "アニメ・イラスト",
+        liveaction: "実写・シネマティック",
+        surreal: "不思議映像・シュール",
+        product: "商品・広告",
+        talk: "人物・会話",
+        mv: "MV・ダンス",
+        textdesign: "文字・ロゴ・ポスター"
+      },
+      priority: {
+        beauty: "美しさ・画作り",
+        prompt: "指示通り",
+        text: "文字の正確さ",
+        consistency: "人物・キャラ一貫性",
+        cost: "コスパ",
+        editability: "編集のしやすさ",
+        audio: "音声つき",
+        longform: "長尺・複数ショット",
+        realism: "写実感・物理"
+      }
+    };
+
+    const tools = [
+      {
+        name: "GPT Image 2.5",
+        type: ["image", "edit"],
+        styles: ["anime","liveaction","surreal","product","textdesign","talk","mv"],
+        priorities: ["prompt","text","editability","consistency","beauty"],
+        safe: false,
+        desc: "静止画の総合力が高く、複雑な指示、広告、テキスト入り画像、編集のバランスが良い。",
+        tags: ["静止画","高品質","編集","指示追従"],
+        reasons: [
+          "指示に忠実な1枚を作りやすい",
+          "文字入りポスターや複合構図に強い",
+          "既存画像の部分修正にも向いている"
+        ]
+      },
+      {
+        name: "Nano Banana 2",
+        type: ["image", "edit"],
+        styles: ["anime","liveaction","product","talk","surreal"],
+        priorities: ["editability","consistency","cost","prompt"],
+        safe: false,
+        desc: "会話しながらの編集、人物一貫性、複数素材の合成で使いやすい。",
+        tags: ["編集","人物維持","合成","コスパ"],
+        reasons: [
+          "人物・商品の同一性を保った変更がしやすい",
+          "写真編集の反復が速い",
+          "複数素材をまとめる用途と相性が良い"
+        ]
+      },
+      {
+        name: "Midjourney V8.2",
+        type: ["image"],
+        styles: ["anime","liveaction","surreal","mv"],
+        priorities: ["beauty"],
+        safe: false,
+        desc: "美学、ムード、画作りの強さが魅力。雰囲気重視のビジュアルで強い。",
+        tags: ["アート","世界観","高美観"],
+        reasons: [
+          "雰囲気の強いキービジュアルに向いている",
+          "シネマティックで格好いい画が出やすい",
+          "世界観づくりの初期案出しに強い"
+        ]
+      },
+      {
+        name: "Niji 7",
+        type: ["image"],
+        styles: ["anime"],
+        priorities: ["beauty","consistency"],
+        safe: false,
+        desc: "アニメ・イラスト寄りの作風に特化。キャラクター表現や映えに強い。",
+        tags: ["アニメ","イラスト","キャラクター"],
+        reasons: [
+          "アニメ調の見た目に強い",
+          "キャラ絵・サムネ・キービジュアルで使いやすい",
+          "動画化前の静止画設計にも向いている"
+        ]
+      },
+      {
+        name: "FLUX.2",
+        type: ["image"],
+        styles: ["liveaction","product","surreal","talk"],
+        priorities: ["realism","prompt","consistency"],
+        safe: false,
+        desc: "写実、材質、肌、商品写真の再現に強い。フォトリアル系の本命候補。",
+        tags: ["フォトリアル","商品","材質"],
+        reasons: [
+          "実写感・質感・光の表現に強い",
+          "商品や人物の写実表現と相性が良い",
+          "フォトリアル路線の素材作りに向いている"
+        ]
+      },
+      {
+        name: "Ideogram 4",
+        type: ["image"],
+        styles: ["textdesign","product"],
+        priorities: ["text","prompt"],
+        safe: false,
+        desc: "文字、ロゴ、ポスター、看板など、タイポグラフィ重視の用途で強い。",
+        tags: ["文字","ロゴ","ポスター"],
+        reasons: [
+          "可読性の高い文字を入れやすい",
+          "ポスターやタイトルロゴ向き",
+          "見出し主体のデザインに合う"
+        ]
+      },
+      {
+        name: "Adobe Firefly Image 5",
+        type: ["image","edit"],
+        styles: ["product","liveaction","textdesign"],
+        priorities: ["editability"],
+        safe: true,
+        desc: "商用安全やAdobe連携を重視する案件で有力。権利面を気にする業務向け。",
+        tags: ["商用安全","Adobe","業務向け"],
+        reasons: [
+          "権利面を重視する企業案件で使いやすい",
+          "Photoshop/Illustratorとの連携を組みやすい",
+          "社内制作フローに乗せやすい"
+        ]
+      },
+      {
+        name: "Veo 3.1",
+        type: ["video"],
+        styles: ["liveaction","product","talk","surreal"],
+        priorities: ["realism","audio","prompt"],
+        safe: false,
+        desc: "写実、照明、物理、音声つきの映像で強い。実写っぽい映像の有力候補。",
+        tags: ["動画","実写","音声","物理"],
+        reasons: [
+          "実写感のある動画に向いている",
+          "音声込みの映像づくりがしやすい",
+          "CM・会話・自然なシーンで強い"
+        ]
+      },
+      {
+        name: "Kling 3.0",
+        type: ["video","i2v"],
+        styles: ["liveaction","talk","mv","anime"],
+        priorities: ["consistency","audio","cost","realism"],
+        safe: false,
+        desc: "人物の動き、表情、会話、ダンスなど『人が主役』の映像に強い。",
+        tags: ["人物演技","I2V","ダンス","会話"],
+        reasons: [
+          "人間の動きや表情の見せ方に強い",
+          "静止画から動かす用途と相性が良い",
+          "MVや人物メインのショットで使いやすい"
+        ]
+      },
+      {
+        name: "Seedance 2.5",
+        type: ["video","i2v","edit"],
+        styles: ["liveaction","surreal","mv","product","talk"],
+        priorities: ["longform","audio","consistency","prompt","editability"],
+        safe: false,
+        desc: "長めのシーン、参照素材の多い案件、複数ショット感のある映像に強い。",
+        tags: ["長尺","参照多数","MV","ストーリー"],
+        reasons: [
+          "長回しや複数イベントのあるシーン向き",
+          "画像や動画参照を多く使いたい時に便利",
+          "MV・短編・CMなど構成がある動画に向いている"
+        ]
+      },
+      {
+        name: "Wan 3.0",
+        type: ["video","edit"],
+        styles: ["surreal","liveaction","product","talk"],
+        priorities: ["longform","prompt","editability"],
+        safe: false,
+        desc: "テキストからの動画生成力や動画編集で有力。長尺寄りにも向く。",
+        tags: ["T2V","長尺","編集"],
+        reasons: [
+          "テキストだけから動画を作りたい時に有力",
+          "長めの生成を狙いやすい",
+          "編集工程でも使い分けしやすい"
+        ]
+      },
+      {
+        name: "MiniMax H3",
+        type: ["video","i2v"],
+        styles: ["liveaction","surreal","mv","product"],
+        priorities: ["cost","audio","consistency"],
+        safe: false,
+        desc: "コスパと参照活用のバランスが良く、画像→動画用途でも有力。",
+        tags: ["コスパ","I2V","音声"],
+        reasons: [
+          "完成済み静止画を動かす用途に向いている",
+          "比較的コスパを意識しやすい",
+          "音声つき映像でも候補に入る"
+        ]
+      },
+      {
+        name: "Runway Gen-4.5",
+        type: ["video","edit"],
+        styles: ["liveaction","surreal","product","mv","talk"],
+        priorities: ["editability","prompt"],
+        safe: false,
+        desc: "生成だけでなく、カメラ制御やV2Vなども含めた制作環境として強い。",
+        tags: ["編集","VFX","制作スイート"],
+        reasons: [
+          "生成後の詰めや編集がしやすい",
+          "監督的にショットを作り込みたい時に強い",
+          "VFX寄りの使い方と相性が良い"
+        ]
+      },
+      {
+        name: "Vidu Q3",
+        type: ["video","i2v"],
+        styles: ["anime","talk","mv"],
+        priorities: ["audio","consistency","cost"],
+        safe: false,
+        desc: "アニメ寄りのショートドラマや会話、短編に向いた候補。",
+        tags: ["アニメ動画","短編","会話"],
+        reasons: [
+          "アニメ調の動画候補として使いやすい",
+          "短尺の会話・ドラマ系に向いている",
+          "静止画ベースの動画化とも相性がある"
+        ]
+      },
+      {
+        name: "Luma Ray3.2",
+        type: ["video","edit"],
+        styles: ["liveaction","product"],
+        priorities: ["editability","realism"],
+        safe: false,
+        desc: "HDRやキーフレーム寄りの制御で、広告・映像制作寄りの用途に向く。",
+        tags: ["HDR","映像制作","キーフレーム"],
+        reasons: [
+          "ポスプロ寄りの発想で扱いたい時に向いている",
+          "広告や映画調の仕上げ工程と相性が良い",
+          "技術寄りの映像フローで活きる"
+        ]
+      }
+    ];
+
+    function updatePreview() {
+      const preview = document.getElementById("previewText");
+      const safeText = state.commercialSafe ? " / 商用安全重視" : "";
+      preview.textContent = `現在の選択：${labelMap.output[state.output]} / ${labelMap.style[state.style]} / ${labelMap.priority[state.priority]}${safeText}`;
+    }
+
+    function setActiveChip(group, value) {
+      document.querySelectorAll(`[data-group="${group}"]`).forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.value === value);
+      });
+      state[group] = value;
+      updatePreview();
+    }
+
+    document.querySelectorAll(".chip").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const { group, value } = btn.dataset;
+        setActiveChip(group, value);
+      });
+    });
+
+    document.getElementById("commercialSafe").addEventListener("change", (e) => {
+      state.commercialSafe = e.target.checked;
+      updatePreview();
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      state.output = "image";
+      state.style = "anime";
+      state.priority = "beauty";
+      state.commercialSafe = false;
+
+      setActiveChip("output", "image");
+      setActiveChip("style", "anime");
+      setActiveChip("priority", "beauty");
+      document.getElementById("commercialSafe").checked = false;
+      updatePreview();
+    });
+
+    function scoreTool(tool, state) {
+      let score = 0;
+
+      if (tool.type.includes(state.output)) score += 5;
+
+      if (tool.styles.includes(state.style)) score += 3;
+
+      if (tool.priorities.includes(state.priority)) score += 4;
+
+      // 編集用途の補正
+      if (state.output === "edit" && tool.priorities.includes("editability")) score += 2;
+
+      // 画像→動画なら video/i2vを優遇
+      if (state.output === "i2v" && tool.type.includes("i2v")) score += 3;
+
+      // 商用安全
+      if (state.commercialSafe && tool.safe) score += 6;
+      if (state.commercialSafe && !tool.safe) score -= 1;
+
+      // 特別補正
+      if (state.style === "anime" && state.output === "video" && tool.name === "Vidu Q3") score += 2;
+      if (state.style === "textdesign" && tool.name === "Ideogram 4") score += 3;
+      if (state.style === "liveaction" && state.priority === "realism" && tool.name === "Veo 3.1") score += 3;
+      if (state.output === "video" && state.priority === "longform" && tool.name === "Seedance 2.5") score += 3;
+      if (state.output === "video" && state.priority === "longform" && tool.name === "Wan 3.0") score += 2;
+      if (state.output === "image" && state.priority === "beauty" && tool.name === "Midjourney V8.2") score += 3;
+      if (state.output === "image" && state.priority === "text" && tool.name === "GPT Image 2.5") score += 2;
+      if (state.output === "image" && state.priority === "consistency" && tool.name === "Nano Banana 2") score += 2;
+      if (state.output === "image" && state.style === "anime" && tool.name === "Niji 7") score += 3;
+
+      return score;
+    }
+
+    function getRecommendations() {
+      return tools
+        .map(tool => ({ ...tool, score: scoreTool(tool, state) }))
+        .filter(tool => tool.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 6);
+    }
+
+    function buildWorkflow(state, recs) {
+      const top = recs[0]?.name || "GPT Image 2.5";
+
+      if (state.output === "image") {
+        return {
+          title: "1枚ものを作る基本フロー",
+          steps: [
+            state.style === "anime" ? "Niji 7 / GPT Image 2.5で絵作り" :
+            state.style === "textdesign" ? "Ideogram 4 / GPT Image 2.5で文字設計" :
+            state.style === "liveaction" ? "FLUX.2 / GPT Image 2.5で構図作成" :
+            `${top}で初稿作成`,
+            "必要なら Nano Banana 2 / GPT Image 2.5 で修正",
+            state.commercialSafe ? "商用案件なら Firefly で最終案確認" : "完成"
+          ],
+          note: "静止画は『まず強い初稿を出す → 会話編集で詰める』流れが安定です。"
+        };
+      }
+
+      if (state.output === "video") {
+        if (state.style === "anime") {
+          return {
+            title: "アニメ動画のおすすめ",
+            steps: [
+              "Niji 7 / GPT Image 2.5 でキービジュアル作成",
+              "Kling 3.0 または Vidu Q3 で動画化",
+              "Runway でショット調整・編集"
+            ],
+            note: "アニメ系は、先に静止画でキャラを固めてから動画化すると安定します。"
+          };
+        }
+
+        if (state.style === "liveaction") {
+          return {
+            title: "実写・シネマティック動画のおすすめ",
+            steps: [
+              "FLUX.2 / GPT Image 2.5 で世界観・人物設計",
+              "Veo 3.1 または Seedance 2.5 で本編生成",
+              "Runway / Luma Ray3.2 で仕上げ"
+            ],
+            note: "写実感重視なら Veo、長尺や構成重視なら Seedance が候補です。"
+          };
+        }
+
+        if (state.style === "surreal") {
+          return {
+            title: "不思議映像・シュール路線のおすすめ",
+            steps: [
+              "Midjourney / GPT Image 2.5 でキーとなる絵作り",
+              "Seedance 2.5 / Wan 3.0 で動画化",
+              "Runway で不自然さを活かしつつ編集"
+            ],
+            note: "不思議映像は『違和感のある静止画』を起点にすると強いです。"
+          };
+        }
+
+        return {
+          title: "動画の基本フロー",
+          steps: [
+            "まず絵や構図の方向性を決める",
+            `${top}で動画生成`,
+            "Runwayなどで編集・調整"
+          ],
+          note: "動画は1本で完結させるより、生成→編集の2段構成が安定します。"
+        };
+      }
+
+      if (state.output === "i2v") {
+        return {
+          title: "画像→動画の基本フロー",
+          steps: [
+            state.style === "anime" ? "Niji 7 / GPT Image 2.5 で元画像作成" :
+            state.style === "liveaction" ? "FLUX.2 / GPT Image 2.5 で元画像作成" :
+            "GPT Image 2.5 / Midjourney で元画像作成",
+            `${top} で画像→動画化`,
+            "必要なら Runway で編集"
+          ],
+          note: "I2Vは『元画像の完成度』がかなり重要です。"
+        };
+      }
+
+      return {
+        title: "編集の基本フロー",
+        steps: [
+          "元画像 / 元動画を用意",
+          state.output === "edit" && state.style === "textdesign"
+            ? "GPT Image 2.5 / Ideogram 4 で修正"
+            : "GPT Image 2.5 / Nano Banana 2 / Runway で修正",
+          "必要なら別ツールで仕上げ"
+        ],
+        note: "画像編集なら GPT Image / Nano Banana、動画編集なら Runway / Wan が候補です。"
+      };
+    }
+
+    function renderResults() {
+      const summary = document.getElementById("summaryTags");
+      const results = document.getElementById("results");
+      const workflowTitle = document.getElementById("workflowTitle");
+      const workflowFlow = document.getElementById("workflowFlow");
+      const workflowNote = document.getElementById("workflowNote");
+
+      summary.innerHTML = `
+        <div class="summary-tag">${labelMap.output[state.output]}</div>
+        <div class="summary-tag">${labelMap.style[state.style]}</div>
+        <div class="summary-tag">${labelMap.priority[state.priority]}</div>
+        ${state.commercialSafe ? `<div class="summary-tag">商用安全重視</div>` : ""}
+      `;
+
+      const recs = getRecommendations();
+
+      results.innerHTML = recs.map(tool => `
+        <div class="result-card">
+          <div class="result-top">
+            <div>
+              <h4 class="result-name">${tool.name}</h4>
+            </div>
+            <div class="score">相性 ${tool.score}</div>
+          </div>
+          <div class="result-desc">${tool.desc}</div>
+          <div class="tags">
+            ${tool.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
+            ${tool.safe ? `<span class="tag">商用安全寄り</span>` : ``}
+          </div>
+          <div class="reason-title">向いている理由</div>
+          <ul class="reason-list">
+            ${tool.reasons.map(reason => `<li>${reason}</li>`).join("")}
+          </ul>
+        </div>
+      `).join("");
+
+      const workflow = buildWorkflow(state, recs);
+      workflowTitle.textContent = workflow.title;
+      workflowFlow.innerHTML = workflow.steps.map((step, i) => `
+        ${i > 0 ? `<span class="arrow">→</span>` : ""}
+        <span class="flow-step">${step}</span>
+      `).join("");
+      workflowNote.textContent = workflow.note;
+    }
+
+    document.getElementById("showResultBtn").addEventListener("click", () => {
+      renderResults();
+      const dialog = document.getElementById("resultDialog");
+      if (typeof dialog.showModal === "function") {
+        dialog.showModal();
+      } else {
+        dialog.setAttribute("open", "open");
+      }
+    });
+
+    document.getElementById("closeDialogBtn").addEventListener("click", () => {
+      document.getElementById("resultDialog").close();
+    });
+
+    updatePreview();
+  </script>
+</body>
+</html>
