@@ -1,1 +1,45 @@
-<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MAU / Voice Studio</title><meta name="description" content="まうが、あなたの声に合わせて動く。マイクと録音音声に対応したアバター試作品。"><link rel="icon" href="favicon.svg"><link rel="stylesheet" href="style.css"></head><body><header><a class="brand" href="./">MAU<span>/ VOICE STUDIO</span></a><span class="badge">PROTOTYPE 01</span></header><main><section class="stage" aria-label="キャラクタープレビュー"><div class="stage-top"><span>まう <small>TRACKSUIT</small></span><span id="state" role="status">待機中</span></div><div class="portrait"><canvas id="avatar" width="800" height="800" aria-label="音声に合わせて動くまう"></canvas></div><div class="stage-bottom"><span id="caption">声を聞かせて。</span><button id="demo" class="subtle">動きを試す</button></div></section><aside><div class="intro"><p class="eyebrow">VOICE → MOTION</p><h1>声で、動く。</h1><p>話すと口パク。静かになったら、ひと休み。</p></div><div class="tabs" role="tablist" aria-label="音声入力"><button id="micTab" role="tab" aria-selected="true" aria-controls="micPanel">マイク</button><button id="fileTab" role="tab" aria-selected="false" aria-controls="filePanel" tabindex="-1">録音音声</button></div><section id="micPanel" role="tabpanel" aria-labelledby="micTab"><h2>あなたの声に合わせる</h2><p>マイクをオンにして話しかけてください。</p><button id="mic" class="primary">マイクをオン</button><p class="note">初回はブラウザでマイクの使用を許可してください。スピーカーへの折り返しはありません。</p></section><section id="filePanel" role="tabpanel" aria-labelledby="fileTab" hidden><h2>録音した声に合わせる</h2><label class="filebox" for="file"><strong>音声ファイルを選ぶ</strong><span>MP3・WAV・M4Aなど</span><input id="file" type="file" accept="audio/*"></label><p id="filename" class="note">ファイルはまだ選ばれていません</p><audio id="audio" controls preload="metadata"></audio></section><div class="level-head"><label for="level">音声レベル</label><span id="levelText">0%</span></div><meter id="level" min="0" max="1" value="0">0</meter><div class="setting"><label for="sensitivity">口パクの感度</label><output id="sensitivityValue">1.5×</output><input id="sensitivity" type="range" min="0.5" max="4" step="0.1" value="1.5"></div><label class="check"><input id="motion" type="checkbox" checked>まばたき・体の揺れ</label><p id="message" role="status" class="message">音声はこのブラウザ内で処理されます。</p><footer>音量で口を開閉する2D試作です。<br>Live2D形式の完成モデルではありません。</footer></aside></main><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MAUTUBER｜まう・にゃう 2D Studio</title>
+  <link rel="stylesheet" href="./style.css?v=3">
+</head>
+<body>
+<main>
+  <section class="stage-wrap">
+    <div id="stage" class="stage checker"><canvas id="avatar" width="1080" height="1080"></canvas><video id="video" muted playsinline></video></div>
+    <div class="state"><span id="state">読み込み中</span><progress id="level" max="1" value="0"></progress><output id="levelText">0%</output></div>
+    <div id="outputControls" class="output-controls" hidden><button id="outputMic">マイクをオン</button><button id="outputCamera">カメラをオン</button><button id="hideControls">隠す</button></div>
+  </section>
+  <section class="panel">
+    <header><p class="eyebrow">VOICE & FACE REACTIVE 2D STUDIO</p><h1>MAUTUBER</h1><p>まう・にゃうを、声と表情で動かすブラウザスタジオ。</p></header>
+    <div id="loadError" class="notice error" hidden></div>
+    <fieldset><legend>CHARACTER</legend>
+      <div class="grid2"><label>キャラクター<select id="character"><option value="mau">まう</option><option value="nyau">にゃう</option></select></label><label>衣装<select id="costume"><option value="track">オリジナル</option><option value="black">BLACK</option></select></label></div>
+      <div class="grid2"><label>表示<select id="framing"><option value="full">全身</option><option value="bust">バストアップ</option></select></label><label>表情<select id="expression"><option value="auto">自動</option><option value="neutral">通常</option><option value="happy">笑顔</option><option value="sad">困り顔</option><option value="blink">目閉じ</option></select></label></div>
+      <p id="modelName" class="muted">モデル読み込み中…</p>
+    </fieldset>
+    <fieldset><legend>AUDIO</legend>
+      <div class="tabs"><button id="micTab" aria-selected="true">リアルタイムマイク</button><button id="fileTab" aria-selected="false">録音音声</button></div>
+      <div id="micPanel"><button id="mic" class="primary">マイクをオン</button></div>
+      <div id="filePanel" hidden><label class="file">音声ファイル<input id="file" type="file" accept="audio/*"></label><span id="filename" class="muted">未選択</span><audio id="audio" controls></audio></div>
+      <div class="grid2"><label>感度 <output id="sensitivityValue">1.5×</output><input id="sensitivity" type="range" min=".5" max="3" step=".1" value="1.5"></label><label>雑音カット <output id="thresholdValue">2%</output><input id="threshold" type="range" min="0" max=".12" step=".005" value=".02"></label></div>
+      <p id="audioStatus" class="status">入力を選んで開始してください。</p>
+    </fieldset>
+    <fieldset><legend>FACE RIG</legend>
+      <div class="actions"><button id="camera" class="primary">カメラをオン</button><button id="calibrate" disabled>正面を再設定</button></div>
+      <label class="check"><input id="showCamera" type="checkbox">カメラ映像を表示</label>
+      <p id="cameraStatus" class="status">まばたき・口・笑顔・顔の傾きを検出します。</p>
+    </fieldset>
+    <fieldset><legend>SCENE</legend>
+      <div class="checks"><label><input id="motion" type="checkbox" checked>自然な待機モーション</label><label><input id="accessory" type="checkbox" checked>ムリねこ</label></div>
+      <div class="grid2"><label>ムリねこの位置<select id="petPosition"><option value="right">右</option><option value="left">左</option></select></label><label>背景<select id="background"><option value="transparent">透過</option><option value="green">グリーン</option><option value="dark">ダーク</option><option value="white">白</option></select></label></div>
+      <label>ズーム<input id="zoom" type="range" min=".6" max="1.2" step=".05" value="1"></label>
+    </fieldset>
+    <div class="actions"><button id="demo">動きの見本</button><button id="snapshot">透過PNGを保存</button><button id="output">合成画面を開く</button></div>
+    <details><summary>使い方と仕様</summary><p>マイクまたは音声ファイルの音量から口を動かします。カメラは端末内で解析し、映像を送信しません。OBSには「合成画面を開く」で表示したページをウィンドウキャプチャしてください。</p><p>これはLive2D Cubismのmoc3ではなく、汎用スプライトアトラス形式の2Dモデルです。</p></details>
+  </section>
+</main>
+<script type="module" src="./app.js?v=3"></script>
+</body></html>
