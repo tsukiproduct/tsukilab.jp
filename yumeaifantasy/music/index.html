@@ -352,6 +352,28 @@ footer .foot-brand { color: var(--ink-dim); }
   .tokusho-table td { padding-top: 0; }
   footer { padding: 24px 22px; flex-direction: column; align-items: flex-start; gap: 8px; }
 }
+.nav-actions { display: flex; align-items: center; gap: 22px; }
+.lang-switch { display: flex; border: 1px solid var(--line); }
+.lang-btn {
+  border: 0;
+  background: transparent;
+  padding: 6px 10px;
+  font: 500 12px var(--font-sans);
+  color: var(--ink-dim);
+  cursor: pointer;
+}
+.lang-btn + .lang-btn { border-left: 1px solid var(--line); }
+.lang-btn[aria-pressed="true"] { background: var(--accent); color: var(--bg); }
+.music-intro, .legal-intro { color: var(--ink-dim); font-size: 14px; line-height: 1.7; }
+.music-intro { margin: -52px 0 48px; }
+.legal-intro { margin: 10px 0 20px; }
+.nav-back, .links-label, .link-card-desc { color: #A39BAF; }
+@media (max-width: 768px) {
+  .nav-actions { gap: 10px; }
+  .brand { font-size: 16px; }
+  .nav-back { font-size: 11px; letter-spacing: .08em; }
+  .lang-btn { padding: 5px 8px; }
+}
 </style>
 </head>
 <body>
@@ -361,10 +383,16 @@ footer .foot-brand { color: var(--ink-dim); }
 <!-- NAV -->
 <header class="nav">
   <a href="../" class="brand"><span class="dot"></span>Yumeai Fantasy</a>
-  <a href="../" class="nav-back">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Back
-  </a>
+  <div class="nav-actions">
+    <div class="lang-switch" role="group" aria-label="Language / 言語">
+      <button class="lang-btn" id="langEn" type="button" aria-pressed="true" aria-label="Switch to English">EN</button>
+      <button class="lang-btn" id="langJa" type="button" aria-pressed="false" aria-label="日本語に切り替える">JP</button>
+    </div>
+    <a href="../" class="nav-back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      <span data-en="Back" data-ja="戻る">Back</span>
+    </a>
+  </div>
 </header>
 
 <!-- MAIN -->
@@ -373,14 +401,15 @@ footer .foot-brand { color: var(--ink-dim); }
   <span class="page-num reveal">06 / Music</span>
   <h1 class="reveal">Mu<em>sic</em></h1>
   <p class="page-sub reveal">AI Music — Dreamcore · Liminal · Y2K</p>
+  <p class="music-intro" data-en="Explore the music on AethrMusik. This page also contains the legally required seller information in Japanese." data-ja="AethrMusikの音楽ページへ進めます。下部には特定商取引法に基づく表記を掲載しています。">Explore the music on AethrMusik. This page also contains the legally required seller information in Japanese.</p>
 
   <div class="reveal">
-    <p class="links-label">Stream &amp; Support</p>
+    <p class="links-label" data-en="Stream &amp; Support" data-ja="音楽・応援">Stream &amp; Support</p>
 
     <a href="https://aethrmusik.com/#/artist/yumeai_fantasy" target="_blank" rel="noopener" class="link-card">
       <div class="link-card-body">
         <div class="link-card-title">AethrMusik</div>
-        <div class="link-card-desc">Listen — AI Music Streaming</div>
+        <div class="link-card-desc" data-en="Listen — AI Music Streaming" data-ja="音楽を聴く — AethrMusik">Listen — AI Music Streaming</div>
       </div>
       <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M9 7h8v8"/></svg>
     </a>
@@ -388,7 +417,7 @@ footer .foot-brand { color: var(--ink-dim); }
     <a href="https://buymeacoffee.com/yumeaifantasy" target="_blank" rel="noopener" class="link-card">
       <div class="link-card-body">
         <div class="link-card-title">Buy Me a Coffee</div>
-        <div class="link-card-desc">Support — Matsuri Yumeai / Yumeai Fantasy</div>
+        <div class="link-card-desc" data-en="Support — Matsuri Yumeai / Yumeai Fantasy" data-ja="活動を応援 — Matsuri Yumeai / Yumeai Fantasy">Support — Matsuri Yumeai / Yumeai Fantasy</div>
       </div>
       <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M9 7h8v8"/></svg>
     </a>
@@ -397,6 +426,7 @@ footer .foot-brand { color: var(--ink-dim); }
   <!-- 特商法 -->
   <div class="tokusho-wrap reveal">
     <p class="tokusho-label">特定商取引法に基づく表記</p>
+    <p class="legal-intro" data-en="Legal disclosure for purchases and support (Japanese)." data-ja="購入・支援に関する法定表示です。">Legal disclosure for purchases and support (Japanese).</p>
     <table class="tokusho-table">
       <tbody>
         <tr>
@@ -451,6 +481,21 @@ footer .foot-brand { color: var(--ink-dim); }
 </footer>
 
 <script>
+function setLanguage(lang) {
+  if (lang !== 'en' && lang !== 'ja') lang = 'en';
+  document.documentElement.lang = lang;
+  document.getElementById('langEn').setAttribute('aria-pressed', String(lang === 'en'));
+  document.getElementById('langJa').setAttribute('aria-pressed', String(lang === 'ja'));
+  document.querySelectorAll('[data-en][data-ja]').forEach(el => {
+    el.textContent = lang === 'ja' ? el.dataset.ja : el.dataset.en;
+  });
+  try { localStorage.setItem('yf_lang', lang); } catch (e) {}
+}
+document.getElementById('langEn').addEventListener('click', () => setLanguage('en'));
+document.getElementById('langJa').addEventListener('click', () => setLanguage('ja'));
+let saved = 'en';
+try { saved = localStorage.getItem('yf_lang') || 'en'; } catch (e) {}
+setLanguage(saved);
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }

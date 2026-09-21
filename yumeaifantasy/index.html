@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +11,7 @@
 <meta property="og:image"       content="https://tsukilab.jp/yumeaifantasy/images/ogp-yumeai-fantasy.jpg" />
 <meta property="og:image:width"  content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:locale"      content="ja_JP" />
+<meta property="og:locale"      content="en_US" />
 <meta property="og:site_name"   content="Yumeai Fantasy" />
 <meta name="twitter:card"        content="summary_large_image" />
 <meta name="twitter:site"        content="@NeonTraum" />
@@ -1127,6 +1127,72 @@ footer .foot-brand { color: var(--ink-dim); }
 @media (max-width: 960px) {
   .other-grid { grid-template-columns: 1fr; }
 }
+
+/* Portfolio update: independent hero text, clear watch links and moving background */
+.hero h1 { margin-bottom: 8px; }
+.hero-subtitle {
+  max-width: 44rem;
+  margin: 0 0 26px;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+  font-style: italic;
+  line-height: 1.25;
+  color: var(--accent-3);
+}
+.watch-mark {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255,184,220,.7);
+  border-radius: 50%;
+  background: rgba(10,10,18,.78);
+  color: var(--ink);
+  font: 17px var(--font-sans);
+  pointer-events: none;
+}
+.featured-card .tag-cta, .media-card .media-card-cta, .music-cta {
+  color: var(--ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: .25em;
+}
+.music-cta { display: inline-block; margin-top: 18px; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; }
+.featured-card:focus-visible, .media-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.other-card .platforms-caption, .contact-note {
+  color: var(--ink-dim);
+  font-size: 13px;
+}
+.contact-note { margin: 8px 0 20px; }
+.achievements-list .ach-title { overflow-wrap: anywhere; }
+.other-eyebrow, .other-card .date, .section-head .meta, .tag:not(.tag-glow):not(.tag-cta) {
+  color: #A39BAF;
+  font-size: 13px;
+}
+.featured-card, .media-card, .other-card { border-color: rgba(184,169,201,.24); }
+.video-reveal {
+  position: relative;
+  z-index: 2;
+  height: clamp(220px, 32svh, 380px);
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    rgba(5,6,13,.95), rgba(5,6,13,.28) 32%,
+    rgba(5,6,13,.28) 68%, rgba(5,6,13,.95));
+}
+#music { padding-bottom: 48px; }
+#profile { padding-top: 64px; }
+@media (max-width: 960px) {
+  .hero-subtitle { font-size: clamp(1.1rem, 5vw, 1.35rem); margin-bottom: 18px; }
+  .hero-eyebrow { font-size: 12px; }
+  .video-reveal { height: clamp(220px, 30svh, 300px); }
+}
 </style>
 <script>
   // JSが動く環境でのみ reveal を隠す（動かなければ全内容がそのまま見える）
@@ -1162,12 +1228,12 @@ footer .foot-brand { color: var(--ink-dim); }
   <a href="#home" class="brand"><span class="dot"></span>Yumeai Fantasy</a>
   <nav>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#home" data-en="Home" data-ja="ホーム">Home</a></li>
+      <li><a href="#home" data-en="Home" data-ja="Home">Home</a></li>
       <li><a href="#films" data-en="Films" data-ja="Films">Films</a></li>
       <li><a href="#music" data-en="Music" data-ja="Music">Music</a></li>
       <li><a href="#profile" data-en="Profile" data-ja="Profile">Profile</a></li>
-      <li><a href="#other" data-en="Other" data-ja="Other">Other</a></li>
-      <li><a href="#contact" data-en="Contact" data-ja="お問合せ">Contact</a></li>
+      <li><a href="#other" data-en="Other Works" data-ja="Other Works">Other Works</a></li>
+      <li><a href="#contact" data-en="Contact" data-ja="Contact">Contact</a></li>
     </ul>
   </nav>
   <div class="lang-switch" role="group" aria-label="Language / 言語">
@@ -1183,15 +1249,12 @@ footer .foot-brand { color: var(--ink-dim); }
 <section class="hero" id="home">
 
   <div class="hero-content">
-    <div class="hero-eyebrow" data-en="Short Film Director / Visual Creator" data-ja="短編映像ディレクター / Visual Creator">Short Film Director / Visual Creator</div>
-    <h1>
-      Matsuri Yumeai
-      <span class="slash">／</span>
-      <span class="accent">Yumeai Fantasy</span>
-    </h1>
+    <div class="hero-eyebrow" data-en="Short Film Director / Visual Creator" data-ja="短編映像ディレクター / ビジュアルクリエイター">Short Film Director / Visual Creator</div>
+    <h1>Matsuri Yumeai</h1>
+    <p class="hero-subtitle" data-en="Film &amp; Visual Works by Yumeai Fantasy" data-ja="夢逢真月里の映像作品 — Yumeai Fantasy">Film &amp; Visual Works by Yumeai Fantasy</p>
     <p class="hero-tagline">
-      Creating psychological short films and music videos through dreamcore, liminal spaces, memory, and absence.<br>
-      Creator of <em>Stone Memory</em>, now streaming on Fairground AI Creator TV.
+      I direct psychological short films and music videos about memory, absence, and the traces people leave behind.<br>
+      My short film <em>Stone Memory</em> is featured on Fairground AI Creator TV.
     </p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#films" data-en="View Films" data-ja="映像作品を見る">View Films <span class="arrow">→</span></a>
@@ -1217,6 +1280,7 @@ footer .foot-brand { color: var(--ink-dim); }
     <a class="featured-card is-featured reveal" href="https://fairground.tv/watch/6394335259112" target="_blank" rel="noopener noreferrer">
       <div class="featured-media">
         <img src="./images/stone-memory.jpg" alt="Stone Memory" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <span class="watch-mark" aria-hidden="true">▶</span>
         <div class="featured-overlay"></div>
       </div>
       <div class="featured-body">
@@ -1234,6 +1298,7 @@ footer .foot-brand { color: var(--ink-dim); }
     <a class="featured-card reveal" href="https://fairground.tv/watch/6403045771112" target="_blank" rel="noopener noreferrer" style="margin-top:36px;">
       <div class="featured-media">
         <img src="./images/undelivered.jpg" alt="Undelivered" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <span class="watch-mark" aria-hidden="true">▶</span>
         <div class="featured-overlay"></div>
       </div>
       <div class="featured-body">
@@ -1254,6 +1319,7 @@ footer .foot-brand { color: var(--ink-dim); }
       <a class="media-card reveal" href="https://youtu.be/1SPELzf_a4E" target="_blank" rel="noopener noreferrer">
         <div class="media-card-image">
           <img src="https://img.youtube.com/vi/1SPELzf_a4E/maxresdefault.jpg" alt="Liminal Hunt: Shadows Awaken" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/1SPELzf_a4E/hqdefault.jpg'">
+          <span class="watch-mark" aria-hidden="true">▶</span>
         </div>
         <div class="media-card-body">
           <div class="media-card-label" data-en="Liminal Horror Short Film · 2025 · Chroma Awards Submission" data-ja="リミナルホラー短編 · 2025 · Chroma Awards応募作品">Liminal Horror Short Film · 2025 · Chroma Awards Submission</div>
@@ -1281,6 +1347,7 @@ footer .foot-brand { color: var(--ink-dim); }
       <a class="media-card reveal" href="https://youtu.be/a82a1J7S1AE" target="_blank" rel="noopener noreferrer">
         <div class="media-card-image">
           <img src="https://img.youtube.com/vi/a82a1J7S1AE/maxresdefault.jpg" alt="Yeah Me Raw Riot" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/a82a1J7S1AE/hqdefault.jpg'">
+          <span class="watch-mark" aria-hidden="true">▶</span>
         </div>
         <div class="media-card-body">
           <div class="media-card-label" data-en="Music Video · SUMMATEI 2026 Pre-event" data-ja="MV · サマテイ2026前夜祭">Music Video · SUMMATEI 2026 Pre-event</div>
@@ -1291,6 +1358,7 @@ footer .foot-brand { color: var(--ink-dim); }
       <a class="media-card reveal" href="https://youtu.be/WuuXRKsw2pQ" target="_blank" rel="noopener noreferrer">
         <div class="media-card-image">
           <img src="https://img.youtube.com/vi/WuuXRKsw2pQ/hqdefault.jpg" alt="Side Gig Glow" loading="lazy">
+          <span class="watch-mark" aria-hidden="true">▶</span>
         </div>
         <div class="media-card-body">
           <div class="media-card-label" data-en="Music Video · SUMMATEI 2026 DAY2" data-ja="MV · サマテイ2026 DAY2">Music Video · SUMMATEI 2026 DAY2</div>
@@ -1301,6 +1369,7 @@ footer .foot-brand { color: var(--ink-dim); }
       <a class="media-card reveal" href="https://youtu.be/UBdyQFq7K4A" target="_blank" rel="noopener noreferrer">
         <div class="media-card-image">
           <img src="https://img.youtube.com/vi/UBdyQFq7K4A/maxresdefault.jpg" alt="We Both Loved This House" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/UBdyQFq7K4A/hqdefault.jpg'">
+          <span class="watch-mark" aria-hidden="true">▶</span>
         </div>
         <div class="media-card-body">
           <div class="media-card-label" data-en="Music Video · SUMMATEI 2026 DAY2" data-ja="MV · サマテイ2026 DAY2">Music Video · SUMMATEI 2026 DAY2</div>
@@ -1324,18 +1393,21 @@ footer .foot-brand { color: var(--ink-dim); }
           <span class="tag">Liminal</span>
           <span class="tag">Y2K</span>
         </div>
+        <span class="music-cta" data-en="Explore music →" data-ja="音楽を見る →">Explore music →</span>
       </div>
     </a>
   </div>
 </section>
 
-<!-- ========== PROFILE & ACHIEVEMENTS ========== -->
+<div class="video-reveal" aria-hidden="true"></div>
+
+<!-- ========== PROFILE & SELECTED WORKS ========== -->
 <section class="profile" id="profile">
   <div class="container">
     <div class="section-head reveal">
       <div>
         <span class="num" data-en="03 / PROFILE" data-ja="03 / PROFILE">03 / PROFILE</span>
-        <h2>Profile &amp; Achievements</h2>
+        <h2>Profile &amp; Selected Works</h2>
       </div>
       <div class="meta">Yumeai Fantasy ／ Matsuri Yumeai</div>
     </div>
@@ -1361,9 +1433,11 @@ footer .foot-brand { color: var(--ink-dim); }
         </div>
 
         <ul class="achievements-list reveal">
-          <li><span class="ach-title">Stone Memory</span><span class="ach-meta" data-en="Streaming on Fairground AI Creator TV" data-ja="Fairground AI Creator TVで配信中">Streaming on Fairground AI Creator TV</span></li>
+          <li><span class="ach-title">Stone Memory</span><span class="ach-meta" data-en="Featured on Fairground AI Creator TV" data-ja="Fairground AI Creator TVで配信中">Featured on Fairground AI Creator TV</span></li>
+          <li><span class="ach-title">Dreamina CPP, CapCut CPP &amp; Template creator</span></li>
+          <li><span class="ach-title" data-en="1世紀旅行記 — Nominated in the COLOTEK AI anime contest. A Project M team production." data-ja="『1世紀旅行記』―COLOTEK AIアニメコンテストノミネート。Project Mチーム制作作品。">1世紀旅行記 — Nominated in the COLOTEK AI anime contest. A Project M team production.</span></li>
           <li><span class="ach-title">Undelivered</span><span class="ach-meta" data-en="Available on the Fairground Portal" data-ja="Fairground Portalで公開中">Available on the Fairground Portal</span></li>
-          <li><span class="ach-title">Liminal Hunt: Shadows Awaken</span><span class="ach-meta" data-en="Chroma Awards Submission" data-ja="Chroma Awards応募作品">Chroma Awards Submission</span></li>
+          <li><span class="ach-title">Liminal Hunt: Shadows Awaken</span><span class="ach-meta" data-en="Short film · 2025" data-ja="短編作品 · 2025">Short film · 2025</span></li>
           <li><span class="ach-title">Yeah Me Raw Riot</span><span class="ach-meta" data-en="Released at SUMMATEI 2026 Pre-event" data-ja="サマテイ2026前夜祭 公開作品">Released at SUMMATEI 2026 Pre-event</span></li>
           <li><span class="ach-title">Side Gig Glow</span><span class="ach-meta" data-en="Released at SUMMATEI 2026 DAY2" data-ja="サマテイ2026 DAY2 公開作品">Released at SUMMATEI 2026 DAY2</span></li>
           <li><span class="ach-title">We Both Loved This House</span><span class="ach-meta" data-en="Released at SUMMATEI 2026 DAY2" data-ja="サマテイ2026 DAY2 公開作品">Released at SUMMATEI 2026 DAY2</span></li>
@@ -1406,7 +1480,7 @@ footer .foot-brand { color: var(--ink-dim); }
     <div class="section-head reveal">
       <div>
         <span class="num" data-en="04 / OTHER" data-ja="04 / OTHER">04 / OTHER</span>
-        <h2 data-en="Other" data-ja="Other">Other</h2>
+        <h2 data-en="Other Works" data-ja="Other Works">Other Works</h2>
       </div>
     </div>
 
@@ -1418,6 +1492,7 @@ footer .foot-brand { color: var(--ink-dim); }
         <h3 data-en="Tsukimako &amp; Matsuri&#39;s Movie Room" data-ja="月真猫 真月里の映画場">Tsukimako &amp; Matsuri&#39;s Movie Room</h3>
         <span class="tag" data-en="Irregular Updates" data-ja="不定期更新" style="align-self:flex-start;">Irregular Updates</span>
         <p data-en="A casual Japanese-language film podcast hosted by two creators, sharing impressions, discoveries, and conversations about movies. Currently updated on an irregular schedule." data-ja="月真猫と夢逢真月里が、観た映画や気になった作品について、感想や雑談を交えながらゆるく語る映画ポッドキャストです。通勤や作業のお供に、気軽にお楽しみください。現在は不定期で更新しています。">A casual Japanese-language film podcast hosted by two creators, sharing impressions, discoveries, and conversations about movies. Currently updated on an irregular schedule.</p>
+        <p class="platforms-caption" data-en="Choose a listening platform" data-ja="配信先を選ぶ">Choose a listening platform</p>
         <div class="podcast-platforms">
           <a class="platform" href="https://podcasts.apple.com/jp/podcast/%E6%9C%88%E7%9C%9F%E7%8C%AB%E7%9C%9F%E6%9C%88%E9%87%8C%E3%81%AE%E6%98%A0%E7%94%BB%E5%A0%B4/id1775065637" target="_blank" rel="noopener noreferrer">Apple</a>
           <a class="platform" href="https://open.spotify.com/show/1153LH93uOBgnnKT3KxiLH?si=781575dd27ce4701&amp;nd=1&amp;dlsi=6e801b7b487e4911" target="_blank" rel="noopener noreferrer">Spotify</a>
@@ -1452,7 +1527,8 @@ footer .foot-brand { color: var(--ink-dim); }
   <div class="container">
     <span class="num" data-en="05 / CONTACT" data-ja="05 / CONTACT" style="display:block; margin-bottom:24px;">05 / CONTACT</span>
     <h2>Get in <em>Touch</em></h2>
-    <p class="lede" data-en="For work inquiries, collaborations, and questions, please use the form." data-ja="お仕事のご依頼・コラボレーション・その他のお問い合わせは、フォームよりお願いします。">For work inquiries, collaborations, and other questions, please contact me through the form.</p>
+    <p class="lede" data-en="For short films, music videos, visual direction, promotional videos, and creative collaborations, please use the contact form." data-ja="短編映像、ミュージックビデオ、映像演出、プロモーション映像、共同制作のご相談は、お問い合わせフォームからご連絡ください。">For short films, music videos, visual direction, promotional videos, and creative collaborations, please use the contact form.</p>
+    <p class="contact-note" data-en="You may write your inquiry in English." data-ja="英語でのご相談も可能です。">You may write your inquiry in English.</p>
     <a class="btn btn-primary" href="https://form.run/@neontraum--2sxkJMaR3o5E8Yt3b4vC" target="_blank" rel="noopener noreferrer">Open Contact Form <span class="arrow">→</span></a>
   </div>
 </section>
@@ -1580,8 +1656,8 @@ else window.addEventListener('load', initHeroMedia, { once: true });
    LANGUAGE — 動画には一切触れない
    ============================================================ */
 const TAGLINE = {
-  en: 'Creating psychological short films and music videos through dreamcore, liminal spaces, memory, and absence.<br>Creator of <em>Stone Memory</em>, now streaming on Fairground AI Creator TV.',
-  ja: 'ドリームコア、リミナル空間、記憶、不在を軸に、心理的な短編映像とミュージックビデオを制作しています。<br>Fairground AI Creator TVで配信中の<em>『Stone Memory』</em>を制作。'
+  en: 'I direct psychological short films and music videos about memory, absence, and the traces people leave behind.<br>My short film <em>Stone Memory</em> is featured on Fairground AI Creator TV.',
+  ja: '記憶や不在、人が去ったあとに残る気配をテーマに、心理的な短編映像とミュージックビデオを制作しています。<br>短編映画<em>『Stone Memory』</em>はFairground AI Creator TVで配信中です。'
 };
 const CONTACT_BTN = { en: 'Open Contact Form', ja: 'お問い合わせフォームを開く' };
 
