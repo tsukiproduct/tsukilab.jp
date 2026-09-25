@@ -86,12 +86,12 @@
       // Compressed tracks are decoded by the browser; avoid two simultaneous decodes on a phone.
       await window.tsukiRhythmPending;
       if(task!==runId||audioFileForAnalysis!==songFile){stop();return;}
-      const {audioChunks,CHUNK_SECONDS}=await import('./audio-chunks.mjs');
+      const {audioChunks,CHUNK_SECONDS,CHUNK_STEP}=await import('./audio-chunks.mjs?v=20260925e');
       const raw=[];let count=0,duration=player.duration||0;
       for await(const clip of audioChunks(file,{signal})){
         if(task!==runId||audioFileForAnalysis!==songFile){if(task===runId)stop();return;}
         duration=clip.total;
-        status.textContent='歌詞を解析中… '+(count+1)+' / '+Math.ceil(duration/CHUNK_SECONDS)+' 区間';
+        status.textContent='歌詞を解析中… '+(count+1)+' / '+(duration<=CHUNK_SECONDS?1:Math.ceil((duration-CHUNK_SECONDS)/CHUNK_STEP)+1)+' 区間';
         const response=await fetch('./api/transcribe',{method:'POST',headers:{'Content-Type':'audio/wav','X-Lyric-Language':$('asrLanguage').value},body:clip.wav,signal});
         const data=await response.json().catch(()=>({}));
         if(!response.ok)throw Error(data.error||'音声認識サーバー：'+response.status);
@@ -106,7 +106,7 @@
         $('spreadBtn').disabled=false;$('syncBtn').disabled=false;$('autoSyncBtn').disabled=false;
         if(Number.isFinite(player.duration))window.tsukiPreviewLine?.(0);
         window.tsukiOpenPreview?.();
-        status.textContent=lines.length+' 行を仮検出しました。'+(ignored?ignored+' 件の音楽・重複を除外。':'')+'プレビューと時刻を確認して修正してください。';
+        status.textContent=lines.length+' 行を仮検出しました（曲 '+Math.round(duration)+' 秒・'+count+' 区間）。'+(ignored?ignored+' 件の音楽・重複を除外。':'')+'プレビューと時刻を確認して修正してください。';
       }else status.textContent='有効な歌詞を検出できませんでした。現在の歌詞は保持しました。';
       stop();
     }catch(error){if(task!==runId)return;status.textContent='自動検出できませんでした：'+String(error?.message||error);stop();}

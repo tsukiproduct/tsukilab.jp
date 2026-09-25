@@ -1,5 +1,6 @@
 // Produce independent 16 kHz mono WAV clips without loading an ASR model on the phone.
 export const CHUNK_SECONDS=20;
+export const CHUNK_STEP=18; // Repeat two seconds across boundaries to retain cut syllables.
 const RATE=16000;
 
 export async function inspectWav(file){
@@ -42,8 +43,8 @@ function readPcm(v,at,format){
 export async function* audioChunks(file,{signal}={}){
   const wav=await inspectWav(file);
   if(wav){
-    const framesPerChunk=Math.round(CHUNK_SECONDS*wav.rate);
-    for(let first=0;first<wav.frames;first+=framesPerChunk){
+    const framesPerChunk=Math.round(CHUNK_SECONDS*wav.rate),framesPerStep=Math.round(CHUNK_STEP*wav.rate);
+    for(let first=0;first<wav.frames;first+=framesPerStep){
       if(signal?.aborted)throw new DOMException('Aborted','AbortError');
       const count=Math.min(framesPerChunk,wav.frames-first);
       const bytes=await file.slice(wav.dataOffset+first*wav.block,wav.dataOffset+(first+count)*wav.block).arrayBuffer();
@@ -54,6 +55,7 @@ export async function* audioChunks(file,{signal}={}){
         out[i]=sum/wav.channels;
       }
       yield {start:first/wav.rate,duration:count/wav.rate,wav:wav16(out),total:wav.duration};
+      if(first+count>=wav.frames)break;
     }
     return;
   }
@@ -61,7 +63,7 @@ export async function* audioChunks(file,{signal}={}){
   const context=new AudioContext();
   try{
     const decoded=await context.decodeAudioData(await file.arrayBuffer());
-    for(let start=0;start<decoded.duration;start+=CHUNK_SECONDS){
+    for(let start=0;start<decoded.duration;start+=CHUNK_STEP){
       if(signal?.aborted)throw new DOMException('Aborted','AbortError');
       const length=Math.min(CHUNK_SECONDS,decoded.duration-start);
       const offline=new OfflineAudioContext(1,Math.ceil(length*RATE),RATE);
@@ -69,6 +71,7 @@ export async function* audioChunks(file,{signal}={}){
       source.start(0,start,length);
       const rendered=await offline.startRendering();
       yield {start,duration:length,wav:wav16(rendered.getChannelData(0)),total:decoded.duration};
+      if(start+length>=decoded.duration)break;
     }
   }finally{await context.close();}
 }

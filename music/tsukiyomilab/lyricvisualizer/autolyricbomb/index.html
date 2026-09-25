@@ -191,7 +191,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
           </div>
         </div>
         <button class="btn acc asr-button" id="transcribeBtn" type="button" disabled>✦ 曲から歌詞を自動検出（試験版）</button>
-        <p class="note" id="transcribeStatus" role="status" aria-live="polite">曲を読み込むと使えます。認識時は音源を20秒ずつ Cloudflare に送信します。ボーカル音源があれば優先します。認識結果は確認してください。</p>
+        <p class="note" id="transcribeStatus" role="status" aria-live="polite">曲を読み込むと使えます。認識時は音源を20秒ずつ、境目を2秒重ねて Cloudflare に送信します。ボーカル音源があれば優先します。認識結果は確認してください。</p>
         <textarea id="lyricsIn" placeholder="歌詞を1行ずつ入力&#10;例：&#10;月が嗤う夜に&#10;君の声だけ探してた"></textarea>
         <button class="btn lyric-clean" id="cleanNotesBtn" type="button">♪ などの音符を削除</button>
         <div class="row">
@@ -1509,7 +1509,7 @@ a{color:#ff8ab0;}
 </script>
 <script src="./studio.js?v=20260925b"></script>
 <script src="./rhythm.js?v=20260925b"></script>
-<script src="./transcription.js?v=20260925d"></script>
+<script src="./transcription.js?v=20260925e"></script>
 <script src="./director.js?v=20260925c"></script>
 </body>
 </html>
