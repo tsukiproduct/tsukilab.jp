@@ -260,9 +260,9 @@ input[type=range]{width:100%;accent-color:var(--acc);}
             <button data-v="0">なし</button>
           </div>
         </div>
-        <div class="field" style="margin-top:4px"><label id="holdLabel">歌詞の表示時間 — 制限なし（次の行まで表示）</label>
+        <div class="field" style="margin-top:4px"><label id="holdLabel">歌詞の表示時間 — 自動（間奏では自然に消える）</label>
           <input type="range" id="holdIn" min="0" max="15" step="0.5" value="0"></div>
-        <p class="note" style="margin-top:0">0＝制限なし。秒数を設定すると、その時間で歌詞が消えるので<b>間奏で残り続けません</b>。</p>
+        <p class="note" style="margin-top:0">0＝歌詞の長さに応じて自動で消えます。秒数を指定すると全行に適用します。次の歌詞が先に来た場合はそちらを優先します。</p>
         <div class="inline" style="margin-top:8px">
           <label>消え方</label>
           <div class="toggle" id="outStyleToggle">
@@ -282,6 +282,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
           <label>この行の動き<select id="lineAnim" disabled><option value="">全体設定を使う</option></select></label>
           <label>この行の配置<select id="lineLayout" disabled><option value="">全体設定を使う</option><option value="center">中央</option><option value="bottom">下部</option><option value="wander">変化をつける</option><option value="tate">縦書き</option><option value="tateRight">右寄せ縦書き</option></select></label>
           <label>この行の図形<select id="lineGraphic" disabled><option value="">動きに合わせる</option><option value="rays">放射線</option><option value="sweep">光の帯</option><option value="frame">フレーム</option><option value="dots">網点</option><option value="none">図形なし</option></select></label>
+          <label>この行の表示時間<select id="lineHold" disabled><option value="">全体設定を使う</option><option value="2">2 秒</option><option value="3">3 秒</option><option value="4">4 秒</option><option value="5">5 秒</option><option value="6">6 秒</option><option value="8">8 秒</option><option value="10">10 秒</option><option value="15">15 秒</option></select></label>
         </div>
       </div>
     </div>
@@ -529,10 +530,15 @@ player.addEventListener("loadedmetadata",()=>{
 
 /* ===== 歌詞 ===== */
 function ensureSizes(){S.lines.forEach(l=>{if(typeof l.size!=="number")l.size=1;});}
+function lyricHoldSeconds(line){
+  if(Number(line.holdSeconds)>0)return Number(line.holdSeconds);
+  if(S.maxHold>0)return S.maxHold;
+  return Math.min(6.8,4.2+[...line.text].length*.09);
+}
 function previewLineAt(i){
   const line=S.lines[i];if(!line||!player.src)return;
   const next=S.lines[i+1]?.t??(Number.isFinite(player.duration)?player.duration:line.t+3);
-  const visible=Math.max(.15,Math.min(next-line.t,S.maxHold>0?S.maxHold:Infinity));
+  const visible=Math.max(.15,Math.min(next-line.t,lyricHoldSeconds(line)));
   player.pause();$("playBtn").textContent="▶";
   player.currentTime=Math.min(Number.isFinite(player.duration)?player.duration:Infinity,line.t+Math.min(.9,visible*.52));
 }
@@ -736,10 +742,11 @@ function updateSizeUI(){
   const has=selLine>=0&&selLine<S.lines.length;
   $("sizeIn").disabled=!has;$("sizeReset").disabled=!has;
   $("lineAnim").disabled=!has;$("lineLayout").disabled=!has;
-  $("lineGraphic").disabled=!has;
+  $("lineGraphic").disabled=!has;$("lineHold").disabled=!has;
   $("lineAnim").value=has?(S.lines[selLine].animKey||""):"";
   $("lineLayout").value=has?(S.lines[selLine].layoutKey||""):"";
   $("lineGraphic").value=has?(S.lines[selLine].graphicKey||""):"";
+  $("lineHold").value=has?String(S.lines[selLine].holdSeconds||""):"";
   if(has){const p=Math.round((S.lines[selLine].size||1)*100);$("sizeIn").value=p;$("sizeLabel").textContent="選択中の行サイズ — "+p+"%";}
   else $("sizeLabel").textContent="行を選んでください";
 }
@@ -750,6 +757,7 @@ for(const option of $("animSel").options){
 $("lineAnim").addEventListener("change",e=>{if(selLine>=0)S.lines[selLine].animKey=e.target.value||undefined;});
 $("lineLayout").addEventListener("change",e=>{if(selLine>=0)S.lines[selLine].layoutKey=e.target.value||undefined;});
 $("lineGraphic").addEventListener("change",e=>{if(selLine>=0)S.lines[selLine].graphicKey=e.target.value||undefined;});
+$("lineHold").addEventListener("change",e=>{if(selLine>=0)S.lines[selLine].holdSeconds=e.target.value?Number(e.target.value):undefined;});
 $("sizeIn").addEventListener("input",e=>{
   if(selLine<0)return;
   S.lines[selLine].size=+e.target.value/100;
@@ -772,7 +780,7 @@ $("monoIn").addEventListener("input",e=>{S.mono=+e.target.value;$("monoLabel").t
 $("fxAmtIn").addEventListener("input",e=>{S.fxAmt=+e.target.value;$("fxAmtLabel").textContent=S.fxAmt+"%";});
 $("holdIn").addEventListener("input",e=>{
   S.maxHold=+e.target.value;
-  $("holdLabel").textContent=S.maxHold>0?("歌詞の表示時間 — "+S.maxHold+"秒で消える"):"歌詞の表示時間 — 制限なし（次の行まで表示）";
+  $("holdLabel").textContent=S.maxHold>0?("歌詞の表示時間 — "+S.maxHold+"秒で消える"):"歌詞の表示時間 — 自動（間奏では自然に消える）";
 });
 $("outStyleToggle").querySelectorAll("button").forEach(b=>{
   b.addEventListener("click",()=>{
@@ -1221,9 +1229,8 @@ function loop(){
       if(idx>=0){
         const lineStart=S.lines[idx].t;
         const nextT=idx+1<S.lines.length?S.lines[idx+1].t:(player.duration||lineStart+6);
-        let endT=nextT;
-        /* 表示時間の上限：設定があれば start+maxHold と nextT の早い方で消す */
-        if(S.maxHold>0)endT=Math.min(nextT,lineStart+S.maxHold);
+        // Fade before a long gap (including an instrumental break), or before the next lyric.
+        const endT=Math.min(nextT,lineStart+lyricHoldSeconds(S.lines[idx]));
         const elapsed=t-lineStart;
         const remain=endT-t;
         if(remain>-0.05){
@@ -1493,7 +1500,7 @@ function applySnap(d){
   $("monoIn").value=S.mono;$("monoLabel").textContent=S.mono+"%";
   $("fxAmtIn").value=S.fxAmt;$("fxAmtLabel").textContent=S.fxAmt+"%";
   $("holdIn").value=S.maxHold;
-  $("holdLabel").textContent=S.maxHold>0?("歌詞の表示時間 — "+S.maxHold+"秒で消える"):"歌詞の表示時間 — 制限なし（次の行まで表示）";
+  $("holdLabel").textContent=S.maxHold>0?("歌詞の表示時間 — "+S.maxHold+"秒で消える"):"歌詞の表示時間 — 自動（間奏では自然に消える）";
   $("outStyleToggle").querySelectorAll("button").forEach(b=>b.classList.toggle("on",b.dataset.v===S.outStyle));
   setToggleUI($("underlineToggle"),S.underline);setToggleUI($("grainToggle"),S.grain);
   setToggleUI(document.querySelector('.toggle[data-fx="zoom"]'),S.fxZoom);
@@ -1556,9 +1563,9 @@ a{color:#ff8ab0;}
   window.open(url,"_blank");
 });
 </script>
-<script src="./studio.js?v=20260925b"></script>
+<script src="./studio.js?v=20260925f"></script>
 <script src="./rhythm.js?v=20260925b"></script>
-<script src="./transcription.js?v=20260925e"></script>
+<script src="./transcription.js?v=20260925f"></script>
 <script src="./director.js?v=20260925c"></script>
 </body>
 </html>

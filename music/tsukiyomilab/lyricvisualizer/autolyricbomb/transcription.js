@@ -101,7 +101,7 @@
       const {lines,ignored}=resultLines(raw,player.duration||duration);
       if(lines.length){
         S.lines=lines;$('lyricsIn').value=lines.map(l=>l.text).join('\n');
-        S.maxHold=0;$('holdIn').value=0;$('holdLabel').textContent='歌詞の表示時間 — 制限なし（次の行まで表示）';
+        S.maxHold=0;$('holdIn').value=0;$('holdLabel').textContent='歌詞の表示時間 — 自動（間奏では自然に消える）';
         selLine=-1;renderChips();renderSizeChips();updateSizeUI();
         $('spreadBtn').disabled=false;$('syncBtn').disabled=false;$('autoSyncBtn').disabled=false;
         if(Number.isFinite(player.duration))window.tsukiPreviewLine?.(0);
