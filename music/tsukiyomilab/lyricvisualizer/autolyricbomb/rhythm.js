@@ -6,14 +6,17 @@
     const status=$('rhythmStatus');
     status.textContent='曲の拍と盛り上がりを解析中…';
     try{
-      const [{audioChunks,CHUNK_SECONDS},core]=await Promise.all([import('./audio-chunks.mjs'),import('./rhythm-core.mjs')]);
+      const [{audioChunks,CHUNK_SECONDS,CHUNK_STEP},core]=await Promise.all([import('./audio-chunks.mjs?v=20260925f'),import('./rhythm-core.mjs')]);
       const chunks=[];let count=0,duration=0;
       for await(const clip of audioChunks(file)){
         if(mine!==generation)return null;
         const pcm=new Int16Array(clip.wav,44),samples=new Float32Array(pcm.length);
         for(let i=0;i<pcm.length;i++)samples[i]=pcm[i]/32768;
-        chunks.push(core.analyzePulse(samples,clip.start));duration=clip.total;count++;
-        status.textContent='拍を解析中… '+count+' / '+Math.ceil(duration/CHUNK_SECONDS)+' 区間';
+        const pulse=core.analyzePulse(samples,clip.start);
+        // Consecutive clips overlap; keep each onset once (the later clip's first seconds are also its warm-up).
+        if(clip.start>0)pulse.peaks=pulse.peaks.filter(p=>p.t>=clip.start+CHUNK_SECONDS-CHUNK_STEP);
+        chunks.push(pulse);duration=clip.total;count++;
+        status.textContent='拍を解析中… '+count+' / '+(duration<=CHUNK_SECONDS?1:Math.ceil((duration-CHUNK_SECONDS)/CHUNK_STEP)+1)+' 区間';
         await new Promise(resolve=>setTimeout(resolve,0));
       }
       if(mine!==generation)return null;

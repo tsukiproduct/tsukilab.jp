@@ -8,6 +8,18 @@ const headers={'Content-Type':'application/json; charset=utf-8','Cache-Control':
 
 function json(status,value){return new Response(JSON.stringify(value),{status,headers});}
 
+// Only this editor's own page may call the API (browsers always send Origin on POST).
+function sameOrigin(request){
+  const origin=request.headers.get('Origin');
+  return !origin||origin===new URL(request.url).origin;
+}
+// Per-IP limits via the Workers Rate Limiting binding; skipped if the binding is not configured.
+async function allowed(limiter,request){
+  if(!limiter)return true;
+  const ip=request.headers.get('CF-Connecting-IP')||'unknown';
+  try{return (await limiter.limit({key:ip})).success;}catch{return true;}
+}
+
 async function transcribe(request,env){
   if(!env.AI)return json(503,{error:'Cloudflare Workers AI のバインディングがありません。'});
   const size=Number(request.headers.get('content-length'));
@@ -54,8 +66,12 @@ function mapAnswers(lines,answers){
 export default {
   async fetch(request,env){
     const path=new URL(request.url).pathname;
-    if(path===transcriptionEndpoint&&request.method==='POST')return transcribe(request,env);
-    if(path!==endpoint||request.method!=='POST')return json(404,{error:'Not found'});
+    const isApi=(path===transcriptionEndpoint||path===endpoint)&&request.method==='POST';
+    if(!isApi)return json(404,{error:'Not found'});
+    if(!sameOrigin(request))return json(403,{error:'このページ以外からは利用できません。'});
+    const limiter=path===transcriptionEndpoint?env.TRANSCRIBE_LIMIT:env.JEV_LIMIT;
+    if(!await allowed(limiter,request))return json(429,{error:'短時間に多くのリクエストがありました。1分ほど待ってから再度お試しください。'});
+    if(path===transcriptionEndpoint)return transcribe(request,env);
     if(!env.TYPESAFE_API_KEY)return json(503,{error:'Jev API キーが Cloudflare Worker に設定されていません。'});
     try{
       if(Number(request.headers.get('content-length'))>100000)return json(413,{error:'歌詞データが大きすぎます。'});

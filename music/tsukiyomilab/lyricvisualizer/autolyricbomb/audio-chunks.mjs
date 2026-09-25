@@ -49,10 +49,13 @@ export async function* audioChunks(file,{signal}={}){
       const count=Math.min(framesPerChunk,wav.frames-first);
       const bytes=await file.slice(wav.dataOffset+first*wav.block,wav.dataOffset+(first+count)*wav.block).arrayBuffer();
       const v=new DataView(bytes),out=new Float32Array(Math.ceil(count*RATE/wav.rate));
+      // Box-filter each output sample over the source frames it covers: a cheap low-pass before 16 kHz.
+      const ratio=wav.rate/RATE;
       for(let i=0;i<out.length;i++){
-        const frame=Math.min(count-1,Math.floor(i*wav.rate/RATE));let sum=0;
-        for(let c=0;c<wav.channels;c++)sum+=readPcm(v,frame*wav.block+c*wav.bits/8,wav);
-        out[i]=sum/wav.channels;
+        const first=Math.min(count-1,Math.floor(i*ratio)),last=Math.max(first+1,Math.min(count,Math.floor((i+1)*ratio)));
+        let sum=0;
+        for(let frame=first;frame<last;frame++)for(let c=0;c<wav.channels;c++)sum+=readPcm(v,frame*wav.block+c*wav.bits/8,wav);
+        out[i]=sum/((last-first)*wav.channels);
       }
       yield {start:first/wav.rate,duration:count/wav.rate,wav:wav16(out),total:wav.duration};
       if(first+count>=wav.frames)break;

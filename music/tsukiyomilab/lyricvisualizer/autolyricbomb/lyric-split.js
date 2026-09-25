@@ -38,11 +38,18 @@
           if(width(part)<4&&phrases.length)phrases[phrases.length-1]+=' '+part;
           else phrases.push(part);
         }
-        if(phrases.length>1&&width(phrases[0])<4)phrases[1]=phrases.shift()+' '+phrases[0];
+        if(phrases.length>1&&width(phrases[0])<4){const first=phrases.shift();phrases[0]=first+' '+phrases[0];}
         for(const phrase of phrases)result.push(...fit(phrase));
       }
     }
     return result.filter(Boolean);
   }
+  // Hand-typed lines keep the user's line breaks; only lines too long for the screen are divided.
+  function fitLine(text){
+    const line=String(text||'').trim();
+    if(!line)return [];
+    return width(line)>limit?splitLyrics(line):[line];
+  }
   root.tsukiSplitLyrics=splitLyrics;
+  root.tsukiFitLine=fitLine;
 })(typeof window==='undefined'?globalThis:window);

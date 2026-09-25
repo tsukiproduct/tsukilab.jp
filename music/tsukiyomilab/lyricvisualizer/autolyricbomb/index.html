@@ -251,7 +251,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
             <option value="bottom">下部固定（字幕風）</option>
             <option value="custom">自由配置（プレビューで移動）</option>
             <option value="tate">縦書き</option><option value="tateRight">右寄せ縦書き</option>
-            <option value="danmaku">弾幕（左→右に流れる）</option>
+            <option value="danmaku">弾幕（右→左に流れる）</option>
           </select></div>
         <div class="inline">
           <label>下線</label>
@@ -381,56 +381,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 <div class="stage-modal-bg" id="stageModalBg" hidden aria-hidden="true"></div>
 <div class="stage-modal-tools" id="stageModalTools" hidden><button id="stageEditBtn" type="button">▣ 編集しながら見る</button><button id="stageModalClose" type="button">✕ 閉じる</button></div>
 
-<script>
-/* Split one recognized phrase into legible lyric lines while keeping punctuation. */
-(function(root){
-  'use strict';
-  const weight=ch=>/[\u3040-\u30ff\u3400-\u9fff\uff00-\uffef]/u.test(ch)?1.5:1;
-  const width=text=>[...text].reduce((n,ch)=>n+weight(ch),0);
-  const limit=34;
-  function fit(text){
-    const out=[];let current='';
-    const japanese=/[\u3040-\u30ff\u3400-\u9fff]/u.test(text);
-    const words=japanese?[...text]:text.match(/\S+\s*/gu)||[];
-    for(const token of words){
-      if(current&&width(current+token)>limit){
-        if(japanese&&width(current)>limit*.62){
-          const mark=Math.max(current.lastIndexOf('は'),current.lastIndexOf('が'),current.lastIndexOf('を'),current.lastIndexOf('に'),current.lastIndexOf('で'),current.lastIndexOf('と'),current.lastIndexOf('へ'));
-          if(mark>current.length*.63&&mark<current.length-1){out.push(current.slice(0,mark+1).trim());current=current.slice(mark+1);}
-        }
-        if(current&&width(current+token)>limit){out.push(current.trim());current='';}
-      }
-      if(width(token)>limit){
-        for(const ch of token){if(current&&width(current+ch)>limit){out.push(current.trim());current='';}current+=ch;}
-      }else current+=token;
-    }
-    if(current.trim())out.push(current.trim());
-    return out;
-  }
-  function splitLyrics(text){
-    const result=[];
-    for(const line of String(text||'').split(/\r?\n/u)){
-      // Sentence and clause endings stay attached to the preceding words.
-      const clauses=line.match(/[^.!?。！？、，,;；]+[.!?。！？、，,;；]*/gu)||[];
-      for(const clause of clauses){
-        const japanese=/[\u3040-\u30ff\u3400-\u9fff]/u.test(clause);
-        const units=japanese?clause.split(/\s+/u):[clause];
-        const phrases=[];
-        for(const unit of units){
-          const part=unit.trim();if(!part)continue;
-          // A number or one-character fragment belongs with the preceding phrase.
-          if(width(part)<4&&phrases.length)phrases[phrases.length-1]+=' '+part;
-          else phrases.push(part);
-        }
-        if(phrases.length>1&&width(phrases[0])<4)phrases[1]=phrases.shift()+' '+phrases[0];
-        for(const phrase of phrases)result.push(...fit(phrase));
-      }
-    }
-    return result.filter(Boolean);
-  }
-  root.tsukiSplitLyrics=splitLyrics;
-})(typeof window==='undefined'?globalThis:window);
-</script>
+<script src="./lyric-split.js?v=20260925b"></script>
 <script>
 "use strict";
 const W=1280,H=720;
@@ -456,7 +407,7 @@ const cv=$("cv"),ctx=cv.getContext("2d");
 const player=$("player");
 let ac=null,analyser=null,freq=null,wave=null,msDest=null;
 let audioFileForAnalysis=null;
-let bgCache=null,grainCv=null,fxCanvas=null,fxCtx=null;
+let bgCache=null,grainCv=null,fxCanvas=null,fxCtx=null,monoCanvas=null,monoCtx=null;
 let beatEnv=0; // 平滑化したビート量
 window.tsukiRhythm=null;
 
@@ -543,15 +494,36 @@ function previewLineAt(i){
   player.currentTime=Math.min(Number.isFinite(player.duration)?player.duration:Infinity,line.t+Math.min(.9,visible*.52));
 }
 window.tsukiPreviewLine=previewLineAt;
+/* Match edited lyrics to existing lines by text (LCS), so inserting or deleting a line keeps the other timings. */
+function matchLines(oldLines,texts){
+  const n=oldLines.length,m=texts.length,dp=Array.from({length:n+1},()=>new Uint16Array(m+1));
+  for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)dp[i][j]=oldLines[i].text===texts[j]?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  const match=new Array(m).fill(-1);
+  for(let i=0,j=0;i<n&&j<m;){
+    if(oldLines[i].text===texts[j]){match[j]=i;i++;j++;}
+    else if(dp[i+1][j]>=dp[i][j+1])i++;else j++;
+  }
+  return match;
+}
+function rebuildLines(texts){
+  const total=player.duration||180,old=S.lines,match=matchLines(old,texts);
+  const out=texts.map((text,j)=>match[j]>=0?{...old[match[j]],text}:{text,size:1,t:NaN});
+  if(!out.some(l=>Number.isFinite(l.t)))return out.map((l,i)=>({...l,t:(total/(out.length+1))*(i+1)}));
+  // New lines are placed evenly between their matched neighbours.
+  for(let j=0;j<out.length;){
+    if(Number.isFinite(out[j].t)){j++;continue;}
+    let k=j;while(k<out.length&&!Number.isFinite(out[k].t))k++;
+    const before=j>0?out[j-1].t:0,after=k<out.length?out[k].t:Math.max(total,before+(k-j)*3);
+    const from=j>0?before:Math.min(before,after-(k-j+1)*.5);
+    for(let x=j;x<k;x++)out[x].t=Math.max(0,from+(after-from)*(x-j+1)/(k-j+1));
+    j=k;
+  }
+  return out.map(l=>({...l,size:typeof l.size==="number"?l.size:1}));
+}
 $("applyBtn").addEventListener("click",()=>{
-  const txt=$("lyricsIn").value.split("\n").flatMap(window.tsukiSplitLyrics).filter(Boolean);
+  const txt=$("lyricsIn").value.split("\n").flatMap(window.tsukiFitLine).filter(Boolean);
   $("lyricsIn").value=txt.join("\n");
-  const total=player.duration||180;
-  S.lines=txt.map((text,i)=>({
-    ...(S.lines[i]||{}),text,
-    t:S.lines[i]?S.lines[i].t:(total/(txt.length+1))*(i+1),
-    size:S.lines[i]&&typeof S.lines[i].size==="number"?S.lines[i].size:1
-  }));
+  S.lines=rebuildLines(txt);
   syncIdx=0;selLine=-1;
   $("spreadBtn").disabled=!(S.lines.length&&player.duration);
   $("syncBtn").disabled=!(S.lines.length&&player.src);
@@ -950,14 +922,14 @@ function updateDanmaku(t,energy,now){
     if(!l._fired&&l.t<=t&&t-l.t<0.5){
       l._fired=true;
       const sz=H*0.07*(l.size||1);
-      danmaku.push({text:l.text,size:sz,lane:Math.floor(mulberry32(i*97+S.seed)()*8),x:W+20,speed:W/6,born:now});
+      danmaku.push({text:l.text,size:sz,lane:Math.floor(mulberry32(i*97+S.seed)()*8),start:l.t,speed:W/6});
     }
     if(l.t>t)l._fired=false;
   });
   ctx.save();ctx.textAlign="left";ctx.textBaseline="middle";
   for(let k=danmaku.length-1;k>=0;k--){
     const d=danmaku[k];
-    d.x-=d.speed*(1/60);
+    d.x=W+20-(t-d.start)*d.speed; // based on song time, not display refresh rate
     ctx.font=`700 ${d.size}px ${FONTS[S.fontKey]}`;
     const tw=ctx.measureText(d.text).width;
     if(d.x+tw<-20){danmaku.splice(k,1);continue;}
@@ -1184,16 +1156,11 @@ function loop(){
 
   /* --- 単色化 --- */
   if(S.mono>0){
-    try{
-      const img=fx.getImageData(0,0,W,H);const d=img.data;const m=S.mono/100;
-      const ar=parseInt(S.accent.slice(1,3),16),ag=parseInt(S.accent.slice(3,5),16),ab=parseInt(S.accent.slice(5,7),16);
-      for(let i=0;i<d.length;i+=4){
-        const lum=(d[i]*0.299+d[i+1]*0.587+d[i+2]*0.114)/255;
-        const tr=lum*ar,tg=lum*ag,tb=lum*ab;
-        d[i]=d[i]*(1-m)+tr*m;d[i+1]=d[i+1]*(1-m)+tg*m;d[i+2]=d[i+2]*(1-m)+tb*m;
-      }
-      fx.putImageData(img,0,0);
-    }catch(e){}
+    // luminance x accent color, blended by S.mono — composited on the GPU (no getImageData per frame)
+    if(!monoCanvas){monoCanvas=document.createElement("canvas");monoCanvas.width=W;monoCanvas.height=H;monoCtx=monoCanvas.getContext("2d");}
+    monoCtx.globalCompositeOperation="source-over";monoCtx.filter="grayscale(1)";monoCtx.drawImage(fxCanvas,0,0);monoCtx.filter="none";
+    monoCtx.globalCompositeOperation="multiply";monoCtx.fillStyle=S.accent;monoCtx.fillRect(0,0,W,H);
+    fx.save();fx.globalAlpha=S.mono/100;fx.drawImage(monoCanvas,0,0);fx.restore();
   }
 
   /* --- メインキャンバスへ。RGBずれなら3チャンネルを少しずらして合成 --- */
@@ -1280,6 +1247,8 @@ let seekDragging=false;
 let lastPeekUpdate=0;
 $("seek").addEventListener("pointerdown",()=>seekDragging=true);
 $("seek").addEventListener("pointerup",()=>seekDragging=false);
+$("seek").addEventListener("change",()=>seekDragging=false);
+window.addEventListener("pointerup",()=>seekDragging=false);
 
 let posDragging=false;
 const activePointers=new Map();
@@ -1479,7 +1448,11 @@ function snapshot(){
 function setToggleUI(el,val){el.querySelectorAll("button").forEach(b=>b.classList.toggle("on",(b.dataset.v==="1")===val));}
 function applySnap(d){
   if(!d)return;
-  S.lines=Array.isArray(d.lines)?d.lines:[];ensureSizes();
+  S.lines=(Array.isArray(d.lines)?d.lines:[])
+    .filter(l=>l&&(typeof l.text==="string"||typeof l.text==="number")&&Number.isFinite(Number(l.t)))
+    .map(({_fired,...l})=>({...l,text:String(l.text),t:Math.max(0,Number(l.t))}))
+    .sort((a,b)=>a.t-b.t);
+  ensureSizes();
   $("lyricsIn").value=d.lyricText||"";
   S.fontKey=d.fontKey||"mincho";S.animKey=d.animKey||"random";
   S.layoutKey=d.layoutKey||"wander";
@@ -1564,8 +1537,8 @@ a{color:#ff8ab0;}
 });
 </script>
 <script src="./studio.js?v=20260925f"></script>
-<script src="./rhythm.js?v=20260925b"></script>
-<script src="./transcription.js?v=20260925f"></script>
+<script src="./rhythm.js?v=20260925d"></script>
+<script src="./transcription.js?v=20260925h"></script>
 <script src="./director.js?v=20260925c"></script>
 </body>
 </html>

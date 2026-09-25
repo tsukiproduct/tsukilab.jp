@@ -6,7 +6,14 @@
     if(running)return;
     button.disabled=!audioFileForAnalysis;
   }
-  $('audIn').addEventListener('change',refreshAvailability);
+  $('audIn').addEventListener('change',()=>{
+    // A vocal stem belongs to one song; do not reuse it for the next track.
+    if(vocalFile){
+      vocalFile=null;$('vocalIn').value='';$('vocalDrop').classList.remove('done');
+      if(!running)status.textContent='曲を変更したため、ボーカル音源の指定を解除しました。';
+    }
+    refreshAvailability();
+  });
   $('vocalIn').addEventListener('change',e=>{
     vocalFile=e.target.files?.[0]||null;
     $('vocalDrop').classList.toggle('done',!!vocalFile);
@@ -86,7 +93,7 @@
       // Compressed tracks are decoded by the browser; avoid two simultaneous decodes on a phone.
       await window.tsukiRhythmPending;
       if(task!==runId||audioFileForAnalysis!==songFile){stop();return;}
-      const {audioChunks,CHUNK_SECONDS,CHUNK_STEP}=await import('./audio-chunks.mjs?v=20260925e');
+      const {audioChunks,CHUNK_SECONDS,CHUNK_STEP}=await import('./audio-chunks.mjs?v=20260925f');
       const raw=[];let count=0,duration=player.duration||0;
       for await(const clip of audioChunks(file,{signal})){
         if(task!==runId||audioFileForAnalysis!==songFile){if(task===runId)stop();return;}

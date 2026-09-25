@@ -3,6 +3,11 @@
   "main": "worker.mjs",
   "compatibility_date": "2026-09-25",
   "ai": { "binding": "AI" },
+  // Per-IP limits. A 6-minute song needs about 20 transcription clips; 120 lyric lines need 15 Jev batches.
+  "ratelimits": [
+    { "name": "TRANSCRIBE_LIMIT", "namespace_id": "2601", "simple": { "limit": 30, "period": 60 } },
+    { "name": "JEV_LIMIT", "namespace_id": "2602", "simple": { "limit": 20, "period": 60 } }
+  ],
   "routes": [
     {
       "pattern": "tsukilab.jp/music/tsukiyomilab/lyricvisualizer/autolyricbomb/api/*",
