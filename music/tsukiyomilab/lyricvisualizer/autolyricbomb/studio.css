@@ -42,3 +42,5 @@ body.stage-preview-open{overflow:hidden}
 
 .stage-modal-tools[hidden]{display:none}.stage-modal-tools{position:fixed;z-index:82;right:16px;top:calc(env(safe-area-inset-top) + 14px);display:flex;gap:8px}.stage-modal-tools button{border:1px solid #74847b;border-radius:9px;background:#1b2925;color:#fff;padding:10px 15px;font:700 13px 'Zen Kaku Gothic New',sans-serif;cursor:pointer}.stage-modal-tools #stageEditBtn{background:var(--acc);color:#152019;border-color:var(--acc)}
 @media(max-width:520px){.stage-modal-tools{left:10px;right:10px;justify-content:space-between}.stage-modal-tools button{font-size:11px;padding:9px 10px}.stagewrap.floating{max-width:92vw}}
+
+.director-results-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 8px;color:#dce8df;font-size:12px}.director-results-head button{padding:6px 10px;color:var(--acc);font-size:11px}.director-scenes.expanded{max-height:none;overflow:visible}.director-scenes .director-scene{scroll-margin-top:75px}

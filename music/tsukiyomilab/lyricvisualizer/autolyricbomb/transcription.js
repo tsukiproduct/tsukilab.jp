@@ -31,20 +31,7 @@
     const cleaned=text.replace(/[\[\]()（）♪♫♬\s.,!?。、「」:：_-]/g,'').toLowerCase();
     return !cleaned||/^(music|musical|instrumental|instrumentals|applause|silence|backgroundmusic|拍手|音楽|演奏|無音)$/.test(cleaned);
   }
-  function splitLyrics(text){
-    const tokens=text.match(/\S+\s*/gu)||[];
-    const weight=s=>[...s].reduce((n,ch)=>n+(/[\u3040-\u30ff\u3400-\u9fff]/u.test(ch)?1.8:1),0);
-    const result=[];let part='';
-    for(const token of tokens){
-      if(part&&weight(part+token)>39){result.push(part.trim());part='';}
-      // Japanese lyrics often contain no spaces; split those on punctuation or length.
-      if(weight(token)>39){
-        for(const ch of token){if(part&&weight(part+ch)>39){result.push(part.trim());part='';}part+=ch;}
-      }else part+=token;
-    }
-    if(part.trim())result.push(part.trim());
-    return result;
-  }
+  function splitLyrics(text){return window.tsukiSplitLyrics(text);}
   function resultLines(raw,duration){
     const result=[];let ignored=0;
     for(const segment of raw){

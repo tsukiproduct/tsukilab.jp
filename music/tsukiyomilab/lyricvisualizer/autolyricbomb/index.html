@@ -89,7 +89,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 .modal h3{margin:0 0 12px;font-size:14px;letter-spacing:1px;}
 .modal video{width:100%;border-radius:10px;background:#000;display:block;}
 </style>
-<link rel="stylesheet" href="./studio.css?v=20260925b">
+<link rel="stylesheet" href="./studio.css?v=20260925d">
 </head>
 <body>
 
@@ -144,8 +144,9 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <p class="note">イントロは予感、サビは爆発、最後は余韻。歌詞ごとに動き・大きさ・配置を変える演出プランを見られます。</p>
         <div class="row"><button class="btn acc" type="button" id="directorSampleBtn">演出プランのサンプルを見る ▶</button><button class="btn" type="button" id="directorLiveBtn">この歌詞を Jev で演出</button></div>
         <p class="note director-status" id="directorStatus" role="status">曲から歌詞を検出した後、「この歌詞を Jev で演出」を押してください。サンプルは架空の歌詞を使った再現例です。</p>
+        <div class="director-results-head"><strong id="directorLineCount">演出一覧</strong><button class="btn" type="button" id="directorExpandBtn" hidden aria-expanded="false">全行を表示 ↓</button></div>
         <div class="director-scenes" id="directorScenes" aria-label="歌詞ごとの演出プラン"></div>
-        <p class="note" id="directorSceneHint" hidden>演出一覧をスクロールできます。行を押すとその歌詞の位置に移動します。</p>
+        <p class="note" id="directorSceneHint" hidden>行を押すとその歌詞の位置をプレビューできます。</p>
       </div>
       <div class="card template-card">
         <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 13</span></div>
@@ -379,6 +380,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 <div class="stage-modal-bg" id="stageModalBg" hidden aria-hidden="true"></div>
 <div class="stage-modal-tools" id="stageModalTools" hidden><button id="stageEditBtn" type="button">▣ 編集しながら見る</button><button id="stageModalClose" type="button">✕ 閉じる</button></div>
 
+<script src="./lyric-split.js?v=20260925d"></script>
 <script>
 "use strict";
 const W=1280,H=720;
@@ -487,7 +489,8 @@ function previewLineAt(i){
 }
 window.tsukiPreviewLine=previewLineAt;
 $("applyBtn").addEventListener("click",()=>{
-  const txt=$("lyricsIn").value.split("\n").map(s=>s.trim()).filter(Boolean);
+  const txt=$("lyricsIn").value.split("\n").flatMap(window.tsukiSplitLyrics).filter(Boolean);
+  $("lyricsIn").value=txt.join("\n");
   const total=player.duration||180;
   S.lines=txt.map((text,i)=>({
     ...(S.lines[i]||{}),text,
@@ -842,11 +845,14 @@ function drawLine(line,idx,prog,energy,now){
   }
   let x=-tw/2;
   const glitchFrame=anim==="glitch"&&Math.random()<0.08+energy*0.15;
+  const showDuration=Math.max(.3,prog.duration||3.2);
+  const drawStep=showDuration*.60/Math.max(1,chars.length);
+  const drawStroke=Math.max(.06,Math.min(.44,showDuration*.16));
   chars.forEach((ch,ci)=>{
     const cw=ctx.measureText(ch).width;
     const cd=clamp((prog.elapsed-ci*0.04)/0.5,0,1);const ca=easeOut(cd)*tOut;
     if(anim==="type"&&prog.elapsed<ci*0.085){x+=cw;return;}
-    if(anim==="draw"&&prog.elapsed<ci*.15){x+=cw;return;}
+    if(anim==="draw"&&prog.elapsed<ci*drawStep){x+=cw;return;}
     if(ca<=0){x+=cw;return;}
     let dx=0,dy=0;
     if(anim==="scatter"){const r2=mulberry32(idx*131+ci*17+S.seed);dx=(r2()-0.5)*640*(1-easeOut(cd));dy=(r2()-0.5)*420*(1-easeOut(cd));}
@@ -855,7 +861,7 @@ function drawLine(line,idx,prog,energy,now){
     if(anim==="stagger")dy=(ci%2?-1:1)*base*.85*(1-easeOut(clamp((prog.elapsed-ci*.065)/.36,0,1)));
     if(glitchFrame&&Math.random()<0.4){dx=(Math.random()-0.5)*16;dy=(Math.random()-0.5)*10;}
     if(anim==="draw"){
-      const progress=easeOut(clamp((prog.elapsed-ci*.15)/.44,0,1));
+      const progress=easeOut(clamp((prog.elapsed-ci*drawStep)/drawStroke,0,1));
       ctx.save();ctx.beginPath();ctx.rect(x-3,-base*.75,(cw+6)*progress,base*1.5);ctx.clip();
       ctx.globalAlpha=alpha*.9;ctx.strokeStyle=accent;ctx.lineWidth=1.4;ctx.strokeText(ch,x-1,dy+1);
       ctx.globalAlpha=alpha*.45;ctx.strokeStyle='#907563';ctx.lineWidth=.9;ctx.strokeText(ch,x+1,dy-1);
@@ -1174,7 +1180,7 @@ function loop(){
         if(remain>-0.05){
           const outDur=S.outStyle==="cut"?0.05:Math.min(.5,Math.max(.05,(endT-lineStart)*.35));
           drawSceneGraphic(S.lines[idx],idx,elapsed,window.tsukiBeatAt?.(t)||0);
-          drawLine(S.lines[idx],idx,{elapsed,remain,outDur,beat:window.tsukiBeatAt?.(t)||0},energy,now);
+          drawLine(S.lines[idx],idx,{elapsed,remain,outDur,duration:endT-lineStart,beat:window.tsukiBeatAt?.(t)||0},energy,now);
         }
       }
     }
@@ -1189,7 +1195,7 @@ function loop(){
       const scene=director?.scenes[which];
       const line={text:scene?.text||samples[which],size:scene?.size||1.2,animKey:scene?.animKey,layoutKey:scene?.layoutKey};
       drawSceneGraphic(line,which+3,elapsed,beatEnv);
-      drawLine(line,which+3,{elapsed,remain:duration-elapsed,outDur:.55,beat:beatEnv},energy,demoClock);
+      drawLine(line,which+3,{elapsed,remain:duration-elapsed,outDur:.55,duration,beat:beatEnv},energy,demoClock);
       ctx.save();ctx.font="15px monospace";ctx.fillStyle=hexA(S.accent,.85);ctx.fillText("MOTION SAMPLE / "+String(which+1).padStart(2,"0"),W*.06,H*.93);ctx.restore();
     }
   }
@@ -1503,7 +1509,7 @@ a{color:#ff8ab0;}
 </script>
 <script src="./studio.js?v=20260925b"></script>
 <script src="./rhythm.js?v=20260925b"></script>
-<script src="./transcription.js?v=20260925b"></script>
-<script src="./director.js?v=20260925b"></script>
+<script src="./transcription.js?v=20260925d"></script>
+<script src="./director.js?v=20260925c"></script>
 </body>
 </html>

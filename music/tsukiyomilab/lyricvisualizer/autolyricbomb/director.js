@@ -9,9 +9,17 @@
   const row=$('directorScenes'),status=$('directorStatus');
   const readable={pop:'一文字ずつ跳ねる',scatter:'散って集まる',glitch:'ノイズとズレ',type:'一文字ずつ出る',drift:'静かに漂う',slam:'拍で着地',wipe:'光で開く',pulse:'拍で脈打つ',echo:'残像を残す',stagger:'交互に跳ねる',draw:'手描きで現れる'};
   let sampleOpen=false;
+  let currentRequest=null,partial=null;
+  $('directorExpandBtn').addEventListener('click',()=>{
+    const expanded=row.classList.toggle('expanded');
+    $('directorExpandBtn').textContent=expanded?'一覧をたたむ ↑':'全行を表示 ↓';
+    $('directorExpandBtn').setAttribute('aria-expanded',String(expanded));
+  });
   function show(scenes,source){
     row.replaceChildren();
     $('directorSceneHint').hidden=scenes.length<=4;
+    $('directorLineCount').textContent=source==='sample'?'サンプル '+scenes.length+' 場面':'演出結果 '+scenes.length+' / '+S.lines.length+' 行';
+    $('directorExpandBtn').hidden=scenes.length<=4;
     scenes.forEach((scene,i)=>{
       const btn=document.createElement('button');btn.type='button';btn.className='director-scene';
       const head=document.createElement('strong');head.textContent=scene.label||'LINE '+String(i+1).padStart(2,'0');
@@ -32,7 +40,8 @@
     $('directorSampleBtn').textContent='演出プランのサンプルを見る ▶';
   };
   document.addEventListener('tsuki:template-applied',()=>{
-    row.replaceChildren();$('directorSceneHint').hidden=true;
+    row.replaceChildren();$('directorSceneHint').hidden=true;$('directorExpandBtn').hidden=true;
+    $('directorLineCount').textContent='演出一覧';partial=null;
     status.textContent=S.lines.length?'テンプレートを適用しました。前の行別演出はテンプレート下のボタンで戻せます。':'テンプレートのサンプルを表示しています。';
   });
   $('directorSampleBtn').addEventListener('click',()=>{
@@ -44,9 +53,11 @@
     show(sample,'sample');
   });
   $('directorLiveBtn').addEventListener('click',async()=>{
+    if(currentRequest){currentRequest.abort();return;}
     if(!S.lines.length){status.textContent='先に曲と歌詞を読み込み、歌詞を反映してください。';return;}
     if(sampleOpen){window.tsukiDirectorDemo=null;sampleOpen=false;$('directorSampleBtn').textContent='演出プランのサンプルを見る ▶';}
-    const button=$('directorLiveBtn');button.disabled=true;status.textContent='拍の解析と Jev の演出を準備しています…';
+    const button=$('directorLiveBtn');currentRequest=new AbortController();
+    button.textContent='演出を中止';status.textContent=S.lines.length+' 行の拍解析と Jev の演出を準備しています…';
     try{
       await window.tsukiRhythmPending;
       status.textContent='Jev に歌詞と曲の拍・盛り上がりを渡しています…';
@@ -59,22 +70,35 @@
         const near=candidates[0];
         return {intensity:Math.round((window.tsukiIntensityAt?.(line.t)??.4)*100)/100,beatOffset:near&&Math.abs(near.t-line.t)<.5?Math.round((line.t-near.t)*100)/100:null,beatStrength:near&&Math.abs(near.t-line.t)<.5?near.strength:0};
       });
-      const response=await fetch('./api/jev-director',{
-        method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({lines:S.lines.map((l,i)=>({text:l.text,t:l.t,...lineRhythm[i]})),duration:player.duration||0,bpm:rhythm?.bpm||null,sections:rhythm?.sections||[]})
-      });
-      if(!response.headers.get('content-type')?.includes('application/json'))throw Error('Jev の接続先は、この公開ページにまだ設定されていません。');
-      const data=await response.json();
-      if(!response.ok)throw Error(data.error||'Jev への接続に失敗しました。');
-      if(!Array.isArray(data.plan)||data.plan.length!==S.lines.length)throw Error('演出プランの行数が一致しません。');
-      S.lines=S.lines.map((line,i)=>({...line,animKey:data.plan[i].animKey,layoutKey:data.plan[i].layoutKey,graphicKey:data.plan[i].graphicKey,size:data.plan[i].size}));
+      // Each request is small enough to finish reliably; a failed or cancelled song can resume.
+      const input=S.lines.map((l,i)=>({text:l.text,t:l.t,...lineRhythm[i]}));
+      const fingerprint=JSON.stringify({lines:input,bpm:rhythm?.bpm||null,sections:rhythm?.sections||[]});
+      if(!partial||partial.fingerprint!==fingerprint)partial={fingerprint,plan:[]};
+      const total=input.length;
+      while(partial.plan.length<total){
+        const start=partial.plan.length,batch=input.slice(start,start+8);
+        status.textContent='Jev が演出を作成中… '+start+' / '+total+' 行。完了済みの行は保持しています。';
+        const response=await fetch('./api/jev-director',{
+          method:'POST',headers:{'Content-Type':'application/json'},signal:currentRequest.signal,
+          body:JSON.stringify({lines:batch,duration:player.duration||0,bpm:rhythm?.bpm||null,sections:rhythm?.sections||[]})
+        });
+        if(!response.headers.get('content-type')?.includes('application/json'))throw Error('Jev の接続先は、この公開ページにまだ設定されていません。');
+        const data=await response.json();
+        if(!response.ok)throw Error(data.error||'Jev への接続に失敗しました。');
+        if(!Array.isArray(data.plan)||data.plan.length!==batch.length)throw Error('演出プランの行数が一致しません。');
+        partial.plan.push(...data.plan);
+      }
+      const plan=partial.plan;
+      partial=null;
+      S.lines=S.lines.map((line,i)=>({...line,animKey:plan[i].animKey,layoutKey:plan[i].layoutKey,graphicKey:plan[i].graphicKey,size:plan[i].size}));
       S.directionBackup=null;$('restoreDirectionBtn').hidden=true;
-      show(S.lines.map((line,i)=>({...line,label:'LINE '+String(i+1).padStart(2,'0'),why:(readable[line.animKey]||'動きを調整')+' / '+Math.round((data.plan[i].confidence||0)*100)+'%'})),'live');
+      show(S.lines.map((line,i)=>({...line,label:'LINE '+String(i+1).padStart(2,'0'),why:(readable[line.animKey]||'動きを調整')+' / '+Math.round((plan[i].confidence||0)*100)+'%'})),'live');
       renderChips();renderSizeChips();
       if(player.src)window.tsukiPreviewLine?.(0);
-      status.textContent='Jev の判定を歌詞ごとの動き・配置・大きさへ反映しました。プレビューで確認できます。';
-      window.tsukiOpenPreview?.();
-    }catch(error){status.textContent=String(error?.message||error)+' サンプル演出は上のボタンで確認できます。';}
-    finally{button.disabled=false;}
+      status.textContent=S.lines.length+' / '+S.lines.length+' 行の演出を反映しました。下の「全行を表示」で最後まで確認できます。プレビューは「大きく見る」から開けます。';
+    }catch(error){
+      if(error?.name==='AbortError')status.textContent='中止しました。'+(partial?.plan.length||0)+' / '+S.lines.length+' 行まで完了。もう一度押すと続きから再開できます。';
+      else status.textContent=String(error?.message||error)+' '+(partial?.plan.length||0)+' / '+S.lines.length+' 行まで完了。もう一度押すと続きから再試行できます。';
+    }finally{currentRequest=null;button.textContent=partial?.plan.length?'続きから Jev で演出':'この歌詞を Jev で演出';}
   });
 })();
