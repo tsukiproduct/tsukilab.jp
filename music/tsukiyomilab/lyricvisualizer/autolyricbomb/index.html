@@ -89,7 +89,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 .modal h3{margin:0 0 12px;font-size:14px;letter-spacing:1px;}
 .modal video{width:100%;border-radius:10px;background:#000;display:block;}
 </style>
-<link rel="stylesheet" href="./studio.css?v=20260925d">
+<link rel="stylesheet" href="./studio.css?v=20260925e">
 </head>
 <body>
 
@@ -189,6 +189,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
             <label>認識モデル<select id="asrModel"><option value="large">Cloudflare Whisper large v3 turbo</option></select></label>
             <label>歌詞の言語<select id="asrLanguage"><option value="auto">自動判定</option><option value="japanese">日本語</option><option value="english">英語</option></select></label>
           </div>
+          <label class="asr-check"><input type="checkbox" id="asrVad">歌のない区間を先に除く（試験・小さな歌声も消える場合あり）</label>
         </div>
         <button class="btn acc asr-button" id="transcribeBtn" type="button" disabled>✦ 曲から歌詞を自動検出（試験版）</button>
         <p class="note" id="transcribeStatus" role="status" aria-live="polite">曲を読み込むと使えます。認識時は音源を20秒ずつ、境目を2秒重ねて Cloudflare に送信します。ボーカル音源があれば優先します。認識結果は確認してください。</p>
@@ -1538,7 +1539,7 @@ a{color:#ff8ab0;}
 </script>
 <script src="./studio.js?v=20260925f"></script>
 <script src="./rhythm.js?v=20260925d"></script>
-<script src="./transcription.js?v=20260925h"></script>
+<script src="./transcription.js?v=20260925i"></script>
 <script src="./director.js?v=20260925c"></script>
 </body>
 </html>

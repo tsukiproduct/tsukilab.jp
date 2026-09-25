@@ -32,6 +32,8 @@ The editor sends its lyric text and approximate times to its own `/api/jev-direc
 
 The recognition model is Cloudflare Whisper large v3 turbo; language may be automatic, Japanese or English. A separate vocal stem can improve recognition without replacing the original music playback. The editor filters literal `[music]`-style output, rejects empty-only results, retains previous lyrics on failure, and seeks the preview to the first detected line on success. On a 172-second, 48 MB PCM WAV, preparing one 20-second segment uses a small audio buffer rather than loading the whole recording. MP3/M4A still require whole-file browser decoding until streaming codec decoding is added.
 
+Whisper sometimes "hears" video-subtitle closings such as 「ご視聴ありがとうございました」 or 「チャンネル登録」 over intros and interludes. The editor drops these phrases, drops segments that Whisper itself marks as likely silence (no-speech probability above 0.6 with average log probability below -1) or as an unsure repetitive loop, and keeps a lone 「ありがとうございました」 only when Whisper is confident it was sung. An opt-in checkbox enables Workers AI voice activity detection, which removes more interludes but can also cut soft singing.
+
 No JIZURA source code or media is included in this prototype. The uploaded reference audio is not committed.
 
 ## Mobile preview and lyric legibility

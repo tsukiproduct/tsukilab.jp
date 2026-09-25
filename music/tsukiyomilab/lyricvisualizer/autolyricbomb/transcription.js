@@ -38,13 +38,37 @@
     const cleaned=text.replace(/[\[\]()（）♪♫♬\s.,!?。、「」:：_-]/g,'').toLowerCase();
     return !cleaned||/^(music|musical|instrumental|instrumentals|applause|silence|backgroundmusic|拍手|音楽|演奏|無音)$/.test(cleaned);
   }
+  // Whisper learned video subtitles, so over intros and interludes it can "hear" their closing lines.
+  const closingPhrase=/ご視聴|視聴ありがとう|チャンネル登録|高評価|グッドボタン|字幕|翻訳|thanksforwatching|thankyouforwatching|subscribe|subtitles|amaraorg/;
+  const politeEnding=/^(ありがとうございました|ありがとうございます|おやすみなさい|お疲れ様でした|おつかれさまでした|thankyou|thanks|bye|byebye)$/;
+  const squash=text=>text.replace(/[\s\[\]()（）♪♫♬.,!?！？。、「」『』:：_\-・…~〜]/gu,'').toLowerCase();
+  function isClosingPhrase(text){return closingPhrase.test(squash(text));}
+  // Whisper's own quality figures: likely silence or a repetitive loop the model is unsure of.
+  function isDoubtful(segment){
+    const noSpeech=Number(segment.noSpeech),logprob=Number(segment.logprob),compression=Number(segment.compression);
+    if(Number.isFinite(noSpeech)&&Number.isFinite(logprob)&&noSpeech>.6&&logprob<-1)return true;
+    return Number.isFinite(compression)&&Number.isFinite(logprob)&&compression>2.4&&logprob<-.8;
+  }
+  function isUnsure(segment){
+    const noSpeech=Number(segment.noSpeech),logprob=Number(segment.logprob);
+    return (Number.isFinite(noSpeech)&&noSpeech>.3)||(Number.isFinite(logprob)&&logprob<-.7);
+  }
+  // A lone "ありがとうございました" can be a real lyric, so drop it only when Whisper itself is unsure.
+  function isHallucination(segment,text){
+    return isClosingPhrase(text)||(politeEnding.test(squash(text))&&isUnsure(segment));
+  }
   function splitLyrics(text){return window.tsukiSplitLyrics(text);}
   function resultLines(raw,duration){
-    const result=[];let ignored=0;
+    const result=[];let ignored=0,phantom=0;
     for(const segment of raw){
       const text=String(segment.text||'').replace(/[♪♫♬♩🎵🎶]/gu,'').replace(/\s+/gu,' ').trim();
       if(isNoise(text)){ignored++;continue;}
-      const pieces=splitLyrics(text).filter(piece=>{if(isNoise(piece)){ignored++;return false;}return true;});
+      if(isDoubtful(segment)||isHallucination(segment,text)){phantom++;continue;}
+      const pieces=splitLyrics(text).filter(piece=>{
+        if(isNoise(piece)){ignored++;return false;}
+        if(isHallucination(segment,piece)){phantom++;return false;}
+        return true;
+      });
       const totalWeight=pieces.reduce((n,p)=>n+[...p].length,0);let passed=0;
       for(let i=0;i<pieces.length;i++){
         const text=pieces[i];
@@ -57,7 +81,7 @@
         result.push({text,t:Math.max(0,Math.min(duration,t)),size:1});
       }
     }
-    return {lines:result.sort((a,b)=>a.t-b.t),ignored};
+    return {lines:result.sort((a,b)=>a.t-b.t),ignored,phantom};
   }
   function parseTime(value){
     if(typeof value==='number')return value;
@@ -77,7 +101,7 @@
   function extractSegments(data,offset,duration){
     let segments=data.segments?.length?data.segments:fromVtt(data.vtt||'');
     if(!segments.length&&data.text?.trim())segments=[{start:0,end:duration,text:data.text}];
-    return segments.map(s=>({t:offset+parseTime(s.start??s.start_time??0),end:offset+parseTime(s.end??s.end_time??duration),text:s.text||''})).filter(s=>Number.isFinite(s.t));
+    return segments.map(s=>({t:offset+parseTime(s.start??s.start_time??0),end:offset+parseTime(s.end??s.end_time??duration),text:s.text||'',noSpeech:s.no_speech_prob,logprob:s.avg_logprob,compression:s.compression_ratio})).filter(s=>Number.isFinite(s.t));
   }
   button.addEventListener('click',async()=>{
     if(running){stop();status.textContent='自動検出を中止しました。';return;}
@@ -99,13 +123,13 @@
         if(task!==runId||audioFileForAnalysis!==songFile){if(task===runId)stop();return;}
         duration=clip.total;
         status.textContent='歌詞を解析中… '+(count+1)+' / '+(duration<=CHUNK_SECONDS?1:Math.ceil((duration-CHUNK_SECONDS)/CHUNK_STEP)+1)+' 区間';
-        const response=await fetch('./api/transcribe',{method:'POST',headers:{'Content-Type':'audio/wav','X-Lyric-Language':$('asrLanguage').value},body:clip.wav,signal});
+        const response=await fetch('./api/transcribe',{method:'POST',headers:{'Content-Type':'audio/wav','X-Lyric-Language':$('asrLanguage').value,'X-Lyric-Vad':$('asrVad').checked?'1':'0'},body:clip.wav,signal});
         const data=await response.json().catch(()=>({}));
         if(!response.ok)throw Error(data.error||'音声認識サーバー：'+response.status);
         raw.push(...extractSegments(data,clip.start,clip.duration));count++;
       }
       if(task!==runId)return;
-      const {lines,ignored}=resultLines(raw,player.duration||duration);
+      const {lines,ignored,phantom}=resultLines(raw,player.duration||duration);
       if(lines.length){
         S.lines=lines;$('lyricsIn').value=lines.map(l=>l.text).join('\n');
         S.maxHold=0;$('holdIn').value=0;$('holdLabel').textContent='歌詞の表示時間 — 自動（間奏では自然に消える）';
@@ -113,7 +137,7 @@
         $('spreadBtn').disabled=false;$('syncBtn').disabled=false;$('autoSyncBtn').disabled=false;
         if(Number.isFinite(player.duration))window.tsukiPreviewLine?.(0);
         window.tsukiOpenPreview?.();
-        status.textContent=lines.length+' 行を仮検出しました（曲 '+Math.round(duration)+' 秒・'+count+' 区間）。'+(ignored?ignored+' 件の音楽・重複を除外。':'')+'プレビューと時刻を確認して修正してください。';
+        status.textContent=lines.length+' 行を仮検出しました（曲 '+Math.round(duration)+' 秒・'+count+' 区間）。'+(ignored?ignored+' 件の音楽・重複を除外。':'')+(phantom?phantom+' 件の歌声ではない推定（「ご視聴ありがとうございました」等）を除外。':'')+'プレビューと時刻を確認して修正してください。';
       }else status.textContent='有効な歌詞を検出できませんでした。現在の歌詞は保持しました。';
       stop();
     }catch(error){if(task!==runId)return;status.textContent='自動検出できませんでした：'+String(error?.message||error);stop();}

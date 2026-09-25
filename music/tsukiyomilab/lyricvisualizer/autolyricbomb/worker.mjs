@@ -32,7 +32,8 @@ async function transcribe(request,env){
     if(tag(0)!=='RIFF'||tag(8)!=='WAVE'||tag(12)!=='fmt '||tag(36)!=='data'||view.getUint16(20,true)!==1||view.getUint16(22,true)!==1||view.getUint32(24,true)!==16000||view.getUint16(34,true)!==16||view.getUint32(40,true)>640000)return json(400,{error:'16 kHz・16 bit・モノラル WAV の区間を指定してください。'});
     let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));
     const language=request.headers.get('X-Lyric-Language');
-    const options={audio:btoa(binary),task:'transcribe',vad_filter:false,condition_on_previous_text:false,no_speech_threshold:0.8};
+    // Voice activity detection removes intros and interludes but may also cut soft singing, so it is opt-in.
+    const options={audio:btoa(binary),task:'transcribe',vad_filter:request.headers.get('X-Lyric-Vad')==='1',condition_on_previous_text:false,no_speech_threshold:0.8};
     if(language==='japanese'||language==='english')options.language=language==='japanese'?'ja':'en';
     const result=await env.AI.run('@cf/openai/whisper-large-v3-turbo',options);
     return json(200,{segments:Array.isArray(result.segments)?result.segments:[],text:result.text||'',vtt:result.vtt||''});
