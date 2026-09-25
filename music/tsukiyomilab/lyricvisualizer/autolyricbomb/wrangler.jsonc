@@ -1,0 +1,11 @@
+{
+  "name": "tsukiyomi-jev-director",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-09-25",
+  "routes": [
+    {
+      "pattern": "tsukilab.jp/music/tsukiyomilab/lyricvisualizer/autolyricbomb/api/*",
+      "zone_name": "tsukilab.jp"
+    }
+  ]
+}

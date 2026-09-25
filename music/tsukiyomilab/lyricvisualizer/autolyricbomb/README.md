@@ -20,6 +20,14 @@ The browser editor includes a four-cut **illustrative sample**, explicitly label
 
 To use real Jev decisions, set `TYPESAFE_API_KEY` **on a server you control** and serve this directory with `node jev-server.mjs`; the default address is `http://localhost:8787`. The static GitHub page does not provide this API endpoint. Do not put the key in HTML or JavaScript served to browsers. No live Jev judgment has been tested without a key.
 
+### Publish the Jev endpoint with Cloudflare
+
+`worker.mjs` is the Cloudflare Workers version of the endpoint; `wrangler.jsonc` routes only `/music/tsukiyomilab/lyricvisualizer/autolyricbomb/api/*` through this Worker. The rest of `tsukilab.jp` can continue to serve the static editor. The site's DNS record must be proxied by Cloudflare for a Worker Route to run.
+
+To connect this repository through Cloudflare Workers Builds, create a Worker named **`tsukiyomi-jev-director`**, choose GitHub repository `tsukiproduct/tsukilab.jp`, production branch `main`, and set the root directory to `music/tsukiyomilab/lyricvisualizer/autolyricbomb`. Keep the default `npx wrangler deploy` deploy command. In Worker Settings → Variables and Secrets, add a **Secret** named `TYPESAFE_API_KEY`, then deploy. The API key must never be added to this repository or entered into the browser editor. Cloudflare may already have another Worker for this site; do not replace unrelated routes.
+
+The editor sends its lyric text and approximate times to its own `/api/jev-director` endpoint; the Worker forwards those to Jev. The original audio is not sent. Publishing the Worker and adding its key have not been done here, and a real Jev request has not been verified. For a public tool, add suitable request rate limiting in Cloudflare to protect the key from repeated use.
+
 ## Transcription update
 
 The model selector now offers Whisper base as the default, tiny for lower memory, and small with WebGPU on capable computers. You can choose a known lyric language and add a separate vocal stem, which is used for recognition without replacing the original music playback. The editor filters literal `[music]`-style output, rejects empty-only results, retains previous lyrics on failure, and seeks the preview to the first detected line on success. This remains a browser transcription experiment. Automatic vocal separation and accurate sung-word alignment are not yet included; the larger models have not been validated on the supplied song in a real browser.
