@@ -7,7 +7,7 @@
     {label:'OUTRO / 余韻',text:'まだ光が残っている',why:'動きを落として映像と最後の言葉を残す',template:'minimal',animKey:'drift',layoutKey:'bottom',size:1}
   ];
   const row=$('directorScenes'),status=$('directorStatus');
-  const readable={pop:'一文字ずつ跳ねる',scatter:'散って集まる',glitch:'ノイズとズレ',type:'一文字ずつ出る',drift:'静かに漂う'};
+  const readable={pop:'一文字ずつ跳ねる',scatter:'散って集まる',glitch:'ノイズとズレ',type:'一文字ずつ出る',drift:'静かに漂う',slam:'拍で着地',wipe:'光で開く',pulse:'拍で脈打つ',echo:'残像を残す',stagger:'交互に跳ねる'};
   let sampleOpen=false;
   function show(scenes,source){
     row.replaceChildren();
@@ -27,6 +27,14 @@
     });
   }
   window.tsukiDirectorHighlight=index=>row.querySelectorAll('.director-scene').forEach((el,i)=>el.classList.toggle('on',i===index));
+  window.tsukiStopDirectorSample=()=>{
+    window.tsukiDirectorDemo=null;sampleOpen=false;
+    $('directorSampleBtn').textContent='演出プランのサンプルを見る ▶';
+  };
+  document.addEventListener('tsuki:template-applied',()=>{
+    row.replaceChildren();$('directorSceneHint').hidden=true;
+    status.textContent=S.lines.length?'テンプレートを適用しました。前の行別演出はテンプレート下のボタンで戻せます。':'テンプレートのサンプルを表示しています。';
+  });
   $('directorSampleBtn').addEventListener('click',()=>{
     if(sampleOpen){window.tsukiDirectorDemo=null;sampleOpen=false;row.replaceChildren();$('directorSampleBtn').textContent='演出プランのサンプルを見る ▶';status.textContent='サンプルを終了しました。';return;}
     player.pause();demoClock=0;demoPlaying=true;sampleOpen=true;
@@ -59,7 +67,8 @@
       const data=await response.json();
       if(!response.ok)throw Error(data.error||'Jev への接続に失敗しました。');
       if(!Array.isArray(data.plan)||data.plan.length!==S.lines.length)throw Error('演出プランの行数が一致しません。');
-      S.lines=S.lines.map((line,i)=>({...line,animKey:data.plan[i].animKey,layoutKey:data.plan[i].layoutKey,size:data.plan[i].size}));
+      S.lines=S.lines.map((line,i)=>({...line,animKey:data.plan[i].animKey,layoutKey:data.plan[i].layoutKey,graphicKey:data.plan[i].graphicKey,size:data.plan[i].size}));
+      S.directionBackup=null;$('restoreDirectionBtn').hidden=true;
       show(S.lines.map((line,i)=>({...line,label:'LINE '+String(i+1).padStart(2,'0'),why:(readable[line.animKey]||'動きを調整')+' / '+Math.round((data.plan[i].confidence||0)*100)+'%'})),'live');
       renderChips();renderSizeChips();
       if(player.src)window.tsukiPreviewLine?.(0);

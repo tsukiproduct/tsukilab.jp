@@ -45,7 +45,33 @@
     if(restart)demoClock=0;
   }
   window.tsukiApplyTemplate=applyTemplate;
-  document.querySelectorAll('.template-tile').forEach(tile => tile.addEventListener('click',()=>{window.tsukiDirectorDemo=null;applyTemplate(tile.dataset.template); }));
+  document.querySelectorAll('.template-tile').forEach(tile => tile.addEventListener('click',()=>{
+    window.tsukiStopDirectorSample?.();
+    if(S.lines.some(line=>line.animKey||line.layoutKey||line.graphicKey)){
+      S.directionBackup=S.lines.map(line=>({text:line.text,t:line.t,animKey:line.animKey,layoutKey:line.layoutKey,graphicKey:line.graphicKey}));
+      S.lines=S.lines.map(line=>({...line,animKey:undefined,layoutKey:undefined,graphicKey:undefined}));
+      $('restoreDirectionBtn').hidden=false;
+      updateSizeUI();
+    }
+    applyTemplate(tile.dataset.template);
+    if(player.src&&S.lines.length){
+      window.tsukiPreviewLine?.(selLine>=0?selLine:0);
+      if(window.innerWidth<=950)window.tsukiOpenPreview?.();
+    }
+    document.dispatchEvent(new Event('tsuki:template-applied'));
+  }));
+  $('restoreDirectionBtn').addEventListener('click',()=>{
+    const backup=S.directionBackup;
+    if(!backup||backup.length!==S.lines.length||backup.some((entry,i)=>entry.text!==S.lines[i].text||entry.t!==S.lines[i].t)){
+      $('templateNote').textContent='歌詞や時刻が変わったため、前の行別演出は戻せません。Jev でもう一度演出できます。';
+      return;
+    }
+    S.lines=S.lines.map((line,i)=>({...line,animKey:backup[i].animKey,layoutKey:backup[i].layoutKey,graphicKey:backup[i].graphicKey}));
+    S.directionBackup=null;$('restoreDirectionBtn').hidden=true;
+    updateSizeUI();renderSizeChips();
+    $('templateNote').textContent='行ごとの演出を戻しました。テンプレートの色・背景はそのままです。';
+    if(player.src)window.tsukiPreviewLine?.(selLine>=0?selLine:0);
+  });
   $('demoToggle').addEventListener('click',()=>{
     demoPlaying=!demoPlaying;
     $('demoToggle').textContent=demoPlaying?'一時停止':'もう一度再生';

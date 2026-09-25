@@ -3,6 +3,7 @@ const endpoint='/music/tsukiyomilab/lyricvisualizer/autolyricbomb/api/jev-direct
 const transcriptionEndpoint='/music/tsukiyomilab/lyricvisualizer/autolyricbomb/api/transcribe';
 const motions=new Set(['drift','scatter','pop','glitch','type','slam','wipe','pulse','echo','stagger']);
 const layouts=new Set(['bottom','wander','center']);
+const graphics=new Set(['none','rays','sweep','frame','dots']);
 const headers={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'};
 
 function json(status,value){return new Response(JSON.stringify(value),{status,headers});}
@@ -33,18 +34,20 @@ function questionsFor(lines){
     questions['motion_'+i]={type:'choice',instructions:'Choose one distinct, readable animation for '+target+'. Consider its words, neighboring lines, audio intensity, proximity to a detected beat and the build of the song. Vary the visual rhythm; reserve high-impact movement for musical peaks.',criteria:{drift:'Slow, lingering movement',scatter:'Letters converge from apart',pop:'Playful letters bounce',glitch:'Electronic disruption',type:'Revealed one character at a time',slam:'A strong impact on a downbeat',wipe:'A swift horizontal reveal',pulse:'Typography breathes with the beat',echo:'Afterimages for a lingering phrase',stagger:'Alternating letters spring into place'}};
     questions['layout_'+i]={type:'choice',instructions:'For the lyric in '+target+', which placement best supports readability and expressive impact?',criteria:{bottom:'Quiet lower-third text that leaves room for footage',wander:'Playful placement that draws attention to the words',center:'Stable centered title for a key statement'}};
     questions['impact_'+i]={type:'score',instructions:'How visually prominent should the lyric in '+target+' be relative to the neighboring lyrics?',criteria:['Small and restrained','Medium emphasis','Large focal moment']};
+    questions['graphic_'+i]={type:'choice',instructions:'Which one graphic accent best supports '+target+' while keeping the lyric readable? Use its musical intensity and nearby lyrics; silence or restraint is allowed.',criteria:{none:'No added shapes; allow the words and underlying image to breathe',rays:'Short, sharp rays for forceful declarations',sweep:'A traveling light beam for a reveal or transition',frame:'Architectural lines that hold the typography together',dots:'A field of print dots for playful, restless energy'}};
   }
   return questions;
 }
 
 function mapAnswers(lines,answers){
   return lines.map((_,i)=>{
-    const motion=answers['motion_'+i],layout=answers['layout_'+i],impact=answers['impact_'+i];
+    const motion=answers['motion_'+i],layout=answers['layout_'+i],impact=answers['impact_'+i],graphic=answers['graphic_'+i];
     const animKey=motion?.confidence>=.35&&motions.has(motion.choice)?motion.choice:'drift';
     const layoutKey=layout?.confidence>=.35&&layouts.has(layout.choice)?layout.choice:'bottom';
+    const graphicKey=graphic?.confidence>=.35&&graphics.has(graphic.choice)?graphic.choice:null;
     const level=Number(impact?.score);
     const size=impact?.score!=null&&Number.isFinite(level)?(level<.7?1:level<1.4?1.15:1.55):1;
-    return {animKey,layoutKey,size,confidence:Math.min(motion?.confidence||0,layout?.confidence||0)};
+    return {animKey,layoutKey,graphicKey,size,confidence:Math.min(motion?.confidence||0,layout?.confidence||0)};
   });
 }
 
