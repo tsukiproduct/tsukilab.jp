@@ -89,7 +89,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 .modal h3{margin:0 0 12px;font-size:14px;letter-spacing:1px;}
 .modal video{width:100%;border-radius:10px;background:#000;display:block;}
 </style>
-<link rel="stylesheet" href="./studio.css?v=20260925f">
+<link rel="stylesheet" href="./studio.css?v=20260925g">
 </head>
 <body>
 
@@ -206,7 +206,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <button class="btn acc asr-button" id="transcribeBtn" type="button" disabled>✦ 曲から歌詞を自動検出（試験版）</button>
         <p class="note" id="transcribeStatus" role="status" aria-live="polite">曲を読み込むと使えます。認識時は音源を20秒ずつ、境目を2秒重ねて Cloudflare に送信します。ボーカル音源があれば優先します。認識結果は確認してください。</p>
         <textarea id="lyricsIn" placeholder="歌詞を1行ずつ入力&#10;例：&#10;月が嗤う夜に&#10;君の声だけ探してた"></textarea>
-        <button class="btn lyric-clean" id="cleanNotesBtn" type="button">♪ などの音符を削除</button>
+        <div class="row lyric-tools"><button class="btn lyric-clean" id="cleanNotesBtn" type="button">♪ などの音符を削除</button><button class="btn" id="lyricCheckBtn" type="button">⚠ Jev で聞き間違いをチェック</button></div>
         <div class="row">
           <button class="btn acc" id="applyBtn">歌詞を反映</button>
           <button class="btn" id="spreadBtn" disabled>均等配置</button>
@@ -677,12 +677,13 @@ function renderChips(){
   if(!S.lines.length){$("tlCard").style.display="none";return;}
   $("tlCard").style.display=syncMode?"none":"block";
   S.lines.forEach((l,i)=>{
-    const c=document.createElement("span");c.className="chip";c.dataset.i=i;
-    c.textContent=fmt(l.t)+" "+l.text.slice(0,8);
+    const suspect=l.suspect>=.6;
+    const c=document.createElement("span");c.className="chip"+(suspect?" suspect":"");c.dataset.i=i;
+    c.textContent=(suspect?"⚠ ":"")+fmt(l.t)+" "+l.text.slice(0,8);
     c.addEventListener("click",()=>previewLineAt(i));
     wrap.appendChild(c);
-    const row=document.createElement('label');row.className='time-row';
-    const name=document.createElement('span');name.textContent=l.text;name.title=l.text;
+    const row=document.createElement('label');row.className='time-row'+(suspect?' suspect':'');
+    const name=document.createElement('span');name.textContent=(suspect?'⚠ ':'')+l.text;name.title=suspect?l.text+'（Jev：聞き間違いの可能性 '+Math.round(l.suspect*100)+'%）':l.text;
     const input=document.createElement('input');input.type='number';input.min='0';input.max=String(player.duration||9999);input.step='0.01';input.value=Number(l.t).toFixed(2);input.setAttribute('aria-label',l.text+' の表示開始秒');
     input.addEventListener('change',()=>{
       const value=Number(input.value);if(!Number.isFinite(value)||value<0){input.value=Number(l.t).toFixed(2);return;}
@@ -1532,6 +1533,6 @@ a{color:#ff8ab0;}
 <script src="./studio.js?v=20260925f"></script>
 <script src="./rhythm.js?v=20260925d"></script>
 <script src="./transcription.js?v=20260925i"></script>
-<script src="./director.js?v=20260925c"></script>
+<script src="./director.js?v=20260925d"></script>
 </body>
 </html>

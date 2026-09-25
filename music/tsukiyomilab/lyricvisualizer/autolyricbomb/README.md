@@ -59,3 +59,9 @@ Choosing a template after Jev now actually applies its motion and placement to e
 ## Background media
 
 Several images and videos can be added as background material (up to 40 images and 12 videos, to protect phone memory). They switch in order, at random (never the same item twice in a row), or on strong beats; in beat mode, cuts come about once per chosen interval and roughly twice as often in the loudest sections. Order and random modes crossfade; beat mode cuts hard. Only the visible video plays. "動画の音声を曲にする" loads the latest video as the song, so a music video without lyrics provides playback, rhythm analysis and lyric detection, and its picture follows the song's playback position. MP4/WebM audio is decoded in the browser, so a very large video may need a lot of memory on a phone. The desktop template shows the current material inside its window. Media files are not saved in project JSON; only the switching mode and interval are.
+
+## Jev: whole-song context, song structure and lyric check
+
+Every Jev request now carries the whole lyric list (`song`, with how often each line repeats) while asking only about its batch of lines, so decisions can follow the song rather than eight isolated lines. Jev also labels each line as verse, pre-chorus, chorus, bridge or outro. Repeated lines share the direction of their first appearance, and chorus lines are at least medium size. The plan list shows the section (Aメロ, サビ …).
+
+"⚠ Jev で聞き間違いをチェック" asks Jev a yes/no probability (Noul) for each line: is it probably a mishearing, a phrase that breaks the meaning of its neighbours, or not a lyric at all? Lines at 60% or above are marked ⚠ in the chips and the timing list. Jev returns decisions, not text, so it points to lines to fix; it does not rewrite them. The response shape was tested with a mock of the documented format, not yet against the live Jev API.

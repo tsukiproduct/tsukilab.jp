@@ -8,6 +8,27 @@
   ];
   const row=$('directorScenes'),status=$('directorStatus');
   const readable={pop:'一文字ずつ跳ねる',scatter:'散って集まる',glitch:'ノイズとズレ',type:'一文字ずつ出る',drift:'静かに漂う',slam:'拍で着地',wipe:'光で開く',pulse:'拍で脈打つ',echo:'残像を残す',stagger:'交互に跳ねる',draw:'手描きで現れる'};
+  const partNames={verse:'Aメロ',prechorus:'Bメロ',chorus:'サビ',bridge:'Cメロ',outro:'アウトロ'};
+  const same=text=>String(text).replace(/[\s、。，．,.!?！？「」『』…~〜ー-]/gu,'').toLowerCase();
+  // The whole song goes with every request so Jev can judge structure, repeats and context.
+  function songContext(){
+    const counts=new Map();for(const l of S.lines){const k=same(l.text);counts.set(k,(counts.get(k)||0)+1);}
+    return S.lines.slice(0,120).map(l=>({text:l.text,t:Math.round(l.t*10)/10,repeat:counts.get(same(l.text))||1}));
+  }
+  // Repeated lines (usually the chorus hook) keep one look; the chorus is never smaller than medium.
+  function unifyStructure(lines){
+    const first=new Map();
+    return lines.map(line=>{
+      const key=same(line.text),seen=first.get(key);
+      let next=line;
+      if(seen)next={...line,animKey:seen.animKey,layoutKey:seen.layoutKey,graphicKey:seen.graphicKey,size:seen.size,section:line.section||seen.section};
+      else if(key)first.set(key,line);
+      if(next.section==='chorus'&&next.size<1.15)next={...next,size:1.15};
+      if(seen&&next.section==='chorus'&&seen.size<1.15)first.set(key,{...seen,size:1.15});
+      return next;
+    });
+  }
+  window.tsukiSongContext=songContext;
   let sampleOpen=false;
   let currentRequest=null,partial=null;
   $('directorExpandBtn').addEventListener('click',()=>{
@@ -52,6 +73,35 @@
     status.textContent='これは架空の歌詞を使う演出例です。各カットを押すと、その場面から再生します。Jev の実行結果ではありません。';
     show(sample,'sample');
   });
+  // Jev judges which transcribed lines are probably misheard or not lyrics; it cannot rewrite them.
+  let checking=null;
+  $('lyricCheckBtn').addEventListener('click',async()=>{
+    const note=$('transcribeStatus'),button=$('lyricCheckBtn');
+    if(checking){checking.abort();return;}
+    if(!S.lines.length){note.textContent='先に歌詞を検出するか、入力して「歌詞を反映」してください。';return;}
+    checking=new AbortController();button.textContent='チェックを中止';
+    const snapshot=S.lines.slice(),song=songContext(),results=[];
+    try{
+      for(let start=0;start<snapshot.length;start+=20){
+        note.textContent='Jev が歌詞を確認中… '+start+' / '+snapshot.length+' 行';
+        const batch=snapshot.slice(start,start+20).map(l=>({text:l.text,t:l.t}));
+        const response=await fetch('./api/jev-director',{method:'POST',headers:{'Content-Type':'application/json'},signal:checking.signal,
+          body:JSON.stringify({task:'check',lines:batch,offset:start,song})});
+        if(!response.headers.get('content-type')?.includes('application/json'))throw Error('Jev の接続先は、この公開ページにまだ設定されていません。');
+        const data=await response.json();
+        if(!response.ok)throw Error(data.error||'Jev への接続に失敗しました。');
+        if(!Array.isArray(data.checks)||data.checks.length!==batch.length)throw Error('チェック結果の行数が一致しません。');
+        results.push(...data.checks);
+      }
+      if(S.lines.length!==snapshot.length||S.lines.some((l,i)=>l!==snapshot[i]&&l.text!==snapshot[i].text)){note.textContent='チェック中に歌詞が変わったため、結果を反映しませんでした。';return;}
+      S.lines=S.lines.map((l,i)=>({...l,suspect:results[i]?.suspect??undefined}));
+      renderChips();
+      const flagged=S.lines.filter(l=>l.suspect>=.6);
+      note.textContent=flagged.length?'⚠ 聞き間違い・歌詞ではない可能性がある行：'+flagged.length+' 行（'+flagged.slice(0,4).map(l=>'「'+l.text.slice(0,14)+'」').join('')+(flagged.length>4?' ほか':'')+'）。時刻一覧の ⚠ の行を確認して直してください。':'Jev のチェックでは、明らかにおかしい行は見つかりませんでした。';
+    }catch(error){
+      note.textContent=error?.name==='AbortError'?'歌詞チェックを中止しました。':'歌詞チェックできませんでした：'+String(error?.message||error);
+    }finally{checking=null;button.textContent='⚠ Jev で聞き間違いをチェック';}
+  });
   $('directorLiveBtn').addEventListener('click',async()=>{
     if(currentRequest){currentRequest.abort();return;}
     if(!S.lines.length){status.textContent='先に曲と歌詞を読み込み、歌詞を反映してください。';return;}
@@ -80,7 +130,7 @@
         status.textContent='Jev が演出を作成中… '+start+' / '+total+' 行。完了済みの行は保持しています。';
         const response=await fetch('./api/jev-director',{
           method:'POST',headers:{'Content-Type':'application/json'},signal:currentRequest.signal,
-          body:JSON.stringify({lines:batch,duration:player.duration||0,bpm:rhythm?.bpm||null,sections:rhythm?.sections||[]})
+          body:JSON.stringify({lines:batch,offset:start,song:songContext(),duration:player.duration||0,bpm:rhythm?.bpm||null,sections:rhythm?.sections||[]})
         });
         if(!response.headers.get('content-type')?.includes('application/json'))throw Error('Jev の接続先は、この公開ページにまだ設定されていません。');
         const data=await response.json();
@@ -90,9 +140,9 @@
       }
       const plan=partial.plan;
       partial=null;
-      S.lines=S.lines.map((line,i)=>({...line,animKey:plan[i].animKey,layoutKey:plan[i].layoutKey,graphicKey:plan[i].graphicKey,size:plan[i].size}));
+      S.lines=unifyStructure(S.lines.map((line,i)=>({...line,animKey:plan[i].animKey,layoutKey:plan[i].layoutKey,graphicKey:plan[i].graphicKey,size:plan[i].size,section:plan[i].section||undefined})));
       S.directionBackup=null;$('restoreDirectionBtn').hidden=true;
-      show(S.lines.map((line,i)=>({...line,label:'LINE '+String(i+1).padStart(2,'0'),why:(readable[line.animKey]||'動きを調整')+' / '+Math.round((plan[i].confidence||0)*100)+'%'})),'live');
+      show(S.lines.map((line,i)=>({...line,label:(partNames[line.section]?partNames[line.section]+' / ':'')+'LINE '+String(i+1).padStart(2,'0'),why:(readable[line.animKey]||'動きを調整')+' / '+Math.round((plan[i].confidence||0)*100)+'%'})),'live');
       renderChips();renderSizeChips();
       if(player.src)window.tsukiPreviewLine?.(0);
       status.textContent=S.lines.length+' / '+S.lines.length+' 行の演出を反映しました。下の「全行を表示」で最後まで確認できます。プレビューは「大きく見る」から開けます。';
