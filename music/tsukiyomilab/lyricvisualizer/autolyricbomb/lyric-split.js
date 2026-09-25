@@ -50,6 +50,25 @@
     if(!line)return [];
     return width(line)>limit?splitLyrics(line):[line];
   }
+  // Short-video captions: one word or phrase at a time. Japanese particles stay with the word before them.
+  const particle=/^[ぁ-ゖー]{1,3}$/u;
+  function splitWords(text){
+    const line=String(text||'');
+    let tokens;
+    try{tokens=[...new Intl.Segmenter('ja',{granularity:'word'}).segment(line)].map(s=>({text:s.segment,index:s.index,word:s.isWordLike}));}
+    catch(e){tokens=(line.match(/\S+\s*/gu)||[]).map(t=>({text:t,index:line.indexOf(t),word:true}));}
+    const chunks=[];
+    for(const token of tokens){
+      const last=chunks.at(-1),bare=token.text.trim();
+      if(!bare){if(last)last.text+=token.text;continue;}
+      const japanese=/[\u3040-\u30ff\u3400-\u9fff]/u.test(bare);
+      // Punctuation, particles and tiny kana tails join the previous chunk if it is still short.
+      if(last&&(!token.word||(japanese&&particle.test(bare)&&[...last.text.trim()].length<7))){last.text+=token.text;continue;}
+      chunks.push({text:token.text,index:token.index});
+    }
+    return chunks.map(c=>({text:c.text.trim(),index:c.index})).filter(c=>c.text);
+  }
+  root.tsukiSplitWords=splitWords;
   root.tsukiSplitLyrics=splitLyrics;
   root.tsukiFitLine=fitLine;
 })(typeof window==='undefined'?globalThis:window);

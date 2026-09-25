@@ -61,6 +61,8 @@
   function resultLines(raw,duration){
     const result=[];let ignored=0,phantom=0;
     for(const segment of raw){
+      let cursor=0;
+      const spoken=segment.chars?segment.chars.map(c=>c.ch).join(''):'';
       const text=String(segment.text||'').replace(/[♪♫♬♩🎵🎶]/gu,'').replace(/\s+/gu,' ').trim();
       if(isNoise(text)){ignored++;continue;}
       if(isDoubtful(segment)||isHallucination(segment,text)){phantom++;continue;}
@@ -76,9 +78,16 @@
         const span=Math.max(0,Math.min(20,(segment.end||segment.t+pieces.length)-segment.t));
         const t=Number(segment.t)+span*(passed/Math.max(1,totalWeight));passed+=[...text].length;
         if(!Number.isFinite(t))continue;
+        // Match the piece to Whisper's characters to keep per-character timing for word-by-word captions.
+        const bare=text.replace(/\s+/gu,''),at=spoken?spoken.indexOf(bare,cursor):-1;
+        let start=t,charTimes;
+        if(at>=0){
+          const times=segment.chars.slice(at,at+[...bare].length).map(c=>c.t);cursor=at+bare.length;
+          if(times.length===[...bare].length&&times.every(Number.isFinite)){start=times[0];charTimes=times.map(x=>Math.round((x-start)*100)/100);}
+        }
         const last=result.at(-1);
-        if(last&&last.text===text&&Math.abs(last.t-t)<2){ignored++;continue;}
-        result.push({text,t:Math.max(0,Math.min(duration,t)),size:1});
+        if(last&&last.text===text&&Math.abs(last.t-start)<2){ignored++;continue;}
+        result.push({text,t:Math.max(0,Math.min(duration,start)),size:1,...(charTimes?{charTimes}:{})});
       }
     }
     return {lines:result.sort((a,b)=>a.t-b.t),ignored,phantom};
@@ -98,10 +107,22 @@
     }
     return lines;
   }
+  // Whisper's word timestamps, spread over each word's characters (spaces dropped).
+  function charTimes(words,offset){
+    if(!Array.isArray(words))return null;
+    const out=[];
+    for(const w of words){
+      const text=String(w?.word??w?.text??'').replace(/\s+/gu,''),start=offset+parseTime(w?.start??0),end=offset+parseTime(w?.end??w?.start??0);
+      if(!Number.isFinite(start))continue;
+      const chars=[...text];
+      chars.forEach((ch,i)=>out.push({ch,t:start+(Math.max(0,end-start)*i/Math.max(1,chars.length))}));
+    }
+    return out.length?out:null;
+  }
   function extractSegments(data,offset,duration){
     let segments=data.segments?.length?data.segments:fromVtt(data.vtt||'');
     if(!segments.length&&data.text?.trim())segments=[{start:0,end:duration,text:data.text}];
-    return segments.map(s=>({t:offset+parseTime(s.start??s.start_time??0),end:offset+parseTime(s.end??s.end_time??duration),text:s.text||'',noSpeech:s.no_speech_prob,logprob:s.avg_logprob,compression:s.compression_ratio})).filter(s=>Number.isFinite(s.t));
+    return segments.map(s=>({t:offset+parseTime(s.start??s.start_time??0),end:offset+parseTime(s.end??s.end_time??duration),text:s.text||'',noSpeech:s.no_speech_prob,logprob:s.avg_logprob,compression:s.compression_ratio,chars:charTimes(s.words,offset)})).filter(s=>Number.isFinite(s.t));
   }
   button.addEventListener('click',async()=>{
     if(running){stop();status.textContent='自動検出を中止しました。';return;}

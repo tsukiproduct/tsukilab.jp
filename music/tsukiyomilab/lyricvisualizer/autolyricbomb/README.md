@@ -100,3 +100,11 @@ The darkness slider applies only to background media, so scene colours stay true
 - ワイヤートンネル: the camera moves through a wireframe floor, ceiling and frames that brighten on strong beats. Each line drifts slowly while it is sung, then flies into the depth when the next line starts.
 
 Both draw every visible line themselves (`depth.js`), so the per-line motion and layout settings do not apply to them.
+
+## Word-by-word captions
+
+`1ワードずつ` shows one word or phrase at a time, popping in like short-video captions. `積み上げ` builds the line word by word and highlights the word being sung. The ショート字幕 template uses them with a bold outlined caption that stays readable on any background.
+
+Words are split with the browser's `Intl.Segmenter`, and Japanese particles stay with the word before them (君の / 声だけ / 探してた).
+
+Timing comes from Whisper when possible. Lines from automatic detection keep Whisper's word timestamps per character (`charTimes`, relative to the line start), which drive the captions while the text is unchanged. Otherwise the line's time is split by word length and snapped to a detected beat within 0.14 s. Jev is not used for this, because it cannot hear the audio. Whether Cloudflare returns `words` for every clip has not been verified live; without them the length-based timing applies.

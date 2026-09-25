@@ -146,6 +146,80 @@
     }
   };
 
+  /* ---- 1ワードずつ（ショート動画の字幕風） ---- */
+  // When each chunk starts, in seconds from the line start. Whisper timing if the text still matches,
+  // otherwise spread by length and snapped to a nearby beat so the words land on the rhythm.
+  function wordPlan(line, duration) {
+    const key = line.text + '|' + line.t + '|' + duration.toFixed(2) + '|' + (window.tsukiRhythm?.beats?.length || 0);
+    if (line._words?.key === key) return line._words.plan;
+    const chunks = (window.tsukiSplitWords || (t => [{ text: t, index: 0 }]))(line.text);
+    const bare = [...line.text.replace(/\s+/gu, '')], times = Array.isArray(line.charTimes) && line.charTimes.length === bare.length ? line.charTimes : null;
+    const weight = text => [...text].reduce((n, ch) => n + (/[\u3400-\u9fff]/u.test(ch) ? 1.6 : /[\s、。,.!?！？]/u.test(ch) ? .3 : 1), 0);
+    const total = chunks.reduce((n, c) => n + weight(c.text), 0) || 1;
+    const span = Math.min(duration * .9, Math.max(.6, total * .36));
+    let passed = 0, prev = -1;
+    const beats = window.tsukiRhythm?.beats || [];
+    const plan = chunks.map(c => {
+      let at;
+      if (times) at = times[[...line.text.slice(0, c.index).replace(/\s+/gu, '')].length] ?? 0;
+      else {
+        at = span * passed / total; passed += weight(c.text);
+        const abs = (Number(line.t) || 0) + at;
+        let best = null; for (const b of beats) { const d = Math.abs(b.t - abs); if (d < .14 && (!best || d < Math.abs(best.t - abs))) best = b; }
+        if (best && Number.isFinite(line.t) && best.t - line.t > prev + .08) at = best.t - line.t;
+      }
+      at = Math.max(prev + .05, at); prev = at;
+      return { text: c.text, at };
+    });
+    try { Object.defineProperty(line, '_words', { value: { key, plan }, writable: true, configurable: true, enumerable: false }); } catch (e) {}
+    return plan;
+  }
+  // Bold white caption with a dark outline: readable on any background.
+  function caption(g, text, x, y, base, fill) {
+    g.lineJoin = 'round'; g.lineWidth = base * .2; g.strokeStyle = 'rgba(10,10,14,.92)'; g.strokeText(text, x, y);
+    g.fillStyle = fill; g.fillText(text, x, y);
+  }
+  const wordMotions = {
+    // One word at a time, popping in on its own beat.
+    word({ g, base, p, accent, line }) {
+      const plan = wordPlan(line, p.duration || 3);
+      let k = -1; for (let i = 0; i < plan.length; i++) if (plan[i].at <= p.elapsed) k = i;
+      if (k < 0) return;
+      const w = plan[k], since = p.elapsed - w.at, size = base * 1.55;
+      g.font = g.font.replace(/[\d.]+px/, size + 'px');
+      let tw = g.measureText(w.text).width; const max = W * .84;
+      if (tw > max) { g.font = g.font.replace(/[\d.]+px/, (size * max / tw) + 'px'); tw = max; }
+      const s = 1 + .28 * (1 - Math.min(1, backOut(clamp01(since / .16)))), alpha = clamp01(p.remain / Math.max(.05, p.outDur));
+      g.globalAlpha = alpha; g.scale(s, s);
+      caption(g, w.text, -tw / 2, 0, size, k % 3 === 2 ? accent : '#ffffff');
+    },
+    // Words build up the line; the word being sung is highlighted and pops.
+    wordbuild({ g, base, p, accent, line }) {
+      const plan = wordPlan(line, p.duration || 3), size = base * 1.15;
+      let k = -1; for (let i = 0; i < plan.length; i++) if (plan[i].at <= p.elapsed) k = i;
+      if (k < 0) return;
+      g.font = g.font.replace(/[\d.]+px/, size + 'px');
+      const gap = size * .28, max = W * .84, rows = [[]];
+      let width = 0;
+      for (const w of plan) { const ww = g.measureText(w.text).width; if (rows.at(-1).length && width + gap + ww > max) { rows.push([]); width = 0; } width += (rows.at(-1).length ? gap : 0) + ww; rows.at(-1).push({ ...w, ww }); }
+      const alpha = clamp01(p.remain / Math.max(.05, p.outDur)), lineH = size * 1.3;
+      let index = 0;
+      rows.forEach((row, r) => {
+        const rw = row.reduce((n, w, i) => n + w.ww + (i ? gap : 0), 0); let x = -rw / 2;
+        const y = (r - (rows.length - 1) / 2) * lineH;
+        for (const w of row) {
+          if (index <= k) {
+            const now = index === k, since = p.elapsed - w.at, s = now ? 1 + .22 * (1 - Math.min(1, backOut(clamp01(since / .16)))) : 1;
+            g.save(); g.globalAlpha = alpha; g.translate(x + w.ww / 2, y); g.scale(s, s);
+            caption(g, w.text, -w.ww / 2, 0, size, now ? accent : '#ffffff'); g.restore();
+          }
+          x += w.ww + gap; index++;
+        }
+      });
+    }
+  };
+  Object.assign(motions, wordMotions);
+
   // Mood mixes pick a motion per line: strong moments get the boldest move, the rest vary.
   const pools = {
     coolMix: { strong: ['impact'], rest: ['mask', 'track', 'outline', 'mask'] },
