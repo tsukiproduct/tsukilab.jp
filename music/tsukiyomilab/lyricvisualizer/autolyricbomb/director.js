@@ -38,11 +38,22 @@
   $('directorLiveBtn').addEventListener('click',async()=>{
     if(!S.lines.length){status.textContent='先に曲と歌詞を読み込み、歌詞を反映してください。';return;}
     if(sampleOpen){window.tsukiDirectorDemo=null;sampleOpen=false;$('directorSampleBtn').textContent='演出プランのサンプルを見る ▶';}
-    const button=$('directorLiveBtn');button.disabled=true;status.textContent='Jev に演出を問い合わせています…';
+    const button=$('directorLiveBtn');button.disabled=true;status.textContent='拍の解析と Jev の演出を準備しています…';
     try{
+      await window.tsukiRhythmPending;
+      status.textContent='Jev に歌詞と曲の拍・盛り上がりを渡しています…';
+      const rhythm=window.tsukiRhythm;
+      const beats=rhythm?.beats||[];
+      const lineRhythm=S.lines.map(line=>{
+        let left=0,right=beats.length;
+        while(left<right){const mid=(left+right)>>1;if(beats[mid].t<=line.t)left=mid+1;else right=mid;}
+        const candidates=[beats[left-1],beats[left]].filter(Boolean).sort((a,b)=>Math.abs(a.t-line.t)-Math.abs(b.t-line.t));
+        const near=candidates[0];
+        return {intensity:Math.round((window.tsukiIntensityAt?.(line.t)??.4)*100)/100,beatOffset:near&&Math.abs(near.t-line.t)<.5?Math.round((line.t-near.t)*100)/100:null,beatStrength:near&&Math.abs(near.t-line.t)<.5?near.strength:0};
+      });
       const response=await fetch('./api/jev-director',{
         method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({lines:S.lines.map(l=>({text:l.text,t:l.t})),duration:player.duration||0})
+        body:JSON.stringify({lines:S.lines.map((l,i)=>({text:l.text,t:l.t,...lineRhythm[i]})),duration:player.duration||0,bpm:rhythm?.bpm||null,sections:rhythm?.sections||[]})
       });
       if(!response.headers.get('content-type')?.includes('application/json'))throw Error('Jev の接続先は、この公開ページにまだ設定されていません。');
       const data=await response.json();

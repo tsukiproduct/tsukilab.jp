@@ -1,7 +1,7 @@
 /* Cloudflare Worker: runs the existing Jev director endpoint without exposing the API key. */
 const endpoint='/music/tsukiyomilab/lyricvisualizer/autolyricbomb/api/jev-director';
 const transcriptionEndpoint='/music/tsukiyomilab/lyricvisualizer/autolyricbomb/api/transcribe';
-const motions=new Set(['drift','scatter','pop','glitch','type']);
+const motions=new Set(['drift','scatter','pop','glitch','type','slam','wipe','pulse','echo','stagger']);
 const layouts=new Set(['bottom','wander','center']);
 const headers={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'};
 
@@ -30,7 +30,7 @@ function questionsFor(lines){
   const questions={};
   for(let i=0;i<lines.length;i++){
     const target='`lines['+i+']`';
-    questions['motion_'+i]={type:'choice',instructions:'For the lyric in '+target+', which single animation best expresses its meaning in a music video? Judge the lyric text and neighboring lyrics, not the timestamp.',criteria:{drift:'Soft, lingering movement for reflection',scatter:'Letters separate and reassemble for turmoil',pop:'Explosive letters for a hook or emphatic release',glitch:'Electronic distortion for tension or conflict',type:'Words appear one by one for a confession or buildup'}};
+    questions['motion_'+i]={type:'choice',instructions:'Choose one distinct, readable animation for '+target+'. Consider its words, neighboring lines, audio intensity, proximity to a detected beat and the build of the song. Vary the visual rhythm; reserve high-impact movement for musical peaks.',criteria:{drift:'Slow, lingering movement',scatter:'Letters converge from apart',pop:'Playful letters bounce',glitch:'Electronic disruption',type:'Revealed one character at a time',slam:'A strong impact on a downbeat',wipe:'A swift horizontal reveal',pulse:'Typography breathes with the beat',echo:'Afterimages for a lingering phrase',stagger:'Alternating letters spring into place'}};
     questions['layout_'+i]={type:'choice',instructions:'For the lyric in '+target+', which placement best supports readability and expressive impact?',criteria:{bottom:'Quiet lower-third text that leaves room for footage',wander:'Playful placement that draws attention to the words',center:'Stable centered title for a key statement'}};
     questions['impact_'+i]={type:'score',instructions:'How visually prominent should the lyric in '+target+' be relative to the neighboring lyrics?',criteria:['Small and restrained','Medium emphasis','Large focal moment']};
   }
@@ -62,12 +62,14 @@ export default {
       const lines=data.lines;
       if(!Array.isArray(lines)||!lines.length||lines.length>120||lines.some(l=>!l||typeof l.text!=='string'||l.text.length>240))return json(400,{error:'歌詞は1〜120行で指定してください。'});
       const duration=Number(data.duration)||0;
+      const bpm=Number(data.bpm);
+      const sections=Array.isArray(data.sections)?data.sections.slice(0,240).map(s=>({start:Number(s.start)||0,intensity:Math.min(1,Math.max(0,Number(s.intensity)||0))})):[];
       const plan=[];
       for(let offset=0;offset<lines.length;offset+=8){
         const batch=lines.slice(offset,offset+8);
         const response=await fetch('https://api.typesafe.ai/v1/systemone',{
           method:'POST',headers:{Authorization:'Bearer '+env.TYPESAFE_API_KEY,'Content-Type':'application/json'},
-          body:JSON.stringify({model:'jev-latest',state:{purpose:'Choose expressive lyric video motion. The lyrics may be in Japanese or English.',duration_seconds:duration,lines:batch},questions:questionsFor(batch)}),
+          body:JSON.stringify({model:'jev-latest',state:{purpose:'Direct a lyric music video with expressive, legible and varied motion driven by words and the analyzed rhythm of the song. Beat offsets are seconds from the nearest detected transient; intensity is relative to this song, not a genre label.',duration_seconds:duration,bpm:Number.isFinite(bpm)&&bpm>=60&&bpm<=240?bpm:null,sections,lines:batch},questions:questionsFor(batch)}),
           signal:AbortSignal.timeout(30000)
         });
         if(!response.ok)return json(502,{error:'Jev API error '+response.status});

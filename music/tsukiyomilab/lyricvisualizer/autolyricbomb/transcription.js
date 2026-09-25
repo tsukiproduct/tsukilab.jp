@@ -96,6 +96,9 @@
     button.textContent='検出を中止';
     status.textContent=(vocalFile?'ボーカル音源':'曲のミックス音源')+'を区間ごとに準備中…';
     try{
+      // Compressed tracks are decoded by the browser; avoid two simultaneous decodes on a phone.
+      await window.tsukiRhythmPending;
+      if(task!==runId||audioFileForAnalysis!==songFile){stop();return;}
       const {audioChunks,CHUNK_SECONDS}=await import('./audio-chunks.mjs');
       const raw=[];let count=0,duration=player.duration||0;
       for await(const clip of audioChunks(file,{signal})){

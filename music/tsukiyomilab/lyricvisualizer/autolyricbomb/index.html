@@ -148,7 +148,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <p class="note" id="directorSceneHint" hidden>演出一覧をスクロールできます。行を押すとその歌詞の位置に移動します。</p>
       </div>
       <div class="card template-card">
-        <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 06</span></div>
+        <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 10</span></div>
         <div class="template-grid" id="templateGrid" role="group" aria-label="リリックモーションのテンプレート">
           <button class="template-tile selected" data-template="cel" type="button" aria-pressed="true"><span class="template-art art-cel"><i>POP!</i><b>あふれる<br>コトバ</b></span><span class="template-copy"><strong>セルポップ</strong><small>一文字ずつ跳ねる ↗</small></span></button>
           <button class="template-tile" data-template="collage" type="button" aria-pressed="false"><span class="template-art art-collage"><i>CUT / PASTE</i><b>LOUD<br>WORDS</b></span><span class="template-copy"><strong>紙コラージュ</strong><small>散ってから集まる ↘</small></span></button>
@@ -156,6 +156,10 @@ input[type=range]{width:100%;accent-color:var(--acc);}
           <button class="template-tile" data-template="cinema" type="button" aria-pressed="false"><span class="template-art art-cinema"><i>SCENE 04</i><b>余白に、<br>ひとこと。</b></span><span class="template-copy"><strong>シネマティック</strong><small>ゆっくり現れる →</small></span></button>
           <button class="template-tile" data-template="note" type="button" aria-pressed="false"><span class="template-art art-note"><i>memo / 02</i><b>書きかけの<br>気持ち</b></span><span class="template-copy"><strong>手書きノート</strong><small>一文字ずつ綴る ✎</small></span></button>
           <button class="template-tile" data-template="minimal" type="button" aria-pressed="false"><span class="template-art art-minimal"><i>01—06</i><b>the quiet<br>between</b></span><span class="template-copy"><strong>ミニマル</strong><small>余白を漂う ～</small></span></button>
+          <button class="template-tile" data-template="zine" type="button" aria-pressed="false"><span class="template-art art-zine"><i>VOL. / 07</i><b>BREAK<br>THE LINE</b></span><span class="template-copy"><strong>パンクジン</strong><small>紙片と強い着地 ↘</small></span></button>
+          <button class="template-tile" data-template="club" type="button" aria-pressed="false"><span class="template-art art-club"><i>ROOM / 08</i><b>HEART<br>BEAT</b></span><span class="template-copy"><strong>ネオンクラブ</strong><small>音に脈打つ文字 ♫</small></span></button>
+          <button class="template-tile" data-template="ink" type="button" aria-pressed="false"><span class="template-art art-ink"><i>墨 / 09</i><b>夜に、<br>ほどける</b></span><span class="template-copy"><strong>墨と余白</strong><small>言葉に残像を重ねる ◯</small></span></button>
+          <button class="template-tile" data-template="sunrise" type="button" aria-pressed="false"><span class="template-art art-sunrise"><i>DAYBREAK / 10</i><b>光の<br>むこう</b></span><span class="template-copy"><strong>サンライズ</strong><small>光のワイプで開く ↗</small></span></button>
         </div>
         <p class="template-note" id="templateNote">言葉が軽やかに弾む、明るいモーション。まず曲を入れてプレビューしましょう。</p>
       </div>
@@ -170,6 +174,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <h2>曲 <span class="card-num">02</span></h2>
         <label class="drop" id="audDrop">曲を選択（mp3 / wav）
           <input type="file" id="audIn" accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg,.flac"></label>
+        <p class="note" id="rhythmStatus" role="status" aria-live="polite">曲を入れると拍と盛り上がりを解析します。</p>
       </div>
       <div class="card">
         <h2>歌詞 <span class="card-num">03</span></h2>
@@ -228,10 +233,16 @@ input[type=range]{width:100%;accent-color:var(--acc);}
             <option value="glitch">グリッチ — ノイズ</option>
             <option value="type">タイプ — 一文字ずつ</option>
             <option value="pop">ポンポン — ランダム弾け</option>
+            <option value="slam">スラム — 拍で強く着地</option>
+            <option value="wipe">ワイプ — 光で横から開く</option>
+            <option value="pulse">パルス — 拍ごとに脈打つ</option>
+            <option value="echo">残像 — 言葉の軌跡</option>
+            <option value="stagger">階段 — 文字が交互に跳ぶ</option>
           </select></div>
         <div class="field"><label>レイアウト</label>
           <select id="layoutSel">
             <option value="wander">ランダム配置（行ごと）</option>
+            <option value="center">中央固定</option>
             <option value="bottom">下部固定（字幕風）</option>
             <option value="custom">自由配置（プレビューで移動）</option>
             <option value="tate">縦書き</option>
@@ -262,6 +273,10 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <div class="field"><label id="sizeLabel">選択中の行サイズ — 100%</label>
           <input type="range" id="sizeIn" min="40" max="260" value="100" disabled></div>
         <button class="btn" id="sizeReset" disabled>この行を等倍に戻す</button>
+        <div class="line-controls">
+          <label>この行の動き<select id="lineAnim" disabled><option value="">全体設定を使う</option></select></label>
+          <label>この行の配置<select id="lineLayout" disabled><option value="">全体設定を使う</option><option value="center">中央</option><option value="bottom">下部</option><option value="wander">変化をつける</option><option value="tate">縦書き</option></select></label>
+        </div>
       </div>
     </div>
 
@@ -276,6 +291,8 @@ input[type=range]{width:100%;accent-color:var(--acc);}
           <option value="particles">パーティクル（音で飛散）</option>
           <option value="ripple">同心円リップル</option>
           <option value="mirror">ミラーバー（上下対称）</option>
+          <option value="grid">エディトリアル・グリッド</option>
+          <option value="shards">光の破片</option>
           <option value="off">なし</option>
         </select>
       </div>
@@ -384,6 +401,7 @@ let ac=null,analyser=null,freq=null,wave=null,msDest=null;
 let audioFileForAnalysis=null;
 let bgCache=null,grainCv=null,fxCanvas=null,fxCtx=null;
 let beatEnv=0; // 平滑化したビート量
+window.tsukiRhythm=null;
 
 /* ===== utils ===== */
 function mulberry32(a){return function(){a|=0;a=(a+0x6D2B79F5)|0;let t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296;};}
@@ -660,9 +678,18 @@ function renderSizeChips(){
 function updateSizeUI(){
   const has=selLine>=0&&selLine<S.lines.length;
   $("sizeIn").disabled=!has;$("sizeReset").disabled=!has;
+  $("lineAnim").disabled=!has;$("lineLayout").disabled=!has;
+  $("lineAnim").value=has?(S.lines[selLine].animKey||""):"";
+  $("lineLayout").value=has?(S.lines[selLine].layoutKey||""):"";
   if(has){const p=Math.round((S.lines[selLine].size||1)*100);$("sizeIn").value=p;$("sizeLabel").textContent="選択中の行サイズ — "+p+"%";}
   else $("sizeLabel").textContent="行を選んでください";
 }
+for(const option of $("animSel").options){
+  if(option.value==="random")continue;
+  $("lineAnim").append(option.cloneNode(true));
+}
+$("lineAnim").addEventListener("change",e=>{if(selLine>=0)S.lines[selLine].animKey=e.target.value||undefined;});
+$("lineLayout").addEventListener("change",e=>{if(selLine>=0)S.lines[selLine].layoutKey=e.target.value||undefined;});
 $("sizeIn").addEventListener("input",e=>{
   if(selLine<0)return;
   S.lines[selLine].size=+e.target.value/100;
@@ -731,7 +758,7 @@ function drawLine(line,idx,prog,energy,now){
   let anim=line.animKey||S.animKey;
   const layout=line.layoutKey||S.layoutKey;
   const accent=line.accent||S.accent;
-  if(anim==="random"){const pool=["drift","scatter","glitch","type","pop"];anim=pool[Math.floor(rng()*pool.length)];}
+  if(anim==="random"){const pool=["drift","scatter","glitch","type","pop","slam","wipe","pulse","echo","stagger"];anim=pool[Math.floor(rng()*pool.length)];}
   const userSize=line.size||1;
   const sizeF=(0.8+rng()*0.55)*userSize;
   const rot=layout==="wander"?(rng()-0.5)*0.12:0;
@@ -777,7 +804,26 @@ function drawLine(line,idx,prog,energy,now){
   else if(layout==="bottom"){cx=W/2;cy=H*0.86;}
   else if(layout==="custom"){cx=clamp(W*S.posX,tw/2+30,W-tw/2-30);cy=clamp(H*S.posY,H*0.08,H*0.94);}
 
-  ctx.save();ctx.translate(cx,cy);ctx.rotate(rot);ctx.textAlign="left";ctx.textBaseline="middle";
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(rot);
+  if(anim==="slam"){
+    const scale=1+1.4*Math.pow(1-clamp(prog.elapsed/.28,0,1),2)+Math.min(.10,(prog.beat||0)*.08);
+    ctx.scale(scale,scale);
+  }
+  if(anim==="pulse"){
+    const scale=1+(prog.beat||0)*.11;
+    ctx.scale(scale,scale);
+  }
+  if(anim==="wipe"){
+    const width=tw*easeOut(clamp(prog.elapsed/.64,0,1));
+    ctx.beginPath();ctx.rect(-tw/2-12,-base*1.3,width+24,base*2.6);ctx.clip();
+    ctx.fillStyle=hexA(accent,.7);ctx.fillRect(-tw/2+width-8,-base*.85,5,base*1.7);
+  }
+  ctx.textAlign="left";ctx.textBaseline="middle";
+  if(anim==="echo"){
+    ctx.globalAlpha=alpha*.3;ctx.fillStyle=accent;
+    ctx.fillText(line.text,-tw/2-22*(1-clamp(prog.elapsed/1.5,0,1)),-base*.16);
+    ctx.globalAlpha=alpha*.14;ctx.fillText(line.text,-tw/2+34*(1-clamp(prog.elapsed/1.7,0,1)),base*.22);
+  }
   if(S.underline){
     ctx.globalAlpha=alpha*0.85;ctx.strokeStyle=accent;ctx.lineWidth=3;
     ctx.beginPath();ctx.moveTo(-tw/2,base*0.72);ctx.lineTo(-tw/2+tw*tIn,base*0.72);ctx.stroke();
@@ -793,6 +839,7 @@ function drawLine(line,idx,prog,energy,now){
     if(anim==="scatter"){const r2=mulberry32(idx*131+ci*17+S.seed);dx=(r2()-0.5)*640*(1-easeOut(cd));dy=(r2()-0.5)*420*(1-easeOut(cd));}
     if(anim==="drift")dy=(1-easeOut(cd))*34+Math.sin(now*1.6+ci*0.8)*2.8;
     if(anim==="pop")dy=-base*(1-easeOut(cd))*(.5+mulberry32(idx*101+ci*37+S.seed)()*.7);
+    if(anim==="stagger")dy=(ci%2?-1:1)*base*.85*(1-easeOut(clamp((prog.elapsed-ci*.065)/.36,0,1)));
     if(glitchFrame&&Math.random()<0.4){dx=(Math.random()-0.5)*16;dy=(Math.random()-0.5)*10;}
     ctx.globalAlpha=ca;
     if(glitchFrame){ctx.fillStyle="rgba(255,60,90,0.85)";ctx.fillText(ch,x+dx-3,dy);ctx.fillStyle="rgba(80,220,255,0.85)";ctx.fillText(ch,x+dx+3,dy);}
@@ -876,6 +923,19 @@ function drawViz(fq,wv,energy,now){
     const N=48,bw=W/N;ctx.save();
     for(let i=0;i<N;i++){const v=fq[Math.floor((i/N)*fq.length*0.6)]/255;const h=v*H*0.22;ctx.fillStyle=hexA(S.accent,0.2+v*0.6);ctx.fillRect(i*bw+2,H/2-h,bw-4,h);ctx.fillRect(i*bw+2,H/2,bw-4,h);}
     ctx.restore();
+  }else if(S.vizKey==="grid"){
+    ctx.save();ctx.strokeStyle=hexA(S.accent,.24+energy*.18);ctx.lineWidth=1;
+    for(let x=0;x<=W;x+=W/12){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<=H;y+=H/6){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    ctx.fillStyle=hexA(S.accent,.5);ctx.fillRect(W*.06,H*.14,5,H*.35*(.3+energy));ctx.restore();
+  }else if(S.vizKey==="shards"){
+    ctx.save();ctx.strokeStyle=hexA(S.accent,.25+energy*.45);ctx.lineWidth=2;
+    const power=Math.max(energy,window.tsukiBeatAt?.(player.currentTime||0)||0);
+    for(let i=0;i<14;i++){
+      const r=mulberry32(i*71+S.seed),a=r()*Math.PI*2,dist=H*(.2+r()*.4)*(1+power*.15);
+      const x=W/2+Math.cos(a)*dist,y=H/2+Math.sin(a)*dist;
+      ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+Math.cos(a)*power*50,y+Math.sin(a)*power*50);ctx.stroke();
+    }ctx.restore();
   }
 }
 
@@ -890,6 +950,10 @@ const demoLines={
   cinema:["あの夜の余韻を","まだ覚えている。"],
   note:["書きかけのままで","君を想っていた。"],
   minimal:["静かな光が","ここに残る。"]
+  ,zine:["この声で壊せ","まだ終わらない。"]
+  ,club:["夜が脈を打つ","ここから始まる。"]
+  ,ink:["墨が夜に滲む","言葉は残る。"]
+  ,sunrise:["朝を迎えに行こう","光が差し込む。"]
 };
 function drawStudioAccents(now,energy){
   const kind=S.templateId;
@@ -911,7 +975,50 @@ function drawStudioAccents(now,energy){
     for(let i=0;i<80;i++){const x=W*.08+i*W*.010,y=H*.25+Math.sin(i*.26+now*.7)*8;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();ctx.restore();
   }else if(kind==="minimal"){
     ctx.save();ctx.strokeStyle="rgba(243,239,231,.36)";ctx.beginPath();ctx.moveTo(W*.15,H*.72);ctx.lineTo(W*.85,H*.72);ctx.stroke();ctx.restore();
+  }else if(kind==="zine"){
+    ctx.save();ctx.translate(W*.18,H*.18);ctx.rotate(-.08);ctx.fillStyle=hexA(S.accent,.42);ctx.fillRect(-W*.06,-22,W*.48,50);ctx.restore();
+    ctx.save();ctx.strokeStyle=hexA(S.accent,.55);ctx.lineWidth=3;for(let i=0;i<6;i++){let x=W*(.05+i*.18),y=H*(.78+(i%2)*.045);ctx.strokeRect(x,y,65,18);}ctx.restore();
+  }else if(kind==="club"){
+    ctx.save();const pulse=window.tsukiBeatAt?.(player.currentTime||0)||energy;
+    ctx.strokeStyle=hexA(S.accent,.28+pulse*.55);ctx.lineWidth=3+pulse*6;ctx.shadowColor=S.accent;ctx.shadowBlur=18+pulse*36;
+    for(let i=0;i<3;i++){ctx.beginPath();ctx.ellipse(W/2,H/2,W*(.28+i*.095)*(1+pulse*.05),H*(.21+i*.1),0,0,Math.PI*2);ctx.stroke();}ctx.restore();
+  }else if(kind==="ink"){
+    ctx.save();const phase=(now*.08)%1;ctx.strokeStyle=hexA(S.accent,.18);ctx.lineWidth=18;
+    ctx.beginPath();ctx.arc(W*.72,H*.48,H*(.23+phase*.045),-Math.PI*.75,Math.PI*.9);ctx.stroke();
+    ctx.fillStyle=hexA(S.accent,.24);for(let i=0;i<12;i++){let r=mulberry32(i*839+S.seed);ctx.fillRect(W*(.08+r()*.84),H*(.10+r()*.75),3+r()*8,3+r()*8);}ctx.restore();
+  }else if(kind==="sunrise"){
+    ctx.save();const x=(now*75)%(W*1.6)-W*.3;const glow=ctx.createLinearGradient(x-200,0,x+200,0);
+    glow.addColorStop(0,'transparent');glow.addColorStop(.5,hexA(S.accent,.12+energy*.1));glow.addColorStop(1,'transparent');ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle=hexA(S.accent,.5);ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(W*.08,H*.77);ctx.lineTo(W*.92,H*.77);ctx.stroke();ctx.restore();
   }
+}
+function drawSceneGraphic(line,idx,elapsed,beat){
+  const anim=line.animKey||S.animKey;
+  const enter=Math.max(0,1-elapsed/1.1),accent=line.accent||S.accent;
+  ctx.save();
+  if(anim==='slam'){
+    ctx.strokeStyle=hexA(accent,(.12+beat*.42+enter*.24));ctx.lineWidth=4+beat*12;
+    for(let i=0;i<9;i++){
+      const a=(i+.15*(idx%3))*Math.PI*2/9,r=H*(.25+beat*.12);
+      ctx.beginPath();ctx.moveTo(W/2+Math.cos(a)*r,H/2+Math.sin(a)*r);
+      ctx.lineTo(W/2+Math.cos(a)*(r+H*.28),H/2+Math.sin(a)*(r+H*.28));ctx.stroke();
+    }
+  }else if(anim==='wipe'){
+    const x=-W*.3+W*1.6*Math.min(1,elapsed/.85);
+    const grad=ctx.createLinearGradient(x-110,0,x+110,0);
+    grad.addColorStop(0,'transparent');grad.addColorStop(.5,hexA(accent,enter*.17));grad.addColorStop(1,'transparent');
+    ctx.fillStyle=grad;ctx.translate(x,0);ctx.transform(1,0,-.34,1,0,0);ctx.fillRect(-110,0,220,H);
+  }else if(anim==='pulse'){
+    ctx.strokeStyle=hexA(accent,.1+beat*.32);ctx.lineWidth=2+beat*4;
+    for(let i=0;i<3;i++)ctx.strokeRect(W*(.13-i*.045),H*(.18-i*.05),W*(.74+i*.09),H*(.64+i*.1));
+  }else if(anim==='stagger'){
+    ctx.fillStyle=hexA(accent,.08+enter*.15);
+    for(let i=0;i<28;i++)for(let j=0;j<8;j++){
+      const x=W*.06+i*W*.033,y=H*.12+j*H*.11;
+      ctx.beginPath();ctx.arc(x,y,2+beat*2,0,Math.PI*2);ctx.fill();
+    }
+  }
+  ctx.restore();
 }
 function loop(){
   requestAnimationFrame(loop);
@@ -938,7 +1045,7 @@ function loop(){
   }
   /* ビート包絡（立ち上がり速く・減衰ゆっくり） */
   beatEnv=Math.max(energy,beatEnv*0.90);
-  const beat=beatEnv*A;
+  const beat=Math.max(beatEnv,window.tsukiBeatAt?.(t)||0)*A;
 
   /* --- 背景を一旦fxCanvasに描く（エフェクト適用のため） --- */
   const fx=fxCtx;
@@ -1023,7 +1130,8 @@ function loop(){
         const remain=endT-t;
         if(remain>-0.05){
           const outDur=S.outStyle==="cut"?0.05:Math.min(.5,Math.max(.05,(endT-lineStart)*.35));
-          drawLine(S.lines[idx],idx,{elapsed,remain,outDur},energy,now);
+          drawSceneGraphic(S.lines[idx],idx,elapsed,window.tsukiBeatAt?.(t)||0);
+          drawLine(S.lines[idx],idx,{elapsed,remain,outDur,beat:window.tsukiBeatAt?.(t)||0},energy,now);
         }
       }
     }
@@ -1036,7 +1144,9 @@ function loop(){
       if(director&&director.current!==which){director.current=which;window.tsukiApplyTemplate(director.scenes[which].template,false);window.tsukiDirectorHighlight?.(which);}
       const samples=demoLines[S.templateId]||demoLines.cel;
       const scene=director?.scenes[which];
-      drawLine({text:scene?.text||samples[which],size:scene?.size||1.2,animKey:scene?.animKey,layoutKey:scene?.layoutKey},which+3,{elapsed,remain:duration-elapsed,outDur:.55},energy,demoClock);
+      const line={text:scene?.text||samples[which],size:scene?.size||1.2,animKey:scene?.animKey,layoutKey:scene?.layoutKey};
+      drawSceneGraphic(line,which+3,elapsed,beatEnv);
+      drawLine(line,which+3,{elapsed,remain:duration-elapsed,outDur:.55,beat:beatEnv},energy,demoClock);
       ctx.save();ctx.font="15px monospace";ctx.fillStyle=hexA(S.accent,.85);ctx.fillText("MOTION SAMPLE / "+String(which+1).padStart(2,"0"),W*.06,H*.93);ctx.restore();
     }
   }
@@ -1266,7 +1376,7 @@ function applySnap(d){
   S.lines=Array.isArray(d.lines)?d.lines:[];ensureSizes();
   $("lyricsIn").value=d.lyricText||"";
   S.fontKey=d.fontKey||"mincho";S.animKey=d.animKey||"random";
-  S.layoutKey=(d.layoutKey==="center")?"custom":(d.layoutKey||"wander");
+  S.layoutKey=d.layoutKey||"wander";
   S.vizKey=d.vizKey||"moon";S.underline=(d.underline!==false);
   S.accent=d.accent||"#d9f16d";S.templateId=d.templateId||"cel";
   S.dim=(typeof d.dim==="number")?d.dim:45;S.blur=(typeof d.blur==="number")?d.blur:6;
@@ -1346,6 +1456,7 @@ a{color:#ff8ab0;}
 });
 </script>
 <script src="./studio.js"></script>
+<script src="./rhythm.js"></script>
 <script src="./transcription.js"></script>
 <script src="./director.js"></script>
 </body>

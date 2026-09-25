@@ -23,6 +23,11 @@ body{background:radial-gradient(ellipse 1100px 500px at 72% -210px,#263642 0,tra
 
 /* Keep a long Jev result inside its own scroll area, and expose a persistent mobile preview. */
 .director-scenes{max-height:270px;overflow-y:auto;overscroll-behavior:contain}
+.line-controls{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}.line-controls label{font-size:11px;color:#c8d3cc}.line-controls select{display:block;width:100%;margin-top:6px;padding:9px 7px;min-width:0}
+.art-zine{background:#f4e8d1;color:#161818}.art-zine:after{background:linear-gradient(-16deg,transparent 46%,#e64b47 47% 54%,transparent 55%),repeating-linear-gradient(0deg,#151d1b14 0 1px,transparent 2px 14px)}.art-zine b{font-family:'Reggae One',sans-serif;font-size:15px;transform:rotate(-5deg);background:#f3ecdf;padding:2px 5px}
+.art-club{background:#170f30;color:#eee6ff}.art-club:after{background:radial-gradient(ellipse at 68% 48%,transparent 0 18%,#ba68ef 19% 21%,transparent 22% 32%,#5ce1ff 33% 34%,transparent 35%)}.art-club b{text-shadow:2px 2px #9d7bff,-2px -2px #5ce1ff}
+.art-ink{background:#efede5;color:#212b30}.art-ink:after{background:radial-gradient(circle at 75% 56%,transparent 0 20%,#282f30 21% 23%,transparent 24%),radial-gradient(circle at 78% 60%,#23313a29 0 33%,transparent 34%)}.art-ink b{font-family:'Shippori Mincho',serif}
+.art-sunrise{background:linear-gradient(130deg,#0f2139 0 43%,#f68b6c 44% 65%,#f9df9a 66%);color:#fff}.art-sunrise b{text-shadow:1px 2px #403038}
 .lyric-clean{margin:8px 0 0;padding:7px 11px;font-size:11px}
 .stage-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:15px}.stage-actions .floatToggleBtn{margin:0}.stage-actions #stageExpandBtn{font-size:11px;padding:7px 12px;border-color:#45504f;background:#202629}
 .preview-peek{display:none}.stage-modal-bg[hidden],.stage-modal-close[hidden]{display:none}.stage-modal-bg{position:fixed;inset:0;background:rgba(5,8,10,.92);z-index:79}.stage-modal-close{position:fixed;right:16px;top:calc(env(safe-area-inset-top) + 14px);z-index:82;border:1px solid #74847b;border-radius:9px;background:#1b2925;color:#fff;padding:10px 15px;font:700 13px 'Zen Kaku Gothic New',sans-serif}
