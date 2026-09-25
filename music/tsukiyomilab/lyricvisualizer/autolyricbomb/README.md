@@ -32,4 +32,6 @@ The editor sends its lyric text and approximate times to its own `/api/jev-direc
 
 The model selector now offers Whisper base as the default, tiny for lower memory, and small with WebGPU on capable computers. You can choose a known lyric language and add a separate vocal stem, which is used for recognition without replacing the original music playback. The editor filters literal `[music]`-style output, rejects empty-only results, retains previous lyrics on failure, and seeks the preview to the first detected line on success. This remains a browser transcription experiment. Automatic vocal separation and accurate sung-word alignment are not yet included; the larger models have not been validated on the supplied song in a real browser.
 
+On iPhone/iPad the experimental transcription does not start on source files above 25 MiB because decoding and the model can restart the tab under memory pressure. Smaller or compressed audio, a vocal stem, or a desktop browser can be used for transcription. The decode step now drops its full-resolution intermediates before loading the recognition model. This limit does not prevent loading or playing a large song, pasting lyrics, or using Jev on lyrics already in the editor.
+
 No JIZURA source code or media is included in this prototype. The uploaded reference audio is not committed.

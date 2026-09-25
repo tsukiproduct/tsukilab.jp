@@ -37,28 +37,41 @@
     }
     return {lines:result.sort((a,b)=>a.t-b.t),ignored};
   }
+  async function prepareAudio(file){
+    const decoding=new AudioContext();
+    try{
+      // Keep the original file bytes and decoded PCM inside this short-lived scope.
+      // The recognition worker only needs the much smaller 16 kHz mono buffer.
+      const decoded=await decoding.decodeAudioData(await file.arrayBuffer());
+      const duration=decoded.duration;
+      const offline=new OfflineAudioContext(1,Math.ceil(duration*16000),16000);
+      const source=offline.createBufferSource();source.buffer=decoded;
+      source.connect(offline.destination);source.start(0);
+      const mono=await offline.startRendering();
+      return {samples:mono.getChannelData(0).slice(),duration};
+    }finally{await decoding.close();}
+  }
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1;
   button.addEventListener('click',async()=>{
     if(running){stop();status.textContent='自動検出を中止しました。';return;}
     const songFile=audioFileForAnalysis;
     if(!songFile)return;
     const file=vocalFile||songFile;
+    if(isIOS&&file.size>25*1024*1024){
+      status.textContent='iPhone ではこの音源を自動検出するとメモリ不足でページが再起動することがあります。短い音源または圧縮した音源を選ぶか、PC で検出してください。歌詞を直接入力すれば Jev の演出は試せます。';
+      return;
+    }
+    if(isIOS&&$('asrModel').value==='small'){
+      status.textContent='Whisper small は PC 向けです。iPhone では標準または軽量モデルを選んでください。';
+      return;
+    }
     if($('lyricsIn').value.trim()&&!confirm('入力済みの歌詞を自動検出結果に置き換えますか？'))return;
     running=true;const task=++runId;
     button.textContent='検出を中止';
     status.textContent=(vocalFile?'ボーカル音源':'曲のミックス音源')+'を読み込んでいます…';
     try{
-      const decoding=new AudioContext();
-      let decoded;
-      try{decoded=await decoding.decodeAudioData(await file.arrayBuffer());}
-      finally{await decoding.close();}
+      const {samples,duration}=await prepareAudio(file);
       if(task!==runId||audioFileForAnalysis!==songFile){if(task===runId)stop();return;}
-      const length=Math.ceil(decoded.duration*16000);
-      const offline=new OfflineAudioContext(1,length,16000);
-      const source=offline.createBufferSource();source.buffer=decoded;
-      source.connect(offline.destination);source.start(0);
-      const mono=await offline.startRendering();
-      if(task!==runId||audioFileForAnalysis!==songFile){if(task===runId)stop();return;}
-      const samples=mono.getChannelData(0).slice();
       if(!worker)worker=new Worker('./transcription-worker.js',{type:'module'});
       const currentWorker=worker;
       currentWorker.onmessage=({data})=>{
@@ -69,7 +82,7 @@
           status.textContent='自動検出できませんでした：'+data.message+'。対応ブラウザと通信環境を確認してください。';stop();
         }
         if(data.type==='done'){
-          const {lines,ignored}=resultLines(data.lines,player.duration||decoded.duration);
+          const {lines,ignored}=resultLines(data.lines,player.duration||duration);
           if(lines.length){
             S.lines=lines;
             $('lyricsIn').value=lines.map(l=>l.text).join('\n');
