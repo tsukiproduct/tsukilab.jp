@@ -109,6 +109,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
       </div>
     </div>
     <canvas id="cv" width="1280" height="720"></canvas>
+    <div class="demo-controls" id="demoControls"><span>● サンプル映像 / 選んだ演出を自動再生</span><button type="button" id="demoToggle" aria-pressed="true">一時停止</button></div>
     <div class="resizehandle" id="resizeHandle"></div>
     <div class="editbadge" id="editBadge"></div>
     <div class="transport">
@@ -123,7 +124,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
       <span class="note">曲を聴きながら、各行が始まる瞬間にタップ</span>
     </div>
     <button class="btn floatToggleBtn" id="floatToggleBtn">↗ プレビューを浮かせる</button>
-    <div class="stagefoot"><span>01 / テンプレートを選択</span><span>02 / 曲と背景を追加</span><span>03 / 歌詞を同期して書き出し</span></div>
+    <div class="stagefoot"><span>01 / 動きを見て選択</span><span>02 / 曲から歌詞を検出</span><span>03 / 修正して書き出し</span></div>
   </div>
 
   <!-- ============ PANEL ============ -->
@@ -137,16 +138,16 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 
     <!-- ---- 素材 ---- -->
     <div class="tabpane on" id="pane-material">
-      <div class="panelintro"><span class="eyebrow">START HERE</span><h2>曲の世界を選ぶ。</h2><p>テンプレートは出発点。選んだあとで文字や演出を自由に調整できます。</p></div>
+      <div class="panelintro"><span class="eyebrow">START HERE</span><h2>まず、動きを見て選ぶ。</h2><p>テンプレートを押すと右側のサンプル映像が切り替わります。素材を入れた後も細かく編集できます。</p></div>
       <div class="card template-card">
         <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 06</span></div>
         <div class="template-grid" id="templateGrid" role="group" aria-label="リリックモーションのテンプレート">
-          <button class="template-tile selected" data-template="cel" type="button" aria-pressed="true"><span class="template-art art-cel"><i>POP!</i><b>あふれる<br>コトバ</b></span><span class="template-copy"><strong>セルポップ</strong><small>跳ねる・鮮やか</small></span></button>
-          <button class="template-tile" data-template="collage" type="button" aria-pressed="false"><span class="template-art art-collage"><i>CUT / PASTE</i><b>LOUD<br>WORDS</b></span><span class="template-copy"><strong>紙コラージュ</strong><small>荒い・勢い</small></span></button>
-          <button class="template-tile" data-template="digital" type="button" aria-pressed="false"><span class="template-art art-digital"><i>SYS_047</i><b>ERROR<br>_LOVE</b></span><span class="template-copy"><strong>硬質デジタル</strong><small>ノイズ・発光</small></span></button>
-          <button class="template-tile" data-template="cinema" type="button" aria-pressed="false"><span class="template-art art-cinema"><i>SCENE 04</i><b>余白に、<br>ひとこと。</b></span><span class="template-copy"><strong>シネマティック</strong><small>静けさ・余韻</small></span></button>
-          <button class="template-tile" data-template="note" type="button" aria-pressed="false"><span class="template-art art-note"><i>memo / 02</i><b>書きかけの<br>気持ち</b></span><span class="template-copy"><strong>手書きノート</strong><small>素朴・やわらか</small></span></button>
-          <button class="template-tile" data-template="minimal" type="button" aria-pressed="false"><span class="template-art art-minimal"><i>01—06</i><b>the quiet<br>between</b></span><span class="template-copy"><strong>ミニマル</strong><small>映像を主役に</small></span></button>
+          <button class="template-tile selected" data-template="cel" type="button" aria-pressed="true"><span class="template-art art-cel"><i>POP!</i><b>あふれる<br>コトバ</b></span><span class="template-copy"><strong>セルポップ</strong><small>一文字ずつ跳ねる ↗</small></span></button>
+          <button class="template-tile" data-template="collage" type="button" aria-pressed="false"><span class="template-art art-collage"><i>CUT / PASTE</i><b>LOUD<br>WORDS</b></span><span class="template-copy"><strong>紙コラージュ</strong><small>散ってから集まる ↘</small></span></button>
+          <button class="template-tile" data-template="digital" type="button" aria-pressed="false"><span class="template-art art-digital"><i>SYS_047</i><b>ERROR<br>_LOVE</b></span><span class="template-copy"><strong>硬質デジタル</strong><small>文字のズレと閃光 ⚡</small></span></button>
+          <button class="template-tile" data-template="cinema" type="button" aria-pressed="false"><span class="template-art art-cinema"><i>SCENE 04</i><b>余白に、<br>ひとこと。</b></span><span class="template-copy"><strong>シネマティック</strong><small>ゆっくり現れる →</small></span></button>
+          <button class="template-tile" data-template="note" type="button" aria-pressed="false"><span class="template-art art-note"><i>memo / 02</i><b>書きかけの<br>気持ち</b></span><span class="template-copy"><strong>手書きノート</strong><small>一文字ずつ綴る ✎</small></span></button>
+          <button class="template-tile" data-template="minimal" type="button" aria-pressed="false"><span class="template-art art-minimal"><i>01—06</i><b>the quiet<br>between</b></span><span class="template-copy"><strong>ミニマル</strong><small>余白を漂う ～</small></span></button>
         </div>
         <p class="template-note" id="templateNote">言葉が軽やかに弾む、明るいモーション。まず曲を入れてプレビューしましょう。</p>
       </div>
@@ -164,6 +165,8 @@ input[type=range]{width:100%;accent-color:var(--acc);}
       </div>
       <div class="card">
         <h2>歌詞 <span class="card-num">03</span></h2>
+        <button class="btn acc asr-button" id="transcribeBtn" type="button" disabled>✦ 曲から歌詞を自動検出（試験版）</button>
+        <p class="note" id="transcribeStatus" role="status" aria-live="polite">曲を読み込むと使えます。初回は認識モデルをダウンロードします。歌声の認識結果は必ず確認してください。</p>
         <textarea id="lyricsIn" placeholder="歌詞を1行ずつ入力&#10;例：&#10;月が嗤う夜に&#10;君の声だけ探してた"></textarea>
         <div class="row">
           <button class="btn acc" id="applyBtn">歌詞を反映</button>
@@ -173,12 +176,13 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <div class="row">
           <button class="btn" id="autoSyncBtn" disabled>🧪 歌い出し自動検出（試験）</button>
         </div>
-        <p class="note">タップ同期は行の開始時刻を記録します。歌い出し自動検出は音の立ち上がりから時刻を推定する試験機能です。歌詞の文字起こしは行いません。</p>
+        <p class="note">検出した歌詞と時刻は編集できます。伴奏が大きい曲では聞き間違えることがあります。歌い出し検出は、歌詞を入力済みのときに音の立ち上がりから時刻だけを推定する別の試験機能です。</p>
         <p class="note" id="autoSyncProg" style="display:none;color:var(--acc)"></p>
       </div>
       <div class="card" id="tlCard" style="display:none">
         <h2>タイムライン <span class="card-num">各行をタップして頭出し</span></h2>
         <div class="chips" id="chips"></div>
+        <div class="time-rows" id="timeRows"></div>
       </div>
     </div>
 
@@ -595,6 +599,7 @@ async function detectVocalOnsets(audioBuf,duration,onProg){
 }
 function renderChips(){
   const wrap=$("chips");wrap.innerHTML="";
+  const rows=$("timeRows");rows.replaceChildren();
   if(!S.lines.length){$("tlCard").style.display="none";return;}
   $("tlCard").style.display=syncMode?"none":"block";
   S.lines.forEach((l,i)=>{
@@ -602,6 +607,15 @@ function renderChips(){
     c.textContent=fmt(l.t)+" "+l.text.slice(0,8);
     c.addEventListener("click",()=>{player.currentTime=l.t;});
     wrap.appendChild(c);
+    const row=document.createElement('label');row.className='time-row';
+    const name=document.createElement('span');name.textContent=l.text;name.title=l.text;
+    const input=document.createElement('input');input.type='number';input.min='0';input.max=String(player.duration||9999);input.step='0.01';input.value=Number(l.t).toFixed(2);input.setAttribute('aria-label',l.text+' の表示開始秒');
+    input.addEventListener('change',()=>{
+      const value=Number(input.value);if(!Number.isFinite(value)||value<0){input.value=Number(l.t).toFixed(2);return;}
+      l.t=Math.min(value,player.duration||value);S.lines.sort((a,b)=>a.t-b.t);
+      renderChips();renderSizeChips();
+    });
+    const suffix=document.createElement('small');suffix.textContent='秒';row.append(name,input,suffix);rows.appendChild(row);
   });
 }
 
@@ -856,9 +870,46 @@ function drawViz(fq,wv,energy,now){
 
 /* ===== メインループ ===== */
 const emptyFq=new Uint8Array(512),emptyWv=new Uint8Array(1024).fill(128);
+const demoFq=new Uint8Array(512),demoWv=new Uint8Array(1024);
+let demoClock=0,demoLast=performance.now(),demoPlaying=true;
+const demoLines={
+  cel:["言葉が、跳ねる。","世界が、弾ける。"],
+  collage:["切って、貼って、","感情を鳴らせ。"],
+  digital:["SIGNAL LOST","君だけが光る。"],
+  cinema:["あの夜の余韻を","まだ覚えている。"],
+  note:["書きかけのままで","君を想っていた。"],
+  minimal:["静かな光が","ここに残る。"]
+};
+function drawStudioAccents(now,energy){
+  const kind=S.templateId;
+  if(kind==="collage"){
+    ctx.save();ctx.translate(W*.83,H*.33);ctx.rotate(-.22);ctx.fillStyle=hexA(S.accent,.10+energy*.15);ctx.fillRect(-110,-320,230,640);
+    ctx.rotate(.28);ctx.strokeStyle=hexA(S.accent,.55);ctx.lineWidth=6;ctx.strokeRect(-108,-120,260,185);ctx.restore();
+  }else if(kind==="digital"){
+    ctx.save();ctx.strokeStyle=hexA(S.accent,.24+energy*.28);ctx.lineWidth=2;
+    const x=(now*190)% (W+300)-150;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x-140,H);ctx.stroke();
+    ctx.font="16px monospace";ctx.fillStyle=hexA(S.accent,.6);ctx.fillText("LYRIC_SIGNAL / "+String(Math.floor(now*24)%1000).padStart(3,"0"),34,60);ctx.restore();
+  }else if(kind==="cel"){
+    ctx.save();ctx.strokeStyle=hexA(S.accent,.26+energy*.2);ctx.lineWidth=6;
+    for(let i=0;i<6;i++){const a=i*Math.PI/3+now*.18;ctx.beginPath();ctx.moveTo(W*.5+Math.cos(a)*H*.30,H*.5+Math.sin(a)*H*.30);ctx.lineTo(W*.5+Math.cos(a)*H*.46,H*.5+Math.sin(a)*H*.46);ctx.stroke();}ctx.restore();
+  }else if(kind==="cinema"){
+    ctx.save();ctx.fillStyle="#090c10";ctx.fillRect(0,0,W,H*.085);ctx.fillRect(0,H*.92,W,H*.08);
+    ctx.font="16px monospace";ctx.fillStyle=hexA(S.accent,.72);ctx.fillText("TSUKI / FILM  01",W*.07,H*.16);ctx.restore();
+  }else if(kind==="note"){
+    ctx.save();ctx.strokeStyle=hexA(S.accent,.45);ctx.lineWidth=2;ctx.beginPath();
+    for(let i=0;i<80;i++){const x=W*.08+i*W*.010,y=H*.25+Math.sin(i*.26+now*.7)*8;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();ctx.restore();
+  }else if(kind==="minimal"){
+    ctx.save();ctx.strokeStyle="rgba(243,239,231,.36)";ctx.beginPath();ctx.moveTo(W*.15,H*.72);ctx.lineTo(W*.85,H*.72);ctx.stroke();ctx.restore();
+  }
+}
 function loop(){
   requestAnimationFrame(loop);
   const now=performance.now()/1000;
+  const demoActive=!S.lines.length&&!recorder;
+  const frameNow=performance.now();
+  if(demoPlaying&&demoActive)demoClock+=Math.min((frameNow-demoLast)/1000,.10);
+  demoLast=frameNow;
+  $("demoControls").hidden=!demoActive;
   const t=player.currentTime||0;
   const A=S.fxAmt/100;
 
@@ -867,6 +918,12 @@ function loop(){
   if(analyser&&freq){
     analyser.getByteFrequencyData(freq);analyser.getByteTimeDomainData(wave);
     fq=freq;wv=wave;let s=0;for(let i=0;i<32;i++)s+=freq[i];energy=s/(32*255);
+  }
+  if(demoActive){
+    energy=.24+.28*Math.pow(Math.max(0,Math.cos(demoClock*Math.PI*2/3.2)),10);
+    for(let i=0;i<demoFq.length;i++)demoFq[i]=Math.floor((.2+.6*Math.abs(Math.sin(demoClock*3+i*.09)))*170*Math.exp(-i/230));
+    for(let i=0;i<demoWv.length;i++)demoWv[i]=128+Math.floor(27*Math.sin(i*.07+demoClock*7));
+    fq=demoFq;wv=demoWv;
   }
   /* ビート包絡（立ち上がり速く・減衰ゆっくり） */
   beatEnv=Math.max(energy,beatEnv*0.90);
@@ -937,6 +994,7 @@ function loop(){
 
   /* ビジュアライザー */
   drawViz(fq,wv,energy,now);
+  drawStudioAccents(demoActive?demoClock:now,energy);
 
   /* 歌詞 */
   if(S.lines.length){
@@ -960,18 +1018,12 @@ function loop(){
     }
     document.querySelectorAll("#chips .chip").forEach(c=>{const i=+c.dataset.i;const isNow=S.lines[i].t<=t&&(i+1>=S.lines.length||S.lines[i+1].t>t);c.classList.toggle("now",isNow);});
   }else{
-    /* 編集画面のサンプル表示。動画には焼き込まない。 */
-    if(!recorder){
-      ctx.save();ctx.textAlign="center";ctx.textBaseline="middle";
-      ctx.fillStyle=hexA(S.accent,0.78);ctx.font="14px monospace";
-      ctx.fillText("T S U K I   /   L Y R I C   M O T I O N",W/2,H*.38);
-      ctx.fillStyle="#f3f3ec";ctx.font=`700 ${Math.floor(H*.074)}px ${FONTS[S.fontKey]}`;
-      ctx.translate(0,Math.sin(now*1.4)*5);
-      ctx.fillText("言葉が、動き出す。",W/2,H*.51);
-      ctx.translate(0,-Math.sin(now*1.4)*5);
-      ctx.fillStyle="rgba(243,243,236,.6)";ctx.font="18px 'Zen Kaku Gothic New', sans-serif";
-      ctx.fillText("曲と歌詞を入れて、プレビューをはじめよう",W/2,H*.63);
-      ctx.restore();
+    /* 実際の描画エンジンで動くデモ。S.linesには追加せず書き出しにも含めない。 */
+    if(demoActive){
+      const duration=3.2,which=Math.floor(demoClock/duration)%2,elapsed=demoClock%duration;
+      const samples=demoLines[S.templateId]||demoLines.cel;
+      drawLine({text:samples[which],size:1.2},which+3,{elapsed,remain:duration-elapsed,outDur:.55},energy,demoClock);
+      ctx.save();ctx.font="15px monospace";ctx.fillStyle=hexA(S.accent,.85);ctx.fillText("MOTION SAMPLE / "+String(which+1).padStart(2,"0"),W*.06,H*.93);ctx.restore();
     }
   }
 
@@ -1245,5 +1297,6 @@ a{color:#ff8ab0;}
 });
 </script>
 <script src="./studio.js"></script>
+<script src="./transcription.js"></script>
 </body>
 </html>
