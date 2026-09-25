@@ -1,8 +1,8 @@
 /* Cloudflare Worker: runs the existing Jev director endpoint without exposing the API key. */
 const endpoint='/music/tsukiyomilab/lyricvisualizer/autolyricbomb/api/jev-director';
 const transcriptionEndpoint='/music/tsukiyomilab/lyricvisualizer/autolyricbomb/api/transcribe';
-const motions=new Set(['drift','scatter','pop','glitch','type','slam','wipe','pulse','echo','stagger']);
-const layouts=new Set(['bottom','wander','center']);
+const motions=new Set(['drift','scatter','pop','glitch','type','slam','wipe','pulse','echo','stagger','draw']);
+const layouts=new Set(['bottom','wander','center','tateRight']);
 const graphics=new Set(['none','rays','sweep','frame','dots']);
 const headers={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'};
 
@@ -31,8 +31,8 @@ function questionsFor(lines){
   const questions={};
   for(let i=0;i<lines.length;i++){
     const target='`lines['+i+']`';
-    questions['motion_'+i]={type:'choice',instructions:'Choose one distinct, readable animation for '+target+'. Consider its words, neighboring lines, audio intensity, proximity to a detected beat and the build of the song. Vary the visual rhythm; reserve high-impact movement for musical peaks.',criteria:{drift:'Slow, lingering movement',scatter:'Letters converge from apart',pop:'Playful letters bounce',glitch:'Electronic disruption',type:'Revealed one character at a time',slam:'A strong impact on a downbeat',wipe:'A swift horizontal reveal',pulse:'Typography breathes with the beat',echo:'Afterimages for a lingering phrase',stagger:'Alternating letters spring into place'}};
-    questions['layout_'+i]={type:'choice',instructions:'For the lyric in '+target+', which placement best supports readability and expressive impact?',criteria:{bottom:'Quiet lower-third text that leaves room for footage',wander:'Playful placement that draws attention to the words',center:'Stable centered title for a key statement'}};
+    questions['motion_'+i]={type:'choice',instructions:'Choose one distinct, readable animation for '+target+'. Consider its words, neighboring lines, audio intensity, proximity to a detected beat and the build of the song. Vary the visual rhythm; reserve high-impact movement for musical peaks.',criteria:{drift:'Slow, lingering movement',scatter:'Letters converge from apart',pop:'Playful letters bounce',glitch:'Electronic disruption',type:'Revealed one character at a time',slam:'A strong impact on a downbeat',wipe:'A swift horizontal reveal',pulse:'Typography breathes with the beat',echo:'Afterimages for a lingering phrase',stagger:'Alternating letters spring into place',draw:'Crayon or marker hand lettering slowly drawn onto a canvas'}};
+    questions['layout_'+i]={type:'choice',instructions:'For the lyric in '+target+', which placement best supports readability and expressive impact?',criteria:{bottom:'Quiet lower-third text that leaves room for footage',wander:'Playful placement that draws attention to the words',center:'Stable centered title for a key statement',tateRight:'Japanese vertical line along the right edge for intimate or reflective words'}};
     questions['impact_'+i]={type:'score',instructions:'How visually prominent should the lyric in '+target+' be relative to the neighboring lyrics?',criteria:['Small and restrained','Medium emphasis','Large focal moment']};
     questions['graphic_'+i]={type:'choice',instructions:'Which one graphic accent best supports '+target+' while keeping the lyric readable? Use its musical intensity and nearby lyrics; silence or restraint is allowed.',criteria:{none:'No added shapes; allow the words and underlying image to breathe',rays:'Short, sharp rays for forceful declarations',sweep:'A traveling light beam for a reveal or transition',frame:'Architectural lines that hold the typography together',dots:'A field of print dots for playful, restless energy'}};
   }

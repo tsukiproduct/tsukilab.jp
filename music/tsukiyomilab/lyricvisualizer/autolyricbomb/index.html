@@ -148,7 +148,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <p class="note" id="directorSceneHint" hidden>演出一覧をスクロールできます。行を押すとその歌詞の位置に移動します。</p>
       </div>
       <div class="card template-card">
-        <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 10</span></div>
+        <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 13</span></div>
         <div class="template-grid" id="templateGrid" role="group" aria-label="リリックモーションのテンプレート">
           <button class="template-tile selected" data-template="cel" type="button" aria-pressed="true"><span class="template-art art-cel"><i>POP!</i><b>あふれる<br>コトバ</b></span><span class="template-copy"><strong>セルポップ</strong><small>一文字ずつ跳ねる ↗</small></span></button>
           <button class="template-tile" data-template="collage" type="button" aria-pressed="false"><span class="template-art art-collage"><i>CUT / PASTE</i><b>LOUD<br>WORDS</b></span><span class="template-copy"><strong>紙コラージュ</strong><small>散ってから集まる ↘</small></span></button>
@@ -160,6 +160,9 @@ input[type=range]{width:100%;accent-color:var(--acc);}
           <button class="template-tile" data-template="club" type="button" aria-pressed="false"><span class="template-art art-club"><i>ROOM / 08</i><b>HEART<br>BEAT</b></span><span class="template-copy"><strong>ネオンクラブ</strong><small>音に脈打つ文字 ♫</small></span></button>
           <button class="template-tile" data-template="ink" type="button" aria-pressed="false"><span class="template-art art-ink"><i>墨 / 09</i><b>夜に、<br>ほどける</b></span><span class="template-copy"><strong>墨と余白</strong><small>言葉に残像を重ねる ◯</small></span></button>
           <button class="template-tile" data-template="sunrise" type="button" aria-pressed="false"><span class="template-art art-sunrise"><i>DAYBREAK / 10</i><b>光の<br>むこう</b></span><span class="template-copy"><strong>サンライズ</strong><small>光のワイプで開く ↗</small></span></button>
+          <button class="template-tile" data-template="vertical" type="button" aria-pressed="false"><span class="template-art art-vertical"><i>9:16 / SIDE LETTER</i><b>言葉が<br>ふわりと</b></span><span class="template-copy"><strong>右寄せ縦書き</strong><small>右に一文字ずつ浮かぶ ↘</small></span></button>
+          <button class="template-tile" data-template="desktop" type="button" aria-pressed="false"><span class="template-art art-desktop"><i>DESKTOP_01</i><b>新しい<br>メッセージ</b></span><span class="template-copy"><strong>デスクトップ</strong><small>窓とカーソルの物語 ⌘</small></span></button>
+          <button class="template-tile" data-template="crayon" type="button" aria-pressed="false"><span class="template-art art-crayon"><i>DRAW / 13</i><b>まだ、<br>描いている。</b></span><span class="template-copy"><strong>クレヨンレター</strong><small>文字が手で描かれていく ✎</small></span></button>
         </div>
         <p class="template-note" id="templateNote">言葉が軽やかに弾む、明るいモーション。まず曲を入れてプレビューしましょう。</p>
         <button class="btn director-restore" id="restoreDirectionBtn" type="button" hidden>↶ 直前の Jev・個別演出に戻す</button>
@@ -232,7 +235,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
             <option value="drift">浮遊 — ふわり出現</option>
             <option value="scatter">集結 — 文字が飛んでくる</option>
             <option value="glitch">グリッチ — ノイズ</option>
-            <option value="type">タイプ — 一文字ずつ</option>
+            <option value="type">タイプ — 一文字ずつ</option><option value="draw">手描き — 一画ずつ現れる</option>
             <option value="pop">ポンポン — ランダム弾け</option>
             <option value="slam">スラム — 拍で強く着地</option>
             <option value="wipe">ワイプ — 光で横から開く</option>
@@ -246,7 +249,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
             <option value="center">中央固定</option>
             <option value="bottom">下部固定（字幕風）</option>
             <option value="custom">自由配置（プレビューで移動）</option>
-            <option value="tate">縦書き</option>
+            <option value="tate">縦書き</option><option value="tateRight">右寄せ縦書き</option>
             <option value="danmaku">弾幕（左→右に流れる）</option>
           </select></div>
         <div class="inline">
@@ -276,7 +279,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <button class="btn" id="sizeReset" disabled>この行を等倍に戻す</button>
         <div class="line-controls">
           <label>この行の動き<select id="lineAnim" disabled><option value="">全体設定を使う</option></select></label>
-          <label>この行の配置<select id="lineLayout" disabled><option value="">全体設定を使う</option><option value="center">中央</option><option value="bottom">下部</option><option value="wander">変化をつける</option><option value="tate">縦書き</option></select></label>
+          <label>この行の配置<select id="lineLayout" disabled><option value="">全体設定を使う</option><option value="center">中央</option><option value="bottom">下部</option><option value="wander">変化をつける</option><option value="tate">縦書き</option><option value="tateRight">右寄せ縦書き</option></select></label>
           <label>この行の図形<select id="lineGraphic" disabled><option value="">動きに合わせる</option><option value="rays">放射線</option><option value="sweep">光の帯</option><option value="frame">フレーム</option><option value="dots">網点</option><option value="none">図形なし</option></select></label>
         </div>
       </div>
@@ -374,7 +377,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 
 <button class="preview-peek" id="previewPeek" type="button" hidden><span>● プレビューを見る</span><strong id="peekLyric">曲を選ぶと映像を確認できます</strong><small id="peekTime">0:00</small></button>
 <div class="stage-modal-bg" id="stageModalBg" hidden aria-hidden="true"></div>
-<button class="stage-modal-close" id="stageModalClose" type="button" hidden>✕ 閉じる</button>
+<div class="stage-modal-tools" id="stageModalTools" hidden><button id="stageEditBtn" type="button">▣ 編集しながら見る</button><button id="stageModalClose" type="button">✕ 閉じる</button></div>
 
 <script>
 "use strict";
@@ -776,19 +779,20 @@ function drawLine(line,idx,prog,energy,now){
   let base=H*0.085*sizeF;
 
   /* ---- 縦書き ---- */
-  if(layout==="tate"){
+  if(layout==="tate"||layout==="tateRight"){
     base=Math.min(base,(H*0.8)/Math.max(chars.length,1));
     ctx.font=`700 ${base}px ${fontCss}`;
-    const colX=W*(0.22+rng()*0.56);
+    const colX=layout==="tateRight"?W*.79:W*(0.22+rng()*0.56);
     const startY=H/2-(chars.length*base*1.08)/2+base*0.7;
     chars.forEach((ch,ci)=>{
       const cd=clamp((prog.elapsed-ci*0.045)/0.5,0,1);const ca=easeOut(cd)*tOut;if(ca<=0)return;
       let dx=0,dy=0;
       if(anim==="scatter"){const r2=mulberry32(idx*131+ci*17+S.seed);dx=(r2()-0.5)*500*(1-easeOut(cd));dy=(r2()-0.5)*360*(1-easeOut(cd));}
       if(anim==="drift")dy=(1-easeOut(cd))*26+Math.sin(now*1.4+ci)*2.5;
+      if(layout==="tateRight")dx+=(1-easeOut(cd))*base*.62;
       if(anim==="glitch"&&Math.random()<0.05+energy*0.12){dx=(Math.random()-0.5)*14;dy=(Math.random()-0.5)*8;}
       if(anim==="type"&&prog.elapsed<ci*0.09)return;
-      ctx.save();ctx.globalAlpha=ca;ctx.fillStyle="#f3efe7";ctx.shadowColor="rgba(0,0,0,0.6)";ctx.shadowBlur=10;ctx.textAlign="center";
+      ctx.save();ctx.globalAlpha=ca*(layout==="tateRight"?.94:1);ctx.fillStyle="#f3efe7";ctx.shadowColor=layout==="tateRight"?hexA(accent,.55):"rgba(0,0,0,0.6)";ctx.shadowBlur=layout==="tateRight"?22*(1-easeOut(cd))+8:10;ctx.textAlign="center";
       ctx.fillText(ch,colX+dx,startY+ci*base*1.08+dy);ctx.restore();
     });
     if(S.underline){
@@ -800,11 +804,13 @@ function drawLine(line,idx,prog,energy,now){
 
   /* ---- 横書き各種 ---- */
   if(layout==="bottom")base=Math.min(base,H*0.055*userSize);
+  if(S.templateId==="desktop")base=Math.min(base,H*.065*userSize);
   ctx.font=`700 ${base}px ${fontCss}`;
   let tw=ctx.measureText(line.text).width;
   const maxW=W*0.82;
   if(tw>maxW){base*=maxW/tw;ctx.font=`700 ${base}px ${fontCss}`;tw=ctx.measureText(line.text).width;}
   let cx=W/2,cy=H*0.56;
+  if(S.templateId==="desktop"){cx=W*.57;cy=H*.43;}
   if(layout==="wander"){cx=W*(0.5+(rng()-0.5)*0.32);cy=H*(0.32+rng()*0.42);cx=clamp(cx,tw/2+40,W-tw/2-40);}
   else if(layout==="bottom"){cx=W/2;cy=H*0.86;}
   else if(layout==="custom"){cx=clamp(W*S.posX,tw/2+30,W-tw/2-30);cy=clamp(H*S.posY,H*0.08,H*0.94);}
@@ -824,6 +830,7 @@ function drawLine(line,idx,prog,energy,now){
     ctx.fillStyle=hexA(accent,.7);ctx.fillRect(-tw/2+width-8,-base*.85,5,base*1.7);
   }
   ctx.textAlign="left";ctx.textBaseline="middle";
+  if(S.templateId==="crayon")ctx.rotate(-.025);
   if(anim==="echo"){
     ctx.globalAlpha=alpha*.3;ctx.fillStyle=accent;
     ctx.fillText(line.text,-tw/2-22*(1-clamp(prog.elapsed/1.5,0,1)),-base*.16);
@@ -839,6 +846,7 @@ function drawLine(line,idx,prog,energy,now){
     const cw=ctx.measureText(ch).width;
     const cd=clamp((prog.elapsed-ci*0.04)/0.5,0,1);const ca=easeOut(cd)*tOut;
     if(anim==="type"&&prog.elapsed<ci*0.085){x+=cw;return;}
+    if(anim==="draw"&&prog.elapsed<ci*.15){x+=cw;return;}
     if(ca<=0){x+=cw;return;}
     let dx=0,dy=0;
     if(anim==="scatter"){const r2=mulberry32(idx*131+ci*17+S.seed);dx=(r2()-0.5)*640*(1-easeOut(cd));dy=(r2()-0.5)*420*(1-easeOut(cd));}
@@ -846,6 +854,14 @@ function drawLine(line,idx,prog,energy,now){
     if(anim==="pop")dy=-base*(1-easeOut(cd))*(.5+mulberry32(idx*101+ci*37+S.seed)()*.7);
     if(anim==="stagger")dy=(ci%2?-1:1)*base*.85*(1-easeOut(clamp((prog.elapsed-ci*.065)/.36,0,1)));
     if(glitchFrame&&Math.random()<0.4){dx=(Math.random()-0.5)*16;dy=(Math.random()-0.5)*10;}
+    if(anim==="draw"){
+      const progress=easeOut(clamp((prog.elapsed-ci*.15)/.44,0,1));
+      ctx.save();ctx.beginPath();ctx.rect(x-3,-base*.75,(cw+6)*progress,base*1.5);ctx.clip();
+      ctx.globalAlpha=alpha*.9;ctx.strokeStyle=accent;ctx.lineWidth=1.4;ctx.strokeText(ch,x-1,dy+1);
+      ctx.globalAlpha=alpha*.45;ctx.strokeStyle='#907563';ctx.lineWidth=.9;ctx.strokeText(ch,x+1,dy-1);
+      ctx.globalAlpha=alpha*.82;ctx.fillStyle=S.templateId==='crayon'?'#34495a':'#f3efe7';ctx.fillText(ch,x,dy);
+      ctx.restore();x+=cw;return;
+    }
     ctx.globalAlpha=ca;
     if(glitchFrame){ctx.fillStyle="rgba(255,60,90,0.85)";ctx.fillText(ch,x+dx-3,dy);ctx.fillStyle="rgba(80,220,255,0.85)";ctx.fillText(ch,x+dx+3,dy);}
     ctx.fillStyle="#f3efe7";ctx.shadowColor=anim==="pop"?accent:"rgba(0,0,0,0.65)";ctx.shadowBlur=anim==="pop"?8+energy*12:12;ctx.fillText(ch,x+dx,dy);ctx.shadowBlur=0;
@@ -959,6 +975,9 @@ const demoLines={
   ,club:["夜が脈を打つ","ここから始まる。"]
   ,ink:["墨が夜に滲む","言葉は残る。"]
   ,sunrise:["朝を迎えに行こう","光が差し込む。"]
+  ,vertical:["夜の端に触れる","この声が届くまで"]
+  ,desktop:["新しいメッセージ","まだ送れない言葉"]
+  ,crayon:["消せない約束を","ここに描いていく"]
 };
 function drawStudioAccents(now,energy){
   const kind=S.templateId;
@@ -991,6 +1010,24 @@ function drawStudioAccents(now,energy){
     ctx.save();const phase=(now*.08)%1;ctx.strokeStyle=hexA(S.accent,.18);ctx.lineWidth=18;
     ctx.beginPath();ctx.arc(W*.72,H*.48,H*(.23+phase*.045),-Math.PI*.75,Math.PI*.9);ctx.stroke();
     ctx.fillStyle=hexA(S.accent,.24);for(let i=0;i<12;i++){let r=mulberry32(i*839+S.seed);ctx.fillRect(W*(.08+r()*.84),H*(.10+r()*.75),3+r()*8,3+r()*8);}ctx.restore();
+  }else if(kind==="vertical"){
+    ctx.save();const glow=ctx.createRadialGradient(W*.78,H*.48,0,W*.78,H*.48,H*.77);
+    glow.addColorStop(0,hexA(S.accent,.09+energy*.07));glow.addColorStop(1,'transparent');ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle=hexA(S.accent,.24);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(W*.9,H*.17);ctx.lineTo(W*.9,H*.82);ctx.stroke();ctx.restore();
+  }else if(kind==="desktop"){
+    ctx.save();ctx.fillStyle='#13273d';ctx.fillRect(0,0,W,H);
+    for(let i=0;i<5;i++){let x=55+(i%2)*92,y=110+Math.floor(i/2)*112;
+      ctx.fillStyle=i===2?'#f9c87a':'#bcd5e8';ctx.fillRect(x,y,31,36);ctx.fillStyle='#e3ebef';ctx.font='13px monospace';ctx.fillText(['memo','music','lyrics','draft','folder'][i],x-8,y+56);}
+    ctx.fillStyle='#e7edf4';ctx.shadowColor='#0008';ctx.shadowBlur=28;ctx.fillRect(W*.26,H*.16,W*.63,H*.67);ctx.shadowBlur=0;
+    ctx.fillStyle='#d6deea';ctx.fillRect(W*.26,H*.16,W*.63,37);ctx.fillStyle='#253855';ctx.font='16px monospace';ctx.fillText('●  ●  ●       lyric.txt — 未保存',W*.28,H*.16+25);
+    ctx.fillStyle='#b3b9cf';ctx.fillRect(W*.27,H*.23,2,H*.57);ctx.fillStyle='#243957';ctx.font='14px monospace';ctx.fillText('君へ / '+String(Math.floor(now*2)%100).padStart(2,'0'),W*.3,H*.75);
+    ctx.fillStyle='#d9e6ee';ctx.fillRect(0,H*.935,W,H*.065);ctx.fillStyle='#47749e';ctx.fillRect(W*.03,H*.95,90,12);ctx.restore();
+  }else if(kind==="crayon"){
+    ctx.save();ctx.fillStyle='#ece1c5';ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#91a1ae33';ctx.lineWidth=2;
+    for(let y=H*.2;y<H;y+=H*.12){ctx.beginPath();ctx.moveTo(W*.08,y);ctx.lineTo(W*.94,y);ctx.stroke();}
+    ctx.fillStyle='#dc7662';ctx.fillRect(W*.08,0,3,H);ctx.translate(W*.83,H*.74);ctx.rotate(-.24);
+    for(let i=0;i<4;i++){ctx.strokeStyle=['#e9ae63','#6c92a9','#d47c66','#86966c'][i];ctx.lineWidth=7;ctx.beginPath();ctx.arc(0,0,40+i*14,Math.PI*.15,Math.PI*1.6);ctx.stroke();}ctx.restore();
   }else if(kind==="sunrise"){
     ctx.save();const x=(now*75)%(W*1.6)-W*.3;const glow=ctx.createLinearGradient(x-200,0,x+200,0);
     glow.addColorStop(0,'transparent');glow.addColorStop(.5,hexA(S.accent,.12+energy*.1));glow.addColorStop(1,'transparent');ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
@@ -1298,14 +1335,14 @@ const previewPeek=$("previewPeek");
 function openStageModal(){
   if(isFloating)setFloating(false);
   stageModalOpen=true;stageWrap.classList.add("stage-modal-open");
-  $("stageModalBg").hidden=false;$("stageModalClose").hidden=false;
+  $("stageModalBg").hidden=false;$("stageModalTools").hidden=false;
   $("stageModalBg").setAttribute("aria-hidden","false");
   document.body.classList.add("stage-preview-open");previewPeek.hidden=true;
   $("stageModalClose").focus();
 }
 function closeStageModal(){
   stageModalOpen=false;stageWrap.classList.remove("stage-modal-open");
-  $("stageModalBg").hidden=true;$("stageModalClose").hidden=true;
+  $("stageModalBg").hidden=true;$("stageModalTools").hidden=true;
   $("stageModalBg").setAttribute("aria-hidden","true");
   document.body.classList.remove("stage-preview-open");
   previewPeek.hidden=window.innerWidth>950||stageWrap.getBoundingClientRect().bottom>80;
@@ -1314,6 +1351,7 @@ $("stageExpandBtn").addEventListener("click",openStageModal);
 window.tsukiOpenPreview=openStageModal;
 previewPeek.addEventListener("click",openStageModal);
 $("stageModalClose").addEventListener("click",closeStageModal);
+$("stageEditBtn").addEventListener("click",()=>{closeStageModal();setFloating(true);floatW=Math.min(window.innerWidth*.92,window.innerWidth>950?500:380);floatX=window.innerWidth-floatW-12;floatY=Math.max(12,window.innerHeight*.09);applyFloatBox();document.querySelector(".panel")?.scrollIntoView({block:"start",behavior:"smooth"});});
 $("stageModalBg").addEventListener("click",closeStageModal);
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&stageModalOpen)closeStageModal();});
 const stageObserver=new IntersectionObserver(entries=>{

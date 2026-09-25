@@ -11,7 +11,10 @@
     zine: {font:'reggae',anim:'slam',layout:'wander',viz:'grid',accent:'#ff4d4d',dim:54,blur:0,fx:145,grain:true,underline:false,zoom:false,shake:true,rgb:false,glitch:false,hold:0,note:'切り抜き紙片、格子、強い着地。サビでは衝撃を前に出す。'},
     club: {font:'gothic',anim:'pulse',layout:'center',viz:'mirror',accent:'#9d7bff',dim:70,blur:5,fx:150,grain:false,underline:false,zoom:true,shake:false,rgb:true,glitch:false,hold:0,note:'拍で脈打つタイポとネオンの環。電子音の強弱に反応。'},
     ink: {font:'mincho',anim:'echo',layout:'wander',viz:'off',accent:'#ffffff',dim:46,blur:6,fx:55,grain:true,underline:false,zoom:false,shake:false,rgb:false,glitch:false,hold:0,note:'墨の輪郭と余白。歌詞の残像で静かな場面に奥行きを。'},
-    sunrise: {font:'maru',anim:'wipe',layout:'bottom',viz:'shards',accent:'#ffd24d',dim:49,blur:4,fx:105,grain:false,underline:true,zoom:true,shake:false,rgb:false,glitch:false,hold:0,note:'光の帯で言葉を開く。曲の後半や希望に向かう場面に。'}
+    sunrise: {font:'maru',anim:'wipe',layout:'bottom',viz:'shards',accent:'#ffd24d',dim:49,blur:4,fx:105,grain:false,underline:true,zoom:true,shake:false,rgb:false,glitch:false,hold:0,note:'光の帯で言葉を開く。曲の後半や希望に向かう場面に。'},
+    vertical: {font:'mincho',anim:'drift',layout:'tateRight',viz:'off',accent:'#e1b9b3',dim:78,blur:4,fx:55,grain:true,underline:false,zoom:false,shake:false,rgb:false,glitch:false,hold:0,note:'右側に縦書きの歌詞がふわっと現れる。背景がなくても、暗い余白と文字だけで見せます。'},
+    desktop: {font:'dot',anim:'type',layout:'center',viz:'off',accent:'#47749e',dim:0,blur:0,fx:40,grain:false,underline:false,zoom:false,shake:false,rgb:false,glitch:false,hold:0,note:'架空のデスクトップに歌詞を打ち込む。OSの窓、フォルダとカーソルで物語を作ります。'},
+    crayon: {font:'hachi',anim:'draw',layout:'center',viz:'off',accent:'#c56658',dim:0,blur:0,fx:45,grain:true,underline:false,zoom:false,shake:false,rgb:false,glitch:false,hold:0,note:'紙に一文字ずつ描く手描きの質感。歌詞と落書きだけでMVにできます。'}
   };
   const order = Object.keys(presets);
   const select = (id,value) => { const el = $(id); el.value = value; el.dispatchEvent(new Event('change',{bubbles:true})); };

@@ -7,7 +7,7 @@
     {label:'OUTRO / 余韻',text:'まだ光が残っている',why:'動きを落として映像と最後の言葉を残す',template:'minimal',animKey:'drift',layoutKey:'bottom',size:1}
   ];
   const row=$('directorScenes'),status=$('directorStatus');
-  const readable={pop:'一文字ずつ跳ねる',scatter:'散って集まる',glitch:'ノイズとズレ',type:'一文字ずつ出る',drift:'静かに漂う',slam:'拍で着地',wipe:'光で開く',pulse:'拍で脈打つ',echo:'残像を残す',stagger:'交互に跳ねる'};
+  const readable={pop:'一文字ずつ跳ねる',scatter:'散って集まる',glitch:'ノイズとズレ',type:'一文字ずつ出る',drift:'静かに漂う',slam:'拍で着地',wipe:'光で開く',pulse:'拍で脈打つ',echo:'残像を残す',stagger:'交互に跳ねる',draw:'手描きで現れる'};
   let sampleOpen=false;
   function show(scenes,source){
     row.replaceChildren();
