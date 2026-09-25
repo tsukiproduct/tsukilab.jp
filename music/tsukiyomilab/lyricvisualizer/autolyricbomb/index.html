@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>月詠ラボ — Lyric Motion Studio</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@500;700&family=DotGothic16&family=Yuji+Syuku&family=Reggae+One&family=RocknRoll+One&family=Hachi+Maru+Pop&family=Stick&family=Zen+Maru+Gothic:wght@500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@500;700&family=DotGothic16&family=Yuji+Syuku&family=Reggae+One&family=RocknRoll+One&family=Hachi+Maru+Pop&family=Stick&family=Zen+Maru+Gothic:wght@500;700&family=Dela+Gothic+One&family=Murecho:wght@800&family=Rampart+One&family=Train+One&family=Mochiy+Pop+One&family=M+PLUS+Rounded+1c:wght@800&family=Kiwi+Maru:wght@500&family=Potta+One&family=Yusei+Magic&family=Yomogi&family=Klee+One:wght@600&family=Zen+Old+Mincho:wght@700&family=Kaisei+Decol:wght@700&display=swap">
 <style>
 :root{--acc:#ff5c8a;--bg:#0b0910;--card:#141019;--line:#262031;--sub:#8a7fa8;--ink:#f3efe7;}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -89,7 +89,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 .modal h3{margin:0 0 12px;font-size:14px;letter-spacing:1px;}
 .modal video{width:100%;border-radius:10px;background:#000;display:block;}
 </style>
-<link rel="stylesheet" href="./studio.css?v=20260925g">
+<link rel="stylesheet" href="./studio.css?v=20260925h">
 </head>
 <body>
 
@@ -149,7 +149,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <p class="note" id="directorSceneHint" hidden>行を押すとその歌詞の位置をプレビューできます。</p>
       </div>
       <div class="card template-card">
-        <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 13</span></div>
+        <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 16</span></div>
         <div class="template-grid" id="templateGrid" role="group" aria-label="リリックモーションのテンプレート">
           <button class="template-tile selected" data-template="cel" type="button" aria-pressed="true"><span class="template-art art-cel"><i>POP!</i><b>あふれる<br>コトバ</b></span><span class="template-copy"><strong>セルポップ</strong><small>一文字ずつ跳ねる ↗</small></span></button>
           <button class="template-tile" data-template="collage" type="button" aria-pressed="false"><span class="template-art art-collage"><i>CUT / PASTE</i><b>LOUD<br>WORDS</b></span><span class="template-copy"><strong>紙コラージュ</strong><small>散ってから集まる ↘</small></span></button>
@@ -164,6 +164,9 @@ input[type=range]{width:100%;accent-color:var(--acc);}
           <button class="template-tile" data-template="vertical" type="button" aria-pressed="false"><span class="template-art art-vertical"><i>9:16 / SIDE LETTER</i><b>言葉が<br>ふわりと</b></span><span class="template-copy"><strong>右寄せ縦書き</strong><small>右に一文字ずつ浮かぶ ↘</small></span></button>
           <button class="template-tile" data-template="desktop" type="button" aria-pressed="false"><span class="template-art art-desktop"><i>DESKTOP_01</i><b>新しい<br>メッセージ</b></span><span class="template-copy"><strong>デスクトップ</strong><small>窓とカーソルの物語 ⌘</small></span></button>
           <button class="template-tile" data-template="crayon" type="button" aria-pressed="false"><span class="template-art art-crayon"><i>DRAW / 13</i><b>まだ、<br>描いている。</b></span><span class="template-copy"><strong>クレヨンレター</strong><small>文字が手で描かれていく ✎</small></span></button>
+          <button class="template-tile" data-template="edge" type="button" aria-pressed="false"><span class="template-art art-edge"><i>EDGE / 14</i><b>止まるな、<br>今。</b></span><span class="template-copy"><strong>エッジ</strong><small>かっこいい — 閃光と静止 ▮</small></span></button>
+          <button class="template-tile" data-template="kawaii" type="button" aria-pressed="false"><span class="template-art art-kawaii"><i>♡ 15</i><b>すきが<br>あふれる</b></span><span class="template-copy"><strong>ポップキュート</strong><small>かわいい — 弾んできらめく ✦</small></span></button>
+          <button class="template-tile" data-template="art" type="button" aria-pressed="false"><span class="template-art art-fine"><i>no.16 — 余白</i><b>光は<br>遅れて届く</b></span><span class="template-copy"><strong>余白の詩</strong><small>芸術的 — 焦点と散華 ◌</small></span></button>
         </div>
         <p class="template-note" id="templateNote">言葉が軽やかに弾む、明るいモーション。まず曲を入れてプレビューしましょう。</p>
         <button class="btn director-restore" id="restoreDirectionBtn" type="button" hidden>↶ 直前の Jev・個別演出に戻す</button>
@@ -239,6 +242,25 @@ input[type=range]{width:100%;accent-color:var(--acc);}
           <option value="rock">ポップ太字</option>
           <option value="hachi">手書き — ゆめかわ</option>
           <option value="stick">細身 — スティック</option>
+          <optgroup label="かっこいい">
+            <option value="dela">極太ゴシック — Dela Gothic One</option>
+            <option value="murecho">モダン角ゴ — Murecho</option>
+            <option value="rampart">立体袋文字 — Rampart One</option>
+            <option value="train">二重線 — Train One</option>
+          </optgroup>
+          <optgroup label="かわいい">
+            <option value="mochiy">ぽってりポップ — Mochiy Pop One</option>
+            <option value="mplusr">丸ゴ太字 — M PLUS Rounded 1c</option>
+            <option value="kiwi">やさしい丸 — Kiwi Maru</option>
+            <option value="potta">筆ポップ — Potta One</option>
+          </optgroup>
+          <optgroup label="手書き・芸術的">
+            <option value="yusei">マーカー — Yusei Magic</option>
+            <option value="yomogi">ゆる手書き — Yomogi</option>
+            <option value="klee">鉛筆の教科書体 — Klee One</option>
+            <option value="zenold">古風な明朝 — Zen Old Mincho</option>
+            <option value="kaisei">装飾明朝 — Kaisei Decol</option>
+          </optgroup>
         </select>
       </div>
       <div class="card">
@@ -256,6 +278,25 @@ input[type=range]{width:100%;accent-color:var(--acc);}
             <option value="pulse">パルス — 拍ごとに脈打つ</option>
             <option value="echo">残像 — 言葉の軌跡</option>
             <option value="stagger">階段 — 文字が交互に跳ぶ</option>
+            <optgroup label="スタイルおまかせ（行ごとに使い分け）">
+              <option value="coolMix">かっこいい — 速く入り、止めて読ませる</option>
+              <option value="cuteMix">かわいい — 弾んで、きらめく</option>
+              <option value="artMix">芸術的 — 余白と焦点、散る</option>
+            </optgroup>
+            <optgroup label="かっこいい">
+              <option value="mask">せり上がり — 線の下から現れる</option>
+              <option value="track">字間収束 — 広い字間が締まる</option>
+              <option value="impact">インパクト — 閃光と一撃</option>
+              <option value="outline">袋文字の重ね — 大きな輪郭と本文</option>
+            </optgroup>
+            <optgroup label="かわいい">
+              <option value="bounce">ぷにっと — 落ちて弾む</option>
+              <option value="sparkle">きらきら — ポンと開いて星が瞬く</option>
+            </optgroup>
+            <optgroup label="芸術的">
+              <option value="focus">ピント — ぼけから焦点が合う</option>
+              <option value="disperse">散華 — 灰のように散って消える</option>
+            </optgroup>
           </select></div>
         <div class="field"><label>レイアウト</label>
           <select id="layoutSel">
@@ -403,8 +444,23 @@ const FONTS={
   maru:"'Zen Maru Gothic', sans-serif",dot:"'DotGothic16', monospace",
   fude:"'Yuji Syuku', serif",reggae:"'Reggae One', sans-serif",
   rock:"'RocknRoll One', sans-serif",hachi:"'Hachi Maru Pop', cursive",
-  stick:"'Stick', sans-serif"
+  stick:"'Stick', sans-serif",
+  dela:"'Dela Gothic One', sans-serif",murecho:"'Murecho', sans-serif",rampart:"'Rampart One', sans-serif",
+  train:"'Train One', sans-serif",mochiy:"'Mochiy Pop One', sans-serif",mplusr:"'M PLUS Rounded 1c', sans-serif",
+  kiwi:"'Kiwi Maru', serif",potta:"'Potta One', sans-serif",yusei:"'Yusei Magic', sans-serif",
+  yomogi:"'Yomogi', cursive",klee:"'Klee One', cursive",zenold:"'Zen Old Mincho', serif",kaisei:"'Kaisei Decol', serif"
 };
+// Single-weight display fonts must be drawn at their own weight; asking for bold smears them with faux bold.
+const FONT_WEIGHTS={mincho:700,gothic:700,maru:700,murecho:800,mplusr:800,klee:600,kiwi:500,zenold:700,kaisei:700};
+function fontWeight(key=S.fontKey){return FONT_WEIGHTS[key]||400;}
+// Web fonts are split by character range; ask for exactly the glyphs the lyrics need.
+function ensureFont(){
+  if(!document.fonts?.load)return;
+  const text=[...new Set((S.lines.map(l=>l.text).join('')+'あア漢字ABC'))].join('');
+  document.fonts.load(`${fontWeight()} 48px ${FONTS[S.fontKey]||FONTS.mincho}`,text).catch(()=>{});
+}
+// Lyrics are light by default; on the desktop template's white window they turn dark.
+function lyricInk(){return S.templateId==="desktop"&&!window.tsukiMedia?.has()?"#1d3350":"#f3efe7";}
 const S={
   imgEl:null,vidEl:null,useVideo:false,
   posX:0.5,posY:0.84,lines:[],
@@ -672,6 +728,7 @@ async function detectVocalOnsets(audioBuf,duration,onProg){
   });
 }
 function renderChips(){
+  ensureFont();
   const wrap=$("chips");wrap.innerHTML="";
   const rows=$("timeRows");rows.replaceChildren();
   if(!S.lines.length){$("tlCard").style.display="none";return;}
@@ -735,7 +792,7 @@ $("sizeReset").addEventListener("click",()=>{
 });
 
 /* ===== スタイル操作 ===== */
-$("fontSel").addEventListener("change",e=>S.fontKey=e.target.value);
+$("fontSel").addEventListener("change",e=>{S.fontKey=e.target.value;ensureFont();});
 $("animSel").addEventListener("change",e=>S.animKey=e.target.value);
 $("layoutSel").addEventListener("change",e=>{S.layoutKey=e.target.value;updateEditMode();});
 $("vizSel").addEventListener("change",e=>S.vizKey=e.target.value);
@@ -792,7 +849,8 @@ function drawLine(line,idx,prog,energy,now){
   let anim=line.animKey||S.animKey;
   const layout=line.layoutKey||S.layoutKey;
   const accent=line.accent||S.accent;
-  if(anim==="random"){const pool=["drift","scatter","glitch","type","pop","slam","wipe","pulse","echo","stagger"];anim=pool[Math.floor(rng()*pool.length)];}
+  if(anim==="random"){const pool=["drift","scatter","glitch","type","pop","slam","wipe","pulse","echo","stagger","mask","bounce","focus"];anim=pool[Math.floor(rng()*pool.length)];}
+  anim=window.tsukiResolveMotion?.(anim,line,rng)??anim;
   const userSize=line.size||1;
   const sizeF=(0.8+rng()*0.55)*userSize;
   const rot=layout==="wander"?(rng()-0.5)*0.12:0;
@@ -807,7 +865,7 @@ function drawLine(line,idx,prog,energy,now){
   /* ---- 縦書き ---- */
   if(layout==="tate"||layout==="tateRight"){
     base=Math.min(base,(H*0.8)/Math.max(chars.length,1));
-    ctx.font=`700 ${base}px ${fontCss}`;
+    ctx.font=`${fontWeight()} ${base}px ${fontCss}`;
     const colX=layout==="tateRight"?W*.79:W*(0.22+rng()*0.56);
     const startY=H/2-(chars.length*base*1.08)/2+base*0.7;
     chars.forEach((ch,ci)=>{
@@ -818,7 +876,7 @@ function drawLine(line,idx,prog,energy,now){
       if(layout==="tateRight")dx+=(1-easeOut(cd))*base*.62;
       if(anim==="glitch"&&Math.random()<0.05+energy*0.12){dx=(Math.random()-0.5)*14;dy=(Math.random()-0.5)*8;}
       if(anim==="type"&&prog.elapsed<ci*0.09)return;
-      ctx.save();ctx.globalAlpha=ca*(layout==="tateRight"?.94:1);ctx.fillStyle="#f3efe7";ctx.shadowColor=layout==="tateRight"?hexA(accent,.55):"rgba(0,0,0,0.6)";ctx.shadowBlur=layout==="tateRight"?22*(1-easeOut(cd))+8:10;ctx.textAlign="center";
+      ctx.save();ctx.globalAlpha=ca*(layout==="tateRight"?.94:1);ctx.fillStyle=lyricInk();ctx.shadowColor=layout==="tateRight"?hexA(accent,.55):"rgba(0,0,0,0.6)";ctx.shadowBlur=layout==="tateRight"?22*(1-easeOut(cd))+8:10;ctx.textAlign="center";
       ctx.fillText(ch,colX+dx,startY+ci*base*1.08+dy);ctx.restore();
     });
     if(S.underline){
@@ -831,10 +889,10 @@ function drawLine(line,idx,prog,energy,now){
   /* ---- 横書き各種 ---- */
   if(layout==="bottom")base=Math.min(base,H*0.055*userSize);
   if(S.templateId==="desktop")base=Math.min(base,H*.065*userSize);
-  ctx.font=`700 ${base}px ${fontCss}`;
+  ctx.font=`${fontWeight()} ${base}px ${fontCss}`;
   let tw=ctx.measureText(line.text).width;
   const maxW=W*0.82;
-  if(tw>maxW){base*=maxW/tw;ctx.font=`700 ${base}px ${fontCss}`;tw=ctx.measureText(line.text).width;}
+  if(tw>maxW){base*=maxW/tw;ctx.font=`${fontWeight()} ${base}px ${fontCss}`;tw=ctx.measureText(line.text).width;}
   let cx=W/2,cy=H*0.56;
   if(S.templateId==="desktop"){cx=W*.57;cy=H*.43;}
   if(layout==="wander"){cx=W*(0.5+(rng()-0.5)*0.32);cy=H*(0.32+rng()*0.42);cx=clamp(cx,tw/2+40,W-tw/2-40);}
@@ -857,6 +915,8 @@ function drawLine(line,idx,prog,energy,now){
   }
   ctx.textAlign="left";ctx.textBaseline="middle";
   if(S.templateId==="crayon")ctx.rotate(-.025);
+  // 月詠の独自モーション（motion-styles.js）。自前で登場・退場を描くので、下の共通処理は通らない。
+  if(window.tsukiStyledMotion?.(anim,{g:ctx,chars,base,tw,p:prog,accent,idx,now,energy,ink:lyricInk()})){ctx.restore();return;}
   if(anim==="echo"){
     ctx.globalAlpha=alpha*.3;ctx.fillStyle=accent;
     ctx.fillText(line.text,-tw/2-22*(1-clamp(prog.elapsed/1.5,0,1)),-base*.16);
@@ -893,7 +953,7 @@ function drawLine(line,idx,prog,energy,now){
     }
     ctx.globalAlpha=ca;
     if(glitchFrame){ctx.fillStyle="rgba(255,60,90,0.85)";ctx.fillText(ch,x+dx-3,dy);ctx.fillStyle="rgba(80,220,255,0.85)";ctx.fillText(ch,x+dx+3,dy);}
-    ctx.fillStyle="#f3efe7";ctx.shadowColor=anim==="pop"?accent:"rgba(0,0,0,0.65)";ctx.shadowBlur=anim==="pop"?8+energy*12:12;ctx.fillText(ch,x+dx,dy);ctx.shadowBlur=0;
+    const ink=lyricInk();ctx.fillStyle=ink;ctx.shadowColor=anim==="pop"?accent:ink==="#f3efe7"?"rgba(0,0,0,0.65)":"rgba(255,255,255,0.5)";ctx.shadowBlur=anim==="pop"?8+energy*12:ink==="#f3efe7"?12:4;ctx.fillText(ch,x+dx,dy);ctx.shadowBlur=0;
     x+=cw;
   });
   if(anim==="type"){
@@ -924,7 +984,7 @@ function updateDanmaku(t,energy,now){
   for(let k=danmaku.length-1;k>=0;k--){
     const d=danmaku[k];
     d.x=W+20-(t-d.start)*d.speed; // based on song time, not display refresh rate
-    ctx.font=`700 ${d.size}px ${FONTS[S.fontKey]}`;
+    ctx.font=`${fontWeight()} ${d.size}px ${FONTS[S.fontKey]}`;
     const tw=ctx.measureText(d.text).width;
     if(d.x+tw<-20){danmaku.splice(k,1);continue;}
     const y=H*0.10+d.lane*(H*0.10);
@@ -1007,6 +1067,9 @@ const demoLines={
   ,vertical:["夜の端に触れる","この声が届くまで"]
   ,desktop:["新しいメッセージ","まだ送れない言葉"]
   ,crayon:["消せない約束を","ここに描いていく"]
+  ,edge:["止まるな、今","この一瞬を撃ち抜け"]
+  ,kawaii:["すきがあふれる","ぴょんと跳ねたら"]
+  ,art:["光は遅れて届く","ほどけて、消えて"]
 };
 function drawStudioAccents(now,energy){
   const kind=S.templateId;
@@ -1059,6 +1122,31 @@ function drawStudioAccents(now,energy){
     for(let y=H*.2;y<H;y+=H*.12){ctx.beginPath();ctx.moveTo(W*.08,y);ctx.lineTo(W*.94,y);ctx.stroke();}
     ctx.fillStyle='#dc7662';ctx.fillRect(W*.08,0,3,H);ctx.translate(W*.83,H*.74);ctx.rotate(-.24);
     for(let i=0;i<4;i++){ctx.strokeStyle=['#e9ae63','#6c92a9','#d47c66','#86966c'][i];ctx.lineWidth=7;ctx.beginPath();ctx.arc(0,0,40+i*14,Math.PI*.15,Math.PI*1.6);ctx.stroke();}ctx.restore();
+  }else if(kind==="edge"){
+    // Hard black frame, a thin accent rule and bars that flash only on strong beats.
+    ctx.save();const pulse=window.tsukiBeatAt?.(player.currentTime||0)||0;
+    ctx.strokeStyle='rgba(243,239,231,.5)';ctx.lineWidth=2;ctx.strokeRect(W*.04,H*.07,W*.92,H*.86);
+    ctx.fillStyle=S.accent;ctx.fillRect(W*.04,H*.07,W*.12,6);
+    ctx.font='14px monospace';ctx.fillStyle='rgba(243,239,231,.7)';ctx.fillText('REC ● '+fmt(player.currentTime||now),W*.06,H*.12);
+    if(pulse>.55){ctx.globalAlpha=(pulse-.55)*1.6;ctx.fillStyle=S.accent;ctx.fillRect(0,H*.2,W,4);ctx.fillRect(0,H*.8,W,4);}
+    ctx.restore();
+  }else if(kind==="kawaii"){
+    // Floating pastel hearts and dots rise slowly; they breathe with the beat.
+    ctx.save();const pulse=window.tsukiBeatAt?.(player.currentTime||0)||energy*.5;
+    for(let i=0;i<14;i++){const r=mulberry32(i*977+7)();const r2=mulberry32(i*331+3)();
+      const y=H+40-((now*(18+r*22)+r2*H*1.4)%(H+80)),x=W*(.04+r*.92)+Math.sin(now*.8+i)*14,s=(7+r2*10)*(1+pulse*.25);
+      ctx.globalAlpha=.45+r*.4;ctx.fillStyle=i%3?'#ffffff':S.accent;
+      if(i%2){ctx.beginPath();ctx.moveTo(x,y+s*.35);ctx.bezierCurveTo(x-s,y-s*.35,x-s*.35,y-s,x,y-s*.35);ctx.bezierCurveTo(x+s*.35,y-s,x+s,y-s*.35,x,y+s*.35);ctx.fill();}
+      else{ctx.beginPath();ctx.arc(x,y,s*.4,0,Math.PI*2);ctx.fill();}}
+    ctx.globalAlpha=.55;ctx.setLineDash([2,12]);ctx.lineCap='round';ctx.strokeStyle='#fff';ctx.lineWidth=4;
+    ctx.strokeRect(W*.03,H*.05,W*.94,H*.9);ctx.restore();
+  }else if(kind==="art"){
+    // A quiet geometric composition: one slow circle, a hairline grid and a vertical caption.
+    ctx.save();ctx.strokeStyle='rgba(232,226,208,.16)';ctx.lineWidth=1;
+    for(let i=1;i<6;i++){ctx.beginPath();ctx.moveTo(W*i/6,0);ctx.lineTo(W*i/6,H);ctx.stroke();}
+    ctx.strokeStyle=hexA(S.accent,.32);ctx.beginPath();ctx.arc(W*.7,H*.42,H*(.3+Math.sin(now*.25)*.015),0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle=hexA(S.accent,.55);ctx.font="13px 'Shippori Mincho',serif";
+    [...'余白の詩'].forEach((ch,i)=>ctx.fillText(ch,W*.94,H*.14+i*18));ctx.restore();
   }else if(kind==="sunrise"){
     ctx.save();const x=(now*75)%(W*1.6)-W*.3;const glow=ctx.createLinearGradient(x-200,0,x+200,0);
     glow.addColorStop(0,'transparent');glow.addColorStop(.5,hexA(S.accent,.12+energy*.1));glow.addColorStop(1,'transparent');ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
@@ -1133,7 +1221,7 @@ function loop(){
   if(S.fxShake){ox=(Math.random()-0.5)*beat*26;oy=(Math.random()-0.5)*beat*26;}
   fx.save();
   fx.translate(W/2+ox,H/2+oy);fx.scale(scale,scale);fx.translate(-W/2,-H/2);
-  if(!window.tsukiMedia?.draw(fx)&&bgCache)fx.drawImage(bgCache,0,0);
+  if(!window.tsukiMedia?.draw(fx)){if(!window.tsukiBackdrop?.(fx)&&bgCache)fx.drawImage(bgCache,0,0);}
   fx.restore();
 
   /* デジタルグリッチ（スライス横ずらし） */
@@ -1530,9 +1618,10 @@ a{color:#ff8ab0;}
 });
 </script>
 <script src="./media.js?v=20260925a"></script>
-<script src="./studio.js?v=20260925f"></script>
+<script src="./motion-styles.js?v=20260925b"></script>
+<script src="./studio.js?v=20260925h"></script>
 <script src="./rhythm.js?v=20260925d"></script>
 <script src="./transcription.js?v=20260925i"></script>
-<script src="./director.js?v=20260925d"></script>
+<script src="./director.js?v=20260925e"></script>
 </body>
 </html>

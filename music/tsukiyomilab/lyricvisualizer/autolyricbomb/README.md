@@ -65,3 +65,19 @@ Several images and videos can be added as background material (up to 40 images a
 Every Jev request now carries the whole lyric list (`song`, with how often each line repeats) while asking only about its batch of lines, so decisions can follow the song rather than eight isolated lines. Jev also labels each line as verse, pre-chorus, chorus, bridge or outro. Repeated lines share the direction of their first appearance, and chorus lines are at least medium size. The plan list shows the section (Aメロ, サビ …).
 
 "⚠ Jev で聞き間違いをチェック" asks Jev a yes/no probability (Noul) for each line: is it probably a mishearing, a phrase that breaks the meaning of its neighbours, or not a lyric at all? Lines at 60% or above are marked ⚠ in the chips and the timing list. Jev returns decisions, not text, so it points to lines to fix; it does not rewrite them. The response shape was tested with a mock of the documented format, not yet against the live Jev API.
+
+## Motion styles, fonts and template refresh
+
+Eight original motions follow the principles in `ART-DIRECTION.md`:
+- Cool: mask rise, tracking, impact flash and layered outline.
+- Cute: squash-and-stretch bounce and sparkle stickers.
+- Artistic: focus pull and ash-like dispersal.
+
+`coolMix`, `cuteMix` and `artMix` choose one of these per line and keep the boldest move for chorus lines and large lines. New templates: エッジ, ポップキュート and 余白の詩. Jev can choose the new motions too.
+
+Thirteen free Google Fonts (open licences) were added, grouped as cool, cute and handwritten/artistic. Canvas text now uses each font's real weight: single-weight display fonts had been drawn with faux bold and looked smeared. The editor also requests exactly the glyphs the lyrics use.
+
+Template refresh:
+- Every template draws its own tone (a gradient and a soft glow) when no background image or video is loaded.
+- Accent colours outside the palette now apply; the desktop, crayon and vertical templates had silently kept the previous colour.
+- Lyrics on the desktop template's white window are dark, so they are readable.
