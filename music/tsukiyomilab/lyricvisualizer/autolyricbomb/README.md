@@ -108,3 +108,7 @@ Both draw every visible line themselves (`depth.js`), so the per-line motion and
 Words are split with the browser's `Intl.Segmenter`, and Japanese particles stay with the word before them (君の / 声だけ / 探してた).
 
 Timing comes from Whisper when possible. Lines from automatic detection keep Whisper's word timestamps per character (`charTimes`, relative to the line start), which drive the captions while the text is unchanged. Otherwise the line's time is split by word length and snapped to a detected beat within 0.14 s. Jev is not used for this, because it cannot hear the audio. Whether Cloudflare returns `words` for every clip has not been verified live; without them the length-based timing applies.
+
+## Screen size
+
+"画面サイズ" at the top of the material tab switches between landscape 16:9 (1280×720, YouTube) and portrait 9:16 (720×1280, TikTok and Shorts). Drawing uses proportions of the canvas, so templates, scenes and motions follow the new size; the desktop template moves its window below the icons when tall. Exports use the chosen size, and the choice is saved in the project. The size cannot be changed while a video is being exported.

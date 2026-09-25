@@ -89,7 +89,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 .modal h3{margin:0 0 12px;font-size:14px;letter-spacing:1px;}
 .modal video{width:100%;border-radius:10px;background:#000;display:block;}
 </style>
-<link rel="stylesheet" href="./studio.css?v=20260925j">
+<link rel="stylesheet" href="./studio.css?v=20260925k">
 </head>
 <body>
 
@@ -147,6 +147,10 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <div class="director-results-head"><strong id="directorLineCount">演出一覧</strong><button class="btn" type="button" id="directorExpandBtn" hidden aria-expanded="false">全行を表示 ↓</button></div>
         <div class="director-scenes" id="directorScenes" aria-label="歌詞ごとの演出プラン"></div>
         <p class="note" id="directorSceneHint" hidden>行を押すとその歌詞の位置をプレビューできます。</p>
+      </div>
+      <div class="card aspect-card">
+        <h2>画面サイズ</h2>
+        <div class="toggle" id="aspectToggle"><button type="button" data-v="16:9" class="on">横 16:9 — YouTube</button><button type="button" data-v="9:16">縦 9:16 — TikTok・ショート</button></div>
       </div>
       <div class="card template-card">
         <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 19</span></div>
@@ -445,7 +449,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 <script src="./lyric-split.js?v=20260925c"></script>
 <script>
 "use strict";
-const W=1280,H=720;
+let W=1280,H=720; // 16:9. 縦型（9:16）では 720×1280 に切り替わる
 const FONTS={
   mincho:"'Shippori Mincho', serif",gothic:"'Zen Kaku Gothic New', sans-serif",
   maru:"'Zen Maru Gothic', sans-serif",dot:"'DotGothic16', monospace",
@@ -477,7 +481,7 @@ const S={
   fontKey:"rock",animKey:"pop",layoutKey:"wander",vizKey:"moon",templateId:"cel",
   underline:true,accent:"#d9f16d",dim:45,blur:6,grain:true,seed:1,
   fxZoom:false,fxShake:false,fxRgb:false,fxDglitch:false,mono:0,fxAmt:100,
-  maxHold:0,outStyle:"fade",directionBackup:null
+  maxHold:0,outStyle:"fade",directionBackup:null,aspect:"16:9"
 };
 let syncMode=false,syncIdx=0,selLine=-1;
 
@@ -511,6 +515,19 @@ document.querySelectorAll(".tab").forEach(t=>{
 (function(){grainCv=document.createElement("canvas");grainCv.width=256;grainCv.height=256;const x=grainCv.getContext("2d");const d=x.createImageData(256,256);for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=28;}x.putImageData(d,0,0);})();
 /* fx合成用オフスクリーン */
 fxCanvas=document.createElement("canvas");fxCanvas.width=W;fxCanvas.height=H;fxCtx=fxCanvas.getContext("2d");
+/* 画面サイズ：横 16:9（YouTube）と縦 9:16（TikTok・ショート）。描画は W/H の割合で組んであるので、キャンバスを変えるだけで追従する。 */
+function setAspect(kind){
+  const portrait=kind==="9:16";
+  S.aspect=portrait?"9:16":"16:9";W=portrait?720:1280;H=portrait?1280:720;
+  for(const c of [cv,fxCanvas,monoCanvas])if(c){c.width=W;c.height=H;}
+  cv.classList.toggle("portrait",portrait);
+  document.querySelectorAll("#aspectToggle button").forEach(b=>b.classList.toggle("on",b.dataset.v===S.aspect));
+  danmaku=[];rebuildBg();
+}
+document.querySelectorAll("#aspectToggle button").forEach(b=>b.addEventListener("click",()=>{
+  if(typeof recorder!=="undefined"&&recorder){$("recNote").textContent="書き出し中は画面サイズを変えられません。";return;}
+  setAspect(b.dataset.v);
+}));
 
 /* ===== 背景画像キャッシュ ===== */
 function rebuildBg(){
@@ -905,7 +922,7 @@ function drawLine(line,idx,prog,energy,now){
   const maxW=W*0.82;
   if(tw>maxW){base*=maxW/tw;ctx.font=`${fontWeight()} ${base}px ${fontCss}`;tw=ctx.measureText(line.text).width;}
   let cx=W/2,cy=H*0.56;
-  if(S.templateId==="desktop"){cx=W*.57;cy=H*.43;}
+  if(S.templateId==="desktop"){const win=desktopWindow();cx=win.x+win.w/2;cy=win.y+win.h*.4;}
   if(layout==="wander"){cx=W*(0.5+(rng()-0.5)*0.32);cy=H*(0.32+rng()*0.42);cx=clamp(cx,tw/2+40,W-tw/2-40);}
   else if(layout==="bottom"){cx=W/2;cy=H*0.86;}
   else if(layout==="custom"){cx=clamp(W*S.posX,tw/2+30,W-tw/2-30);cy=clamp(H*S.posY,H*0.08,H*0.94);}
@@ -1087,19 +1104,23 @@ const demoLines={
   ,crawl:["遠い夜の向こうへ","言葉が流れていく","まだ終わらない物語","君に届くまで"]
   ,tunnel:["光の速さで","ここから抜け出せ","奥へ、もっと奥へ","まだ見ぬ場所まで"]
 };
+// The desktop template's editor window: right of the icons when wide, full width under them when tall.
+function desktopWindow(){return H>W?{x:W*.06,y:H*.2,w:W*.88,h:H*.5}:{x:W*.26,y:H*.16,w:W*.63,h:H*.67};}
 function drawStudioAccents(now,energy){
   const kind=S.templateId;
   // Templates with a scene (scenes.js) draw their own decor, tied to the lyric and the beat.
   if(window.tsukiSceneDecor?.(now,energy))return;
   if(kind==="desktop"){
     ctx.save();ctx.fillStyle='#13273d';ctx.fillRect(0,0,W,H);
-    for(let i=0;i<5;i++){let x=55+(i%2)*92,y=110+Math.floor(i/2)*112;
+    const win=desktopWindow(),{x:wx,y:wy,w:ww,h:wh}=win,portrait=H>W;
+    // Icons stack on the left beside a wide screen; on a tall screen they line up above the window.
+    for(let i=0;i<5;i++){let x=portrait?55+i*120:55+(i%2)*92,y=portrait?110:110+Math.floor(i/2)*112;
       ctx.fillStyle=i===2?'#f9c87a':'#bcd5e8';ctx.fillRect(x,y,31,36);ctx.fillStyle='#e3ebef';ctx.font='13px monospace';ctx.fillText(['memo','music','lyrics','draft','folder'][i],x-8,y+56);}
-    ctx.fillStyle='#e7edf4';ctx.shadowColor='#0008';ctx.shadowBlur=28;ctx.fillRect(W*.26,H*.16,W*.63,H*.67);ctx.shadowBlur=0;
+    ctx.fillStyle='#e7edf4';ctx.shadowColor='#0008';ctx.shadowBlur=28;ctx.fillRect(wx,wy,ww,wh);ctx.shadowBlur=0;
     // Background media plays inside the window, like a video app on the desktop.
-    if(window.tsukiMedia?.has()){window.tsukiMedia.draw(ctx,W*.26,H*.16+37,W*.63,H*.67-37,false);ctx.fillStyle='rgba(8,14,24,.38)';ctx.fillRect(W*.26,H*.16+37,W*.63,H*.67-37);}
-    ctx.fillStyle='#d6deea';ctx.fillRect(W*.26,H*.16,W*.63,37);ctx.fillStyle='#253855';ctx.font='16px monospace';ctx.fillText('●  ●  ●       lyric.txt — 未保存',W*.28,H*.16+25);
-    ctx.fillStyle='#b3b9cf';ctx.fillRect(W*.27,H*.23,2,H*.57);ctx.fillStyle='#243957';ctx.font='14px monospace';ctx.fillText('君へ / '+String(Math.floor(now*2)%100).padStart(2,'0'),W*.3,H*.75);
+    if(window.tsukiMedia?.has()){window.tsukiMedia.draw(ctx,wx,wy+37,ww,wh-37,false);ctx.fillStyle='rgba(8,14,24,.38)';ctx.fillRect(wx,wy+37,ww,wh-37);}
+    ctx.fillStyle='#d6deea';ctx.fillRect(wx,wy,ww,37);ctx.fillStyle='#253855';ctx.font='16px monospace';ctx.fillText('●  ●  ●       lyric.txt — 未保存',wx+W*.02,wy+25);
+    ctx.fillStyle='#b3b9cf';ctx.fillRect(wx+W*.01,wy+wh*.1,2,wh*.85);ctx.fillStyle='#243957';ctx.font='14px monospace';ctx.fillText('君へ / '+String(Math.floor(now*2)%100).padStart(2,'0'),wx+W*.04,wy+wh*.88);
     ctx.fillStyle='#d9e6ee';ctx.fillRect(0,H*.935,W,H*.065);ctx.fillStyle='#47749e';ctx.fillRect(W*.03,H*.95,90,12);ctx.restore();
   }else if(kind==="crayon"){
     ctx.save();ctx.fillStyle='#ece1c5';ctx.fillRect(0,0,W,H);
@@ -1513,7 +1534,7 @@ function snapshot(){
     fontKey:S.fontKey,animKey:S.animKey,layoutKey:S.layoutKey,vizKey:S.vizKey,
     underline:S.underline,accent:S.accent,dim:S.dim,blur:S.blur,grain:S.grain,seed:S.seed,
     posX:S.posX,posY:S.posY,fxZoom:S.fxZoom,fxShake:S.fxShake,fxRgb:S.fxRgb,fxDglitch:S.fxDglitch,mono:S.mono,fxAmt:S.fxAmt,
-    maxHold:S.maxHold,outStyle:S.outStyle,directionBackup:S.directionBackup,media:window.tsukiMedia?.options()};
+    maxHold:S.maxHold,outStyle:S.outStyle,directionBackup:S.directionBackup,media:window.tsukiMedia?.options(),aspect:S.aspect};
 }
 function setToggleUI(el,val){el.querySelectorAll("button").forEach(b=>b.classList.toggle("on",(b.dataset.v==="1")===val));}
 function applySnap(d){
@@ -1553,6 +1574,7 @@ function applySnap(d){
   document.documentElement.style.setProperty("--acc",S.accent);
   document.querySelectorAll(".sw").forEach(el=>el.classList.toggle("on",el.dataset.c===S.accent));
   window.tsukiMedia?.restore(d.media);
+  setAspect(d.aspect==="9:16"?"9:16":"16:9");
   rebuildBg();renderChips();renderSizeChips();updateSizeUI();updateEditMode();
   document.dispatchEvent(new CustomEvent("tsuki:project-restored"));
   $("syncBtn").disabled=!(S.lines.length&&player.src);$("spreadBtn").disabled=!(S.lines.length&&player.duration);
@@ -1607,7 +1629,7 @@ a{color:#ff8ab0;}
   window.open(url,"_blank");
 });
 </script>
-<script src="./media.js?v=20260925a"></script>
+<script src="./media.js?v=20260925b"></script>
 <script src="./motion-styles.js?v=20260925c"></script>
 <script src="./scenes.js?v=20260925b"></script>
 <script src="./depth.js?v=20260925a"></script>

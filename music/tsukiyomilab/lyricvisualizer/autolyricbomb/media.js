@@ -56,7 +56,7 @@
   function blurred(item) {
     if (blurFor !== S.blur) { blurCache = new Map(); blurFor = S.blur; }
     let canvas = blurCache.get(item);
-    if (!canvas) {
+    if (!canvas || canvas.width !== W || canvas.height !== H) {
       canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H;
       const x = canvas.getContext('2d'), img = item.el;
       const s = Math.max(W / img.width, H / img.height), iw = img.width * s, ih = img.height * s;
