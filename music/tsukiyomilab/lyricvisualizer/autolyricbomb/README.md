@@ -81,3 +81,15 @@ Template refresh:
 - Every template draws its own tone (a gradient and a soft glow) when no background image or video is loaded.
 - Accent colours outside the palette now apply; the desktop, crayon and vertical templates had silently kept the previous colour.
 - Lyrics on the desktop template's white window are dark, so they are readable.
+
+## Template scenes
+
+When no background media is loaded, each classic template draws the scene its thumbnail promises, and its decoration moves with the lyrics instead of standing still. Examples:
+- 紙コラージュ: a red paper label is slapped under every new line while the black band sweeps across.
+- パンクジン: a white paper slip and a red band slam in on each line.
+- 墨と余白: an ensō circle is brushed in one stroke, and ink spatters on strong beats.
+- 手書きノート: the ruled paper advances a line, and a pencil underline is written.
+- サンライズ: the dawn bands spread as the song plays, and a light sweep crosses at each line.
+- ミニマル: shows the line number and a progress dot.
+
+The darkness slider applies only to background media, so scene colours stay true. Lyrics switch to a dark ink on light scenes.

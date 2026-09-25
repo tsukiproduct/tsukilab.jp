@@ -460,7 +460,10 @@ function ensureFont(){
   document.fonts.load(`${fontWeight()} 48px ${FONTS[S.fontKey]||FONTS.mincho}`,text).catch(()=>{});
 }
 // Lyrics are light by default; on the desktop template's white window they turn dark.
-function lyricInk(){return S.templateId==="desktop"&&!window.tsukiMedia?.has()?"#1d3350":"#f3efe7";}
+function lyricInk(){
+  if(window.tsukiMedia?.has())return "#f3efe7";
+  return window.tsukiSceneInk?.()||(S.templateId==="desktop"?"#1d3350":"#f3efe7");
+}
 const S={
   imgEl:null,vidEl:null,useVideo:false,
   posX:0.5,posY:0.84,lines:[],
@@ -868,6 +871,7 @@ function drawLine(line,idx,prog,energy,now){
     ctx.font=`${fontWeight()} ${base}px ${fontCss}`;
     const colX=layout==="tateRight"?W*.79:W*(0.22+rng()*0.56);
     const startY=H/2-(chars.length*base*1.08)/2+base*0.7;
+    window.tsukiLyricBox={idx,cx:colX,cy:startY+(chars.length-1)*base*.54-base*.3,w:base*1.1,h:chars.length*base*1.08,rot:0,vertical:true,elapsed:prog.elapsed,remain:prog.remain,duration:prog.duration,stamp:performance.now()};
     chars.forEach((ch,ci)=>{
       const cd=clamp((prog.elapsed-ci*0.045)/0.5,0,1);const ca=easeOut(cd)*tOut;if(ca<=0)return;
       let dx=0,dy=0;
@@ -898,6 +902,8 @@ function drawLine(line,idx,prog,energy,now){
   if(layout==="wander"){cx=W*(0.5+(rng()-0.5)*0.32);cy=H*(0.32+rng()*0.42);cx=clamp(cx,tw/2+40,W-tw/2-40);}
   else if(layout==="bottom"){cx=W/2;cy=H*0.86;}
   else if(layout==="custom"){cx=clamp(W*S.posX,tw/2+30,W-tw/2-30);cy=clamp(H*S.posY,H*0.08,H*0.94);}
+  // Scene decor (scenes.js) follows the lyric: paper behind it, lines under it, bursts around it.
+  window.tsukiLyricBox={idx,cx,cy,w:tw,h:base*1.3,rot,vertical:false,elapsed:prog.elapsed,remain:prog.remain,duration:prog.duration,stamp:performance.now()};
 
   ctx.save();ctx.translate(cx,cy);ctx.rotate(rot);
   if(anim==="slam"){
@@ -1073,40 +1079,9 @@ const demoLines={
 };
 function drawStudioAccents(now,energy){
   const kind=S.templateId;
-  if(kind==="collage"){
-    ctx.save();ctx.translate(W*.83,H*.33);ctx.rotate(-.22);ctx.fillStyle=hexA(S.accent,.10+energy*.15);ctx.fillRect(-110,-320,230,640);
-    ctx.rotate(.28);ctx.strokeStyle=hexA(S.accent,.55);ctx.lineWidth=6;ctx.strokeRect(-108,-120,260,185);ctx.restore();
-  }else if(kind==="digital"){
-    ctx.save();ctx.strokeStyle=hexA(S.accent,.24+energy*.28);ctx.lineWidth=2;
-    const x=(now*190)% (W+300)-150;ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x-140,H);ctx.stroke();
-    ctx.font="16px monospace";ctx.fillStyle=hexA(S.accent,.6);ctx.fillText("LYRIC_SIGNAL / "+String(Math.floor(now*24)%1000).padStart(3,"0"),34,60);ctx.restore();
-  }else if(kind==="cel"){
-    ctx.save();ctx.strokeStyle=hexA(S.accent,.26+energy*.2);ctx.lineWidth=6;
-    for(let i=0;i<6;i++){const a=i*Math.PI/3+now*.18;ctx.beginPath();ctx.moveTo(W*.5+Math.cos(a)*H*.30,H*.5+Math.sin(a)*H*.30);ctx.lineTo(W*.5+Math.cos(a)*H*.46,H*.5+Math.sin(a)*H*.46);ctx.stroke();}ctx.restore();
-  }else if(kind==="cinema"){
-    ctx.save();ctx.fillStyle="#090c10";ctx.fillRect(0,0,W,H*.085);ctx.fillRect(0,H*.92,W,H*.08);
-    ctx.font="16px monospace";ctx.fillStyle=hexA(S.accent,.72);ctx.fillText("TSUKI / FILM  01",W*.07,H*.16);ctx.restore();
-  }else if(kind==="note"){
-    ctx.save();ctx.strokeStyle=hexA(S.accent,.45);ctx.lineWidth=2;ctx.beginPath();
-    for(let i=0;i<80;i++){const x=W*.08+i*W*.010,y=H*.25+Math.sin(i*.26+now*.7)*8;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();ctx.restore();
-  }else if(kind==="minimal"){
-    ctx.save();ctx.strokeStyle="rgba(243,239,231,.36)";ctx.beginPath();ctx.moveTo(W*.15,H*.72);ctx.lineTo(W*.85,H*.72);ctx.stroke();ctx.restore();
-  }else if(kind==="zine"){
-    ctx.save();ctx.translate(W*.18,H*.18);ctx.rotate(-.08);ctx.fillStyle=hexA(S.accent,.42);ctx.fillRect(-W*.06,-22,W*.48,50);ctx.restore();
-    ctx.save();ctx.strokeStyle=hexA(S.accent,.55);ctx.lineWidth=3;for(let i=0;i<6;i++){let x=W*(.05+i*.18),y=H*(.78+(i%2)*.045);ctx.strokeRect(x,y,65,18);}ctx.restore();
-  }else if(kind==="club"){
-    ctx.save();const pulse=window.tsukiBeatAt?.(player.currentTime||0)||energy;
-    ctx.strokeStyle=hexA(S.accent,.28+pulse*.55);ctx.lineWidth=3+pulse*6;ctx.shadowColor=S.accent;ctx.shadowBlur=18+pulse*36;
-    for(let i=0;i<3;i++){ctx.beginPath();ctx.ellipse(W/2,H/2,W*(.28+i*.095)*(1+pulse*.05),H*(.21+i*.1),0,0,Math.PI*2);ctx.stroke();}ctx.restore();
-  }else if(kind==="ink"){
-    ctx.save();const phase=(now*.08)%1;ctx.strokeStyle=hexA(S.accent,.18);ctx.lineWidth=18;
-    ctx.beginPath();ctx.arc(W*.72,H*.48,H*(.23+phase*.045),-Math.PI*.75,Math.PI*.9);ctx.stroke();
-    ctx.fillStyle=hexA(S.accent,.24);for(let i=0;i<12;i++){let r=mulberry32(i*839+S.seed);ctx.fillRect(W*(.08+r()*.84),H*(.10+r()*.75),3+r()*8,3+r()*8);}ctx.restore();
-  }else if(kind==="vertical"){
-    ctx.save();const glow=ctx.createRadialGradient(W*.78,H*.48,0,W*.78,H*.48,H*.77);
-    glow.addColorStop(0,hexA(S.accent,.09+energy*.07));glow.addColorStop(1,'transparent');ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
-    ctx.strokeStyle=hexA(S.accent,.24);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(W*.9,H*.17);ctx.lineTo(W*.9,H*.82);ctx.stroke();ctx.restore();
-  }else if(kind==="desktop"){
+  // Templates with a scene (scenes.js) draw their own decor, tied to the lyric and the beat.
+  if(window.tsukiSceneDecor?.(now,energy))return;
+  if(kind==="desktop"){
     ctx.save();ctx.fillStyle='#13273d';ctx.fillRect(0,0,W,H);
     for(let i=0;i<5;i++){let x=55+(i%2)*92,y=110+Math.floor(i/2)*112;
       ctx.fillStyle=i===2?'#f9c87a':'#bcd5e8';ctx.fillRect(x,y,31,36);ctx.fillStyle='#e3ebef';ctx.font='13px monospace';ctx.fillText(['memo','music','lyrics','draft','folder'][i],x-8,y+56);}
@@ -1147,10 +1122,6 @@ function drawStudioAccents(now,energy){
     ctx.strokeStyle=hexA(S.accent,.32);ctx.beginPath();ctx.arc(W*.7,H*.42,H*(.3+Math.sin(now*.25)*.015),0,Math.PI*2);ctx.stroke();
     ctx.fillStyle=hexA(S.accent,.55);ctx.font="13px 'Shippori Mincho',serif";
     [...'余白の詩'].forEach((ch,i)=>ctx.fillText(ch,W*.94,H*.14+i*18));ctx.restore();
-  }else if(kind==="sunrise"){
-    ctx.save();const x=(now*75)%(W*1.6)-W*.3;const glow=ctx.createLinearGradient(x-200,0,x+200,0);
-    glow.addColorStop(0,'transparent');glow.addColorStop(.5,hexA(S.accent,.12+energy*.1));glow.addColorStop(1,'transparent');ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
-    ctx.strokeStyle=hexA(S.accent,.5);ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(W*.08,H*.77);ctx.lineTo(W*.92,H*.77);ctx.stroke();ctx.restore();
   }
 }
 function drawSceneGraphic(line,idx,elapsed,beat){
@@ -1258,9 +1229,11 @@ function loop(){
   }
 
   /* 暗さ＋ビネット（前景として毎フレーム） */
-  ctx.fillStyle=`rgba(8,6,12,${S.dim/100})`;ctx.fillRect(0,0,W,H);
+  // "Darkness" is for background media; a template's own scene keeps its colours.
+  const sceneBg=!window.tsukiMedia?.has()&&!!window.tsukiScene?.[S.templateId];
+  if(!sceneBg){ctx.fillStyle=`rgba(8,6,12,${S.dim/100})`;ctx.fillRect(0,0,W,H);}
   const vg=ctx.createRadialGradient(W/2,H/2,H*0.35,W/2,H/2,H*0.95);
-  vg.addColorStop(0,"rgba(0,0,0,0)");vg.addColorStop(1,"rgba(0,0,0,0.45)");
+  vg.addColorStop(0,"rgba(0,0,0,0)");vg.addColorStop(1,sceneBg?"rgba(0,0,0,0.16)":"rgba(0,0,0,0.45)");
   ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
 
   /* ビジュアライザー */
@@ -1619,7 +1592,8 @@ a{color:#ff8ab0;}
 </script>
 <script src="./media.js?v=20260925a"></script>
 <script src="./motion-styles.js?v=20260925b"></script>
-<script src="./studio.js?v=20260925h"></script>
+<script src="./scenes.js?v=20260925b"></script>
+<script src="./studio.js?v=20260925i"></script>
 <script src="./rhythm.js?v=20260925d"></script>
 <script src="./transcription.js?v=20260925i"></script>
 <script src="./director.js?v=20260925e"></script>
