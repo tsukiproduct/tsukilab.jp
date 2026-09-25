@@ -55,3 +55,7 @@ Choosing a template after Jev now actually applies its motion and placement to e
 ## Editing lyrics
 
 "歌詞を反映" keeps the user's line breaks and divides only lines too long for the frame. Edited lines are matched to the previous ones by text, so inserting or deleting a line keeps the timing, size and direction of the others; new lines are placed between their neighbours.
+
+## Background media
+
+Several images and videos can be added as background material (up to 40 images and 12 videos, to protect phone memory). They switch in order, at random (never the same item twice in a row), or on strong beats; in beat mode, cuts come about once per chosen interval and roughly twice as often in the loudest sections. Order and random modes crossfade; beat mode cuts hard. Only the visible video plays. "動画の音声を曲にする" loads the latest video as the song, so a music video without lyrics provides playback, rhythm analysis and lyric detection, and its picture follows the song's playback position. MP4/WebM audio is decoded in the browser, so a very large video may need a lot of memory on a phone. The desktop template shows the current material inside its window. Media files are not saved in project JSON; only the switching mode and interval are.

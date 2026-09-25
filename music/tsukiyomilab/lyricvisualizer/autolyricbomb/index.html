@@ -89,7 +89,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 .modal h3{margin:0 0 12px;font-size:14px;letter-spacing:1px;}
 .modal video{width:100%;border-radius:10px;background:#000;display:block;}
 </style>
-<link rel="stylesheet" href="./studio.css?v=20260925e">
+<link rel="stylesheet" href="./studio.css?v=20260925f">
 </head>
 <body>
 
@@ -170,10 +170,22 @@ input[type=range]{width:100%;accent-color:var(--acc);}
       </div>
       <div class="card">
         <h2>背景 <span class="card-num">01</span></h2>
-        <label class="drop" id="imgDrop">背景画像を選択（jpg / png）
-          <input type="file" id="imgIn" accept="image/*,.jpg,.jpeg,.png,.webp"></label>
-        <label class="drop" id="vidDrop">背景動画を選択（mp4 / mov）
-          <input type="file" id="vidIn" accept="video/*,.mp4,.mov,.webm,.m4v"></label>
+        <label class="drop" id="imgDrop">背景画像を追加（複数選択できます）
+          <input type="file" id="imgIn" accept="image/*,.jpg,.jpeg,.png,.webp" multiple></label>
+        <label class="drop" id="vidDrop">背景動画を追加（複数選択できます）
+          <input type="file" id="vidIn" accept="video/*,.mp4,.mov,.webm,.m4v" multiple></label>
+        <div class="media-controls" id="mediaControls" hidden>
+          <div id="mediaSwitch" hidden>
+            <label class="media-field">切り替え方<select id="mediaMode"><option value="order">順番に表示</option><option value="random">ランダムに表示</option><option value="beat">ビートに合わせて切り替え</option></select></label>
+            <label class="media-field"><span id="mediaIntervalLabel">切り替えの間隔 — 4 秒</span><input type="range" id="mediaInterval" min="1" max="20" step="1" value="4"></label>
+          </div>
+          <pre class="media-list" id="mediaStatus"></pre>
+          <div class="row">
+            <button class="btn" id="videoSongBtn" type="button" hidden>🎵 動画の音声を曲にする</button>
+            <button class="btn" id="mediaClearBtn" type="button">素材をすべて外す</button>
+          </div>
+        </div>
+        <p class="note" id="mediaNote">画像・動画を何枚でも追加すると、順番・ランダム・ビートで切り替えます。歌詞なしのMVを入れて「動画の音声を曲にする」と、その音声で歌詞検出もできます。</p>
       </div>
       <div class="card">
         <h2>曲 <span class="card-num">02</span></h2>
@@ -450,24 +462,7 @@ function rebuildBg(){
 rebuildBg();
 
 /* ===== 素材入力 ===== */
-$("imgIn").addEventListener("change",e=>{
-  const f=e.target.files&&e.target.files[0];if(!f)return;
-  const img=new Image();
-  img.onload=()=>{S.imgEl=img;S.useVideo=false;rebuildBg();$("imgDrop").classList.add("done");$("imgDrop").firstChild.textContent="✓ 背景画像 読込済（変更可）";};
-  img.src=URL.createObjectURL(f);
-});
-$("vidIn").addEventListener("change",e=>{
-  const f=e.target.files&&e.target.files[0];if(!f)return;
-  const v=document.createElement("video");
-  v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute("playsinline","");
-  v.src=URL.createObjectURL(f);
-  v.addEventListener("loadeddata",()=>{
-    S.vidEl=v;S.useVideo=true;
-    $("vidDrop").classList.add("done");$("vidDrop").firstChild.textContent="✓ 背景動画 読込済（変更可）";
-    if(!player.paused)v.play().catch(()=>{});
-  });
-  v.load();
-});
+/* 背景の画像・動画は media.js が複数素材として管理する */
 $("audIn").addEventListener("change",e=>{
   const f=e.target.files&&e.target.files[0];if(!f)return;
   player.src=URL.createObjectURL(f);
@@ -551,9 +546,6 @@ function ensureGraph(){
   }
   if(ac.state==="suspended")ac.resume();
 }
-function syncVid(){if(S.useVideo&&S.vidEl){if(player.paused)S.vidEl.pause();else S.vidEl.play().catch(()=>{});}}
-player.addEventListener("play",syncVid);
-player.addEventListener("pause",syncVid);
 $("playBtn").addEventListener("click",()=>{
   if(!player.src)return;ensureGraph();
   if(player.paused){player.play();$("playBtn").textContent="⏸";}
@@ -1055,6 +1047,8 @@ function drawStudioAccents(now,energy){
     for(let i=0;i<5;i++){let x=55+(i%2)*92,y=110+Math.floor(i/2)*112;
       ctx.fillStyle=i===2?'#f9c87a':'#bcd5e8';ctx.fillRect(x,y,31,36);ctx.fillStyle='#e3ebef';ctx.font='13px monospace';ctx.fillText(['memo','music','lyrics','draft','folder'][i],x-8,y+56);}
     ctx.fillStyle='#e7edf4';ctx.shadowColor='#0008';ctx.shadowBlur=28;ctx.fillRect(W*.26,H*.16,W*.63,H*.67);ctx.shadowBlur=0;
+    // Background media plays inside the window, like a video app on the desktop.
+    if(window.tsukiMedia?.has()){window.tsukiMedia.draw(ctx,W*.26,H*.16+37,W*.63,H*.67-37,false);ctx.fillStyle='rgba(8,14,24,.38)';ctx.fillRect(W*.26,H*.16+37,W*.63,H*.67-37);}
     ctx.fillStyle='#d6deea';ctx.fillRect(W*.26,H*.16,W*.63,37);ctx.fillStyle='#253855';ctx.font='16px monospace';ctx.fillText('●  ●  ●       lyric.txt — 未保存',W*.28,H*.16+25);
     ctx.fillStyle='#b3b9cf';ctx.fillRect(W*.27,H*.23,2,H*.57);ctx.fillStyle='#243957';ctx.font='14px monospace';ctx.fillText('君へ / '+String(Math.floor(now*2)%100).padStart(2,'0'),W*.3,H*.75);
     ctx.fillStyle='#d9e6ee';ctx.fillRect(0,H*.935,W,H*.065);ctx.fillStyle='#47749e';ctx.fillRect(W*.03,H*.95,90,12);ctx.restore();
@@ -1138,11 +1132,7 @@ function loop(){
   if(S.fxShake){ox=(Math.random()-0.5)*beat*26;oy=(Math.random()-0.5)*beat*26;}
   fx.save();
   fx.translate(W/2+ox,H/2+oy);fx.scale(scale,scale);fx.translate(-W/2,-H/2);
-  if(S.useVideo&&S.vidEl&&S.vidEl.readyState>=2){
-    const vw=S.vidEl.videoWidth,vh=S.vidEl.videoHeight,sc=Math.max(W/vw,H/vh),iw=vw*sc,ih=vh*sc;
-    try{fx.filter=S.blur>0?`blur(${S.blur}px)`:"none";}catch(e){}
-    fx.drawImage(S.vidEl,(W-iw)/2,(H-ih)/2,iw,ih);try{fx.filter="none";}catch(e){}
-  }else if(bgCache)fx.drawImage(bgCache,0,0);
+  if(!window.tsukiMedia?.draw(fx)&&bgCache)fx.drawImage(bgCache,0,0);
   fx.restore();
 
   /* デジタルグリッチ（スライス横ずらし） */
@@ -1444,7 +1434,7 @@ function snapshot(){
     fontKey:S.fontKey,animKey:S.animKey,layoutKey:S.layoutKey,vizKey:S.vizKey,
     underline:S.underline,accent:S.accent,dim:S.dim,blur:S.blur,grain:S.grain,seed:S.seed,
     posX:S.posX,posY:S.posY,fxZoom:S.fxZoom,fxShake:S.fxShake,fxRgb:S.fxRgb,fxDglitch:S.fxDglitch,mono:S.mono,fxAmt:S.fxAmt,
-    maxHold:S.maxHold,outStyle:S.outStyle,directionBackup:S.directionBackup};
+    maxHold:S.maxHold,outStyle:S.outStyle,directionBackup:S.directionBackup,media:window.tsukiMedia?.options()};
 }
 function setToggleUI(el,val){el.querySelectorAll("button").forEach(b=>b.classList.toggle("on",(b.dataset.v==="1")===val));}
 function applySnap(d){
@@ -1483,6 +1473,7 @@ function applySnap(d){
   setToggleUI(document.querySelector('.toggle[data-fx="dglitch"]'),S.fxDglitch);
   document.documentElement.style.setProperty("--acc",S.accent);
   document.querySelectorAll(".sw").forEach(el=>el.classList.toggle("on",el.dataset.c===S.accent));
+  window.tsukiMedia?.restore(d.media);
   rebuildBg();renderChips();renderSizeChips();updateSizeUI();updateEditMode();
   document.dispatchEvent(new CustomEvent("tsuki:project-restored"));
   $("syncBtn").disabled=!(S.lines.length&&player.src);$("spreadBtn").disabled=!(S.lines.length&&player.duration);
@@ -1537,6 +1528,7 @@ a{color:#ff8ab0;}
   window.open(url,"_blank");
 });
 </script>
+<script src="./media.js?v=20260925a"></script>
 <script src="./studio.js?v=20260925f"></script>
 <script src="./rhythm.js?v=20260925d"></script>
 <script src="./transcription.js?v=20260925i"></script>
