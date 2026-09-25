@@ -31,7 +31,15 @@
       for(const clause of clauses){
         const japanese=/[\u3040-\u30ff\u3400-\u9fff]/u.test(clause);
         const units=japanese?clause.split(/\s+/u):[clause];
-        for(const unit of units){const part=unit.trim();if(part)result.push(...fit(part));}
+        const phrases=[];
+        for(const unit of units){
+          const part=unit.trim();if(!part)continue;
+          // A number or one-character fragment belongs with the preceding phrase.
+          if(width(part)<4&&phrases.length)phrases[phrases.length-1]+=' '+part;
+          else phrases.push(part);
+        }
+        if(phrases.length>1&&width(phrases[0])<4)phrases[1]=phrases.shift()+' '+phrases[0];
+        for(const phrase of phrases)result.push(...fit(phrase));
       }
     }
     return result.filter(Boolean);
