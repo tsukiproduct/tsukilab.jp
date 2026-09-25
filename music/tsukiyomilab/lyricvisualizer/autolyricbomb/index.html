@@ -139,6 +139,13 @@ input[type=range]{width:100%;accent-color:var(--acc);}
     <!-- ---- 素材 ---- -->
     <div class="tabpane on" id="pane-material">
       <div class="panelintro"><span class="eyebrow">START HERE</span><h2>まず、動きを見て選ぶ。</h2><p>テンプレートを押すと右側のサンプル映像が切り替わります。素材を入れた後も細かく編集できます。</p></div>
+      <div class="card director-card">
+        <div class="sec-title"><div><span class="eyebrow">JEV / MOTION DIRECTOR</span><h2>曲を一本のMVとして演出</h2></div></div>
+        <p class="note">イントロは予感、サビは爆発、最後は余韻。歌詞ごとに動き・大きさ・配置を変える演出プランを見られます。</p>
+        <div class="row"><button class="btn acc" type="button" id="directorSampleBtn">演出プランのサンプルを見る ▶</button><button class="btn" type="button" id="directorLiveBtn">この歌詞を Jev で演出</button></div>
+        <p class="note director-status" id="directorStatus" role="status">サンプルは架空の歌詞を使う再現例です。実際の Jev 判定は接続先に API キーを設定したときに利用できます。</p>
+        <div class="director-scenes" id="directorScenes"></div>
+      </div>
       <div class="card template-card">
         <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 06</span></div>
         <div class="template-grid" id="templateGrid" role="group" aria-label="リリックモーションのテンプレート">
@@ -165,8 +172,15 @@ input[type=range]{width:100%;accent-color:var(--acc);}
       </div>
       <div class="card">
         <h2>歌詞 <span class="card-num">03</span></h2>
+        <div class="asr-settings">
+          <label class="drop" id="vocalDrop">ボーカルだけの音源を追加（あれば精度向上）<input type="file" id="vocalIn" accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg,.flac"></label>
+          <div class="asr-selectors">
+            <label>認識モデル<select id="asrModel"><option value="base">標準・Whisper base</option><option value="small">高精度・Whisper small（PC向け）</option><option value="tiny">軽量・Whisper tiny</option></select></label>
+            <label>歌詞の言語<select id="asrLanguage"><option value="auto">自動判定</option><option value="japanese">日本語</option><option value="english">英語</option></select></label>
+          </div>
+        </div>
         <button class="btn acc asr-button" id="transcribeBtn" type="button" disabled>✦ 曲から歌詞を自動検出（試験版）</button>
-        <p class="note" id="transcribeStatus" role="status" aria-live="polite">曲を読み込むと使えます。初回は認識モデルをダウンロードします。歌声の認識結果は必ず確認してください。</p>
+        <p class="note" id="transcribeStatus" role="status" aria-live="polite">曲を読み込むと使えます。ボーカル音源がある場合は優先して解析します。認識結果は確認してください。</p>
         <textarea id="lyricsIn" placeholder="歌詞を1行ずつ入力&#10;例：&#10;月が嗤う夜に&#10;君の声だけ探してた"></textarea>
         <div class="row">
           <button class="btn acc" id="applyBtn">歌詞を反映</button>
@@ -439,7 +453,7 @@ $("applyBtn").addEventListener("click",()=>{
   const txt=$("lyricsIn").value.split("\n").map(s=>s.trim()).filter(Boolean);
   const total=player.duration||180;
   S.lines=txt.map((text,i)=>({
-    text,
+    ...(S.lines[i]||{}),text,
     t:S.lines[i]?S.lines[i].t:(total/(txt.length+1))*(i+1),
     size:S.lines[i]&&typeof S.lines[i].size==="number"?S.lines[i].size:1
   }));
@@ -700,11 +714,13 @@ let lastTime=0;
 function drawLine(line,idx,prog,energy,now){
   const rng=mulberry32(idx*7919+S.seed*104729);
   const fontCss=FONTS[S.fontKey];
-  let anim=S.animKey;
+  let anim=line.animKey||S.animKey;
+  const layout=line.layoutKey||S.layoutKey;
+  const accent=line.accent||S.accent;
   if(anim==="random"){const pool=["drift","scatter","glitch","type","pop"];anim=pool[Math.floor(rng()*pool.length)];}
   const userSize=line.size||1;
   const sizeF=(0.8+rng()*0.55)*userSize;
-  const rot=S.layoutKey==="wander"?(rng()-0.5)*0.12:0;
+  const rot=layout==="wander"?(rng()-0.5)*0.12:0;
   const tIn=easeOut(clamp(prog.elapsed/0.7,0,1));
   const outDur=prog.outDur||0.5;
   const tOut=prog.remain<outDur?clamp(prog.remain/outDur,0,1):1;
@@ -714,7 +730,7 @@ function drawLine(line,idx,prog,energy,now){
   let base=H*0.085*sizeF;
 
   /* ---- 縦書き ---- */
-  if(S.layoutKey==="tate"){
+  if(layout==="tate"){
     base=Math.min(base,(H*0.8)/Math.max(chars.length,1));
     ctx.font=`700 ${base}px ${fontCss}`;
     const colX=W*(0.22+rng()*0.56);
@@ -730,7 +746,7 @@ function drawLine(line,idx,prog,energy,now){
       ctx.fillText(ch,colX+dx,startY+ci*base*1.08+dy);ctx.restore();
     });
     if(S.underline){
-      ctx.save();ctx.globalAlpha=alpha*0.5;ctx.strokeStyle=S.accent;ctx.lineWidth=2;
+      ctx.save();ctx.globalAlpha=alpha*0.5;ctx.strokeStyle=accent;ctx.lineWidth=2;
       ctx.beginPath();ctx.moveTo(colX+base*0.75,startY-base*0.7);ctx.lineTo(colX+base*0.75,startY+(chars.length-1)*base*1.08+base*0.3);ctx.stroke();ctx.restore();
     }
     return;
@@ -750,26 +766,26 @@ function drawLine(line,idx,prog,energy,now){
       const py=H*(0.18+mulberry32(idx*7+ci*91)()*0.64);
       ctx.save();ctx.globalAlpha=ca;ctx.font=`700 ${cs}px ${fontCss}`;
       ctx.textAlign="center";ctx.textBaseline="middle";
-      ctx.fillStyle="#f3efe7";ctx.shadowColor=S.accent;ctx.shadowBlur=18*energy+6;
+      ctx.fillStyle="#f3efe7";ctx.shadowColor=accent;ctx.shadowBlur=18*energy+6;
       ctx.fillText(ch,px,py);ctx.restore();
     });
     return;
   }
 
   /* ---- 横書き各種 ---- */
-  if(S.layoutKey==="bottom")base=Math.min(base,H*0.055*userSize);
+  if(layout==="bottom")base=Math.min(base,H*0.055*userSize);
   ctx.font=`700 ${base}px ${fontCss}`;
   let tw=ctx.measureText(line.text).width;
   const maxW=W*0.82;
   if(tw>maxW){base*=maxW/tw;ctx.font=`700 ${base}px ${fontCss}`;tw=ctx.measureText(line.text).width;}
   let cx=W/2,cy=H*0.56;
-  if(S.layoutKey==="wander"){cx=W*(0.5+(rng()-0.5)*0.32);cy=H*(0.32+rng()*0.42);cx=clamp(cx,tw/2+40,W-tw/2-40);}
-  else if(S.layoutKey==="bottom"){cx=W/2;cy=H*0.86;}
-  else if(S.layoutKey==="custom"){cx=clamp(W*S.posX,tw/2+30,W-tw/2-30);cy=clamp(H*S.posY,H*0.08,H*0.94);}
+  if(layout==="wander"){cx=W*(0.5+(rng()-0.5)*0.32);cy=H*(0.32+rng()*0.42);cx=clamp(cx,tw/2+40,W-tw/2-40);}
+  else if(layout==="bottom"){cx=W/2;cy=H*0.86;}
+  else if(layout==="custom"){cx=clamp(W*S.posX,tw/2+30,W-tw/2-30);cy=clamp(H*S.posY,H*0.08,H*0.94);}
 
   ctx.save();ctx.translate(cx,cy);ctx.rotate(rot);ctx.textAlign="left";ctx.textBaseline="middle";
   if(S.underline){
-    ctx.globalAlpha=alpha*0.85;ctx.strokeStyle=S.accent;ctx.lineWidth=3;
+    ctx.globalAlpha=alpha*0.85;ctx.strokeStyle=accent;ctx.lineWidth=3;
     ctx.beginPath();ctx.moveTo(-tw/2,base*0.72);ctx.lineTo(-tw/2+tw*tIn,base*0.72);ctx.stroke();
   }
   let x=-tw/2;
@@ -792,7 +808,7 @@ function drawLine(line,idx,prog,energy,now){
     const shown=Math.min(chars.length,Math.floor(prog.elapsed/0.085));
     if(shown<chars.length&&Math.floor(now*2.4)%2===0){
       let cx2=-tw/2;for(let i=0;i<shown;i++)cx2+=ctx.measureText(chars[i]).width;
-      ctx.globalAlpha=alpha;ctx.fillStyle=S.accent;ctx.fillRect(cx2+4,-base*0.45,base*0.08,base*0.9);
+      ctx.globalAlpha=alpha;ctx.fillStyle=accent;ctx.fillRect(cx2+4,-base*0.45,base*0.08,base*0.9);
     }
   }
   ctx.restore();
@@ -905,7 +921,7 @@ function drawStudioAccents(now,energy){
 function loop(){
   requestAnimationFrame(loop);
   const now=performance.now()/1000;
-  const demoActive=!S.lines.length&&!recorder;
+  const demoActive=(!S.lines.length||!!window.tsukiDirectorDemo)&&!recorder;
   const frameNow=performance.now();
   if(demoPlaying&&demoActive)demoClock+=Math.min((frameNow-demoLast)/1000,.10);
   demoLast=frameNow;
@@ -997,7 +1013,7 @@ function loop(){
   drawStudioAccents(demoActive?demoClock:now,energy);
 
   /* 歌詞 */
-  if(S.lines.length){
+  if(S.lines.length&&!demoActive){
     if(S.layoutKey==="danmaku"){
       updateDanmaku(t,energy,now);
     }else{
@@ -1020,9 +1036,12 @@ function loop(){
   }else{
     /* 実際の描画エンジンで動くデモ。S.linesには追加せず書き出しにも含めない。 */
     if(demoActive){
-      const duration=3.2,which=Math.floor(demoClock/duration)%2,elapsed=demoClock%duration;
+      const director=window.tsukiDirectorDemo;
+      const duration=director?2.8:3.2,which=Math.floor(demoClock/duration)%(director?director.scenes.length:2),elapsed=demoClock%duration;
+      if(director&&director.current!==which){director.current=which;window.tsukiApplyTemplate(director.scenes[which].template,false);window.tsukiDirectorHighlight?.(which);}
       const samples=demoLines[S.templateId]||demoLines.cel;
-      drawLine({text:samples[which],size:1.2},which+3,{elapsed,remain:duration-elapsed,outDur:.55},energy,demoClock);
+      const scene=director?.scenes[which];
+      drawLine({text:scene?.text||samples[which],size:scene?.size||1.2,animKey:scene?.animKey,layoutKey:scene?.layoutKey},which+3,{elapsed,remain:duration-elapsed,outDur:.55},energy,demoClock);
       ctx.save();ctx.font="15px monospace";ctx.fillStyle=hexA(S.accent,.85);ctx.fillText("MOTION SAMPLE / "+String(which+1).padStart(2,"0"),W*.06,H*.93);ctx.restore();
     }
   }
@@ -1298,5 +1317,6 @@ a{color:#ff8ab0;}
 </script>
 <script src="./studio.js"></script>
 <script src="./transcription.js"></script>
+<script src="./director.js"></script>
 </body>
 </html>

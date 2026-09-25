@@ -26,7 +26,7 @@
     $('templateCount').textContent = String(i+1).padStart(2,'0')+' / '+String(order.length).padStart(2,'0');
     $('templateNote').textContent = presets[id].note;
   };
-  function applyTemplate(id) {
+  function applyTemplate(id,restart=true) {
     const p = presets[id]; if (!p) return;
     S.templateId=id;
     select('fontSel',p.font);select('animSel',p.anim);select('layoutSel',p.layout);select('vizSel',p.viz);
@@ -38,9 +38,10 @@
     if (swatch) swatch.click();
     active(id);
     S.seed=Math.floor(Math.random()*99999);
-    demoClock=0;
+    if(restart)demoClock=0;
   }
-  document.querySelectorAll('.template-tile').forEach(tile => tile.addEventListener('click',()=>applyTemplate(tile.dataset.template)));
+  window.tsukiApplyTemplate=applyTemplate;
+  document.querySelectorAll('.template-tile').forEach(tile => tile.addEventListener('click',()=>{window.tsukiDirectorDemo=null;applyTemplate(tile.dataset.template); }));
   $('demoToggle').addEventListener('click',()=>{
     demoPlaying=!demoPlaying;
     $('demoToggle').textContent=demoPlaying?'一時停止':'もう一度再生';
