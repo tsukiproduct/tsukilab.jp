@@ -123,7 +123,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
       <button class="btn" id="endSyncBtn">同期モード終了</button>
       <span class="note">曲を聴きながら、各行が始まる瞬間にタップ</span>
     </div>
-    <button class="btn floatToggleBtn" id="floatToggleBtn">↗ プレビューを浮かせる</button>
+    <div class="stage-actions"><button class="btn floatToggleBtn" id="floatToggleBtn">↗ プレビューを浮かせる</button><button class="btn" id="stageExpandBtn" type="button">⛶ 大きく見る</button></div>
     <div class="stagefoot"><span>01 / 動きを見て選択</span><span>02 / 曲から歌詞を検出</span><span>03 / 修正して書き出し</span></div>
   </div>
 
@@ -143,8 +143,9 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <div class="sec-title"><div><span class="eyebrow">JEV / MOTION DIRECTOR</span><h2>曲を一本のMVとして演出</h2></div></div>
         <p class="note">イントロは予感、サビは爆発、最後は余韻。歌詞ごとに動き・大きさ・配置を変える演出プランを見られます。</p>
         <div class="row"><button class="btn acc" type="button" id="directorSampleBtn">演出プランのサンプルを見る ▶</button><button class="btn" type="button" id="directorLiveBtn">この歌詞を Jev で演出</button></div>
-        <p class="note director-status" id="directorStatus" role="status">サンプルは架空の歌詞を使う再現例です。実際の Jev 判定は接続先に API キーを設定したときに利用できます。</p>
-        <div class="director-scenes" id="directorScenes"></div>
+        <p class="note director-status" id="directorStatus" role="status">曲から歌詞を検出した後、「この歌詞を Jev で演出」を押してください。サンプルは架空の歌詞を使った再現例です。</p>
+        <div class="director-scenes" id="directorScenes" aria-label="歌詞ごとの演出プラン"></div>
+        <p class="note" id="directorSceneHint" hidden>演出一覧をスクロールできます。行を押すとその歌詞の位置に移動します。</p>
       </div>
       <div class="card template-card">
         <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 06</span></div>
@@ -182,6 +183,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <button class="btn acc asr-button" id="transcribeBtn" type="button" disabled>✦ 曲から歌詞を自動検出（試験版）</button>
         <p class="note" id="transcribeStatus" role="status" aria-live="polite">曲を読み込むと使えます。認識時は音源を20秒ずつ Cloudflare に送信します。ボーカル音源があれば優先します。認識結果は確認してください。</p>
         <textarea id="lyricsIn" placeholder="歌詞を1行ずつ入力&#10;例：&#10;月が嗤う夜に&#10;君の声だけ探してた"></textarea>
+        <button class="btn lyric-clean" id="cleanNotesBtn" type="button">♪ などの音符を削除</button>
         <div class="row">
           <button class="btn acc" id="applyBtn">歌詞を反映</button>
           <button class="btn" id="spreadBtn" disabled>均等配置</button>
@@ -351,6 +353,10 @@ input[type=range]{width:100%;accent-color:var(--acc);}
   </div>
 </div>
 
+<button class="preview-peek" id="previewPeek" type="button" hidden><span>● プレビューを見る</span><strong id="peekLyric">曲を選ぶと映像を確認できます</strong><small id="peekTime">0:00</small></button>
+<div class="stage-modal-bg" id="stageModalBg" hidden aria-hidden="true"></div>
+<button class="stage-modal-close" id="stageModalClose" type="button" hidden>✕ 閉じる</button>
+
 <script>
 "use strict";
 const W=1280,H=720;
@@ -449,6 +455,14 @@ player.addEventListener("loadedmetadata",()=>{
 
 /* ===== 歌詞 ===== */
 function ensureSizes(){S.lines.forEach(l=>{if(typeof l.size!=="number")l.size=1;});}
+function previewLineAt(i){
+  const line=S.lines[i];if(!line||!player.src)return;
+  const next=S.lines[i+1]?.t??(Number.isFinite(player.duration)?player.duration:line.t+3);
+  const visible=Math.max(.15,Math.min(next-line.t,S.maxHold>0?S.maxHold:Infinity));
+  player.pause();$("playBtn").textContent="▶";
+  player.currentTime=Math.min(Number.isFinite(player.duration)?player.duration:Infinity,line.t+Math.min(.9,visible*.52));
+}
+window.tsukiPreviewLine=previewLineAt;
 $("applyBtn").addEventListener("click",()=>{
   const txt=$("lyricsIn").value.split("\n").map(s=>s.trim()).filter(Boolean);
   const total=player.duration||180;
@@ -619,7 +633,7 @@ function renderChips(){
   S.lines.forEach((l,i)=>{
     const c=document.createElement("span");c.className="chip";c.dataset.i=i;
     c.textContent=fmt(l.t)+" "+l.text.slice(0,8);
-    c.addEventListener("click",()=>{player.currentTime=l.t;});
+    c.addEventListener("click",()=>previewLineAt(i));
     wrap.appendChild(c);
     const row=document.createElement('label');row.className='time-row';
     const name=document.createElement('span');name.textContent=l.text;name.title=l.text;
@@ -639,7 +653,7 @@ function renderSizeChips(){
   S.lines.forEach((l,i)=>{
     const c=document.createElement("span");c.className="chip"+(i===selLine?" sel":"");c.dataset.i=i;
     c.textContent=l.text.slice(0,10)+`（${Math.round((l.size||1)*100)}%）`;
-    c.addEventListener("click",()=>{selLine=i;if(player.duration)player.currentTime=l.t;updateSizeUI();renderSizeChips();});
+    c.addEventListener("click",()=>{selLine=i;previewLineAt(i);updateSizeUI();renderSizeChips();});
     wrap.appendChild(c);
   });
 }
@@ -752,26 +766,6 @@ function drawLine(line,idx,prog,energy,now){
     return;
   }
 
-  /* ---- ポンポン（行全体をランダム位置・サイズで一文字ずつ） ---- */
-  if(anim==="pop"){
-    chars.forEach((ch,ci)=>{
-      const r2=mulberry32(idx*200+ci*53+S.seed*31);
-      const appear=ci*0.08;
-      const cd=clamp((prog.elapsed-appear)/0.32,0,1);
-      if(cd<=0)return;
-      const pe=cd<1?(1.7*Math.pow(cd,2)-0.7*Math.pow(cd,3)):1; // overshoot風
-      const ca=clamp(cd*1.2,0,1)*tOut;
-      const cs=base*(0.7+r2()*1.1)*pe;
-      const px=W*(0.12+r2()*0.76);
-      const py=H*(0.18+mulberry32(idx*7+ci*91)()*0.64);
-      ctx.save();ctx.globalAlpha=ca;ctx.font=`700 ${cs}px ${fontCss}`;
-      ctx.textAlign="center";ctx.textBaseline="middle";
-      ctx.fillStyle="#f3efe7";ctx.shadowColor=accent;ctx.shadowBlur=18*energy+6;
-      ctx.fillText(ch,px,py);ctx.restore();
-    });
-    return;
-  }
-
   /* ---- 横書き各種 ---- */
   if(layout==="bottom")base=Math.min(base,H*0.055*userSize);
   ctx.font=`700 ${base}px ${fontCss}`;
@@ -798,10 +792,11 @@ function drawLine(line,idx,prog,energy,now){
     let dx=0,dy=0;
     if(anim==="scatter"){const r2=mulberry32(idx*131+ci*17+S.seed);dx=(r2()-0.5)*640*(1-easeOut(cd));dy=(r2()-0.5)*420*(1-easeOut(cd));}
     if(anim==="drift")dy=(1-easeOut(cd))*34+Math.sin(now*1.6+ci*0.8)*2.8;
+    if(anim==="pop")dy=-base*(1-easeOut(cd))*(.5+mulberry32(idx*101+ci*37+S.seed)()*.7);
     if(glitchFrame&&Math.random()<0.4){dx=(Math.random()-0.5)*16;dy=(Math.random()-0.5)*10;}
     ctx.globalAlpha=ca;
     if(glitchFrame){ctx.fillStyle="rgba(255,60,90,0.85)";ctx.fillText(ch,x+dx-3,dy);ctx.fillStyle="rgba(80,220,255,0.85)";ctx.fillText(ch,x+dx+3,dy);}
-    ctx.fillStyle="#f3efe7";ctx.shadowColor="rgba(0,0,0,0.65)";ctx.shadowBlur=12;ctx.fillText(ch,x+dx,dy);ctx.shadowBlur=0;
+    ctx.fillStyle="#f3efe7";ctx.shadowColor=anim==="pop"?accent:"rgba(0,0,0,0.65)";ctx.shadowBlur=anim==="pop"?8+energy*12:12;ctx.fillText(ch,x+dx,dy);ctx.shadowBlur=0;
     x+=cw;
   });
   if(anim==="type"){
@@ -1027,7 +1022,7 @@ function loop(){
         const elapsed=t-lineStart;
         const remain=endT-t;
         if(remain>-0.05){
-          const outDur=S.outStyle==="cut"?0.05:0.5;
+          const outDur=S.outStyle==="cut"?0.05:Math.min(.5,Math.max(.05,(endT-lineStart)*.35));
           drawLine(S.lines[idx],idx,{elapsed,remain,outDur},energy,now);
         }
       }
@@ -1057,10 +1052,17 @@ function loop(){
 
   $("curT").textContent=fmt(t);
   if(!seekDragging)$("seek").value=t;
+  if(now-lastPeekUpdate>.25){
+    lastPeekUpdate=now;
+    $("peekTime").textContent=fmt(t);
+    let current=-1;for(let i=0;i<S.lines.length;i++)if(S.lines[i].t<=t)current=i;
+    $("peekLyric").textContent=current>=0?S.lines[current].text:(S.lines.length?'再生して歌詞を確認':'曲を選ぶと映像を確認できます');
+  }
 }
 
 /* ===== プレビュー操作：自由配置ドラッグ＋ピンチサイズ ===== */
 let seekDragging=false;
+let lastPeekUpdate=0;
 $("seek").addEventListener("pointerdown",()=>seekDragging=true);
 $("seek").addEventListener("pointerup",()=>seekDragging=false);
 
@@ -1173,6 +1175,34 @@ $("floatBar").addEventListener("pointerup",barPinchEnd);
 $("floatBar").addEventListener("pointercancel",barPinchEnd);
 
 window.addEventListener("resize",()=>{if(isFloating)applyFloatBox();});
+
+/* The preview stays reachable while editing a long project on a phone. */
+let stageModalOpen=false;
+const previewPeek=$("previewPeek");
+function openStageModal(){
+  if(isFloating)setFloating(false);
+  stageModalOpen=true;stageWrap.classList.add("stage-modal-open");
+  $("stageModalBg").hidden=false;$("stageModalClose").hidden=false;
+  $("stageModalBg").setAttribute("aria-hidden","false");
+  document.body.classList.add("stage-preview-open");previewPeek.hidden=true;
+  $("stageModalClose").focus();
+}
+function closeStageModal(){
+  stageModalOpen=false;stageWrap.classList.remove("stage-modal-open");
+  $("stageModalBg").hidden=true;$("stageModalClose").hidden=true;
+  $("stageModalBg").setAttribute("aria-hidden","true");
+  document.body.classList.remove("stage-preview-open");
+  previewPeek.hidden=window.innerWidth>950||stageWrap.getBoundingClientRect().bottom>80;
+}
+$("stageExpandBtn").addEventListener("click",openStageModal);
+window.tsukiOpenPreview=openStageModal;
+previewPeek.addEventListener("click",openStageModal);
+$("stageModalClose").addEventListener("click",closeStageModal);
+$("stageModalBg").addEventListener("click",closeStageModal);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&stageModalOpen)closeStageModal();});
+const stageObserver=new IntersectionObserver(entries=>{
+  if(!stageModalOpen)previewPeek.hidden=window.innerWidth>950||isFloating||entries[0].isIntersecting;
+},{threshold:.2});stageObserver.observe(stageWrap);
 
 function updateEditMode(){
   const editable=S.layoutKey==="custom"&&!isFloating;

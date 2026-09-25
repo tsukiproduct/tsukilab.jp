@@ -11,6 +11,7 @@
   let sampleOpen=false;
   function show(scenes,source){
     row.replaceChildren();
+    $('directorSceneHint').hidden=scenes.length<=4;
     scenes.forEach((scene,i)=>{
       const btn=document.createElement('button');btn.type='button';btn.className='director-scene';
       const head=document.createElement('strong');head.textContent=scene.label||'LINE '+String(i+1).padStart(2,'0');
@@ -20,7 +21,7 @@
       btn.addEventListener('click',()=>{
         if(source==='sample'){
           demoClock=i*2.8;window.tsukiDirectorDemo.current=-1;demoPlaying=true;
-        }else if(S.lines[i]&&player.src){player.pause();player.currentTime=Math.min(player.duration||Infinity,S.lines[i].t+.25);}
+        }else if(S.lines[i]&&player.src){window.tsukiPreviewLine?.(i);window.tsukiOpenPreview?.();}
       });
       row.append(btn);
     });
@@ -50,8 +51,9 @@
       S.lines=S.lines.map((line,i)=>({...line,animKey:data.plan[i].animKey,layoutKey:data.plan[i].layoutKey,size:data.plan[i].size}));
       show(S.lines.map((line,i)=>({...line,label:'LINE '+String(i+1).padStart(2,'0'),why:(readable[line.animKey]||'動きを調整')+' / '+Math.round((data.plan[i].confidence||0)*100)+'%'})),'live');
       renderChips();renderSizeChips();
-      if(player.src){player.pause();player.currentTime=Math.min(player.duration||Infinity,S.lines[0].t+.3);}
+      if(player.src)window.tsukiPreviewLine?.(0);
       status.textContent='Jev の判定を歌詞ごとの動き・配置・大きさへ反映しました。プレビューで確認できます。';
+      window.tsukiOpenPreview?.();
     }catch(error){status.textContent=String(error?.message||error)+' サンプル演出は上のボタンで確認できます。';}
     finally{button.disabled=false;}
   });

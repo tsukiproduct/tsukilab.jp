@@ -13,6 +13,14 @@
     status.textContent=vocalFile?'ボーカル音源を使用します：'+vocalFile.name:'曲のミックス音源から認識します。';
     refreshAvailability();
   });
+  $('cleanNotesBtn').addEventListener('click',()=>{
+    const clean=text=>text.replace(/[♪♫♬♩🎵🎶]/gu,'').replace(/ {2,}/g,' ').trim();
+    $('lyricsIn').value=$('lyricsIn').value.split('\n').map(clean).filter(Boolean).join('\n');
+    S.lines=S.lines.map(line=>({...line,text:clean(line.text)})).filter(line=>line.text);
+    selLine=-1;
+    renderChips();renderSizeChips();
+    status.textContent='音符を削除しました。歌詞と表示時刻はそのままです。';
+  });
   function stop(){
     runId++;running=false;
     controller?.abort();controller=null;
@@ -23,17 +31,32 @@
     const cleaned=text.replace(/[\[\]()（）♪♫♬\s.,!?。、「」:：_-]/g,'').toLowerCase();
     return !cleaned||/^(music|musical|instrumental|instrumentals|applause|silence|backgroundmusic|拍手|音楽|演奏|無音)$/.test(cleaned);
   }
+  function splitLyrics(text){
+    const tokens=text.match(/\S+\s*/gu)||[];
+    const weight=s=>[...s].reduce((n,ch)=>n+(/[\u3040-\u30ff\u3400-\u9fff]/u.test(ch)?1.8:1),0);
+    const result=[];let part='';
+    for(const token of tokens){
+      if(part&&weight(part+token)>39){result.push(part.trim());part='';}
+      // Japanese lyrics often contain no spaces; split those on punctuation or length.
+      if(weight(token)>39){
+        for(const ch of token){if(part&&weight(part+ch)>39){result.push(part.trim());part='';}part+=ch;}
+      }else part+=token;
+    }
+    if(part.trim())result.push(part.trim());
+    return result;
+  }
   function resultLines(raw,duration){
     const result=[];let ignored=0;
     for(const segment of raw){
-      const text=String(segment.text||'').trim();
+      const text=String(segment.text||'').replace(/[♪♫♬♩🎵🎶]/gu,'').replace(/\s+/gu,' ').trim();
       if(isNoise(text)){ignored++;continue;}
-      const pieces=text.split(/(?<=[。！？!?])\s*/u).map(s=>s.trim()).filter(Boolean).filter(piece=>{if(isNoise(piece)){ignored++;return false;}return true;});
+      const pieces=splitLyrics(text).filter(piece=>{if(isNoise(piece)){ignored++;return false;}return true;});
+      const totalWeight=pieces.reduce((n,p)=>n+[...p].length,0);let passed=0;
       for(let i=0;i<pieces.length;i++){
         const text=pieces[i];
         if(!text||text.length>90)continue;
         const span=Math.max(0,Math.min(20,(segment.end||segment.t+pieces.length)-segment.t));
-        const t=Number(segment.t)+span*(i/pieces.length);
+        const t=Number(segment.t)+span*(passed/Math.max(1,totalWeight));passed+=[...text].length;
         if(!Number.isFinite(t))continue;
         const last=result.at(-1);
         if(last&&last.text===text&&Math.abs(last.t-t)<2){ignored++;continue;}
@@ -88,9 +111,11 @@
       const {lines,ignored}=resultLines(raw,player.duration||duration);
       if(lines.length){
         S.lines=lines;$('lyricsIn').value=lines.map(l=>l.text).join('\n');
+        S.maxHold=0;$('holdIn').value=0;$('holdLabel').textContent='歌詞の表示時間 — 制限なし（次の行まで表示）';
         selLine=-1;renderChips();renderSizeChips();updateSizeUI();
         $('spreadBtn').disabled=false;$('syncBtn').disabled=false;$('autoSyncBtn').disabled=false;
-        if(Number.isFinite(player.duration))player.currentTime=Math.min(Math.max(0,lines[0].t+.3),player.duration);
+        if(Number.isFinite(player.duration))window.tsukiPreviewLine?.(0);
+        window.tsukiOpenPreview?.();
         status.textContent=lines.length+' 行を仮検出しました。'+(ignored?ignored+' 件の音楽・重複を除外。':'')+'プレビューと時刻を確認して修正してください。';
       }else status.textContent='有効な歌詞を検出できませんでした。現在の歌詞は保持しました。';
       stop();

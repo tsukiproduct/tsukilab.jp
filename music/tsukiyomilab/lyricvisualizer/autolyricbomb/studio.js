@@ -2,12 +2,12 @@
 (() => {
   'use strict';
   const presets = {
-    cel: {font:'rock', anim:'pop', layout:'wander', viz:'moon', accent:'#d9f16d', dim:45, blur:6, fx:100, grain:true, underline:true, zoom:true, shake:false, rgb:false, glitch:false, hold:3.5, note:'言葉が軽やかに弾む、明るいモーション。曲を読み込むと音に合わせて動きます。'},
-    collage: {font:'reggae', anim:'scatter', layout:'wander', viz:'bars', accent:'#ff4d4d', dim:43, blur:3, fx:145, grain:true, underline:false, zoom:true, shake:true, rgb:false, glitch:false, hold:2.5, note:'切り貼りしたように文字が集まり、強い拍で背景が揺れる。'},
-    digital: {font:'dot', anim:'glitch', layout:'wander', viz:'mirror', accent:'#5ce1ff', dim:63, blur:4, fx:130, grain:false, underline:false, zoom:true, shake:false, rgb:true, glitch:true, hold:3, note:'文字のノイズと光のズレ。暗い映像や電子的な曲に。'},
-    cinema: {font:'mincho', anim:'drift', layout:'bottom', viz:'off', accent:'#ffd24d', dim:52, blur:6, fx:55, grain:true, underline:false, zoom:false, shake:false, rgb:false, glitch:false, hold:5, note:'映像に余白を残し、歌詞がゆっくり現れて消える。'},
-    note: {font:'hachi', anim:'type', layout:'wander', viz:'wave', accent:'#ff8a3d', dim:42, blur:8, fx:65, grain:true, underline:false, zoom:false, shake:false, rgb:false, glitch:false, hold:4, note:'メモを書き足すように、一文字ずつ歌詞を見せる。'},
-    minimal: {font:'stick', anim:'drift', layout:'bottom', viz:'off', accent:'#ffffff', dim:38, blur:0, fx:35, grain:false, underline:false, zoom:false, shake:false, rgb:false, glitch:false, hold:4, note:'背景の映像を中心に、言葉を控えめに添える。'}
+    cel: {font:'rock', anim:'pop', layout:'wander', viz:'moon', accent:'#d9f16d', dim:45, blur:6, fx:100, grain:true, underline:true, zoom:true, shake:false, rgb:false, glitch:false, hold:0, note:'言葉が軽やかに弾む、明るいモーション。曲を読み込むと音に合わせて動きます。'},
+    collage: {font:'reggae', anim:'scatter', layout:'wander', viz:'bars', accent:'#ff4d4d', dim:43, blur:3, fx:145, grain:true, underline:false, zoom:true, shake:true, rgb:false, glitch:false, hold:0, note:'切り貼りしたように文字が集まり、強い拍で背景が揺れる。'},
+    digital: {font:'dot', anim:'glitch', layout:'wander', viz:'mirror', accent:'#5ce1ff', dim:63, blur:4, fx:130, grain:false, underline:false, zoom:true, shake:false, rgb:true, glitch:true, hold:0, note:'文字のノイズと光のズレ。暗い映像や電子的な曲に。'},
+    cinema: {font:'mincho', anim:'drift', layout:'bottom', viz:'off', accent:'#ffd24d', dim:52, blur:6, fx:55, grain:true, underline:false, zoom:false, shake:false, rgb:false, glitch:false, hold:0, note:'映像に余白を残し、歌詞がゆっくり現れて消える。'},
+    note: {font:'hachi', anim:'type', layout:'wander', viz:'wave', accent:'#ff8a3d', dim:42, blur:8, fx:65, grain:true, underline:false, zoom:false, shake:false, rgb:false, glitch:false, hold:0, note:'メモを書き足すように、一文字ずつ歌詞を見せる。'},
+    minimal: {font:'stick', anim:'drift', layout:'bottom', viz:'off', accent:'#ffffff', dim:38, blur:0, fx:35, grain:false, underline:false, zoom:false, shake:false, rgb:false, glitch:false, hold:0, note:'背景の映像を中心に、言葉を控えめに添える。'}
   };
   const order = Object.keys(presets);
   const select = (id,value) => { const el = $(id); el.value = value; el.dispatchEvent(new Event('change',{bubbles:true})); };
