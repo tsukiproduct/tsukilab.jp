@@ -1,10 +1,30 @@
 /* Cloudflare Worker: runs the existing Jev director endpoint without exposing the API key. */
 const endpoint='/music/tsukiyomilab/lyricvisualizer/autolyricbomb/api/jev-director';
+const transcriptionEndpoint='/music/tsukiyomilab/lyricvisualizer/autolyricbomb/api/transcribe';
 const motions=new Set(['drift','scatter','pop','glitch','type']);
 const layouts=new Set(['bottom','wander','center']);
 const headers={'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'};
 
 function json(status,value){return new Response(JSON.stringify(value),{status,headers});}
+
+async function transcribe(request,env){
+  if(!env.AI)return json(503,{error:'Cloudflare Workers AI のバインディングがありません。'});
+  const size=Number(request.headers.get('content-length'));
+  if(!Number.isFinite(size)||size<44||size>1200000)return json(413,{error:'音声区間は 1.2 MB 以下の WAV にしてください。'});
+  try{
+    const audio=await request.arrayBuffer();
+    if(audio.byteLength<44||audio.byteLength>1200000)return json(413,{error:'音声区間が大きすぎます。'});
+    const view=new DataView(audio),bytes=new Uint8Array(audio);
+    const tag=(at)=>String.fromCharCode(...bytes.subarray(at,at+4));
+    if(tag(0)!=='RIFF'||tag(8)!=='WAVE'||tag(12)!=='fmt '||tag(36)!=='data'||view.getUint16(20,true)!==1||view.getUint16(22,true)!==1||view.getUint32(24,true)!==16000||view.getUint16(34,true)!==16||view.getUint32(40,true)>640000)return json(400,{error:'16 kHz・16 bit・モノラル WAV の区間を指定してください。'});
+    let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));
+    const language=request.headers.get('X-Lyric-Language');
+    const options={audio:btoa(binary),task:'transcribe',vad_filter:true,condition_on_previous_text:false};
+    if(language==='japanese'||language==='english')options.language=language==='japanese'?'ja':'en';
+    const result=await env.AI.run('@cf/openai/whisper-large-v3-turbo',options);
+    return json(200,{segments:Array.isArray(result.segments)?result.segments:[],text:result.text||'',vtt:result.vtt||''});
+  }catch(error){return json(502,{error:'音声認識に失敗しました。Cloudflare Workers AI の設定と使用量を確認してください。'});}
+}
 
 function questionsFor(lines){
   const questions={};
@@ -31,6 +51,7 @@ function mapAnswers(lines,answers){
 export default {
   async fetch(request,env){
     const path=new URL(request.url).pathname;
+    if(path===transcriptionEndpoint&&request.method==='POST')return transcribe(request,env);
     if(path!==endpoint||request.method!=='POST')return json(404,{error:'Not found'});
     if(!env.TYPESAFE_API_KEY)return json(503,{error:'Jev API キーが Cloudflare Worker に設定されていません。'});
     try{

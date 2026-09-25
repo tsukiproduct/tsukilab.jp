@@ -175,12 +175,12 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <div class="asr-settings">
           <label class="drop" id="vocalDrop">ボーカルだけの音源を追加（あれば精度向上）<input type="file" id="vocalIn" accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg,.flac"></label>
           <div class="asr-selectors">
-            <label>認識モデル<select id="asrModel"><option value="base">標準・Whisper base</option><option value="small">高精度・Whisper small（PC向け）</option><option value="tiny">軽量・Whisper tiny</option></select></label>
+            <label>認識モデル<select id="asrModel"><option value="large">Cloudflare Whisper large v3 turbo</option></select></label>
             <label>歌詞の言語<select id="asrLanguage"><option value="auto">自動判定</option><option value="japanese">日本語</option><option value="english">英語</option></select></label>
           </div>
         </div>
         <button class="btn acc asr-button" id="transcribeBtn" type="button" disabled>✦ 曲から歌詞を自動検出（試験版）</button>
-        <p class="note" id="transcribeStatus" role="status" aria-live="polite">曲を読み込むと使えます。ボーカル音源がある場合は優先して解析します。認識結果は確認してください。</p>
+        <p class="note" id="transcribeStatus" role="status" aria-live="polite">曲を読み込むと使えます。認識時は音源を20秒ずつ Cloudflare に送信します。ボーカル音源があれば優先します。認識結果は確認してください。</p>
         <textarea id="lyricsIn" placeholder="歌詞を1行ずつ入力&#10;例：&#10;月が嗤う夜に&#10;君の声だけ探してた"></textarea>
         <div class="row">
           <button class="btn acc" id="applyBtn">歌詞を反映</button>

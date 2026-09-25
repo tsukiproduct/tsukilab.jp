@@ -2,6 +2,7 @@
   "name": "tsukiyomi-jev-director",
   "main": "worker.mjs",
   "compatibility_date": "2026-09-25",
+  "ai": { "binding": "AI" },
   "routes": [
     {
       "pattern": "tsukilab.jp/music/tsukiyomilab/lyricvisualizer/autolyricbomb/api/*",
