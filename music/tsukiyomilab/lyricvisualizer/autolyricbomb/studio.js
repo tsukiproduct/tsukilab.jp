@@ -17,6 +17,8 @@
     edge: {bg:['#161616','#040404','#ff3b3b'],font:'dela',anim:'coolMix',layout:'center',viz:'off',accent:'#ff3b3b',dim:64,blur:2,fx:120,grain:true,underline:false,zoom:true,shake:false,rgb:false,glitch:false,hold:0,note:'かっこいい：拍で一気に入り、止めて読ませ、スナップで抜く。サビは閃光のインパクト。'},
     kawaii: {bg:['#ffb3d4','#b3a4ff','#ffffff'],font:'mochiy',anim:'cuteMix',layout:'wander',viz:'off',accent:'#ff7eb6',dim:6,blur:8,fx:85,grain:false,underline:false,zoom:true,shake:false,rgb:false,glitch:false,hold:0,note:'かわいい：文字がぷにっと弾み、ステッカーの縁取りと星がきらめく。'},
     art: {bg:['#1c1e20','#0c0d0e','#e8e2d0'],font:'zenold',anim:'artMix',layout:'wander',viz:'off',accent:'#e8e2d0',dim:60,blur:10,fx:40,grain:true,underline:false,zoom:false,shake:false,rgb:false,glitch:false,hold:0,note:'芸術的：ぼけから焦点が合い、余白に置かれた言葉が灰のように散る。'},
+    crawl: {bg:['#0b1030','#02030a','#8fb4ff'],font:'murecho',anim:'drift',layout:'center',viz:'off',accent:'#ffd98a',dim:55,blur:4,fx:60,grain:false,underline:false,zoom:false,shake:false,rgb:false,glitch:false,hold:0,note:'遠近スクロール：歌詞が一続きの文章として手前から奥へ流れ、今の行が光る。'},
+    tunnel: {bg:['#1a0830','#030108','#ff3fd0'],font:'dela',anim:'drift',layout:'center',viz:'off',accent:'#ff3fd0',dim:55,blur:4,fx:110,grain:false,underline:false,zoom:true,shake:false,rgb:false,glitch:false,hold:0,note:'ワイヤートンネル：線の中を奥へ進み、行が変わると前の歌詞が奥へ飛んでいく。'},
     crayon: {bg:['#ece1c5','#ece1c5','#c56658'],font:'hachi',anim:'draw',layout:'center',viz:'off',accent:'#c56658',dim:0,blur:0,fx:45,grain:true,underline:false,zoom:false,shake:false,rgb:false,glitch:false,hold:0,note:'紙に一文字ずつ描く手描きの質感。歌詞と落書きだけでMVにできます。'}
   };
   const order = Object.keys(presets);

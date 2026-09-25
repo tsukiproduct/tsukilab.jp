@@ -93,3 +93,10 @@ When no background media is loaded, each classic template draws the scene its th
 - ミニマル: shows the line number and a progress dot.
 
 The darkness slider applies only to background media, so scene colours stay true. Lyrics switch to a dark ink on light scenes.
+
+## Depth templates
+
+- 遠近スクロール: the lyrics form one continuous text on a tilted plane that recedes toward the horizon. The line being sung arrives at the front and glows; earlier lines shrink into the distance.
+- ワイヤートンネル: the camera moves through a wireframe floor, ceiling and frames that brighten on strong beats. Each line drifts slowly while it is sung, then flies into the depth when the next line starts.
+
+Both draw every visible line themselves (`depth.js`), so the per-line motion and layout settings do not apply to them.

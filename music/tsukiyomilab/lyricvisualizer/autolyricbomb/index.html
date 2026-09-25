@@ -89,7 +89,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 .modal h3{margin:0 0 12px;font-size:14px;letter-spacing:1px;}
 .modal video{width:100%;border-radius:10px;background:#000;display:block;}
 </style>
-<link rel="stylesheet" href="./studio.css?v=20260925h">
+<link rel="stylesheet" href="./studio.css?v=20260925i">
 </head>
 <body>
 
@@ -149,7 +149,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
         <p class="note" id="directorSceneHint" hidden>行を押すとその歌詞の位置をプレビューできます。</p>
       </div>
       <div class="card template-card">
-        <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 16</span></div>
+        <div class="sec-title"><div><span class="eyebrow">ART DIRECTION</span><h2>テンプレート</h2></div><span id="templateCount">01 / 18</span></div>
         <div class="template-grid" id="templateGrid" role="group" aria-label="リリックモーションのテンプレート">
           <button class="template-tile selected" data-template="cel" type="button" aria-pressed="true"><span class="template-art art-cel"><i>POP!</i><b>あふれる<br>コトバ</b></span><span class="template-copy"><strong>セルポップ</strong><small>一文字ずつ跳ねる ↗</small></span></button>
           <button class="template-tile" data-template="collage" type="button" aria-pressed="false"><span class="template-art art-collage"><i>CUT / PASTE</i><b>LOUD<br>WORDS</b></span><span class="template-copy"><strong>紙コラージュ</strong><small>散ってから集まる ↘</small></span></button>
@@ -166,6 +166,8 @@ input[type=range]{width:100%;accent-color:var(--acc);}
           <button class="template-tile" data-template="crayon" type="button" aria-pressed="false"><span class="template-art art-crayon"><i>DRAW / 13</i><b>まだ、<br>描いている。</b></span><span class="template-copy"><strong>クレヨンレター</strong><small>文字が手で描かれていく ✎</small></span></button>
           <button class="template-tile" data-template="edge" type="button" aria-pressed="false"><span class="template-art art-edge"><i>EDGE / 14</i><b>止まるな、<br>今。</b></span><span class="template-copy"><strong>エッジ</strong><small>かっこいい — 閃光と静止 ▮</small></span></button>
           <button class="template-tile" data-template="kawaii" type="button" aria-pressed="false"><span class="template-art art-kawaii"><i>♡ 15</i><b>すきが<br>あふれる</b></span><span class="template-copy"><strong>ポップキュート</strong><small>かわいい — 弾んできらめく ✦</small></span></button>
+          <button class="template-tile" data-template="crawl" type="button" aria-pressed="false"><span class="template-art art-crawl"><i>DEPTH / 17</i><b>言葉が<br>奥へ流れる</b></span><span class="template-copy"><strong>遠近スクロール</strong><small>歌詞が手前から奥へ ⤴</small></span></button>
+          <button class="template-tile" data-template="tunnel" type="button" aria-pressed="false"><span class="template-art art-tunnel"><i>WIRE / 18</i><b>奥へ、<br>もっと奥へ</b></span><span class="template-copy"><strong>ワイヤートンネル</strong><small>線の中を突き進む ◇</small></span></button>
           <button class="template-tile" data-template="art" type="button" aria-pressed="false"><span class="template-art art-fine"><i>no.16 — 余白</i><b>光は<br>遅れて届く</b></span><span class="template-copy"><strong>余白の詩</strong><small>芸術的 — 焦点と散華 ◌</small></span></button>
         </div>
         <p class="template-note" id="templateNote">言葉が軽やかに弾む、明るいモーション。まず曲を入れてプレビューしましょう。</p>
@@ -1076,6 +1078,8 @@ const demoLines={
   ,edge:["止まるな、今","この一瞬を撃ち抜け"]
   ,kawaii:["すきがあふれる","ぴょんと跳ねたら"]
   ,art:["光は遅れて届く","ほどけて、消えて"]
+  ,crawl:["遠い夜の向こうへ","言葉が流れていく","まだ終わらない物語","君に届くまで"]
+  ,tunnel:["光の速さで","ここから抜け出せ","奥へ、もっと奥へ","まだ見ぬ場所まで"]
 };
 function drawStudioAccents(now,energy){
   const kind=S.templateId;
@@ -1242,7 +1246,9 @@ function loop(){
 
   /* 歌詞 */
   if(S.lines.length&&!demoActive){
-    if(S.layoutKey==="danmaku"){
+    if(window.tsukiDepthLyrics?.(S.lines,t)){
+      // Depth templates (depth.js) draw every visible line in perspective.
+    }else if(S.layoutKey==="danmaku"){
       updateDanmaku(t,energy,now);
     }else{
       let idx=-1;for(let i=0;i<S.lines.length;i++)if(S.lines[i].t<=t)idx=i;
@@ -1265,6 +1271,10 @@ function loop(){
     /* 実際の描画エンジンで動くデモ。S.linesには追加せず書き出しにも含めない。 */
     if(demoActive){
       const director=window.tsukiDirectorDemo;
+      const depthSamples=demoLines[S.templateId];
+      if(!director&&depthSamples&&window.tsukiDepthLyrics?.(Array.from({length:Math.floor(demoClock/2.4)+2},(_,k)=>({text:depthSamples[k%depthSamples.length],t:k*2.4})),demoClock)){
+        ctx.save();ctx.font="15px monospace";ctx.fillStyle=hexA(S.accent,.85);ctx.fillText("MOTION SAMPLE",W*.06,H*.93);ctx.restore();
+      }else{
       const duration=director?2.8:3.2,which=Math.floor(demoClock/duration)%(director?director.scenes.length:2),elapsed=demoClock%duration;
       if(director&&director.current!==which){director.current=which;window.tsukiApplyTemplate(director.scenes[which].template,false);window.tsukiDirectorHighlight?.(which);}
       const samples=demoLines[S.templateId]||demoLines.cel;
@@ -1273,6 +1283,7 @@ function loop(){
       drawSceneGraphic(line,which+3,elapsed,beatEnv);
       drawLine(line,which+3,{elapsed,remain:duration-elapsed,outDur:.55,duration,beat:beatEnv},energy,demoClock);
       ctx.save();ctx.font="15px monospace";ctx.fillStyle=hexA(S.accent,.85);ctx.fillText("MOTION SAMPLE / "+String(which+1).padStart(2,"0"),W*.06,H*.93);ctx.restore();
+      }
     }
   }
 
@@ -1593,7 +1604,8 @@ a{color:#ff8ab0;}
 <script src="./media.js?v=20260925a"></script>
 <script src="./motion-styles.js?v=20260925b"></script>
 <script src="./scenes.js?v=20260925b"></script>
-<script src="./studio.js?v=20260925i"></script>
+<script src="./depth.js?v=20260925a"></script>
+<script src="./studio.js?v=20260925j"></script>
 <script src="./rhythm.js?v=20260925d"></script>
 <script src="./transcription.js?v=20260925i"></script>
 <script src="./director.js?v=20260925e"></script>
