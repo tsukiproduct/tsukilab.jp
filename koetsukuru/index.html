@@ -47,8 +47,49 @@ import { KokoroJP } from "https://cdn.jsdelivr.net/npm/kokoro-js-jp@0.2.0/dist/k
 const $=id=>document.getElementById(id);let tts=null,currentUrl=null;
 $("speed").addEventListener("input",()=>$("speedLabel").textContent=Number($("speed").value).toFixed(2));
 async function loadTTS(){if(tts)return tts;$("status").textContent="音声モデルを読み込んでいます。初回はしばらくお待ちください…";$("progress").classList.remove("hidden");tts=await KokoroJP.load({dtype:"q8"});$("progress").classList.add("hidden");return tts}
-$("generate").addEventListener("click",async()=>{const text=$("text").value.trim();if(!text){$("status").textContent="文章を入力してください。";return}$("generate").disabled=true;$("player").classList.add("hidden");$("save").classList.add("hidden");try{const engine=await loadTTS();$("status").textContent="音声を生成しています…";$("progress").classList.remove("hidden");const chunks=splitText(text,120);if(chunks.length>1){$("status").textContent="長文を検出しました。まず先頭120文字を無加工で生成します（音質診断）。";}await new Promise(r=>setTimeout(r,0));const audio=await engine.speak(chunks[0],$("voice").value,Number($("speed").value));const blob=audio.toBlob();if(currentUrl)URL.revokeObjectURL(currentUrl);currentUrl=URL.createObjectURL(blob);$("player").src=currentUrl;$("save").href=currentUrl;$("save").download="koetsukuru-raw.wav";$("player").classList.remove("hidden");$("save").classList.remove("hidden");$("status").textContent=chunks.length>1?`先頭チャンクを無加工で生成しました（全${chunks.length}分割予定）。この音が正常なら長文結合を次に直せます。`:"無加工WAVを生成しました。Kokoroの出力をそのまま再生・保存しています。"}catch(e){console.error(e);$("status").textContent="生成に失敗しました。Safariを最新版にし、空きメモリを確保して再試行してください。長文の場合は短く分割してください。"}finally{$("progress").classList.add("hidden");$("generate").disabled=false}});
+$("generate").addEventListener("click",async()=>{const text=$("text").value.trim();if(!text){$("status").textContent="文章を入力してください。";return}$("generate").disabled=true;$("player").classList.add("hidden");$("save").classList.add("hidden");try{const engine=await loadTTS();$("status").textContent="音声を生成しています…";$("progress").classList.remove("hidden");const chunks=splitText(text,120);if(chunks.length>1){$("status").textContent="長文を検出しました。まず先頭120文字を無加工で生成します（音質診断）。";}await new Promise(r=>setTimeout(r,0));const audio=await engine.speak(chunks[0],$("voice").value,Number($("speed").value));const rawBlob=audio.toBlob();const blob=await normalizeVolume(rawBlob);if(currentUrl)URL.revokeObjectURL(currentUrl);currentUrl=URL.createObjectURL(blob);$("player").src=currentUrl;$("save").href=currentUrl;$("save").download="koetsukuru-raw.wav";$("player").classList.remove("hidden");$("save").classList.remove("hidden");$("status").textContent=chunks.length>1?`先頭チャンクを無加工で生成しました（全${chunks.length}分割予定）。この音が正常なら長文結合を次に直せます。`:"無加工WAVを生成しました。Kokoroの出力をそのまま再生・保存しています。"}catch(e){console.error(e);$("status").textContent="生成に失敗しました。Safariを最新版にし、空きメモリを確保して再試行してください。長文の場合は短く分割してください。"}finally{$("progress").classList.add("hidden");$("generate").disabled=false}});
 
 function splitText(s,max=120){const units=s.replace(/\r/g,"").split(/(?<=[。！？!?\n])/).filter(x=>x.trim());const out=[];for(const u0 of units){let u=u0.trim();while(u.length>max){let p=Math.max(u.lastIndexOf("、",max),u.lastIndexOf(" ",max));if(p<max*.45)p=max;out.push(u.slice(0,p+1));u=u.slice(p+1).trim()}if(u)out.push(u)}return out.length?out:[s]}
+
+async function normalizeVolume(blob){
+  const ab=await blob.arrayBuffer();
+  const ctx=new (window.AudioContext||window.webkitAudioContext)();
+  try{
+    const buf=await ctx.decodeAudioData(ab.slice(0));
+    let sum=0,count=0,peak=0;
+    for(let ch=0;ch<buf.numberOfChannels;ch++){
+      const d=buf.getChannelData(ch);
+      for(let i=0;i<d.length;i++){const x=d[i];sum+=x*x;count++;const ax=Math.abs(x);if(ax>peak)peak=ax}
+    }
+    const rms=Math.sqrt(sum/Math.max(1,count));
+    const targetRms=Math.pow(10,-18/20);
+    let gain=rms>0?targetRms/rms:1;
+    const peakLimit=Math.pow(10,-1/20);
+    if(peak>0) gain=Math.min(gain,peakLimit/peak);
+    gain=Math.max(0.5,Math.min(gain,4));
+    const channels=[];
+    for(let ch=0;ch<buf.numberOfChannels;ch++){
+      const src=buf.getChannelData(ch),dst=new Float32Array(src.length);
+      for(let i=0;i<src.length;i++) dst[i]=Math.max(-1,Math.min(1,src[i]*gain));
+      channels.push(dst);
+    }
+    return pcmToWav(channels,buf.sampleRate);
+  }finally{await ctx.close().catch(()=>{})}
+}
+function pcmToWav(channels,sampleRate){
+  const n=channels[0].length,nc=channels.length,bits=16,bytes=2;
+  const out=new ArrayBuffer(44+n*nc*bytes),v=new DataView(out);
+  const w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};
+  w(0,"RIFF");v.setUint32(4,36+n*nc*bytes,true);w(8,"WAVE");w(12,"fmt ");
+  v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,nc,true);
+  v.setUint32(24,sampleRate,true);v.setUint32(28,sampleRate*nc*bytes,true);
+  v.setUint16(32,nc*bytes,true);v.setUint16(34,bits,true);w(36,"data");
+  v.setUint32(40,n*nc*bytes,true);let o=44;
+  for(let i=0;i<n;i++)for(let ch=0;ch<nc;ch++){
+    let s=Math.max(-1,Math.min(1,channels[ch][i]));
+    v.setInt16(o,s<0?s*32768:s*32767,true);o+=2;
+  }
+  return new Blob([out],{type:"audio/wav"});
+}
 </script>
 </main></body></html>
