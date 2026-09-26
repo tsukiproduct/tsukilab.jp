@@ -54,3 +54,5 @@ body.stage-preview-open{overflow:hidden}
 .art-caption{background:linear-gradient(#26262c,#0d0d10);color:#fff;align-items:center;justify-content:center;text-align:center}.art-caption b{font:800 20px 'M PLUS Rounded 1c',sans-serif;-webkit-text-stroke:5px #111;paint-order:stroke fill}.art-caption b em{font-style:normal;color:#ffe14d}.art-caption i{position:absolute;top:11px;left:10px}
 .stagewrap canvas.portrait,canvas.portrait{aspect-ratio:9/16;width:auto;max-width:100%;max-height:78vh;margin:0 auto}.stagewrap.floating canvas.portrait{max-height:56vh}
 .aspect-card .toggle button{flex:1;font-size:12px}
+.time-row.clamped input{border-color:var(--acc)}
+.time-shift{display:flex;align-items:center;gap:7px;margin-top:10px;font-size:11px;color:#afbbb4}.time-shift input{margin:0}

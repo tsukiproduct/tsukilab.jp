@@ -89,7 +89,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
 .modal h3{margin:0 0 12px;font-size:14px;letter-spacing:1px;}
 .modal video{width:100%;border-radius:10px;background:#000;display:block;}
 </style>
-<link rel="stylesheet" href="./studio.css?v=20260925k">
+<link rel="stylesheet" href="./studio.css?v=20260926a">
 </head>
 <body>
 
@@ -121,7 +121,7 @@ input[type=range]{width:100%;accent-color:var(--acc);}
     <button class="stampbtn" id="stampBtn"></button>
     <div class="row" id="syncRow" style="display:none">
       <button class="btn" id="endSyncBtn">同期モード終了</button>
-      <span class="note">曲を聴きながら、各行が始まる瞬間にタップ</span>
+      <span class="note">各行が歌い始まる瞬間に打刻：下のボタン／プレビューをクリック／スペースキー。1つ戻すは ← キー</span>
     </div>
     <div class="stage-actions"><button class="btn floatToggleBtn" id="floatToggleBtn">↗ プレビューを浮かせる</button><button class="btn" id="stageExpandBtn" type="button">⛶ 大きく見る</button></div>
     <div class="stagefoot"><span>01 / 動きを見て選択</span><span>02 / 曲から歌詞を検出</span><span>03 / 修正して書き出し</span></div>
@@ -231,7 +231,9 @@ input[type=range]{width:100%;accent-color:var(--acc);}
       <div class="card" id="tlCard" style="display:none">
         <h2>タイムライン <span class="card-num">各行をタップして頭出し</span></h2>
         <div class="chips" id="chips"></div>
+        <label class="time-shift"><input type="checkbox" id="shiftAfterIn">時刻を変えたら、後ろの行もまとめてずらす</label>
         <div class="time-rows" id="timeRows"></div>
+        <p class="note" id="timeNote" role="status" aria-live="polite"></p>
       </div>
     </div>
 
@@ -648,11 +650,25 @@ $("syncBtn").addEventListener("click",()=>{
   /* プレビューが見える位置へ自動スクロール */
   try{cv.scrollIntoView({behavior:"smooth",block:"start"});}catch(e){window.scrollTo({top:0,behavior:"smooth"});}
 });
-$("stampBtn").addEventListener("click",()=>{
+function stamp(){
   if(syncIdx>=S.lines.length){endSync();return;}
-  S.lines[syncIdx]={...S.lines[syncIdx],t:player.currentTime};
+  const prev=S.lines[syncIdx-1];
+  S.lines[syncIdx]={...S.lines[syncIdx],t:Math.max(player.currentTime,prev?prev.t+.05:0)};
   syncIdx++;updateStampBtn();
   if(syncIdx>=S.lines.length)renderChips();
+}
+// Undo the last stamp: replay from just after the line before it, so that line can be stamped again.
+function unstamp(){
+  if(syncIdx<=0)return;
+  syncIdx--;const prev=S.lines[syncIdx-1];
+  player.currentTime=prev?prev.t+.05:Math.max(0,(S.lines[syncIdx].t||0)-2);updateStampBtn();
+}
+$("stampBtn").addEventListener("click",stamp);
+// On a computer: Space or Enter stamps, ← undoes. Typing in a field is left alone.
+document.addEventListener("keydown",e=>{
+  if(!syncMode||e.repeat||e.target.closest?.("input,textarea,select"))return;
+  if(e.key===" "||e.key==="Enter"){e.preventDefault();stamp();}
+  else if(e.key==="ArrowLeft"||e.key==="Backspace"){e.preventDefault();unstamp();}
 });
 function endSync(){
   syncMode=false;
@@ -662,7 +678,7 @@ function endSync(){
 $("endSyncBtn").addEventListener("click",endSync);
 function updateStampBtn(){
   const b=$("stampBtn");
-  if(syncIdx<S.lines.length)b.textContent=`⏺ タップで打刻（${syncIdx}/${S.lines.length}）— 次：「${S.lines[syncIdx].text.slice(0,10)}」`;
+  if(syncIdx<S.lines.length)b.textContent=`⏺ タップ／スペースキーで打刻（${syncIdx}/${S.lines.length}）— 次：「${S.lines[syncIdx].text.slice(0,10)}」`;
   else b.textContent=`✓ 完了 — もう一度押すと終了（${S.lines.length}/${S.lines.length}）`;
 }
 
@@ -754,25 +770,44 @@ async function detectVocalOnsets(audioBuf,duration,onProg){
     }).catch(()=>resolve([]));
   });
 }
-function renderChips(){
-  ensureFont();
+function renderChipList(){
   const wrap=$("chips");wrap.innerHTML="";
-  const rows=$("timeRows");rows.replaceChildren();
-  if(!S.lines.length){$("tlCard").style.display="none";return;}
-  $("tlCard").style.display=syncMode?"none":"block";
   S.lines.forEach((l,i)=>{
     const suspect=l.suspect>=.6;
     const c=document.createElement("span");c.className="chip"+(suspect?" suspect":"");c.dataset.i=i;
     c.textContent=(suspect?"⚠ ":"")+fmt(l.t)+" "+l.text.slice(0,8);
     c.addEventListener("click",()=>previewLineAt(i));
     wrap.appendChild(c);
+  });
+}
+function renderChips(){
+  ensureFont();
+  renderChipList();
+  const rows=$("timeRows");rows.replaceChildren();
+  if(!S.lines.length){$("tlCard").style.display="none";return;}
+  $("tlCard").style.display=syncMode?"none":"block";
+  S.lines.forEach((l,i)=>{
+    const suspect=l.suspect>=.6;
     const row=document.createElement('label');row.className='time-row'+(suspect?' suspect':'');
     const name=document.createElement('span');name.textContent=(suspect?'⚠ ':'')+l.text;name.title=suspect?l.text+'（Jev：聞き間違いの可能性 '+Math.round(l.suspect*100)+'%）':l.text;
     const input=document.createElement('input');input.type='number';input.min='0';input.max=String(player.duration||9999);input.step='0.01';input.value=Number(l.t).toFixed(2);input.setAttribute('aria-label',l.text+' の表示開始秒');
+    // Lyrics keep their order: a time is kept between its neighbours instead of re-sorting the list
+    // (re-sorting used to move the edited line, so the first lyric seemed to vanish).
     input.addEventListener('change',()=>{
-      const value=Number(input.value);if(!Number.isFinite(value)||value<0){input.value=Number(l.t).toFixed(2);return;}
-      l.t=Math.min(value,player.duration||value);S.lines.sort((a,b)=>a.t-b.t);
-      renderChips();renderSizeChips();
+      const value=Number(input.value),i=S.lines.indexOf(l);
+      if(input.value===''||!Number.isFinite(value)||value<0||i<0){input.value=Number(l.t).toFixed(2);return;}
+      const prev=S.lines[i-1],next=S.lines[i+1],shift=$("shiftAfterIn").checked;
+      const lo=prev?prev.t+.05:0,hi=shift?Infinity:next?next.t-.05:(player.duration||Infinity);
+      const t=Math.min(Math.max(value,lo),Math.max(lo,hi));
+      if(shift){
+        // Move this line and every line after it by the same amount (fixes a constant offset).
+        const delta=t-l.t;for(let k=i;k<S.lines.length;k++)S.lines[k].t=Math.max(0,S.lines[k].t+delta);
+        rows.querySelectorAll('input').forEach((el,k)=>{if(k>i)el.value=Number(S.lines[k].t).toFixed(2);});
+      }else l.t=t;
+      input.value=t.toFixed(2);
+      row.classList.toggle('clamped',Math.abs(t-value)>.001);
+      $("timeNote").textContent=Math.abs(t-value)>.001?'「'+l.text.slice(0,12)+'」は前後の行を越えないよう '+t.toFixed(2)+' 秒にしました。順番を変えたい時は歌詞欄で行を入れ替えて「歌詞を反映」してください。':'';
+      renderChipList();renderSizeChips();
     });
     const suffix=document.createElement('small');suffix.textContent='秒';row.append(name,input,suffix);rows.appendChild(row);
   });
@@ -1348,6 +1383,7 @@ function canvasPos(e){const r=cv.getBoundingClientRect();return{x:clamp((e.clien
 function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y);}
 
 cv.addEventListener("pointerdown",e=>{
+  if(syncMode){e.preventDefault();stamp();return;} /* 同期中はプレビューのクリックでも打刻 */
   if(isFloating)return; /* フローティング中は歌詞操作を無効化 */
   activePointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
   if(activePointers.size===2&&selLine>=0){
