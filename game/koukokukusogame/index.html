@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>広告クソゲー | tsukilab</title>
+<meta name="description" content="よく見るスマホゲーム広告を、本当に遊べるゲームにしてみたシリーズ。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+1p:wght@500;800&display=swap">
+<style>
+:root{--bg:#0d0a14;--card:#1a1424;--ink:#f3eefa;--sub:#a99cbd;--hot:#ff3b6b;--gold:#ffc53d;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"M PLUS 1p","Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.7;padding:env(safe-area-inset-top,0) 16px env(safe-area-inset-bottom,0)}
+main{max-width:920px;margin:0 auto;padding-block:48px 64px}
+.eyebrow{display:inline-block;font-size:12px;letter-spacing:.2em;color:var(--bg);background:var(--gold);padding:2px 10px;font-weight:800}
+h1{font-family:"Dela Gothic One","M PLUS 1p",sans-serif;font-weight:400;font-size:clamp(40px,9vw,76px);line-height:1.1;margin:14px 0 10px;text-wrap:balance}
+h1 span{color:var(--hot)}
+.lead{color:var(--sub);max-width:38em;margin:0 0 36px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+a.game{display:flex;flex-direction:column;background:var(--card);color:inherit;text-decoration:none;border:2px solid #2d2340;transition:transform .15s,border-color .15s}
+a.game:hover,a.game:focus-visible{transform:translateY(-3px);border-color:var(--hot);outline:none}
+a.game img{width:100%;aspect-ratio:2/1;object-fit:cover;display:block;max-width:100%}
+.body{padding:16px 18px 20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.body h2{margin:0;font-size:20px;font-weight:800;text-wrap:balance}
+.body p{margin:0;color:var(--sub);font-size:14px}
+.play{margin-top:auto;padding-top:10px;font-weight:800;color:var(--hot)}
+.note{margin-top:40px;color:var(--sub);font-size:12px}
+@media (prefers-reduced-motion:reduce){a.game{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<span class="eyebrow">TSUKILAB GAMES</span>
+<h1>広告<span>クソ</span>ゲー</h1>
+<p class="lead">「こんなゲームあるの？」と思ったスマホゲーム広告を、本当に遊べるゲームにしてみました。ブラウザでそのまま遊べます（スマホ縦画面推奨）。</p>
+<div class="games">
+  <a class="game" href="./dame-isekai/">
+    <img src="./dame-isekai.jpg" alt="ダメ人間でも最強にやれる異世界スローライフ タイトル">
+    <div class="body">
+      <h2>ダメ人間でも最強にやれる異世界スローライフ</h2>
+      <p>タップでゴミを集めて装備を作り、放置で世界最強に。ヒロイン4人と伝説のカードガチャ付き。</p>
+      <span class="play">遊ぶ ▶</span>
+    </div>
+  </a>
+  <a class="game" href="./bankin-nyan/">
+    <img src="./bankin-nyan.jpg" alt="都市伝説 鈑金にゃん タイトルロゴ">
+    <div class="body">
+      <h2>都市伝説 鈑金にゃん</h2>
+      <p>都市伝説たちの車を猫が直す鈑金タイクーン。工具を合成して、伝説のにゃんガンを目指せ。</p>
+      <span class="play">遊ぶ ▶</span>
+    </div>
+  </a>
+</div>
+<p class="note">※広告と全然違う可能性があります。セーブデータはお使いのブラウザに保存されます。</p>
+</main>
+</body>
+</html>
