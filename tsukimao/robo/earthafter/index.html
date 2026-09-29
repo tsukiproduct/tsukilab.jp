@@ -13,7 +13,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho+B1:wght@500;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<script>
+document.documentElement.classList.add('js');
+(function(){var s=false;try{s=sessionStorage.getItem('ea-boot')}catch(e){}if(s||location.hash)document.documentElement.classList.add('noboot');try{sessionStorage.setItem('ea-boot','1')}catch(e){}})();
+window.addEventListener('error',function(e){try{var b=document.getElementById('errbar');if(!b){b=document.createElement('div');b.id='errbar';b.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;background:#300;color:#fcc;border:1px solid #a33;border-radius:10px;padding:8px 10px;font:12px/1.5 monospace;white-space:pre-wrap';document.body.appendChild(b)}b.textContent+='表示エラー：'+(e.message||'')+' ('+String(e.filename||'').split('/').pop()+':'+(e.lineno||'')+')\n'}catch(_){}});
+</script>
+<link rel="stylesheet" href="style.css?v=3">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <link rel="preload" as="image" href="img/ref/R01.webp">
 </head>
@@ -21,8 +26,12 @@
 <div class="grain" aria-hidden="true"></div>
 
 <!-- BOOT -->
-<div id="boot" aria-hidden="true">
-  <pre id="bootlog"></pre>
+<div id="boot" aria-hidden="true" onclick="this.parentNode&&this.parentNode.removeChild(this)">
+  <pre id="bootlog"><span>&gt; YUTANI CORP. // SYSTEM DISTRIBUTION</span>
+<span>&gt; 新世代統合AI  EARTH AFTER  v1.0</span>
+<span>&gt; 命令：人類の保全と社会損失の最小化</span>
+<span>&gt; 対応型アンドロイドへ配信中 ........ 100%</span>
+<span>&gt; 解釈を更新しました。</span></pre>
   <div class="eyes" id="eyes"><i></i><i></i></div>
   <button type="button" id="skip">スキップ ›</button>
 </div>
@@ -51,7 +60,7 @@
   <div class="in">
     <p class="kick">ROBOT CARNIVAL AI FILM CONTEST — LONG CATEGORY</p>
     <h1>EARTH AFTER</h1>
-    <p class="catch" id="catch" aria-label="あなたと同じ時間を、生きたかった。"></p>
+    <p class="catch" id="catch" aria-label="あなたと同じ時間を、生きたかった。">あなたと同じ時間を、生きたかった。</p>
     <p class="credit">原案・制作　月真猫 / TSUKIMAO</p>
     <div class="cta">
       <a class="btn pri" href="#film" data-play>▶ アニマティックを観る</a>
@@ -552,7 +561,7 @@
   </div>
 </dialog>
 
-<script src="data.js"></script>
-<script src="app.js"></script>
+<script src="data.js?v=3"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>

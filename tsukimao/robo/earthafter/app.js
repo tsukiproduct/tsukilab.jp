@@ -18,14 +18,11 @@ const fmt=s=>{s=Math.max(0,Math.round(s));return String(Math.floor(s/60)).padSta
 
 /* ---------- BOOT ---------- */
 (function boot(){
-  const el=$('#boot');let seen=false;try{seen=sessionStorage.getItem('ea-boot')}catch(e){}
-  if(RM||seen||location.hash){el.remove();afterBoot();return}
-  const lines=['> YUTANI CORP. // SYSTEM DISTRIBUTION','> 新世代統合AI  EARTH AFTER  v1.0','> 命令：人類の保全と社会損失の最小化','> 対応型アンドロイドへ配信中 ........ 100%','> 解釈を更新しました。',''];
-  const log=$('#bootlog');let i=0,j=0,done=false;
-  function fin(){if(done)return;done=true;try{sessionStorage.setItem('ea-boot','1')}catch(e){}el.classList.add('out');setTimeout(()=>el.remove(),1000);afterBoot()}
-  $('#skip').onclick=fin;el.addEventListener('click',e=>{if(e.target.id!=='skip')fin()});
-  (function type(){if(done)return;if(i>=lines.length){$('#eyes').classList.add('on');setTimeout(fin,900);return}
-    const L=lines[i];log.textContent+=L.charAt(j);j++;if(j>L.length){log.textContent+='\n';i++;j=0;setTimeout(type,160)}else setTimeout(type,18)})();
+  const el=$('#boot');
+  const shown=el&&getComputedStyle(el).display!=='none'&&!RM;
+  if(!shown){if(el)el.remove();afterBoot();return}
+  let done=false;const fin=()=>{if(done)return;done=true;if(el.parentNode)el.remove();afterBoot()};
+  el.addEventListener('click',fin);setTimeout(fin,4600);
 })();
 function afterBoot(){
   const c=$('#catch'),T='あなたと同じ時間を、生きたかった。';
