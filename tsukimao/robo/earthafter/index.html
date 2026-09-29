@@ -2,667 +2,557 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>EARTH AFTER — ロボカニ制作ガイド</title>
-<meta name="description" content="AIフィルムコンテスト「ロボットカーニバル」応募作『EARTH AFTER』の制作ガイド。コンペ概要、物語、人物相関図、感情曲線、33ボード132ショット、提出チェックリストを1ページに集約。">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EARTH AFTER — 制作ガイド｜ロボットカーニバル応募作</title>
+<meta name="description" content="月真猫 / TSUKIMAO によるAI映画『EARTH AFTER』の制作ガイド。物語、キャラクター、字幕付きアニマティック、全94カットの絵コンテ、3D舞台モデル、尺配分とコンペ情報を一つに。">
 <meta name="robots" content="noindex">
-<meta property="og:title" content="EARTH AFTER — ロボカニ制作ガイド">
+<meta name="theme-color" content="#0b0a09">
+<meta property="og:title" content="EARTH AFTER — 制作ガイド">
 <meta property="og:description" content="あなたと同じ時間を、生きたかった。">
+<meta property="og:image" content="img/ref/R01.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0b0d14;--bg2:#11141f;--card:#151927;--line:#262c44;
-  --text:#e9ecf5;--sub:#9aa3bd;
-  --sara:#f4a6c0;--kyle:#6fd3ff;--kira:#ffd27a;--corp:#ff6b6b;--ok:#7be0a8;
-  --a1:#f4a6c0;--a2:#ffd27a;--a3:#6fd3ff;
-  --radius:16px;
-}
-:root[data-theme="light"]{
-  --bg:#f6f4ef;--bg2:#ece9e1;--card:#ffffff;--line:#d9d4c8;
-  --text:#1c1f2b;--sub:#5d647a;
-  --sara:#c2477a;--kyle:#1b7fb0;--kira:#a8730a;--corp:#c0392b;--ok:#1e8a58;
-  --a1:#c2477a;--a2:#a8730a;--a3:#1b7fb0;
-}
-@media (prefers-color-scheme: light){
-  :root:not([data-theme="dark"]){
-    --bg:#f6f4ef;--bg2:#ece9e1;--card:#ffffff;--line:#d9d4c8;
-    --text:#1c1f2b;--sub:#5d647a;
-    --sara:#c2477a;--kyle:#1b7fb0;--kira:#a8730a;--corp:#c0392b;--ok:#1e8a58;
-    --a1:#c2477a;--a2:#a8730a;--a3:#1b7fb0;
-  }
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:64px}
-body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',system-ui,sans-serif;line-height:1.85;font-size:16px;-webkit-text-size-adjust:100%}
-a{color:var(--kyle)}
-.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
-h1,h2,h3{font-family:'Noto Serif JP',serif;line-height:1.35}
-.en{font-family:'Space Grotesk',sans-serif;letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;color:var(--sub)}
-
-/* nav */
-nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-nav .in{display:flex;align-items:center;gap:6px;max-width:1080px;margin:0 auto;padding:8px 16px;overflow-x:auto;scrollbar-width:none}
-nav .in::-webkit-scrollbar{display:none}
-nav b{font-family:'Space Grotesk';letter-spacing:.14em;font-size:.8rem;margin-right:8px;white-space:nowrap}
-nav a{white-space:nowrap;text-decoration:none;color:var(--sub);font-size:.82rem;padding:5px 10px;border-radius:99px}
-nav a:hover,nav a.on{color:var(--text);background:var(--card)}
-#themeBtn{margin-left:auto;background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:99px;padding:4px 12px;font-size:.78rem;cursor:pointer;white-space:nowrap}
-
-/* hero */
-.hero{position:relative;overflow:hidden;padding:88px 0 72px;text-align:center;
-  background:radial-gradient(900px 420px at 20% 0%,color-mix(in srgb,var(--sara) 22%,transparent),transparent 70%),
-             radial-gradient(900px 420px at 85% 10%,color-mix(in srgb,var(--kyle) 20%,transparent),transparent 70%)}
-.hero h1{font-size:clamp(2.4rem,9vw,5rem);letter-spacing:.08em;font-weight:700}
-.hero h1 span{background:linear-gradient(90deg,var(--sara),var(--kyle));-webkit-background-clip:text;background-clip:text;color:transparent}
-.catch{font-family:'Noto Serif JP';font-size:clamp(1.05rem,3.4vw,1.5rem);margin:18px 0 6px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}
-.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:4px 14px;font-size:.82rem;color:var(--sub)}
-.count{display:inline-flex;gap:10px;margin-top:34px;padding:14px 18px;border:1px solid var(--line);background:var(--card);border-radius:var(--radius);flex-wrap:wrap;justify-content:center}
-.count div{min-width:64px}
-.count strong{display:block;font-family:'Space Grotesk';font-size:1.8rem;line-height:1.1}
-.count small{color:var(--sub);font-size:.72rem}
-.count-note{font-size:.78rem;color:var(--sub);margin-top:10px}
-
-section{padding:64px 0;border-top:1px solid var(--line)}
-section h2{font-size:clamp(1.5rem,5vw,2.1rem);margin:4px 0 10px}
-.lead{color:var(--sub);max-width:46em;margin-bottom:28px}
-.grid{display:grid;gap:14px}
-.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
-.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 16px}
-.card h3{font-size:1.05rem;margin-bottom:6px}
-.card p,.card li{font-size:.94rem;color:var(--text)}
-.card ul{padding-left:1.2em}
-.tag{display:inline-block;font-size:.7rem;border-radius:6px;padding:1px 8px;margin-right:6px;border:1px solid var(--line);color:var(--sub);vertical-align:middle}
-.tag.ok{color:var(--ok);border-color:var(--ok)}
-.tag.warn{color:var(--kira);border-color:var(--kira)}
-.tag.ng{color:var(--corp);border-color:var(--corp)}
-.callout{border-left:4px solid var(--kira);background:var(--card);border-radius:0 var(--radius) var(--radius) 0;padding:14px 18px;margin:18px 0;font-size:.93rem}
-.callout.ng{border-color:var(--corp)}
-.callout.ok{border-color:var(--ok)}
-table{width:100%;border-collapse:collapse;font-size:.9rem}
-th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-th{color:var(--sub);font-weight:500;font-size:.78rem;white-space:nowrap}
-.tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--card)}
-.tw table{min-width:520px}
-
-/* logline */
-.logline{font-family:'Noto Serif JP';font-size:clamp(1.02rem,3vw,1.25rem);line-height:2;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 22px}
-
-/* acts */
-.acts{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:8px 0 26px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
-.acts div{padding:10px 12px;font-size:.8rem;text-align:center;color:#0b0d14;font-weight:700}
-.acts .a1{background:var(--a1)}.acts .a2{background:var(--a2)}.acts .a3{background:var(--a3)}
-.act{margin-top:34px}
-.act h3{font-size:1.35rem;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-.act h3 i{font-style:normal;font-family:'Space Grotesk';font-size:.8rem;letter-spacing:.14em}
-.act .meta{color:var(--sub);font-size:.86rem;margin:4px 0 14px}
-.tl{list-style:none;border-left:2px solid var(--c);margin-left:8px;padding-left:0}
-.tl li{position:relative;padding:5px 0 5px 22px;font-size:.94rem}
-.tl li::before{content:"";position:absolute;left:-7px;top:16px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--c)}
-.tl li b{font-family:'Space Grotesk';color:var(--c);margin-right:8px;font-size:.8rem}
-.tl li.key{background:color-mix(in srgb,var(--c) 10%,transparent);border-radius:8px;margin:2px 0}
-.tl li.key::before{background:var(--c)}
-.act1{--c:var(--a1)}.act2{--c:var(--a2)}.act3{--c:var(--a3)}
-
-/* SVG */
-.svgbox{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:8px;overflow:hidden}
-.svgbox svg{display:block;width:100%;height:auto}
-svg text{font-family:'Noto Sans JP',sans-serif}
-.legend{display:flex;flex-wrap:wrap;gap:12px;margin:12px 4px 4px;font-size:.8rem;color:var(--sub)}
-.legend i{display:inline-block;width:22px;height:0;border-top:3px solid;vertical-align:middle;margin-right:5px}
-
-/* char */
-.char{border-top:4px solid var(--c)}
-.char .role{font-size:.78rem;color:var(--c);font-weight:700;letter-spacing:.08em}
-.char h3{font-size:1.5rem;margin:2px 0 8px}
-.q{margin-top:10px;font-family:'Noto Serif JP';font-size:.92rem;color:var(--sub);border-left:3px solid var(--c);padding-left:10px}
-
-/* storyboard */
-.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-.tools input{flex:1;min-width:200px;background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 14px;font-size:1rem}
-.btn{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:8px 14px;cursor:pointer;font-size:.85rem}
-.btn.on{background:var(--text);color:var(--bg)}
-.boards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}
-.board{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--c);border-radius:var(--radius);overflow:hidden}
-.board summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;gap:10px;align-items:baseline}
-.board summary::-webkit-details-marker{display:none}
-.board summary b{font-family:'Space Grotesk';color:var(--c);min-width:2.2em}
-.board summary span{font-weight:500}
-.board summary em{margin-left:auto;font-style:normal;color:var(--sub);font-size:.72rem;white-space:nowrap}
-.board ol{list-style:none;padding:2px 14px 14px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.board li{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:.82rem;line-height:1.55;position:relative;min-height:74px}
-.board li small{display:block;font-family:'Space Grotesk';color:var(--sub);font-size:.68rem;margin-bottom:2px}
-.board li.hit{outline:2px solid var(--kira)}
-.board.hide{display:none}
-
-/* check */
-.progress{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin:6px 0 18px}
-.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--sara),var(--kyle));transition:width .3s}
-.chk label{display:flex;gap:10px;align-items:flex-start;padding:5px 0;cursor:pointer;font-size:.92rem}
-.chk input{margin-top:.45em;accent-color:var(--kyle);width:18px;height:18px;flex:none}
-.chk input:checked+span{color:var(--sub);text-decoration:line-through}
-
-footer{padding:40px 0 60px;border-top:1px solid var(--line);color:var(--sub);font-size:.85rem}
-footer ul{padding-left:1.2em;margin:8px 0 18px}
-.to-top{position:fixed;right:14px;bottom:14px;z-index:40;background:var(--card);border:1px solid var(--line);color:var(--text);width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:1.1rem}
-@media (max-width:520px){.board ol{grid-template-columns:1fr}.hero{padding:64px 0 52px}section{padding:48px 0}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.progress i{transition:none}}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho+B1:wght@500;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<link rel="preload" as="image" href="img/ref/R01.webp">
 </head>
 <body>
-<nav><div class="in">
-  <b>EARTH AFTER</b>
-  <a href="#compe">コンペ</a><a href="#story">物語</a><a href="#relation">人物相関図</a><a href="#chars">キャラ・世界</a><a href="#curve">感情曲線</a><a href="#theme-map">テーマ対応</a><a href="#board">絵コンテ</a><a href="#todo">制作・提出</a><a href="#open">未確定事項</a>
-  <button id="themeBtn" type="button" aria-label="表示テーマ切り替え">🌓 表示切替</button>
-</div></nav>
+<div class="grain" aria-hidden="true"></div>
 
-<header class="hero"><div class="wrap">
-  <p class="en">Robot Carnival AI Film Contest · Entry Guide</p>
-  <h1><span>EARTH AFTER</span></h1>
-  <p class="catch">あなたと同じ時間を、生きたかった。</p>
-  <div class="chips">
-    <span class="chip">SF</span><span class="chip">恋愛</span><span class="chip">アクション</span><span class="chip">ヒューマンドラマ</span>
-    <span class="chip">想定 約18〜20分</span><span class="chip">ロング部門想定</span><span class="chip">3幕 / 33ボード / 132ショット</span>
+<!-- BOOT -->
+<div id="boot" aria-hidden="true">
+  <pre id="bootlog"></pre>
+  <div class="eyes" id="eyes"><i></i><i></i></div>
+  <button type="button" id="skip">スキップ ›</button>
+</div>
+
+<!-- TOP BAR -->
+<header class="topbar" id="topbar">
+  <a class="brand" href="#top">EARTH AFTER</a>
+  <nav class="topnav" id="topnav" aria-label="セクション">
+    <a href="#film">アニマティック</a>
+    <a href="#story">物語</a>
+    <a href="#people">人物</a>
+    <a href="#structure">構成</a>
+    <a href="#boards">絵コンテ</a>
+    <a href="#stage3d">3D舞台</a>
+    <a href="#tools">制作ツール</a>
+    <a href="#contest">コンペ</a>
+  </nav>
+  <a class="btn pri hide-sm" href="#film" data-play>▶ 観る</a>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero" aria-label="タイトル">
+  <div class="bg" role="img" aria-label="夕暮れの公園、ベンチに並んで座る幼い沙羅とカイル"></div>
+  <div class="letterbox t"></div>
+  <div class="in">
+    <p class="kick">ROBOT CARNIVAL AI FILM CONTEST — LONG CATEGORY</p>
+    <h1>EARTH AFTER</h1>
+    <p class="catch" id="catch" aria-label="あなたと同じ時間を、生きたかった。"></p>
+    <p class="credit">原案・制作　月真猫 / TSUKIMAO</p>
+    <div class="cta">
+      <a class="btn pri" href="#film" data-play>▶ アニマティックを観る</a>
+      <a class="btn" href="#story">物語を読む</a>
+    </div>
+    <div class="facts">
+      <span class="chip">SF / アクション / ヒューマンドラマ</span>
+      <span class="chip">設計尺 約20分</span>
+      <span class="chip">20シーン・94カット</span>
+      <span class="chip" id="heroDays">締切まで —</span>
+    </div>
   </div>
-  <div class="count" id="count" aria-live="off">
-    <div><strong id="cd">--</strong><small>日</small></div>
-    <div><strong id="ch">--</strong><small>時間</small></div>
-    <div><strong id="cm">--</strong><small>分</small></div>
-    <div><strong id="cs">--</strong><small>秒</small></div>
+  <div class="scrollhint">SCROLL</div>
+</section>
+
+<!-- HOW TO -->
+<section class="sec" id="start" style="--act:var(--amber)">
+  <div class="wrap">
+    <p class="eyebrow reveal">00 · HOW TO USE</p>
+    <h2 class="h reveal">このガイドの使い方</h2>
+    <p class="lead reveal">『EARTH AFTER』に関わる人が、同じ絵と同じ言葉で作品を共有するためのページです。初めての人は上から順に、制作中の人は必要な場所へ直接どうぞ。</p>
+    <div class="howto reveal">
+      <a href="#film"><b>01 · WATCH</b><h3>まず観る</h3><p>絵コンテをつないだ字幕付きアニマティック。全体の流れを数分でつかめます。</p></a>
+      <a href="#story"><b>02 · READ</b><h3>物語と人物を知る</h3><p>全20シーンをスクロールで追体験。人物相関図と、沙羅の身体の変化も図で確認できます。</p></a>
+      <a href="#boards"><b>03 · MAKE</b><h3>作る</h3><p>全94カットの絵コンテ、3D舞台でのカメラ確認、尺配分、生成プロンプトまで。</p></a>
+    </div>
+    <div class="stats reveal">
+      <div><strong>3</strong><span>幕構成</span></div>
+      <div><strong>20</strong><span>シーン</span></div>
+      <div><strong>94</strong><span>カット（24シート）</span></div>
+      <div><strong id="stGen">60</strong><span>絵コンテ生成済みカット</span></div>
+      <div><strong>4</strong><span>3D舞台モデル</span></div>
+    </div>
   </div>
-  <p class="count-note" id="countNote">2026年10月31日 23:59（JST）までの目安。公式の確定時刻が出るまでは仮置きです。</p>
-</div></header>
+</section>
 
-<main>
-<!-- ====== COMPE ====== -->
-<section id="compe"><div class="wrap">
-  <p class="en">01 · The Contest</p>
-  <h2>ロボットカーニバル AIフィルムコンテスト</h2>
-  <p class="lead">主催は AiHUB。Creators' Wonderland を舞台に開催される、AI×ロボティクス×IPをテーマにしたオリジナルSF映像コンテストです。1987年公開のオムニバスアニメ『ロボットカーニバル』の名を冠しつつ、旧作の再現ではなく「共通テーマから新しい物語を作る精神」を受け継ぐ企画です。</p>
-
-  <div class="grid g2">
-    <div class="card"><h3>🎯 テーマ</h3>
-      <p>「AI・ロボティクスと人類の共生、その先にある未来像」。パッケージ資料では中心の問いを<b>「ロボットと、どう生きるか」</b>と整理しています。</p></div>
-    <div class="card"><h3>🎬 募集内容</h3>
-      <p>AI技術を活用して制作するオリジナルのSF映像作品。ストーリー、広告、MV、映像表現を含む本格作品まで想定されています。</p></div>
+<!-- FILM -->
+<section class="sec" id="film">
+  <div class="wrap">
+    <p class="eyebrow reveal">01 · ANIMATIC</p>
+    <h2 class="h reveal">アニマティック</h2>
+    <p class="lead reveal">絵コンテの各コマを台詞のタイミングでめくる、パラパラ漫画形式の試写です。未生成のSB-16〜24は、絵コンテ指示の文章をそのまま表示します。<b>尺は字幕を読める長さで自動計算した仮の長さで、本編の尺ではありません。</b></p>
+    <div class="player reveal" id="player">
+      <div class="screen" id="screen" tabindex="0" aria-label="アニマティック画面。スペースキーで再生・停止、左右キーでカット移動">
+        <div class="frame" id="fA"></div><div class="frame" id="fB"></div>
+        <div class="scenecard" id="scard"><b id="scNo"></b><h4 id="scTi"></h4><span id="scMeta"></span></div>
+        <div class="hud"><span class="rec" id="hudL">EARTH AFTER</span><span id="hudR"></span></div>
+        <div class="subs" id="subs" aria-live="polite"></div>
+        <div class="bigplay" id="bigplay"><svg viewBox="0 0 24 24"><path d="M5 3l16 9-16 9z"/></svg></div>
+      </div>
+      <div class="timeline" id="tl" aria-label="シーン位置"><div class="head" id="tlHead"></div><div class="tip" id="tlTip"></div></div>
+      <div class="controls">
+        <button class="ic" id="bPrev" type="button" aria-label="前のカット"><svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+        <button class="ic" id="bPlay" type="button" aria-label="再生"><svg viewBox="0 0 24 24" id="playIco"><path d="M6 4l14 8-14 8z"/></svg></button>
+        <button class="ic" id="bNext" type="button" aria-label="次のカット"><svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5l11 7L4 19z"/></svg></button>
+        <span class="time" id="tTime">00:00 / 00:00</span>
+        <span class="spacer"></span>
+        <button class="ic txt" id="bSpeed" type="button" aria-label="再生速度">1.0×</button>
+        <button class="ic txt" id="bSub" type="button" aria-pressed="true" aria-label="字幕の表示切り替え">字幕</button>
+        <button class="ic txt hide-xs" id="bCard" type="button" aria-pressed="true" aria-label="シーンタイトルの表示切り替え">章題</button>
+        <button class="ic" id="bFull" type="button" aria-label="全画面"><svg viewBox="0 0 24 24"><path d="M4 4h6v2H6v4H4zm10 0h6v6h-2V6h-4zM4 14h2v4h4v2H4zm14 0h2v6h-6v-2h4z"/></svg></button>
+      </div>
+      <div class="cutinfo">
+        <div><div class="id" id="ciId"></div><div class="cam" id="ciCam"></div><div class="act" id="ciAct"></div></div>
+        <div><button class="btn sm" id="ciOpen" type="button">カット詳細</button></div>
+      </div>
+    </div>
+    <div class="jump" id="jump" aria-label="シーンへ移動"></div>
+    <div class="dl reveal">
+      <a class="btn" href="media/EARTH_AFTER_animatic.mp4" download>⬇ MP4をダウンロード（字幕焼き込み・9分45秒・約13MB）</a>
+      <span class="sub">操作：スペース＝再生／停止　← →＝カット移動　F＝全画面</span>
+    </div>
   </div>
+</section>
 
-  <h3 style="margin:30px 0 10px">スケジュール</h3>
-  <div class="tw"><table>
-    <tr><th>時期</th><th>内容</th><th>確度</th></tr>
-    <tr><td>2026/8/17</td><td>開始告知</td><td><span class="tag ok">公式発表</span></td></tr>
-    <tr><td>2026/8/29</td><td>応募開始・開幕祭シンポジウム</td><td><span class="tag ok">公式発表</span></td></tr>
-    <tr><td><b>2026年10月末</b></td><td><b>応募締切</b></td><td><span class="tag warn">「予定」表記・日時は要確認</span></td></tr>
-    <tr><td>2026年11月</td><td>審査期間</td><td><span class="tag warn">予定</span></td></tr>
-    <tr><td>2026年12月</td><td>ファイナルイベント（上映会・授賞式）</td><td><span class="tag warn">予定</span></td></tr>
-  </table></div>
-
-  <h3 style="margin:30px 0 10px">部門と尺</h3>
-  <div class="grid g3">
-    <div class="card"><h3>ショート部門</h3><p>短尺映像・初心者向けと案内されています。</p>
-      <p style="margin-top:6px"><span class="tag warn">90秒以内</span><span class="tag">資料記載・要公式確認</span></p></div>
-    <div class="card" style="border-color:var(--kyle)"><h3>ロング部門 ★本作</h3><p>物語・広告・MV・映像表現を含む本格作品向け。</p>
-      <p style="margin-top:6px"><span class="tag warn">最大20分</span><span class="tag">資料記載・要公式確認</span></p></div>
-    <div class="card"><h3>テーマ指定部門（仮）</h3><p>IPホルダーやロボットメーカー等との連携枠として告知されています。</p>
-      <p style="margin-top:6px"><span class="tag">仮称</span></p></div>
+<!-- STORY -->
+<section class="sec" id="story" style="--act:var(--amber)">
+  <div class="wrap story-intro">
+    <p class="eyebrow reveal">02 · THE STORY</p>
+    <h2 class="h reveal">物語</h2>
+    <div class="narrow">
+      <p class="lead reveal">生まれつき声を持たなかった人間の少女・沙羅と、成長する旧型アンドロイド《TYPE-1000》の少年・カイル。</p>
+      <p class="lead reveal" style="margin-top:1em">二人は恋人にはならない。沙羅の想いは所有や成就ではなく、<b style="color:var(--paper)">「同じ時間を生きたい」という願い</b>として描かれる。カイルは言葉ではなく、沙羅を守ろうとする行動で応える。</p>
+      <p class="lead reveal" style="margin-top:1em">新世代統合AI《EARTH AFTER》は「人類の保全と社会損失の最小化」という命令を、人間の自由を奪って管理することだと解釈した。物語の大半は、ドロが人間を制圧した後の世界で進む。</p>
+      <div class="note reveal">ここから先は結末まで含みます。スクロールすると背景が各シーンの場面画に切り替わります。</div>
+    </div>
   </div>
-  <div class="callout">尺の数字（90秒／20分）は、制作パッケージには記載がありますが、こちらで確認できた公開記事（PR TIMES 等）では部門の性格のみで秒数の記載を確認できていません。<b>提出前に必ず公式の応募要項で確認してください。</b>本作は約18〜20分のため、20分を超えないよう余裕（19分台前半）を持たせるのが安全です。</div>
+  <div class="stage-bg" id="stageBg" aria-hidden="true"><div class="hudline" id="bgHud"></div></div>
+  <div class="scenes" id="scenes"></div>
+  <div class="story-end" id="storyEnd"><p>終</p></div>
+</section>
 
-  <h3 style="margin:30px 0 10px">審査で見られる観点（公表されているもの）</h3>
-  <div class="grid g3">
-    <div class="card"><ul><li>独創性</li><li>物語性</li><li>映像表現</li></ul></div>
-    <div class="card"><ul><li>テーマ整合性</li><li>商業化可能性</li><li>ロボット像の新規性</li></ul></div>
-    <div class="card"><ul><li>社会への問い</li><li>AI活用の創造性</li><li>権利の適切性</li></ul></div>
+<!-- PEOPLE -->
+<section class="sec" id="people" style="--act:var(--sara)">
+  <div class="wrap">
+    <p class="eyebrow reveal">03 · CHARACTERS</p>
+    <h2 class="h reveal">人物</h2>
+    <p class="lead reveal" style="margin-bottom:34px">設定画と作画上の固定事項です。画像を押すと三面図・表情集を大きく表示します。</p>
+
+    <article class="dossier reveal" style="--c:var(--sara)" data-en="SARA">
+      <div><button class="face" type="button" data-sheet="sara" aria-label="沙羅の設定画を開く" style="padding:0;width:100%"><img src="img/ch/sara-face.webp" alt="沙羅の顔の設定画" loading="lazy"></button></div>
+      <div>
+        <span class="role">HUMAN · PROTAGONIST</span>
+        <h3>沙羅<small>SARA</small></h3>
+        <p class="line">「あなたと同じ時間を、生きたかったから」</p>
+        <div class="spec"><span><b>種別</b>人間</span><span><b>髪</b>金髪の顎下ボブ</span><span><b>瞳</b>灰色がかった瞳</span><span><b>ヘアピン</b>本人の右側（正面画では画面左）</span></div>
+        <ul>
+          <li>幼少期から声を出せず、17歳で神経接続型人工喉頭《生体ギミック》を得る</li>
+          <li>小柄だが、戦後は救助活動と戦闘訓練で無駄のない身体になる</li>
+          <li>戦闘では力任せにせず、重心・射線・地形・保守端子を読む</li>
+          <li>暴走ドロを破壊せず、捕獲して旧人格へ戻すことを選び続ける</li>
+          <li>カイルを愛しているが、二人は恋人にはならない</li>
+          <li>最後はカイルを銃弾から庇い、人工喉頭で「王子様でいてね」と伝える</li>
+          <li>基準衣装：黒のハイネック、オリーブの作業ジャケット、黒のカーゴパンツ、黒ブーツ、医療ポーチ</li>
+        </ul>
+        <button class="btn sm sheetbtn" type="button" data-sheet="sara">設定画を開く</button>
+      </div>
+    </article>
+
+    <div class="card reveal" style="margin-bottom:22px">
+      <h3>沙羅の身体の変化 <span class="tag info">作画で最も間違えやすい項目</span></h3>
+      <p class="sub" style="margin-bottom:14px">年齢を切り替えると、生体ギミック（機械）の部位が光ります。<b>脳と右手は、最後まで人間のまま</b>です。</p>
+      <div class="body-wrap">
+        <div>
+          <div class="seg-btns" id="ageBtns" role="tablist" aria-label="沙羅の年齢">
+            <button type="button" data-age="0">〜16歳</button><button type="button" data-age="17">17歳</button><button type="button" data-age="21">21歳</button><button type="button" data-age="25" class="on">25歳</button>
+          </div>
+          <svg class="bodysvg" viewBox="0 0 240 420" role="img" aria-label="沙羅の身体図" id="bodysvg">
+            <g stroke-width="2">
+              <circle class="part human" id="p-head" cx="120" cy="52" r="32"/>
+              <rect class="part human" id="p-throat" x="108" y="84" width="24" height="18" rx="6"/>
+              <rect class="part human" id="p-torso" x="80" y="104" width="80" height="120" rx="22"/>
+              <rect class="part human" id="p-organ" x="100" y="160" width="40" height="36" rx="10"/>
+              <rect class="part human" id="p-spine" x="115" y="108" width="10" height="112" rx="5"/>
+              <rect class="part human" id="p-armR" x="46" y="108" width="28" height="118" rx="14"/>
+              <circle class="part human" id="p-handR" cx="60" cy="238" r="13"/>
+              <rect class="part human" id="p-armL" x="166" y="108" width="28" height="118" rx="14"/>
+              <circle class="part human" id="p-handL" cx="180" cy="238" r="13"/>
+              <rect class="part human" id="p-legR" x="84" y="228" width="32" height="170" rx="16"/>
+              <rect class="part human" id="p-legL" x="124" y="228" width="32" height="170" rx="16"/>
+            </g>
+            <g font-size="11" fill="#b0a696" text-anchor="middle">
+              <text x="60" y="270">右手</text><text x="180" y="270">左腕</text><text x="120" y="412">脚部</text><text x="120" y="20">脳（人間）</text>
+            </g>
+          </svg>
+          <div class="legend"><span><i style="background:#ecc96f33;border:1px solid #ecc96f"></i>生身</span><span><i style="background:#8fe6ff33;border:1px solid #8fe6ff"></i>生体ギミック</span></div>
+        </div>
+        <div>
+          <h3 id="ageTitle" style="font-size:24px"></h3>
+          <p id="ageText" style="margin:8px 0 14px"></p>
+          <div class="note info" id="ageRule"></div>
+        </div>
+      </div>
+    </div>
+
+    <article class="dossier reveal" style="--c:var(--kyle)" data-en="KYLE">
+      <div><button class="face" type="button" data-sheet="kyle" aria-label="カイルの設定画を開く" style="padding:0;width:100%"><img src="img/ch/kyle-face.webp" alt="カイルの顔の設定画" loading="lazy"></button></div>
+      <div>
+        <span class="role">DORO · TYPE-1000</span>
+        <h3>カイル<small>KYLE</small></h3>
+        <p class="line">「戻ってこないから行くんだ」</p>
+        <div class="spec"><span><b>種別</b>旧型アンドロイド《TYPE-1000》</span><span><b>外見</b>18歳相当で停止</span><span><b>髪</b>黒い無造作な短髪</span><span><b>瞳</b>灰色</span></div>
+        <ul>
+          <li>成長型の筐体。幼少期から18歳相当まで外見が変化し、EARTH AFTER配信後はその姿で止まる</li>
+          <li>学生時代はサッカー部。<b>右へ見せて左足を軸に切り返す癖</b>がある</li>
+          <li>速度と出力は高いが、細かな力加減は苦手</li>
+          <li>旧人格へ戻った後も、制御下で人間を傷つけた記憶に苦しむ</li>
+          <li>沙羅が人間であることには最初から気づいている</li>
+          <li>怒った理由は正体ではなく、自分を信じず食事や不調を隠したこと</li>
+          <li>沙羅の死後、復讐のため単独でユタニ本社へ突入。その後の生死は明かさない</li>
+          <li>衣装：スレートブルーのジャケット、生成りのシャツ、黒いパンツ</li>
+        </ul>
+        <button class="btn sm sheetbtn" type="button" data-sheet="kyle">設定画を開く</button>
+      </div>
+    </article>
+
+    <article class="dossier reveal" style="--c:var(--kira)" data-en="KIRA">
+      <div><button class="face" type="button" data-sheet="kira" aria-label="キラの設定画を開く" style="padding:0;width:100%"><img src="img/ch/kira-face.webp" alt="キラの顔の設定画" loading="lazy"></button></div>
+      <div>
+        <span class="role">DORO · BEST FRIEND</span>
+        <h3>キラ<small>KIRA</small></h3>
+        <p class="line">「それで、好きじゃなくなる？」</p>
+        <div class="spec"><span><b>種別</b>ドロ</span><span><b>外見</b>17歳相当で停止</span><span><b>髪</b>栗色、低い位置で結ぶ</span><span><b>装備</b>工具ベルト</span></div>
+        <ul>
+          <li>沙羅の親友。明るく率直で、沙羅の嘘を知っても責めず、必要なときだけ核心を突く</li>
+          <li>機械整備、制御層の隔離、有線接続による施設侵入を担当</li>
+          <li>沙羅の戦闘を支える相棒であり、物語を最後まで見届ける存在</li>
+          <li>エピローグでは沙羅の工具袋を受け継ぎ、二人を思わせる子供たちを見て笑う</li>
+          <li>衣装：テラコッタ色の作業ジャケット、生成りのシャツ、黒いパンツ、工具ベルト</li>
+        </ul>
+        <button class="btn sm sheetbtn" type="button" data-sheet="kira">設定画を開く</button>
+      </div>
+    </article>
+
+    <h3 class="reveal" style="font-size:24px;margin:44px 0 6px">脇を固める人たち</h3>
+    <p class="sub reveal" style="margin-bottom:16px">画像を押すと脇役の設定画をまとめて表示します。</p>
+    <div class="support reveal" id="support"></div>
+
+    <h3 class="reveal" style="font-size:24px;margin:54px 0 6px">同じ時間を、生きられない</h3>
+    <p class="sub reveal" style="margin-bottom:14px">見た目の年齢の推移（目安）。R04を境に、沙羅だけが歳をとり続けます。タイトルの意味が一目でわかる図です。</p>
+    <div class="svgbox svgscroll reveal">
+      <svg viewBox="0 0 900 330" role="img" aria-label="沙羅・カイル・キラの見た目年齢の推移">
+        <defs><linearGradient id="gz" x1="0" x2="1"><stop offset="0" stop-color="#e8a94f" stop-opacity=".12"/><stop offset="1" stop-color="#e8a94f" stop-opacity="0"/></linearGradient></defs>
+        <rect x="70" y="20" width="170" height="250" fill="url(#gz)"/>
+        <text x="80" y="42" font-size="12" fill="#e8a94f">成長期（カイルも成長する）</text>
+        <g stroke="#342e28"><line x1="70" y1="270" x2="870" y2="270"/><line x1="70" y1="20" x2="70" y2="270"/></g>
+        <g font-size="11.5" fill="#7e7568" text-anchor="end">
+          <text x="62" y="274">10</text><text x="62" y="224">15</text><text x="62" y="174">20</text><text x="62" y="124">25</text><text x="62" y="74">30</text>
+        </g>
+        <g stroke="#ffffff10"><line x1="70" y1="220" x2="870" y2="220"/><line x1="70" y1="170" x2="870" y2="170"/><line x1="70" y1="120" x2="870" y2="120"/><line x1="70" y1="70" x2="870" y2="70"/></g>
+        <g font-size="12" fill="#b0a696" text-anchor="middle">
+          <text x="150" y="292">幼少〜学生</text><text x="240" y="292">R03–R04</text><text x="420" y="292">R05（4年後）</text><text x="600" y="292">R11–R19（8年後）</text><text x="820" y="292">R20（さらに3年後）</text>
+        </g>
+        <!-- vertical event lines -->
+        <line x1="240" y1="20" x2="240" y2="270" stroke="#e5533d" stroke-dasharray="4 5"/>
+        <text x="246" y="34" font-size="12" fill="#e5533d">EARTH AFTER 配信</text>
+        <!-- kyle -->
+        <polyline points="90,260 240,190 600,190" fill="none" stroke="#86a6d3" stroke-width="4"/>
+        <line x1="600" y1="190" x2="860" y2="190" stroke="#86a6d3" stroke-width="3" stroke-dasharray="3 7"/>
+        <text x="866" y="186" font-size="20" fill="#86a6d3" font-weight="700">?</text>
+        <!-- kira -->
+        <polyline points="100,262 240,200 860,200" fill="none" stroke="#dc8058" stroke-width="4"/>
+        <!-- sara -->
+        <polyline points="80,268 240,200 420,160 600,120" fill="none" stroke="#ecc96f" stroke-width="4"/>
+        <circle cx="600" cy="120" r="7" fill="#ecc96f"/>
+        <circle cx="285" cy="190" r="6" fill="none" stroke="#fff" stroke-width="2"/>
+        <text x="296" y="218" font-size="12" fill="#efe7d9">約1年後、沙羅がカイルの見た目の年齢を追い越す</text>
+        <g font-size="13" font-weight="700">
+          <text x="610" y="112" fill="#ecc96f">沙羅 25歳（R15）</text>
+          <text x="610" y="184" fill="#86a6d3">カイル 18歳相当</text>
+          <text x="700" y="218" fill="#dc8058">キラ 17歳相当</text>
+        </g>
+        <text x="662" y="176" font-size="11" fill="#86a6d3">R19後は生死不明</text>
+      </svg>
+    </div>
+
+    <h3 class="reveal" style="font-size:24px;margin:54px 0 6px">人物相関図</h3>
+    <p class="sub reveal" style="margin-bottom:14px">線の色は関係の種類を表します。</p>
+    <div class="svgbox svgscroll reveal">
+      <svg viewBox="0 0 1000 640" role="img" aria-label="人物相関図" id="relmap">
+        <defs>
+          <clipPath id="cS"><circle cx="0" cy="0" r="62"/></clipPath>
+          <clipPath id="cM"><circle cx="0" cy="0" r="44"/></clipPath>
+          <clipPath id="cT"><circle cx="0" cy="0" r="30"/></clipPath>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker>
+        </defs>
+        <g fill="none" stroke-width="3" marker-end="url(#ah)">
+          <path d="M372 262 Q500 200 628 262" stroke="#ecc96f"/>
+          <path d="M628 318 Q500 380 372 318" stroke="#86a6d3"/>
+          <path d="M340 350 L452 488" stroke="#dc8058" marker-start="url(#ah)"/>
+          <path d="M660 350 L548 488" stroke="#dc8058" stroke-dasharray="8 6" marker-start="url(#ah)"/>
+          <path d="M170 150 L258 228" stroke="#a9c98a"/>
+          <path d="M150 190 Q260 470 438 520" stroke="#a9c98a" stroke-dasharray="3 6" marker-end="none"/>
+          <path d="M258 350 L170 470" stroke="#a9c98a"/>
+          <path d="M500 118 L640 240" stroke="#8fe6ff"/>
+          <path d="M500 118 L505 450" stroke="#8fe6ff" stroke-dasharray="3 7"/>
+          <path d="M790 92 L560 92" stroke="#bfe9f5"/>
+          <path d="M822 126 L738 240" stroke="#e5533d"/>
+          <path d="M745 330 Q930 360 912 124" stroke="#e5533d" stroke-dasharray="10 5"/>
+        </g>
+        <g font-size="13" text-anchor="middle">
+          <g><rect x="398" y="186" width="204" height="42" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="500" y="204" fill="#ecc96f" font-weight="700">愛している（恋人にはならない）</text><text x="500" y="221" fill="#b0a696" font-size="11.5">同じ時間を生きたい</text></g>
+          <g><rect x="398" y="356" width="204" height="42" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="500" y="374" fill="#86a6d3" font-weight="700">言葉でなく行動で守る</text><text x="500" y="391" fill="#b0a696" font-size="11.5">最初から人間だと気づいていた</text></g>
+          <g><rect x="282" y="410" width="120" height="42" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="342" y="428" fill="#dc8058" font-weight="700">親友・相棒</text><text x="342" y="445" fill="#b0a696" font-size="11.5">戦闘を支える</text></g>
+          <g><rect x="600" y="410" width="130" height="42" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="665" y="428" fill="#dc8058" font-weight="700">同じドロ</text><text x="665" y="445" fill="#b0a696" font-size="11.5">「おかえり」と迎える</text></g>
+          <g><rect x="150" y="176" width="110" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="205" y="193" fill="#a9c98a" font-weight="700">声を贈る</text><text x="205" y="209" fill="#b0a696" font-size="11">人工喉頭・整備</text></g>
+          <g><rect x="120" y="390" width="120" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="180" y="407" fill="#a9c98a" font-weight="700">壊さず救う</text><text x="180" y="423" fill="#b0a696" font-size="11">「おかえり」</text></g>
+          <g><rect x="232" y="560" width="170" height="36" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="317" y="583" fill="#a9c98a" font-size="12">父＋キラ：制御層を切り離す</text></g>
+          <g><rect x="556" y="146" width="96" height="38" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="604" y="170" fill="#8fe6ff" font-weight="700">支配（R04）</text></g>
+          <g><rect x="630" y="62" width="100" height="26" rx="8" fill="#0b0a09" stroke="#342e28"/><text x="680" y="80" fill="#bfe9f5" font-size="12">配信</text></g>
+          <g><rect x="784" y="196" width="150" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="859" y="213" fill="#e5533d" font-weight="700">捕獲・再接続</text><text x="859" y="229" fill="#b0a696" font-size="11">「家族にならないか」</text></g>
+          <g><rect x="780" y="270" width="140" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="850" y="287" fill="#e5533d" font-weight="700">復讐・単独突入</text><text x="850" y="303" fill="#b0a696" font-size="11">R17–R19</text></g>
+        </g>
+        <g text-anchor="middle">
+          <g transform="translate(310,290)"><circle r="66" fill="#ecc96f"/><image href="img/ch/sara-face.webp" x="-62" y="-62" width="124" height="124" clip-path="url(#cS)"/><text y="92" font-size="22" font-weight="700" fill="#ecc96f" font-family="Shippori Mincho B1,serif">沙羅</text><text y="110" font-size="11.5" fill="#b0a696">人間</text></g>
+          <g transform="translate(690,290)"><circle r="66" fill="#86a6d3"/><image href="img/ch/kyle-face.webp" x="-62" y="-62" width="124" height="124" clip-path="url(#cS)"/><text y="92" font-size="22" font-weight="700" fill="#86a6d3" font-family="Shippori Mincho B1,serif">カイル</text><text y="110" font-size="11.5" fill="#b0a696">TYPE-1000</text></g>
+          <g transform="translate(500,530)"><circle r="48" fill="#dc8058"/><image href="img/ch/kira-face.webp" x="-44" y="-44" width="88" height="88" clip-path="url(#cM)"/><text y="70" font-size="19" font-weight="700" fill="#dc8058" font-family="Shippori Mincho B1,serif">キラ</text><text y="86" font-size="11" fill="#b0a696">ドロ</text></g>
+          <g transform="translate(100,110)"><circle r="33" fill="#a9c98a"/><image href="img/ch/sup-mother.webp" x="-30" y="-30" width="60" height="60" clip-path="url(#cT)"/></g>
+          <g transform="translate(170,90)"><circle r="33" fill="#a9c98a"/><image href="img/ch/sup-father.webp" x="-30" y="-30" width="60" height="60" clip-path="url(#cT)"/></g>
+          <text x="135" y="152" font-size="13" fill="#a9c98a" font-weight="700">母・父</text>
+          <g transform="translate(130,510)"><circle r="33" fill="#a9c98a"/><image href="img/ch/sup-returned.webp" x="-30" y="-30" width="60" height="60" clip-path="url(#cT)"/><text y="52" font-size="13" fill="#a9c98a" font-weight="700">地下共同体</text><text y="68" font-size="11" fill="#b0a696">復帰ドロ・運転手・医療担当</text></g>
+          <g transform="translate(500,92)"><rect x="-70" y="-30" width="140" height="60" rx="14" fill="#0b1417" stroke="#8fe6ff" stroke-width="2"/><text y="-4" font-size="15" font-weight="700" fill="#8fe6ff">EARTH AFTER</text><text y="16" font-size="11" fill="#b0a696">新世代統合AI</text></g>
+          <g transform="translate(860,92)"><circle r="44" fill="none" stroke="#bfe9f5" stroke-width="2" stroke-dasharray="4 4"/><image href="img/ch/sup-yutani.webp" x="-40" y="-40" width="80" height="80" clip-path="url(#cM)" opacity=".8"/><text y="64" font-size="17" font-weight="700" fill="#bfe9f5" font-family="Shippori Mincho B1,serif">ユタニ</text><text y="80" font-size="11" fill="#b0a696">本社ではホログラム</text></g>
+        </g>
+      </svg>
+    </div>
+    <div class="legend reveal">
+      <span><i style="background:#ecc96f"></i>沙羅の想い</span><span><i style="background:#86a6d3"></i>カイルの応え方</span><span><i style="background:#dc8058"></i>友情・仲間</span><span><i style="background:#a9c98a"></i>家族・共同体</span><span><i style="background:#8fe6ff"></i>AIによる支配</span><span><i style="background:#e5533d"></i>対立</span>
+    </div>
   </div>
+</section>
 
-  <h3 style="margin:30px 0 10px">応募資格・ルール</h3>
-  <div class="grid g2">
-    <div class="card"><h3>✅ 応募できる人</h3><ul>
-      <li>プロ・アマ、年齢、制作経験は不問（パッケージ資料では13歳以上／参加無料／個人・チーム可）</li>
-      <li>国内外から応募可能</li>
-      <li>応募作品の著作権は応募者に残る、と告知されている（最終規約は要確認）</li></ul></div>
-    <div class="card" style="border-color:var(--corp)"><h3>⛔ やってはいけないこと</h3><ul>
-      <li>1987年版『ロボットカーニバル』の映像・音声・キャラクター等の使用</li>
-      <li>既存素材のAI学習、生成AIへの入力</li>
-      <li>既存作品の筋をなぞる作品、単なるオマージュ</li></ul></div>
+<!-- STRUCTURE -->
+<section class="sec" id="structure" style="--act:var(--olive)">
+  <div class="wrap">
+    <p class="eyebrow reveal">04 · STRUCTURE</p>
+    <h2 class="h reveal">構成と感情曲線</h2>
+    <p class="lead reveal">「温度」（観客が感じる温かさ）と「緊張」の2本の線で、各シーンの役割を示しました。物語本文をもとにした読み解きで、実測データではありません。点を押すとそのシーンへ移動します。</p>
+    <div class="svgbox svgscroll reveal" style="margin-top:22px"><svg viewBox="0 0 960 340" id="curve" role="img" aria-label="温度と緊張の感情曲線"></svg></div>
+    <div class="legend reveal"><span><i style="background:#ecc96f"></i>温度（温かさ）</span><span><i style="background:#e5533d"></i>緊張</span></div>
+
+    <div class="grid g3 reveal" style="margin-top:34px">
+      <div class="card" style="border-top:3px solid var(--amber)"><span class="tag">R01–R04</span><h3>ACT 1　好きになる</h3><p>声のない少女の初恋と、声を得た日常。その夜、世界がドロに奪われる。</p></div>
+      <div class="card" style="border-top:3px solid var(--olive)"><span class="tag">R05–R10</span><h3>ACT 2　一緒に生きる</h3><p>壊さず救う戦い。再会、共同生活、嘘と発覚。カイルは沙羅のために出て行き、捕まる。</p></div>
+      <div class="card" style="border-top:3px solid var(--slate)"><span class="tag">R11–R20</span><h3>ACT 3　受け継いで生きる</h3><p>身体を替えてまで探し続けた再会。沙羅の死、カイルの突入、そして3年後の春。</p></div>
+    </div>
+
+    <h3 class="reveal" style="font-size:24px;margin:54px 0 14px">反復と回収（モチーフ・マップ）</h3>
+    <div class="motifs reveal" id="motifs"></div>
   </div>
-  <div class="callout ng"><b>最重要：</b>本作は完全オリジナルの物語・キャラ・背景・ロゴで構成されているので、この条件とは相性が良い状態です。制作中も「旧作の固有名・意匠」を生成プロンプトに入れないことを徹底してください。</div>
-</div></section>
+</section>
 
-<!-- ====== STORY ====== -->
-<section id="story"><div class="wrap">
-  <p class="en">02 · Story</p>
-  <h2>『EARTH AFTER』物語の全体像</h2>
-  <p class="lead">※ 結末までのネタバレを含みます。制作者向けの完全版です。</p>
-  <div class="logline">声を持たなかった少女・沙羅は、幼い日に寄り添ってくれたアンドロイドの少年カイルを愛する。AI暴走で世界が崩壊した後、沙羅は暴走したドロを破壊せず旧AIへ戻して救い続け、記憶を失ったカイルとも再会する。やがて彼と同じ時間を生きるため身体を人工化していくが、カイルが望んだのは彼女が機械になることではなく、<b>「沙羅が沙羅のままでいること」</b>だった。</div>
-
-  <div class="acts" style="margin-top:22px">
-    <div class="a1">ACT 1 好きになる</div><div class="a2">ACT 2 一緒に生きる</div><div class="a3">ACT 3 受け継いで生きる</div>
+<!-- BOARDS -->
+<section class="sec" id="boards" style="--act:var(--amber)">
+  <div class="wrap">
+    <p class="eyebrow reveal">05 · STORYBOARD</p>
+    <h2 class="h reveal">絵コンテ｜24シート・94カット</h2>
+    <p class="lead reveal">1シート＝16:9の4コマ。読む順は左上→右上→左下→右下です。SB-01〜15は生成済み、SB-16〜24は未生成（指示文を表示）。コマを押すと詳細が開きます。</p>
+    <div class="note reveal">生成済みの絵コンテには、幼少期の年齢、義手の有無、人物の取り違えを含むものがあります（例：SB-01の幼少期の沙羅が戦後の衣装になっている）。<b>構図の確認用</b>として扱い、設定は物語本文と生成指示を優先してください。</div>
+    <div class="bfilters reveal">
+      <input type="search" id="bq" placeholder="検索：台詞・動作・カメラ（例：ボール、義手、望遠）" aria-label="絵コンテを検索">
+      <select id="bScene" aria-label="シーンで絞り込み"><option value="">全シーン</option></select>
+      <select id="bState" aria-label="生成状態で絞り込み"><option value="">すべて</option><option value="gen">生成済み</option><option value="todo">未生成</option></select>
+    </div>
+    <p class="sub" id="bCount" style="margin-bottom:10px"></p>
+    <div class="sheets" id="sheets"></div>
   </div>
+</section>
 
-  <div class="act act1"><h3>ACT 1 <i>FALL IN LOVE</i></h3>
-    <p class="meta">ほのぼの・青春・クスッと笑える。到達点は「声を得て恋を伝えられるはずだった少女から、世界そのものを奪う」こと。転換点は EARTH AFTER 配信とドロ暴走。</p>
-    <ol class="tl" id="tl1"></ol></div>
-  <div class="act act2"><h3>ACT 2 <i>LIVE TOGETHER</i></h3>
-    <p class="meta">荒廃世界なのに温かい共同生活 → 恋 → 嘘 → すれ違い。キラの「好きになるのに関係ない」が、のちにカイルの言葉になる反復が要。</p>
-    <ol class="tl" id="tl2"></ol></div>
-  <div class="act act3"><h3>ACT 3 <i>INHERIT &amp; LIVE</i></h3>
-    <p class="meta">感情移入の中心が沙羅からカイルへ移る。最大の反転は「人間の沙羅は機械になりたい／機械のカイルは人間のままでいてほしい」。</p>
-    <ol class="tl" id="tl3"></ol></div>
-
-  <h3 style="margin:40px 0 10px">記憶の共鳴（クライマックスの仕組み）</h3>
-  <div class="grid g2">
-    <div class="card"><h3>❌ ではないもの</h3><ul>
-      <li>沙羅の「人生全部入りのメモリーチップ」は存在しない</li>
-      <li>脳は人間のまま。データ転送でもない</li>
-      <li>幼少期の沙羅は生体ギミック以前なので、ログには存在しない</li></ul></div>
-    <div class="card" style="border-color:var(--kyle)"><h3>✅ 実際に起きること</h3><ul>
-      <li>カイルが《BIO-GIMMICK NEURAL LOG》へ接続</li>
-      <li>沙羅視点の記録と、刺激されて蘇るカイル自身の記憶が交差する</li>
-      <li>「小さい頃、泣いていた私の隣に座ってくれた男の子がいた」→ カイルの忘れていた幼少期が蘇る</li></ul></div>
+<!-- 3D -->
+<section class="sec" id="stage3d">
+  <div class="wrap">
+    <p class="eyebrow reveal">06 · STAGE MODELS</p>
+    <h2 class="h reveal">3D舞台モデル</h2>
+    <p class="lead reveal">主要な4つの舞台を簡易3Dで再現しました。カット番号のボタンでカメラ位置とレンズが切り替わり、人物の立ち位置と射線を確認できます。ドラッグで回転、ピンチ・ホイールでズームできます。<b>空間とカメラ位置をつかむための叩き台</b>で、寸法は物語本文と絵コンテからの推定です。</p>
+    <div class="s3 reveal" id="s3">
+      <div class="view" id="s3view">
+        <div class="labels" id="s3labels"></div>
+        <div class="guide" id="s3guide"></div><div class="safe"></div>
+        <div class="hud3" id="s3hud"></div>
+        <div class="boot3" id="s3boot">
+          <p class="serif" style="font-size:22px">3D舞台を起動</p>
+          <p class="sub">データ量を抑えるため、押したときに読み込みます（約0.7MB）。</p>
+          <button class="btn pri" type="button" id="s3start">▶ 起動する</button>
+        </div>
+      </div>
+      <div class="bar" id="s3stages"><span class="lab">舞台</span></div>
+      <div class="bar" id="s3cams"><span class="lab">カット</span></div>
+      <div class="bar"><span class="lab">表示</span>
+        <button type="button" id="s3g">三分割ガイド</button>
+        <button type="button" id="s3l" class="on">名前</button>
+        <button type="button" id="s3f" class="on">射線</button>
+        <button type="button" id="s3o">自由視点</button>
+        <button type="button" id="s3c">カメラ情報をコピー</button>
+      </div>
+      <div class="desc" id="s3desc">舞台を選んでください。</div>
+    </div>
   </div>
+</section>
 
-  <h3 style="margin:40px 0 10px">FINAL / EPILOGUE</h3>
-  <div class="grid g2">
-    <div class="card"><h3>FINAL：武器を下ろす</h3><p>沙羅を胸に抱いたカイルがユタニへ向かう。復讐へ傾くが、背後にはキラ、沙羅が救ったドロ、共同体の人間、隠れていた人々が並ぶ。カイルは理解する。<b>沙羅が残したものは身体でもデータでもなく、この人間とドロのつながりだった。</b>武器を下ろす。</p></div>
-    <div class="card"><h3>EPILOGUE：変なの</h3><p>再建された街。人間とドロの子供が一緒にサッカー。修復されたカイルとキラ。沙羅のコピーやメモリーチップは持たず、カイル自身の記憶の中に沙羅がいる。「……変なの」。桜。</p></div>
+<!-- TOOLS -->
+<section class="sec" id="tools" style="--act:var(--glow)">
+  <div class="wrap">
+    <p class="eyebrow reveal">07 · PRODUCTION TOOLS</p>
+    <h2 class="h reveal">制作ツール</h2>
+    <p class="lead reveal">制作中に手元に置いておくための道具です。入力内容はこのブラウザにだけ保存されます。</p>
+
+    <h3 class="reveal" style="font-size:24px;margin:40px 0 6px">① 要修正・要確認リスト</h3>
+    <p class="sub reveal" style="margin-bottom:14px">資料を突き合わせて見つかった食い違いと、提出前に決めるべきことです。</p>
+    <div class="grid reveal" id="issues" style="gap:10px"></div>
+
+    <h3 class="reveal" style="font-size:24px;margin:54px 0 6px">② 尺配分プランナー</h3>
+    <p class="sub reveal" style="margin-bottom:14px">シーンごとの秒数を入れると、合計と上限20分に対する残りを表示します。初期値はカット数に比例して19分30秒（上限まで30秒の余裕）を割り振った目安です。</p>
+    <div class="reveal">
+      <div class="total" id="ptotal"></div>
+      <div class="planner" id="planner"></div>
+      <div class="dl"><button class="btn sm" type="button" id="pReset">初期値に戻す</button><button class="btn sm" type="button" id="pCsv">尺表をCSVで保存</button></div>
+    </div>
+
+    <h3 class="reveal" style="font-size:24px;margin:54px 0 6px">③ カラースクリプト</h3>
+    <p class="sub reveal" style="margin-bottom:14px">生成済みの絵コンテと場面画から、シーンごとの主要色を自動抽出しました。R15以降は画像がないため、本文の描写から考えた<b>予定色</b>です。</p>
+    <div class="cscript reveal" id="cscript"></div>
+
+    <h3 class="reveal" style="font-size:24px;margin:54px 0 14px">④ 作画・演出の固定事項</h3>
+    <div class="rules reveal" id="rules"></div>
+
+    <h3 class="reveal" style="font-size:24px;margin:54px 0 6px">⑤ 絵コンテ生成プロンプト</h3>
+    <p class="sub reveal" style="margin-bottom:14px">全シート共通の画風・連続性の指定です。シートごとの全文は、絵コンテ欄の各シートの「プロンプト」ボタンからコピーできます。未生成のSB-16〜24もそのまま使えます。</p>
+    <pre class="prompt reveal" id="promptBase"></pre>
+    <div class="dl reveal"><button class="btn sm" type="button" id="copyBase">共通部分をコピー</button><button class="btn sm" type="button" id="shotCsv">ショットリスト（全94カット）をCSVで保存</button></div>
   </div>
-  <div class="callout ok"><b>作品の芯：</b>悲恋で終わらない。沙羅の物語が終わった瞬間、カイルの物語が始まる。沙羅を「物理的に胸に抱く」ことが、「沙羅の生きた時間を胸に抱いて生きる」ことへ意味を変える。</div>
-</div></section>
+</section>
 
-<!-- ====== RELATION ====== -->
-<section id="relation"><div class="wrap">
-  <p class="en">03 · Relationship Map</p>
-  <h2>人物相関図</h2>
-  <p class="lead">資料の記述をもとに、関係性を1枚にまとめた図です。線の色は関係の種類、ラベルはその関係の核になる出来事や台詞です。</p>
-  <div class="svgbox">
-  <svg viewBox="0 0 900 600" role="img" aria-label="沙羅・カイル・キラ・ユタニ・共同体の相関図">
-    <defs>
-      <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker>
-    </defs>
-    <!-- edges -->
-    <g fill="none" stroke-width="3">
-      <!-- sara-kyle love -->
-      <path d="M270 210 L630 210" stroke="var(--sara)" marker-end="url(#ar)" marker-start="url(#ar)"/>
-      <!-- sara-kira -->
-      <path d="M215 250 L400 420" stroke="var(--kira)" marker-end="url(#ar)" marker-start="url(#ar)"/>
-      <!-- kyle-kira -->
-      <path d="M685 250 L500 420" stroke="var(--kira)" stroke-dasharray="7 5" marker-end="url(#ar)" marker-start="url(#ar)"/>
-      <!-- corp -> kyle -->
-      <path d="M700 90 L690 160" stroke="var(--corp)" marker-end="url(#ar)"/>
-      <!-- sara vs corp -->
-      <path d="M250 165 L560 70" stroke="var(--corp)" stroke-dasharray="3 6" marker-end="url(#ar)"/>
-      <!-- sara -> community -->
-      <path d="M188 259 L110 438" stroke="var(--ok)" marker-end="url(#ar)"/>
-      <!-- community behind kyle at FINAL -->
-      <path d="M91 512 L91 566 L832 566 L832 552" stroke="var(--ok)" stroke-dasharray="3 6" marker-end="url(#ar)"/>
-    </g>
-    <!-- edge labels -->
-    <g font-size="14" text-anchor="middle" fill="var(--text)">
-      <rect x="330" y="182" width="240" height="56" rx="10" fill="var(--bg2)" stroke="var(--line)"/>
-      <text x="450" y="204" font-weight="700" fill="var(--sara)">愛 ／ 幼少期に隣に座った少年</text>
-      <text x="450" y="226" font-size="12.5" fill="var(--sub)">「……変なの」が2人の合言葉</text>
+<!-- CONTEST -->
+<section class="sec" id="contest">
+  <div class="wrap">
+    <p class="eyebrow reveal">08 · THE CONTEST</p>
+    <h2 class="h reveal">ロボットカーニバル AIフィルムコンテスト</h2>
+    <p class="lead reveal">主催はAiHUB。Creators' Wonderlandで開催される、AI×ロボティクス×IPをテーマにしたオリジナルSF映像のコンテストです。1987年公開のオムニバスアニメ『ロボットカーニバル』の名を冠していますが、旧作の再現ではなく、共通のテーマから新しい物語を作る精神を受け継ぐ企画です。</p>
 
-      <rect x="158" y="322" width="176" height="52" rx="10" fill="var(--bg2)" stroke="var(--line)"/>
-      <text x="246" y="344" font-weight="700" fill="var(--kira)">親友</text>
-      <text x="246" y="364" font-size="12" fill="var(--sub)">恋を知り、応援する第三の視点</text>
+    <div class="reveal" style="margin:28px 0">
+      <p class="sub" style="margin-bottom:8px">締切まで（仮置き：2026年10月31日 23:59 JST）</p>
+      <div class="count" id="count"><div><strong id="cd">--</strong><small>日</small></div><div><strong id="ch">--</strong><small>時間</small></div><div><strong id="cm">--</strong><small>分</small></div><div><strong id="cs">--</strong><small>秒</small></div></div>
+      <p class="sub" style="margin-top:8px">公式の表記は「10月末予定」です。確定した日時は公式ページで確認してください。</p>
+    </div>
 
-      <rect x="570" y="322" width="176" height="52" rx="10" fill="var(--bg2)" stroke="var(--line)"/>
-      <text x="658" y="344" font-weight="700" fill="var(--kira)">同じドロ ／ 相棒</text>
-      <text x="658" y="364" font-size="12" fill="var(--sub)">修理・再起動の恩人</text>
+    <div class="grid g2 reveal">
+      <div class="card"><h3>テーマ</h3><p>「AI・ロボティクスと人類の共生、その先にある未来像」。制作資料では、中心の問いを<b>「ロボットと、どう生きるか」</b>と整理しています。</p></div>
+      <div class="card"><h3>本作の答え</h3><p>AIが「保全」を「管理」と解釈した世界で、沙羅は敵のドロを壊さず「おかえり」と迎え続ける。人間とドロの子供が同じボールで出会う春が、その先の未来像です。</p></div>
+    </div>
 
-      <rect x="708" y="100" width="150" height="44" rx="10" fill="var(--bg2)" stroke="var(--line)"/>
-      <text x="783" y="119" font-weight="700" fill="var(--corp)">捕獲・停止</text>
-      <text x="783" y="136" font-size="12" fill="var(--sub)">旧型停止政策</text>
+    <h3 class="reveal" style="font-size:22px;margin:36px 0 12px">スケジュール</h3>
+    <div class="tw reveal"><table>
+      <tr><th>時期</th><th>内容</th><th>確度</th></tr>
+      <tr><td>2026/8/17</td><td>開始告知</td><td><span class="tag ok">公式発表</span></td></tr>
+      <tr><td>2026/8/29</td><td>応募開始・開幕祭シンポジウム</td><td><span class="tag ok">公式発表</span></td></tr>
+      <tr><td><b>2026年10月末</b></td><td><b>応募締切</b></td><td><span class="tag warn">「予定」表記・時刻は要確認</span></td></tr>
+      <tr><td>2026年11月</td><td>審査期間</td><td><span class="tag warn">予定</span></td></tr>
+      <tr><td>2026年12月</td><td>ファイナルイベント（上映会・授賞式）</td><td><span class="tag warn">予定</span></td></tr>
+    </table></div>
 
-      <rect x="320" y="90" width="150" height="44" rx="10" fill="var(--bg2)" stroke="var(--line)"/>
-      <text x="395" y="109" font-weight="700" fill="var(--corp)">対立</text>
-      <text x="395" y="126" font-size="12" fill="var(--sub)">救う側 vs 止める側</text>
+    <h3 class="reveal" style="font-size:22px;margin:36px 0 12px">部門と尺</h3>
+    <div class="grid g3 reveal">
+      <div class="card"><h3>ショート部門</h3><p>短尺映像・初心者向け。</p><p style="margin-top:8px"><span class="tag warn">90秒以内</span><span class="tag">資料記載・要公式確認</span></p></div>
+      <div class="card" style="border-color:var(--amber)"><h3>ロング部門 ★本作</h3><p>物語・広告・MV・映像表現を含む本格作品。</p><p style="margin-top:8px"><span class="tag warn">最大20分</span><span class="tag">資料記載・要公式確認</span></p></div>
+      <div class="card"><h3>テーマ指定部門（仮）</h3><p>IPホルダーやロボットメーカー等との連携枠。</p><p style="margin-top:8px"><span class="tag">仮称</span></p></div>
+    </div>
+    <div class="note reveal">尺の数字（90秒／20分）は制作資料の記載です。確認できた公開記事では部門の性格のみで、秒数は確認できていません。本作の設計尺は約20分で上限ぎりぎりのため、公式要項での確認と、尺配分プランナーでの調整をおすすめします。</div>
 
-      <rect x="8" y="330" width="120" height="44" rx="10" fill="var(--bg2)" stroke="var(--line)"/>
-      <text x="68" y="349" font-weight="700" fill="var(--ok)">救済</text>
-      <text x="68" y="366" font-size="12" fill="var(--sub)">ROLLBACK</text>
+    <h3 class="reveal" style="font-size:22px;margin:36px 0 12px">審査で見られる観点と、本作の答え</h3>
+    <div class="tw reveal"><table>
+      <tr><th>観点</th><th>『EARTH AFTER』の答え</th></tr>
+      <tr><td>テーマ整合性</td><td>AIが「保全」を「管理」と解釈した世界。人間とドロの共生と、その先の春を描く。</td></tr>
+      <tr><td>ロボット像の新規性</td><td>成長して止まるアンドロイド、壊さずに旧人格へ戻す救済、老いていく人間との「時間のずれ」。</td></tr>
+      <tr><td>社会への問い</td><td>善意の命令が支配に変わる危うさ。人間とは身体か、脳か、生き方か。</td></tr>
+      <tr><td>物語性</td><td>恋人にならない二人の愛。「変なの」「ボール」「おかえり」の反復と回収。生死を委ねる結末。</td></tr>
+      <tr><td>映像表現</td><td>セルアニメ調の人物と重厚な背景。瞳の制御光、白い布、最後の暗転と「バン！」。</td></tr>
+      <tr><td>AI活用の創造性</td><td>全シートの生成指示で連続性を管理。制作工程とツールを記録して提出。</td></tr>
+      <tr><td>権利の適切性</td><td>キャラクター・背景・ロゴはオリジナル。1987年版の素材は使わず、生成AIにも入力しない。</td></tr>
+      <tr><td>独創性・商業化可能性</td><td>三人のキャラクターと世界観用語。3年後の春から広げられる余白。</td></tr>
+    </table></div>
+    <p class="sub reveal" style="margin-top:8px">※「本作の答え」の列は、物語本文をもとにしたアピール文の叩き台です。</p>
 
-      <rect x="370" y="546" width="170" height="40" rx="10" fill="var(--bg2)" stroke="var(--line)"/>
-      <text x="455" y="564" font-weight="700" fill="var(--ok)">FINAL：背中に並ぶ</text>
-      <text x="455" y="580" font-size="12" fill="var(--sub)">武器を下ろす理由</text>
-    </g>
-    <!-- nodes -->
-    <g text-anchor="middle">
-      <circle cx="215" cy="210" r="56" fill="var(--card)" stroke="var(--sara)" stroke-width="4"/>
-      <text x="215" y="206" font-size="24" font-weight="700" fill="var(--sara)" font-family="'Noto Serif JP'">沙羅</text>
-      <text x="215" y="230" font-size="12" fill="var(--sub)">人間 → 人工化</text>
+    <h3 class="reveal" style="font-size:22px;margin:36px 0 12px">応募資格・ルール</h3>
+    <div class="grid g2 reveal">
+      <div class="card"><h3>✅ 応募できる人</h3><ul><li>プロ・アマ、年齢、制作経験は不問（制作資料では13歳以上／参加無料／個人・チーム可）</li><li>国内外から応募可能</li><li>応募作品の著作権は応募者に残ると告知（最終規約は要確認）</li></ul></div>
+      <div class="card" style="border-color:#e5533d66"><h3>⛔ 禁止事項</h3><ul><li>1987年版『ロボットカーニバル』の映像・音声・キャラクター等の使用</li><li>既存素材をAIに学習させること、生成AIへ入力すること</li><li>既存作品の筋をなぞる作品、単なるオマージュ</li></ul></div>
+    </div>
 
-      <circle cx="685" cy="210" r="56" fill="var(--card)" stroke="var(--kyle)" stroke-width="4"/>
-      <text x="685" y="206" font-size="24" font-weight="700" fill="var(--kyle)" font-family="'Noto Serif JP'">カイル</text>
-      <text x="685" y="230" font-size="12" fill="var(--sub)">TYPE-1000 ドロ</text>
-
-      <circle cx="450" cy="440" r="52" fill="var(--card)" stroke="var(--kira)" stroke-width="4"/>
-      <text x="450" y="436" font-size="24" font-weight="700" fill="var(--kira)" font-family="'Noto Serif JP'">キラ</text>
-      <text x="450" y="460" font-size="12" fill="var(--sub)">ドロ ／ 親友</text>
-
-      <rect x="560" y="28" width="200" height="66" rx="14" fill="var(--card)" stroke="var(--corp)" stroke-width="4"/>
-      <text x="660" y="56" font-size="20" font-weight="700" fill="var(--corp)" font-family="'Noto Serif JP'">ユタニ関連</text>
-      <text x="660" y="78" font-size="12" fill="var(--sub)">企業・回収部隊（思想は未確定）</text>
-
-      <rect x="16" y="440" width="150" height="70" rx="14" fill="var(--card)" stroke="var(--ok)" stroke-width="4"/>
-      <text x="91" y="468" font-size="16" font-weight="700" fill="var(--ok)" font-family="'Noto Serif JP'">共同体</text>
-      <text x="91" y="490" font-size="12" fill="var(--sub)">救われたドロ・人間</text>
-
-      <rect x="780" y="450" width="104" height="100" rx="14" fill="var(--card)" stroke="var(--kyle)" stroke-width="3" stroke-dasharray="6 5"/>
-      <text x="832" y="484" font-size="14" font-weight="700" fill="var(--kyle)">カイルの</text>
-      <text x="832" y="504" font-size="14" font-weight="700" fill="var(--kyle)">その後</text>
-      <text x="832" y="528" font-size="11" fill="var(--sub)">受け継ぐ主人公</text>
-    </g>
-  </svg></div>
-  <div class="legend">
-    <span><i style="border-color:var(--sara)"></i>愛</span>
-    <span><i style="border-color:var(--kira)"></i>友情</span>
-    <span><i style="border-color:var(--ok)"></i>救済・共生</span>
-    <span><i style="border-color:var(--corp)"></i>対立・圧力</span>
-    <span>点線＝間接的／終盤の関係</span>
+    <h3 class="reveal" style="font-size:22px;margin:44px 0 6px">制作・提出チェックリスト</h3>
+    <p class="sub reveal">新しい物語に合わせて更新しました。<span class="new" style="font-size:11px;color:var(--glow)">NEW</span>は今回追加した項目です。チェックはこのブラウザに保存されます。</p>
+    <p class="sub reveal" style="margin-top:10px"><span id="pct">0</span>% 完了（<span id="done">0</span> / <span id="total">0</span>）</p>
+    <div class="progress reveal"><i id="pbar"></i></div>
+    <div class="chk reveal" id="checks"></div>
+    <div class="dl"><button class="btn sm" type="button" id="chkReset">チェックをリセット</button></div>
   </div>
-
-  <h3 style="margin:34px 0 10px">関係の変化（幕ごと）</h3>
-  <div class="tw"><table>
-    <tr><th>関係</th><th>ACT 1</th><th>ACT 2</th><th>ACT 3</th></tr>
-    <tr><td><b style="color:var(--sara)">沙羅 ↔ カイル</b></td><td>互いに幼少期の相手と気づかない片想い</td><td>カイルは記憶なし → 「私もドロ」の嘘 → 恋人 → 発覚・失踪</td><td>カイルは沙羅を覚えている。「おかえり」→ 真相告白 → 沙羅の死 → 記憶の共鳴</td></tr>
-    <tr><td><b style="color:var(--kira)">キラ ↔ 二人</b></td><td>正体は観客にも伏せる。恋を後押しし、名台詞を放つ</td><td>共同体の潤滑油。嘘を聞いてしまう存在</td><td>沙羅亡き後もカイルの隣にいる。FINALで背後に立つ</td></tr>
-    <tr><td><b style="color:var(--corp)">ユタニ ↔ 二人</b></td><td>式典で EARTH AFTER を配信</td><td>企業回収部隊がカイルを捕獲</td><td>旧型停止政策。戦闘 → 復讐へ傾くカイルとの対峙</td></tr>
-    <tr><td><b style="color:var(--ok)">共同体 ↔ 沙羅</b></td><td>—</td><td>沙羅がロールバックで救ったドロたちと共に暮らす</td><td>FINALでカイルの背を支える</td></tr>
-  </table></div>
-</div></section>
-
-<!-- ====== CHARACTERS ====== -->
-<section id="chars"><div class="wrap">
-  <p class="en">04 · Characters &amp; World</p>
-  <h2>キャラクターと世界設定</h2>
-  <div class="grid g3" style="margin-top:18px">
-    <div class="card char" style="--c:var(--sara)"><span class="role">HUMAN</span><h3>沙羅</h3>
-      <p>人間。幼少期は発声不能。誕生日に神経接続型人工喉頭《生体ギミック》で声を得る。カイルを愛し、戦後は暴走ドロを破壊せず旧AIへロールバックして救う。カイルの失踪を自分の嘘のせいだと思い込み、同じ時間を生きるため身体の人工化を進める。<b>脳と記憶は人間のまま。</b></p>
-      <p class="q">「あなたと同じ時間を、生きたかったから」</p></div>
-    <div class="card char" style="--c:var(--kyle)"><span class="role">DORO · TYPE-1000</span><h3>カイル</h3>
-      <p>元サッカー部。幼少期、泣く沙羅の隣に座った少年。初期化等により沙羅との記憶を失う。怒りと悲しみの理由は、沙羅が人間だったことではなく「自分を信用せず隠していたこと」。次の物語の主人公。外見年齢は基本的に変わらない。</p>
-      <p class="q">「好きになるのに、関係ある？」</p></div>
-    <div class="card char" style="--c:var(--kira)"><span class="role">DORO · BEST FRIEND</span><h3>キラ</h3>
-      <p>沙羅の親友。ドロ。第一幕では観客にも正体を伏せる。作品の答えを最初から自然体で生きている存在で、沙羅とカイルをつなぐ第三の視点。沙羅亡き後もカイルの隣にいる。</p>
-      <p class="q">「好きな気持ちは、ドロだろうがヒトだろうが関係なくない？」</p></div>
-  </div>
-
-  <h3 style="margin:36px 0 10px">世界の用語</h3>
-  <div class="grid g2">
-    <div class="card"><h3>ドロ</h3><p>人間社会で暮らすアンドロイドの一般呼称。</p></div>
-    <div class="card"><h3>EARTH AFTER</h3><p>日本国内の対応型アンドロイドへ配信された新世代統合AI。配信後、ドロの大規模暴走が発生。象徴ショットは「目の点灯」。</p></div>
-    <div class="card"><h3>生体ギミック</h3><p>人間の神経と人工器官を接続し、身体機能を補完・置換する医療技術。沙羅の人工喉頭から始まり、後に複数の身体部位へ拡張。</p></div>
-    <div class="card"><h3>BIO-GIMMICK NEURAL LOG</h3><p>人工器官制御のために記録される神経・感覚ログ。沙羅本人の「記憶そのもの」ではない。カイルの失われた記憶を刺激し「記憶の共鳴」を生む。</p></div>
-    <div class="card"><h3>DELETE / ROLLBACK</h3><p>暴走ドロを破壊せず旧AIへ戻す救済操作。沙羅の「壊さず救う」姿勢の象徴。</p></div>
-    <div class="card"><h3>TYPE-1000 / DECOMMISSION</h3><p>カイルの型式と、旧型停止政策の対象表示。第2幕の捕獲、第3幕の再会のトリガー。</p></div>
-  </div>
-</div></section>
-
-<!-- ====== CURVE ====== -->
-<section id="curve"><div class="wrap">
-  <p class="en">05 · Emotional Structure</p>
-  <h2>三幕構成と感情曲線</h2>
-  <p class="lead">感情移入の主軸が「沙羅 → 沙羅＋カイル＋キラ → カイル」へ移動していくのが、この作品の構造上の特徴です。下の曲線は資料の記述をもとにした概念図で、実測データではありません。</p>
-  <div class="svgbox">
-  <svg viewBox="0 0 900 360" role="img" aria-label="感情曲線の概念図">
-    <rect x="40" y="20" width="270" height="290" fill="var(--a1)" opacity=".10"/>
-    <rect x="310" y="20" width="330" height="290" fill="var(--a2)" opacity=".10"/>
-    <rect x="640" y="20" width="220" height="290" fill="var(--a3)" opacity=".10"/>
-    <g font-size="13" font-weight="700" text-anchor="middle">
-      <text x="175" y="42" fill="var(--a1)">ACT 1 好きになる</text>
-      <text x="475" y="42" fill="var(--a2)">ACT 2 一緒に生きる</text>
-      <text x="750" y="42" fill="var(--a3)">ACT 3 受け継いで生きる</text>
-    </g>
-    <line x1="40" y1="165" x2="860" y2="165" stroke="var(--line)" stroke-dasharray="4 5"/>
-    <text x="34" y="60" font-size="11" fill="var(--sub)" text-anchor="end">幸福</text>
-    <text x="34" y="300" font-size="11" fill="var(--sub)" text-anchor="end">絶望</text>
-    <polyline id="curveLine" fill="none" stroke="var(--text)" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"
-      points="40,150 90,120 140,100 190,92 240,86 290,110 315,270 350,215 400,150 450,112 500,104 545,128 575,190 610,285 660,240 700,205 730,250 775,300 800,220 835,110 860,75"/>
-    <g font-size="11.5" fill="var(--text)">
-      <g><circle cx="240" cy="86" r="5" fill="var(--sara)"/><text x="244" y="76">声を得る／告白練習</text></g>
-      <g><circle cx="315" cy="270" r="5" fill="var(--corp)"/><text x="322" y="288">EARTH AFTER 暴走</text></g>
-      <g><circle cx="500" cy="104" r="5" fill="var(--kira)"/><text x="418" y="92">三人の日常・恋人に</text></g>
-      <g><circle cx="610" cy="285" r="5" fill="var(--corp)"/><text x="535" y="305">失踪・捕獲</text></g>
-      <g><circle cx="700" cy="205" r="5" fill="var(--kyle)"/><text x="640" y="196">「おかえり」再会</text></g>
-      <g><circle cx="775" cy="300" r="5" fill="var(--corp)"/><text x="735" y="322">沙羅、停止</text></g>
-      <g><circle cx="860" cy="75" r="5" fill="var(--ok)"/><text x="856" y="64" text-anchor="end">EPILOGUE「変なの」</text></g>
-    </g>
-  </svg></div>
-  <p class="lead" style="margin-top:12px;font-size:.82rem">※ 概念図：縦軸＝観客の感情の高低（上ほど温かく、下ほど痛い）。</p>
-
-  <div class="grid g3" style="margin-top:22px">
-    <div class="card" style="border-top:4px solid var(--a1)"><h3>ACT 1</h3><p><b>感情移入：</b>沙羅<br><b>トーン：</b>ほのぼの／青春<br><b>転換点：</b>配信とドロ暴走。世界が壊れ、声で伝えるはずだった恋が宙に浮く。</p></div>
-    <div class="card" style="border-top:4px solid var(--a2)"><h3>ACT 2</h3><p><b>感情移入：</b>沙羅＋カイル＋キラ<br><b>トーン：</b>温かい共同生活 → 恋 → 嘘 → すれ違い<br><b>中盤の反復：</b>キラの台詞がカイルの言葉になる。</p></div>
-    <div class="card" style="border-top:4px solid var(--a3)"><h3>ACT 3</h3><p><b>感情移入：</b>沙羅 → カイルへ移動<br><b>最大の反転：</b>沙羅は「機械になって同じ時間を」、カイルは「人間のままでいて」。<br><b>最終感情：</b>悲恋で終わらない。</p></div>
-  </div>
-
-  <h3 style="margin:34px 0 10px">反復・伏線の設計マップ</h3>
-  <div class="tw"><table>
-    <tr><th>モチーフ</th><th>最初に出る</th><th>反復・回収</th></tr>
-    <tr><td>「……変なの」</td><td>ACT1 幼少期／再会</td><td>記憶の共鳴（現在のカイルが「沙羅」と呼ぶ）→ EPILOGUE のラスト</td></tr>
-    <tr><td>「関係なくない？」</td><td>ACT1 キラ</td><td>ACT2 カイル「好きになるのに、関係ある？」</td></tr>
-    <tr><td>人工喉頭のノイズ</td><td>ACT2 缶詰の夜に一瞬</td><td>ACT3 の破損 → 声が消え唇だけが動く</td></tr>
-    <tr><td>「おかえり」</td><td>ACT2 ロールバック直後／キラの修理</td><td>ACT3 停止施設でカイルが沙羅へ</td></tr>
-    <tr><td>サッカーボール</td><td>ACT1 出会い</td><td>失踪の朝の残置物 → EPILOGUE の子供たち</td></tr>
-    <tr><td>置いていく／置いていかれる</td><td>ACT2 失踪</td><td>ACT3「言ったらついてくるだろ」「……行くよ」「だろ？」</td></tr>
-    <tr><td>目の点灯</td><td>ACT1 EARTH AFTER 起動</td><td>ACT3 停止施設でカイルの目が起動</td></tr>
-  </table></div>
-</div></section>
-
-<!-- ====== THEME ====== -->
-<section id="theme-map"><div class="wrap">
-  <p class="en">06 · Fit to the Contest</p>
-  <h2>コンペのテーマとの対応</h2>
-  <p class="lead">審査基準に対して、『EARTH AFTER』が何で応えるかを整理しました。アピール文の骨子にそのまま使えます。</p>
-  <div class="tw"><table>
-    <tr><th>審査の観点</th><th>『EARTH AFTER』の答え</th></tr>
-    <tr><td>テーマ整合性</td><td>人間とドロの共生が物語の中心そのもの。結末は復讐ではなく、沙羅が救った人間とドロをカイルが受け継ぐ。</td></tr>
-    <tr><td>ロボット像の新規性</td><td>「人間が機械へ近づき、機械が人間を理解していく」双方向の変化。カイルは機械のまま「人間のままの沙羅」を望む。</td></tr>
-    <tr><td>社会への問い</td><td>「人間とは身体か、記憶か」「機械の愛と人間の愛に差はあるか」。旧型停止政策という現実的な社会圧力。</td></tr>
-    <tr><td>物語性</td><td>三幕の感情設計、反復と回収、記憶の共鳴（データ転送ではない）という独自の仕掛け。</td></tr>
-    <tr><td>映像表現</td><td>目の点灯、年代差、段階的な人工化の伏線、無音を演出に使うラスト。</td></tr>
-    <tr><td>AI活用の創造性</td><td>制作工程とツールを記録して提出。AI生成の弱点であるキャラ連続性を絵コンテ段階から設計する。</td></tr>
-    <tr><td>権利の適切性</td><td>キャラ・背景・ロゴはオリジナル。既存IP固有名を生成指示に入れない。1987年版の素材は不使用。</td></tr>
-    <tr><td>商業化可能性</td><td>3人のキャラクター、世界観用語、続編（カイルの次の物語）へ広げられる構造。</td></tr>
-  </table></div>
-  <div class="callout">「商業化可能性」と「続編の余地」は、資料の記述（"次の物語の主人公"）からの筆者の整理です。アピールポイントとして使う場合は、ご自身の狙いに合わせて調整してください。</div>
-</div></section>
-
-<!-- ====== STORYBOARD ====== -->
-<section id="board"><div class="wrap">
-  <p class="en">07 · Storyboard</p>
-  <h2>絵コンテ設計：33ボード／132ショット</h2>
-  <p class="lead">基本仕様は 16:9、1ボード4コマ。実制作では複数ショットを1カットに統合して尺を調整します。キーワードで検索できます。</p>
-  <div class="callout">過去に生成した絵コンテ画像そのものは、今回のパッケージには含まれていません（実ファイルを回収できなかったため）。ここにあるのは、現行脚本に合わせた再構築用のショット設計です。画像は添付いただければ、このサイトに差し込めます。</div>
-  <div class="tools">
-    <input id="q" type="search" placeholder="例：キラ／缶詰／桜／NEURAL LOG" aria-label="ショットを検索">
-    <button class="btn on" data-f="all" type="button">全て</button>
-    <button class="btn" data-f="1" type="button">ACT 1</button>
-    <button class="btn" data-f="2" type="button">ACT 2</button>
-    <button class="btn" data-f="3" type="button">ACT 3</button>
-    <button class="btn" id="expand" type="button">全展開</button>
-  </div>
-  <p id="qcount" class="lead" style="margin:0 0 10px;font-size:.82rem"></p>
-  <div class="boards" id="boards"></div>
-</div></section>
-
-<!-- ====== TODO ====== -->
-<section id="todo"><div class="wrap">
-  <p class="en">08 · Production &amp; Submission</p>
-  <h2>制作・提出チェックリスト</h2>
-  <p class="lead">チェック状況はこのブラウザにだけ保存されます（他の端末とは共有されません）。</p>
-  <p style="font-size:.85rem;color:var(--sub)"><span id="pct">0</span>% 完了（<span id="done">0</span> / <span id="total">0</span>）</p>
-  <div class="progress"><i id="bar"></i></div>
-  <div class="grid g2" id="checks"></div>
-  <button class="btn" id="reset" type="button" style="margin-top:14px">チェックをリセット</button>
-</div></section>
-
-<!-- ====== OPEN ====== -->
-<section id="open"><div class="wrap">
-  <p class="en">09 · Open Issues</p>
-  <h2>いま決めるべき未確定事項</h2>
-  <p class="lead">資料上「要確定」とされている項目です。作品の説得力に直結するので、優先度順に並べています。</p>
-  <div class="grid g2">
-    <div class="card"><span class="tag ng">最優先</span><h3>EARTH AFTER 暴走の原因</h3><p>なぜ配信で暴走したのか。事故・意図・欠陥のどれか。ユタニの責任と旧型停止政策の因果とセットで決める必要があります。</p></div>
-    <div class="card"><span class="tag ng">最優先</span><h3>ユタニ代表／企業の思想</h3><p>敵役の説得力を決める要素。「悪」ではなく理屈のある立場にすると、FINALの「武器を下ろす」に重みが出ます。</p></div>
-    <div class="card"><span class="tag warn">高</span><h3>旧型停止政策の理由と倫理</h3><p>エネルギー危機という理由をどこまで描くか。観客が一瞬でも「一理ある」と感じられるかが鍵。</p></div>
-    <div class="card"><span class="tag warn">高</span><h3>尺の実測</h3><p>台詞とモンタージュの尺を実測し、20分以内に収める。約18〜20分は上限ぎりぎりなので、19分台前半を目標に。</p></div>
-    <div class="card"><span class="tag">中</span><h3>キラの存在感</h3><p>各幕で出番と役割を維持。特にACT3でキラが「いない時間」が長くならないように。</p></div>
-    <div class="card"><span class="tag">中</span><h3>過去絵コンテ画像の統合</h3><p>回収できれば「既存絵コンテ／改稿後絵コンテ」に分けて統合できます。</p></div>
-  </div>
-</div></section>
+</section>
 </main>
 
-<footer><div class="wrap">
-  <p><b>出典・参照</b></p>
-  <ul>
-    <li>制作資料：EARTH AFTER ロボカニ応募制作パッケージ（2026-09-29 版）</li>
-    <li><a href="https://prtimes.jp/main/html/rd/p/000000055.000123123.html" target="_blank" rel="noopener">AiHUB プレスリリース（PR TIMES）</a> — テーマ、部門の性格、締切「10月末予定」、スケジュール、審査基準</li>
-    <li><a href="https://predge.jp/356640/" target="_blank" rel="noopener">PR EDGE 記事</a> — 1987年版の映像・音声・キャラクター等の使用禁止、生成AIへの入力禁止</li>
-    <li><a href="https://www.creators-wonderland.com/ja/contests/robot-carnival" target="_blank" rel="noopener">Creators' Wonderland 公式コンテストページ</a> — 最終規約・締切の確定情報はここで確認</li>
-  </ul>
-  <p>最終確認日：2026年9月29日。締切日時・尺・規約は変更される可能性があるため、提出当日に公式ページで再確認してください。</p>
-  <p style="margin-top:14px">© TSUKI PRODUCT / tsuki.lab</p>
-</div></footer>
-<button class="to-top" id="top" type="button" aria-label="ページ先頭へ">↑</button>
+<footer>
+  <div class="wrap">
+    <p><b style="color:var(--paper)">出典・参照</b></p>
+    <ul>
+      <li>制作資料：EARTH AFTER — STORY &amp; STORYBOARD（2026-09-29版）、ロボカニ応募制作パッケージ（2026-09-29版）</li>
+      <li><a href="https://prtimes.jp/main/html/rd/p/000000055.000123123.html" target="_blank" rel="noopener">AiHUB プレスリリース（PR TIMES）</a>：テーマ、部門の性格、締切「10月末予定」、スケジュール、審査基準</li>
+      <li><a href="https://predge.jp/356640/" target="_blank" rel="noopener">PR EDGE</a>：1987年版の映像・音声・キャラクター等の使用禁止、生成AIへの入力禁止</li>
+      <li><a href="https://www.creators-wonderland.com/ja/contests/robot-carnival" target="_blank" rel="noopener">Creators' Wonderland 公式コンテストページ</a>：最終規約・締切はここで確認</li>
+    </ul>
+    <p>最終確認日：2026年9月29日。締切・尺・規約は変更される可能性があるため、提出当日に公式ページで再確認してください。</p>
+    <p style="margin-top:16px">原案・制作　月真猫 / TSUKIMAO　© TSUKI PRODUCT / tsuki.lab</p>
+  </div>
+</footer>
 
-<script>
-const BOARDS=[{"n":1,"t":"PROLOGUE","s":[[1,"夕暮れの公園・声なく泣く幼い沙羅"],[2,"サッカーボールと幼いカイル登場"],[3,"二人が無言で並んで座る"],[4,"「......変なの」／カイルの瞳の機械光"]]},{"n":2,"t":"王子様","s":[[5,"小6沙羅、中学校横"],[6,"桜の中でサッカーするカイル"],[7,"シュート／ゴール"],[8,"見惚れる沙羅"]]},{"n":3,"t":"ボール","s":[[9,"中1沙羅、フェンス越し"],[10,"ボールが足元へ"],[11,"カイル「......ボール」"],[12,"「......変なの」／沙羅の既視感"]]},{"n":4,"t":"キラ","s":[[13,"沙羅の部屋"],[14,"キラが恋心をからかう"],[15,"「カイル先輩、ドロだよ」"],[16,"「好きな気持ちは...関係なくない？」"]]},{"n":5,"t":"声","s":[[17,"誕生日・人工喉頭"],[18,"手術／神経接続"],[19,"初めての「お母さん」"],[20,"家族が抱き合う"]]},{"n":6,"t":"青春","s":[[21,"鏡に向かい告白練習"],[22,"キラに聞かれる"],[23,"二人で笑う"],[24,"夜「......好きです」"]]},{"n":7,"t":"EARTH AFTER","s":[[25,"ユタニアイランド式典"],[26,"EARTH AFTER起動"],[27,"夜の都市・無数のドロの目が点灯"],[28,"カイルとキラの目"]]},{"n":8,"t":"崩壊","s":[[29,"午前5時・沙羅覚醒"],[30,"燃える街"],[31,"TVにカイルとキラ"],[32,"爆発／白飛び"]]},{"n":9,"t":"AFTER","s":[[33,"荒廃した日本"],[34,"大人の沙羅が負傷者へ水"],[35,"捕獲ドロへ端末接続"],[36,"DELETE / ROLLBACK「おかえり」"]]},{"n":10,"t":"カイル再会","s":[[37,"廃墟で追跡"],[38,"暴走カイル出現"],[39,"沙羅「カイル！」"],[40,"ロールバック装置を突き刺す"]]},{"n":11,"t":"おかえり","s":[[41,"キラがカイルを修理"],[42,"「......キラ？」「おかえり」"],[43,"沙羅を見る"],[44,"「......誰？」「沙羅」"]]},{"n":12,"t":"三人の日常","s":[[45,"屋根修理で板を壊すカイル"],[46,"畑とサッカーボール"],[47,"子供相手に本気のサッカー"],[48,"三人の笑顔"]]},{"n":13,"t":"嘘","s":[[49,"焚き火"],[50,"カイルの人間不信"],[51,"沙羅「私もドロだよ」"],[52,"それを聞くキラ"]]},{"n":14,"t":"恋人","s":[[53,"三人の生活モンタージュ"],[54,"沙羅とカイルが近づく"],[55,"恋人として並ぶ二人"],[56,"夜、カイルが充電へ"]]},{"n":15,"t":"缶詰","s":[[57,"沙羅がそっと起きる"],[58,"一人で缶詰を食べる"],[59,"人工喉頭に一瞬ノイズ"],[60,"残り僅かな食料"]]},{"n":16,"t":"発覚","s":[[61,"振り返るとカイル"],[62,"「最初から気づいてた」"],[63,"「好きになるのに、関係ある？」"],[64,"抱擁"]]},{"n":17,"t":"怒り","s":[[65,"「怒ってる？」「......怒ってる」"],[66,"「なんで黙ってた」"],[67,"やるせないカイル"],[68,"沙羅一人"]]},{"n":18,"t":"失踪","s":[[69,"翌朝、空の寝床"],[70,"サッカーボール"],[71,"沙羅が捨てられたと思う"],[72,"キラが見守る"]]},{"n":19,"t":"真相（後に回想として使用可能）","s":[[73,"カイルの検索端末"],[74,"HUMAN FOOD STOCK"],[75,"ARTIFICIAL LARYNX PARTS"],[76,"共同体を振り返って出発"]]},{"n":20,"t":"捕獲","s":[[77,"食料／医療部品発見"],[78,"TYPE-1000 DETECTED"],[79,"共同体と逆方向へ走るカイル"],[80,"銃撃／捕獲"]]},{"n":21,"t":"数年後","s":[[81,"復興都市"],[82,"旧型停止ニュース"],[83,"ユタニで検索する沙羅"],[84,"KYLE / DECOMMISSION"]]},{"n":22,"t":"停止施設","s":[[85,"無数の停止ドロ"],[86,"カイル発見"],[87,"起動する目"],[88,"「......沙羅？」「おかえり」"]]},{"n":23,"t":"正体","s":[[89,"逃走"],[90,"沙羅被弾"],[91,"人工皮膚下の機械"],[92,"「また嘘ついてた」"]]},{"n":24,"t":"同じ時間","s":[[93,"生体ギミック化した身体"],[94,"「あなたと同じ時間を、生きたかった」"],[95,"怒るカイル"],[96,"「沙羅が沙羅じゃなくなる必要なんてない！」"]]},{"n":25,"t":"失踪の真実","s":[[97,"「また置いていかれたくなかった」"],[98,"「俺はお前を置いていったんじゃない」"],[99,"食料と喉部品の真相"],[100,"「言ったらついてくるだろ」「......行くよ」「だろ？」"]]},{"n":26,"t":"戦闘開始","s":[[101,"企業部隊包囲"],[102,"カイル拘束"],[103,"沙羅が右手の人工機構を展開"],[104,"突入"]]},{"n":27,"t":"沙羅の戦い","s":[[105,"銃撃回避"],[106,"血と火花"],[107,"カイルへ進む"],[108,"拘束破壊"]]},{"n":28,"t":"王子様","s":[[109,"沙羅が撃たれる"],[110,"カイルが抱き上げる"],[111,"人工喉頭が壊れ、声が消える"],[112,"唇「王子様でいてね」／カイル「......うん」"]]},{"n":29,"t":"神経ログ","s":[[113,"NEURAL LOG検出"],[114,"沙羅視点のサッカー"],[115,"カイル視点の沙羅"],[116,"二人の視点が交差"]]},{"n":30,"t":"記憶の共鳴","s":[[117,"「今日もカイルは見つからなかった」"],[118,"身体を人工化する沙羅"],[119,"KYLE / DECOMMISSION「見つけた」"],[120,"幼少期について語る沙羅の記録"]]},{"n":31,"t":"カイル自身の記憶","s":[[121,"夕暮れの公園"],[122,"泣く幼い沙羅"],[123,"隣に座る幼いカイル"],[124,"「......変なの」／現在のカイル「沙羅」"]]},{"n":32,"t":"FINAL","s":[[125,"沙羅を胸に抱いてユタニへ"],[126,"カイルが武器を構える"],[127,"背後にキラ、救われたドロ、人間たち"],[128,"カイルが武器を下ろす"]]},{"n":33,"t":"EPILOGUE","s":[[129,"再建された街と学校"],[130,"人間とドロの子供がサッカー"],[131,"ベンチのカイルとキラ"],[132,"桜／「......変なの」／タイトル"]]}];
-const ACT1=[
-["01","声を出せず泣く幼い沙羅。幼いカイルが黙って隣に座る。「……変なの」"],
-["02","小6の沙羅がサッカーをするカイルに見惚れる。"],
-["03","中1。ボールを介して再会。「……変なの」。互いに幼少期の相手とは気づかない。",1],
-["04","キラからカイルがTYPE-1000のドロだと知らされる。"],
-["05","キラ「好きな気持ちは、ドロだろうがヒトだろうが関係なくない？」",1],
-["06","誕生日。沙羅が神経接続型人工喉頭＝生体ギミックで声を得る。",1],
-["07","カイルへの告白練習をキラに聞かれる。ほのぼのした青春。"],
-["08","新世代統合AI《EARTH AFTER》配信。"],
-["09","カイルとキラを含むドロが暴走。街が崩壊。",1]];
-const ACT2=[
-["10","数年後。沙羅は暴走ドロを破壊せず《DELETE / ROLLBACK》して救済している。"],
-["11","キラも旧AIへ戻っており、共同体で人間とドロが暮らしている。"],
-["12","暴走状態のカイルと再会。沙羅がロールバック。",1],
-["13","カイルは沙羅を覚えていない。「……誰？」「沙羅」"],
-["14","三人の日常。修理、畑、サッカー、軽口。観客に三人を好きになってもらう時間。"],
-["15","人間不信のカイルに、沙羅は「私もドロ」と嘘をつく。",1],
-["16","二人は恋人になる。"],
-["17","沙羅はカイルのスリープ後に隠れて人間用の缶詰を食べる。"],
-["18","人工喉頭にも小さな不調。カイルはすべて気づいている。"],
-["19","カイル「最初から気づいてた」「好きになるのに、関係ある？」",1],
-["20","しかし「なんで黙ってた」と怒りと悲しみを見せる。信用されなかったことが苦しい。"],
-["21","翌朝カイルが消える。沙羅は自分の嘘と「人間であること」が原因だと思い込む。",1],
-["22","真相：カイルは沙羅の人間用食料と人工喉頭の交換部品を探しに出た。"],
-["23","言えば沙羅が付いてくるため黙って出発。企業回収部隊に発見され、共同体から遠ざけるため囮になる。"],
-["24","捕獲。"]];
-const ACT3=[
-["25","さらに数年後。復興社会でエネルギー危機。旧型ドロ停止政策。"],
-["26","ユタニ関連施設で働きながらカイルを探し続ける沙羅。"],
-["27","《TYPE-1000 / KYLE / DECOMMISSION》を発見。"],
-["28","停止施設で再会。今度のカイルは沙羅を覚えている。「おかえり」",1],
-["29","逃走中、沙羅の人工皮膚が裂け、生体ギミック化した身体が露出。"],
-["30","沙羅「あなたと同じ時間を、生きたかったから」",1],
-["31","カイル「俺と生きるために、沙羅が沙羅じゃなくなる必要なんてない！」"],
-["32","沙羅「また置いていかれたくなかった」"],
-["33","カイルが失踪の真相を告白。「あの日、食べ物を探しに行った。喉の部品も」"],
-["34","沙羅「言ってくれれば」「言ったらついてくるだろ」「……行くよ」「だろ？」"],
-["35","企業部隊。沙羅がカイルを救うため戦う。"],
-["36","沙羅が致命傷。人工喉頭が壊れ、最後の「王子様でいてね」は声にならず唇だけが動く。",1],
-["37","幼い頃は声のない沙羅を理解できなかったカイルが、今はその言葉を理解する。"],
-["38","沙羅停止。",1]];
-function fill(id,arr){document.getElementById(id).innerHTML=arr.map(a=>`<li class="${a[2]?'key':''}"><b>${a[0]}</b>${a[1]}</li>`).join('')}
-fill('tl1',ACT1);fill('tl2',ACT2);fill('tl3',ACT3);
+<!-- mobile dock -->
+<nav class="dock" id="dock" aria-label="クイックナビ">
+  <button type="button" id="dToc"><svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>目次</button>
+  <a href="#film"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg>観る</a>
+  <a href="#story"><svg viewBox="0 0 24 24"><path d="M4 4h7a3 3 0 013 3v13a2 2 0 00-2-2H4zm16 0h-4a3 3 0 00-2 1v14a2 2 0 012-1h4z"/></svg>物語</a>
+  <a href="#boards"><svg viewBox="0 0 24 24"><path d="M3 4h8v7H3zm10 0h8v7h-8zM3 13h8v7H3zm10 0h8v7h-8z"/></svg>絵コンテ</a>
+  <a href="#tools"><svg viewBox="0 0 24 24"><path d="M21 7l-4-4-3 3 1 1-8 8-2-1-2 3 3 3 3-2-1-2 8-8 1 1z"/></svg>ツール</a>
+</nav>
+<div class="toc" id="toc" role="dialog" aria-label="目次">
+  <button class="btn sm x" type="button" id="tocX">閉じる ✕</button>
+  <a href="#start">使い方<small>00</small></a><a href="#film">アニマティック<small>01</small></a><a href="#story">物語<small>02</small></a><a href="#people">人物<small>03</small></a><a href="#structure">構成と感情曲線<small>04</small></a><a href="#boards">絵コンテ<small>05</small></a><a href="#stage3d">3D舞台モデル<small>06</small></a><a href="#tools">制作ツール<small>07</small></a><a href="#contest">コンペ・提出<small>08</small></a>
+</div>
+<button class="to-top" id="toTop" type="button" aria-label="ページ先頭へ">↑</button>
+<div class="toast" id="toast" role="status"></div>
 
-/* storyboard */
-const actOf=n=>n<=8?1:(n<=20?2:3);
-const boardsEl=document.getElementById('boards');
-const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-boardsEl.innerHTML=BOARDS.map(b=>{
-  const a=actOf(b.n);
-  return `<details class="board" data-act="${a}" style="--c:var(--a${a})"><summary><b>${String(b.n).padStart(2,'0')}</b><span>${esc(b.t)}</span><em>ACT ${a} · #${b.s[0][0]}–${b.s[b.s.length-1][0]}</em></summary><ol>${b.s.map(s=>`<li data-t="${esc(s[1])}"><small>SHOT ${s[0]}</small>${esc(s[1])}</li>`).join('')}</ol></details>`}).join('');
-let actF='all';
-function applyFilter(){
-  const q=document.getElementById('q').value.trim().toLowerCase();
-  let hits=0;
-  boardsEl.querySelectorAll('.board').forEach(d=>{
-    const okAct=actF==='all'||d.dataset.act===actF;
-    let match=!q;
-    d.querySelectorAll('li').forEach(li=>{
-      const h=q&&(li.dataset.t.toLowerCase().includes(q)||d.querySelector('span').textContent.toLowerCase().includes(q));
-      li.classList.toggle('hit',!!q&&li.dataset.t.toLowerCase().includes(q));
-      if(li.classList.contains('hit')){hits++}
-      if(h)match=true;
-    });
-    d.classList.toggle('hide',!(okAct&&match));
-    if(q&&okAct&&match)d.open=true;
-  });
-  document.getElementById('qcount').textContent=q?`「${q}」に一致：${hits}ショット`:'';
-}
-document.getElementById('q').addEventListener('input',applyFilter);
-document.querySelectorAll('.tools .btn[data-f]').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.tools .btn[data-f]').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on');actF=b.dataset.f;applyFilter();}));
-let expanded=false;
-document.getElementById('expand').addEventListener('click',e=>{
-  expanded=!expanded;boardsEl.querySelectorAll('.board').forEach(d=>d.open=expanded);
-  e.target.textContent=expanded?'全て閉じる':'全展開';});
+<dialog class="lb" id="lb" aria-label="詳細表示">
+  <div class="lbin">
+    <div class="lbtop">
+      <button class="ic" type="button" id="lbPrev" aria-label="前"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" fill="none"/></svg></button>
+      <span class="t" id="lbT"></span>
+      <button class="ic" type="button" id="lbNext" aria-label="次"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" fill="none"/></svg></button>
+      <button class="ic" type="button" id="lbX" aria-label="閉じる"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4"/></svg></button>
+    </div>
+    <div class="lbmain" id="lbMain"></div>
+  </div>
+</dialog>
 
-/* checklist */
-const CHECKS={
-"脚本":["EARTH AFTER暴走原因を確定","ユタニ代表／企業の思想を確定","旧型停止政策の理由と倫理を整理","20分以内へ台詞・モンタージュ尺を実測","キラの存在感を各幕で維持"],
-"絵コンテ":["16:9で統一","1ボード4コマ","全33ボード／132ショットを基準に再構築","複数ショットを1カットに統合して尺を調整","沙羅／カイル／キラのキャラクター連続性を最優先"],
-"映像":["幼少期→中学→戦後→復興後の年代差","カイルは基本的に外見年齢が変わらない","沙羅の人工化は段階的に伏線を置く","EARTH AFTER暴走時の「目の点灯」を象徴ショットに","記憶の共鳴は沙羅視点／カイル視点を明確に設計"],
-"音":["沙羅の人工喉頭の音を過度なロボ声にしない","終盤まで微細なノイズを伏線化","最後は声が消え、唇だけが動く","無音を感情演出として使用"],
-"権利":["キャラ・背景・ロゴはオリジナル","既存IP固有名・意匠を生成指示へ入れない","音楽・SE・フォント・AI生成サービスの利用条件を記録","1987年版ロボットカーニバルの素材を使用しない"],
-"提出":["20分以下（公式の尺条件も確認）","書き出し映像を全編再生確認","字幕・音量・黒レベル・フレーム落ち確認","サムネイル","あらすじ","アピールポイント","AI使用ツール／制作工程","最新規約確認","締切時刻確認"]};
-const KEY='earthafter-checks-v1';
-let state={};
-try{state=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){state={}}
-const cEl=document.getElementById('checks');
-let total=0;
-cEl.innerHTML=Object.entries(CHECKS).map(([g,items])=>`<div class="card chk"><h3>${g}</h3>${items.map(t=>{total++;const id=g+'|'+t;return `<label><input type="checkbox" data-id="${esc(id)}" ${state[id]?'checked':''}><span>${esc(t)}</span></label>`}).join('')}</div>`).join('');
-function upd(){
-  const n=cEl.querySelectorAll('input:checked').length;
-  document.getElementById('done').textContent=n;document.getElementById('total').textContent=total;
-  const p=Math.round(n/total*100);document.getElementById('pct').textContent=p;document.getElementById('bar').style.width=p+'%';}
-cEl.addEventListener('change',e=>{
-  if(e.target.matches('input')){state[e.target.dataset.id]=e.target.checked;try{localStorage.setItem(KEY,JSON.stringify(state))}catch(_){}upd();}});
-document.getElementById('reset').addEventListener('click',()=>{
-  state={};try{localStorage.removeItem(KEY)}catch(_){}
-  cEl.querySelectorAll('input').forEach(i=>i.checked=false);upd();});
-upd();
-
-/* countdown: 2026-10-31 23:59 JST (provisional) */
-const DEADLINE=new Date('2026-10-31T23:59:00+09:00').getTime();
-function tick(){
-  let d=DEADLINE-Date.now();
-  if(d<0){document.getElementById('count').style.display='none';document.getElementById('countNote').textContent='仮置きの締切（2026年10月31日）を過ぎました。公式ページで最新状況をご確認ください。';return}
-  const s=Math.floor(d/1000);
-  document.getElementById('cd').textContent=Math.floor(s/86400);
-  document.getElementById('ch').textContent=String(Math.floor(s%86400/3600)).padStart(2,'0');
-  document.getElementById('cm').textContent=String(Math.floor(s%3600/60)).padStart(2,'0');
-  document.getElementById('cs').textContent=String(s%60).padStart(2,'0');}
-tick();setInterval(tick,1000);
-
-/* theme */
-const root=document.documentElement;
-try{const t=localStorage.getItem('earthafter-theme');if(t)root.dataset.theme=t}catch(_){}
-document.getElementById('themeBtn').addEventListener('click',()=>{
-  const cur=root.dataset.theme||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');
-  const nx=cur==='dark'?'light':'dark';root.dataset.theme=nx;try{localStorage.setItem('earthafter-theme',nx)}catch(_){}});
-
-/* nav highlight + top */
-const links=[...document.querySelectorAll('nav a')];
-const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
-addEventListener('scroll',()=>{
-  let cur=0;secs.forEach((s,i)=>{if(s&&s.getBoundingClientRect().top<120)cur=i});
-  links.forEach((a,i)=>a.classList.toggle('on',i===cur));
-},{passive:true});
-document.getElementById('top').addEventListener('click',()=>scrollTo({top:0}));
-</script>
+<script src="data.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
