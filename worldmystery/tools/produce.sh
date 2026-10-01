@@ -1,10 +1,11 @@
 #!/bin/bash
 # 1話を最後まで作る: 声 → 動画 → 投稿一式 → ショート → 送信用(30MB以内)の圧縮版 → 確認用の静止画
 # 使い方: bash tools/produce.sh scripts/ep002_ai_breach.json
+# VOICEVOX エンジンの場所が違うときは VOICEVOX_DIR=/path/to/engine を付けて実行
 set -e
 cd "$(dirname "$0")/.."
 S="$1"; N=$(basename "$S" .json)
-curl -sS -m 3 http://127.0.0.1:50021/version >/dev/null 2>&1 || { (cd /home/user/voicevox/engine && nohup ./run --host 127.0.0.1 --port 50021 > ../engine.log 2>&1 &); for i in $(seq 1 30); do sleep 2; curl -sS -m 2 http://127.0.0.1:50021/version >/dev/null 2>&1 && break; done; }
+curl -sS -m 3 http://127.0.0.1:50021/version >/dev/null 2>&1 || { (cd "${VOICEVOX_DIR:-/home/user/voicevox/engine}" && nohup ./run --host 127.0.0.1 --port 50021 > ../engine.log 2>&1 &); for i in $(seq 1 30); do sleep 2; curl -sS -m 2 http://127.0.0.1:50021/version >/dev/null 2>&1 && break; done; }
 python3 scripts/build.py "$S" --voice-only | tail -1
 python3 scripts/build.py "$S" --use-wavs --out "out/$N.mp4" | grep -E "^->|BGM"
 python3 scripts/package.py "$S"

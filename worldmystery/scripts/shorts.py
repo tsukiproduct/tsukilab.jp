@@ -37,11 +37,11 @@ def footer_png(sc, path):
     card, pad = B.sticker(760, 120, 60, B.MARKER, shadow=B.INK + (255,), off=(6, 6), ow=5)
     im.alpha_composite(card, ((VW - card.width) // 2, 60))
     d = ImageDraw.Draw(im)
-    d.text((VW // 2 - 30, 60 + pad + 60), "続きは本編で", font=B.F_TITLE(60), fill=B.INK, anchor="mm")
-    tx = VW // 2 - 30 + B.F_TITLE(60).getlength("続きは本編で") // 2 + 30
+    d.text((VW // 2 - 30, 60 + pad + 60), B.BRAND["shorts_more"], font=B.F_TITLE(60), fill=B.INK, anchor="mm")
+    tx = VW // 2 - 30 + B.F_TITLE(60).getlength(B.BRAND["shorts_more"]) // 2 + 30
     ty = 60 + pad + 60
     d.polygon([(tx, ty - 24), (tx, ty + 24), (tx + 38, ty)], fill=B.INK)  # 三角の矢印(フォントに無い記号は図形で描く)
-    tag = f"{sc['series']}  バグ報告 {sc.get('episode', '')}"
+    tag = f"{sc['series']}  {B.BRAND['tag']} {sc.get('episode', '')}"
     d.text((VW // 2, 300), tag, font=B.F_POP(46), fill=(255, 255, 255), anchor="mm", stroke_width=8, stroke_fill=B.INK)
     im.save(path)
 
@@ -82,13 +82,13 @@ def thumb_png(sc, sh, k, path):
         aspect = src.width * (c[2] - c[0]) / (src.height * (c[3] - c[1]))
         pb = P.photo_block(B.REFS / ph["photo"], (900, int(min(640, max(420, 900 / aspect)))), ph.get("focus", 0.5), crop=ph.get("crop"))
         im.alpha_composite(pb, ((VW - pb.width) // 2, y + bt.height + 10))
-    names = ["tsumugi", "zunda"]
+    names = sorted(sc["characters"], key=lambda c: sc["characters"][c].get("side") != "left")  # 左の担当を左に
     for j, key in enumerate(names):
         fc = P.face(key, "surprise", 520 if ph else 600)
         x = -40 if j == 0 else VW - fc.width + 40
         im.alpha_composite(fc, (x, VH - fc.height + 30))
     im.alpha_composite(bt, ((VW - bt.width) // 2, y))
-    tagtxt = f"バグ報告 {sc.get('episode', '')}"
+    tagtxt = f"{B.BRAND['tag']} {sc.get('episode', '')}"
     tag, pad = B.sticker(int(B.F_POP(48).getlength(tagtxt)) + 70, 80, 40, B.PAPER, shadow=B.INK + (255,), off=(4, 4), ow=4)
     ImageDraw.Draw(tag).text((tag.width // 2 - 2, tag.height // 2 - 2), tagtxt, font=B.F_POP(48), fill=B.INK, anchor="mm")
     im.alpha_composite(tag.rotate(-4, expand=True, resample=Image.BICUBIC), ((VW - tag.width) // 2, 30))
@@ -98,6 +98,7 @@ def thumb_png(sc, sh, k, path):
 def main():
     sp, video = Path(sys.argv[1]), Path(sys.argv[2])
     sc = json.loads(sp.read_text())
+    B.set_brand(sc)
     name = sp.stem
     meta = json.loads((ROOT / "out" / f"{name}_meta.json").read_text())
     starts = {i: (s, d) for i, s, d in meta["lines"]}

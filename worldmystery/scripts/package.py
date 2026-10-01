@@ -83,7 +83,7 @@ def thumbnail(sc, v):
         bt = bt.resize((760, int(bt.height * 760 / bt.width)), Image.LANCZOS)
     im.alpha_composite(bt, (10, 20))
     # 「バグ報告 #番号」札(左上はロゴの位置として固定)
-    tagtxt = f"バグ報告 {sc.get('episode', '')}"
+    tagtxt = f"{B.BRAND['tag']} {sc.get('episode', '')}"
     tag, pad = B.sticker(int(B.F_POP(40).getlength(tagtxt)) + 60, 66, 33, B.PAPER, shadow=B.INK + (255,), off=(4, 4), ow=4)
     ImageDraw.Draw(tag).text((tag.width // 2 - 2, tag.height // 2 - 2), tagtxt, font=B.F_POP(40), fill=B.INK, anchor="mm")
     im.alpha_composite(tag.rotate(-4, expand=True, resample=Image.BICUBIC), (TW - tag.width - 30, 6))
@@ -103,9 +103,10 @@ def description(sc, meta, credits):
         lines.append(f"{fmt(t)} {ch_titles[c]}")
     r = sc.get("report")
     if r:
-        lines += ["", f"▼今回のバグ報告書 No.{r['no']}", f"対象：{r['name']}", f"発生場所：{r['place']}",
-                  f"原因の報告：{r['reporter']}", f"ステータス：{r['status']}"]
-    lines += ["", "あなたが見つけた「この世界のバグ」も、コメントで報告してください。次回以降の報告書で取り上げるかもしれません。",
+        lb = B.BRAND["report_labels"]
+        lines += ["", f"▼今回の{B.BRAND['report_title']} No.{r['no']}", f"{lb[0]}：{r['name']}", f"{lb[1]}：{r['place']}",
+                  f"{lb[2]}：{r['reporter']}", f"{lb[4]}：{r['status']}"]
+    lines += ["", B.BRAND["comment_cta"],
               "", credits.strip(), "", " ".join(pub.get("hashtags", []))]
     return "\n".join(lines) + "\n"
 
@@ -113,6 +114,7 @@ def description(sc, meta, credits):
 def main():
     sp = Path(sys.argv[1])
     sc = json.loads(sp.read_text())
+    B.set_brand(sc)
     name = sp.stem
     meta_p = ROOT / "out" / f"{name}_meta.json"
     cred_p = ROOT / "out" / f"{name}_credits.txt"

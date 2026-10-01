@@ -18,6 +18,12 @@
   image  : 参照画像(assets/refs/) + credit / license / url / fit(contain) / focus / note
   panel  : "none" で中央のカードを消す(image/telopは次の指定まで出続ける)
   sfx    : pon / kira / chan / bubu    punch: true で話者が一瞬ズームする
+  seq    : 連番PNGのフォルダ名(assets/refs/<seq>/NNN.png, 30fps)= 動く図。box: [幅,高さ] で表示枠
+  pop    : 話者の横に出る吹き出しの一言     chapter: 章番号(その行から章が切り替わる)
+  report : true で報告書カード / stamp: true でステータスの判子を押す
+  {"sting": true} の行 = オープニング(約2.6秒、ロゴ + 「<tag> #番号」)
+台本の "brand" で札・報告書の言葉・強調色を差し替えられる(BRAND を参照)。
+キャラごとの字幕色は characters.<key>.colors = {"text": [R,G,B], "main": [R,G,B]}。
 """
 import argparse, functools, json, math, os, re, subprocess, sys, wave, struct, urllib.request, urllib.parse, hashlib
 from pathlib import Path
@@ -46,6 +52,27 @@ F_BOLD = lambda s: F("ZenMaruGothic_700Bold.ttf", s)
 F_TITLE = lambda s: F("DelaGothicOne_400Regular.ttf", s)
 F_POP = lambda s: F("HachiMaruPop_400Regular.ttf", s)
 SS = 2  # 図形はこの倍率で描いて縮小(ジャギー防止)
+
+# チャンネル固有の言葉と色。台本JSONの "brand" で上書きできる(別ジャンルのチャンネルに流用するため)
+BRAND = {
+    "tag": "バグ報告",                 # 「バグ報告 #001」の札(オープニング・サムネ・ショート)
+    "report_title": "バグ報告書",      # 締めの報告書カードの見出し
+    "report_labels": ["対象", "発生場所", "原因の報告", "深刻度", "ステータス"],
+    "comment_cta": "あなたが見つけた「この世界のバグ」も、コメントで報告してください。次回以降の報告書で取り上げるかもしれません。",
+    "shorts_more": "続きは本編で",
+    "marker": None,                    # 強調色 [R,G,B](null ならそのまま)
+}
+
+
+def set_brand(sc):
+    """台本の "brand" を既定値に重ねる。強調色も差し替える"""
+    global MARKER
+    BRAND.update(sc.get("brand", {}))
+    if BRAND.get("marker"):
+        MARKER = tuple(BRAND["marker"])
+    for key, ch in sc.get("characters", {}).items():  # 別のキャラは "colors": {"text": [R,G,B], "main": [R,G,B]}
+        if ch.get("colors"):
+            PALETTE[key] = {k: tuple(v) for k, v in ch["colors"].items()}
 
 
 def sticker(w, h, radius, fill, outline=INK, ow=5, shadow=(0, 0, 0, 0), off=(8, 8)):
@@ -387,17 +414,18 @@ def chapter_band(num, label):
 
 
 def report_card(rep_, stamped):
-    """バグ報告書カード。stamped=True でステータス欄に判子が押された状態"""
+    """報告書カード(既定は「バグ報告書」)。stamped=True でステータス欄に判子が押された状態"""
     w, h = 860, 470
     card, pad = sticker(w, h, 24, PAPER, shadow=INK + (255,), off=(10, 10), ow=6)
     out = Image.new("RGBA", card.size, (0, 0, 0, 0)); out.alpha_composite(card)
     d = ImageDraw.Draw(out)
     d.rounded_rectangle([pad + 6, pad + 6, pad + w - 6, pad + 86], 18, fill=MARKER)
     d.line([(pad + 6, pad + 86), (pad + w - 6, pad + 86)], fill=INK, width=5)
-    d.text((pad + 34, pad + 46), "バグ報告書", font=F_TITLE(48), fill=INK, anchor="lm")
+    d.text((pad + 34, pad + 46), BRAND["report_title"], font=F_TITLE(48), fill=INK, anchor="lm")
     d.text((pad + w - 34, pad + 48), f"No.{rep_['no']}", font=F_TITLE(40), fill=(208, 98, 10), anchor="rm")
-    rows = [("対象", rep_["name"]), ("発生場所", rep_["place"]), ("原因の報告", rep_["reporter"]),
-            ("深刻度", "★" * rep_["severity"] + "☆" * (5 - rep_["severity"])), ("ステータス", "")]
+    lb = BRAND["report_labels"]
+    rows = [(lb[0], rep_["name"]), (lb[1], rep_["place"]), (lb[2], rep_["reporter"]),
+            (lb[3], "★" * rep_["severity"] + "☆" * (5 - rep_["severity"])), (lb[4], "")]
     y = pad + 128
     for k, v in rows:
         d.text((pad + 40, y), k, font=F_BOLD(30), fill=(150, 120, 90), anchor="lm")
@@ -432,13 +460,15 @@ def sting_frames(sc):
     d = ImageDraw.Draw(base)
     for i in range(-H, W + H, 90):
         d.polygon([(i, 0), (i + 45, 0), (i + 45 - H, H), (i - H, H)], fill=(255, 238, 160, 255))
-    tag = sticker(int(F_POP(46).getlength(f"バグ報告 {sc.get('episode', '')}")) + 70, 76, 38, PAPER, shadow=INK + (255,), off=(5, 5))[0]
-    ImageDraw.Draw(tag).text((tag.width // 2 - 4, tag.height // 2 - 2), f"バグ報告 {sc.get('episode', '')}", font=F_POP(46), fill=INK, anchor="mm")
-    return base, logo, tag
+    tag = sticker(int(F_POP(46).getlength(f"{BRAND['tag']} {sc.get('episode', '')}")) + 70, 76, 38, PAPER, shadow=INK + (255,), off=(5, 5))[0]
+    ImageDraw.Draw(tag).text((tag.width // 2 - 4, tag.height // 2 - 2), f"{BRAND['tag']} {sc.get('episode', '')}", font=F_POP(46), fill=INK, anchor="mm")
+    keys = sorted(sc["characters"], key=lambda c: sc["characters"][c].get("side") != "left")  # 左の担当から
+    return base, logo, tag, keys
 
 
 def render_sting(frame, sting, age):
-    base, logo, tag = sting
+    base, logo, tag = sting[:3]
+    keys = sting[3] if len(sting) > 3 else ["tsumugi", "zunda"]
     import random
     out = base.copy()
     if logo is not None:
@@ -448,7 +478,7 @@ def render_sting(frame, sting, age):
         rnd = random.Random(int(age * 30))
         jx, jy = (rnd.randint(-14, 14), rnd.randint(-6, 6)) if 0.6 < age < 0.9 or 1.6 < age < 1.75 else (0, 0)  # バグっぽい揺れ
         out.alpha_composite(L, ((W - L.width) // 2 + jx, (H - L.height) // 2 - 60 + jy))
-    for k, (key, name, x) in enumerate([("tsumugi", "happy_open_open", 330), ("zunda", "surprise_open_open", W - 330)]):
+    for k, (key, name, x) in enumerate([(keys[0], "happy_open_open", 330), (keys[-1], "surprise_open_open", W - 330)]):
         q = ease((age - 0.25 - 0.12 * k) / 0.3)  # 下から順番に飛び出す
         if q > 0:
             sp = sprite(key, name, 0.62)
@@ -695,6 +725,7 @@ def main():
     ap.add_argument("--still", nargs=2, metavar=("SEC", "PNG"))
     a = ap.parse_args()
     sc = json.loads(Path(a.script).read_text())
+    set_brand(sc)
     name = Path(a.script).stem
     tmp = ROOT / "out" / name
     tmp.mkdir(parents=True, exist_ok=True)
