@@ -313,8 +313,31 @@ def telop_img(text):
     return out
 
 
+def split_title(title, size, maxw):
+    """題名が長いときは、助詞の後ろなど自然な所で2行に分ける(全身の2人の間に収めるため)"""
+    f = F_TITLE(size)
+    if f.getlength(title) <= maxw:
+        return [title]
+    kind = lambda c: "h" if "ぁ" <= c <= "ゖ" else "k" if "ァ" <= c <= "ヺ" or c == "ー" else "d" if c.isascii() else "c"
+    best, bscore = len(title) // 2, 1e9
+    for i in range(2, len(title) - 1):
+        a, b = title[:i], title[i:]
+        if b[0] in NOBREAK or b[0] in "がをはにでとものへや":
+            continue
+        # 助詞の後ろ > 文字の種類が変わる所(漢字→ひらがな など)> それ以外(単語の途中になりやすい)
+        pen = 0 if a[-1] in "がをはにでとも、" else 250 if kind(a[-1]) != kind(b[0]) else 2000
+        score = max(f.getlength(a), f.getlength(b)) + pen
+        if score < bscore:
+            best, bscore = i, score
+    return [title[:best], title[best:]]
+
+
 def title_card(series, title, episode):
-    body = marker_text([title], 92, PEACH + (255,))
+    size = 84
+    lines = split_title(title, size, 760)
+    while max(F_TITLE(size).getlength(l) for l in lines) > 760 and size > 56:
+        size -= 4
+    body = marker_text(lines, size, PEACH + (255,))
     w, h = max(body.width + 90, 760), body.height + 150
     card, pad = sticker(w, h, 52, PAPER, shadow=MINT + (255,), off=(12, 12), ow=6)
     out = Image.new("RGBA", card.size, (0, 0, 0, 0))
