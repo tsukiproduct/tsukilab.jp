@@ -14,7 +14,6 @@
       "side": "right"
     }
   },
-  "credits": "音声: VOICEVOX:ずんだもん / VOICEVOX:春日部つむぎ　立ち絵: 坂本アヒル",
   "lines": [
     {
       "who": "zunda",
@@ -38,9 +37,11 @@
       "who": "tsumugi",
       "emote": "normal",
       "text": "場所は、デスバレー国立公園の、レーストラック・プラヤ。乾いた湖底に石が点々とあり、その後ろには、引きずったような跡が残っているんです。",
-      "image": "racetrack_stones.jpg",
-      "credit": "要記入",
-      "license": "要記入"
+      "image": "racetrack_tracks_aerial.jpg",
+      "credit": "Richard D. Norris ほか",
+      "license": "CC BY 1.0",
+      "url": "https://commons.wikimedia.org/wiki/File:Racetrack_playa_2013-12-20.jpg",
+      "note": "トリミングあり"
     },
     {
       "who": "zunda",
@@ -61,9 +62,11 @@
       "who": "tsumugi",
       "emote": "normal",
       "text": "二〇一四年、研究チームが十五個の石にGPSをつけ、気象観測所も置いて、実際に観察しました。結果は、科学誌プロス・ワンに発表されています。",
-      "image": "gps_stone_research.jpg",
-      "credit": "要記入",
-      "license": "要記入"
+      "image": "plos_fig3_map_gps_rocks.jpg",
+      "credit": "Norris et al. (2014) PLOS ONE 図3",
+      "license": "CC BY 4.0",
+      "fit": "contain",
+      "url": "https://doi.org/10.1371/journal.pone.0105948"
     },
     {
       "who": "zunda",
@@ -74,9 +77,11 @@
       "who": "tsumugi",
       "emote": "normal",
       "text": "仕組みは、こうです。雨のあと湖底に浅い水がたまり、夜に凍って、厚さ三から六ミリの、薄い氷の板になります。",
-      "image": "ice_sheet_playa.jpg",
-      "credit": "要記入",
-      "license": "要記入"
+      "image": "plos_fig1_ice_timelapse.jpg",
+      "credit": "Norris et al. (2014) PLOS ONE 図1",
+      "license": "CC BY 4.0",
+      "fit": "contain",
+      "url": "https://doi.org/10.1371/journal.pone.0105948"
     },
     {
       "who": "tsumugi",
@@ -113,7 +118,10 @@
     }
   ],
   "sources": [
-    "Norris et al., PLOS ONE (2014)",
-    "ScienceDaily 2014-08-28 / CSMonitor 2014-08-27"
+    "Norris RD, Norris JM, Lorenz RD, Ray J, Jackson B (2014) Sliding Rocks on Racetrack Playa, Death Valley National Park: First Observation of Rocks in Motion. PLoS ONE 9(8): e105948. https://doi.org/10.1371/journal.pone.0105948",
+    "ScienceDaily 2014-08-28 / CSMonitor 2014-08-27 の報道"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
   ]
 }

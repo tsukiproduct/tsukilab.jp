@@ -212,7 +212,13 @@ def photo_card(entry):
     path = REFS / entry["image"]
     if path.exists():
         ph = Image.open(path).convert("RGB")
-        ph = ImageOps.fit(ph, (box_w, box_h), Image.LANCZOS)
+        if entry.get("fit") == "contain":  # 図版など、切らずに全体を見せる
+            ph = ImageOps.contain(ph, (box_w, box_h), Image.LANCZOS)
+            base = Image.new("RGB", (box_w, box_h), (247, 243, 234))
+            base.paste(ph, ((box_w - ph.width) // 2, (box_h - ph.height) // 2))
+            ph = base
+        else:
+            ph = ImageOps.fit(ph, (box_w, box_h), Image.LANCZOS, centering=(0.5, float(entry.get("focus") or 0.5)))
     else:
         ph = Image.new("RGB", (box_w, box_h), (244, 236, 220))
         d = ImageDraw.Draw(ph)
@@ -341,7 +347,7 @@ def build_timeline(sc, tmp, url, use_voice, sids):
         if ln.get("panel") == "none":
             panel = None
         elif "image" in ln:
-            panel, pstart = ("image", {k: ln.get(k, "") for k in ("image", "credit", "license")}), settle
+            panel, pstart = ("image", {k: ln.get(k, "") for k in ("image", "credit", "license", "fit", "focus", "url", "note")}), settle
         elif "telop" in ln:
             panel, pstart = ("telop", ln["telop"]), settle
         prev_mode = mode
@@ -349,6 +355,23 @@ def build_timeline(sc, tmp, url, use_voice, sids):
                        wav=wav if use_voice else None))
         t += dur + GAP
     return tl, t + 1.2
+
+
+def write_credits(sc, tl, path):
+    """YouTubeの概要欄に貼るクレジット文を書き出す"""
+    out = ["【音声】", *[f"VOICEVOX:{c['voicevox']}" for c in sc["characters"].values()], "",
+           "【立ち絵】", *sc.get("tachie_credits", []), "", "【使用した画像】"]
+    seen = set()
+    for e in tl:
+        if e["panel"] and e["panel"][0] == "image":
+            im = e["panel"][1]
+            if im["image"] in seen:
+                continue
+            seen.add(im["image"])
+            out += [f"・{im['credit']} / {im['license']}" + (f"({im['note']})" if im.get("note") else ""),
+                    f"  {im['url']}" if im.get("url") else ""]
+    out += ["", "【参考】", *[f"・{x}" for x in sc.get("sources", [])]]
+    Path(path).write_text("\n".join(x for i, x in enumerate(out) if x or (i and out[i - 1])) + "\n", encoding="utf-8")
 
 
 def main():
@@ -401,8 +424,6 @@ def main():
     # 素材
     ep = sc.get("episode", "")
     bg = background(sc["series"], sc["title"], ep)
-    d0 = ImageDraw.Draw(bg)
-    d0.text((W // 2, H - 22), sc["credits"], font=F_BOLD(22), fill=INK + (200,), anchor="mm")
     subs = {e["i"]: subtitle_img(chars[e["who"]], e["text"], chars[e["who"]]["side"]) for e in tl}
     telops, photos = {}, {}
     for e in tl:
@@ -463,6 +484,8 @@ def main():
             s = subs[act["i"]]
             frame.alpha_composite(s, ((W - s.width) // 2, H - s.height - 10))
         return frame.convert("RGB")
+
+    write_credits(sc, tl, tmp.parent / f"{name}_credits.txt")
 
     if a.still:
         render_frame(int(float(a.still[0]) * FPS)).save(a.still[1])
