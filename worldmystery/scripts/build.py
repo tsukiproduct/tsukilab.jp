@@ -3,6 +3,8 @@
   python3 scripts/build.py scripts/sample_sailing_stones.json            # VOICEVOXがあれば音声合成
   python3 scripts/build.py scripts/sample_sailing_stones.json --dry      # 音声なし(文字数から時間を推定)
   python3 scripts/build.py scripts/sample_sailing_stones.json --dry --still 30 out/still.png   # 30秒時点の静止画
+  python3 scripts/build.py scripts/sample_sailing_stones.json --voice-only   # 声(WAV)だけ作る。立ち絵・フォントは不要
+  python3 scripts/build.py scripts/sample_sailing_stones.json --use-wavs     # 作成済みWAV(out/<台本名>/NNN.wav)で動画を作る
 環境変数 VOICEVOX_URL (既定 http://127.0.0.1:50021)
 
 台本の各行(lines)で使える項目:
@@ -352,6 +354,7 @@ def build_timeline(sc, tmp, url, use_voice, sids):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("script"); ap.add_argument("--dry", action="store_true")
+    ap.add_argument("--voice-only", action="store_true"); ap.add_argument("--use-wavs", action="store_true")
     ap.add_argument("--out"); ap.add_argument("--frames", type=int)
     ap.add_argument("--still", nargs=2, metavar=("SEC", "PNG"))
     a = ap.parse_args()
@@ -364,7 +367,11 @@ def main():
 
     use_voice = not a.dry
     sids = {}
-    if use_voice:
+    if a.use_wavs:
+        missing = [i for i in range(len(sc["lines"])) if not (tmp / f"{i:03d}.wav").exists()]
+        if missing:
+            raise SystemExit(f"WAVが足りません: {tmp} に {[f'{i:03d}.wav' for i in missing]}")
+    elif use_voice:
         try:
             vv(url, "/version")
             sids = {k: speaker_id(url, c["voicevox"]) for k, c in chars.items()}
@@ -372,6 +379,11 @@ def main():
             print(f"VOICEVOXに接続できないため --dry で続行します ({e})", file=sys.stderr)
             use_voice = False
     tl, total = build_timeline(sc, tmp, url, use_voice, sids)
+    if a.voice_only:
+        if not use_voice:
+            raise SystemExit("VOICEVOXに接続できませんでした。VOICEVOXを起動してから実行してください")
+        print(f"-> {tmp} に {len(tl)} 個のWAVを作りました。このフォルダのWAVをzipにして渡してください")
+        return
 
     # 音声トラック
     audio = tmp / "audio.wav"
