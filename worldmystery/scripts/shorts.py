@@ -19,9 +19,11 @@ VW, VH = 1080, 1920
 def hook_png(lines, path):
     im = Image.new("RGBA", (VW, 520), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
-    f = B.F_TITLE(96 if max(len(l) for l in lines) <= 9 else 80)
+    n = len(lines)
+    f = B.F_TITLE(min(96 if max(len(l) for l in lines) <= 9 else 80, 88 if n >= 3 else 96))
+    sp = 130 if n >= 3 else 150
     for i, l in enumerate(lines):
-        y = 150 + i * 150
+        y = 400 - (n - 1 - i) * sp  # 最後の行の位置をそろえ、3行でも本編の映像に重ならないように
         col = B.MARKER if i == len(lines) - 1 else (255, 255, 255)
         d.text((VW // 2 + 6, y + 6), l, font=f, fill=B.INK, anchor="mm", stroke_width=14, stroke_fill=B.INK)
         d.text((VW // 2, y), l, font=f, fill=col, anchor="mm", stroke_width=14, stroke_fill=B.INK)
