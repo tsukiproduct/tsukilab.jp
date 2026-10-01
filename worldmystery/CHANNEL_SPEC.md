@@ -66,7 +66,9 @@
 - 収益化の条件は **2027年2月1日から2倍**(登録者1,000人 + 総再生8,000時間/12か月 または Shorts 2,000万回/90日)。
   それ以前に参加したチャンネルはそのまま継続できる → 2027年1月末までの審査通過を最優先の目標にする。
 - 月1回、過去回をまとめた「寝ながら聴ける」総集編を作る(再生時間を稼ぐ役)。
-- Shorts: 長尺1本から1〜2本の予告を切り出し、長尺へ誘導する(今後ツール化)。
+- Shorts: 本編1本から2本を `scripts/shorts.py` で縦型に切り抜く(台本の "shorts" に区間と見出しを書く)。
+  本編の翌日に公開し、Studio の「関連動画」に本編を設定する。
+- 公開時刻: 本編は毎日19:00、ショートは翌日12:00と21:30(日本の視聴ピーク21〜22時の前)。詳細は `PUBLISH_SCHEDULE.md`。
 
 ## 9. 振り返り(週1回)
 - 各動画の 0:30 時点の視聴維持率、章の切り替わりでの離脱、クリック率、テストと比較の結果を見る。
@@ -78,4 +80,9 @@ python3 tools/topics.py check "キーワード"                # 題材の重複
 python3 scripts/build.py scripts/epXXX_*.json --voice-only  # 声の合成(VOICEVOXが必要)
 python3 scripts/build.py scripts/epXXX_*.json --use-wavs --out out/epXXX.mp4
 python3 scripts/package.py scripts/epXXX_*.json            # サムネ3案・タイトル・概要欄
+python3 tools/figs.py epXXX                                 # その回の動く図(連番PNG)
+bash tools/produce.sh scripts/epXXX_*.json                  # 声→動画→投稿一式→ショート→送信用圧縮→確認画像 を一括
 ```
+- 動く図の部品(tools/figs.py): flow(フロー図)/ timeline(年表)/ chart(グラフ)/ scale_steps(スケール)/
+  wrap_world(ループ世界)/ earth_layers(地球の断面)/ cannonball(軌道の原理)/ orbit(軌道)/ tree_move(系統樹)/
+  peru_map 等の地図 / eras(時代の帯)。地図・地球儀は tools/geo_maps.py。

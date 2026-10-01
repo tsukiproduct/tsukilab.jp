@@ -95,13 +95,13 @@ def rotate_rings(rings, frm, to, t):
     return out
 
 
-def texture(C, w=2048, h=1024):
+def texture(C, w=2048, h=1024, highlight=True):
     """正距円筒(経度・緯度がそのまま縦横)の地図テクスチャ。地球儀に貼る"""
     im = Image.new("RGB", (w, h), OCEAN)
     d = ImageDraw.Draw(im)
     P = lambda lon, lat: ((lon + 180) / 360 * w, (90 - lat) / 180 * h)
     for tag, rings in C:
-        col = GREEN_C if tag == "greenland" else AFRICA_C if tag == "africa" else LAND
+        col = (GREEN_C if tag == "greenland" else AFRICA_C if tag == "africa" else LAND) if highlight else (214, 236, 196)
         for ring in rings:
             d.polygon([P(lon, lat) for lon, lat in ring], fill=col, outline=EDGE)
     return im

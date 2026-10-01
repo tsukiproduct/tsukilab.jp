@@ -9,3 +9,4 @@ assets/refs/seq_*/
 assets/geo/*.zip
 tools/client_secret*.json
 tools/token.json
+assets/refs/*/

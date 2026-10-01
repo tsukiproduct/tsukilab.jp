@@ -854,7 +854,7 @@ def main():
         return frame.convert("RGB")
 
     # 概要欄・サムネ作成用の情報(チャプターの実際の時刻など)
-    meta = dict(total=total, chapters=[(0.0 if not k else e["start"], e["chapter"]) for k, e in enumerate([x for x in tl if x["chapter_new"] or x is tl[0]])])
+    meta = dict(total=total, lines=[(e["i"], e["start"], e["dur"]) for e in tl], chapters=[(0.0 if not k else e["start"], e["chapter"]) for k, e in enumerate([x for x in tl if x["chapter_new"] or x is tl[0]])])
     (tmp.parent / f"{name}_meta.json").write_text(json.dumps(meta, ensure_ascii=False), encoding="utf-8")
 
     if a.still:

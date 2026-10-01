@@ -1,0 +1,351 @@
+{
+  "title": "宇宙の果てが見つからないバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#004",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "大きさ",
+    "平ら",
+    "ループ",
+    "報告"
+  ],
+  "chapter_titles": [
+    "観測できる宇宙は930億光年",
+    "宇宙はほぼ平らだった",
+    "平らなのに有限な宇宙",
+    "バグ報告とまとめ"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/noche_de_verano_chill.mp3",
+    "credit": "Noche de verano (Chill) / PPE",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/663407"
+  },
+  "report": {
+    "no": "004",
+    "name": "宇宙の果てが見つからない",
+    "place": "観測できる宇宙(直径約930億光年)の外側",
+    "reporter": "プランク衛星の観測(2018年の最終結果)",
+    "severity": 2,
+    "status": "未解決"
+  },
+  "lines": [
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "chapter": 0,
+      "text": "宇宙の果てって、どこにあるのだ！？",
+      "pop": "果ては！？",
+      "punch": true,
+      "telop": "宇宙に\n果てはある？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "実は、まだ誰も知りません。ただ、観測から、ひとつ[[ふしぎなこと]]が分かっています。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "宇宙は、ほとんど[[平ら]]なんです。そして、平らだからといって、無限とは限りません。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "どういうことなのだ。頭が、こんがらがるのだ。"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "mode": "full",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "mode": "full",
+      "text": "ずんだもんなのだ！今日は、宇宙の果てまで、行くのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "まずは、大きさを確かめます。わたしたちの地球は、直径およそ一万三千キロ。",
+      "seq": "ep004_scale",
+      "fit": "contain",
+      "box": [
+        520,
+        395
+      ],
+      "note": "大きさは模式的",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "太陽系、天の川銀河と広げていくと、観測できる宇宙は、直径およそ[[九百三十億光年]]になります。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "宇宙ができてから、百三十八億年なのに、九百三十億光年なのだ？計算が合わないのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "鋭いですね。光が飛んでいる間にも、宇宙そのものが、[[膨らみ続けた]]からです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "宇宙って、焼いてる途中のパンみたいなのだ！",
+      "pop": "パン！？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "そして、観測できる範囲の外側がどうなっているのかは、まだ分かっていません。",
+      "telop": "観測できる範囲の外側は\n分かっていない"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 1,
+      "text": "手がかりは、宇宙の誕生から、およそ三十八万年後に放たれた光、[[宇宙マイクロ波背景放射]]です。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "この光の模様を、ヨーロッパの観測衛星プランクが精密に測ると、宇宙の曲がり具合は、測定の誤差の範囲で[[ゼロ]]。つまり、ほぼ平らでした。",
+      "telop": "宇宙の曲がり具合は\n誤差の範囲でゼロ"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "宇宙って、まっすぐなのだ…？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "はい。そして、ここからが本題です。宇宙の形の候補は、大きく三つあります。",
+      "image": "ep004_shapes.png",
+      "fit": "contain",
+      "box": [
+        660,
+        284
+      ],
+      "note": "イメージ図",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "どこまでも続く、平らで無限の宇宙。風船の表面のように、丸くて有限の宇宙。そして、平らなのに、[[端がつながった]]宇宙です。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 2,
+      "text": "三つめを、図にしてみます。右へ進むと、左から戻ってくる。昔のゲームの画面のような世界です。",
+      "seq": "ep004_wrap",
+      "fit": "contain",
+      "box": [
+        600,
+        384
+      ],
+      "note": "イメージ図",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "まっすぐ進んでるのに、戻ってくるのだ！？",
+      "pop": "ループ！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "この世界は、どこも平らなのに、広さは[[有限]]。そして、果ての壁もありません。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "じゃあ、宇宙も、こうなってるのだ？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "もしそうなら、遠くの空に、同じ模様が[[繰り返し]]見えるはずです。研究者たちは探しましたが、今のところ、確かな証拠は見つかっていません。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ただ、それは、つながる距離が、観測できる範囲より、ずっと大きいだけなのかもしれません。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "chapter": 3,
+      "report": true,
+      "text": "結局、宇宙は、無限なのだ？有限なのだ？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "答えは、まだ[[分かりません]]。平らだという観測結果は、無限の宇宙とも、有限の宇宙とも、矛盾しないんです。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "stamp": true,
+      "text": "というわけで、今回のバグのステータスは、[[未解決]]です。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "宇宙の果てに着いたら、ずんだもちを、置いてくるのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "そのまま進んだら、背中に、ずんだもちがあるかもしれませんね。",
+      "pop": "背中に！？",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "あなたが見つけた、この世界のバグも、コメントで報告してください。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "チャンネル登録も、よろしくなのだ！"
+    }
+  ],
+  "sources": [
+    "Wikipedia: Observable universe(直径約930億光年、宇宙の年齢約138億年) https://en.wikipedia.org/wiki/Observable_universe",
+    "Wikipedia: Shape of the universe(Planck 2018: Ω_K = 0.0007±0.0019) https://en.wikipedia.org/wiki/Shape_of_the_universe",
+    "ScienceDaily 2026-09-27 Is the universe infinite? The answer gets weird fast (Universe Today) https://www.sciencedaily.com/releases/2026/09/260927225041.htm"
+  ],
+  "publish": {
+    "titles": [
+      "宇宙に果てはあるのか？「平らなのに有限」かもしれない宇宙のバグ",
+      "なぜ宇宙は930億光年もあるのか？宇宙の大きさと“果て”の正体",
+      "右へ進むと左から戻ってくる宇宙？観測で分かった宇宙の形"
+    ],
+    "hook": [
+      "宇宙の果てはどこにあるのか。観測できる宇宙は直径約930億光年、そして宇宙は「ほぼ平ら」だと分かっています。",
+      "でも、平らだからといって無限とは限りません。右へ進むと左から戻ってくる“ループする宇宙”の可能性を、図解でバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#宇宙",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "宇宙の",
+          "果ては？"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep004_wrap_final.png",
+        "crop": [
+          0.1,
+          0.1,
+          0.9,
+          0.95
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "930億",
+          "光年"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ]
+        ],
+        "photo": "ep004_scale_final.png",
+        "crop": [
+          0.0,
+          0.2,
+          1.0,
+          1.0
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "宇宙は",
+          "ループ？"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ]
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 0,
+      "to": 3,
+      "hook": [
+        "宇宙はほぼ平ら",
+        "でも無限とは",
+        "限らない"
+      ],
+      "title": "宇宙はほぼ平ら。でも無限とは限らない理由 #Shorts"
+    },
+    {
+      "from": 18,
+      "to": 21,
+      "hook": [
+        "右へ進むと",
+        "左から戻る宇宙？"
+      ],
+      "title": "右へ進むと左から戻ってくる宇宙かもしれない #Shorts"
+    }
+  ]
+}
