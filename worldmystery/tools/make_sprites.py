@@ -10,7 +10,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
 PSD_DIR, OUT = ROOT / "assets/psd", ROOT / "assets/sprites"
-HEIGHT = 980  # 出力高さ
+HEIGHT = 1400  # 出力高さ(上半身アップでも荒れないよう大きめ)
 
 # 各表情: (眉, 目, 頬) / 口は閉・開で別指定 / 腕は任意
 CHARS = {
