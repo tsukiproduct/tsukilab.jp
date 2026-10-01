@@ -18,7 +18,7 @@ document.documentElement.classList.add('js');
 (function(){var s=false;try{s=sessionStorage.getItem('ea-boot')}catch(e){}if(s||location.hash)document.documentElement.classList.add('noboot');try{sessionStorage.setItem('ea-boot','1')}catch(e){}})();
 window.addEventListener('error',function(e){try{var b=document.getElementById('errbar');if(!b){b=document.createElement('div');b.id='errbar';b.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;background:#300;color:#fcc;border:1px solid #a33;border-radius:10px;padding:8px 10px;font:12px/1.5 monospace;white-space:pre-wrap';document.body.appendChild(b)}b.textContent+='表示エラー：'+(e.message||'')+' ('+String(e.filename||'').split('/').pop()+':'+(e.lineno||'')+')\n'}catch(_){}});
 </script>
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <link rel="preload" as="image" href="img/ref/key.webp">
 </head>
@@ -160,7 +160,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <p class="eyebrow reveal">03 · CHARACTERS</p>
     <h2 class="h reveal">人物</h2>
     <p class="lead reveal" style="margin-bottom:18px">設定画と作画上の固定事項です。画像を押すと三面図・表情集を大きく表示します。</p>
-    <div class="note info reveal" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:34px"><span style="flex:1;min-width:240px"><b>2026年10月2日、新デザインに更新しました。</b>制服・部屋着・ユニフォームなど衣装別の全10シートと場面ビジュアルは、デザイン資料にまとめています。</span><a class="btn sm pri" href="design/">デザイン資料を開く ↗</a></div>
+    <div class="note info reveal" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:34px"><span style="flex:1;min-width:240px"><b>2026年10月2日のデザイン案（検討中）を表示しています。</b>制服・部屋着・ユニフォームなど衣装別の全10シートとコンセプトアートは、デザイン資料にまとめています。</span><a class="btn sm pri" href="design/">デザイン資料を開く ↗</a></div>
 
     <article class="dossier reveal" style="--c:var(--sara)" data-en="SARA">
       <div><button class="face" type="button" data-sheet="sara" aria-label="沙羅の設定画を開く" style="padding:0;width:100%"><img src="img/ch/sara-face.webp" alt="沙羅の顔の設定画" loading="lazy"></button></div>
@@ -381,7 +381,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <p class="eyebrow reveal">05 · STORYBOARD</p>
     <h2 class="h reveal">絵コンテ｜24シート・94カット</h2>
     <p class="lead reveal">1シート＝16:9の4コマ。読む順は左上→右上→左下→右下です。SB-01〜15は生成済み、SB-16〜24は未生成（指示文を表示）。コマを押すと詳細が開きます。</p>
-    <div class="note reveal">生成済みの絵コンテには、幼少期の年齢、義手の有無、人物の取り違えを含むものがあります（例：SB-01の幼少期の沙羅が戦後の衣装になっている）。また、すべて<b>新デザイン以前の旧デザイン</b>（金髪ボブの沙羅など）で描かれています。<b>構図の確認用</b>として扱い、設定は物語本文と<a href="design/">デザイン資料</a>を優先してください。</div>
+    <div class="note reveal">生成済みの絵コンテには、幼少期の年齢、義手の有無、人物の取り違えを含むものがあります（例：SB-01の幼少期の沙羅が戦後の衣装になっている）。また、すべて<b>デザイン案より前の旧デザイン</b>（金髪ボブの沙羅など）で描かれています。<b>構図の確認用</b>として扱い、設定は物語本文と<a href="design/">デザイン資料</a>を優先してください。</div>
     <div class="bfilters reveal">
       <input type="search" id="bq" placeholder="検索：台詞・動作・カメラ（例：ボール、義手、望遠）" aria-label="絵コンテを検索">
       <select id="bScene" aria-label="シーンで絞り込み"><option value="">全シーン</option></select>
@@ -451,11 +451,11 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 
     <h3 class="reveal" style="font-size:24px;margin:54px 0 6px">⑤ 絵コンテ生成プロンプト</h3>
     <p class="sub reveal" style="margin-bottom:14px">全シート共通の画風・連続性の指定です。シートごとの全文は、絵コンテ欄の各シートの「プロンプト」ボタンからコピーできます。未生成のSB-16〜24もそのまま使えます。</p>
-    <div class="note ng reveal">この共通部分のキャラクター指定（Continuity）は<b>旧デザイン</b>のままです。新しく生成するときは、下の「新デザイン用の連続性指定」に差し替えてください。</div>
+    <div class="note ng reveal">この共通部分のキャラクター指定（Continuity）は<b>旧デザイン</b>のままです。デザイン案で生成するときは、下の「デザイン案用の連続性指定」に差し替えてください。</div>
     <pre class="prompt reveal" id="promptBase"></pre>
-    <h4 class="reveal serif" style="font-size:18px;margin:26px 0 8px">新デザイン用の連続性指定（2026-10-02）</h4>
+    <h4 class="reveal serif" style="font-size:18px;margin:26px 0 8px">デザイン案用の連続性指定（2026-10-02・検討中）</h4>
     <pre class="prompt reveal" id="promptNew">Continuity (NEW DESIGN 2026-10-02): Sara has long straight black hair with blunt bangs, quiet dark eyes and a slim build; school days: charcoal blazer, pleated skirt, white shirt, muted wine ribbon; postwar: olive field jacket, black high-neck top, black cargo pants, black boots, brown shoulder bag; from age 17 a small neural artificial larynx at her throat, barely visible above the collar; at age 21 both arms are biological; at age 25 only her LEFT arm is mechanical and her RIGHT hand remains biological. Kira is a human-mimetic android with rust-red messy hair in a loose low ponytail and warm amber eyes; postwar: red work jacket, black top, black cargo pants, fingerless gloves, tool pouch. Kyle is a TYPE-1000 human-mimetic android with near-black dark navy layered hair and blue-gray eyes, lean athletic build; school days: navy blazer or navy/white #10 soccer kit; postwar: worn dark navy field jacket, black top, black cargo pants, boots. Androids show no exposed joints; their machine nature appears only through precision, speed and a faint control light in the eyes. A small maintenance port sits at the back of the neck of Kira and Kyle.</pre>
-    <div class="dl reveal"><button class="btn sm pri" type="button" id="copyNew">新デザインの指定をコピー</button><button class="btn sm" type="button" id="copyBase">旧・共通部分をコピー</button><button class="btn sm" type="button" id="shotCsv">ショットリスト（全94カット）をCSVで保存</button></div>
+    <div class="dl reveal"><button class="btn sm pri" type="button" id="copyNew">デザイン案の指定をコピー</button><button class="btn sm" type="button" id="copyBase">旧・共通部分をコピー</button><button class="btn sm" type="button" id="shotCsv">ショットリスト（全94カット）をCSVで保存</button></div>
   </div>
 </section>
 
@@ -549,7 +549,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </nav>
 <div class="toc" id="toc" role="dialog" aria-label="目次">
   <button class="btn sm x" type="button" id="tocX">閉じる ✕</button>
-  <a href="#start">使い方<small>00</small></a><a href="#film">アニマティック<small>01</small></a><a href="#story">物語<small>02</small></a><a href="#people">人物<small>03</small></a><a href="#structure">構成と感情曲線<small>04</small></a><a href="#boards">絵コンテ<small>05</small></a><a href="#stage3d">3D舞台モデル<small>06</small></a><a href="#tools">制作ツール<small>07</small></a><a href="#contest">コンペ・提出<small>08</small></a><a href="design/">デザイン資料（新デザイン）<small>↗</small></a>
+  <a href="#start">使い方<small>00</small></a><a href="#film">アニマティック<small>01</small></a><a href="#story">物語<small>02</small></a><a href="#people">人物<small>03</small></a><a href="#structure">構成と感情曲線<small>04</small></a><a href="#boards">絵コンテ<small>05</small></a><a href="#stage3d">3D舞台モデル<small>06</small></a><a href="#tools">制作ツール<small>07</small></a><a href="#contest">コンペ・提出<small>08</small></a><a href="design/">デザイン資料（デザイン案）<small>↗</small></a>
 </div>
 <button class="to-top" id="toTop" type="button" aria-label="ページ先頭へ">↑</button>
 <div class="toast" id="toast" role="status"></div>
@@ -566,7 +566,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
   </div>
 </dialog>
 
-<script src="data.js?v=4"></script>
-<script src="app.js?v=4"></script>
+<script src="data.js?v=5"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>

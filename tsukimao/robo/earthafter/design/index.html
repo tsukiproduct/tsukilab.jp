@@ -22,7 +22,7 @@
     footer{border-top:1px solid var(--line);padding:2.5rem 2rem;color:var(--muted);font-size:.7rem}.footer-in{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:2rem}.footer-in strong{color:var(--ink);font-family:Georgia,serif;letter-spacing:.12em}
     dialog{width:min(96vw,1600px);max-width:none;padding:0;border:1px solid #454a4f;background:#0b0d0e;color:white;box-shadow:0 2rem 8rem #000}dialog::backdrop{background:rgba(0,0,0,.88);backdrop-filter:blur(6px)}dialog img{width:100%;max-height:88vh;object-fit:contain}.close{position:fixed;top:1rem;right:1rem;border:1px solid #777;background:#111;color:#fff;width:2.8rem;height:2.8rem;border-radius:50%;cursor:pointer;font-size:1.3rem}.modal-cap{padding:.8rem 1rem;color:#bbb;font-size:.75rem}
     .continuity-wrap{margin-top:2rem}.continuity{margin-top:0;min-width:560px}
-    .check{border-top:1px solid var(--line)}.checks{display:grid;gap:1rem;grid-template-columns:repeat(2,1fr)}.ck{background:var(--panel);border:1px solid var(--line);padding:1.2rem 1.3rem;display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start}.ck .st{font-size:.72rem;letter-spacing:.1em;padding:.2rem .55rem;border:1px solid;border-radius:99px;white-space:nowrap}.ck.ok .st{color:#9fd3a8;border-color:#9fd3a866}.ck.warn .st{color:#e3b16a;border-color:#e3b16a66}.ck.done .st{color:#9ec5e6;border-color:#9ec5e666}.ck h3{margin:0 0 .3rem;font-size:1rem}.ck p{margin:0;color:#bdbab2;font-size:.9rem}.ck .ref{display:flex;gap:.5rem;margin-top:.8rem}.ck .ref button{width:7.5rem;aspect-ratio:16/9;padding:0;border:1px solid var(--line);background:#000;cursor:zoom-in}.ck .ref img{width:100%;height:100%;object-fit:cover}
+    .check{border-top:1px solid var(--line)}.checks{display:grid;gap:1rem;grid-template-columns:repeat(2,1fr)}.ck{background:var(--panel);border:1px solid var(--line);padding:1.2rem 1.3rem;display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start}.ck .st{font-size:.72rem;letter-spacing:.1em;padding:.2rem .55rem;border:1px solid;border-radius:99px;white-space:nowrap}.ck.ok .st{color:#9fd3a8;border-color:#9fd3a866}.ck.memo .st{color:#c9c4b8;border-color:#c9c4b866}.ck.warn .st{color:#e3b16a;border-color:#e3b16a66}.ck.done .st{color:#9ec5e6;border-color:#9ec5e666}.ck h3{margin:0 0 .3rem;font-size:1rem}.ck p{margin:0;color:#bdbab2;font-size:.9rem}.ck .ref{display:flex;gap:.5rem;margin-top:.8rem}.ck .ref button{width:7.5rem;aspect-ratio:16/9;padding:0;border:1px solid var(--line);background:#000;cursor:zoom-in}.ck .ref img{width:100%;height:100%;object-fit:cover}
     .lb-nav{position:fixed;top:50%;transform:translateY(-50%);width:3rem;height:3rem;border-radius:50%;border:1px solid #777;background:#111c;color:#fff;font-size:1.4rem;cursor:pointer}.lb-prev{left:1rem}.lb-next{right:1rem}.modal-cap{display:flex;justify-content:space-between;gap:1rem}
     @media(max-width:900px){.checks{grid-template-columns:1fr}}
     @media(max-width:900px){.nav__in{overflow-x:auto;padding:.6rem 1rem;gap:1rem;scrollbar-width:none}.nav__in::-webkit-scrollbar{display:none}.nav a{white-space:nowrap;padding:.45rem 0}.brand{margin-right:.4rem}.continuity-wrap{overflow-x:auto}.wrap{padding:5rem 1rem}.hero__copy{padding:4rem 1rem}.intro,.character__lead,.rules{grid-template-columns:1fr;gap:2rem}.costume,.costume.wide{grid-column:span 6}.scene-grid{grid-template-columns:1fr}.section-head{display:block}.profile{margin-top:1rem}}
@@ -33,7 +33,7 @@
 <body>
   <a class="skip" href="#main">本文へ</a>
   <nav class="nav" aria-label="ページ内ナビゲーション"><div class="nav__in">
-    <a class="brand" href="#top">EARTH AFTER / DESIGN</a><a href="#sara">SARA</a><a href="#kira">KIRA</a><a href="#kyle">KYLE</a><a href="#scenes">SCENES</a><a href="#rules">RULES</a><a href="#check">CHECK</a><a class="back" href="../">本編資料へ ↗</a>
+    <a class="brand" href="#top">EARTH AFTER / DESIGN</a><a href="#sara">SARA</a><a href="#kira">KIRA</a><a href="#kyle">KYLE</a><a href="#scenes">SCENES</a><a href="#rules">RULES</a><a href="#check">NOTES</a><a class="back" href="../">本編資料へ ↗</a>
   </div></nav>
 
   <header class="hero" id="top">
@@ -90,17 +90,17 @@
       <div class="continuity-wrap"><table class="continuity"><thead><tr><th>時期</th><th>沙羅</th><th>キラ</th><th>カイル</th></tr></thead><tbody><tr><td>学生時代</td><td>制服 / 部屋着・黒髪</td><td>制服 / 部屋着</td><td>制服 / #10 / 私服</td></tr><tr><td>17歳・声を得た後</td><td>制服 / 部屋着・首元に人工喉頭</td><td>制服 / 部屋着</td><td>制服 / #10 / 私服</td></tr><tr><td>崩壊後・21歳</td><td>作業服・両腕生身</td><td>赤い作業服</td><td>青い未来服・制御下</td></tr><tr><td>再会後・25歳</td><td>左腕機械 / 右腕生身</td><td>赤い作業服</td><td>青い未来服</td></tr></tbody></table></div>
     </div></section>
 
-    <section class="wrap check" id="check"><div class="section-head"><div><span class="eyebrow">Story Continuity Check</span><h2>設定との照合</h2></div><p>物語本文（2026-09-29版）と、このデザイン案を突き合わせた結果です。「要確認」は、描き直すか本文側を変えるかを決めてください。</p></div>
+    <section class="wrap check" id="check"><div class="section-head"><div><span class="eyebrow">Concept Notes</span><h2>本編との対応メモ</h2></div><p>このページはデザイン案とコンセプトアートです。本編にない場面も含みます。物語本文（2026-09-29版）と並べたときの対応と、本編に入れる場合の検討ポイントをメモしています。</p></div>
       <div class="checks">
-        <div class="ck ok"><span class="st">OK</span><div><h3>25歳の沙羅：左腕だけが機械</h3><p>三面図の正面・側面・背面すべてで、左腕のみ機械、右腕は生身になっている。最期に頬へ触れる「生身の右手」とも合う。</p></div></div>
-        <div class="ck ok"><span class="st">OK</span><div><h3>21歳の捕獲戦：両腕とも生身</h3><p>場面04で沙羅の両腕は生身。キラとの二人がかりでカイルを止める構図も、本文R07と一致。</p></div></div>
-        <div class="ck ok"><span class="st">OK</span><div><h3>ドロの保守端子</h3><p>キラとカイルの未来服シートに、首の保守端子の拡大図がある。人間擬態型で機構を露出させないルールとも両立している。</p></div></div>
-        <div class="ck ok"><span class="st">OK</span><div><h3>場面05「喪失」</h3><p>非常灯の赤い搬出口、撃たれた沙羅を抱えて叫ぶカイル。本文R15の場所と状況に一致する。</p></div></div>
-        <div class="ck warn"><span class="st">要確認</span><div><h3>人工喉頭が描かれていない</h3><p>17歳以降の沙羅には首元に人工喉頭があるはずだが、どのシートにも描かれていない。声はこの物語の芯なので、見せ方を決めたい（作画固定事項06に提案を追加）。</p></div></div>
-        <div class="ck warn"><span class="st">要確認</span><div><h3>場面03「アジト」：沙羅の左腕が機械</h3><p>三人が拠点で過ごすのは21歳のR08〜R09で、このとき沙羅の両腕は生身。25歳の再会後に拠点で地図を囲む場面は本文にない。腕を生身に直すか、場面の位置づけを決める。</p><div class="ref"><button type="button" data-full="img/scene-hideout-talk.webp" data-caption="場面03 / アジト"><img src="img/scene-hideout-talk-s.webp" alt="場面03"></button></div></div></div>
-        <div class="ck warn"><span class="st">要確認</span><div><h3>場面02「バレバレ」：場所と声</h3><p>本文のR02は放課後の教室で、沙羅はまだ声が出ず、メモ帳で返事をする。自室でキラに聞かれるのはR03の「告白練習」（17歳・声を得た後）。この絵を使うならR03として、首元に人工喉頭を加える。</p><div class="ref"><button type="button" data-full="img/scene-bedroom-talk.webp" data-caption="場面02 / 沙羅の自室"><img src="img/scene-bedroom-talk-s.webp" alt="場面02"></button></div></div></div>
-        <div class="ck warn"><span class="st">要確認</span><div><h3>カイルの保守端子の位置</h3><p>本文R07では、沙羅が「襟元の保守端子」に停止器を打ち込む。新デザインでは端子がうなじにある。「うなじ」で統一するなら、本文と絵コンテ指示を「うなじ」に直す。</p></div></div>
-        <div class="ck warn"><span class="st">要確認</span><div><h3>生成済み絵コンテは旧デザイン</h3><p>SB-01〜15と場面画R01〜R14は、金髪ボブの沙羅など旧デザインで描かれている。構図の確認用として扱い、本番は新デザインで描き直す。</p></div></div>
+        <div class="ck ok"><span class="st">本編と一致</span><div><h3>25歳の沙羅：左腕だけが機械</h3><p>三面図の正面・側面・背面すべてで、左腕のみ機械、右腕は生身になっている。最期に頬へ触れる「生身の右手」とも合う。</p></div></div>
+        <div class="ck ok"><span class="st">本編と一致</span><div><h3>21歳の捕獲戦：両腕とも生身</h3><p>場面04で沙羅の両腕は生身。キラとの二人がかりでカイルを止める構図も、本文R07と一致。</p></div></div>
+        <div class="ck ok"><span class="st">本編と一致</span><div><h3>ドロの保守端子</h3><p>キラとカイルの未来服シートに、首の保守端子の拡大図がある。人間擬態型で機構を露出させないルールとも両立している。</p></div></div>
+        <div class="ck ok"><span class="st">本編と一致</span><div><h3>場面05「喪失」</h3><p>非常灯の赤い搬出口、撃たれた沙羅を抱えて叫ぶカイル。本文R15の場所と状況に一致する。</p></div></div>
+        <div class="ck warn"><span class="st">検討</span><div><h3>人工喉頭の見せ方</h3><p>本編では17歳以降の沙羅の首元に人工喉頭がある。今回のシートには描かれていないので、本番用にするときの見せ方を決めたい（作画固定事項06に提案を追加）。</p></div></div>
+        <div class="ck memo"><span class="st">追加するなら</span><div><h3>場面03「アジト」</h3><p>25歳の沙羅（左腕が機械）と三人が拠点で地図を囲む、本編にはない場面。追加する場合は、R13の再会からR14の脱出までの間に拠点へ戻る流れを挟む形になる。21歳の場面（R08〜R09）として使うなら、沙羅の両腕は生身。</p><div class="ref"><button type="button" data-full="img/scene-hideout-talk.webp" data-caption="場面03 / アジト"><img src="img/scene-hideout-talk-s.webp" alt="場面03"></button></div></div></div>
+        <div class="ck memo"><span class="st">追加するなら</span><div><h3>場面02「沙羅の自室」</h3><p>本文のR02「バレバレ」は放課後の教室。自室の場面として新たに足すことも、R03の「告白練習」（17歳・声を得た後）の絵として使うこともできる。声を出している描写なら17歳以降なので、首元に人工喉頭が入る。</p><div class="ref"><button type="button" data-full="img/scene-bedroom-talk.webp" data-caption="場面02 / 沙羅の自室"><img src="img/scene-bedroom-talk-s.webp" alt="場面02"></button></div></div></div>
+        <div class="ck warn"><span class="st">検討</span><div><h3>カイルの保守端子の位置</h3><p>本文R07では「襟元の保守端子」、デザイン案ではうなじ。デザイン案を採用する場合は、本文と絵コンテ指示の表記をそろえる。</p></div></div>
+        <div class="ck memo"><span class="st">メモ</span><div><h3>生成済み絵コンテは旧デザイン</h3><p>SB-01〜15と場面画R01〜R14は、金髪ボブの沙羅など旧デザインで描かれている。デザイン案を採用する場合は、構図の確認用として扱う。</p></div></div>
         <div class="ck done"><span class="st">修正済み</span><div><h3>沙羅の学生期の年齢</h3><p>R03（17歳の誕生日に声を得る）も制服の時期なので、年齢表記を「14–15」から「14–17」に広げ、時期別の表に「17歳・声を得た後」の行を加えた。</p></div></div>
       </div>
     </section>
