@@ -7,3 +7,5 @@ out/
 __pycache__/
 assets/refs/seq_*/
 assets/geo/*.zip
+tools/client_secret*.json
+tools/token.json
