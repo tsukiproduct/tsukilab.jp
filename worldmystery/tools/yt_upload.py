@@ -16,8 +16,9 @@
 許可すると token.json ができ、2回目以降はそのまま動きます。
 ※ client_secret.json と token.json は秘密の鍵です。人に渡したり、公開の場所に置いたりしないでください。
 
-注意: Google の審査(監査)を受けていないアプリからのアップロードは、YouTube の決まりで「非公開」に固定されます。
-アップロード後、YouTube Studio で公開設定(予約公開)を選んでください。
+【重要】Google の審査(YouTube API Services の監査)を通っていないアプリからアップロードした動画は「非公開」に固定され、
+持ち主でも公開に変更できず、異議申し立てもできません(YouTube ヘルプ「非公開にロックされた動画」)。
+監査に通るまでは使わないこと。通った後は --audited を付けて実行する。
 """
 import argparse, re, sys
 from pathlib import Path
@@ -61,7 +62,11 @@ def main():
     ap.add_argument("publish_dir", help="titles.txt / description.txt / thumbnail_*.jpg が入ったフォルダ")
     ap.add_argument("--video", required=True, help="動画ファイル(mp4)")
     ap.add_argument("--variant", default="A", choices=["A", "B", "C"], help="使うタイトルとサムネの案")
+    ap.add_argument("--audited", action="store_true", help="API の監査に合格済みのときだけ付ける")
     a = ap.parse_args()
+    if not a.audited:
+        sys.exit("中止: 監査を通っていないアプリでアップロードすると、動画が非公開に固定され公開できなくなります。\n"
+                 "監査に合格するまでは YouTube Studio から手動でアップロードしてください。")
     pub, video = Path(a.publish_dir), Path(a.video)
     title = pick_title(pub, a.variant)
     desc = (pub / "description.txt").read_text(encoding="utf-8")
@@ -76,7 +81,7 @@ def main():
     body = {
         "snippet": {"title": title, "description": desc, "tags": TAGS, "categoryId": "27",  # 27 = 教育
                     "defaultLanguage": "ja", "defaultAudioLanguage": "ja"},
-        "status": {"privacyStatus": "private", "selfDeclaredMadeForKids": False},
+        "status": {"privacyStatus": "private", "selfDeclaredMadeForKids": False},  # 公開日時は Studio で設定
     }
     req = yt.videos().insert(part="snippet,status", body=body,
                              media_body=MediaFileUpload(str(video), chunksize=8 * 1024 * 1024, resumable=True))
@@ -92,7 +97,7 @@ def main():
         print("サムネイルを設定しました")
     except Exception as e:
         print(f"サムネイルの設定に失敗しました(チャンネルの電話番号確認が必要な場合があります): {e}")
-    print("\n次に YouTube Studio で: 公開設定を「スケジュール」にして日時を選ぶ → 必要なら「テストと比較」に残りの案を追加")
+    print("\n次に YouTube Studio で公開日時を設定し、必要なら「テストと比較」に残りの案を追加してください")
 
 
 if __name__ == "__main__":
