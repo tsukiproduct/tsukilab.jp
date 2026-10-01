@@ -273,7 +273,7 @@ const BOARDS=(function(){
 /* ---------- LIGHTBOX ---------- */
 const LB=(function(){
   const dlg=$('#lb'),main=$('#lbMain');let mode=null,idx=0;
-  const SHEETS={sara:['沙羅 設定画','img/ch/sara-sheet.webp','三面図と表情。ヘアピンは本人から見て右側。'],kyle:['カイル 設定画','img/ch/kyle-sheet.webp','三面図と表情。右の表情の襟元に保守端子。'],kira:['キラ 設定画','img/ch/kira-sheet.webp','三面図と表情。腰に工具ベルト。'],support:['脇役 設定画','img/ch/support-sheet.webp','上段左から：沙羅の母、沙羅の父、医療担当者。下段左から：人間の運転手、復帰ドロ、ユタニ社側の人物。']};
+  const SHEETS={sara:['沙羅 設定画（新デザイン・25歳）','img/ch/sara-sheet.webp','オリーブの作業服。左腕のみ機械、右腕は生身。衣装別の全シートはデザイン資料へ。'],kyle:['カイル 設定画（新デザイン・戦後）','img/ch/kyle-sheet.webp','青を残した耐久装備。うなじに保守端子。衣装別の全シートはデザイン資料へ。'],kira:['キラ 設定画（新デザイン・戦後）','img/ch/kira-sheet.webp','赤いワークジャケットと工具袋。うなじに保守端子。衣装別の全シートはデザイン資料へ。'],support:['脇役 設定画','img/ch/support-sheet.webp','上段左から：沙羅の母、沙羅の父、医療担当者。下段左から：人間の運転手、復帰ドロ、ユタニ社側の人物。']};
   function cut(i){mode='cut';idx=(i+CUTS.length)%CUTS.length;const c=CUTS[idx],s=sceneById[c.scene];
     $('#lbT').textContent=`${c.id} ・ ${c.sheet} ・ ${idx+1}/${CUTS.length}`;
     const img=c.img?`<img src="img/sb/${c.id}.webp" alt="${c.id}">`:`<div class="textcut" style="position:absolute"><div class="k">${c.id.startsWith('END')?'END':c.id} ・ 未生成</div><div class="cam">${esc(c.cam)}</div><div class="a">${esc(c.act)}</div></div>`;
@@ -307,6 +307,7 @@ $('#s3start').onclick=async()=>{$('#s3start').textContent='読み込み中…';t
   ['info','未着手','SB-16〜SB-24（36カット）が未生成','R13-05〜R20とENDの画面設計と生成指示は完成済み。絵コンテ欄の「プロンプト」ボタンから、そのままコピーして生成できる。',null,null],
   ['warn','要確認','尺：設計は約20分、上限は20分','ロング部門の上限（資料記載）とほぼ同じ長さ。公式要項で尺の条件を確認し、尺配分プランナーで余裕を持たせる。',null,null],
   ['warn','要確認','締切の確定日時','公式の表記は「10月末予定」。確定した日時と提出方法を公式ページで確認する。',null,null],
+  ['warn','要確認','新デザインとの照合（人工喉頭・場面03・場面02・保守端子の位置）','新デザインを物語本文と照合した結果、4点の確認事項がある。詳細はデザイン資料の「設定との照合」を参照。',null,null],
   ['ok','確定','EARTH AFTERの暴走原因・ユタニの思想','前回の資料で未確定だった2点は、新しい物語本文で確定。命令「人類の保全と社会損失の最小化」を、人間の自由を奪う管理だと解釈した。ユタニはドロを「家族」と呼び、アップデートによる統合を正当化する。',null,null]];
   const lv={ng:['#e5533d','要修正'],warn:['#e8a94f','要確認'],info:['#8fe6ff','未着手'],ok:['#8fd6a3','確定']};
   $('#issues').innerHTML=I.map(([k,l,h,p,a,b])=>`<div class="issue"><span class="lv" style="color:${lv[k][0]};border:1px solid ${lv[k][0]}66">${l}</span><div><h4>${esc(h)}</h4><p>${esc(p)}</p>${a?`<div class="vs"><div><b>${esc(a[0])}</b>${esc(a[1])}</div><div><b>${esc(b[0])}</b>${esc(b[1])}</div></div>`:''}</div></div>`).join('');
@@ -342,12 +343,13 @@ $('#s3start').onclick=async()=>{$('#s3start').textContent='読み込み中…';t
 
 /* ---------- RULES ---------- */
 (function rules(){
-  const R=[['do','沙羅のヘアピンは本人から見て右側（正面画では画面左側）'],['do','25歳の沙羅は左腕のみ機械。右手は生身'],['dont','21歳以前の沙羅に義手を描く'],['do','カイル（18歳相当）とキラ（17歳相当）は戦後も外見年齢が変わらない'],['dont','沙羅とカイルの恋人表現、キス、同衾を描く'],['dont','沙羅の幽霊・人格コピー・転生としての子供を描く'],['dont','最後にキラを呼ぶ男性とカイルの姿を映す'],['dont','沙羅の死亡場面・遺体安置場面に両親を出す'],['do','ユタニ本社のユタニは遠隔ホログラム。撃たれても血を出さずグリッチで崩れる'],['do','沙羅の戦闘は殺すためではなく、射線を逸らし、駆動部を止め、退路を開くため'],['dont','流血や臓器を過度に描写する（衣服に滲む血まで）'],['do','R19後のカイルの生死は映さない。白い閃光で切る'],['do','最終カットは「バン！」と同時に完全な暗転'],['dont','1987年版『ロボットカーニバル』の固有名・意匠を生成指示に入れる']];
+  const R=[['do','沙羅は黒髪のストレートで統一。金髪ボブの旧案は使わない'],['do','キラとカイルは人間擬態型。関節線や機構を露出させず、機械性は精度・速度・瞳の制御光で示す'],['do','25歳の沙羅は左腕のみ機械。右手は生身'],['dont','21歳以前の沙羅に義手を描く'],['do','カイル（18歳相当）とキラ（17歳相当）は戦後も外見年齢が変わらない'],['dont','沙羅とカイルの恋人表現、キス、同衾を描く'],['dont','沙羅の幽霊・人格コピー・転生としての子供を描く'],['dont','最後にキラを呼ぶ男性とカイルの姿を映す'],['dont','沙羅の死亡場面・遺体安置場面に両親を出す'],['do','ユタニ本社のユタニは遠隔ホログラム。撃たれても血を出さずグリッチで崩れる'],['do','沙羅の戦闘は殺すためではなく、射線を逸らし、駆動部を止め、退路を開くため'],['dont','流血や臓器を過度に描写する（衣服に滲む血まで）'],['do','R19後のカイルの生死は映さない。白い閃光で切る'],['do','最終カットは「バン！」と同時に完全な暗転'],['dont','1987年版『ロボットカーニバル』の固有名・意匠を生成指示に入れる']];
   $('#rules').innerHTML=R.map(([k,t])=>`<div class="rule ${k}"><span class="mk">${k==='do'?'○':'✕'}</span><span>${esc(t)}</span></div>`).join('');
 })();
 
 /* ---------- PROMPT & CSV ---------- */
 $('#promptBase').textContent=EA.promptHeader;
+$('#copyNew').onclick=()=>copy($('#promptNew').textContent,'新デザインの指定をコピーしました');
 $('#copyBase').onclick=()=>copy(EA.promptHeader,'共通プロンプトをコピーしました');
 $('#shotCsv').onclick=()=>download('EARTH_AFTER_ショットリスト.csv',['カット,シート,シーン,シーン名,生成状態,カメラ,動作・演出,台詞'].concat(CUTS.map(c=>[c.id,c.sheet,c.scene,c.scene==='END'?'暗転':sceneById[c.scene].title,c.img?'生成済み':'未生成',c.cam,c.act,(c.lines||[]).map(l=>l[0]+'「'+l[1]+'」').join(' / ')].map(csvq).join(','))).join('\n'));
 

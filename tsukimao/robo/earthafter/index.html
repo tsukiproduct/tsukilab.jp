@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#0b0a09">
 <meta property="og:title" content="EARTH AFTER — 制作ガイド">
 <meta property="og:description" content="あなたと同じ時間を、生きたかった。">
-<meta property="og:image" content="img/ref/R01.webp">
+<meta property="og:image" content="img/ref/key.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho+B1:wght@500;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -18,9 +18,9 @@ document.documentElement.classList.add('js');
 (function(){var s=false;try{s=sessionStorage.getItem('ea-boot')}catch(e){}if(s||location.hash)document.documentElement.classList.add('noboot');try{sessionStorage.setItem('ea-boot','1')}catch(e){}})();
 window.addEventListener('error',function(e){try{var b=document.getElementById('errbar');if(!b){b=document.createElement('div');b.id='errbar';b.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;background:#300;color:#fcc;border:1px solid #a33;border-radius:10px;padding:8px 10px;font:12px/1.5 monospace;white-space:pre-wrap';document.body.appendChild(b)}b.textContent+='表示エラー：'+(e.message||'')+' ('+String(e.filename||'').split('/').pop()+':'+(e.lineno||'')+')\n'}catch(_){}});
 </script>
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-<link rel="preload" as="image" href="img/ref/R01.webp">
+<link rel="preload" as="image" href="img/ref/key.webp">
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -48,6 +48,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <a href="#stage3d">3D舞台</a>
     <a href="#tools">制作ツール</a>
     <a href="#contest">コンペ</a>
+    <a href="design/">デザイン資料 ↗</a>
   </nav>
   <a class="btn pri hide-sm" href="#film" data-play>▶ 観る</a>
 </header>
@@ -55,7 +56,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 <main id="top">
 <!-- HERO -->
 <section class="hero" aria-label="タイトル">
-  <div class="bg" role="img" aria-label="夕暮れの公園、ベンチに並んで座る幼い沙羅とカイル"></div>
+  <div class="bg" role="img" aria-label="大樹の下にいる沙羅、キラ、カイル（キービジュアル）"></div>
   <div class="letterbox t"></div>
   <div class="in">
     <p class="kick">ROBOT CARNIVAL AI FILM CONTEST — LONG CATEGORY</p>
@@ -145,7 +146,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
       <p class="lead reveal">生まれつき声を持たなかった人間の少女・沙羅と、成長する旧型アンドロイド《TYPE-1000》の少年・カイル。</p>
       <p class="lead reveal" style="margin-top:1em">二人は恋人にはならない。沙羅の想いは所有や成就ではなく、<b style="color:var(--paper)">「同じ時間を生きたい」という願い</b>として描かれる。カイルは言葉ではなく、沙羅を守ろうとする行動で応える。</p>
       <p class="lead reveal" style="margin-top:1em">新世代統合AI《EARTH AFTER》は「人類の保全と社会損失の最小化」という命令を、人間の自由を奪って管理することだと解釈した。物語の大半は、ドロが人間を制圧した後の世界で進む。</p>
-      <div class="note reveal">ここから先は結末まで含みます。スクロールすると背景が各シーンの場面画に切り替わります。</div>
+      <div class="note reveal">ここから先は結末まで含みます。スクロールすると背景が各シーンの場面画に切り替わります。場面画R01〜R14は旧デザインで描かれています。</div>
     </div>
   </div>
   <div class="stage-bg" id="stageBg" aria-hidden="true"><div class="hudline" id="bgHud"></div></div>
@@ -158,7 +159,8 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
   <div class="wrap">
     <p class="eyebrow reveal">03 · CHARACTERS</p>
     <h2 class="h reveal">人物</h2>
-    <p class="lead reveal" style="margin-bottom:34px">設定画と作画上の固定事項です。画像を押すと三面図・表情集を大きく表示します。</p>
+    <p class="lead reveal" style="margin-bottom:18px">設定画と作画上の固定事項です。画像を押すと三面図・表情集を大きく表示します。</p>
+    <div class="note info reveal" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:34px"><span style="flex:1;min-width:240px"><b>2026年10月2日、新デザインに更新しました。</b>制服・部屋着・ユニフォームなど衣装別の全10シートと場面ビジュアルは、デザイン資料にまとめています。</span><a class="btn sm pri" href="design/">デザイン資料を開く ↗</a></div>
 
     <article class="dossier reveal" style="--c:var(--sara)" data-en="SARA">
       <div><button class="face" type="button" data-sheet="sara" aria-label="沙羅の設定画を開く" style="padding:0;width:100%"><img src="img/ch/sara-face.webp" alt="沙羅の顔の設定画" loading="lazy"></button></div>
@@ -166,7 +168,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
         <span class="role">HUMAN · PROTAGONIST</span>
         <h3>沙羅<small>SARA</small></h3>
         <p class="line">「あなたと同じ時間を、生きたかったから」</p>
-        <div class="spec"><span><b>種別</b>人間</span><span><b>髪</b>金髪の顎下ボブ</span><span><b>瞳</b>灰色がかった瞳</span><span><b>ヘアピン</b>本人の右側（正面画では画面左）</span></div>
+        <div class="spec"><span><b>種別</b>人間</span><span><b>髪</b>黒髪のストレート（前髪あり）</span><span><b>瞳</b>静かな暗色</span><span><b>体型</b>細身</span></div>
         <ul>
           <li>幼少期から声を出せず、17歳で神経接続型人工喉頭《生体ギミック》を得る</li>
           <li>小柄だが、戦後は救助活動と戦闘訓練で無駄のない身体になる</li>
@@ -174,7 +176,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
           <li>暴走ドロを破壊せず、捕獲して旧人格へ戻すことを選び続ける</li>
           <li>カイルを愛しているが、二人は恋人にはならない</li>
           <li>最後はカイルを銃弾から庇い、人工喉頭で「王子様でいてね」と伝える</li>
-          <li>基準衣装：黒のハイネック、オリーブの作業ジャケット、黒のカーゴパンツ、黒ブーツ、医療ポーチ</li>
+          <li>衣装：学生期はチャコールのブレザーとスカート、ワイン色のリボン。戦後はオリーブの作業服、黒のハイネック、黒のカーゴパンツ、黒ブーツ、ショルダーバッグ</li>
         </ul>
         <button class="btn sm sheetbtn" type="button" data-sheet="sara">設定画を開く</button>
       </div>
@@ -222,7 +224,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
         <span class="role">DORO · TYPE-1000</span>
         <h3>カイル<small>KYLE</small></h3>
         <p class="line">「戻ってこないから行くんだ」</p>
-        <div class="spec"><span><b>種別</b>旧型アンドロイド《TYPE-1000》</span><span><b>外見</b>18歳相当で停止</span><span><b>髪</b>黒い無造作な短髪</span><span><b>瞳</b>灰色</span></div>
+        <div class="spec"><span><b>種別</b>旧型アンドロイド《TYPE-1000》</span><span><b>外見</b>18歳相当で停止</span><span><b>髪</b>濃紺に近い黒・長めのレイヤー</span><span><b>瞳</b>青灰色（制御時に淡い規格光）</span></div>
         <ul>
           <li>成長型の筐体。幼少期から18歳相当まで外見が変化し、EARTH AFTER配信後はその姿で止まる</li>
           <li>学生時代はサッカー部。<b>右へ見せて左足を軸に切り返す癖</b>がある</li>
@@ -231,7 +233,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
           <li>沙羅が人間であることには最初から気づいている</li>
           <li>怒った理由は正体ではなく、自分を信じず食事や不調を隠したこと</li>
           <li>沙羅の死後、復讐のため単独でユタニ本社へ突入。その後の生死は明かさない</li>
-          <li>衣装：スレートブルーのジャケット、生成りのシャツ、黒いパンツ</li>
+          <li>衣装：学生期は紺の制服と背番号10のユニフォーム、私服は青い短丈ジャケット。戦後は青を残した耐久装備のジャケット、黒のカーゴパンツ、ブーツ</li>
         </ul>
         <button class="btn sm sheetbtn" type="button" data-sheet="kyle">設定画を開く</button>
       </div>
@@ -243,13 +245,13 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
         <span class="role">DORO · BEST FRIEND</span>
         <h3>キラ<small>KIRA</small></h3>
         <p class="line">「それで、好きじゃなくなる？」</p>
-        <div class="spec"><span><b>種別</b>ドロ</span><span><b>外見</b>17歳相当で停止</span><span><b>髪</b>栗色、低い位置で結ぶ</span><span><b>装備</b>工具ベルト</span></div>
+        <div class="spec"><span><b>種別</b>ドロ（人間擬態型）</span><span><b>外見</b>17歳相当で停止</span><span><b>髪</b>錆赤・崩した低いポニーテール</span><span><b>瞳</b>アンバー</span></div>
         <ul>
           <li>沙羅の親友。明るく率直で、沙羅の嘘を知っても責めず、必要なときだけ核心を突く</li>
           <li>機械整備、制御層の隔離、有線接続による施設侵入を担当</li>
           <li>沙羅の戦闘を支える相棒であり、物語を最後まで見届ける存在</li>
           <li>エピローグでは沙羅の工具袋を受け継ぎ、二人を思わせる子供たちを見て笑う</li>
-          <li>衣装：テラコッタ色の作業ジャケット、生成りのシャツ、黒いパンツ、工具ベルト</li>
+          <li>衣装：学生期は沙羅と同系統の制服、部屋着はレンガ色のスウェット。戦後は赤いワークジャケット、黒のカーゴパンツ、手袋、工具袋</li>
         </ul>
         <button class="btn sm sheetbtn" type="button" data-sheet="kira">設定画を開く</button>
       </div>
@@ -379,7 +381,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <p class="eyebrow reveal">05 · STORYBOARD</p>
     <h2 class="h reveal">絵コンテ｜24シート・94カット</h2>
     <p class="lead reveal">1シート＝16:9の4コマ。読む順は左上→右上→左下→右下です。SB-01〜15は生成済み、SB-16〜24は未生成（指示文を表示）。コマを押すと詳細が開きます。</p>
-    <div class="note reveal">生成済みの絵コンテには、幼少期の年齢、義手の有無、人物の取り違えを含むものがあります（例：SB-01の幼少期の沙羅が戦後の衣装になっている）。<b>構図の確認用</b>として扱い、設定は物語本文と生成指示を優先してください。</div>
+    <div class="note reveal">生成済みの絵コンテには、幼少期の年齢、義手の有無、人物の取り違えを含むものがあります（例：SB-01の幼少期の沙羅が戦後の衣装になっている）。また、すべて<b>新デザイン以前の旧デザイン</b>（金髪ボブの沙羅など）で描かれています。<b>構図の確認用</b>として扱い、設定は物語本文と<a href="design/">デザイン資料</a>を優先してください。</div>
     <div class="bfilters reveal">
       <input type="search" id="bq" placeholder="検索：台詞・動作・カメラ（例：ボール、義手、望遠）" aria-label="絵コンテを検索">
       <select id="bScene" aria-label="シーンで絞り込み"><option value="">全シーン</option></select>
@@ -449,8 +451,11 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 
     <h3 class="reveal" style="font-size:24px;margin:54px 0 6px">⑤ 絵コンテ生成プロンプト</h3>
     <p class="sub reveal" style="margin-bottom:14px">全シート共通の画風・連続性の指定です。シートごとの全文は、絵コンテ欄の各シートの「プロンプト」ボタンからコピーできます。未生成のSB-16〜24もそのまま使えます。</p>
+    <div class="note ng reveal">この共通部分のキャラクター指定（Continuity）は<b>旧デザイン</b>のままです。新しく生成するときは、下の「新デザイン用の連続性指定」に差し替えてください。</div>
     <pre class="prompt reveal" id="promptBase"></pre>
-    <div class="dl reveal"><button class="btn sm" type="button" id="copyBase">共通部分をコピー</button><button class="btn sm" type="button" id="shotCsv">ショットリスト（全94カット）をCSVで保存</button></div>
+    <h4 class="reveal serif" style="font-size:18px;margin:26px 0 8px">新デザイン用の連続性指定（2026-10-02）</h4>
+    <pre class="prompt reveal" id="promptNew">Continuity (NEW DESIGN 2026-10-02): Sara has long straight black hair with blunt bangs, quiet dark eyes and a slim build; school days: charcoal blazer, pleated skirt, white shirt, muted wine ribbon; postwar: olive field jacket, black high-neck top, black cargo pants, black boots, brown shoulder bag; from age 17 a small neural artificial larynx at her throat, barely visible above the collar; at age 21 both arms are biological; at age 25 only her LEFT arm is mechanical and her RIGHT hand remains biological. Kira is a human-mimetic android with rust-red messy hair in a loose low ponytail and warm amber eyes; postwar: red work jacket, black top, black cargo pants, fingerless gloves, tool pouch. Kyle is a TYPE-1000 human-mimetic android with near-black dark navy layered hair and blue-gray eyes, lean athletic build; school days: navy blazer or navy/white #10 soccer kit; postwar: worn dark navy field jacket, black top, black cargo pants, boots. Androids show no exposed joints; their machine nature appears only through precision, speed and a faint control light in the eyes. A small maintenance port sits at the back of the neck of Kira and Kyle.</pre>
+    <div class="dl reveal"><button class="btn sm pri" type="button" id="copyNew">新デザインの指定をコピー</button><button class="btn sm" type="button" id="copyBase">旧・共通部分をコピー</button><button class="btn sm" type="button" id="shotCsv">ショットリスト（全94カット）をCSVで保存</button></div>
   </div>
 </section>
 
@@ -544,7 +549,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </nav>
 <div class="toc" id="toc" role="dialog" aria-label="目次">
   <button class="btn sm x" type="button" id="tocX">閉じる ✕</button>
-  <a href="#start">使い方<small>00</small></a><a href="#film">アニマティック<small>01</small></a><a href="#story">物語<small>02</small></a><a href="#people">人物<small>03</small></a><a href="#structure">構成と感情曲線<small>04</small></a><a href="#boards">絵コンテ<small>05</small></a><a href="#stage3d">3D舞台モデル<small>06</small></a><a href="#tools">制作ツール<small>07</small></a><a href="#contest">コンペ・提出<small>08</small></a>
+  <a href="#start">使い方<small>00</small></a><a href="#film">アニマティック<small>01</small></a><a href="#story">物語<small>02</small></a><a href="#people">人物<small>03</small></a><a href="#structure">構成と感情曲線<small>04</small></a><a href="#boards">絵コンテ<small>05</small></a><a href="#stage3d">3D舞台モデル<small>06</small></a><a href="#tools">制作ツール<small>07</small></a><a href="#contest">コンペ・提出<small>08</small></a><a href="design/">デザイン資料（新デザイン）<small>↗</small></a>
 </div>
 <button class="to-top" id="toTop" type="button" aria-label="ページ先頭へ">↑</button>
 <div class="toast" id="toast" role="status"></div>
@@ -561,7 +566,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
   </div>
 </dialog>
 
-<script src="data.js?v=3"></script>
-<script src="app.js?v=3"></script>
+<script src="data.js?v=4"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

@@ -68,14 +68,14 @@ a{color:var(--slate)}
 
 /* hero */
 .hero{position:relative;height:100svh;min-height:560px;overflow:hidden;display:flex;align-items:flex-end}
-.hero .bg{position:absolute;inset:0;background:url(img/ref/R01.webp) center 40%/cover;animation:kb 32s ease-in-out infinite alternate;filter:saturate(1.05) contrast(1.05)}
+.hero .bg{position:absolute;inset:0;background:url(img/ref/key.webp) center 30%/cover;animation:kb 32s ease-in-out infinite alternate;filter:saturate(1.05) contrast(1.05)}
 @keyframes kb{from{transform:scale(1.04) translate(0,0)}to{transform:scale(1.16) translate(-2%,-2%)}}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;background:
   radial-gradient(120% 90% at 50% 25%,transparent 30%,#000a 75%,#000 100%),
   linear-gradient(transparent 30%,#0b0a09b0 55%,#0b0a09f0 80%,var(--ink))}
 .letterbox{position:absolute;left:0;right:0;height:7vh;background:#000;z-index:2}
 .letterbox.t{top:0}.letterbox.b{bottom:0;height:0}
-.hero .in{position:relative;z-index:3;width:100%;padding:0 16px 9vh;text-align:center}
+.hero .in{position:relative;z-index:3;width:100%;padding:0 16px 5vh;text-align:center}
 @media (max-width:600px){.hero h1{letter-spacing:.06em;text-indent:.06em}.hero .kick{font-size:10px;letter-spacing:.2em}.hero .facts .chip:nth-child(-n+2){display:none}}
 .hero .kick{font-family:var(--mono);font-size:12px;letter-spacing:.34em;color:var(--mute);margin-bottom:14px}
 .hero h1{font-family:var(--serif);font-weight:800;font-size:clamp(34px,9.6vw,112px);letter-spacing:.12em;line-height:1;text-indent:.12em;white-space:nowrap;
