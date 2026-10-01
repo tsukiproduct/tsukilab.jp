@@ -10,6 +10,8 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
 PSD_DIR, OUT = ROOT / "assets/psd", ROOT / "assets/sprites"
+# 左右反転して書き出すキャラ(PSDの ":flipx" レイヤーで、サイドテールやほくろの位置を設定どおりに保つ)
+FLIP = {"tsumugi"}
 HEIGHT = 1400  # 出力高さ(上半身アップでも荒れないよう大きめ)
 
 # 各表情: (眉, 目, 頬) / 口は閉・開で別指定 / 腕は任意
@@ -75,6 +77,12 @@ def apply(psd, cfg, emote, mouth, blink):
             if a.parent.visible:
                 only(a, emote["larm"])
 
+def set_flip(psd):
+    for l in psd:
+        if l.name.startswith(("!サイドテール", "!ほくろ")):
+            l.visible = l.name.endswith(":flipx")
+
+
 def render(key):
     cfg = CHARS[key]
     out = OUT / key
@@ -84,7 +92,11 @@ def render(key):
             for blink in (False, True):
                 psd = PSDImage.open(PSD_DIR / f"{key}.psd")
                 apply(psd, cfg, emote, mouth, blink)
+                if key in FLIP:
+                    set_flip(psd)
                 img = psd.composite(force=True).convert("RGBA")
+                if key in FLIP:
+                    img = img.transpose(Image.FLIP_LEFT_RIGHT)
                 img = img.crop(img.getbbox()) if False else img
                 w = round(img.width * HEIGHT / img.height)
                 img = img.resize((w, HEIGHT), Image.LANCZOS)

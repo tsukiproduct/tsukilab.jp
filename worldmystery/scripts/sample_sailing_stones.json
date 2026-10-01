@@ -3,65 +3,118 @@
   "series": "世界の不思議",
   "episode": "サンプル",
   "characters": {
-    "zunda": {
-      "name": "ずんだもん",
-      "voicevox": "ずんだもん",
-      "side": "left"
-    },
     "tsumugi": {
       "name": "春日部つむぎ",
       "voicevox": "春日部つむぎ",
-      "side": "right"
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
     }
+  },
+  "chapters": [
+    "謎",
+    "調査",
+    "正体",
+    "まとめ"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/noche_de_verano_chill.mp3",
+    "credit": "Noche de verano (Chill) / PPE",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/663407"
   },
   "lines": [
     {
       "who": "zunda",
-      "emote": "happy",
-      "text": "みんな、こんにちはなのだ！世界の不思議チャンネルへ、ようこそなのだ！",
-      "mode": "full"
-    },
-    {
-      "who": "tsumugi",
-      "emote": "normal",
-      "text": "今日のテーマは、勝手に動く石、です。アメリカのデスバレーには、ふしぎな石があります。",
-      "mode": "full"
-    },
-    {
-      "who": "zunda",
       "emote": "surprise",
-      "text": "石が動くのだ？生きてるのだ？",
-      "mode": "full"
-    },
-    {
-      "who": "tsumugi",
-      "emote": "normal",
-      "text": "場所は、デスバレー国立公園の、レーストラック・プラヤ。乾いた湖底に石が点々とあり、その後ろには、引きずったような跡が残っているんです。",
+      "text": "石が、勝手に歩く湖があるのだ！",
+      "sfx": "pon",
+      "punch": true,
+      "chapter": 0,
       "image": "racetrack_tracks_aerial.jpg",
       "credit": "Richard D. Norris ほか",
       "license": "CC BY 1.0",
       "url": "https://commons.wikimedia.org/wiki/File:Racetrack_playa_2013-12-20.jpg",
-      "note": "トリミングあり"
-    },
-    {
-      "who": "zunda",
-      "emote": "think",
-      "text": "でも、動いているところは、誰も見たことがなかったのだ？"
+      "note": "トリミングあり",
+      "pop": "ええっ！？"
     },
     {
       "who": "tsumugi",
       "emote": "normal",
-      "text": "そうなんです。長いあいだ、動く瞬間を見た人はいなくて、いろいろな説が語られてきました。"
-    },
-    {
-      "who": "zunda",
-      "emote": "think",
-      "text": "それで、答えは何なのだ？"
+      "text": "しかも、動いている[[ところ]]を見た人は、長いあいだ、ひとりもいませんでした。"
     },
     {
       "who": "tsumugi",
       "emote": "normal",
-      "text": "二〇一四年、研究チームが十五個の石にGPSをつけ、気象観測所も置いて、実際に観察しました。結果は、科学誌プロス・ワンに発表されています。",
+      "text": "その正体は、この動画の[[最後]]に、ちゃんと答えます。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "答えを聞くまで、ずんだもんは、帰らないのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "mode": "full",
+      "text": "こんにちは。世界の不思議、案内役の、春日部つむぎです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "mode": "full",
+      "text": "ずんだもんなのだ！今日は、勝手に動く石の謎を追うのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "場所は、アメリカ、デスバレー国立公園の、[[レーストラック・プラヤ]]。乾いた湖底に、石が点々とあり、その後ろには、引きずったような[[跡]]が残っています。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "きっと、誰かが夜中に、こっそり押したのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "そう考えた人もいました。でも、動く瞬間を見た人はいなくて、いろいろな説が、語られてきたんです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "宇宙人なのだ！",
+      "sfx": "pon",
+      "punch": true,
+      "pop": "宇宙人！？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "[[不正解]]です。",
+      "sfx": "bubu",
+      "pop": "不正解！"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "まだ何も説明してないのに、ひどいのだ…。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 1,
+      "text": "では、答えへ向かいます。[[二〇一四年]]、研究チームが、十五個の石に[[GPS]]をつけ、気象観測所も置いて、実際に観察しました。",
       "image": "plos_fig3_map_gps_rocks.jpg",
       "credit": "Norris et al. (2014) PLOS ONE 図3",
       "license": "CC BY 4.0",
@@ -71,57 +124,103 @@
     {
       "who": "zunda",
       "emote": "surprise",
-      "text": "本気の調査なのだ！"
+      "text": "本気の調査なのだ！",
+      "punch": true,
+      "pop": "本気！"
     },
     {
       "who": "tsumugi",
       "emote": "normal",
-      "text": "仕組みは、こうです。雨のあと湖底に浅い水がたまり、夜に凍って、厚さ三から六ミリの、薄い氷の板になります。",
-      "image": "plos_fig1_ice_timelapse.jpg",
-      "credit": "Norris et al. (2014) PLOS ONE 図1",
-      "license": "CC BY 4.0",
-      "fit": "contain",
-      "url": "https://doi.org/10.1371/journal.pone.0105948"
+      "text": "結果は、科学誌プロス・ワンに発表されています。出典は、概要欄にあります。"
     },
     {
       "who": "tsumugi",
       "emote": "happy",
-      "text": "翌日、日がのぼって氷が割れ、弱い風を受けると、氷の板が石を押して、ゆっくり動かすんです。",
-      "telop": "氷の厚さ\n3〜6ミリ"
+      "text": "管理人さんは、確認しないと眠れないタイプなので、全部、確認済みです。"
     },
     {
       "who": "zunda",
-      "emote": "surprise",
-      "text": "風でそっと動くなんて、びっくりなのだ！"
+      "emote": "happy",
+      "text": "管理人、えらいのだ。でも、ちゃんと寝てほしいのだ。"
     },
     {
       "who": "tsumugi",
       "emote": "normal",
-      "text": "観測した約二か月半のあいだに、移動は五回。ときには、数百個の石が一度に動きました。",
+      "chapter": 2,
+      "text": "いよいよ、正体です。雨のあと、湖底に浅い水がたまり、夜に凍って、厚さ三から六ミリの、[[薄い氷の板]]になります。",
+      "image": "plos_fig1_ice_timelapse.jpg",
+      "credit": "Norris et al. (2014) PLOS ONE 図1",
+      "license": "CC BY 4.0",
+      "url": "https://doi.org/10.1371/journal.pone.0105948",
+      "crop": [
+        0.235,
+        0.0,
+        0.62,
+        1.0
+      ],
+      "note": "図の一部を切り出し"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "氷が、石を運ぶのだ…？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "翌日、日がのぼって氷が割れ、弱い[[風]]を受けると、氷の板が石を押して、ゆっくり動かします。"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "風で、そっと動くなんて、びっくりなのだ！",
+      "sfx": "kira",
+      "punch": true,
+      "pop": "！！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "観測した約二か月半の間に、移動は[[五回]]。ときには、数百個の石が、一度に動きました。",
       "telop": "約2か月半で\n移動は5回"
     },
     {
       "who": "zunda",
       "emote": "happy",
-      "text": "自然って、不思議だけど、ちゃんと理由があるのだ！",
-      "panel": "none"
+      "chapter": 3,
+      "text": "宇宙人じゃなかったのだ…。"
     },
     {
       "who": "tsumugi",
-      "emote": "happy",
-      "text": "今日の動画は、ここまでです。次回も、お楽しみに。"
+      "emote": "normal",
+      "text": "はい。氷が薄く、風がちょうどよく、湖底が濡れている。その条件がそろう日は、少ないので、長いあいだ、目撃されなかったのかもしれません。"
     },
     {
       "who": "zunda",
       "emote": "happy",
-      "text": "チャンネル登録も、よろしくなのだ！"
+      "text": "自然って、不思議だけど、ちゃんと理由があるのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "次回は、誰にも読めない本、[[ヴォイニッチ手稿]]をご紹介します。",
+      "telop": "次回\n誰にも読めない本",
+      "sfx": "kira"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "ずんだもんの宇宙人説、コメントで採点してほしいのだ！チャンネル登録も、よろしくなのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "採点は、辛口です。",
+      "pop": "辛口"
     }
   ],
   "sources": [
     "Norris RD, Norris JM, Lorenz RD, Ray J, Jackson B (2014) Sliding Rocks on Racetrack Playa, Death Valley National Park: First Observation of Rocks in Motion. PLoS ONE 9(8): e105948. https://doi.org/10.1371/journal.pone.0105948",
     "ScienceDaily 2014-08-28 / CSMonitor 2014-08-27 の報道"
-  ],
-  "tachie_credits": [
-    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
   ]
 }

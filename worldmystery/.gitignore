@@ -1,4 +1,7 @@
 assets/psd/
 assets/sprites/
+assets/sprites_old/
+assets/bgm/*.mp3
+assets/bgm/*.wav
 out/
 __pycache__/
