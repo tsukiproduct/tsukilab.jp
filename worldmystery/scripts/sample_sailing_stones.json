@@ -1,0 +1,32 @@
+{
+  "title": "勝手に動く石の謎",
+  "series": "世界の不思議",
+  "episode": "サンプル",
+  "characters": {
+    "zunda":   {"name": "ずんだもん",   "voicevox": "ずんだもん",   "color": [92, 170, 60],  "side": "left"},
+    "tsumugi": {"name": "春日部つむぎ", "voicevox": "春日部つむぎ", "color": [214, 150, 40], "side": "right"}
+  },
+  "credits": "音声: VOICEVOX:ずんだもん / VOICEVOX:春日部つむぎ　立ち絵: 坂本アヒル",
+  "lines": [
+    {"who": "zunda",   "emote": "happy",    "text": "みんな、こんにちはなのだ！世界の不思議チャンネルへ、ようこそなのだ！"},
+    {"who": "tsumugi", "emote": "normal",   "text": "今日のテーマは、勝手に動く石、です。アメリカのデスバレーには、ふしぎな石があります。"},
+    {"who": "zunda",   "emote": "surprise", "text": "石が動くのだ？生きてるのだ？"},
+    {"who": "tsumugi", "emote": "normal",   "text": "場所は、デスバレー国立公園の、レーストラック・プラヤ。乾いた湖底に石が点々とあり、その後ろには、引きずったような跡が残っているんです。", "telop": "デスバレー国立公園\nレーストラック・プラヤ"},
+    {"who": "zunda",   "emote": "think",    "text": "でも、動いているところは、誰も見たことがなかったのだ？"},
+    {"who": "tsumugi", "emote": "normal",   "text": "そうなんです。長いあいだ、動く瞬間を見た人はいなくて、いろいろな説が語られてきました。"},
+    {"who": "zunda",   "emote": "think",    "text": "それで、答えは何なのだ？"},
+    {"who": "tsumugi", "emote": "normal",   "text": "二〇一四年、研究チームが十五個の石にGPSをつけ、気象観測所も置いて、実際に観察しました。結果は、科学誌プロス・ワンに発表されています。", "telop": "2014年\nGPSつきの石 15個を観察"},
+    {"who": "zunda",   "emote": "surprise", "text": "本気の調査なのだ！"},
+    {"who": "tsumugi", "emote": "normal",   "text": "仕組みは、こうです。雨のあと湖底に浅い水がたまり、夜に凍って、厚さ三から六ミリの、薄い氷の板になります。", "telop": "氷の厚さ\n3〜6ミリ"},
+    {"who": "tsumugi", "emote": "happy",    "text": "翌日、日がのぼって氷が割れ、弱い風を受けると、氷の板が石を押して、ゆっくり動かすんです。"},
+    {"who": "zunda",   "emote": "surprise", "text": "風でそっと動くなんて、びっくりなのだ！"},
+    {"who": "tsumugi", "emote": "normal",   "text": "観測した約二か月半のあいだに、移動は五回。ときには、数百個の石が一度に動きました。", "telop": "約2か月半で\n移動は5回"},
+    {"who": "zunda",   "emote": "happy",    "text": "自然って、不思議だけど、ちゃんと理由があるのだ！"},
+    {"who": "tsumugi", "emote": "happy",    "text": "今日の動画は、ここまでです。次回も、お楽しみに。"},
+    {"who": "zunda",   "emote": "happy",    "text": "チャンネル登録も、よろしくなのだ！"}
+  ],
+  "sources": [
+    "Norris et al., PLOS ONE (2014)",
+    "ScienceDaily 2014-08-28 / CSMonitor 2014-08-27"
+  ]
+}
