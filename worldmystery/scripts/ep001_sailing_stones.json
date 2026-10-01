@@ -1,7 +1,7 @@
 {
   "title": "勝手に動く石の謎",
-  "series": "世界の不思議",
-  "episode": "サンプル",
+  "series": "この世界のバグ図鑑",
+  "episode": "#001",
   "characters": {
     "tsumugi": {
       "name": "春日部つむぎ",
@@ -62,6 +62,9 @@
       "who": "zunda",
       "emote": "think",
       "text": "答えを聞くまで、ずんだもんは、帰らないのだ。"
+    },
+    {
+      "sting": true
     },
     {
       "who": "tsumugi",
@@ -188,12 +191,19 @@
       "who": "zunda",
       "emote": "happy",
       "chapter": 3,
-      "text": "宇宙人じゃなかったのだ…。"
+      "text": "宇宙人じゃなかったのだ…。",
+      "report": true
     },
     {
       "who": "tsumugi",
       "emote": "normal",
       "text": "はい。氷が薄く、風がちょうどよく、湖底が濡れている。その条件がそろう日は、少ないので、長いあいだ、目撃されなかったのかもしれません。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "というわけで、今回のバグ報告。ステータスは、[[仕様です]]。",
+      "stamp": true
     },
     {
       "who": "zunda",
@@ -222,5 +232,98 @@
   "sources": [
     "Norris RD, Norris JM, Lorenz RD, Ray J, Jackson B (2014) Sliding Rocks on Racetrack Playa, Death Valley National Park: First Observation of Rocks in Motion. PLoS ONE 9(8): e105948. https://doi.org/10.1371/journal.pone.0105948",
     "ScienceDaily 2014-08-28 / CSMonitor 2014-08-27 の報道"
-  ]
+  ],
+  "chapter_titles": [
+    "石が勝手に歩く湖",
+    "2014年、本気の調査",
+    "ついに判明した正体",
+    "バグ報告とまとめ"
+  ],
+  "report": {
+    "no": "001",
+    "name": "勝手に動く石",
+    "place": "デスバレー国立公園(アメリカ)",
+    "reporter": "Norris ほか(2014年 PLOS ONE)",
+    "severity": 3,
+    "status": "仕様です"
+  },
+  "publish": {
+    "titles": [
+      "なぜ石は勝手に動くのか？誰も見たことがなかった“砂漠のバグ”の正体",
+      "砂漠を勝手に歩く石、ついに“動く瞬間”が観測された理由",
+      "誰もいない砂漠で石が移動する。犯人は“意外なもの”でした"
+    ],
+    "hook": [
+      "砂漠の湖底に残る、石が勝手に動いた跡。動く瞬間を見た人は、長いあいだ一人もいませんでした。",
+      "2014年、研究チームがGPSで捉えた“犯人”とは？ ずんだもんと春日部つむぎが、この世界のバグを報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#ずんだもん",
+      "#雑学"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "石が",
+          "歩く！？"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "racetrack_tracks_aerial.jpg",
+        "focus": 0.5,
+        "circle": [
+          0.66,
+          0.48,
+          0.11
+        ],
+        "crop": [
+          0.48,
+          0.45,
+          1.0,
+          0.98
+        ]
+      },
+      {
+        "text": [
+          "犯人は",
+          "誰？"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "racetrack_tracks_aerial.jpg",
+        "focus": 0.5,
+        "crop": [
+          0.0,
+          0.0,
+          0.75,
+          0.6
+        ]
+      },
+      {
+        "text": [
+          "誰も",
+          "見てない"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ]
+      }
+    ]
+  }
 }

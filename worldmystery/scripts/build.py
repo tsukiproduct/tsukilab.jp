@@ -386,6 +386,80 @@ def chapter_band(num, label):
     return im
 
 
+def report_card(rep_, stamped):
+    """バグ報告書カード。stamped=True でステータス欄に判子が押された状態"""
+    w, h = 860, 470
+    card, pad = sticker(w, h, 24, PAPER, shadow=INK + (255,), off=(10, 10), ow=6)
+    out = Image.new("RGBA", card.size, (0, 0, 0, 0)); out.alpha_composite(card)
+    d = ImageDraw.Draw(out)
+    d.rounded_rectangle([pad + 6, pad + 6, pad + w - 6, pad + 86], 18, fill=MARKER)
+    d.line([(pad + 6, pad + 86), (pad + w - 6, pad + 86)], fill=INK, width=5)
+    d.text((pad + 34, pad + 46), "バグ報告書", font=F_TITLE(48), fill=INK, anchor="lm")
+    d.text((pad + w - 34, pad + 48), f"No.{rep_['no']}", font=F_TITLE(40), fill=(208, 98, 10), anchor="rm")
+    rows = [("対象", rep_["name"]), ("発生場所", rep_["place"]), ("原因の報告", rep_["reporter"]),
+            ("深刻度", "★" * rep_["severity"] + "☆" * (5 - rep_["severity"])), ("ステータス", "")]
+    y = pad + 128
+    for k, v in rows:
+        d.text((pad + 40, y), k, font=F_BOLD(30), fill=(150, 120, 90), anchor="lm")
+        f = F_BOLD(36)
+        while f.getlength(v) > w - 290 and f.size > 20:
+            f = F_BOLD(f.size - 2)
+        d.text((pad + 250, y), v, font=f, fill=INK, anchor="lm")
+        d.line([(pad + 40, y + 32), (pad + w - 40, y + 32)], fill=(230, 214, 190), width=2)
+        y += 68
+    if stamped:
+        out.alpha_composite(status_stamp(rep_["status"]), (pad + 240, y - 68 - 52))
+    return out
+
+
+def status_stamp(text):
+    f = F_TITLE(54)
+    tw = int(f.getlength(text)) + 60
+    im = Image.new("RGBA", (tw * SS, 100 * SS), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    red = (214, 52, 52, 235)
+    d.rounded_rectangle([6 * SS, 6 * SS, (tw - 6) * SS, 94 * SS], 16 * SS, outline=red, width=7 * SS)
+    d.text((tw // 2 * SS, 50 * SS), text, font=F(("DelaGothicOne_400Regular.ttf"), 54 * SS), fill=red, anchor="mm")
+    im = im.resize((tw, 100), Image.LANCZOS)
+    return im.rotate(-6, expand=True, resample=Image.BICUBIC)
+
+
+def sting_frames(sc):
+    """オープニング(約2.6秒): 黄色の背景 + ロゴがバグりながら登場 + 話数の札"""
+    logo_p = ROOT / "assets/brand/logo.png"
+    logo = Image.open(logo_p).convert("RGBA") if logo_p.exists() else None
+    base = Image.new("RGBA", (W, H), MARKER + (255,))
+    d = ImageDraw.Draw(base)
+    for i in range(-H, W + H, 90):
+        d.polygon([(i, 0), (i + 45, 0), (i + 45 - H, H), (i - H, H)], fill=(255, 238, 160, 255))
+    tag = sticker(int(F_POP(46).getlength(f"バグ報告 {sc.get('episode', '')}")) + 70, 76, 38, PAPER, shadow=INK + (255,), off=(5, 5))[0]
+    ImageDraw.Draw(tag).text((tag.width // 2 - 4, tag.height // 2 - 2), f"バグ報告 {sc.get('episode', '')}", font=F_POP(46), fill=INK, anchor="mm")
+    return base, logo, tag
+
+
+def render_sting(frame, sting, age):
+    base, logo, tag = sting
+    import random
+    out = base.copy()
+    if logo is not None:
+        p = age / 0.35
+        sc_ = 0.4 + 0.75 * ease(p) if p < 1 else (1.15 - 0.15 * ease((age - 0.35) / 0.2) if age < 0.55 else 1.0)
+        L = logo.resize((int(logo.width * 1.5 * sc_), int(logo.height * 1.5 * sc_)), Image.LANCZOS)
+        rnd = random.Random(int(age * 30))
+        jx, jy = (rnd.randint(-14, 14), rnd.randint(-6, 6)) if 0.6 < age < 0.9 or 1.6 < age < 1.75 else (0, 0)  # バグっぽい揺れ
+        out.alpha_composite(L, ((W - L.width) // 2 + jx, (H - L.height) // 2 - 60 + jy))
+    for k, (key, name, x) in enumerate([("tsumugi", "happy_open_open", 330), ("zunda", "surprise_open_open", W - 330)]):
+        q = ease((age - 0.25 - 0.12 * k) / 0.3)  # 下から順番に飛び出す
+        if q > 0:
+            sp = sprite(key, name, 0.62)
+            out.alpha_composite(sp, (int(x - sp.width / 2), int(H - 360 + (1 - q) * 520)))
+    if age > 0.7:
+        q = ease((age - 0.7) / 0.25)
+        out.alpha_composite(tag, ((W - tag.width) // 2, int(H - 230 + (1 - q) * 200)))
+    a = 1.0 if age < 2.35 else max(0.0, 1 - (age - 2.35) / 0.25)
+    return Image.blend(frame, out, a) if a < 1 else out
+
+
 def mark_surprise():
     im = Image.new("RGBA", (150 * SS, 170 * SS), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
@@ -475,6 +549,15 @@ def sfx_samples(name, sr):
     if name == "chan":
         return seq([523, 659, 784], 0.0, dur=0.55, decay=4) if False else \
             [a + b + c for a, b, c in zip(tone(523, 0.55, 4), tone(659, 0.55, 4), tone(784, 0.55, 4))]
+    if name == "jingle":  # オープニング: 上がる3音 + ザザッというノイズ(バグ感)
+        import random
+        rnd = random.Random(7)
+        notes = seq([784, 988, 1175, 1568], 0.11, dur=0.35, decay=5)
+        noise = [rnd.uniform(-1, 1) * math.exp(-8 * i / (sr * 0.18)) * 0.5 for i in range(int(sr * 0.18))]
+        return noise + [0.0] * int(sr * 0.05) + notes
+    if name == "don":  # 判子を押す音
+        n = int(sr * 0.32)
+        return [math.sin(2 * math.pi * (95 - 40 * i / n) * i / sr) * math.exp(-9 * i / n) * 1.6 for i in range(n)]
     if name == "bubu":
         return seq([185, 139], 0.16, dur=0.26, decay=3.5)
     raise SystemExit(f"未定義の効果音: {name}")
@@ -533,6 +616,11 @@ def build_timeline(sc, tmp, url, use_voice, sids, chars):
     t, tl = 0.8, []
     panel, pstart, prev_mode, chapter = None, 0.8, None, 0
     for i, ln in enumerate(sc["lines"]):
+        if ln.get("sting"):  # オープニング(声なし)
+            tl.append(dict(ln, who=None, text="", i=i, start=t, dur=2.6, vols=None, mode=prev_mode or "bust", panel=panel,
+                           pstart=pstart, chapter=chapter, chapter_new=False, sfx="jingle", cues=[], wav=None))
+            t += 2.6 + 0.1
+            continue
         ch = chars[ln["who"]]
         wav = tmp / wav_name(i, ln, ch)
         if use_voice:
@@ -552,15 +640,19 @@ def build_timeline(sc, tmp, url, use_voice, sids, chars):
             panel, pstart = ("image", {k: ln.get(k, "") for k in ("image", "credit", "license", "fit", "focus", "url", "note", "crop")}), settle
         elif "telop" in ln:
             panel, pstart = ("telop", ln["telop"]), settle
+        elif ln.get("report"):
+            panel, pstart = ("report", "card"), settle
+        if ln.get("stamp"):
+            panel, pstart = ("report", "stamped"), settle
         prev_mode = mode
-        sfx = ln.get("sfx")
+        sfx = ln.get("sfx") or ("don" if ln.get("stamp") else None)
         chapter_new = False
         if "chapter" in ln and ln["chapter"] != chapter:
             chapter, chapter_new = ln["chapter"], True
             sfx = sfx or "chan"
         # 字幕を短く区切り、文字量に比例して時間を割り当てる
         cues = split_cues(ln["text"])
-        wts = [cue_weight(c) for c in cues]
+        wts = [max(1, cue_weight(c)) for c in cues]
         acc, cue_t = 0, []
         for c, w in zip(cues, wts):
             cue_t.append((t + dur * acc / sum(wts), t + dur * (acc + w) / sum(wts), c))
@@ -626,10 +718,12 @@ def main():
 
     # 音声トラック(声 + 効果音)
     audio = tmp / "audio.wav"
-    sr0 = read_wav(tl[0]["wav"])[0] if use_voice else 24000
+    sr0 = read_wav(next(e["wav"] for e in tl if e["wav"]))[0] if use_voice else 24000
     buf = [0.0] * int(total * sr0)
     if use_voice:
         for e in tl:
+            if not e["wav"]:
+                continue
             s = read_wav(e["wav"])[1]
             o = int(e["start"] * sr0)
             for k, v in enumerate(s):
@@ -658,6 +752,8 @@ def main():
         if e["panel"] and e["panel"][0] == "image":
             photos.setdefault(e["panel"][1]["image"], photo_card(e["panel"][1]))
     tcard = title_card(sc["series"], sc["title"], ep)
+    reports = {k: report_card(sc["report"], k == "stamped") for k in ("card", "stamped")} if sc.get("report") else {}
+    sting = sting_frames(sc)
     surprise = mark_surprise()
     strips = chapter_strips(sc["chapters"]) if sc.get("chapters") else None
     bands = [chapter_band(i + 1, c) for i, c in enumerate(sc["chapters"])] if sc.get("chapters") else []
@@ -666,7 +762,10 @@ def main():
     def render_frame(f):
         ts = f / FPS
         act = next((e for e in tl if e["start"] <= ts < e["start"] + e["dur"]), None)
-        held = [e for e in tl if e["start"] <= ts]
+        sting_age = ts - act["start"] if act and act.get("sting") else None
+        if sting_age is not None:
+            act = None
+        held = [e for e in tl if e["start"] <= ts and not e.get("sting")]
         cam = camera(tl, ts)
         cur_mode = held[-1]["mode"] if held else tl[0]["mode"]
         frame = bg_base.copy()
@@ -686,9 +785,11 @@ def main():
             center = telops[panel[1]]
         elif settled_bust and panel and panel[0] == "image":
             center = photos[panel[1]["image"]]
+        elif settled_bust and panel and panel[0] == "report":
+            center = reports[panel[1]]
         if center is not None:
             age = ts - (tl[0]["start"] if center is tcard else held[-1]["pstart"])
-            pop = ease(age / 0.35)
+            pop = 1.0 if (panel and panel[0] == "report" and panel[1] == "stamped") else ease(age / 0.35)
             cy = 200 + (520 - center.height) // 2 + int((1 - pop) * 40)
             c = center
             if pop < 1:
@@ -740,7 +841,13 @@ def main():
             pop = ease((ts - act["cues"][k][0]) / 0.12)  # 字幕が切り替わるたびに軽くポップ
             dy = int((1 - pop) * 14)
             frame.alpha_composite(s, ((W - s.width) // 2, H - s.height - 10 + dy))
+        if sting_age is not None:
+            frame = render_sting(frame, sting, sting_age)
         return frame.convert("RGB")
+
+    # 概要欄・サムネ作成用の情報(チャプターの実際の時刻など)
+    meta = dict(total=total, chapters=[(0.0 if not k else e["start"], e["chapter"]) for k, e in enumerate([x for x in tl if x["chapter_new"] or x is tl[0]])])
+    (tmp.parent / f"{name}_meta.json").write_text(json.dumps(meta, ensure_ascii=False), encoding="utf-8")
 
     if a.still:
         render_frame(int(float(a.still[0]) * FPS)).save(a.still[1])
