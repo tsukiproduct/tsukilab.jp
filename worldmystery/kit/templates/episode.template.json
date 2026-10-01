@@ -1,0 +1,307 @@
+{
+  "_説明": "台本のひな形。{{ }} を書き換える。キャラのキー(tsumugi/zunda)は assets/sprites/<キー>/ の名前と合わせる。行の項目は scripts/build.py の先頭の説明を参照。",
+  "title": "{{動画内の上部に出る題名(〜なバグ など、シリーズの言い回しで)}}",
+  "series": "{{チャンネル名}}",
+  "episode": "#{{001}}",
+  "brand": {
+    "tag": "{{札の言葉 例: バグ報告}}",
+    "report_title": "{{報告書の見出し 例: バグ報告書}}",
+    "report_labels": [
+      "{{対象}}",
+      "{{発生場所}}",
+      "{{原因の報告}}",
+      "{{深刻度}}",
+      "{{ステータス}}"
+    ],
+    "comment_cta": "{{概要欄のコメント募集文}}",
+    "shorts_more": "続きは本編で",
+    "marker": [
+      255,
+      226,
+      110
+    ]
+  },
+  "characters": {
+    "tsumugi": {
+      "name": "{{キャラA}}",
+      "voicevox": "{{VOICEVOXの名前}}",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1,
+      "colors": {
+        "text": [
+          208,
+          98,
+          10
+        ],
+        "main": [
+          255,
+          178,
+          56
+        ]
+      }
+    },
+    "zunda": {
+      "name": "{{キャラB}}",
+      "voicevox": "{{VOICEVOXの名前}}",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15,
+      "colors": {
+        "text": [
+          40,
+          132,
+          52
+        ],
+        "main": [
+          118,
+          200,
+          82
+        ]
+      }
+    }
+  },
+  "chapters": [
+    "{{章1}}",
+    "{{章2}}",
+    "{{章3}}",
+    "報告"
+  ],
+  "chapter_titles": [
+    "{{概要欄の章名1}}",
+    "{{章名2}}",
+    "{{章名3}}",
+    "{{報告とまとめ}}"
+  ],
+  "tachie_credits": [
+    "{{立ち絵の作者表記}}"
+  ],
+  "bgm": {
+    "file": "assets/bgm/{{曲.mp3}}",
+    "credit": "{{曲名 / 作者}}",
+    "license": "{{CC BY 4.0 など}}",
+    "url": "{{曲のページ}}"
+  },
+  "report": {
+    "no": "{{001}}",
+    "name": "{{対象}}",
+    "place": "{{発生場所}}",
+    "reporter": "{{誰の発表か(機関・年)}}",
+    "severity": 3,
+    "status": "{{ステータス語彙のどれか}}"
+  },
+  "sources": [
+    "{{媒体 日付 見出し URL}}",
+    "{{一次情報(論文・公式発表) URL}}"
+  ],
+  "lines": [
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "chapter": 0,
+      "pop": "{{短い驚き}}",
+      "punch": true,
+      "telop": "{{見出し1行目}}\n{{見出し2行目}}",
+      "text": "{{フック: 一番気になる事実を一言で}}"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "{{事実を短く。日付と主語を明確に。強調は[[語]]}}"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "{{でも実は… と謎を提示。答えは最後に、と予告}}"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "{{視聴者の代弁の疑問}}"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "mode": "full",
+      "text": "{{挨拶: チャンネル名と役割}}"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "mode": "full",
+      "text": "{{挨拶: 今日のひとこと}}"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "seq": "{{epNNN_図の名前}}",
+      "fit": "contain",
+      "note": "{{イメージ図 など}}",
+      "credit": "番組で作成",
+      "license": "番組作成の図",
+      "text": "{{動く図で説明(見せ場)}}"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "pop": "{{！？}}",
+      "punch": true,
+      "text": "{{驚き}}"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 1,
+      "telop": "{{要点の数字}}",
+      "text": "{{章2: 原因・経緯}}"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "{{的外れな推理(笑い)}}"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "{{淡々としたツッコミ}}"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 2,
+      "text": "{{章3: なぜ大事か・正体}}"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "chapter": 3,
+      "report": true,
+      "text": "{{まとめの一言(報告書カードが出る)}}"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "{{結論}}"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "stamp": true,
+      "text": "{{というわけで、今回のステータスは[[○○]]です。(判子)}}"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "{{オチの一言}}"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "pop": "{{一言}}",
+      "sfx": "pon",
+      "text": "{{ツッコミ}}"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "{{コメント募集}}"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "{{チャンネル登録のお願い}}"
+    }
+  ],
+  "publish": {
+    "titles": [
+      "{{案A: 事実+意外性}}",
+      "{{案B: なぜ〜のか？型}}",
+      "{{案C: 疑問形}}"
+    ],
+    "hook": [
+      "{{概要欄1行目: 何が起きたか}}",
+      "{{2行目: この動画で分かること}}"
+    ],
+    "hashtags": [
+      "#{{チャンネル名}}",
+      "#{{ジャンル}}",
+      "#{{キャラ名}}"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "{{4〜5字}}",
+          "{{4〜5字}}"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "{{epNNN_図_final.png}}",
+        "crop": [
+          0.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "{{4〜5字}}",
+          "{{4〜5字}}"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "{{別の図.png}}"
+      },
+      {
+        "text": [
+          "{{4〜5字}}",
+          "{{4〜5字}}"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ]
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 0,
+      "to": 3,
+      "hook": [
+        "{{見出し1}}",
+        "{{見出し2}}",
+        "{{見出し3(黄色)}}"
+      ],
+      "title": "{{ショートのタイトル}} #Shorts"
+    },
+    {
+      "from": 8,
+      "to": 11,
+      "hook": [
+        "{{見出し1}}",
+        "{{見出し2(黄色)}}"
+      ],
+      "title": "{{ショートのタイトル}} #Shorts",
+      "thumb_photo": "{{図.png または false}}"
+    }
+  ]
+}
