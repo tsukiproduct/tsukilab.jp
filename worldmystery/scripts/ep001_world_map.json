@@ -1,0 +1,405 @@
+{
+  "title": "世界地図のバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#001",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "バグ",
+    "原因",
+    "修正",
+    "報告"
+  ],
+  "chapter_titles": [
+    "グリーンランドが大きすぎるバグ",
+    "原因は450年以上前の“仕様”",
+    "国連の“修正パッチ”",
+    "バグ報告とまとめ"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/noche_de_verano_chill.mp3",
+    "credit": "Noche de verano (Chill) / PPE",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/663407"
+  },
+  "report": {
+    "no": "001",
+    "name": "グリーンランドが大きすぎる",
+    "place": "世界地図(メルカトル図法)",
+    "reporter": "国連総会の決議(2026年9月4日)",
+    "severity": 4,
+    "status": "修正パッチ配布中"
+  },
+  "lines": [
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "chapter": 0,
+      "text": "グリーンランドって、アフリカと同じくらい、でかいのだ！",
+      "pop": "デカっ！？",
+      "punch": true,
+      "image": "map_mercator.png",
+      "fit": "contain",
+      "box": [
+        560,
+        436
+      ],
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "地図の上では、そう見えます。でも実際は、アフリカの方が、約[[十四倍]]も大きいんです。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "しかも先月、この地図の[[バグ]]をめぐって、国連が動きました。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "国連が、地図を直すのだ？どういうことなのだ。"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "mode": "full",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "mode": "full",
+      "text": "ずんだもんなのだ！記念すべき、報告書の第一号なのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "まずは、バグの確認です。この地図で、ピンクがグリーンランド、黄色がアフリカです。",
+      "image": "map_mercator.png",
+      "fit": "contain",
+      "box": [
+        560,
+        436
+      ],
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "どう見ても、同じくらいなのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "番組で、この地図の上の面積を計算してみると、グリーンランドの方が、わずかに[[大きく]]なりました。"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "逆転してるのだ！？",
+      "pop": "逆転！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "では、グリーンランドを、本当の大きさのまま、アフリカの上へ動かしてみます。",
+      "seq": "seq_greenland_move",
+      "fit": "contain",
+      "box": [
+        560,
+        436
+      ],
+      "note": "本当の大きさのまま移動",
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "ちっちゃくなったのだ！？",
+      "pop": "縮んだ！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "これが、本当の大きさです。グリーンランドは、約二百十七万平方キロ。アフリカは、約三千万平方キロあります。",
+      "telop": "アフリカは\nグリーンランドの約14倍"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "地球儀で見ると、よく分かります。地球儀は、面積が[[ゆがまない]]からです。",
+      "seq": "seq_globe_rotate",
+      "fit": "contain",
+      "box": [
+        450,
+        450
+      ],
+      "note": "3Dで描画",
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "地球儀だと、グリーンランドは、ちゃんと小さいのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 1,
+      "text": "原因は、地図の作り方です。この地図は、[[メルカトル図法]]。一五六九年に、メルカトルが、船乗りのために作りました。",
+      "telop": "1569年\n船乗りのための地図"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "船乗り用、なのだ？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "この地図では、コンパスの向きを変えずに進む航路が、[[まっすぐな線]]になります。航海には、とても便利だったんです。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "その代わり、赤道から離れるほど、大きく引き伸ばされます。緯度六十度では、長さが二倍。面積だと、[[四倍]]に見えます。",
+      "telop": "緯度60度で\n面積は4倍に"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "北のほうほど、盛られてるのだ…。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "はい。いわば、[[盛れるカメラ]]です。",
+      "pop": "盛れる",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "しかも、グーグルマップなどのネット地図も、この図法を元にした仕組みを、使っています。"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "毎日見てる地図も、盛れてたのだ！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 2,
+      "text": "そして、二〇二六年九月四日。国連総会が、[[地図の見直し]]を呼びかける決議を、採択しました。",
+      "image": "map_equal_earth.png",
+      "fit": "contain",
+      "box": [
+        640,
+        320
+      ],
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "賛成は百六十四か国。反対は、アメリカの一か国。棄権は六か国でした。",
+      "telop": "賛成164\n反対1・棄権6"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "ほとんどの国が、賛成なのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "決議は、大陸の大きさを比べる場面では、面積が正しい図法、とくに[[イコールアース図法]]を、もっと使おう、と呼びかけています。",
+      "image": "map_equal_earth.png",
+      "fit": "contain",
+      "box": [
+        640,
+        320
+      ],
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "二〇一八年に、地図の研究者たちが考えた図法で、大陸の面積の比率が、正しく描かれます。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "じゃあ、メルカトル図法は、禁止なのだ？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "いいえ。決議に、法的な拘束力はなく、メルカトル図法を、禁止するものでもありません。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "提案した国の代表は、公平な地図は、世界の地理を変えるのではなく、世界の[[見え方]]を変えるのだ、という趣旨を述べています。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "chapter": 3,
+      "report": true,
+      "text": "地図って、ぜんぶ正しいと思ってたのだ…。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "どの地図にも、得意と不得意があります。メルカトル図法は、方角に強くて、面積に弱い。それだけなんです。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "stamp": true,
+      "text": "というわけで、今回のバグのステータスは、[[修正パッチ配布中]]です。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "家にある地図も、今日から疑ってみるのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "あなたが見つけた、この世界のバグも、コメントで報告してください。次の報告書で、取り上げるかもしれません。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "チャンネル登録も、よろしくなのだ！"
+    }
+  ],
+  "sources": [
+    "国連プレスリリース GA/12779(2026年9月4日)「Correct the Map」決議 https://press.un.org/en/2026/ga12779.doc.htm",
+    "Wikipedia: Mercator projection / Equal Earth projection / Greenland(面積 2,166,086 km²)/ Africa(約3,030万 km²)",
+    "面積比は Natural Earth(1:50m)のデータから番組で計算(実際の比 約13.8倍、メルカトル図法の地図上 約0.96倍)"
+  ],
+  "publish": {
+    "titles": [
+      "なぜ世界地図はウソをつくのか？国連が“修正パッチ”を出した地図のバグ",
+      "グリーンランドは本当はアフリカの14分の1。国連が「地図の見直し」を決議した理由",
+      "あなたが毎日見ている世界地図、実はバグってます【国連が動いた】"
+    ],
+    "hook": [
+      "世界地図では、グリーンランドがアフリカと同じくらいに見えます。でも本当は、アフリカの方が約14倍も大きいんです。",
+      "2026年9月4日、国連総会はこの“地図のバグ”をめぐる決議を採択しました。原因と、国連の“修正パッチ”を、3Dの地球儀で報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#ずんだもん",
+      "#雑学"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "地図が",
+          "バグってる"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "map_mercator.png",
+        "photo_size": [
+          470,
+          610
+        ],
+        "crop": [
+          0.27,
+          0.0,
+          0.66,
+          0.88
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "本当は",
+          "14分の1"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ]
+        ],
+        "photo": "map_true_size.png",
+        "crop": [
+          0.3,
+          0.35,
+          0.72,
+          0.92
+        ],
+        "focus": 0.5,
+        "circle": [
+          0.52,
+          0.5,
+          0.12
+        ]
+      },
+      {
+        "text": [
+          "国連が",
+          "地図を修正"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ]
+      }
+    ]
+  }
+}

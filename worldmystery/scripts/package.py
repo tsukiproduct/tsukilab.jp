@@ -66,8 +66,9 @@ def thumbnail(sc, v):
     for i in range(-TH, TW + TH, 70):  # シリーズ共通の斜めストライプ
         d.polygon([(i, 0), (i + 35, 0), (i + 35 - TH, TH), (i - TH, TH)], fill=(255, 238, 160, 255))
     if v.get("photo"):
-        pb = photo_block(B.REFS / v["photo"], (760, 470), v.get("focus", 0.5), v.get("circle"), crop=v.get("crop"))
-        im.alpha_composite(pb, (TW - pb.width - 10, 70))
+        pw, ph_ = v.get("photo_size", (760, 470))
+        pb = photo_block(B.REFS / v["photo"], (pw, ph_), v.get("focus", 0.5), v.get("circle"), crop=v.get("crop"))
+        im.alpha_composite(pb, (TW - pb.width - (60 if pw < 600 else 10), 70 if ph_ < 520 else 6))
     faces = v.get("faces", [])
     for k, (key, emo) in enumerate(faces):
         fc = face(key, emo, 470 if len(faces) == 1 else 520)

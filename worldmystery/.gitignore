@@ -5,3 +5,5 @@ assets/bgm/*.mp3
 assets/bgm/*.wav
 out/
 __pycache__/
+assets/refs/seq_*/
+assets/geo/*.zip

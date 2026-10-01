@@ -1,7 +1,7 @@
 {
   "title": "勝手に動く石の謎",
   "series": "この世界のバグ図鑑",
-  "episode": "#001",
+  "episode": "試作",
   "characters": {
     "tsumugi": {
       "name": "春日部つむぎ",
@@ -240,7 +240,7 @@
     "バグ報告とまとめ"
   ],
   "report": {
-    "no": "001",
+    "no": "000",
     "name": "勝手に動く石",
     "place": "デスバレー国立公園(アメリカ)",
     "reporter": "Norris ほか(2014年 PLOS ONE)",

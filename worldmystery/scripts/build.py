@@ -300,12 +300,12 @@ def title_card(series, title, episode):
     return out
 
 
-def photo_card(entry):
-    """ポラロイド風の写真枠(出典つき)。画像が無い間は「画像待ち」の枠を出す"""
-    box_w, box_h = 600, 340
+def photo_card(entry, img=None):
+    """ポラロイド風の写真枠(出典つき)。画像が無い間は「画像待ち」の枠を出す。img を渡すとその画像を使う(連番アニメ用)"""
+    box_w, box_h = entry.get("box") or (600, 340)
     path = REFS / entry["image"]
-    if path.exists():
-        ph = Image.open(path).convert("RGB")
+    if img is not None or path.exists():
+        ph = (img if img is not None else Image.open(path)).convert("RGB")
         if entry.get("crop"):  # 図の一部を切り出す(x0,y0,x1,y1 を0〜1の割合で)
             x0, y0, x1, y1 = (float(v) for v in entry["crop"])
             ph = ph.crop((int(x0 * ph.width), int(y0 * ph.height), int(x1 * ph.width), int(y1 * ph.height)))
@@ -637,7 +637,9 @@ def build_timeline(sc, tmp, url, use_voice, sids, chars):
         if ln.get("panel") == "none":
             panel = None
         elif "image" in ln:
-            panel, pstart = ("image", {k: ln.get(k, "") for k in ("image", "credit", "license", "fit", "focus", "url", "note", "crop")}), settle
+            panel, pstart = ("image", {k: ln.get(k, "") for k in ("image", "credit", "license", "fit", "focus", "url", "note", "crop", "box")}), settle
+        elif "seq" in ln:  # 連番画像のアニメ(assets/refs/<seq>/000.png ...)
+            panel, pstart = ("seq", {k: ln.get(k, "") for k in ("seq", "credit", "license", "fit", "crop", "box", "url", "note")} | {"image": ln["seq"]}), settle
         elif "telop" in ln:
             panel, pstart = ("telop", ln["telop"]), settle
         elif ln.get("report"):
@@ -668,7 +670,7 @@ def credits_text(sc, tl):
            "【立ち絵】", *sc.get("tachie_credits", []), "", "【使用した画像】"]
     seen = set()
     for e in tl:
-        if e["panel"] and e["panel"][0] == "image" and e["panel"][1]["image"] not in seen:
+        if e["panel"] and e["panel"][0] in ("image", "seq") and e["panel"][1]["image"] not in seen:
             im = e["panel"][1]; seen.add(im["image"])
             out += [f"・{im['credit']} / {im['license']}" + (f"({im['note']})" if im.get("note") else ""),
                     f"  {im['url']}" if im.get("url") else ""]
@@ -751,6 +753,9 @@ def main():
             telops.setdefault(e["panel"][1], telop_img(e["panel"][1]))
         if e["panel"] and e["panel"][0] == "image":
             photos.setdefault(e["panel"][1]["image"], photo_card(e["panel"][1]))
+        if e["panel"] and e["panel"][0] == "seq" and e["panel"][1]["seq"] not in photos:
+            frames = sorted((REFS / e["panel"][1]["seq"]).glob("*.png"))
+            photos[e["panel"][1]["seq"]] = [photo_card(e["panel"][1], Image.open(fp)) for fp in frames]
     tcard = title_card(sc["series"], sc["title"], ep)
     reports = {k: report_card(sc["report"], k == "stamped") for k in ("card", "stamped")} if sc.get("report") else {}
     sting = sting_frames(sc)
@@ -785,12 +790,15 @@ def main():
             center = telops[panel[1]]
         elif settled_bust and panel and panel[0] == "image":
             center = photos[panel[1]["image"]]
+        elif settled_bust and panel and panel[0] == "seq":
+            seqc = photos[panel[1]["seq"]]
+            center = seqc[min(len(seqc) - 1, max(0, int((ts - held[-1]["pstart"] - 0.4) * 30)))]
         elif settled_bust and panel and panel[0] == "report":
             center = reports[panel[1]]
         if center is not None:
             age = ts - (tl[0]["start"] if center is tcard else held[-1]["pstart"])
             pop = 1.0 if (panel and panel[0] == "report" and panel[1] == "stamped") else ease(age / 0.35)
-            cy = 200 + (520 - center.height) // 2 + int((1 - pop) * 40)
+            cy = max(186, 200 + (520 - center.height) // 2) + int((1 - pop) * 40)
             c = center
             if pop < 1:
                 c = center.copy(); c.putalpha(c.split()[3].point(lambda v: int(v * pop)))
