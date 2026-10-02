@@ -1,7 +1,7 @@
 /* EARTH AFTER — music video player (HLS: Safari native / hls.js elsewhere) */
 (function(){
   var v=document.getElementById('mvVideo');if(!v)return;
-  var SRC='media/mv/master.m3u8',err=document.getElementById('mvErr'),ready=false,loading=false,queue=[],hls=null,started=false;
+  var SRC='media/mv2/master.m3u8',err=document.getElementById('mvErr'),ready=false,loading=false,queue=[],hls=null,started=false;
   function flush(){var q=queue;queue=[];q.forEach(function(f){f()})}
   function fail(){if(err)err.hidden=false}
   function attach(cb){
