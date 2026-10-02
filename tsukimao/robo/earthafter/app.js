@@ -34,7 +34,7 @@ function afterBoot(){
 /* ---------- CHROME: topbar, nav, reveal ---------- */
 const topbar=$('#topbar'),dock=$('#dock'),toTop=$('#toTop');
 const navLinks=$$('#topnav a'),dockLinks=$$('#dock a');
-const secIds=['film','story','people','structure','boards','stage3d','tools','contest'];
+const secIds=['mv','film','story','people','structure','boards','stage3d','tools','contest'];
 function onScroll(){
   const y=scrollY,h=innerHeight;
   const show=y>h*.6;topbar.classList.toggle('show',show);dock.classList.toggle('show',show);toTop.classList.toggle('show',y>h*1.5);

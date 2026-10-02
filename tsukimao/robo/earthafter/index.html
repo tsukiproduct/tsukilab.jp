@@ -18,7 +18,7 @@ document.documentElement.classList.add('js');
 (function(){var s=false;try{s=sessionStorage.getItem('ea-boot')}catch(e){}if(s||location.hash)document.documentElement.classList.add('noboot');try{sessionStorage.setItem('ea-boot','1')}catch(e){}})();
 window.addEventListener('error',function(e){try{var b=document.getElementById('errbar');if(!b){b=document.createElement('div');b.id='errbar';b.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;background:#300;color:#fcc;border:1px solid #a33;border-radius:10px;padding:8px 10px;font:12px/1.5 monospace;white-space:pre-wrap';document.body.appendChild(b)}b.textContent+='表示エラー：'+(e.message||'')+' ('+String(e.filename||'').split('/').pop()+':'+(e.lineno||'')+')\n'}catch(_){}});
 </script>
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <link rel="preload" as="image" href="img/ref/key.webp">
 </head>
@@ -40,6 +40,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 <header class="topbar" id="topbar">
   <a class="brand" href="#top">EARTH AFTER</a>
   <nav class="topnav" id="topnav" aria-label="セクション">
+    <a href="#mv">MV</a>
     <a href="#film">アニマティック</a>
     <a href="#story">物語</a>
     <a href="#people">人物</a>
@@ -66,6 +67,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <p class="credit">原案・制作　月真猫 / TSUKIMAO</p>
     <div class="cta">
       <a class="btn pri" href="#film" data-play>▶ アニマティックを観る</a>
+      <a class="btn" href="#mv">♪ MVを観る</a>
       <a class="btn" href="#story">物語を読む</a>
     </div>
     <div class="facts">
@@ -96,6 +98,27 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
       <div><strong id="stGen">60</strong><span>絵コンテ生成済みカット</span></div>
       <div><strong>4</strong><span>3D舞台モデル</span></div>
     </div>
+  </div>
+</section>
+
+<!-- MV -->
+<section class="sec" id="mv" style="--act:var(--sara)">
+  <div class="wrap">
+    <p class="eyebrow reveal">♪ · MUSIC VIDEO</p>
+    <h2 class="h reveal">あなたの名前を呼ぶたびに</h2>
+    <p class="lead reveal">Nokosuさんが『EARTH AFTER』のために作ってくれた楽曲に、新しい画風の絵コンテを重ねたミュージックビデオです。沙羅とカイル、キラが過ごした時間を、歌詞と一緒にたどります。</p>
+    <figure class="mv reveal" id="mvBox">
+      <div class="mv__screen">
+        <video id="mvVideo" controls playsinline preload="none" poster="media/mv/poster.webp" aria-label="ミュージックビデオ『あなたの名前を呼ぶたびに』"></video>
+        <p class="mv__err" id="mvErr" hidden>この環境では再生を開始できませんでした。ページを再読み込みするか、別のブラウザでお試しください。</p>
+      </div>
+      <figcaption class="mv__cap">
+        <span><b>楽曲</b>Nokosu</span>
+        <span><b>映像</b>EARTH AFTER 絵コンテ（2026-10-02 新画風）より</span>
+        <span><b>尺</b>3:57</span>
+        <span class="sub">歌詞は映像に表示されます。回線に合わせて画質（1080p／720p）が自動で切り替わります。</span>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
@@ -547,7 +570,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </nav>
 <div class="toc" id="toc" role="dialog" aria-label="目次">
   <button class="btn sm x" type="button" id="tocX">閉じる ✕</button>
-  <a href="#start">使い方<small>00</small></a><a href="#film">アニマティック<small>01</small></a><a href="#story">物語<small>02</small></a><a href="#people">人物<small>03</small></a><a href="#structure">構成と感情曲線<small>04</small></a><a href="#boards">絵コンテ<small>05</small></a><a href="#stage3d">3D舞台モデル<small>06</small></a><a href="#tools">制作ツール<small>07</small></a><a href="#contest">コンペ・提出<small>08</small></a><a href="design/">デザイン資料（デザイン案）<small>↗</small></a><a href="script/">新脚本（2026-10-02）<small>↗</small></a>
+  <a href="#start">使い方<small>00</small></a><a href="#mv">MV「あなたの名前を呼ぶたびに」<small>♪</small></a><a href="#film">アニマティック<small>01</small></a><a href="#story">物語<small>02</small></a><a href="#people">人物<small>03</small></a><a href="#structure">構成と感情曲線<small>04</small></a><a href="#boards">絵コンテ<small>05</small></a><a href="#stage3d">3D舞台モデル<small>06</small></a><a href="#tools">制作ツール<small>07</small></a><a href="#contest">コンペ・提出<small>08</small></a><a href="design/">デザイン資料（デザイン案）<small>↗</small></a><a href="script/">新脚本（2026-10-02）<small>↗</small></a>
 </div>
 <button class="to-top" id="toTop" type="button" aria-label="ページ先頭へ">↑</button>
 <div class="toast" id="toast" role="status"></div>
@@ -564,7 +587,8 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
   </div>
 </dialog>
 
-<script src="data.js?v=7"></script>
-<script src="app.js?v=7"></script>
+<script src="data.js?v=8"></script>
+<script src="app.js?v=8"></script>
+<script src="mv.js?v=1"></script>
 </body>
 </html>

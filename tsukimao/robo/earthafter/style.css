@@ -417,3 +417,12 @@ footer ul{padding-left:1.2em;margin:10px 0 18px}
 .subs .line.sign{color:#bff3ff}
 .subs .line.sign .who::before{content:'手話 ';font-size:.9em;letter-spacing:.1em}
 .pn .fx{position:absolute;right:6px;top:6px;font-size:10px;background:#e8a94fdd;color:#1a1208;padding:1px 6px;border-radius:5px;font-weight:700}
+
+/* ---------- MV ---------- */
+.mv{margin:28px 0 0;max-width:1100px}
+.mv__screen{position:relative;aspect-ratio:16/9;background:#000;border-radius:var(--r2);overflow:hidden;border:1px solid #ffffff14;box-shadow:0 40px 120px #000c}
+.mv__screen video{position:absolute;inset:0;width:100%;height:100%;background:#000;object-fit:contain;display:block}
+.mv__err{position:absolute;left:12px;right:12px;bottom:12px;margin:0;padding:10px 12px;border-radius:10px;background:#000c;color:var(--mute);font-size:13px}
+.mv__cap{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:14px;color:var(--mute);font-size:14px;align-items:baseline}
+.mv__cap b{color:var(--sara);font-weight:500;letter-spacing:.12em;font-size:11.5px;margin-right:.6em}
+.mv__cap .sub{flex-basis:100%;font-size:12.5px;opacity:.8}
