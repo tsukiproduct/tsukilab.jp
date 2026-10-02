@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>EARTH AFTER — 制作ガイド｜ロボットカーニバル応募作</title>
-<meta name="description" content="月真猫 / TSUKIMAO によるAI映画『EARTH AFTER』の制作ガイド。物語、キャラクター、字幕付きアニマティック、全94カットの絵コンテ、3D舞台モデル、尺配分とコンペ情報を一つに。">
+<meta name="description" content="月真猫 / TSUKIMAO によるAI映画『EARTH AFTER』の制作ガイド。物語、キャラクター、字幕付きアニマティック、全106カットの絵コンテ、3D舞台モデル、尺配分とコンペ情報を一つに。">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0b0a09">
 <meta property="og:title" content="EARTH AFTER — 制作ガイド">
@@ -18,7 +18,7 @@ document.documentElement.classList.add('js');
 (function(){var s=false;try{s=sessionStorage.getItem('ea-boot')}catch(e){}if(s||location.hash)document.documentElement.classList.add('noboot');try{sessionStorage.setItem('ea-boot','1')}catch(e){}})();
 window.addEventListener('error',function(e){try{var b=document.getElementById('errbar');if(!b){b=document.createElement('div');b.id='errbar';b.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;background:#300;color:#fcc;border:1px solid #a33;border-radius:10px;padding:8px 10px;font:12px/1.5 monospace;white-space:pre-wrap';document.body.appendChild(b)}b.textContent+='表示エラー：'+(e.message||'')+' ('+String(e.filename||'').split('/').pop()+':'+(e.lineno||'')+')\n'}catch(_){}});
 </script>
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="stylesheet" href="style.css?v=7">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <link rel="preload" as="image" href="img/ref/key.webp">
 </head>
@@ -70,8 +70,8 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     </div>
     <div class="facts">
       <span class="chip">SF / アクション / ヒューマンドラマ</span>
-      <span class="chip">設計尺 約20分</span>
-      <span class="chip">20シーン・94カット</span>
+      <span class="chip">計画尺 19:30</span>
+      <span class="chip">22シーン・106カット</span>
       <span class="chip" id="heroDays">締切まで —</span>
     </div>
   </div>
@@ -85,14 +85,14 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <h2 class="h reveal">このガイドの使い方</h2>
     <p class="lead reveal">『EARTH AFTER』に関わる人が、同じ絵と同じ言葉で作品を共有するためのページです。初めての人は上から順に、制作中の人は必要な場所へ直接どうぞ。</p>
     <div class="howto reveal">
-      <a href="#film"><b>01 · WATCH</b><h3>まず観る</h3><p>絵コンテをつないだ字幕付きアニマティック。全体の流れを数分でつかめます。</p></a>
-      <a href="#story"><b>02 · READ</b><h3>物語と人物を知る</h3><p>全20シーンをスクロールで追体験。人物相関図と、沙羅の身体の変化も図で確認できます。</p></a>
-      <a href="#boards"><b>03 · MAKE</b><h3>作る</h3><p>全94カットの絵コンテ、3D舞台でのカメラ確認、尺配分、生成プロンプトまで。</p></a>
+      <a href="#film"><b>01 · WATCH</b><h3>まず観る</h3><p>新しい画風の絵コンテをつないだ字幕付きアニマティック。脚本の計画尺（19:30）で全体を通して観られます。</p></a>
+      <a href="#story"><b>02 · READ</b><h3>物語と人物を知る</h3><p>全22シーンをスクロールで追体験。人物相関図と、沙羅の身体の変化も図で確認できます。</p></a>
+      <a href="#boards"><b>03 · MAKE</b><h3>作る</h3><p>全106カットの絵コンテ、3D舞台でのカメラ確認、尺配分、生成プロンプトまで。</p></a>
     </div>
     <div class="stats reveal">
       <div><strong>3</strong><span>幕構成</span></div>
-      <div><strong>20</strong><span>シーン</span></div>
-      <div><strong>94</strong><span>カット（24シート）</span></div>
+      <div><strong>22</strong><span>シーン</span></div>
+      <div><strong>106</strong><span>カット（27シート）</span></div>
       <div><strong id="stGen">60</strong><span>絵コンテ生成済みカット</span></div>
       <div><strong>4</strong><span>3D舞台モデル</span></div>
     </div>
@@ -104,7 +104,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
   <div class="wrap">
     <p class="eyebrow reveal">01 · ANIMATIC</p>
     <h2 class="h reveal">アニマティック</h2>
-    <p class="lead reveal">絵コンテの各コマを台詞のタイミングでめくる、パラパラ漫画形式の試写です。未生成のSB-16〜24は、絵コンテ指示の文章をそのまま表示します。<b>尺は字幕を読める長さで自動計算した仮の長さで、本編の尺ではありません。</b></p>
+    <p class="lead reveal">絵コンテの各コマを台詞のタイミングでめくる、パラパラ漫画形式の試写です。新しい画風の絵コンテ（2026-10-02）を、<b>脚本の計画尺どおり（合計19:30）</b>にめくります。未生成のシート24〜27は、指示文をそのまま表示します。手話の台詞は字幕の色を分けています。</p>
     <div class="player reveal" id="player">
       <div class="screen" id="screen" tabindex="0" aria-label="アニマティック画面。スペースキーで再生・停止、左右キーでカット移動">
         <div class="frame" id="fA"></div><div class="frame" id="fB"></div>
@@ -132,7 +132,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     </div>
     <div class="jump" id="jump" aria-label="シーンへ移動"></div>
     <div class="dl reveal">
-      <a class="btn" href="media/EARTH_AFTER_animatic.mp4" download>⬇ MP4をダウンロード（字幕焼き込み・9分45秒・約13MB）</a>
+      <a class="btn" href="media/EARTH_AFTER_animatic.mp4" download>⬇ MP4をダウンロード（字幕焼き込み・19分38秒・約23MB）</a>
       <span class="sub">操作：スペース＝再生／停止　← →＝カット移動　F＝全画面</span>
     </div>
   </div>
@@ -147,7 +147,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
       <p class="lead reveal">生まれつき声を持たなかった人間の少女・沙羅と、成長する旧型アンドロイド《TYPE-1000》の少年・カイル。</p>
       <p class="lead reveal" style="margin-top:1em">二人は恋人にはならない。沙羅の想いは所有や成就ではなく、<b style="color:var(--paper)">「同じ時間を生きたい」という願い</b>として描かれる。カイルは言葉ではなく、沙羅を守ろうとする行動で応える。</p>
       <p class="lead reveal" style="margin-top:1em">新世代統合AI《EARTH AFTER》は「人類の保全と社会損失の最小化」という命令を、人間の自由を奪って管理することだと解釈した。物語の大半は、ドロが人間を制圧した後の世界で進む。</p>
-      <div class="note reveal">ここから先は結末まで含みます。スクロールすると背景が各シーンの場面画に切り替わります。場面画R01〜R14は旧デザインで描かれています。</div>
+      <div class="note reveal">ここから先は結末まで含みます。スクロールすると背景が各シーンの絵コンテに切り替わります（シーン20〜22は未生成のため色のみ）。2026-10-02の新脚本（22シーン）に対応しています。</div>
     </div>
   </div>
   <div class="stage-bg" id="stageBg" aria-hidden="true"><div class="hudline" id="bgHud"></div></div>
@@ -263,7 +263,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <div class="support reveal" id="support"></div>
 
     <h3 class="reveal" style="font-size:24px;margin:54px 0 6px">同じ時間を、生きられない</h3>
-    <p class="sub reveal" style="margin-bottom:14px">見た目の年齢の推移（目安）。R04を境に、沙羅だけが歳をとり続けます。タイトルの意味が一目でわかる図です。</p>
+    <p class="sub reveal" style="margin-bottom:14px">見た目の年齢の推移（目安）。06（EARTH AFTER）を境に、沙羅だけが歳をとり続けます。タイトルの意味が一目でわかる図です。</p>
     <div class="svgbox svgscroll reveal">
       <svg viewBox="0 0 900 330" role="img" aria-label="沙羅・カイル・キラの見た目年齢の推移">
         <defs><linearGradient id="gz" x1="0" x2="1"><stop offset="0" stop-color="#e8a94f" stop-opacity=".12"/><stop offset="1" stop-color="#e8a94f" stop-opacity="0"/></linearGradient></defs>
@@ -275,7 +275,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
         </g>
         <g stroke="#ffffff10"><line x1="70" y1="220" x2="870" y2="220"/><line x1="70" y1="170" x2="870" y2="170"/><line x1="70" y1="120" x2="870" y2="120"/><line x1="70" y1="70" x2="870" y2="70"/></g>
         <g font-size="12" fill="#b0a696" text-anchor="middle">
-          <text x="150" y="292">幼少〜学生</text><text x="240" y="292">R03–R04</text><text x="420" y="292">R05（4年後）</text><text x="600" y="292">R11–R19（8年後）</text><text x="820" y="292">R20（さらに3年後）</text>
+          <text x="150" y="292">幼少〜学生</text><text x="240" y="292">05–06</text><text x="420" y="292">07（4年後）</text><text x="600" y="292">13–21（8年後）</text><text x="820" y="292">22（さらに3年後）</text>
         </g>
         <!-- vertical event lines -->
         <line x1="240" y1="20" x2="240" y2="270" stroke="#e5533d" stroke-dasharray="4 5"/>
@@ -292,11 +292,11 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
         <circle cx="285" cy="190" r="6" fill="none" stroke="#fff" stroke-width="2"/>
         <text x="296" y="218" font-size="12" fill="#efe7d9">約1年後、沙羅がカイルの見た目の年齢を追い越す</text>
         <g font-size="13" font-weight="700">
-          <text x="610" y="112" fill="#ecc96f">沙羅 25歳（R15）</text>
+          <text x="610" y="112" fill="#ecc96f">沙羅 25歳（17）</text>
           <text x="610" y="184" fill="#86a6d3">カイル 18歳相当</text>
           <text x="700" y="218" fill="#dc8058">キラ 17歳相当</text>
         </g>
-        <text x="662" y="176" font-size="11" fill="#86a6d3">R19後は生死不明</text>
+        <text x="662" y="176" font-size="11" fill="#86a6d3">21の後は生死不明</text>
       </svg>
     </div>
 
@@ -332,10 +332,10 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
           <g><rect x="150" y="176" width="110" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="205" y="193" fill="#a9c98a" font-weight="700">声を贈る</text><text x="205" y="209" fill="#b0a696" font-size="11">人工喉頭・整備</text></g>
           <g><rect x="120" y="390" width="120" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="180" y="407" fill="#a9c98a" font-weight="700">壊さず救う</text><text x="180" y="423" fill="#b0a696" font-size="11">「おかえり」</text></g>
           <g><rect x="232" y="560" width="170" height="36" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="317" y="583" fill="#a9c98a" font-size="12">父＋キラ：制御層を切り離す</text></g>
-          <g><rect x="556" y="146" width="96" height="38" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="604" y="170" fill="#8fe6ff" font-weight="700">支配（R04）</text></g>
+          <g><rect x="556" y="146" width="96" height="38" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="604" y="170" fill="#8fe6ff" font-weight="700">支配（06）</text></g>
           <g><rect x="630" y="62" width="100" height="26" rx="8" fill="#0b0a09" stroke="#342e28"/><text x="680" y="80" fill="#bfe9f5" font-size="12">配信</text></g>
           <g><rect x="784" y="196" width="150" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="859" y="213" fill="#e5533d" font-weight="700">捕獲・再接続</text><text x="859" y="229" fill="#b0a696" font-size="11">「家族にならないか」</text></g>
-          <g><rect x="780" y="270" width="140" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="850" y="287" fill="#e5533d" font-weight="700">復讐・単独突入</text><text x="850" y="303" fill="#b0a696" font-size="11">R17–R19</text></g>
+          <g><rect x="780" y="270" width="140" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="850" y="287" fill="#e5533d" font-weight="700">復讐・単独突入</text><text x="850" y="303" fill="#b0a696" font-size="11">19–21</text></g>
         </g>
         <g text-anchor="middle">
           <g transform="translate(310,290)"><circle r="66" fill="#ecc96f"/><image href="img/ch/sara-face.webp" x="-62" y="-62" width="124" height="124" clip-path="url(#cS)"/><text y="92" font-size="22" font-weight="700" fill="#ecc96f" font-family="Shippori Mincho B1,serif">沙羅</text><text y="110" font-size="11.5" fill="#b0a696">人間</text></g>
@@ -366,9 +366,9 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <div class="legend reveal"><span><i style="background:#ecc96f"></i>温度（温かさ）</span><span><i style="background:#e5533d"></i>緊張</span></div>
 
     <div class="grid g3 reveal" style="margin-top:34px">
-      <div class="card" style="border-top:3px solid var(--amber)"><span class="tag">R01–R04</span><h3>ACT 1　好きになる</h3><p>声のない少女の初恋と、声を得た日常。その夜、世界がドロに奪われる。</p></div>
-      <div class="card" style="border-top:3px solid var(--olive)"><span class="tag">R05–R10</span><h3>ACT 2　一緒に生きる</h3><p>壊さず救う戦い。再会、共同生活、嘘と発覚。カイルは沙羅のために出て行き、捕まる。</p></div>
-      <div class="card" style="border-top:3px solid var(--slate)"><span class="tag">R11–R20</span><h3>ACT 3　受け継いで生きる</h3><p>身体を替えてまで探し続けた再会。沙羅の死、カイルの突入、そして3年後の春。</p></div>
+      <div class="card" style="border-top:3px solid var(--amber)"><span class="tag">01–06</span><h3>ACT 1　好きになる</h3><p>声のない少女の初恋、ドロという存在、バレエ、そして声を得た日常。その夜、世界がドロに奪われる。</p></div>
+      <div class="card" style="border-top:3px solid var(--olive)"><span class="tag">07–12</span><h3>ACT 2　一緒に生きる</h3><p>壊さず救う戦い。再会、共同生活、嘘と発覚。カイルは沙羅のために出て行き、捕まる。</p></div>
+      <div class="card" style="border-top:3px solid var(--slate)"><span class="tag">13–22</span><h3>ACT 3　受け継いで生きる</h3><p>身体を替えてまで探し続けた再会。沙羅の死、カイルの突入、そして3年後の春。</p></div>
     </div>
 
     <h3 class="reveal" style="font-size:24px;margin:54px 0 14px">反復と回収（モチーフ・マップ）</h3>
@@ -380,9 +380,9 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 <section class="sec" id="boards" style="--act:var(--amber)">
   <div class="wrap">
     <p class="eyebrow reveal">05 · STORYBOARD</p>
-    <h2 class="h reveal">絵コンテ｜24シート・94カット</h2>
-    <p class="lead reveal">1シート＝16:9の4コマ。読む順は左上→右上→左下→右下です。SB-01〜15は生成済み、SB-16〜24は未生成（指示文を表示）。コマを押すと詳細が開きます。</p>
-    <div class="note reveal">生成済みの絵コンテには、幼少期の年齢、義手の有無、人物の取り違えを含むものがあります（例：SB-01の幼少期の沙羅が戦後の衣装になっている）。また、すべて<b>デザイン案より前の旧デザイン</b>（金髪ボブの沙羅など）で描かれています。<b>構図の確認用</b>として扱い、設定は物語本文と<a href="design/">デザイン資料</a>を優先してください。</div>
+    <h2 class="h reveal">絵コンテ｜27シート・106カット</h2>
+    <p class="lead reveal">新脚本（2026-10-02）の絵コンテです。1シート＝16:9の4コマ、読む順は左上→右上→左下→右下。シート01〜23は新しい画風で生成済み（92カット）、24〜27は未生成で指示文を表示します。コマを押すと詳細が開きます。</p>
+    <div class="note reveal">生成時の確認で、8枚（03・08・17〜22）に脚本とのずれが見つかっています（ニュース出演者が沙羅に似た、地下の夜に空が入った、義手の左右など）。該当シートに「要修正」を表示しています。まだ完成版ではなく、<b>構図と演技の確認用</b>です。</div>
     <div class="bfilters reveal">
       <input type="search" id="bq" placeholder="検索：台詞・動作・カメラ（例：ボール、義手、望遠）" aria-label="絵コンテを検索">
       <select id="bScene" aria-label="シーンで絞り込み"><option value="">全シーン</option></select>
@@ -444,19 +444,16 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     </div>
 
     <h3 class="reveal" style="font-size:24px;margin:54px 0 6px">③ カラースクリプト</h3>
-    <p class="sub reveal" style="margin-bottom:14px">生成済みの絵コンテと場面画から、シーンごとの主要色を自動抽出しました。R15以降は画像がないため、本文の描写から考えた<b>予定色</b>です。</p>
+    <p class="sub reveal" style="margin-bottom:14px">生成済みの絵コンテと場面画から、シーンごとの主要色を自動抽出しました。シーン20〜22は画像がないため、本文の描写から考えた<b>予定色</b>です。</p>
     <div class="cscript reveal" id="cscript"></div>
 
     <h3 class="reveal" style="font-size:24px;margin:54px 0 14px">④ 作画・演出の固定事項</h3>
     <div class="rules reveal" id="rules"></div>
 
     <h3 class="reveal" style="font-size:24px;margin:54px 0 6px">⑤ 絵コンテ生成プロンプト</h3>
-    <p class="sub reveal" style="margin-bottom:14px">全シート共通の画風・連続性の指定です。シートごとの全文は、絵コンテ欄の各シートの「プロンプト」ボタンからコピーできます。未生成のSB-16〜24もそのまま使えます。</p>
-    <div class="note ng reveal">この共通部分のキャラクター指定（Continuity）は<b>旧デザイン</b>のままです。デザイン案で生成するときは、下の「デザイン案用の連続性指定」に差し替えてください。</div>
+    <p class="sub reveal" style="margin-bottom:14px">新しい絵コンテの生成で実際に使った、全シート共通の画風指定です。シートごとの全文（キャラクター指定とショット込み）は、絵コンテ欄の各シートの「プロンプト」ボタンからコピーできます。未生成のシート24〜27もそのまま使えます。</p>
     <pre class="prompt reveal" id="promptBase"></pre>
-    <h4 class="reveal serif" style="font-size:18px;margin:26px 0 8px">デザイン案用の連続性指定（2026-10-02・検討中）</h4>
-    <pre class="prompt reveal" id="promptNew">Continuity (NEW DESIGN 2026-10-02): Sara has long straight black hair with blunt bangs, quiet dark eyes and a slim build; school days: charcoal blazer, pleated skirt, white shirt, muted wine ribbon; postwar: olive field jacket, black high-neck top, black cargo pants, black boots, brown shoulder bag; from age 17 she has a neural artificial larynx that is NOT visible from outside (draw no device or light on her neck); at age 21 both arms are biological; at age 25 only her LEFT arm is mechanical and her RIGHT hand remains biological. Kira is a human-mimetic android with rust-red messy hair in a loose low ponytail and warm amber eyes; postwar: red work jacket, black top, black cargo pants, fingerless gloves, tool pouch. Kyle is a TYPE-1000 human-mimetic android with near-black dark navy layered hair and blue-gray eyes, lean athletic build; school days: navy blazer or navy/white #10 soccer kit; postwar: worn dark navy field jacket, black top, black cargo pants, boots. Androids show no exposed joints; their machine nature appears only through precision, speed and a faint control light in the eyes. A small maintenance port sits at the back of the neck of Kira and Kyle.</pre>
-    <div class="dl reveal"><button class="btn sm pri" type="button" id="copyNew">デザイン案の指定をコピー</button><button class="btn sm" type="button" id="copyBase">旧・共通部分をコピー</button><button class="btn sm" type="button" id="shotCsv">ショットリスト（全94カット）をCSVで保存</button></div>
+    <div class="dl reveal"><button class="btn sm pri" type="button" id="copyBase">共通部分をコピー</button><a class="btn sm" href="script/">1カットずつの高品質プロンプトは新脚本ページへ ↗</a><button class="btn sm" type="button" id="shotCsv">ショットリスト（全106カット）をCSVで保存</button></div>
   </div>
 </section>
 
@@ -567,7 +564,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
   </div>
 </dialog>
 
-<script src="data.js?v=6"></script>
-<script src="app.js?v=6"></script>
+<script src="data.js?v=7"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>

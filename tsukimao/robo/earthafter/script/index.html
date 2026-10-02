@@ -82,6 +82,12 @@ pre{background:#050505;border:1px solid var(--line);border-radius:12px;padding:1
 .pr pre{margin-top:8px;max-height:none}
 .pr .bt{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .cut.hide,.scene.hide{display:none}
+.shot{display:block;position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;margin-bottom:10px;max-width:640px;border:1px solid #ffffff14}
+.shot img{width:100%;height:100%;object-fit:cover}
+.shot .st{position:absolute;left:8px;top:8px;font-size:11px;padding:1px 7px;border-radius:5px;background:#000b;font-family:var(--mono)}
+.shot .fx{position:absolute;right:8px;top:8px;font-size:11px;padding:1px 7px;border-radius:5px;background:#e8a94fdd;color:#1a1208;font-weight:700}
+.shot.none{display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:13px;background:repeating-linear-gradient(135deg,#1c1814 0 10px,#191511 10px 20px)}
+.fixnote{font-size:13px;color:#e8c58f;margin:-4px 0 10px}
 mark{background:#e8a94f55;color:inherit;border-radius:3px}
 @media(max-width:640px){.cut{grid-template-columns:1fr;gap:8px}.cut .meta{display:flex;gap:10px;align-items:baseline}.cut .meta b{display:inline}}
 .toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,20px);background:var(--paper);color:var(--ink);padding:10px 18px;border-radius:99px;font-size:14px;font-weight:700;opacity:0;transition:.3s;pointer-events:none;z-index:50}
@@ -93,7 +99,7 @@ footer{padding:40px 0 80px;color:var(--mute);font-size:13px}
 <header class="top"><div class="wrap">
   <p class="kick">EARTH AFTER — SCREENPLAY v2 (2026-10-02)</p>
   <h1>新脚本</h1>
-  <p class="lead">全シーンの行動・台詞、カメラ、心理描写と、画像生成プロンプトをまとめた制作用の脚本です。画風はデザイン案（2026-10-02）を基準にしています。キャラクター名は仮名のままです。</p>
+  <p class="lead">全シーンの行動・台詞、カメラ、心理描写と、画像生成プロンプトをまとめた制作用の脚本です。新しい画風の絵コンテ（2026-10-02、92/106カット）を各カットに表示しています。画風はデザイン案（2026-10-02）を基準にしています。キャラクター名は仮名のままです。</p>
   <div class="links"><a class="btn" href="../">← 本編ガイド</a><a class="btn" href="../design/">デザイン資料</a><a class="btn pri" href="EARTH_AFTER_script_2026-10-02.md" download>⬇ Markdownで保存</a><a class="btn" href="script.json" download>⬇ JSON</a></div>
   <div class="stats" id="stats"></div>
 </div></header>
@@ -118,10 +124,11 @@ footer{padding:40px 0 80px;color:var(--mute);font-size:13px}
 <main class="wrap" id="main"></main>
 <footer><div class="wrap">原案・制作　月真猫 / TSUKIMAO　© TSUKI PRODUCT / tsuki.lab ／ 尺は計画値です。</div></footer>
 <div class="toast" id="toast" role="status"></div>
-<script src="data.js?v=1"></script>
+<script src="../data.js?v=7"></script>
+<script src="data.js?v=2"></script>
 <script>
 (function(){
-const S=window.SCRIPT,$=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const S=window.SCRIPT,EAC=Object.fromEntries(((window.EA&&EA.cuts)||[]).map(c=>[c.id,c])),$=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const AC={1:'var(--a1)',2:'var(--a2)',3:'var(--a3)'};
 const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),1600)}
@@ -147,7 +154,7 @@ S.scenes.forEach(s=>{
    <div><span class="tag ${s.old==='新規'?'new':''}">${s.old==='新規'?'新規シーン':'旧'+s.old}</span><span class="tag">${esc(s.place)}</span><span class="tag">${esc(s.time)}</span>${s.age!=='—'?`<span class="tag">${esc(s.age)}</span>`:''}<span class="tag">尺 ${fmt(s.sec)}</span></div>
    <p class="sum">${esc(s.sum)}</p>
    ${s.cuts.map((c,i)=>`<div class="cut" data-t="${esc((c.act+c.cam+c.psy+s.place+s.title).toLowerCase())}"><div class="meta"><b>${c.id}</b>${c.sec}秒<br>${fmt(c.t0)}〜</div><div>
-     <div class="cam">${esc(c.cam)}</div><div class="act">${fmtAct(c.act)}</div><div class="psy">${esc(c.psy)}</div>
+     ${(()=>{const e=EAC[c.id];if(e&&e.img)return `<a class="shot" href="../img/sb2/${c.id}.webp" target="_blank" rel="noopener"><img src="../img/sb2/${c.id}.webp" alt="${c.id}" loading="lazy"><span class="st">${e.sheet}</span>${e.fix?'<span class="fx">要修正</span>':''}</a>${e.fix?`<p class="fixnote">修正待ち：${esc(e.fix)}</p>`:''}`;return `<div class="shot none">${e?e.sheet+' ・ ':''}絵コンテ未生成</div>`})()}<div class="cam">${esc(c.cam)}</div><div class="act">${fmtAct(c.act)}</div><div class="psy">${esc(c.psy)}</div>
      <details class="pr"><summary>画像生成プロンプト（SHOT）${c.chars.length?'・'+c.chars.join(' / '):''}</summary><pre>${esc(c.en)}</pre>
      <div class="bt"><button class="btn sm pri" type="button" data-full="${s.id}|${i}">全文をコピー（画風＋キャラ＋SHOT）</button><button class="btn sm" type="button" data-shot="${s.id}|${i}">SHOTのみコピー</button></div></details>
    </div></div>`).join('')}</article>`;
