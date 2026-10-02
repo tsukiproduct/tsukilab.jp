@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0e1020">
+<title>EARTH AFTER 審査シミュレーション</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: one column "game screen" — pixel dusk scene on top, then RPG-style status windows stacked down the page */
+:root{
+  --night:#0e1020;      /* page ground: deep dusk indigo */
+  --panel:#171a30;      /* window fill */
+  --edge:#3a3f6b;       /* window frame */
+  --ink:#ece6d8;        /* main text */
+  --mute:#a7a3b8;       /* secondary text */
+  --amber:#f0ad4e;      /* dusk accent: current score */
+  --glow:#7fe3ff;       /* doro control light: potential score */
+  --sara:#e9c46a; --kyle:#7fa3d6; --kira:#dd7a52;
+  --good:#8fd16a; --warn:#f2c14e; --bad:#ef6f5e;
+  --f-pix:"DotGothic16","Hiragino Kaku Gothic ProN","Yu Gothic",monospace;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--night);color:var(--ink);font:15px/1.8 var(--f-body);margin:0}
+.wrap{max-width:980px;margin:0 auto;padding-inline:16px;padding-block:20px 56px;display:grid;gap:28px}
+h1,h2,h3,.pix{font-family:var(--f-pix);font-weight:400;letter-spacing:.04em}
+h2{font-size:22px;margin:0;text-wrap:balance;display:flex;align-items:center;gap:10px}
+h2::before{content:"";width:10px;height:10px;background:var(--amber);box-shadow:0 0 0 2px var(--night),0 0 0 4px var(--amber)}
+p{margin:0}
+a{color:var(--glow)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--glow);outline-offset:3px}
+
+/* pixel window frame */
+.win{background:var(--panel);padding:20px;position:relative;
+  box-shadow:0 0 0 3px var(--edge),0 0 0 6px var(--night),0 0 0 9px #262a4a}
+.win>*+*{margin-top:14px}
+.lead{color:var(--mute);font-size:14px}
+
+/* hero */
+.hero{display:grid;gap:0}
+.stage{position:relative;width:100%;aspect-ratio:16/9;max-width:100%;background:#000;box-shadow:0 0 0 3px var(--edge),0 0 0 6px var(--night),0 0 0 9px #262a4a}
+.stage canvas{width:100%;height:100%;display:block;image-rendering:pixelated;image-rendering:crisp-edges}
+.stage .cap{position:absolute;left:4%;top:7%;right:32%;display:grid;gap:6px;pointer-events:none}
+.stage .cap .k{font-family:var(--f-pix);font-size:clamp(11px,1.6vw,14px);color:#ffe7b8;letter-spacing:.2em;text-shadow:2px 2px 0 #1b1030}
+.stage .cap h1{margin:0;font-size:clamp(22px,4.6vw,46px);line-height:1.15;color:#fff6e4;text-shadow:3px 3px 0 #1b1030}
+.scorebox{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;margin-top:26px}
+.big{font-family:var(--f-pix);font-size:clamp(64px,12vw,112px);line-height:.9;color:var(--amber);text-shadow:4px 4px 0 #5a3410;font-variant-numeric:tabular-nums}
+.big small{font-size:.32em;color:var(--mute);text-shadow:none;margin-left:6px}
+.verdict{display:grid;gap:8px;min-width:0}
+.verdict .t{font-family:var(--f-pix);font-size:18px;color:var(--ink)}
+.verdict p{color:var(--mute)}
+.tag{display:inline-block;font-family:var(--f-pix);font-size:12px;padding:2px 8px;border:2px solid currentColor;margin-right:6px;margin-bottom:4px}
+
+/* gauges */
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--mute)}
+.legend i{display:inline-block;width:14px;height:10px;margin-right:6px;vertical-align:middle}
+.lg-now{background:var(--amber)}
+.lg-pot{background:repeating-linear-gradient(90deg,var(--glow) 0 3px,transparent 3px 5px);outline:2px solid var(--glow);outline-offset:-2px}
+.gauge{position:relative;height:18px;background:#0b0d1a;box-shadow:0 0 0 2px var(--edge)}
+.gauge .pot,.gauge .now{position:absolute;left:0;top:0;bottom:0}
+.gauge .pot{background:repeating-linear-gradient(90deg,rgba(127,227,255,.55) 0 6px,transparent 6px 8px);box-shadow:inset 0 0 0 2px var(--glow)}
+.gauge .now{background:repeating-linear-gradient(90deg,var(--amber) 0 6px,#c47f22 6px 8px)}
+.gauge.thin{height:12px}
+.cats{display:grid;gap:18px}
+.cat{display:grid;grid-template-columns:76px 1fr;gap:16px;align-items:start}
+.cat canvas{width:76px;height:76px;image-rendering:pixelated;background:#0b0d1a;box-shadow:0 0 0 2px var(--edge)}
+.cat .body{min-width:0;display:grid;gap:8px}
+.cat .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.cat h3{margin:0;font-size:19px}
+.nums{font-family:var(--f-pix);font-variant-numeric:tabular-nums;font-size:15px}
+.nums b{color:var(--amber);font-weight:400;font-size:22px}
+.nums em{color:var(--glow);font-style:normal}
+.cat p{color:var(--mute);font-size:14px}
+
+/* judges */
+.judges{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.judge{background:#12152a;padding:14px;display:grid;grid-template-columns:44px 1fr;gap:12px;box-shadow:0 0 0 2px var(--edge);min-width:0}
+.judge canvas{width:44px;height:44px;image-rendering:pixelated;background:#0b0d1a}
+.judge .n{font-family:var(--f-pix);font-size:16px;line-height:1.3}
+.judge .r{font-size:12px;color:var(--mute);line-height:1.5}
+.judge .s{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+.judge .s .nums b{font-size:20px}
+.judge p{grid-column:1/-1;font-size:13.5px;color:var(--ink);line-height:1.7}
+.note{font-size:12.5px;color:var(--mute)}
+
+/* radar */
+.radarbox{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:center}
+.radar{position:relative;width:100%;max-width:420px;aspect-ratio:1;margin:0 auto}
+.radar canvas{position:absolute;inset:14%;width:72%;height:72%;image-rendering:pixelated}
+.radar .lb{position:absolute;transform:translate(-50%,-50%);font-family:var(--f-pix);font-size:12px;text-align:center;line-height:1.25;width:7.5em;color:var(--ink)}
+.radar .lb span{display:block;color:var(--amber);font-size:13px}
+.crit{display:grid;gap:9px;min-width:0}
+.crit .c{display:grid;grid-template-columns:8.5em 1fr 2.4em;gap:10px;align-items:center;font-size:13px}
+.crit .c .nums{text-align:right;font-size:14px;color:var(--amber)}
+
+/* lists */
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;list-style:none;margin:0;padding:0}
+.items li{background:#12152a;padding:14px 14px 14px 48px;position:relative;box-shadow:0 0 0 2px var(--edge);font-size:14px;min-width:0}
+.items li b{display:block;font-family:var(--f-pix);font-weight:400;font-size:15px;color:var(--good);margin-bottom:4px}
+.items li::before{content:"";position:absolute;left:16px;top:18px;width:14px;height:14px;background:
+  linear-gradient(var(--good),var(--good)) 5px 0/4px 14px no-repeat,
+  linear-gradient(var(--good),var(--good)) 0 5px/14px 4px no-repeat}
+.quests{display:grid;gap:12px;list-style:none;margin:0;padding:0;counter-reset:q}
+.quests li{display:grid;grid-template-columns:52px 1fr;gap:14px;background:#12152a;box-shadow:0 0 0 2px var(--edge);padding:14px;min-width:0}
+.quests .no{font-family:var(--f-pix);font-size:26px;line-height:1;text-align:center;padding-top:4px}
+.quests .no small{display:block;font-size:10px;letter-spacing:.1em;margin-top:6px}
+.quests .hi .no{color:var(--bad)} .quests .md .no{color:var(--warn)} .quests .lo .no{color:var(--kyle)}
+.quests h3{margin:0 0 4px;font-size:16px}
+.quests p{font-size:14px;color:var(--mute)}
+.quests ul{margin:6px 0 0;padding-left:1.2em;font-size:13.5px;color:var(--ink)}
+
+/* level path */
+.path{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;position:relative}
+.step{padding:16px 14px 14px;position:relative;display:grid;gap:6px;align-content:start}
+.step+.step{border-left:3px dashed var(--edge)}
+.step .lv{font-family:var(--f-pix);font-size:12px;color:var(--mute);letter-spacing:.12em}
+.step .goal{font-family:var(--f-pix);font-size:20px}
+.step p{font-size:13.5px;color:var(--mute)}
+.step canvas{width:48px;height:48px;image-rendering:pixelated}
+.step.s1 .goal{color:var(--amber)} .step.s2 .goal{color:var(--glow)} .step.s3 .goal{color:#ffe28a}
+.foot{font-size:12.5px;color:var(--mute);display:grid;gap:6px}
+.foot ul{margin:0;padding-left:1.2em}
+.blink{animation:bl 1.1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.blink{animation:none}}
+
+@media (max-width:720px){
+  .scorebox{grid-template-columns:1fr;gap:10px}
+  .radarbox{grid-template-columns:1fr}
+  .path{grid-template-columns:1fr}
+  .step+.step{border-left:0;border-top:3px dashed var(--edge)}
+  .cat{grid-template-columns:56px 1fr}
+  .cat canvas{width:56px;height:56px}
+  .crit .c{grid-template-columns:7.5em 1fr 2.2em}
+  .win{padding:16px}
+  .stage .cap{right:4%}
+}
+
+.back{max-width:980px;margin:0 auto;padding:14px 16px 0;display:flex;gap:18px;flex-wrap:wrap;font-family:var(--f-pix);font-size:14px}
+.back a{color:var(--glow);text-decoration:none}.back a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<nav class="back"><a href="../">← EARTH AFTER 制作ガイドへ戻る</a><a href="../#contest">コンペ情報</a></nav>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="stage">
+    <canvas id="scene" width="192" height="108" aria-label="夕暮れの大樹の下に立つ沙羅、キラ、カイルのドット絵"></canvas>
+    <div class="cap">
+      <span class="k">ROBOT CARNIVAL AI FILM CONTEST · LONG</span>
+      <h1>EARTH AFTER<br>審査シミュレーション</h1>
+    </div>
+  </div>
+  <section class="win" style="margin-top:22px" aria-label="総合評価">
+    <div class="scorebox">
+      <div class="big">74<small>/100</small></div>
+      <div class="verdict">
+        <div class="t">入賞は十分ねらえる位置<span class="blink">▼</span></div>
+        <p>強いのはテーマとの合い方と、「変なの」「ボール」「おかえり」の反復と回収。弱いのは尺の長さと、キャラクター絵の整合。この2つを詰めると、部門賞を争える水準まで伸びます。</p>
+        <div><span class="tag" style="color:var(--amber)">今の素材で採点</span><span class="tag" style="color:var(--glow)">仕上げ後の見込み 86</span><span class="tag" style="color:var(--mute)">2026-10-02時点</span></div>
+      </div>
+    </div>
+  </section>
+</header>
+
+<section class="win" aria-labelledby="h-cat">
+  <h2 id="h-cat">3つの項目</h2>
+  <div class="legend"><span><i class="lg-now"></i>今の点数</span><span><i class="lg-pot"></i>仕上がり次第で届く点数</span></div>
+  <div class="cats">
+    <div class="cat">
+      <canvas width="16" height="16" data-icon="book" aria-hidden="true"></canvas>
+      <div class="body">
+        <div class="row"><h3>ストーリー</h3><span class="nums"><b>78</b> → <em>88</em></span></div>
+        <div class="gauge"><div class="pot" style="width:88%"></div><div class="now" style="width:78%"></div></div>
+        <p>テーマとの合い方と、モチーフの反復・回収が強い。弱点は出来事の多さ。22シーンに事件が詰まっていて、感情が追いつく前に次へ進んでしまう。</p>
+      </div>
+    </div>
+    <div class="cat">
+      <canvas width="16" height="16" data-icon="frame" aria-hidden="true"></canvas>
+      <div class="body">
+        <div class="row"><h3>絵（画風）</h3><span class="nums"><b>70</b> → <em>86</em></span></div>
+        <div class="gauge"><div class="pot" style="width:86%"></div><div class="now" style="width:70%"></div></div>
+        <p>背景は実写とアニメが溶け合った密度で、上位に入る質。人物は「よくあるAIアニメ顔」に見えやすく、義手の左右や空の混入などカット間の整合が課題。</p>
+      </div>
+    </div>
+    <div class="cat">
+      <canvas width="16" height="16" data-icon="trio" aria-hidden="true"></canvas>
+      <div class="body">
+        <div class="row"><h3>キャラクター</h3><span class="nums"><b>74</b> → <em>85</em></span></div>
+        <div class="gauge"><div class="pot" style="width:85%"></div><div class="now" style="width:74%"></div></div>
+        <p>沙羅は傑出している（声・手話・バレエ・身体の置き換え）。キラは理解者の役にとどまり、敵のユタニは輪郭が薄い。仮の名前のままでは減点対象。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="win" aria-labelledby="h-crit">
+  <h2 id="h-crit">公式の9つの審査基準</h2>
+  <p class="lead">主催が公表している審査基準それぞれに、今の素材で10点満点を付けました。</p>
+  <div class="radarbox">
+    <div class="radar" id="radar"><canvas id="rc" width="72" height="72" aria-hidden="true"></canvas></div>
+    <div class="crit" id="crit"></div>
+  </div>
+</section>
+
+<section class="win" aria-labelledby="h-judge">
+  <h2 id="h-judge">審査員7名の見方</h2>
+  <p class="note">公開されている肩書きと経歴から、各審査員が見そうな点を推し量ったシミュレーションです。ご本人の実際の好みや発言ではありません。審査員は順次発表とされています。</p>
+  <div class="judges" id="judges"></div>
+  <p class="lead">平均 <span class="nums" style="color:var(--amber)">7.3</span>。ばらつきが小さく、極端に落とす人はいない一方、強く推す人もまだいない状態です。</p>
+</section>
+
+<section class="win" aria-labelledby="h-good">
+  <h2 id="h-good">強いところ</h2>
+  <ul class="items">
+    <li><b>反復と回収</b>「変なの」「ボール」「おかえり」「名前を呼ぶ」が始めから終わりまで効いている。審査で一番評価されやすい部分。</li>
+    <li><b>声が背骨</b>声のない少女が声を得て、最後に澄んだ声で終わる。曲のタイトルとも一致し、MVまで含めて一つの作品として見せられる。</li>
+    <li><b>手話とバレエ</b>言葉を使わずに感情を伝える手段を2つ持っている。海外の審査でも通じる武器。</li>
+    <li><b>背景の密度</b>「綺麗な絵を並べるだけ」から一歩抜け出せる質。光源と生活の痕跡がある。</li>
+    <li><b>制作過程の見える化</b>ガイドサイト、プロンプト体系、カット管理は「AI活用の創造性」でそのまま加点材料になる。</li>
+  </ul>
+</section>
+
+<section class="win" aria-labelledby="h-q">
+  <h2 id="h-q">直す順番</h2>
+  <p class="lead">番号は優先度の順です。上の3つで部門賞の争いに入り、下の3つでさらに上を狙えます。</p>
+  <ol class="quests">
+    <li class="hi"><div class="no">1<small>最優先</small></div><div><h3>尺を12〜15分に絞る</h3><p>今は19分30秒で、上限とされる20分ぎりぎり（制作資料の記載、公式要項は要確認）。長さ自体が審査終盤に不利になります。</p>
+      <ul><li>02 ドキュメンタリーを短くする</li><li>11「隠していた食事」と 12「帰れなかった朝」を統合</li><li>19「戻ってこないから」と 20「正面突破」を一つに</li></ul></div></li>
+    <li class="hi"><div class="no">2<small>最優先</small></div><div><h3>キャラクターの絵を安定させる</h3><p>修正待ちが8シート、未生成が3シート（24〜27）。義手の左右、地下の場面への空の混入、ニュース出演者が沙羅の顔になる問題など。審査員は一時停止して観ます。</p></div></li>
+    <li class="hi"><div class="no">3<small>最優先</small></div><div><h3>仮の名前を差し替える</h3><p>ターミネーター・エイリアン由来のままだと、独創性と権利の両方で損をします。提出前に必ず。</p></div></li>
+    <li class="md"><div class="no">4<small>推奨</small></div><div><h3>キラに自分の願いを1つ持たせる</h3><p>今は理解者・相棒どまり。例えば「ドロとして年を取らないことへの思い」。エピローグで沙羅の工具袋を下げる姿の重みが倍になります。</p></div></li>
+    <li class="md"><div class="no">5<small>推奨</small></div><div><h3>終盤の銃撃をテーマに沿わせる</h3><p>沙羅は「壊さず戻す」人。カイルが撃って戦う展開は「共生」とぶつかって見える危険があります。撃った先がホログラムで、誰も傷つけていないことがはっきり伝わる演出に。</p></div></li>
+    <li class="lo"><div class="no">6<small>加点</small></div><div><h3>手話を監修してもらう</h3><p>日本手話として間違っていると、新しさの武器が逆に減点材料に。ろう者の方か手話の監修を入れてクレジットに書くと、むしろ強い加点になります。</p></div></li>
+  </ol>
+</section>
+
+<section class="win" aria-labelledby="h-lv">
+  <h2 id="h-lv">予想される位置</h2>
+  <div class="path">
+    <div class="step s1"><canvas width="12" height="12" data-icon="flag" aria-hidden="true"></canvas><span class="lv">LV.1 今のまま</span><span class="goal">入選圏</span><p>尺も整合性も今の水準で出した場合。奨励賞あたりが現実的。</p></div>
+    <div class="step s2"><canvas width="12" height="12" data-icon="medal" aria-hidden="true"></canvas><span class="lv">LV.2 1〜3を直す</span><span class="goal">部門賞を争う</span><p>尺を絞り、絵を安定させ、名前を決める。</p></div>
+    <div class="step s3"><canvas width="12" height="12" data-icon="crown" aria-hidden="true"></canvas><span class="lv">LV.3 4〜6まで仕上げる</span><span class="goal">グランプリ候補</span><p>キラの願い、テーマに沿った終盤、手話の監修まで。</p></div>
+  </div>
+</section>
+
+<footer class="foot">
+  <p>採点対象：全22シーンの物語、生成済み92カットの絵コンテ、デザイン案、MV「あなたの名前を呼ぶたびに」（楽曲 Nokosu）。2026年10月2日時点。点数はAIによる見立てで、実際の審査結果を保証するものではありません。</p>
+  <p>参照した公開情報</p>
+  <ul>
+    <li><a href="https://prtimes.jp/main/html/rd/p/000000055.000123123.html" target="_blank" rel="noopener">AiHUB、『ロボットカーニバル』の名を冠したAIフィルムコンテストを開催（PR TIMES）</a></li>
+    <li><a href="https://predge.jp/356640/" target="_blank" rel="noopener">過去作を再現しないIP活用 ロボットカーニバルがAI時代に継ぐ創作精神（PREDGE）</a></li>
+    <li><a href="https://note.com/o_ob/n/n685ccacec83b" target="_blank" rel="noopener">【審査員講評】くりえみ AIフィルムコンテスト 2026（白井暁彦）</a></li>
+  </ul>
+</footer>
+</div>
+
+<script>
+(function(){
+/* ---------- palettes & sprites ---------- */
+var P={k:'#14131c',s:'#f1c9a5',e:'#2b2233',c:'#3b3c48',w:'#efe9df',r:'#8e2f45',g:'#33343f',n:'#1f2238',b:'#0d0d12',
+       h:'#c4552f',j:'#b8432f',t:'#cfae7c',p:'#24252e',o:'#7a5532',m:'#9d4b44',
+       N:'#1c2546',u:'#3f5f9e',W:'#e8e0cf',B:'#f4f4f4',K:'#20202a'};
+var SARA=["...kkkkkk...","..kkkkkkkk..",".kkkkkkkkkk.",".kkkkkkkkkk.",".kksesseskk.",".kksssssskk.",".kkksssskkk.","kkkcwrrwckkk","kkccwwwwcckk","kkcccwwccckk","kkcccccccckk",".sccccccccs.","..gggggggg..","..gggggggg..",".gggggggggg.","...ss..ss...","...nn..nn...","...nn..nn...","...nn..nn...","..bbb..bbb.."];
+var KIRA=["...hhhhhh...","..hhhhhhhh..",".hhhhhhhhhhh",".hhhhhhhhh.h",".hsesseshh.h",".hssssssh..h","..hsmmsh....",".jttkkkkttj.","jjjjkkkkjjjj","jjjjkkkkjjjj","jjjjjkkjjjjj","sjjjjjjjjjjs",".oppppppppo.","..pppppppp..","..ppp..ppp..","..ppp..ppp..","..ppp..ppp..","..ppp..ppp..","..ppp..ppp..",".bbbb..bbbb."];
+var KYLE=["..NNNNNNNN..",".NNNNNNNNNN.","NNNNNNNNNNNN","NNNNNNNNNNN.",".NNsessesNN.",".NssssssssN.","..NssssssN..",".uuuWWWWuuu.","uuuuWWWWuuuu","uuuuWWWWuuuu","uuuuuWWuuuuu","suuuuuuuuuus","..pppppppp..","..pppppppp..","..ppp..ppp..","..ppp..ppp..","..ppp..ppp..","..ppp..ppp..","..ppp..ppp..",".bbbb..bbbb."];
+var BALL=[".BBB.","BKBKB","BBKBB","BKBKB",".BBB."];
+function spr(ctx,map,x,y,pal){pal=pal||P;for(var r=0;r<map.length;r++)for(var c=0;c<map[r].length;c++){var ch=map[r][c];if(ch==='.'||ch===' ')continue;ctx.fillStyle=pal[ch]||ch;ctx.fillRect(x+c,y+r,1,1)}}
+function rng(s){return function(){s=(s*1664525+1013904223)>>>0;return s/4294967296}}
+
+/* ---------- hero scene ---------- */
+var cv=document.getElementById('scene'),x=cv.getContext('2d');
+var W=cv.width,H=cv.height,R=rng(7);
+var sky=[[0,'#151433'],[14,'#231a45'],[28,'#3d2155'],[42,'#6a2d5c'],[54,'#a8445a'],[64,'#d8704f'],[72,'#f0a457']];
+function bands(){for(var i=0;i<sky.length;i++){var y0=sky[i][0],y1=i+1<sky.length?sky[i+1][0]:80;x.fillStyle=sky[i][1];x.fillRect(0,y0,W,y1-y0);
+  if(i+1<sky.length){x.fillStyle=sky[i+1][1];for(var yy=y1-3;yy<y1;yy++)for(var xx=(yy%2);xx<W;xx+=2+(y1-yy))x.fillRect(xx,yy,1,1)}}}
+function scene(t){
+  bands();
+  x.fillStyle='#f7c873';for(var a=0;a<7;a++){var w=[3,5,7,7,7,5,3][a];x.fillRect(34-(w>>1),66+a,w,1)}
+  for(var s=0;s<26;s++){var sx=(s*37)%W,sy=(s*13)%26;x.fillStyle=(s+Math.floor(t/600))%5?'#c9c4ff':'#ffffff';if(s%3)x.fillRect(sx,sy,1,1)}
+  x.fillStyle='#3a2a52';for(var i=0;i<W;i++){var h=Math.round(5+3*Math.sin(i/14)+2*Math.sin(i/5.3));x.fillRect(i,76-h,1,h)}
+  x.fillStyle='#2a2140';for(var i=0;i<W;i++){var h=Math.round(3+2*Math.sin(i/9+1));x.fillRect(i,78-h,1,h)}
+  x.fillStyle='#22331f';x.fillRect(0,78,W,H-78);
+  x.fillStyle='#2f4a26';for(var i=0;i<W;i+=2){x.fillRect(i,78,1,1+((i*7)%3))}
+  x.fillStyle='#3e5e2c';for(var i=1;i<W;i+=5){x.fillRect(i,80+((i*3)%9),1,2)}
+  // tree
+  x.fillStyle='#3b2618';x.fillRect(146,44,10,36);x.fillRect(143,76,16,4);x.fillStyle='#4e3322';x.fillRect(148,46,3,32);
+  x.fillStyle='#3b2618';x.fillRect(138,46,8,3);x.fillRect(156,42,9,3);
+  var blobs=[[151,28,22],[132,36,14],[170,34,15],[144,18,13],[160,20,12],[124,44,9],[178,44,9]];
+  blobs.forEach(function(b){for(var yy=-b[2];yy<=b[2];yy++)for(var xx=-b[2]*1.3;xx<=b[2]*1.3;xx++){var d=(xx*xx)/(1.69*b[2]*b[2])+(yy*yy)/(b[2]*b[2]);if(d<=1){var px=Math.round(b[0]+xx),py=Math.round(b[1]+yy);var lit=(xx+yy*1.4)>b[2]*0.25;var c=d>0.8?'#203a22':lit?'#4d7a35':'#2f5a2c';if(lit&&((px+py)%4===0)&&d<0.6)c='#6c9a43';x.fillStyle=c;x.fillRect(px,py,1,1)}}});
+  // characters
+  spr(x,KYLE,62,60);spr(x,SARA,98,60);spr(x,KIRA,126,60);
+  var by=74+Math.round(Math.abs(Math.sin(t/380))*-6);spr(x,BALL,79,by);
+  x.fillStyle='rgba(10,8,20,.35)';[[62,80,12],[98,80,12],[126,80,12],[79,80,6]].forEach(function(s){x.fillRect(s[0],s[1],s[2],1)});
+  // petals
+  for(var k=0;k<14;k++){var r=rng(k+3);var px=(r()*W+t/40*(0.6+r()))%W,py=(r()*90+t/55*(0.5+r()*0.6))%90;x.fillStyle=k%3?'#f6c6d4':'#ffe1ea';x.fillRect(Math.round(px),Math.round(py),1,1)}
+}
+var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+scene(0);
+if(!still){var last=0;(function loop(ts){if(ts-last>90){scene(ts);last=ts}requestAnimationFrame(loop)})(0)}
+
+/* ---------- icons ---------- */
+var ICON={
+ book:{p:{w:'#ece6d8',k:'#6b6f9a',a:'#f0ad4e'},m:["................","..wwwwww.wwwwww.","..wkkkkw.wkkkkw.","..wwwwww.wwwwww.","..wkkkkw.wkkkkw.","..wwwwww.wwwwww.","..wkkkkw.wkkkkw.","..wwwwww.wwwwww.","..wkkkkw.wkkkkw.","..wwwwww.wwwwww.","..aaaaaaaaaaaaa.","................"],y:2},
+ frame:{p:{w:'#ece6d8',s:'#d8704f',g:'#2f5a2c',y:'#f7c873',d:'#3d2155'},m:["wwwwwwwwwwwwww","wddddddddddddw","wdddddddddyydw","wssssssssssyyw","wssssssssssssw","wsssgsssssssssw".slice(0,14),"wsggggssgsssgw","wggggggggggggw","wggggggggggggw","wwwwwwwwwwwwww"],y:3,x:1},
+ trio:{p:P,m:null},
+ flag:{p:{w:'#ece6d8',a:'#f0ad4e'},m:[".w..........",".waaaaa.....",".waaaaaaa...",".waaaaa.....",".w..........",".w..........",".w..........",".w..........","www........."],y:2,x:3},
+ medal:{p:{c:'#7fe3ff',d:'#3a6f8a',y:'#ffe28a'},m:["..cc....cc..","...cc..cc...","....cccc....","....yyyy....","...yyyyyy...","..yyyddyyy..","..yyddddyy..","..yyyddyyy..","...yyyyyy...","....yyyy...."],y:1},
+ crown:{p:{y:'#ffe28a',o:'#c99a2e',r:'#ef6f5e'},m:["y....y....y.","yy..yyy..yy.","yyy.yyy.yyy.","yyyyyyyyyyy.","yyryyyyyryy.","yyyyyyyyyyy.","ooooooooooo."],y:3,x:0}
+};
+function drawIcon(c,name){var g=c.getContext('2d'),ic=ICON[name];g.clearRect(0,0,c.width,c.height);
+  if(name==='trio'){var mini=function(map,ox){for(var r=0;r<map.length;r+=2)for(var q=0;q<map[r].length;q+=2){var ch=map[r][q];if(ch==='.')continue;g.fillStyle=P[ch];g.fillRect(ox+q/2,3+r/2,1,1)}};mini(KIRA,0);mini(SARA,5);mini(KYLE,10);return}
+  spr(g,ic.m,ic.x||0,ic.y||0,ic.p)}
+document.querySelectorAll('canvas[data-icon]').forEach(function(c){drawIcon(c,c.dataset.icon)});
+
+/* ---------- judges ---------- */
+var JI={
+ heart:{p:{r:'#ef6f8e',w:'#ffd0dc'},m:[".rr...rr..","rwrr.rrrr.","rwrrrrrrr.","rrrrrrrrr.",".rrrrrrr..","..rrrrr...","...rrr....","....r....."]},
+ clap:{p:{w:'#ece6d8',k:'#20202a',a:'#f0ad4e'},m:["wkwkwkwkw.","kwkwkwkwk.","aaaaaaaaa.","a.......a.","a.wwwww.a.","a.......a.","a.wwww..a.","aaaaaaaaa."]},
+ rocket:{p:{w:'#ece6d8',c:'#7fe3ff',o:'#f0ad4e',r:'#ef6f5e'},m:["....w.....","...www....","...wcw....","...www....","..rwwwr...","..r.w.r...","....o.....","...o.o...."]},
+ globe:{p:{g:'#8fd16a',b:'#3f5f9e'},m:["..ggggg...",".gbbgbbg..","gbbbgbbbg.","ggggggggg.","gbbbgbbbg.","gbbbgbbbg.",".gbbgbbg..","..ggggg..."]},
+ robot:{p:{w:'#c9cde0',c:'#7fe3ff',k:'#20202a'},m:["....c.....","....w.....","..wwwww...",".wwwwwww..",".wcwwwcw..",".wwwwwww..",".wwkkkww..",".wwwwwww.."]},
+ cam:{p:{w:'#c9cde0',k:'#20202a',r:'#ef6f5e',c:'#7fe3ff'},m:[".kk.......","wwwwww..w.","wwwwwwwww.","wkccwwwww.","wkccwwwww.","wwwwwwwww.","wwwwww..w.","r........."]},
+ pen:{p:{w:'#ece6d8',k:'#6b6f9a',a:'#f0ad4e'},m:["wwww.wwww.","wkkw.wkkw.","wwww.wwww.","wkkw.wkkw.","wwww.wwww.","wkkw.wkkw.","wwwwwwwww.","........a."]}
+};
+var J=[
+ ['くりえみ','タレント・実業家／AiHUB 執行役員CMO','heart',7.5,'心が動くか。MVと曲があるのは強い。声を得る瞬間をどこまで美しく見せられるかが勝負。'],
+ ['井上博明','アニメプロデューサー／AiHUB エグゼクティブ・プロデューサー','clap',7.0,'映画としての文法と尺。19分半は長く感じさせる危険。カットの省略がうまいほど評価が上がる。'],
+ ['大澤博隆','慶應義塾大学 理工学部教授／慶應SFセンター長','rocket',8.0,'「保全」を「管理」と解釈するAIは、AIの目的のずれを扱う王道の問い。身体と人格の問いも響きそう。'],
+ ['中山淳雄','エンタメ社会学者／AiHUB アドバイザー','globe',7.5,'IPとして広がるか、海外で通じるか。手話とバレエは言葉に頼らない武器。仮の名前は減点対象。'],
+ ['Yachimat','AIアニメスタジオ Yachimat OÜ CEO','robot',6.5,'キャラの一貫性、動き、AIっぽさ。今いちばん厳しく見られるところ。'],
+ ['松丸彗吾','AI映像作家・監督','cam',7.5,'AIの使い方の創造性。プロンプト体系とガイドサイトでの共有は大きな加点材料。'],
+ ['佐渡島庸平','株式会社コルク 代表取締役社長CEO／編集者','pen',7.0,'人物の欲望が一本通っているか。「キラは何を望む人か」と聞かれそう。']
+];
+var jw=document.getElementById('judges');
+J.forEach(function(j){var d=document.createElement('article');d.className='judge';
+  d.innerHTML='<canvas width="10" height="8" aria-hidden="true"></canvas><div><div class="n">'+j[0]+'</div><div class="r">'+j[1]+'</div></div>'+
+  '<div class="s"><div class="gauge thin"><div class="now" style="width:'+(j[3]*10)+'%"></div></div><span class="nums"><b>'+j[3].toFixed(1)+'</b>/10</span></div><p>'+j[4]+'</p>';
+  jw.appendChild(d);var c=d.querySelector('canvas');spr(c.getContext('2d'),JI[j[2]].m,0,0,JI[j[2]].p)});
+
+/* ---------- criteria radar ---------- */
+var C=[['テーマとの整合性',9],['物語性',8],['社会への問い',8],['AI活用の創造性',8],['商業作品化の可能性',7.5],['独創性',7],['映像表現',7],['ロボット像の新規性',6.5],['権利面の適切性',6]];
+var crit=document.getElementById('crit');
+C.forEach(function(c){var e=document.createElement('div');e.className='c';e.innerHTML='<span>'+c[0]+'</span><div class="gauge thin"><div class="now" style="width:'+c[1]*10+'%"></div></div><span class="nums">'+c[1]+'</span>';crit.appendChild(e)});
+var rc=document.getElementById('rc'),g=rc.getContext('2d'),S=rc.width,cx=S/2,cy=S/2,RR=S/2-2,n=C.length;
+function pt(i,v){var a=-Math.PI/2+i*2*Math.PI/n;return [cx+Math.cos(a)*RR*v/10,cy+Math.sin(a)*RR*v/10]}
+function poly(vals,fill,stroke){g.beginPath();vals.forEach(function(v,i){var p=pt(i,v);i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])});g.closePath();if(fill){g.fillStyle=fill;g.fill()}if(stroke){g.strokeStyle=stroke;g.lineWidth=1;g.stroke()}}
+[10,7.5,5,2.5].forEach(function(r){poly(C.map(function(){return r}),null,'#3a3f6b')});
+for(var i=0;i<n;i++){var p=pt(i,10);g.strokeStyle='#2a2e52';g.beginPath();g.moveTo(cx,cy);g.lineTo(p[0],p[1]);g.stroke()}
+poly(C.map(function(c){return c[1]}),'rgba(240,173,78,.55)','#f0ad4e');
+// snap to hard pixels
+var id=g.getImageData(0,0,S,S),d=id.data;for(var q=3;q<d.length;q+=4){if(d[q]>0&&d[q]<255){d[q]=d[q]>90?255:0}}g.putImageData(id,0,0);
+C.forEach(function(c,i){var a=-Math.PI/2+i*2*Math.PI/n,rx=50+Math.cos(a)*44,ry=50+Math.sin(a)*44;var l=document.createElement('div');l.className='lb';l.style.left=rx+'%';l.style.top=ry+'%';l.innerHTML=c[0].replace('の可能性','').replace('との整合性','')+'<span>'+c[1]+'</span>';document.getElementById('radar').appendChild(l)});
+})();
+</script>
+
+</body>
+</html>

@@ -18,7 +18,7 @@ document.documentElement.classList.add('js');
 (function(){var s=false;try{s=sessionStorage.getItem('ea-boot')}catch(e){}if(s||location.hash)document.documentElement.classList.add('noboot');try{sessionStorage.setItem('ea-boot','1')}catch(e){}})();
 window.addEventListener('error',function(e){try{var b=document.getElementById('errbar');if(!b){b=document.createElement('div');b.id='errbar';b.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;background:#300;color:#fcc;border:1px solid #a33;border-radius:10px;padding:8px 10px;font:12px/1.5 monospace;white-space:pre-wrap';document.body.appendChild(b)}b.textContent+='表示エラー：'+(e.message||'')+' ('+String(e.filename||'').split('/').pop()+':'+(e.lineno||'')+')\n'}catch(_){}});
 </script>
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style.css?v=9">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <link rel="preload" as="image" href="img/ref/key.webp">
 </head>
@@ -51,6 +51,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <a href="#contest">コンペ</a>
     <a href="design/">デザイン資料 ↗</a>
     <a href="script/">新脚本 ↗</a>
+    <a href="review/">審査シミュ ↗</a>
   </nav>
   <a class="btn pri hide-sm" href="#film" data-play>▶ 観る</a>
 </header>
@@ -98,6 +99,16 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
       <div><strong id="stGen">60</strong><span>絵コンテ生成済みカット</span></div>
       <div><strong>4</strong><span>3D舞台モデル</span></div>
     </div>
+    <div class="changelog reveal" id="updates">
+      <h3>更新履歴</h3>
+      <ol>
+        <li><time datetime="2026-10-02">2026-10-02</time><span>審査シミュレーション（<a href="review/">ドット絵レポート</a>）を追加。コンペ欄に公表済みの審査員7名を追加。</span></li>
+        <li><time datetime="2026-10-02">2026-10-02</time><span>MV「あなたの名前を呼ぶたびに」（楽曲 Nokosu）を<a href="#mv">埋め込み</a>。歌詞タイミングを実測値で修正し、エンドクレジットを削除。</span></li>
+        <li><time datetime="2026-10-02">2026-10-02</time><span>デザイン資料ページのスマホでの横スクロールを修正。</span></li>
+        <li><time datetime="2026-10-02">2026-10-02</time><span>新脚本（全22シーン・106カット）と新画風の絵コンテ（23/27シート）に差し替え。</span></li>
+      </ol>
+    </div>
+
   </div>
 </section>
 
@@ -516,6 +527,26 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     </div>
     <div class="note reveal">尺の数字（90秒／20分）は制作資料の記載です。確認できた公開記事では部門の性格のみで、秒数は確認できていません。本作の設計尺は約20分で上限ぎりぎりのため、公式要項での確認と、尺配分プランナーでの調整をおすすめします。</div>
 
+    <a class="review-cta reveal" href="review/">
+      <span class="rc-k">SIMULATION · 2026-10-02</span>
+      <span class="rc-t">審査シミュレーション　総合 <b>74</b>/100 → 仕上げ後の見込み <b>86</b></span>
+      <span class="rc-d">9つの審査基準と審査員7名の視点で、今の素材を採点。直す順番と予想される位置まで。</span>
+      <span class="rc-go">ドット絵レポートを開く ↗</span>
+    </a>
+
+    <h3 class="reveal" style="font-size:22px;margin:36px 0 12px">審査員（公表分・順次発表）</h3>
+    <div class="tw reveal"><table>
+      <tr><th>審査員</th><th>肩書き</th></tr>
+      <tr><td>くりえみ</td><td>タレント・実業家／AiHUB 執行役員CMO</td></tr>
+      <tr><td>井上博明</td><td>アニメプロデューサー／AiHUB エグゼクティブ・プロデューサー</td></tr>
+      <tr><td>大澤博隆</td><td>慶應義塾大学 理工学部教授／慶應SFセンター センター長</td></tr>
+      <tr><td>中山淳雄</td><td>エンタメ社会学者／AiHUB アドバイザー</td></tr>
+      <tr><td>Yachimat</td><td>AIアニメスタジオ Yachimat OÜ CEO</td></tr>
+      <tr><td>松丸彗吾</td><td>メンタリストDaiGo「D-Lab」開発・運営／AI映像作家・監督</td></tr>
+      <tr><td>佐渡島庸平</td><td>株式会社コルク 代表取締役社長CEO／編集者</td></tr>
+    </table></div>
+    <p class="sub reveal" style="margin-top:8px">出典：<a href="https://prtimes.jp/main/html/rd/p/000000055.000123123.html" target="_blank" rel="noopener">AiHUB プレスリリース（PR TIMES）</a>。審査員は順次発表のため、追加があれば更新します。</p>
+
     <h3 class="reveal" style="font-size:22px;margin:36px 0 12px">審査で見られる観点と、本作の答え</h3>
     <div class="tw reveal"><table>
       <tr><th>観点</th><th>『EARTH AFTER』の答え</th></tr>
@@ -570,7 +601,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </nav>
 <div class="toc" id="toc" role="dialog" aria-label="目次">
   <button class="btn sm x" type="button" id="tocX">閉じる ✕</button>
-  <a href="#start">使い方<small>00</small></a><a href="#mv">MV「あなたの名前を呼ぶたびに」<small>♪</small></a><a href="#film">アニマティック<small>01</small></a><a href="#story">物語<small>02</small></a><a href="#people">人物<small>03</small></a><a href="#structure">構成と感情曲線<small>04</small></a><a href="#boards">絵コンテ<small>05</small></a><a href="#stage3d">3D舞台モデル<small>06</small></a><a href="#tools">制作ツール<small>07</small></a><a href="#contest">コンペ・提出<small>08</small></a><a href="design/">デザイン資料（デザイン案）<small>↗</small></a><a href="script/">新脚本（2026-10-02）<small>↗</small></a>
+  <a href="#start">使い方<small>00</small></a><a href="#mv">MV「あなたの名前を呼ぶたびに」<small>♪</small></a><a href="#film">アニマティック<small>01</small></a><a href="#story">物語<small>02</small></a><a href="#people">人物<small>03</small></a><a href="#structure">構成と感情曲線<small>04</small></a><a href="#boards">絵コンテ<small>05</small></a><a href="#stage3d">3D舞台モデル<small>06</small></a><a href="#tools">制作ツール<small>07</small></a><a href="#contest">コンペ・提出<small>08</small></a><a href="design/">デザイン資料（デザイン案）<small>↗</small></a><a href="script/">新脚本（2026-10-02）<small>↗</small></a><a href="review/">審査シミュレーション<small>↗</small></a><a href="#updates">更新履歴<small>★</small></a>
 </div>
 <button class="to-top" id="toTop" type="button" aria-label="ページ先頭へ">↑</button>
 <div class="toast" id="toast" role="status"></div>
