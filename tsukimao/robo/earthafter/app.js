@@ -106,7 +106,7 @@ const P=(function(){
     }
     let html='';
     if(subOn&&!showCard){const lt=t-it.start;const L=it.lines.find(l=>lt>=l.s&&lt<l.e);
-      if(L){const sg=L.w.startsWith('〔手話〕');html=`<span class="line${sg?' sign':''}"><span class="who ${whoCls(L.w)}">${esc(L.w)}</span>${esc(L.x)}</span>`}}
+      if(L){const sg=L.w.startsWith('〔手話〕'),tm=L.w.startsWith('〔端末〕');html=`<span class="line${sg?' sign':''}${tm?' term':''}"><span class="who ${whoCls(L.w)}">${esc(L.w)}</span>${esc(L.x)}</span>`}}
     if(subs._h!==html){subs.innerHTML=html;subs._h=html}
     $('#tTime').textContent=`${fmt(t)} / ${fmt(T)}`;
     $('#tlHead').style.left=(t/T*100)+'%';
@@ -159,7 +159,7 @@ $$('[data-play]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();g
 /* ---------- STORY ---------- */
 (function story(){
   const BG={'20':'linear-gradient(180deg,#2c3a4a,#0c1116)','21':'radial-gradient(40% 55% at 64% 45%,#d8f6ff 0%,#4d7282 28%,#0b1215 70%)','22':'linear-gradient(180deg,#f6dde4 0%,#e9c6cf 45%,#a9b98f 100%)'};
-  const ACTS={1:['好きになる','声を持たない少女が、成長するアンドロイドの少年に恋をした。'],2:['一緒に生きる','世界がドロに制圧されて4年。沙羅は、敵を壊さずに救う道を選んでいる。'],3:['声を奪われても','声を失っても、手話で名前を呼ぶ。キラが返した、最後の一声まで。']};
+  const ACTS={1:['好きになる','声を持たない少女が、成長するアンドロイドの少年に恋をした。'],2:['一緒に生きる','世界がドロに制圧されて4年。沙羅は、敵を壊さずに救う道を選んでいる。'],3:['声を奪われても','左腕と声を失い、2年。それでも、手話で名前を呼ぶ。キラが返した、最後の一声まで。']};
   const box=$('#scenes'),bg=$('#stageBg');let html='',lastAct=0;
   SC.forEach(s=>{
     if(s.act!==lastAct){lastAct=s.act;html+=`<div class="actcard" data-bg="act${s.act}" data-act="${s.act}"><div><b>ACT ${s.act}</b><h3 class="serif">${ACTS[s.act][0]}</h3><p>${ACTS[s.act][1]}</p></div></div>`}
@@ -179,11 +179,11 @@ $$('[data-play]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();g
   const mk=(key,style)=>{const d=document.createElement('div');d.className='l';d.style.background=style;bg.appendChild(d);layers[key]=d};
   mk('act1','radial-gradient(70% 60% at 70% 40%,#5a3a1c,#0b0a09 75%)');mk('act2','radial-gradient(70% 60% at 70% 40%,#3a3d22,#0b0a09 75%)');mk('act3','radial-gradient(70% 60% at 70% 40%,#1f2d3f,#0b0a09 75%)');
   SC.forEach(s=>{if(s.ref)mk(s.id,`url(img/bg3/${s.id}.webp) center/cover`);else mk(s.id,BG[s.id])});
-  const pet=document.createElement('div');pet.className='petals';layers['21'].appendChild(pet);
+  const pet=document.createElement('div');pet.className='petals';layers['22'].appendChild(pet);
   if(!RM)for(let i=0;i<26;i++){const p=document.createElement('i');p.style.left=(Math.random()*110)+'%';p.style.animationDuration=(7+Math.random()*9)+'s';p.style.animationDelay=(-Math.random()*14)+'s';p.style.transform=`scale(${.6+Math.random()})`;pet.appendChild(p)}
   let cur=null;const secStory=$('#story');
   function set(el){const k=el.dataset.bg;if(k===cur)return;cur=k;Object.entries(layers).forEach(([kk,l])=>l.classList.toggle('on',kk===k));
-    const col=k==='21'?'#f4c6d2':ACTC[el.dataset.act];secStory.style.setProperty('--act',col);
+    const col=k==='22'?'#f4c6d2':ACTC[el.dataset.act];secStory.style.setProperty('--act',col);
     const s=sceneById[k];$('#bgHud').innerHTML=s?`${s.id} ／ ${esc(s.place)}${s.age!=='—'?' ／ '+esc(s.age):''}${s.ref?'<br>絵コンテ '+s.ref:'<br>絵コンテ 未生成'}`:`ACT ${el.dataset.act}`}
   const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)set(e.target)})},{rootMargin:'-45% 0px -45% 0px'});
   $$('.scene,.actcard',box).forEach(e=>io.observe(e));
@@ -199,8 +199,8 @@ $$('[data-play]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();g
   const D={
     0:{t:'〜16歳：声が出せない',x:'生まれつき声を持たない。手話と身振りで気持ちを伝える。全身が生身。身長154cm（成人時）。',r:'01〜04：声は出ない。台詞は手話（〔手話〕表記）や口の形で表現する。',m:[]},
     17:{t:'17歳：人工喉頭《生体ギミック》',x:'誕生日に両親から、ユタニ社製の神経接続型人工喉頭を贈られる。両親は登録と公式更新に同意。手術と訓練を経て、初めて声を出す。',r:'喉のみ機械。外からは見せない。声を過度なロボ声にしない。',m:['p-throat']},
-    21:{t:'21歳：両腕とも生身・長い黒髪',x:'救助活動と戦闘訓練で無駄のない身体に。人工喉頭の交換部品は尽きかけている（11）。',r:'21歳の沙羅に義手を描かない。髪はまだ長い。',m:['p-throat']},
-    25:{t:'22〜25歳：左腕は義手・声は奪われる',x:'22歳、倒壊危険区域の救助で左腕を失い義手に。自分で髪を切り、顎の長さの黒髪に。同じ年、キラの中の防衛プログラムに喉の登録回線を制限され、声を失う（13）。脚部・脊椎・臓器の一部も置換。脳と人格、右手は人間のまま。17でキラが制限を解き、最後の一度だけ声が戻る。',r:'左腕のみ機械、右手は生身。22歳以降は顎の長さの黒髪（髪色は変えない）。17で頬に触れるのは生身の右手。',m:['p-throat','p-armL','p-handL','p-legR','p-legL','p-spine','p-organ']}};
+    21:{t:'21歳：両腕とも生身・長い黒髪',x:'救助活動と戦闘訓練で無駄のない身体に。人工喉頭の交換部品は尽きかけている（11）。',r:'21〜22歳の沙羅に義手を描かない。髪はまだ長い。',m:['p-throat']},
+    25:{t:'23〜25歳：左腕は義手・声は奪われる',x:'23歳、倒壊危険区域の救助で左腕を失い義手に。自分で髪を切り、顎の長さの黒髪に。義手をユタニの医療回線につないだ夜、キラの中の命令によって声を止められる（13）。2年間、端末の文字と手話で話す。脚部・脊椎・臓器の一部も置換。脳と人格、右手は人間のまま。18でキラが声を返し、最後の一度だけ声が戻る。',r:'左腕のみ機械、右手は生身。23歳以降は顎の長さの黒髪（髪色は変えない）。喉が光るのは2回だけ：13（キラが止める・赤）と18（キラが返す・緑）。',m:['p-throat','p-armL','p-handL','p-legR','p-legL','p-spine','p-organ']}};
   const parts=$$('#bodysvg .part');
   function set(a){const d=D[a];parts.forEach(p=>{const m=d.m.includes(p.id);p.classList.toggle('mech',m);p.classList.toggle('human',!m)});
     $('#ageTitle').textContent=d.t;$('#ageText').textContent=d.x;$('#ageRule').innerHTML='<b>作画ルール：</b>'+esc(d.r);
@@ -213,24 +213,25 @@ $$('[data-play]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();g
   const S=[['mother','沙羅の母','声がなくても沙羅の意思を急かさず待てる人。共同体では食料・避難者・子供の生活を支える。死亡場面と遺体安置場面には登場させない。'],
   ['father','沙羅の父','機械整備の職人。人間かドロかで分け隔てしない考えを、沙羅に残した人。沙羅が幼い頃、壊れて回収されかけた奉仕型ドロのキラを直した（沙羅とキラには話していない裏設定）。戦後はキラを旧AIに戻し、共に暴走ドロの制御層を切り離す。死亡場面・遺体安置場面には登場させない。'],
   ['medic','医療担当者','共同体の医療と生体ギミックの応急処置を担当。沙羅の死後、蘇生演出を長引かせず、死の確定と世界の無情さを静かに示す。'],
+  ['hacker','通信係の青年','共同体の通信ブースにこもる、体力のない青年。「役に立てていない」と思っている。2年間、ユタニ社の監視カメラへの侵入を試み続け、カイルとキラの居場所を見つける（14）。潜入では通信でカメラを止める。設定画は新規作成予定。'],
   ['driver','人間の運転手','共同体の物流と救出を担当。ユタニ西棟への潜入で整備カートと搬出車を運転する。戦うのではなく、退路を成立させる役割。'],
   ['returned','復帰ドロ','07で沙羅が捕獲し、08で旧人格へ戻される巡回ドロ。人間を襲った記憶に苦しみ、「なんで外した、命令されてれば何も考えなくてよかった」と沙羅に怒る。それでも沙羅の「おかえり」を受け取った最初の一体。'],
   ['yutani','ユタニ','ユタニ社の創業者。その技術は本当に人を救ってきた（沙羅の声もユタニ製）。人間は争ってばかりだから、ドロのようになれば平和になると本気で信じる、憎めない救済者。最初の一体J1000（カイル）を「最初の子ども」と呼び、手元に置く。姿は安全圏からの遠隔ホログラム。']];
-  $('#support').innerHTML=S.map(([k,n,d])=>`<div class="p"><button type="button" data-sheet="support" style="border:none;padding:0;background:none" aria-label="${n}の設定画を開く"><img src="img/ch/sup-${k}.webp" alt="${n}" loading="lazy"></button><div><h4>${n}</h4><p>${d}</p></div></div>`).join('');
+  $('#support').innerHTML=S.map(([k,n,d])=>`<div class="p">${k==='hacker'?`<div style="aspect-ratio:1;display:grid;place-items:center;border:1px dashed #ffffff33;border-radius:12px;color:var(--mute);font-size:12px">設定画 準備中</div>`:`<button type="button" data-sheet="support" style="border:none;padding:0;background:none" aria-label="${n}の設定画を開く"><img src="img/ch/sup-${k}.webp" alt="${n}" loading="lazy"></button>`}<div><h4>${n}</h4><p>${d}</p></div></div>`).join('');
 })();
 
 /* ---------- CURVE ---------- */
 (function curve(){
-  const W=[5,4,7,7,9,1,3,5,4,8,4,2,1,3,7,4,2,.5,1,2,6.5], Tn=[2,4,2,1.5,1.5,9,7,4,8,2,7,7,6,7,6,9,10,3,7,10,1];
+  const W=[5,4,7,7,9,1,3,5,4,8,4,2,1,6,3,7,4,2,.5,1,2,6.5], Tn=[2,4,2,1.5,1.5,9,7,4,8,2,7,7,6,4,7,6,9,10,3,7,10,1];
   const svg=$('#curve'),x0=60,x1=930,y0=300,y1=40,N=SC.length-1,X=i=>x0+i*(x1-x0)/N,Y=v=>y0-(v/10)*(y0-y1);
   let h='';
-  const bands=[[0,5,'#e8a94f'],[6,10,'#9aa05c'],[11,20,'#7f9cc4']];
+  const bands=[[0,5,'#e8a94f'],[6,10,'#9aa05c'],[11,21,'#7f9cc4']];
   bands.forEach(([a,b,c],k)=>{const xa=a?X(a)-(X(1)-X(0))/2:x0-20,xb=b<N?X(b)+(X(1)-X(0))/2:x1+20;h+=`<rect x="${xa}" y="20" width="${xb-xa}" height="${y0-10}" fill="${c}" opacity=".07"/><text x="${xa+8}" y="36" font-size="12" font-weight="700" fill="${c}">ACT ${k+1}</text>`});
   const path=a=>a.map((v,i)=>`${i?'L':'M'}${X(i)},${Y(v)}`).join('');
   h+=`<path d="${path(Tn)}" fill="none" stroke="#e5533d" stroke-width="2.5" stroke-dasharray="6 5" opacity=".85"/>`;
   h+=`<path d="${path(W)}" fill="none" stroke="#ecc96f" stroke-width="3.5" stroke-linejoin="round"/>`;
   SC.forEach((s,i)=>{h+=`<g class="pt" data-s="${s.id}" style="cursor:pointer"><rect x="${X(i)-20}" y="30" width="40" height="${y0}" fill="transparent"/><circle cx="${X(i)}" cy="${Y(W[i])}" r="6" fill="#ecc96f"/><circle cx="${X(i)}" cy="${Y(Tn[i])}" r="4" fill="#e5533d"/><text x="${X(i)}" y="${y0+22}" font-size="11" fill="#b0a696" text-anchor="middle">${s.id}</text><title>${s.id} ${esc(s.title)}</title></g>`});
-  const ann=[[2,W[2],'バレエ'],[4,W[4],'声を得る'],[5,W[5],'配信・制圧'],[9,W[9],'三人の日常'],[10,W[10],'連れ去られる'],[12,W[12],'声を奪われる'],[14,W[14],'手話で名前を'],[16,W[16],'王子様'],[20,W[20],'3年後の春']];
+  const ann=[[2,W[2],'バレエ'],[4,W[4],'声を得る'],[5,W[5],'配信・制圧'],[9,W[9],'三人の日常'],[10,W[10],'連れ去られる'],[12,W[12],'声を奪われる'],[13,W[13],'2年後・手がかり'],[15,W[15],'手話で名前を'],[17,W[17],'王子様'],[21,W[21],'3年後の春']];
   ann.forEach(([i,v,t])=>{const up=v>5;h+=`<text x="${X(i)}" y="${Y(v)+(up?-14:22)}" font-size="12" fill="#efe7d9" text-anchor="middle" font-weight="700">${t}</text>`});
   svg.innerHTML=h;
   svg.addEventListener('click',e=>{const g=e.target.closest('.pt');if(g)document.getElementById('sc-'+g.dataset.s).scrollIntoView({behavior:RM?'auto':'smooth',block:'center'})});
@@ -238,19 +239,21 @@ $$('[data-play]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();g
 
 /* ---------- MOTIFS ---------- */
 (function motifs(){
-  const M=[['「……変なの」',[['01','幼いカイルが、泣く沙羅の隣で'],['20','銃弾の嵐へ向かう直前、カイルが小さく笑って']]],
-  ['「家族」',[['02','若いユタニ「ドロは、私たちの新しい家族です」'],['06','20年後、同じ笑顔で配信を宣言'],['15','「J1000は、私の最初の子どもだ」'],['20','ホログラム「家族にならないか」']]],
-  ['ボール',[['01','転がってきたボールが二人を出会わせる'],['04','フェンス越し「……ボール」'],['10','子供たちとサッカー'],['11','残された布巻きのボール'],['21','沙羅が救った二人が「……ボール」']]],
-  ['手話',[['01','「声が出ない」が伝わらない'],['04','キラとの手話の会話'],['10','カイル「それ、手話？」「J1000だから」'],['11','声が途切れ、「ごめん」を手話で'],['13','声を奪われ、手話に戻る'],['15','手話でカイルの名前を呼ぶ']]],
-  ['「おかえり」',[['08','沙羅→怒る復帰ドロ'],['10','キラ→カイル'],['15','沙羅（手話）→記憶を取り戻したカイル']]],
-  ['右へ見せて、左足で返す',[['04','カイルのサッカーの癖'],['09','沙羅が癖を読み、カイルを止める'],['16','沙羅自身が「左へ見せて右へ潜る」']]],
-  ['左腕',[['03','バレエで伸ばす、いちばん美しい左腕'],['12','倒壊区域で子供を救い、失う'],['14','義手で扉を開ける'],['15','裂けた人工皮膚で、カイルが知る']]],
-  ['声',[['01','声が出ない'],['05','初めての「お母さん」（ユタニ製の喉）'],['13','同じ仕組みで、声を奪われる'],['17','キラが返し、最後の一瞬だけ澄む']]],
-  ['キラの、伝えられない声',[['03','物置で「充電できれば十分」'],['13','命令に抗えず、黙って去る'],['15','「今だけ、開けとく」'],['17','「返すよ。沙羅の声」'],['19','「あんたまでいなくなったら、私は……！」']]],
-  ['生身の右手',[['12','鋏を握る右手'],['15','右手でカイルの手を引く'],['17','右手が頬に触れる'],['18','カイルが右手を握る'],['20','最後に浮かぶ右手']]],
-  ['黙って行く',[['11','カイルが言わずに出発'],['13','キラが言わずに去る'],['15','「言ったら、ついてくるだろ」'],['19','キラに答えず装甲車へ']]],
-  ['瞳の光',[['01','幼いカイルの淡い診断光'],['06','全ドロの瞳に同じ制御光'],['13','キラの瞳の奥に、眠っていた光'],['17','キラの光が砕けて消える']]],
-  ['工具袋',[['07','沙羅の装備'],['21','キラの腰に、沙羅の工具袋']]]];
+  const M=[['「……変なの」',[['01','幼いカイルが、泣く沙羅の隣で'],['21','銃弾の嵐へ向かう直前、カイルが小さく笑って']]],
+  ['「家族」',[['02','若いユタニ「ドロは、私たちの新しい家族です」'],['06','20年後、同じ笑顔で配信を宣言'],['16','「J1000は、私の最初の子どもだ」'],['21','ホログラム「家族にならないか」']]],
+  ['ボール',[['01','転がってきたボールが二人を出会わせる'],['04','フェンス越し「……ボール」'],['10','子供たちとサッカー'],['11','残された布巻きのボール'],['22','沙羅が救った二人が「……ボール」']]],
+  ['伝える手段',[['01','「声が出ない」が伝わらない'],['04','キラとの手話'],['10','カイル「それ、手話？」「J1000だから」'],['13','声を止められ、手話に戻る'],['14','人間の仲間には端末の文字で'],['16','手話でカイルの名前を呼ぶ']]],
+  ['喉の光（2回だけ）',[['13','キラが止める・赤'],['18','キラが返す・緑']]],
+  ['「おかえり」',[['08','沙羅→怒る復帰ドロ'],['10','キラ→カイル'],['16','沙羅（手話）→記憶を取り戻したカイル']]],
+  ['右へ見せて、左足で返す',[['04','カイルのサッカーの癖'],['09','沙羅が癖を読み、カイルを止める'],['17','沙羅自身が「左へ見せて右へ潜る」']]],
+  ['左腕',[['03','バレエで伸ばす、いちばん美しい左腕'],['12','倒壊区域で子供を救い、失う'],['13','義手のための回線接続が、声を奪う'],['15','義手で扉を開ける'],['16','裂けた人工皮膚で、カイルが知る']]],
+  ['声',[['01','声が出ない'],['05','初めての「お母さん」（ユタニ製の喉）'],['13','同じ回線で、声を奪われる'],['18','キラが返し、最後の一瞬だけ澄む']]],
+  ['キラの、伝えられない声',[['03','物置で「充電できれば十分」'],['13','自分の判断が引き金になり、黙って去る'],['16','「今だけ、開けとく」'],['18','「返すよ。沙羅の声」'],['20','「あんたまでいなくなったら、私は……！」']]],
+  ['役に立てない人',[['10','「おれはこっちで……体力ないんで」'],['14','2年の侵入の末、カメラがつながる'],['15','通信でカメラを止める']]],
+  ['生身の右手',[['12','鋏を握る右手'],['14','青年の頭をぽんぽん'],['16','右手でカイルの手を引く'],['18','右手が頬に触れる'],['19','カイルが右手を握る'],['21','最後に浮かぶ右手']]],
+  ['黙って行く',[['11','カイルが言わずに出発'],['13','キラが言わずに去る'],['16','「言ったら、ついてくるだろ」'],['20','キラに答えず装甲車へ']]],
+  ['瞳の光',[['01','幼いカイルの淡い診断光'],['06','全ドロの瞳に同じ制御光'],['13','キラの瞳にも、カイルと同じ光'],['18','キラの光が砕けて消える']]],
+  ['工具袋',[['07','沙羅の装備'],['22','キラの腰に、沙羅の工具袋']]]];
 
   $('#motifs').innerHTML=M.map(([n,p])=>`<div class="motif"><h4>${n}</h4><div class="path">${p.map(([id,t])=>`<span><b>${id}</b>${esc(t)}</span>`).join('<i>→</i>')}</div></div>`).join('');
 })();
@@ -308,26 +311,26 @@ $('#s3start').onclick=async()=>{$('#s3start').textContent='読み込み中…';t
 /* ---------- ISSUES ---------- */
 (function issues(){
   const I=[
-  ['ok','反映済み','新設定の絵コンテと設定画に差し替え（10/03）','GPTで修正・新規生成した全101カットと設定画を反映。残りは07-04の1コマ（停止器を当てる接続口がまだ首の後ろ）だけ。',null,null],
-  ['info','保留','終盤の銃撃の見せ方','19〜20のカイルの突入と銃撃は、テーマ（壊さずに救う）とのバランスを検討中。現状は旧案のまま。',null,null],
+  ['warn','画像','新規・修正が9カット（v3.1の改訂分）','13の喉が赤く光る2カット、14「2年後」の4カット、10の青年、18の喉が緑に光るカット、07-04の接続口。通信係の青年の設定画も新規。GPT依頼パックで渡している。',null,null],
+  ['info','保留','終盤の銃撃の見せ方','20〜21のカイルの突入と銃撃は、テーマ（壊さずに救う）とのバランスを検討中。現状は旧案のまま。',null,null],
   ['warn','要確認','手話の監修','監修者が見つかっていない。手元のアップを避け、手の動きと表情で伝え、意味は字幕で補う方針を候補にしている（未決定）。',null,null],
-  ['warn','要確認','キャラクター名','仮名（沙羅・カイル・キラ・ユタニ）を正式名へ差し替える予定。決まり次第、全ページを一括で置き換える。',null,null],
+  ['warn','要確認','キャラクター名','仮名（沙羅・カイル・キラ・ユタニ）を正式名へ差し替える予定。通信係の青年の名前も未定。',null,null],
   ['warn','要確認','締切の確定日時','公式の表記は「10月末予定」。確定した日時と提出方法を公式ページで確認する。',null,null],
-  ['ok','確定','尺を約15分に短縮（15:06）','旧11と12を統合して失踪を1回に、旧19と20を統合、02と各カットを短縮。新たに13「キラの中の命令」を追加。',null,null],
-  ['ok','確定','Jシリーズ（一緒に成長するドロ）','ユタニ社のドロは子供の姿で生まれ、家族と暮らしながら育ち、18歳ほどで成長を止める。カイル＝初期型J1000（人より少し早く育つ）、キラ＝後継の奉仕型J3200。',null,null],
-  ['ok','確定','接続口は首の左','心臓の機能へつながる。日本のコンセントの接地側（左）に倣った日本製の仕様。戦前は人工皮膚の下で見えず、戦後は露出。',null,null],
-  ['ok','確定','声を奪うのはキラの中の命令','カイルの記憶から共同体を知ったユタニが、キラとカイルの大元に仕込んだ防衛プログラムを起動。キラが人工喉頭の登録回線に制限を書き込む。17でキラが命令を振り切り、制限を解く。',null,null]];
+  ['ok','確定（10/03午後）','第3幕の因果を一本化','義手のためにユタニの医療回線へつなぐ → その回線からキラの奥の命令が起動 → キラが眠る沙羅の声を止めて去る → 2年後、青年のハックした監視カメラにカイルとキラが映る → 西棟へ。偶然に頼る展開（カイルの記憶、台帳）を削除。',null,null],
+  ['ok','確定','喉が光るのは2回だけ','13でキラが声を止める時は赤、18でキラが声を返す時は緑。それ以外は首元に何も描かない。',null,null],
+  ['ok','確定','キラの制御状態の目','ユタニに意識を持っていかれている時は、カイルと同じ淡い青の制御の輪。',null,null],
+  ['ok','確定','Jシリーズ（一緒に成長するドロ）','カイル＝初期型J1000（人より少し早く育つ）、キラ＝後継の奉仕型J3200。接続口は首の左。',null,null]];
   const lv={ng:['#e5533d'],warn:['#e8a94f'],info:['#8fe6ff'],ok:['#8fd6a3']};
   $('#issues').innerHTML=I.map(([k,l,h,p,a,b])=>`<div class="issue"><span class="lv" style="color:${lv[k][0]};border:1px solid ${lv[k][0]}66">${l}</span><div><h4>${esc(h)}</h4><p>${esc(p)}</p>${a?`<div class="vs"><div><b>${esc(a[0])}</b>${esc(a[1])}</div><div><b>${esc(b[0])}</b>${esc(b[1])}</div></div>`:''}</div></div>`).join('');
 })();
 
 /* ---------- PLANNER ---------- */
 (function planner(){
-  const LIMIT=1200,TARGET=906;
+  const LIMIT=1200,TARGET=951;
   const counts=SC.map(s=>CUTS.filter(c=>c.scene===s.id).length);
   const tot=counts.reduce((a,b)=>a+b,0);
   const def=SC.map(s=>s.sec);
-  let v=store.get('ea-plan3',null);if(!v||v.length!==SC.length)v=def.slice();
+  let v=store.get('ea-plan4',null);if(!v||v.length!==SC.length)v=def.slice();
   const box=$('#planner');
   box.innerHTML=SC.map((s,i)=>`<div class="row"><span class="n">${s.id}</span><div><div class="t">${esc(s.title)} <span class="sub">・${counts[i]}カット</span></div><div class="bar"><i id="pb${i}" style="background:${ACTC[s.act]}"></i></div></div><label class="sr" for="pi${i}">${s.id}の秒数</label><input id="pi${i}" type="number" inputmode="numeric" min="0" step="5" value="${v[i]}" aria-label="${s.id} ${esc(s.title)} の秒数"></div>`).join('');
   function upd(){const sum=v.reduce((a,b)=>a+(+b||0),0),mx=Math.max(...v,1);v.forEach((x,i)=>$('#pb'+i).style.width=(x/mx*100)+'%');
@@ -336,7 +339,7 @@ $('#s3start').onclick=async()=>{$('#s3start').textContent='読み込み中…';t
     $('#ptotal').innerHTML=`<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><span class="big" style="color:${col}">${fmt(sum)}</span><span class="sub">上限 20:00 まで <b style="color:${col}">${over?'超過 '+fmt(-rest):'残り '+fmt(rest)}</b></span></div>
       <div class="meter"><i style="width:${Math.min(100,sum/LIMIT*100)}%;background:${col}"></i></div>
       <div class="sub" style="margin-top:6px">ACT1 ${fmt(acts[0])}（${Math.round(acts[0]/sum*100)||0}%）・ACT2 ${fmt(acts[1])}（${Math.round(acts[1]/sum*100)||0}%）・ACT3 ${fmt(acts[2])}（${Math.round(acts[2]/sum*100)||0}%）</div>`;
-    store.set('ea-plan3',v)}
+    store.set('ea-plan4',v)}
   box.addEventListener('input',e=>{if(e.target.matches('input')){v[+e.target.id.slice(2)]=Math.max(0,+e.target.value||0);upd()}});
   $('#pReset').onclick=()=>{v=def.slice();$$('input',box).forEach((x,i)=>x.value=v[i]);upd();toast('初期値に戻しました')};
   $('#pCsv').onclick=()=>download('EARTH_AFTER_尺表.csv',['シーン,タイトル,幕,カット数,秒数,分秒'].concat(SC.map((s,i)=>[s.id,s.title,s.act,counts[i],v[i],fmt(v[i])].map(csvq).join(','))).concat([csvq('合計')+',,,'+tot+','+v.reduce((a,b)=>a+b,0)+','+csvq(fmt(v.reduce((a,b)=>a+b,0)))]).join('\n'));
@@ -346,12 +349,12 @@ $('#s3start').onclick=async()=>{$('#s3start').textContent='読み込み中…';t
 /* ---------- COLOR SCRIPT ---------- */
 (function cs(){
   const PLAN={'20':[['#0c1116',.3],['#2c3a4a',.3],['#6b7f93',.2],['#e8742f',.1],['#f0d9b0',.1]],'21':[['#0b1215',.35],['#2c4550',.25],['#79a9b8',.2],['#d8f6ff',.15],['#ffffff',.05]],'22':[['#6c7d56',.2],['#a9b98f',.25],['#e9c6cf',.3],['#f6dde4',.25]]};
-  $('#cscript').innerHTML=SC.map(s=>{const p=EA.palette[s.id],plan=!p,arr=p||PLAN[s.id];return `<div class="c${plan?' plan':''}" title="${s.id} ${esc(s.title)}${plan?'（予定色）':''}">${arr.map(([c,w])=>`<i style="background:${c};--w:${Math.max(w,.04)}"></i>`).join('')}<b>${s.id}</b></div>`}).join('');
+  $('#cscript').innerHTML=SC.map(s=>{const p=EA.palette[s.id],plan=!p,arr=p||PLAN[s.id]||[['#3a3631',.5],['#5c554d',.3],['#8a8177',.2]];return `<div class="c${plan?' plan':''}" title="${s.id} ${esc(s.title)}${plan?'（予定色）':''}">${arr.map(([c,w])=>`<i style="background:${c};--w:${Math.max(w,.04)}"></i>`).join('')}<b>${s.id}</b></div>`}).join('');
 })();
 
 /* ---------- RULES ---------- */
 (function rules(){
-  const R=[['do','沙羅は黒髪。21歳までは長いストレート、22歳で自分で切り、以降は顎の長さ（髪色は変えない）'],['do','カイルは全年代で金髪（J1000）'],['do','身長：沙羅154cm／キラ160cm／カイル170cm'],['do','ドロの接続口は首の左（耳の下）。EARTH AFTER以前は人工皮膚の下で見えず、戦後は露出'],['do','キラとカイルは人間擬態型。関節線や機構を露出させず、機械性は精度・速度・瞳の制御光で示す'],['do','22歳以降の沙羅は左腕のみ機械。右手は生身'],['dont','21歳の沙羅に義手を描く'],['do','カイル（18歳相当）とキラ（17歳相当）は戦後も外見年齢が変わらない'],['dont','沙羅とカイルの恋人表現、キス、同衾を描く'],['dont','沙羅の幽霊・人格コピー・転生としての子供を描く'],['dont','最後にキラを呼ぶ男性とカイルの姿を映す'],['dont','沙羅の死亡場面・遺体安置場面に両親を出す'],['do','ユタニは遠隔ホログラム。撃たれても血を出さずグリッチで崩れる'],['do','沙羅の戦闘は殺すためではなく、射線を逸らし、駆動部を止め、退路を開くため'],['dont','流血や臓器を過度に描写する（衣服に滲む血まで）'],['do','20の突撃後、カイルの生死は映さない。白い閃光で切る'],['do','最終カットは「バン！」と同時に完全な暗転'],['dont','1987年版『ロボットカーニバル』の固有名・意匠を生成指示に入れる']];
+  const R=[['do','沙羅は黒髪。22歳までは長いストレート、23歳で自分で切り、以降は顎の長さ（髪色は変えない）'],['do','カイルは全年代で金髪（J1000）'],['do','身長：沙羅154cm／キラ160cm／カイル170cm'],['do','ドロの接続口は首の左（耳の下）。EARTH AFTER以前は人工皮膚の下で見えず、戦後は露出'],['do','沙羅の喉が光るのは2回だけ：13（キラが止める・赤）、18（キラが返す・緑）'],['do','ユタニに意識を持っていかれたドロ（キラ含む）の目は、淡い青の制御の輪'],['do','キラとカイルは人間擬態型。関節線や機構を露出させず、機械性は精度・速度・瞳の制御光で示す'],['do','23歳以降の沙羅は左腕のみ機械。右手は生身'],['dont','22歳までの沙羅に義手を描く'],['do','カイル（18歳相当）とキラ（17歳相当）は戦後も外見年齢が変わらない'],['dont','沙羅とカイルの恋人表現、キス、同衾を描く'],['dont','沙羅の幽霊・人格コピー・転生としての子供を描く'],['dont','最後にキラを呼ぶ男性とカイルの姿を映す'],['dont','沙羅の死亡場面・遺体安置場面に両親を出す'],['do','ユタニは遠隔ホログラム。撃たれても血を出さずグリッチで崩れる'],['do','沙羅の戦闘は殺すためではなく、射線を逸らし、駆動部を止め、退路を開くため'],['dont','流血や臓器を過度に描写する（衣服に滲む血まで）'],['do','21の突撃後、カイルの生死は映さない。白い閃光で切る'],['do','最終カットは「バン！」と同時に完全な暗転'],['dont','1987年版『ロボットカーニバル』の固有名・意匠を生成指示に入れる']];
   $('#rules').innerHTML=R.map(([k,t])=>`<div class="rule ${k}"><span class="mk">${k==='do'?'○':'✕'}</span><span>${esc(t)}</span></div>`).join('');
 })();
 
@@ -368,10 +371,10 @@ $('#shotCsv').onclick=()=>download('EARTH_AFTER_ショットリスト.csv',['カ
 
 /* ---------- CHECKLIST ---------- */
 (function chk(){
-  const C={'脚本':[['新脚本v3（21シーン・101カット）を確定',1],['約15分（計画15:06）で台詞・モンタージュ尺を実測'],['キラの存在感を各幕で維持'],['手話の見せ方と監修の方針を決める',1],['キャラクター名の決定（仮名から）',1]],
+  const C={'脚本':[['脚本v3.1（22シーン・106カット）を確定',1],['約16分（計画15:51）で台詞・モンタージュ尺を実測'],['キラの存在感を各幕で維持'],['手話の見せ方と監修の方針を決める',1],['キャラクター名の決定（仮名から）',1]],
   '絵コンテ':[['新規9カットを生成',1],['新設定に合わせた修正56カットを差し替え',1],['16:9・1シート4コマで統一'],['沙羅／カイル／キラのキャラクター連続性を最優先']],
-  '映像':[['年代差：幼少期→12→13→17→21→25歳→3年後'],['カイルとキラは外見年齢が変わらない'],['沙羅の義手は22歳から・左腕のみ／22歳から顎の長さの黒髪'],['EARTH AFTER配信時の「瞳の制御光」を象徴ショットに'],['18の白い布。両親は映さない'],['21の男の声の主・カイルは映さない'],['手話のカットは手元のアップを避け、手の動きと表情で',1]],
-  '音':[['沙羅の人工喉頭の声を過度なロボ声にしない'],['交換部品不足のノイズを伏線化'],['13で声が消える（息だけ）'],['17、キラが制限を解き、最後の一瞬だけ声が澄み、音が途切れる'],['「バン！」と同時に完全暗転'],['手話の台詞は字幕の書体を分ける',1]],
+  '映像':[['年代差：幼少期→12→13→17→21→23→25歳→3年後'],['カイルとキラは外見年齢が変わらない'],['沙羅の義手は23歳から・左腕のみ／23歳から顎の長さの黒髪'],['EARTH AFTER配信時の「瞳の制御光」を象徴ショットに'],['19の白い布。両親は映さない'],['22の男の声の主・カイルは映さない'],['喉が光るのは13（赤）と18（緑）の2回だけ',1],['手話のカットは手元のアップを避け、手の動きと表情で',1]],
+  '音':[['沙羅の人工喉頭の声を過度なロボ声にしない'],['交換部品不足のノイズを伏線化'],['13で声が消える（息だけ）'],['14の端末の文字は字幕で見せる（画面に文字を描かない）',1],['18、キラが制限を解き、最後の一瞬だけ声が澄み、音が途切れる'],['「バン！」と同時に完全暗転'],['手話の台詞は字幕の書体を分ける',1]],
   '権利':[['キャラ・背景・ロゴはオリジナル'],['既存IPの固有名・意匠を生成指示へ入れない'],['音楽・SE・フォント・AI生成サービスの利用条件を記録'],['1987年版ロボットカーニバルの素材を使用しない（生成AIへの入力も禁止）']],
   '提出':[['20分以下（公式の尺条件も確認）'],['書き出し映像を全編再生確認'],['字幕・音量・黒レベル・フレーム落ち確認'],['サムネイル'],['あらすじ'],['アピールポイント'],['AI使用ツール／制作工程の記録'],['最新規約の確認'],['締切日時の確認']]};
   let st=store.get('ea-checks4',{});const box=$('#checks');let total=0;

@@ -442,3 +442,5 @@ footer ul{padding-left:1.2em;margin:10px 0 18px}
 .changelog li span{min-width:0}
 .changelog time{font:500 12.5px/1.9 'JetBrains Mono',monospace;color:var(--amber)}
 @media(max-width:560px){.changelog li{grid-template-columns:1fr;gap:0}}
+
+.subs .line.term{font-family:'JetBrains Mono',ui-monospace,monospace;color:#bdf5c8}

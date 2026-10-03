@@ -29,9 +29,10 @@
   "DORO_PATROL": "PATROL DORO (human-mimetic android men and women): ordinary human faces made blank, thin pale-cyan control rings in the eyes, small port on the LEFT side of the neck; gray municipal coverall with a dark armored vest, helmet with raised visor, rifles or capture tools.",
   "YUTANI_GUARD": "YUTANI SECURITY DORO: human-mimetic androids in matte dark-gray corporate tactical armor and full-face dark visors with a faint cyan line; identical posture, rifles.",
   "KIDS": "Two children of the future community, about 9: a human girl with straight black hair and a J-series android boy (looks fully human) with messy dark hair; simple spring clothes. They are the two children Sara rescued years ago; they only resemble Sara and Kyle, they are not them.",
-  "KIRA_CTRL": "Kira control state: a thin pale-cyan ring inside Kira's amber irises; when she resists it, the ring flickers; otherwise same design.",
-  "SARA_22": "SARA (age 22, human woman, 154 cm): straight black hair she has just cut herself to chin length, bangs kept, tired dark eyes; olive field jacket, black high-neck top, black cargo pants, boots. Her LEFT arm from above the elbow is a newly fitted dark graphite mechanical prosthesis; her RIGHT hand is biological. Artificial larynx NOT visible.",
-  "KIDS_SMALL": "Two small children, about 3: a tiny human girl with straight black hair and a small J-series android boy who looks fully human, with messy dark hair; dusty simple clothes."
+  "KIRA_CTRL": "Kira control state (Yutani has taken her mind): the SAME thin pale-cyan ring inside her irises as Kyle's, face emptied; otherwise same design.",
+  "SARA_22": "SARA (age 23, human woman, 154 cm): straight black hair she has just cut herself to chin length, bangs kept, tired dark eyes; olive field jacket, black high-neck top, black cargo pants, boots. Her LEFT arm from above the elbow is a newly fitted dark graphite mechanical prosthesis; her RIGHT hand is biological. Artificial larynx NOT visible.",
+  "KIDS_SMALL": "Two small children, about 3: a tiny human girl with straight black hair and a small J-series android boy who looks fully human, with messy dark hair; dusty simple clothes.",
+  "HACKER": "HACKER (human young man, about 20): thin and pale from staying indoors, messy dark brown hair, round glasses, oversized faded gray hoodie, headphones around his neck, fingerless gloves; quick nervous smile, talks fast."
  },
  "scenes": [
   {
@@ -766,9 +767,22 @@
      ]
     },
     {
+     "cam": "共同体の隅／40mm／青年の肩越し",
+     "act": "仮設の通信ブースで、古いモニターを何台もつないだ青年が端末を叩いている。窓代わりの開口部の向こうで、カイルたちが子供とサッカーをしている。\nキラ「たまには外、出なよ」\n青年「いや、おれはこっちで……体力ないんで」\n青年は笑ってごまかし、画面に目を戻す。",
+     "psy": "自分は役に立てていない、という青年の小さな引け目。後半、彼の「こっち」が沙羅を救う。",
+     "en": "Day in an underground shelter, 40mm over the shoulder of a thin pale young man hunched at a makeshift comms booth built from several old mismatched monitors showing abstract code shapes and camera grids. Through a rough opening in the wall beyond, out of focus, a blond young man plays soccer with children in warm lantern light. A red-haired girl in a red work jacket leans on the booth frame, talking to him. Light: cool monitor glow on his face, warm practical lights outside.",
+     "chars": [
+      "HACKER",
+      "KIRA_POST"
+     ],
      "id": "10-04",
+     "sec": 7,
+     "t0": 409
+    },
+    {
+     "id": "10-05",
      "sec": 10,
-     "t0": 409,
+     "t0": 416,
      "cam": "手話を読む／50mm",
      "act": "沙羅がキラに手話で話す。〔手話〕「あの人、変わってない」\nカイル「……それ、手話？」\n沙羅「読めるの？」\nカイル「J1000だから」\nキラが吹き出す。",
      "psy": "沙羅とキラだけの言葉が、カイルにも届いた。二人の距離が縮む。",
@@ -780,9 +794,9 @@
      ]
     },
     {
-     "id": "10-05",
+     "id": "10-06",
      "sec": 11,
-     "t0": 419,
+     "t0": 426,
      "cam": "夜・嘘／65mm",
      "act": "夜。カイルは給電席に座り、人を傷つけた記憶に怯えている。\nカイル「また動いたら、止めてくれ」\n沙羅「外とは繋がってない。大丈夫」\nカイル「……近づくな」\n沙羅「私も、ドロだから」",
      "psy": "沙羅：離れてほしくない一心の嘘。カイル：その嘘に、救われてしまう。恋人ではなく、隣に座る関係。",
@@ -795,7 +809,7 @@
    ],
    "act": 2,
    "actName": "一緒に生きる",
-   "sec": 50
+   "sec": 57
   },
   {
    "id": "11",
@@ -809,7 +823,7 @@
     {
      "id": "11-01",
      "sec": 11,
-     "t0": 430,
+     "t0": 437,
      "cam": "戸口のカイル／50mm",
      "act": "カイル（戸口）「そんなに急いで食うなよ」\n沙羅が固まる。\n沙羅「……知ってた？」\nカイル「うん」\n沙羅「いつから」\nカイル「最初から」",
      "psy": "沙羅：見つかった恐怖。カイル：静かな怒りと、悲しさ。",
@@ -822,7 +836,7 @@
     {
      "id": "11-02",
      "sec": 12,
-     "t0": 441,
+     "t0": 448,
      "cam": "「怒ってる」／65mm",
      "act": "沙羅「怒ってる？」\nカイル「怒ってる」\nカイル「そういうこと、黙ってないでくれ」\n沙羅は「ごめん」と言おうとするが、声がノイズで途切れる。代わりに手話で。\n〔手話〕沙羅「ごめん」\nカイルはそれを読んで、うなずく。",
      "psy": "声が壊れかけていることを、観客に初めて示す。手話が二人をつなぐ。",
@@ -835,7 +849,7 @@
     {
      "id": "11-03",
      "sec": 9,
-     "t0": 453,
+     "t0": 460,
      "cam": "食べて／35mm",
      "act": "カイル「……食べて。俺、向こうにいる」\nカイルは戸口の外に腰を下ろし、背中を向けて座る。沙羅は缶詰を手に、声を出さずに泣く。",
      "psy": "怒っていても、そばにいる。一人分の距離。R01の再現。",
@@ -848,7 +862,7 @@
     {
      "id": "11-04",
      "sec": 8,
-     "t0": 462,
+     "t0": 469,
      "cam": "夜明けの出発／35mm",
      "act": "夜明け前。カイルが端末で物資の場所を確かめ、眠る沙羅を一度だけ振り返って、黙って出ていく。",
      "psy": "言えば、彼女はついてくる。だから言わない。",
@@ -860,7 +874,7 @@
     {
      "id": "11-05",
      "sec": 9,
-     "t0": 470,
+     "t0": 477,
      "cam": "空の給電席／50mm",
      "act": "朝。空の給電席。\n沙羅「カイルは？」\nキラは応答のない通信器を握る。\nキラ「探しに行こう」\n沙羅が布巻きのボールに触れる。",
      "psy": "沙羅：捨てられた、と思い込む。昨夜の「怒ってる」が繰り返し響く。",
@@ -873,10 +887,10 @@
     {
      "id": "11-06",
      "sec": 10,
-     "t0": 479,
+     "t0": 486,
      "cam": "捕獲／50mm",
-     "act": "J1000専用の抑制器が胸に撃ち込まれる。倒れたカイルの通信器が、ブーツで踏み砕かれる。缶詰が転がる。\n隊員（通信）「J1000、初号系列を確保。……社長が探していた個体です」\n隊員「記憶を読め。仲間の場所がある」",
-     "psy": "連れ去りは偶然ではない。ユタニにとってカイルは「最初の子ども」。そしてここから、共同体がユタニに知られる。",
+     "act": "J1000専用の抑制器が胸に撃ち込まれる。倒れたカイルの通信器が、ブーツで踏み砕かれる。缶詰が転がる。\n隊員（通信）「J1000、初号系列を確保。……社長が探していた個体です」",
+     "psy": "連れ去りは偶然ではない。ユタニにとってカイルは「最初の子ども」。",
      "en": "50mm low on the ground: the young man has collapsed face-down on wet asphalt, a heavy inhibitor dart lodged in his chest, a black armored boot crushing a small radio beside his hand; tin cans and the medical parts pack rolling away. Cold searchlight from above, rain puddles reflecting it.",
      "chars": [
       "KYLE_POST",
@@ -894,13 +908,13 @@
    "title": "倒壊危険区域",
    "place": "共同体／倒壊危険区域",
    "time": "昼",
-   "age": "沙羅 21→22歳",
+   "age": "沙羅 21→23歳",
    "sum": "カイルを探す日々。EARTH AFTERが立ち入りを禁じた倒壊危険区域で、沙羅は中に残された人間の少女とドロの少年を救い、左腕を失う。そして、髪を切る。",
    "cuts": [
     {
      "id": "12-01",
      "sec": 7,
-     "t0": 489,
+     "t0": 496,
      "cam": "記録と捜索／35mm",
      "act": "共同体の机で、沙羅が地図に印をつけ、記録を残す。\n沙羅（記録音声）「今日も、見つからなかった」",
      "psy": "日課になってしまった捜索。希望より、意地。",
@@ -912,7 +926,7 @@
     {
      "id": "12-02",
      "sec": 9,
-     "t0": 496,
+     "t0": 503,
      "cam": "危険区域の外縁／35mm／瓦礫越し",
      "act": "傾いたビルの前。監視ドローンが警告灯を回す。\nドローン音声「倒壊危険区域です。立ち入りを禁止します。ただちに退避してください」\n瓦礫の隙間の奥に、身を寄せ合う二人の小さな子供。人間の少女と、ドロの少年。\n沙羅がドローンを見上げ、そのまま中へ走り込む。",
      "psy": "命令に従えば安全。それでも、見えてしまった命を置いていけない。管理と選択の対立を一画面で見せる。",
@@ -925,7 +939,7 @@
     {
      "id": "12-03",
      "sec": 9,
-     "t0": 505,
+     "t0": 512,
      "cam": "救助現場の崩落／24mm",
      "act": "崩れかけた建物の中。沙羅が二人の子供を外の光へ押し出した直後、梁が落ちる。瓦礫から伸びた沙羅の左手。外で、少女とドロの少年が手をつないで振り返る。",
      "psy": "助けたのは人間とドロの二人。この二人が、3年後の春にボールで出会う。",
@@ -938,7 +952,7 @@
     {
      "id": "12-04",
      "sec": 9,
-     "t0": 514,
+     "t0": 521,
      "cam": "鏡の前／50mm／鏡越し",
      "act": "夜。共同体の洗面所。義手になったばかりの左腕を下ろしたまま、沙羅は生身の右手で鋏を握り、長い黒髪を顎の高さで切る。床に落ちる髪。\n沙羅（記録音声）「もう、待ってるだけの私じゃない」\n※髪色は変えない。黒のまま。",
      "psy": "無力だった自分との決別。見た目は変わっても、同じ沙羅だと分かるように、髪色と前髪は残す。",
@@ -954,20 +968,20 @@
   },
   {
    "id": "13",
-   "old": "新規",
+   "old": "新規（改）",
    "title": "キラの中の命令",
-   "place": "共同体・整備室／物置",
+   "place": "共同体・整備室",
    "time": "夜〜朝",
-   "age": "沙羅 22→25歳",
-   "sum": "義手の手術の夜、キラの奥に眠っていたユタニの防衛プログラムが目を覚ます。キラは沙羅の人工喉頭に制限を流し込み、姿を消す。沙羅は声を失う。",
+   "age": "沙羅 23歳",
+   "sum": "義手を動かすには、ユタニの医療回線につなぐしかない。そう判断したのはキラだった。接続した瞬間、キラの奥に眠っていた命令が目を覚ます。キラは眠る沙羅の喉に手を当て、声を止めて去る。",
    "cuts": [
     {
      "id": "13-01",
      "sec": 9,
-     "t0": 523,
+     "t0": 530,
      "cam": "義手の調整／50mm",
-     "act": "整備室。父と医療担当、キラが新しい義手を接続する。沙羅は天井を見ている。右手は生身のまま、父の手を握る。キラは喉の調整端末を手に、沙羅の首元を見守る。",
-     "psy": "失ったことより、「まだ探せる」ことを確かめている。",
+     "act": "整備室。父と医療担当、キラが新しい義手を接続する。麻酔で眠る沙羅。右手は生身のまま、父の手を握っている。\nキラ「医療回線につながないと、この腕は動かない」\nキラが調整端末をユタニの医療回線へつなぐ。",
+     "psy": "助けるための判断。キラ自身が引き金を引くことになる。",
      "en": "50mm at a repair-and-clinic bench: the woman lies on the bench while her father fits a dark graphite mechanical left arm at her shoulder and the medic checks a spinal brace; her biological right hand grips her father's sleeve. Work lamp overhead, surgical tools and parts on a tray, her eyes open, staring at the ceiling.",
      "chars": [
       "SARA_22",
@@ -979,10 +993,10 @@
     {
      "id": "13-02",
      "sec": 10,
-     "t0": 532,
+     "t0": 539,
      "cam": "キラの瞳／寄り／100mm",
-     "act": "キラの琥珀色の瞳の奥に、細い淡い青の制御の輪が走る。調整端末を握るキラの指が、自分の意思に逆らって動き、人工喉頭の登録回線に制限を書き込む。\nキラ（かすれて）「……やめ……」\n画面の端で、眠る沙羅。",
-     "psy": "キラ自身も気づかなかった奥の命令。抗おうとしても手が止まらない。キラの「伝えられない声」がここで生まれる。",
+     "act": "接続の瞬間、キラの琥珀色の瞳の奥に、カイルと同じ細い淡い青の制御の輪が浮かぶ。表情が消える。\nキラ（かすれて）「……や……」",
+     "psy": "ユタニに意識を持っていかれる。抗おうとする声は、途中で消える。",
      "en": "Night in an underground repair room, 100mm extreme close-up on a red-haired android girl's face in profile, camera at her eye level. Inside her warm amber irises a thin pale-cyan control ring flickers on; her expression strains as if fighting it. In the soft out-of-focus foreground her gloved fingers grip a small handheld calibration terminal whose screen shows only abstract waveforms. In the blurred background a young woman sleeps on a surgical bench. Light: one work lamp behind the bench, deep shadows, the cyan ring the only cold light.",
      "chars": [
       "KIRA_POST",
@@ -991,40 +1005,43 @@
      ]
     },
     {
+     "cam": "眠る沙羅とキラの手／寄り／65mm",
+     "act": "キラが眠る沙羅の喉元に、そっと手のひらを当てる。手のひらの下で、喉が赤く光る（作中で喉が光る2回のうちの1回目）。キラの瞳には淡い青の制御の輪。",
+     "psy": "優しい手つきのまま、奪う。キラの意思ではないことを、表情の空白で見せる。",
+     "en": "Night in an underground repair room, 65mm close shot. A young woman with chin-length black hair lies asleep under anesthesia on a surgical bench. A red-haired android girl in a red work jacket gently rests her gloved palm on the sleeping woman's throat; under the palm a soft RED glow shines through the fingers. The android girl's amber eyes carry a thin pale-cyan control ring and her face is empty. Light: one work lamp, the red glow the only colored light on the throat.",
+     "chars": [
+      "SARA_22",
+      "KIRA_POST",
+      "KIRA_CTRL"
+     ],
      "id": "13-03",
+     "sec": 9,
+     "t0": 549
+    },
+    {
+     "cam": "端末と去るキラ／35mm",
+     "act": "調整端末の画面に、接続完了の表示（作中の字幕で示す。画面の文字は描かない）。その奥で、キラが振り返らずに部屋を出ていく。扉が閉まる。\n字幕：接続完了",
+     "psy": "誰も止めない。誰も気づかない。静かな裏切りではなく、静かな「持っていかれ」。",
+     "en": "Night, the same repair room, 35mm. In the near foreground a small handheld terminal on the bench shows an abstract green progress-complete shape (no letters). Beyond it, out of focus, a red-haired girl in a red work jacket walks away through a doorway into a dark corridor without looking back. A father figure sleeps slumped in a chair by the bench. Light: terminal glow, corridor darkness.",
+     "chars": [
+      "KIRA_POST",
+      "FATHER"
+     ],
+     "id": "13-04",
+     "sec": 8,
+     "t0": 558
+    },
+    {
+     "id": "13-05",
      "sec": 10,
-     "t0": 542,
+     "t0": 566,
      "cam": "朝・沙羅の寝床／40mm",
-     "act": "朝。目を覚ました沙羅が「キラ」と呼ぼうとする。息だけが出て、声が出ない。喉に手を当てる。駆けつけた父が端末で人工喉頭を確かめる。\n父「登録回線から、制限が入ってる……」\n沙羅は父を見て、手話で伝える。\n〔手話〕沙羅「声が、ない」",
+     "act": "朝。目を覚ました沙羅が「キラ」と呼ぼうとする。息だけが出て、声が出ない。喉に手を当てる。駆けつけた父が端末で人工喉頭を確かめる。\n父「登録回線から、制限が入ってる……キラは？」\n沙羅は父を見て、手話で伝える。\n〔手話〕沙羅「声が、ない」",
      "psy": "17歳で得た声が、同じ仕組みで奪われる。沙羅は泣かず、手話に戻る。声を失っても、意志は失わない。",
      "en": "Morning in a small sleeping alcove in the underground shelter, 40mm from the foot of the cot, camera at seated height. A young woman with chin-length black hair and a graphite prosthetic left arm sits up on the cot, her biological right hand pressed to her throat, mouth open with no sound. A tanned middle-aged man kneels beside her holding a small diagnostic tablet with abstract warning shapes. Light: pale daylight from a ventilation shaft above, a dim string bulb.",
      "chars": [
       "SARA_22",
       "FATHER"
-     ]
-    },
-    {
-     "id": "13-04",
-     "sec": 9,
-     "t0": 552,
-     "cam": "空の物置／35mm／沙羅の背中越し",
-     "act": "沙羅の家から運び込んだ物置の一角。キラのソファは空。充電ケーブルがきれいに巻かれて置かれている。畳まれた毛布。\n〔手話〕沙羅「キラ？」\n返事はない。",
-     "psy": "キラは沙羅を守るために去った。命令から沙羅を遠ざけるため。それは恩義なのか、自分の気持ちなのか。キラの答えは、まだ映さない。",
-     "en": "Day, a corner of the underground shelter turned into a storage nook, 35mm over the shoulder of a young woman with chin-length black hair. An old two-seat sofa stands empty; on it a charging cable is neatly coiled and a blanket folded square. Metal shelves, a few tools. Light: a single bulb, dust only near the floor.",
-     "chars": [
-      "SARA_22"
-     ]
-    },
-    {
-     "id": "13-05",
-     "sec": 8,
-     "t0": 561,
-     "cam": "台帳／寄り／65mm",
-     "act": "3年後。回収した移管台帳の画面に、カイルの顔写真と「J1000・西棟・社長付き」。その下に、キラの記録「J3200・帰還」。\n沙羅は声なく唇を動かす。「……いた」",
-     "psy": "4年ぶりの手がかり。時間がない。",
-     "en": "65mm over the woman's shoulder: a cracked tablet screen showing a list layout with a small portrait photo of a young man with dark navy hair and abstract unreadable entries; her mechanical left index finger rests on the screen next to the photo. Her reflection faintly visible in the glass, eyes widening.",
-     "chars": [
-      "SARA_25"
      ]
     }
    ],
@@ -1034,17 +1051,83 @@
   },
   {
    "id": "14",
+   "old": "新規",
+   "title": "2年後",
+   "place": "共同体・捜索室／通信ブース",
+   "time": "夜",
+   "age": "沙羅 25歳",
+   "sum": "2年後。声を失った沙羅は、仲間と一緒に、あの日消えたドロたちを探している。ある夜、引きこもりがちな青年が、ユタニ社の監視カメラの映像を見せる。そこには、ユタニの横に立つカイルと、遠くのキラが映っていた。",
+   "cuts": [
+    {
+     "cam": "捜索室・引き／28mm",
+     "act": "字幕：2年後\n地図と記録で埋まった捜索室。顎の長さの黒髪、義手の沙羅が仲間と地図を囲む。沙羅は手元の端末に文字を打ち、画面を仲間へ向ける。\n〔端末〕沙羅「北の区画は、今日も反応なし」\n仲間がうなずく。",
+     "psy": "声がなくても、沙羅は指揮を執っている。2年の間に身につけた、新しい話し方。",
+     "en": "Night, a cramped search room in the underground shelter, 28mm wide at standing eye level. Walls covered in hand-marked maps, photos and string. A young woman with chin-length black hair, olive field jacket and a graphite prosthetic left arm stands at a table with three tired volunteers, holding up a small handheld terminal with its screen turned toward them (screen shows abstract text-like lines, no readable letters). Light: one hanging work lamp, cool spill from a corridor.",
+     "chars": [
+      "SARA_25"
+     ],
+     "id": "14-01",
+     "sec": 9,
+     "t0": 576
+    },
+    {
+     "cam": "通信ブース／35mm",
+     "act": "通信ブースから青年が身を乗り出し、モニターを指さす。\n青年「沙羅さん！　これ、カイルさんとキラさんじゃないっすか？」\n青年「おれ、前からユタニの監視カメラをハックしようとしてたんす。体力もないし、篭ってばっかで役に立ててないなって……で、今日やってみたら、つながったんす」",
+     "psy": "役に立てないと思っていた人の、たった一つの手がかり。青年の早口と照れ。",
+     "en": "Night, the shelter comms booth of many old mismatched monitors, 35mm. The thin pale young man in an oversized gray hoodie with headphones around his neck leans out of his chair, excitedly pointing at one monitor; a young woman with chin-length black hair turns sharply toward the screen. Light: cool monitor glow on both faces.",
+     "chars": [
+      "HACKER",
+      "SARA_25"
+     ],
+     "id": "14-02",
+     "sec": 10,
+     "t0": 585
+    },
+    {
+     "cam": "モニターの中／監視カメラ映像",
+     "act": "監視カメラの映像（俯瞰・粗い画質）。ユタニ社の広い部屋。ユタニのホログラムの横に、金髪のカイルが立っている。遠くの壁際にキラ。ほかにもドロが等間隔に配置されている。\n青年（声）「これ、そうですよね？」",
+     "psy": "探し続けた二人が、生きて、そこにいる。だが二人とも「いない」顔をしている。",
+     "en": "High-angle security-camera view on a monitor, slightly grainy with faint scan lines and a vignette (no timestamp, no text). A large polished corporate hall: a pale-cyan translucent hologram of a gray-haired man in a navy suit stands center; beside it a blond young man in a navy field jacket stands perfectly still; far back by the wall a red-haired girl in a red work jacket; several other androids stand evenly spaced along the walls.",
+     "chars": [
+      "YUTANI_HOLO",
+      "KYLE_POST",
+      "KIRA_POST"
+     ],
+     "id": "14-03",
+     "sec": 10,
+     "t0": 595
+    },
+    {
+     "cam": "頭ぽんぽん／50mm",
+     "act": "沙羅は満面の笑みで、青年の頭をぽんぽんと叩く。青年は目を丸くし、照れて笑う。\n沙羅は端末に一言だけ打つ。\n〔端末〕沙羅「行く」",
+     "psy": "2年ぶりの沙羅の笑顔。言葉の代わりに手で伝える、沙羅らしい感謝。",
+     "en": "Night at the comms booth, 50mm. A young woman with chin-length black hair, beaming with a wide genuine smile, pats the head of the thin pale young man with her biological right hand; he blinks, surprised, then grins shyly. Monitors glow behind them. Light: cool monitor light, a warm lamp edge.",
+     "chars": [
+      "SARA_25",
+      "HACKER"
+     ],
+     "id": "14-04",
+     "sec": 9,
+     "t0": 605
+    }
+   ],
+   "act": 3,
+   "actName": "声を奪われても",
+   "sec": 38
+  },
+  {
+   "id": "15",
    "old": "R12（改）",
    "title": "ユタニ西棟へ",
    "place": "ユタニ西棟",
    "time": "夜",
    "age": "沙羅 25歳",
-   "sum": "声のない沙羅は、人間の運転手と二人でユタニ西棟へ潜入する。施設には眠るドロだけでなく、働かされる人間もいる。",
+   "sum": "カメラの映像を手がかりに、沙羅は人間の運転手とユタニ西棟へ潜入する。青年が通信でカメラを止める。施設には眠るドロだけでなく、働かされる人間もいる。",
    "cuts": [
     {
-     "id": "14-01",
+     "id": "15-01",
      "sec": 8,
-     "t0": 569,
+     "t0": 614,
      "cam": "潜入／35mm",
      "act": "搬入口。整備カートの荷台の幌の下に沙羅が隠れる。運転手がゲートの警備に許可証を見せる。\n運転手（小声）「この便の扉が開く間だけ。次はないぞ」",
      "psy": "緊張。失敗はできない。",
@@ -1055,11 +1138,11 @@
      ]
     },
     {
-     "id": "14-02",
+     "id": "15-02",
      "sec": 8,
-     "t0": 577,
+     "t0": 622,
      "cam": "保管区画／24mm",
-     "act": "西棟の保管区画。並んで眠るドロたち。\n〔手話〕沙羅「カイルを起こしたら、地下へ」\n運転手「戻るまでが救出だ」",
+     "act": "西棟の保管区画。並んで眠るドロたち。\n〔端末〕沙羅「カイルを起こしたら、地下へ」\n運転手「戻るまでが救出だ」",
      "psy": "目的は一人。でも、ここには多すぎる。",
      "en": "Wide 24mm: a long cold storage hall with rows of standing upright pods holding dormant androids, faces calm, dim cyan status strips; cold fluorescent tubes overhead, condensation on the floor. The two women move low between the rows, small in the frame.",
      "chars": [
@@ -1068,11 +1151,11 @@
      ]
     },
     {
-     "id": "14-03",
+     "id": "15-03",
      "sec": 8,
-     "t0": 585,
+     "t0": 630,
      "cam": "働かされる人間／50mm",
-     "act": "ガラス越しに、拘束されて働かされる人間たち。\n〔手話〕沙羅「こっちにも、人がいる」\n運転手「位置は記録した。今の車じゃ全員は乗らない」",
+     "act": "ガラス越しに、拘束されて働かされる人間たち。\n〔端末〕沙羅「こっちにも、人がいる」\n青年（通信）「カメラ、ループさせました。今のうちっす」\n運転手「位置は記録した。今の車じゃ全員は乗らない」",
      "psy": "全員は救えない。罪悪感を抱えたまま進む。",
      "en": "50mm through a dirty internal glass window: in the room beyond, exhausted human workers wearing restraint bands on their wrists sort parts under harsh white light; in the foreground, the woman's reflection overlaps the glass, her mechanical left hand pressed flat against it.",
      "chars": [
@@ -1081,9 +1164,9 @@
      ]
     },
     {
-     "id": "14-04",
+     "id": "15-04",
      "sec": 7,
-     "t0": 593,
+     "t0": 638,
      "cam": "保管庫の扉／40mm",
      "act": "沙羅が義手の接続端子を扉の制御盤につなぎ、扉を開ける。奥に、もう一つの扉。",
      "psy": "4年分の距離が、扉一枚になる。",
@@ -1098,7 +1181,7 @@
    "sec": 31
   },
   {
-   "id": "15",
+   "id": "16",
    "old": "R13（改）",
    "title": "手話で名前を呼ぶ",
    "place": "西棟・社長室付きの間",
@@ -1107,9 +1190,9 @@
    "sum": "カイルは、ユタニのホログラムの傍らに、命令を待つだけの存在として立っている。そこにはキラもいる。声のない沙羅は、手話でカイルの名前を呼ぶ。",
    "cuts": [
     {
-     "id": "15-01",
+     "id": "16-01",
      "sec": 11,
-     "t0": 600,
+     "t0": 645,
      "cam": "社長室付きの間・引き／24mm",
      "act": "静かな広い部屋。ユタニの等身大ホログラムの傍らに、金髪のカイルが立っている。瞳に淡い青の制御光。表情がない。部屋の隅に、同じ光を宿したキラ。扉が開き、沙羅が入る。\nユタニ（ホログラム）「J1000は、私の最初の子どもだ。返してもらったよ」\nユタニ「声まで失って、まだ来るのかね」",
      "psy": "探し続けた人が、生きているのに「いない」。そしてキラまで向こう側に立っている。沙羅の喪失がいちばん深い瞬間。",
@@ -1124,9 +1207,9 @@
      ]
     },
     {
-     "id": "15-02",
+     "id": "16-02",
      "sec": 12,
-     "t0": 611,
+     "t0": 656,
      "cam": "手話／50mm／沙羅の正面やや斜め",
      "act": "沙羅は声の代わりに、両手で手話をする。カイルの名前。そして――\n〔手話〕沙羅「カイル。……おかえり」\nカイルの瞳の制御光が揺らぎ、消える。目に光が戻る。\nカイル「……沙羅？」\n部屋の隅で、キラの指が小さく震える。\n※手元のアップは避け、手の動きと表情で伝える。正確な意味は字幕で。",
      "psy": "音声がないはずなのに「聞こえる」瞬間。沙羅の手話がカイルに届き、キラの奥にも届き始める。",
@@ -1137,9 +1220,9 @@
      ]
     },
     {
-     "id": "15-03",
+     "id": "16-03",
      "sec": 10,
-     "t0": 623,
+     "t0": 668,
      "cam": "裂けた人工皮膚／40mm",
      "act": "逃走中、沙羅の左腕の人工皮膚が裂ける。カイルが立ち止まる。\nカイル「その腕……声も……」\n〔手話〕沙羅「あなたと同じ時間を、生きたかったから」",
      "psy": "カイルは、彼女が払った代償を一目で理解する。",
@@ -1150,9 +1233,9 @@
      ]
     },
     {
-     "id": "15-04",
+     "id": "16-04",
      "sec": 13,
-     "t0": 633,
+     "t0": 678,
      "cam": "真実／85mm",
      "act": "カイル「違う。食べ物と、喉の部品を探してた。帰りに捕まった」\n〔手話〕沙羅「……言ってよ」\nカイル「言ったら、ついてくるだろ」\n〔手話〕沙羅「行くよ」\nカイル「……だろ？」\n二人は泣きながら、ほんの一瞬だけ笑う。",
      "psy": "4年間のすれ違いがほどける。泣き笑いは一瞬だけ。",
@@ -1163,9 +1246,9 @@
      ]
     },
     {
-     "id": "15-05",
+     "id": "16-05",
      "sec": 9,
-     "t0": 646,
+     "t0": 691,
      "cam": "帰ろう／35mm",
      "act": "キラ（震える声で）「……下の搬出口。今だけ、開けとく」\nキラの瞳の光が明滅している。\n沙羅が生身の右手で、カイルの手を引く。",
      "psy": "キラが命令に逆らい始める。まだ完全ではない。それでも、沙羅の手話がキラを動かした。",
@@ -1181,7 +1264,7 @@
    "sec": 55
   },
   {
-   "id": "16",
+   "id": "17",
    "old": "R14",
    "title": "沙羅が救う",
    "place": "西棟・地下搬出口",
@@ -1190,9 +1273,9 @@
    "sum": "地下搬出口。命令に逆らい始めたキラが、救出した人々を誘導する。沙羅は義手と義脚、人間として培った判断で、殺さずに戦い、カイルを解放する。",
    "cuts": [
     {
-     "id": "16-01",
+     "id": "17-01",
      "sec": 8,
-     "t0": 655,
+     "t0": 700,
      "cam": "搬出口・引き／20mm",
      "act": "地下へ下りる斜路。キラが救出した人間とドロを搬送車へ誘導する。外には運転手。上段通路に追撃部隊。\nキラ「そっち、上！」",
      "psy": "位置関係を明確に見せる（退路・射線・救出車）。",
@@ -1206,9 +1289,9 @@
      ]
     },
     {
-     "id": "16-02",
+     "id": "17-02",
      "sec": 9,
-     "t0": 663,
+     "t0": 708,
      "cam": "抑制器／50mm",
      "act": "カイルの胸に抑制器が刺さる。電磁索で隔壁へ引き寄せられる。\nカイル「先に行け！」\n沙羅はキラを見て、天井の灯りを指す。",
      "psy": "沙羅は、今度は置いていかない。",
@@ -1219,9 +1302,9 @@
      ]
     },
     {
-     "id": "16-03",
+     "id": "17-03",
      "sec": 9,
-     "t0": 672,
+     "t0": 717,
      "cam": "非常灯だけの戦い／24mm",
      "act": "キラが照明を落とす。非常灯だけ。沙羅は搬送板を盾に走り、銃身を逸らし、駆動部だけを撃って止める。",
      "psy": "殺さない戦い方を、最後まで貫く。",
@@ -1232,9 +1315,9 @@
      ]
     },
     {
-     "id": "16-04",
+     "id": "17-04",
      "sec": 9,
-     "t0": 681,
+     "t0": 726,
      "cam": "解放／50mm",
      "act": "沙羅が義手を支点に抑制器を剥がす。カイルが落ちるのを肩で受ける。\n〔手話〕沙羅「立てる？」\nカイル「……立つ」",
      "psy": "支え合う姿勢。どちらが守る側でもない。",
@@ -1250,7 +1333,7 @@
    "sec": 35
   },
   {
-   "id": "17",
+   "id": "18",
    "old": "R15（改）",
    "title": "王子様",
    "place": "西棟・地下搬出口",
@@ -1259,9 +1342,9 @@
    "sum": "射手の銃口からカイルを庇い、沙羅は胸に弾を受ける。キラが自分の中の命令を振り切り、喉の制限を解く。最後の一瞬だけ、沙羅の声が戻る。",
    "cuts": [
     {
-     "id": "17-01",
+     "id": "18-01",
      "sec": 8,
-     "t0": 690,
+     "t0": 735,
      "cam": "射線／85mm",
      "act": "救出車の直前。上段通路の射手がカイルへ銃口を向ける。カイルは抑制器の後遺症で動けない。沙羅が振り返る。",
      "psy": "迷いはない。考えるより先に身体が動く。",
@@ -1273,9 +1356,9 @@
      ]
     },
     {
-     "id": "17-02",
+     "id": "18-02",
      "sec": 9,
-     "t0": 698,
+     "t0": 743,
      "cam": "被弾／40mm",
      "act": "銃声。沙羅がカイルを突き飛ばし、胸に弾を受ける。カイルが撃ち返し、倒れる沙羅をその場で抱き止める。",
      "psy": "時間が止まる。音を一瞬消す。過度な流血は描かない。",
@@ -1286,9 +1369,9 @@
      ]
     },
     {
-     "id": "17-03",
+     "id": "18-03",
      "sec": 9,
-     "t0": 707,
+     "t0": 752,
      "cam": "右手と頬／85mm",
      "act": "床に座り込んだカイルが沙羅を抱く。沙羅の生身の右手が、カイルの頬に触れる。沙羅の唇が動くが、声は出ない。",
      "psy": "声が出ない。それでも伝えたい。",
@@ -1299,11 +1382,11 @@
      ]
     },
     {
-     "id": "17-04",
+     "id": "18-04",
      "sec": 10,
-     "t0": 716,
+     "t0": 761,
      "cam": "キラ／寄り／65mm／低い位置",
-     "act": "キラが膝をつき、調整端末を沙羅の首元に当てる。キラの瞳の制御光が激しく明滅し、砕けるように消える。\nキラ「……返すよ。沙羅の声」\nキラの頬を涙が伝う。",
+     "act": "キラが膝をつき、沙羅の喉元に手のひらを当てる。キラの瞳の制御の輪が激しく明滅し、砕けるように消える。手のひらの下で、喉が緑に光る（2回目）。\nキラ「……返すよ。沙羅の声」\nキラの頬を涙が伝う。",
      "psy": "奉仕するよう作られた機体が、命令ではなく自分の意志で、奪ったものを返す。恩義か、設計か、気持ちか――その答えがここ。",
      "en": "Night at an underground loading ramp lit by red emergency lamps, 65mm low angle close on a kneeling red-haired android girl in a red work jacket. She presses a small handheld terminal to the throat area of a dying young woman (out of frame below, only her black hair and shoulder visible), while the thin cyan control ring in her amber eyes fractures and goes dark. A single tear runs down her cheek. Light: red emergency light from above right, a cold white strip light far behind.",
      "chars": [
@@ -1312,9 +1395,9 @@
      ]
     },
     {
-     "id": "17-05",
+     "id": "18-05",
      "sec": 11,
-     "t0": 726,
+     "t0": 771,
      "cam": "最後の声／100mm",
      "act": "ノイズの中、最後の瞬間だけ声が澄む。\n沙羅「王子様でいてね」\nそして、声の音そのものが途切れる（光ではなく音で示す）。\nカイル「……いる。ずっといるから」",
      "psy": "幼い日、声のない沙羅を理解できなかった少年が、今はその言葉を受け取る。",
@@ -1330,7 +1413,7 @@
    "sec": 47
   },
   {
-   "id": "18",
+   "id": "19",
    "old": "R16",
    "title": "白い布",
    "place": "共同体・医療室",
@@ -1339,9 +1422,9 @@
    "sum": "共同体の医療室。沙羅の顔まで白い布が掛けられている。カイルの中に、彼自身の記憶が蘇る。拳の震えが止まる。",
    "cuts": [
     {
-     "id": "18-01",
+     "id": "19-01",
      "sec": 8,
-     "t0": 737,
+     "t0": 782,
      "cam": "搬送車の中／35mm",
      "act": "暗い地下路を走る搬送車。白布を胸まで掛けられた沙羅。カイルは彼女の生身の右手を両手で握っている。キラは向かいで俯く。",
      "psy": "誰も話さない。エンジン音だけ。",
@@ -1353,9 +1436,9 @@
      ]
     },
     {
-     "id": "18-02",
+     "id": "19-02",
      "sec": 8,
-     "t0": 745,
+     "t0": 790,
      "cam": "医療室・引き／28mm",
      "act": "無機質な医療室。顔まで白い布。医療器具は止まっている。医療担当が静かに時計を見る。両親は映さない。",
      "psy": "死の確定を、静かに見せる。",
@@ -1366,9 +1449,9 @@
      ]
     },
     {
-     "id": "18-03",
+     "id": "19-03",
      "sec": 9,
-     "t0": 753,
+     "t0": 798,
      "cam": "記憶／寄り／100mm",
      "act": "白布を見つめるカイルの瞳に、断片が映る。夕暮れの公園、フェンス越しのボール、共同体の灯り。沙羅のコピーではなく、カイル自身の記憶。",
      "psy": "思い出せなかった幼い日が、今になって戻ってくる。",
@@ -1378,9 +1461,9 @@
      ]
     },
     {
-     "id": "18-04",
+     "id": "19-04",
      "sec": 7,
-     "t0": 762,
+     "t0": 807,
      "cam": "拳と銃／50mm",
      "act": "カイルの拳が震え、やがて止まる。壁に立てかけられた銃を掴む。",
      "psy": "悲しみが、冷たい怒りに変わる瞬間。",
@@ -1395,7 +1478,7 @@
    "sec": 32
   },
   {
-   "id": "19",
+   "id": "20",
    "old": "R17＋R18（統合）",
    "title": "あんたまで",
    "place": "共同体・格納庫／ユタニ本社正面",
@@ -1404,9 +1487,9 @@
    "sum": "カイルは装甲車を奪う。キラが叫ぶ。「あんたまでいなくなったら、私は！」カイルは答えず、ユタニ本社の正面を突破する。",
    "cuts": [
     {
-     "id": "19-01",
+     "id": "20-01",
      "sec": 8,
-     "t0": 769,
+     "t0": 814,
      "cam": "格納庫／28mm",
      "act": "武器と弾薬を持ったカイルが装甲車へ向かう。\nキラ「待ちなさい！　一人で行って何になるの！」",
      "psy": "キラの怒りは、もう一人失うことへの恐怖。",
@@ -1417,9 +1500,9 @@
      ]
     },
     {
-     "id": "19-02",
+     "id": "20-02",
      "sec": 9,
-     "t0": 777,
+     "t0": 822,
      "cam": "車扉を挟む二人／40mm",
      "act": "運転席に乗り込むカイル。開いた扉をキラが掴む。\nキラ「あんたまでいなくなったら、私は……！」",
      "psy": "キラが初めて、自分の気持ちを声にしかける。沙羅を失い、カイルまで失う恐怖。言い切れないところで止める。",
@@ -1430,9 +1513,9 @@
      ]
     },
     {
-     "id": "19-03",
+     "id": "20-03",
      "sec": 8,
-     "t0": 786,
+     "t0": 831,
      "cam": "横顔／85mm",
      "act": "カイルの手が一瞬止まる。何も言わない。\n運転席の扉が閉まる。",
      "psy": "答えないことが答え。言葉にしたら、行けなくなる。",
@@ -1442,9 +1525,9 @@
      ]
     },
     {
-     "id": "19-04",
+     "id": "20-04",
      "sec": 7,
-     "t0": 794,
+     "t0": 839,
      "cam": "突破／20mm",
      "act": "装甲車が格納庫の扉を突き破って、朝焼けの廃墟へ飛び出す。キラは吹き込む風の中に立つ。",
      "psy": "キラは見送るしかない。",
@@ -1454,9 +1537,9 @@
      ]
     },
     {
-     "id": "19-05",
+     "id": "20-05",
      "sec": 7,
-     "t0": 801,
+     "t0": 846,
      "cam": "本社正面／16mm",
      "act": "巨大なユタニ本社。装甲車がバリケードへ激突する。警備ドロが展開する。\n※銃撃の見せ方は保留。",
      "psy": "一人対、都市そのもの。",
@@ -1466,9 +1549,9 @@
      ]
     },
     {
-     "id": "19-06",
+     "id": "20-06",
      "sec": 7,
-     "t0": 808,
+     "t0": 853,
      "cam": "ガラス扉／35mm",
      "act": "巨大なガラス扉を突き破る。中は、異様に静かな暗いロビー。",
      "psy": "外の騒音が、扉を抜けた瞬間に消える。",
@@ -1483,7 +1566,7 @@
    "sec": 46
   },
   {
-   "id": "20",
+   "id": "21",
    "old": "R19",
    "title": "家族",
    "place": "本社・中央ロビー",
@@ -1492,9 +1575,9 @@
    "sum": "ロビーで待っていたのは、ユタニの遠隔ホログラム。「家族にならないか」。カイルは撃ち、数十体の警備ドロが現れる。カイルは小さく笑う。「……変なの」",
    "cuts": [
     {
-     "id": "20-01",
+     "id": "21-01",
      "sec": 9,
-     "t0": 815,
+     "t0": 860,
      "cam": "対峙／24mm",
      "act": "巨大ロビーの中央に、ユタニの等身大ホログラム。\nユタニ「所詮は旧式のAIだ。君がここへ来ることくらい、お見通しだったよ」",
      "psy": "ユタニは最初からここにいない。安全圏からの声。",
@@ -1505,9 +1588,9 @@
      ]
     },
     {
-     "id": "20-02",
+     "id": "21-02",
      "sec": 12,
-     "t0": 824,
+     "t0": 869,
      "cam": "誘い／85mm",
      "act": "ユタニ「だが――私たちの想定を超える行動を取るのも、いつだって君たちだ」\nユタニ「だから、アップデートが必要なんだ」\n両腕を広げる。\nユタニ「さあ。今度こそ、私たちの家族にならないか？」",
      "psy": "R02（ドキュメンタリー）の「新しい家族です」の回収。温和で、だから不気味。",
@@ -1517,9 +1600,9 @@
      ]
     },
     {
-     "id": "20-03",
+     "id": "21-03",
      "sec": 10,
-     "t0": 836,
+     "t0": 881,
      "cam": "爆発／35mm",
      "act": "カイル「うるせぇ……」\nユタニは語り続ける。\nカイル「うるせえええええ！」\n発砲。弾はホログラムの頭部を素通りし、像がグリッチに崩れる。",
      "psy": "怒りで顔が崩れる。初めて感情を剥き出しにするカイル。",
@@ -1530,9 +1613,9 @@
      ]
     },
     {
-     "id": "20-04",
+     "id": "21-04",
      "sec": 9,
-     "t0": 846,
+     "t0": 891,
      "cam": "包囲／16mm",
      "act": "歪んだユタニが一言だけ命じる。\nユタニ「やれ」\n上層回廊と奥の扉が開き、数十体の警備ドロが一斉に銃を向ける。",
      "psy": "逃げ場はない。",
@@ -1544,9 +1627,9 @@
      ]
     },
     {
-     "id": "20-05",
+     "id": "21-05",
      "sec": 12,
-     "t0": 855,
+     "t0": 900,
      "cam": "突撃／24mm／背後から",
      "act": "幼い日の沙羅。ボールを抱えた沙羅。隣に座った沙羅。最後に頬へ触れた右手。カイルは小さく笑う。\nカイル「……変なの」\n銃弾の嵐へ、正面から突っ込む。\nカイル「うおおおおおおお――！」\n白い閃光。生死は映さない。",
      "psy": "R01の「変なの」の回収。彼自身の言葉として。",
@@ -1562,7 +1645,7 @@
    "sec": 52
   },
   {
-   "id": "21",
+   "id": "22",
    "old": "R20",
    "title": "AFTER",
    "place": "山間の共同体",
@@ -1571,9 +1654,9 @@
    "sum": "3年後の春。桜の下、沙羅の工具袋を腰に下げたキラ。沙羅が倒壊区域から救った人間の少女とドロの少年が、ボールを介して出会う。画面の外から、男の声。",
    "cuts": [
     {
-     "id": "21-01",
+     "id": "22-01",
      "sec": 8,
-     "t0": 867,
+     "t0": 912,
      "cam": "春の共同体／28mm",
      "act": "山間の共同体。桜の下をキラが歩く。腰には沙羅が使っていた工具袋。人間とドロの子供たちが同じ道を行き交う。",
      "psy": "失ったものの上に、続いている日常。",
@@ -1583,9 +1666,9 @@
      ]
     },
     {
-     "id": "21-02",
+     "id": "22-02",
      "sec": 9,
-     "t0": 875,
+     "t0": 920,
      "cam": "子供たち／50mm",
      "act": "沙羅があの日救い出した、人間の少女とドロの少年。サッカーボールを介して出会う。\n少年「……ボール」\n少女が渡す。二人は笑う。",
      "psy": "沙羅とカイルを思わせるが、本人でも転生でもない。",
@@ -1595,9 +1678,9 @@
      ]
     },
     {
-     "id": "21-03",
+     "id": "22-03",
      "sec": 8,
-     "t0": 884,
+     "t0": 929,
      "cam": "キラの口元／85mm",
      "act": "通り過ぎたキラが振り返る。遊び始めた子供たちを見て、口元だけが微かに笑う。",
      "psy": "全部を見届けた者の、小さな笑み。",
@@ -1607,9 +1690,9 @@
      ]
     },
     {
-     "id": "21-04",
+     "id": "22-04",
      "sec": 8,
-     "t0": 892,
+     "t0": 937,
      "cam": "声の方へ／35mm",
      "act": "画面の外から、遠い男性の声。\n男の声「キラ！　行くぞ！」\nキラが声の方を見る。\nキラ「今行く！」\nキラが走っていく。声の主は映さない。",
      "psy": "カイルかどうかは明かさない。観客に委ねる。",
@@ -1619,9 +1702,9 @@
      ]
     },
     {
-     "id": "21-05",
+     "id": "22-05",
      "sec": 6,
-     "t0": 900,
+     "t0": 945,
      "cam": "暗転",
      "act": "画面の外で、車のドアが閉まる。\nバン！\n同時に、完全な暗転。\n終。",
      "psy": "音と同時に切る。余韻は観客の中に。",
@@ -1634,5 +1717,5 @@
    "sec": 39
   }
  ],
- "total": 906
+ "total": 951
 }
