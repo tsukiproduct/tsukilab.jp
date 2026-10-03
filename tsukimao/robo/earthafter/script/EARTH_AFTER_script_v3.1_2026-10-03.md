@@ -34,7 +34,8 @@ No text, letters, numbers, logos, captions, subtitles or speech balloons anywher
 - **SARA_HOME**: SARA (age 17, human girl): long straight black hair with blunt bangs, dark eyes; oversized charcoal hoodie over a cream T-shirt, soft dark lounge pants, socks. A neural artificial larynx exists inside her throat but is NOT visible: draw no device, scar or light on her neck.
 - **SARA_17**: SARA (age 17, human girl): long straight black hair with blunt bangs, dark eyes; school uniform (charcoal blazer, white shirt, wine-red ribbon, pleated skirt) or plain hospital gown when stated. Artificial larynx is internal and NOT visible.
 - **SARA_21**: SARA (age 21, human woman, 154 cm): long straight black hair with bangs, practical and slightly unkempt, quiet determined dark eyes, lean body hardened by rescue work; olive field jacket with rolled sleeves, black high-neck top, black cargo pants, black lace-up boots, brown leather shoulder bag with a small medical kit. BOTH ARMS ARE BIOLOGICAL. Artificial larynx NOT visible.
-- **SARA_25**: SARA (age 25, human woman, 154 cm): chin-length straight black hair with bangs (cut short at 22, hair color never changes), thinner face, steady dark eyes; olive field jacket, black high-neck top, black cargo pants, black boots, brown shoulder bag. Her LEFT arm from above the elbow is a dark graphite mechanical prosthesis with articulated fingers; her RIGHT hand is biological. Small scars. Artificial larynx NOT visible.
+- **SARA_23**: SARA (age 23, human woman, 154 cm): straight black hair she has just cut herself to CHIN LENGTH (slightly uneven ends), bangs kept, quiet determined dark eyes, lean body hardened by rescue work; olive field jacket with rolled sleeves, black high-neck top, black cargo pants, black lace-up boots, brown leather shoulder bag with a small medical kit. BOTH ARMS ARE BIOLOGICAL (before losing her left arm). Artificial larynx NOT visible.
+- **SARA_25**: SARA (age 25, human woman, 154 cm): chin-length straight black hair with bangs (cut short at 23, before she lost her arm, hair color never changes), thinner face, steady dark eyes; olive field jacket, black high-neck top, black cargo pants, black boots, brown shoulder bag. Her LEFT arm from above the elbow is a dark graphite mechanical prosthesis with articulated fingers; her RIGHT hand is biological. Small scars. Artificial larynx NOT visible.
 - **KYLE_CHILD**: KYLE (looks age 7, Yutani J1000 — the first 'grow-together' android, indistinguishable from a human child): soft natural BLOND messy hair, blue-gray eyes; cream T-shirt, dark shorts, sneakers; carries a scuffed soccer ball. No visible neck port (hidden under artificial skin).
 - **KYLE_SCHOOL**: KYLE (looks 17-18, Yutani J1000 human-mimetic android, 170 cm): layered soft natural BLOND hair falling over the eyes, blue-gray eyes, lean athletic build; navy school blazer, white shirt, navy tie, gray trousers; or casual: short blue zip jacket with darker yoke, cream shirt, black trousers, black boots. No visible neck port (hidden under artificial skin).
 - **KYLE_SOCCER**: KYLE (looks 17-18, Yutani J1000, 170 cm): layered soft natural BLOND hair, blue-gray eyes, lean athletic build; navy and white soccer kit with number 10 (number shapes only, no other text), white shorts, navy socks, black cleats.
@@ -1043,9 +1044,9 @@ J1000専用の抑制器が胸に撃ち込まれる。倒れたカイルの通信
 
 ## 12　倒壊危険区域
 
-共同体／倒壊危険区域 ／ 昼 ／ 沙羅 21→23歳 ／ 尺 0:34 ／ R11（改）
+共同体／倒壊危険区域 ／ 夜〜昼 ／ 沙羅 21→23歳 ／ 尺 0:34 ／ R11（改）
 
-> カイルを探す日々。EARTH AFTERが立ち入りを禁じた倒壊危険区域で、沙羅は中に残された人間の少女とドロの少年を救い、左腕を失う。そして、髪を切る。
+> カイルを探す日々。「今日も見つからなかった」夜、沙羅は自分で髪を切る。そしてEARTH AFTERが立ち入りを禁じた倒壊危険区域で、中に残された人間の少女とドロの少年を救い、左腕を失う。
 
 ### 12-01（7秒・8:16〜）　記録と捜索／35mm
 
@@ -1062,7 +1063,24 @@ J1000専用の抑制器が胸に撃ち込まれる。倒れたカイルの通信
 35mm at a cluttered desk in the underground community at night: the black-haired woman marks a hand-drawn map with a pencil, a voice recorder beside a cold cup of tea; dozens of crossed-out marks on the map. A desk lamp with a warm bulb is the only light; her face tired, hair longer.
 ```
 
-### 12-02（9秒・8:23〜）　危険区域の外縁／35mm／瓦礫越し
+### 12-02（9秒・8:23〜）　鏡の前／50mm／鏡越し
+
+**行動・台詞**
+
+夜。「今日も、見つからなかった」の後。共同体の洗面所で、沙羅は鋏を握り、長い黒髪を自分で顎の高さに切る。洗面台と床に落ちる髪。  
+沙羅（記録音声）「もう、待ってるだけの私じゃない」  
+鋏の音で、倒壊危険区域へ切り替わる。  
+※髪色は変えない。黒のまま。前髪は残す。
+
+**心理**　見つからない日々の中での決意。何もできなかった自分との決別（ねね案）と、「絶対に見つける」強い沙羅への変化（Nokosu案）。髪色と前髪は残し、同じ沙羅だと分かるようにする。
+
+**画像生成（SHOT）**　SARA_21
+
+```
+Night, a cramped communal washroom in an underground shelter, 50mm over the shoulder into a cracked mirror, camera at standing eye level. A young woman with BOTH ARMS BIOLOGICAL gathers a hank of her long straight black hair in her left hand and cuts it at chin length with scissors in her right hand; long strands lie in the sink and on the floor. Her bangs remain. Her face is set and determined, not tearful. Light: one fluorescent tube above the mirror, greenish-white, hard shadows under her eyes.
+```
+
+### 12-03（9秒・8:32〜）　危険区域の外縁／35mm／瓦礫越し
 
 **行動・台詞**
 
@@ -1073,13 +1091,13 @@ J1000専用の抑制器が胸に撃ち込まれる。倒れたカイルの通信
 
 **心理**　命令に従えば安全。それでも、見えてしまった命を置いていけない。管理と選択の対立を一画面で見せる。
 
-**画像生成（SHOT）**　SARA_21／KIDS_SMALL
+**画像生成（SHOT）**　SARA_23／KIDS_SMALL
 
 ```
-Daylight at the edge of a condemned district, 35mm through a gap in broken concrete, camera at chest height. A tilted mid-rise building with cracked floors leans over a debris-filled street. A small municipal surveillance drone hovers at left with a rotating amber warning light. Deep inside the gap in the rubble, barely visible, two small children huddle together: a tiny black-haired human girl and a small android boy who looks fully human, both dusty. In the near foreground a young woman with long black hair and an olive field jacket looks up at the drone for one beat, then runs past it into the gap. Light: flat overcast sky, dust hanging only near the collapsed slabs.
+Daylight at the edge of a condemned district, 35mm through a gap in broken concrete, camera at chest height. A tilted mid-rise building with cracked floors leans over a debris-filled street. A small municipal surveillance drone hovers at left with a rotating amber warning light. Deep inside the gap in the rubble, barely visible, two small children huddle together: a tiny black-haired human girl and a small android boy who looks fully human, both dusty. In the near foreground a young woman with freshly self-cut chin-length black hair and an olive field jacket looks up at the drone for one beat, then runs past it into the gap. Light: flat overcast sky, dust hanging only near the collapsed slabs.
 ```
 
-### 12-03（9秒・8:32〜）　救助現場の崩落／24mm
+### 12-04（9秒・8:41〜）　救助現場の崩落／24mm
 
 **行動・台詞**
 
@@ -1087,26 +1105,10 @@ Daylight at the edge of a condemned district, 35mm through a gap in broken concr
 
 **心理**　助けたのは人間とドロの二人。この二人が、3年後の春にボールで出会う。
 
-**画像生成（SHOT）**　SARA_21／KIDS_SMALL
+**画像生成（SHOT）**　SARA_23／KIDS_SMALL
 
 ```
 Collapsing building interior during a rescue, 24mm: a child is being pulled out through a window by other rescuers in the background; in the foreground a fallen steel beam and concrete rubble, and the woman's left hand and forearm reaching out from under the debris, dust settling in a shaft of daylight. No gore.
-```
-
-### 12-04（9秒・8:41〜）　鏡の前／50mm／鏡越し
-
-**行動・台詞**
-
-夜。共同体の洗面所。義手になったばかりの左腕を下ろしたまま、沙羅は生身の右手で鋏を握り、長い黒髪を顎の高さで切る。床に落ちる髪。  
-沙羅（記録音声）「もう、待ってるだけの私じゃない」  
-※髪色は変えない。黒のまま。
-
-**心理**　無力だった自分との決別。見た目は変わっても、同じ沙羅だと分かるように、髪色と前髪は残す。
-
-**画像生成（SHOT）**　SARA_22
-
-```
-Night, a cramped communal washroom in an underground shelter, 50mm over the shoulder into a cracked mirror, camera at standing eye level. A young woman with a newly fitted graphite prosthetic left arm hanging at her side holds scissors in her biological right hand and cuts her long straight black hair at chin length; long strands lie in the sink and on the floor. Her bangs remain. Light: one fluorescent tube above the mirror, greenish-white, hard shadows under her eyes.
 ```
 
 
@@ -1176,21 +1178,22 @@ Night in an underground repair room, 65mm close shot. A young woman with chin-le
 Night, the same repair room, 35mm. In the near foreground a small handheld terminal on the bench shows an abstract green progress-complete shape (no letters). Beyond it, out of focus, a red-haired girl in a red work jacket walks away through a doorway into a dark corridor without looking back. A father figure sleeps slumped in a chair by the bench. Light: terminal glow, corridor darkness.
 ```
 
-### 13-05（10秒・9:26〜）　朝・沙羅の寝床／40mm
+### 13-05（10秒・9:26〜）　朝・寝床で起き上がる／40mm
 
 **行動・台詞**
 
-朝。目を覚ました沙羅が「キラ」と呼ぼうとする。息だけが出て、声が出ない。喉に手を当てる。駆けつけた父が端末で人工喉頭を確かめる。  
-父「登録回線から、制限が入ってる……キラは？」  
-沙羅は父を見て、手話で伝える。  
-〔手話〕沙羅「声が、ない」
+朝。寝床で目を覚ました沙羅が、体を起こす。「キラ」と呼ぼうとして、口を開ける。  
+沙羅（息）「かっ……かっ……」  
+息だけが喉で引っかかり、声にならない。もう一度。出ない。  
+沙羅の目から、涙がこぼれる。  
+※説明の台詞は入れない。
 
-**心理**　17歳で得た声が、同じ仕組みで奪われる。沙羅は泣かず、手話に戻る。声を失っても、意志は失わない。
+**心理**　17歳で得た声が、同じ仕組みで奪われた。何が起きたのかは誰も説明しない。観客だけが13-03の赤い光を知っている。
 
-**画像生成（SHOT）**　SARA_22／FATHER
+**画像生成（SHOT）**　SARA_22
 
 ```
-Morning in a small sleeping alcove in the underground shelter, 40mm from the foot of the cot, camera at seated height. A young woman with chin-length black hair and a graphite prosthetic left arm sits up on the cot, her biological right hand pressed to her throat, mouth open with no sound. A tanned middle-aged man kneels beside her holding a small diagnostic tablet with abstract warning shapes. Light: pale daylight from a ventilation shaft above, a dim string bulb.
+Morning in a small sleeping alcove in the underground shelter, 40mm from beside the cot, camera at seated height. A young woman with freshly cut chin-length black hair and a newly fitted graphite prosthetic left arm has just sat up on her cot under a thin gray blanket; her mouth is open, straining to call out, but no sound comes; her biological right hand rises toward her throat; tears run down her cheeks. She is alone. Nothing is visible on her throat. Light: thin gray morning daylight from a ventilation grate above, the rest of the alcove still dim.
 ```
 
 
