@@ -1277,8 +1277,8 @@
      "sec": 8,
      "t0": 700,
      "cam": "搬出口・引き／20mm",
-     "act": "地下へ下りる斜路。キラが救出した人間とドロを搬送車へ誘導する。外には運転手。上段通路に追撃部隊。\nキラ「そっち、上！」",
-     "psy": "位置関係を明確に見せる（退路・射線・救出車）。",
+     "act": "地下へ下りる斜路。キラが救出した人間とドロを搬送車へ誘導する。外には運転手。上段通路に追撃部隊。\nキラ「そっち、上！」\n搬出口へ降りてきた沙羅とカイルを見て、キラの手が止まる。声の出ない沙羅。自分が回線につないだせいだ。キラは何も言えず、涙だけがあふれる。",
+     "psy": "キラ：私のせいだ――声には出さない。命令に縛られたまま、罪悪感だけが溢れる。18で声を返す瞬間への助走。",
      "en": "Wide 20mm of an underground loading bay: a concrete ramp descends toward an open rescue truck at the far end, its rear doors open with rescued people climbing in; an upper catwalk runs along the left wall where armored security androids appear; red rotating emergency lamps. The red-haired girl waves people forward; the woman and the young man run down the ramp.",
      "chars": [
       "SARA_25",
@@ -1387,7 +1387,7 @@
      "t0": 761,
      "cam": "キラ／寄り／65mm／低い位置",
      "act": "キラが膝をつき、沙羅の喉元に手のひらを当てる。キラの瞳の制御の輪が激しく明滅し、砕けるように消える。手のひらの下で、喉が緑に光る（2回目）。\nキラ「……返すよ。沙羅の声」\nキラの頬を涙が伝う。",
-     "psy": "奉仕するよう作られた機体が、命令ではなく自分の意志で、奪ったものを返す。恩義か、設計か、気持ちか――その答えがここ。",
+     "psy": "沙羅への特別な思い。自分の判断で奪った声を、自分の手で返す。恩義でも設計でもなく、キラ自身の意志。涙はもう止まらない。",
      "en": "Night at an underground loading ramp lit by red emergency lamps, 65mm low angle close on a kneeling red-haired android girl in a red work jacket. She presses a small handheld terminal to the throat area of a dying young woman (out of frame below, only her black hair and shoulder visible), while the thin cyan control ring in her amber eyes fractures and goes dark. A single tear runs down her cheek. Light: red emergency light from above right, a cold white strip light far behind.",
      "chars": [
       "KIRA_POST",
