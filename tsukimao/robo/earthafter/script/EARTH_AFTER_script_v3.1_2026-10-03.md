@@ -1,6 +1,6 @@
 # EARTH AFTER 脚本 v3.1（2026-10-03）
 
-原案・制作：月真猫 / TSUKIMAO　｜　22シーン・109カット・合計 15:58（計画値）　｜　キャラクター名は仮名
+原案・制作：月真猫 / TSUKIMAO　｜　22シーン・110カット・合計 16:05（計画値）　｜　キャラクター名は仮名
 
 ## 画風（STYLE）
 
@@ -1693,7 +1693,7 @@ Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of t
 
 ## 20　あんたまで
 
-共同体・格納庫／ユタニ本社正面 ／ 夜明け ／ — ／ 尺 0:46 ／ R17＋R18（統合）
+共同体・格納庫／ユタニ本社正面 ／ 夜明け ／ — ／ 尺 0:53 ／ R17＋R18（統合）
 
 > カイルは装甲車を奪う。キラが叫ぶ。「あんたまでいなくなったら、私は！」カイルは答えず、ユタニ本社の正面を突破する。
 
@@ -1760,10 +1760,9 @@ Wide 20mm from inside the garage: the armored truck bursts through the corrugate
 
 **行動・台詞**
 
-巨大なユタニ本社。装甲車がバリケードへ激突する。警備ドロが展開する。  
-※銃撃の見せ方は保留。
+巨大なユタニ本社。装甲車がバリケードへ激突する。警備ドロが展開する。
 
-**心理**　一人対、都市そのもの。
+**心理**　ここからのカイルは、警備ドロに一発も撃たない。
 
 **画像生成（SHOT）**　YUTANI_GUARD
 
@@ -1771,7 +1770,22 @@ Wide 20mm from inside the garage: the armored truck bursts through the corrugate
 Ultra-wide 16mm low from the plaza: a colossal corporate headquarters tower of glass and concrete in cold morning light; an armored truck smashes through a barricade of concrete blocks, debris and sparks flying; dozens of armored security androids deploying across the plaza.
 ```
 
-### 20-06（7秒・14:20〜）　ガラス扉／35mm
+### 20-06（7秒・14:20〜）　格闘／35mm
+
+**行動・台詞**
+
+降りてきたカイルに警備ドロが群がる。カイルは銃を撃たない。銃床と銃身で殴り、払い、右へ見せて左足で返す癖でかわして進む。  
+※銃は格闘の道具。撃たない。説明はしない（わかる人にはわかる、沙羅の「壊さずに救う」）。
+
+**心理**　怒りに任せて突っ込んでも、撃たない。沙羅がそうしてきたから。
+
+**画像生成（SHOT）**　KYLE_POST／YUTANI_GUARD
+
+```
+Morning on the plaza in front of a corporate tower, 35mm at chest height amid debris. A blond young man in a navy field jacket fights armored security androids hand to hand, using his rifle only as a club: he slams the stock into one android's visor and sweeps another's rifle aside with the barrel, feinting right and pivoting on his left foot. His finger is off the trigger. Dust, sparks from armor, cold morning light.
+```
+
+### 20-07（7秒・14:27〜）　ガラス扉／35mm
 
 **行動・台詞**
 
@@ -1792,7 +1806,7 @@ Ultra-wide 16mm low from the plaza: a colossal corporate headquarters tower of g
 
 > ロビーで待っていたのは、ユタニの遠隔ホログラム。「家族にならないか」。カイルは撃ち、数十体の警備ドロが現れる。カイルは小さく笑う。「……変なの」
 
-### 21-01（9秒・14:27〜）　対峙／24mm
+### 21-01（9秒・14:34〜）　対峙／24mm
 
 **行動・台詞**
 
@@ -1807,7 +1821,7 @@ Ultra-wide 16mm low from the plaza: a colossal corporate headquarters tower of g
 Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galleries in shadow; in the center a life-size pale cyan translucent hologram of a gray-haired man in a suit, arms relaxed, faint scan lines; the young man stands far in front of it, rifle raised, bleeding. The only light: the hologram's glow and the bright doorway behind.
 ```
 
-### 21-02（12秒・14:36〜）　誘い／85mm
+### 21-02（12秒・14:43〜）　誘い／85mm
 
 **行動・台詞**
 
@@ -1824,7 +1838,7 @@ Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galler
 85mm on the hologram: the gray-haired man's translucent face with a polite, gentle smile, arms opening wide; scan lines and slight flicker; his light spills onto the stone floor but he casts no shadow.
 ```
 
-### 21-03（10秒・14:48〜）　爆発／35mm
+### 21-03（10秒・14:55〜）　爆発／35mm
 
 **行動・台詞**
 
@@ -1833,7 +1847,7 @@ Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galler
 カイル「うるせえええええ！」  
 発砲。弾はホログラムの頭部を素通りし、像がグリッチに崩れる。
 
-**心理**　怒りで顔が崩れる。初めて感情を剥き出しにするカイル。
+**心理**　カイルが銃を撃つのは、ここだけ。ブチギレても、撃った先はホログラム。誰も傷つかない。
 
 **画像生成（SHOT）**　KYLE_POST／YUTANI_HOLO
 
@@ -1841,7 +1855,7 @@ Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galler
 35mm on the young man firing on full auto, face contorted in a scream, muzzle flash lighting his face orange in the dim lobby; in the background the hologram's head breaks apart into glitching horizontal bands, no blood.
 ```
 
-### 21-04（9秒・14:58〜）　包囲／16mm
+### 21-04（9秒・15:05〜）　包囲／16mm
 
 **行動・台詞**
 
@@ -1857,13 +1871,13 @@ Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galler
 Ultra-wide 16mm from high above behind the glitching hologram: the young man small in the middle of the lobby floor; along the upper galleries and through opened rear doors dozens of armored security androids raise rifles at him, their visor lines a constellation of faint cyan.
 ```
 
-### 21-05（12秒・15:07〜）　突撃／24mm／背後から
+### 21-05（12秒・15:14〜）　突撃／24mm／背後から
 
 **行動・台詞**
 
 幼い日の沙羅。ボールを抱えた沙羅。隣に座った沙羅。最後に頬へ触れた右手。カイルは小さく笑う。  
 カイル「……変なの」  
-銃弾の嵐へ、正面から突っ込む。  
+銃弾の嵐へ、正面から突っ込む。カイルは撃たない。銃は振るうだけ。  
 カイル「うおおおおおおお――！」  
 白い閃光。生死は映さない。
 
@@ -1882,7 +1896,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 
 > 3年後の春。桜の下、沙羅の工具袋を腰に下げたキラ。沙羅が倒壊区域から救った人間の少女とドロの少年が、ボールを介して出会う。画面の外から、男の声。
 
-### 22-01（8秒・15:19〜）　春の共同体／28mm
+### 22-01（8秒・15:26〜）　春の共同体／28mm
 
 **行動・台詞**
 
@@ -1896,7 +1910,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 28mm on a mountain-village path in spring: cherry trees in full bloom, petals falling naturally in a light breeze, wooden houses and solar panels; the red-haired girl, unchanged, walks with a worn brown leather bag on her belt; human and android children run past. Soft overcast spring light.
 ```
 
-### 22-02（9秒・15:27〜）　子供たち／50mm
+### 22-02（9秒・15:34〜）　子供たち／50mm
 
 **行動・台詞**
 
@@ -1912,7 +1926,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 50mm at child height: a small human girl with long straight black hair holds out a soccer ball to a small boy with messy dark hair; both smiling shyly; cherry petals on the grass. Spring daylight, bounce from the pale path.
 ```
 
-### 22-03（8秒・15:36〜）　キラの口元／85mm
+### 22-03（8秒・15:43〜）　キラの口元／85mm
 
 **行動・台詞**
 
@@ -1926,7 +1940,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 85mm close on the red-haired girl turning back over her shoulder, only the corner of her mouth lifting in a faint smile, amber eyes soft; petals drifting out of focus between her and the camera.
 ```
 
-### 22-04（8秒・15:44〜）　声の方へ／35mm
+### 22-04（8秒・15:51〜）　声の方へ／35mm
 
 **行動・台詞**
 
@@ -1944,7 +1958,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 35mm: the red-haired girl turns and runs toward the edge of the frame along the blossom path; the direction she runs to is empty and out of frame; no other person and no vehicle visible.
 ```
 
-### 22-05（6秒・15:52〜）　暗転
+### 22-05（6秒・15:59〜）　暗転
 
 **行動・台詞**
 

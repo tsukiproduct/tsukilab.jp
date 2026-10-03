@@ -1583,8 +1583,8 @@
      "sec": 7,
      "t0": 853,
      "cam": "本社正面／16mm",
-     "act": "巨大なユタニ本社。装甲車がバリケードへ激突する。警備ドロが展開する。\n※銃撃の見せ方は保留。",
-     "psy": "一人対、都市そのもの。",
+     "act": "巨大なユタニ本社。装甲車がバリケードへ激突する。警備ドロが展開する。",
+     "psy": "ここからのカイルは、警備ドロに一発も撃たない。",
      "en": "Ultra-wide 16mm low from the plaza: a colossal corporate headquarters tower of glass and concrete in cold morning light; an armored truck smashes through a barricade of concrete blocks, debris and sparks flying; dozens of armored security androids deploying across the plaza.",
      "chars": [
       "YUTANI_GUARD"
@@ -1594,6 +1594,19 @@
      "id": "20-06",
      "sec": 7,
      "t0": 860,
+     "cam": "格闘／35mm",
+     "act": "降りてきたカイルに警備ドロが群がる。カイルは銃を撃たない。銃床と銃身で殴り、払い、右へ見せて左足で返す癖でかわして進む。\n※銃は格闘の道具。撃たない。説明はしない（わかる人にはわかる、沙羅の「壊さずに救う」）。",
+     "psy": "怒りに任せて突っ込んでも、撃たない。沙羅がそうしてきたから。",
+     "en": "Morning on the plaza in front of a corporate tower, 35mm at chest height amid debris. A blond young man in a navy field jacket fights armored security androids hand to hand, using his rifle only as a club: he slams the stock into one android's visor and sweeps another's rifle aside with the barrel, feinting right and pivoting on his left foot. His finger is off the trigger. Dust, sparks from armor, cold morning light.",
+     "chars": [
+      "KYLE_POST",
+      "YUTANI_GUARD"
+     ]
+    },
+    {
+     "id": "20-07",
+     "sec": 7,
+     "t0": 867,
      "cam": "ガラス扉／35mm",
      "act": "巨大なガラス扉を突き破る。中は、異様に静かな暗いロビー。",
      "psy": "外の騒音が、扉を抜けた瞬間に消える。",
@@ -1605,7 +1618,7 @@
    ],
    "act": 3,
    "actName": "声を奪われても",
-   "sec": 46
+   "sec": 53
   },
   {
    "id": "21",
@@ -1619,7 +1632,7 @@
     {
      "id": "21-01",
      "sec": 9,
-     "t0": 867,
+     "t0": 874,
      "cam": "対峙／24mm",
      "act": "巨大ロビーの中央に、ユタニの等身大ホログラム。\nユタニ「所詮は旧式のAIだ。君がここへ来ることくらい、お見通しだったよ」",
      "psy": "ユタニは最初からここにいない。安全圏からの声。",
@@ -1632,7 +1645,7 @@
     {
      "id": "21-02",
      "sec": 12,
-     "t0": 876,
+     "t0": 883,
      "cam": "誘い／85mm",
      "act": "ユタニ「だが――私たちの想定を超える行動を取るのも、いつだって君たちだ」\nユタニ「だから、アップデートが必要なんだ」\n両腕を広げる。\nユタニ「さあ。今度こそ、私たちの家族にならないか？」",
      "psy": "R02（ドキュメンタリー）の「新しい家族です」の回収。温和で、だから不気味。",
@@ -1644,10 +1657,10 @@
     {
      "id": "21-03",
      "sec": 10,
-     "t0": 888,
+     "t0": 895,
      "cam": "爆発／35mm",
      "act": "カイル「うるせぇ……」\nユタニは語り続ける。\nカイル「うるせえええええ！」\n発砲。弾はホログラムの頭部を素通りし、像がグリッチに崩れる。",
-     "psy": "怒りで顔が崩れる。初めて感情を剥き出しにするカイル。",
+     "psy": "カイルが銃を撃つのは、ここだけ。ブチギレても、撃った先はホログラム。誰も傷つかない。",
      "en": "35mm on the young man firing on full auto, face contorted in a scream, muzzle flash lighting his face orange in the dim lobby; in the background the hologram's head breaks apart into glitching horizontal bands, no blood.",
      "chars": [
       "KYLE_POST",
@@ -1657,7 +1670,7 @@
     {
      "id": "21-04",
      "sec": 9,
-     "t0": 898,
+     "t0": 905,
      "cam": "包囲／16mm",
      "act": "歪んだユタニが一言だけ命じる。\nユタニ「やれ」\n上層回廊と奥の扉が開き、数十体の警備ドロが一斉に銃を向ける。",
      "psy": "逃げ場はない。",
@@ -1671,9 +1684,9 @@
     {
      "id": "21-05",
      "sec": 12,
-     "t0": 907,
+     "t0": 914,
      "cam": "突撃／24mm／背後から",
-     "act": "幼い日の沙羅。ボールを抱えた沙羅。隣に座った沙羅。最後に頬へ触れた右手。カイルは小さく笑う。\nカイル「……変なの」\n銃弾の嵐へ、正面から突っ込む。\nカイル「うおおおおおおお――！」\n白い閃光。生死は映さない。",
+     "act": "幼い日の沙羅。ボールを抱えた沙羅。隣に座った沙羅。最後に頬へ触れた右手。カイルは小さく笑う。\nカイル「……変なの」\n銃弾の嵐へ、正面から突っ込む。カイルは撃たない。銃は振るうだけ。\nカイル「うおおおおおおお――！」\n白い閃光。生死は映さない。",
      "psy": "R01の「変なの」の回収。彼自身の言葉として。",
      "en": "24mm from directly behind the young man as he charges forward into the lobby, one leg dragging, rifle raised, a faint smile on his profile; ahead, the wall of guards and muzzle flashes beginning; the frame starting to overexpose into white from the flashes.",
      "chars": [
@@ -1698,7 +1711,7 @@
     {
      "id": "22-01",
      "sec": 8,
-     "t0": 919,
+     "t0": 926,
      "cam": "春の共同体／28mm",
      "act": "山間の共同体。桜の下をキラが歩く。腰には沙羅が使っていた工具袋。人間とドロの子供たちが同じ道を行き交う。",
      "psy": "失ったものの上に、続いている日常。",
@@ -1710,7 +1723,7 @@
     {
      "id": "22-02",
      "sec": 9,
-     "t0": 927,
+     "t0": 934,
      "cam": "子供たち／50mm",
      "act": "沙羅があの日救い出した、人間の少女とドロの少年。サッカーボールを介して出会う。\n少年「……ボール」\n少女が渡す。二人は笑う。",
      "psy": "沙羅とカイルを思わせるが、本人でも転生でもない。",
@@ -1722,7 +1735,7 @@
     {
      "id": "22-03",
      "sec": 8,
-     "t0": 936,
+     "t0": 943,
      "cam": "キラの口元／85mm",
      "act": "通り過ぎたキラが振り返る。遊び始めた子供たちを見て、口元だけが微かに笑う。",
      "psy": "全部を見届けた者の、小さな笑み。",
@@ -1734,7 +1747,7 @@
     {
      "id": "22-04",
      "sec": 8,
-     "t0": 944,
+     "t0": 951,
      "cam": "声の方へ／35mm",
      "act": "画面の外から、遠い男性の声。\n男の声「キラ！　行くぞ！」\nキラが声の方を見る。\nキラ「今行く！」\nキラが走っていく。声の主は映さない。",
      "psy": "カイルかどうかは明かさない。観客に委ねる。",
@@ -1746,7 +1759,7 @@
     {
      "id": "22-05",
      "sec": 6,
-     "t0": 952,
+     "t0": 959,
      "cam": "暗転",
      "act": "画面の外で、車のドアが閉まる。\nバン！\n同時に、完全な暗転。\n終。",
      "psy": "音と同時に切る。余韻は観客の中に。",
@@ -1759,5 +1772,5 @@
    "sec": 39
   }
  ],
- "total": 958
+ "total": 965
 }
