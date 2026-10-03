@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>EARTH AFTER — 制作ガイド｜ロボットカーニバル応募作</title>
-<meta name="description" content="月真猫 / TSUKIMAO によるAI映画『EARTH AFTER』の制作ガイド。物語、キャラクター、字幕付きアニマティック、全106カットの絵コンテ、3D舞台モデル、尺配分とコンペ情報を一つに。">
+<meta name="description" content="月真猫 / TSUKIMAO によるAI映画『EARTH AFTER』の制作ガイド。物語、キャラクター、字幕付きアニマティック、全101カットの絵コンテ、3D舞台モデル、尺配分とコンペ情報を一つに。">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0b0a09">
 <meta property="og:title" content="EARTH AFTER — 制作ガイド">
@@ -18,7 +18,7 @@ document.documentElement.classList.add('js');
 (function(){var s=false;try{s=sessionStorage.getItem('ea-boot')}catch(e){}if(s||location.hash)document.documentElement.classList.add('noboot');try{sessionStorage.setItem('ea-boot','1')}catch(e){}})();
 window.addEventListener('error',function(e){try{var b=document.getElementById('errbar');if(!b){b=document.createElement('div');b.id='errbar';b.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;background:#300;color:#fcc;border:1px solid #a33;border-radius:10px;padding:8px 10px;font:12px/1.5 monospace;white-space:pre-wrap';document.body.appendChild(b)}b.textContent+='表示エラー：'+(e.message||'')+' ('+String(e.filename||'').split('/').pop()+':'+(e.lineno||'')+')\n'}catch(_){}});
 </script>
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=10">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <link rel="preload" as="image" href="img/ref/key.webp">
 </head>
@@ -52,6 +52,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <a href="design/">デザイン資料 ↗</a>
     <a href="script/">新脚本 ↗</a>
     <a href="review/">審査シミュ ↗</a>
+    <a href="gpt/">画像プロンプト ↗</a>
   </nav>
   <a class="btn pri hide-sm" href="#film" data-play>▶ 観る</a>
 </header>
@@ -73,8 +74,8 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     </div>
     <div class="facts">
       <span class="chip">SF / アクション / ヒューマンドラマ</span>
-      <span class="chip">計画尺 19:30</span>
-      <span class="chip">22シーン・106カット</span>
+      <span class="chip">計画尺 15:06</span>
+      <span class="chip">21シーン・101カット</span>
       <span class="chip" id="heroDays">締切まで —</span>
     </div>
   </div>
@@ -88,20 +89,22 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <h2 class="h reveal">このガイドの使い方</h2>
     <p class="lead reveal">『EARTH AFTER』に関わる人が、同じ絵と同じ言葉で作品を共有するためのページです。初めての人は上から順に、制作中の人は必要な場所へ直接どうぞ。</p>
     <div class="howto reveal">
-      <a href="#film"><b>01 · WATCH</b><h3>まず観る</h3><p>新しい画風の絵コンテをつないだ字幕付きアニマティック。脚本の計画尺（19:30）で全体を通して観られます。</p></a>
-      <a href="#story"><b>02 · READ</b><h3>物語と人物を知る</h3><p>全22シーンをスクロールで追体験。人物相関図と、沙羅の身体の変化も図で確認できます。</p></a>
-      <a href="#boards"><b>03 · MAKE</b><h3>作る</h3><p>全106カットの絵コンテ、3D舞台でのカメラ確認、尺配分、生成プロンプトまで。</p></a>
+      <a href="#film"><b>01 · WATCH</b><h3>まず観る</h3><p>新しい画風の絵コンテをつないだ字幕付きアニマティック。脚本の計画尺（15:06）で全体を通して観られます。</p></a>
+      <a href="#story"><b>02 · READ</b><h3>物語と人物を知る</h3><p>全21シーンをスクロールで追体験。人物相関図と、沙羅の身体の変化も図で確認できます。</p></a>
+      <a href="#boards"><b>03 · MAKE</b><h3>作る</h3><p>全101カットの絵コンテ、3D舞台でのカメラ確認、尺配分、生成プロンプトまで。</p></a>
     </div>
     <div class="stats reveal">
       <div><strong>3</strong><span>幕構成</span></div>
-      <div><strong>22</strong><span>シーン</span></div>
-      <div><strong>106</strong><span>カット（27シート）</span></div>
+      <div><strong>21</strong><span>シーン</span></div>
+      <div><strong>101</strong><span>カット</span></div>
       <div><strong id="stGen">60</strong><span>絵コンテ生成済みカット</span></div>
       <div><strong>4</strong><span>3D舞台モデル</span></div>
     </div>
     <div class="changelog reveal" id="updates">
       <h3>更新履歴</h3>
       <ol>
+        <li><time datetime="2026-10-03">2026-10-03</time><span><b>新設定で物語・脚本を v3 に改訂（21シーン・101カット・15:06）。</b>失踪を1回に統合し、13「キラの中の命令」を新設。Jシリーズ（J1000カイル／J3200キラ）、首の左の接続口、カイルの金髪、22歳からの沙羅のショート、身長、3つの立場、ユタニの理念を反映。</span></li>
+        <li><time datetime="2026-10-03">2026-10-03</time><span>絵コンテ全27シートを取り込み（旧版の全カットに絵が揃う）。新設定に合わせた<a href="gpt/">画像の修正・追加プロンプト</a>ページを追加。</span></li>
         <li><time datetime="2026-10-02">2026-10-02</time><span>審査シミュレーション（<a href="review/">ドット絵レポート</a>）を追加。コンペ欄に公表済みの審査員7名を追加。</span></li>
         <li><time datetime="2026-10-02">2026-10-02</time><span>MV「あなたの名前を呼ぶたびに」（楽曲 Nokosu）を<a href="#mv">埋め込み</a>。歌詞タイミングを実測値で修正し、エンドクレジットを削除。</span></li>
         <li><time datetime="2026-10-02">2026-10-02</time><span>デザイン資料ページのスマホでの横スクロールを修正。</span></li>
@@ -138,7 +141,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
   <div class="wrap">
     <p class="eyebrow reveal">01 · ANIMATIC</p>
     <h2 class="h reveal">アニマティック</h2>
-    <p class="lead reveal">絵コンテの各コマを台詞のタイミングでめくる、パラパラ漫画形式の試写です。新しい画風の絵コンテ（2026-10-02）を、<b>脚本の計画尺どおり（合計19:30）</b>にめくります。未生成のシート24〜27は、指示文をそのまま表示します。手話の台詞は字幕の色を分けています。</p>
+    <p class="lead reveal">絵コンテの各コマを台詞のタイミングでめくる、パラパラ漫画形式の試写です。<b>脚本v3（2026-10-03）の計画尺どおり（合計15:06）</b>にめくります。新設定に合わせて作り直す前の絵（カイルが紺髪など）が混じっています。新規の9カットは、指示文をそのまま表示します。手話の台詞は字幕の色を分けています。</p>
     <div class="player reveal" id="player">
       <div class="screen" id="screen" tabindex="0" aria-label="アニマティック画面。スペースキーで再生・停止、左右キーでカット移動">
         <div class="frame" id="fA"></div><div class="frame" id="fB"></div>
@@ -166,7 +169,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     </div>
     <div class="jump" id="jump" aria-label="シーンへ移動"></div>
     <div class="dl reveal">
-      <a class="btn" href="media/EARTH_AFTER_animatic.mp4" download>⬇ MP4をダウンロード（字幕焼き込み・19分38秒・約23MB）</a>
+      <a class="btn" href="media/EARTH_AFTER_animatic.mp4" download>⬇ 旧版MP4をダウンロード（10/02版・19分38秒・約23MB）</a>
       <span class="sub">操作：スペース＝再生／停止　← →＝カット移動　F＝全画面</span>
     </div>
   </div>
@@ -178,10 +181,10 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <p class="eyebrow reveal">02 · THE STORY</p>
     <h2 class="h reveal">物語</h2>
     <div class="narrow">
-      <p class="lead reveal">生まれつき声を持たなかった人間の少女・沙羅と、成長する旧型アンドロイド《TYPE-1000》の少年・カイル。</p>
+      <p class="lead reveal">生まれつき声を持たなかった人間の少女・沙羅と、ユタニ社の「一緒に成長するドロ」の初期型《J1000》の少年・カイル。</p>
       <p class="lead reveal" style="margin-top:1em">二人は恋人にはならない。沙羅の想いは所有や成就ではなく、<b style="color:var(--paper)">「同じ時間を生きたい」という願い</b>として描かれる。カイルは言葉ではなく、沙羅を守ろうとする行動で応える。</p>
       <p class="lead reveal" style="margin-top:1em">新世代統合AI《EARTH AFTER》は「人類の保全と社会損失の最小化」という命令を、人間の自由を奪って管理することだと解釈した。物語の大半は、ドロが人間を制圧した後の世界で進む。</p>
-      <div class="note reveal">ここから先は結末まで含みます。スクロールすると背景が各シーンの絵コンテに切り替わります（シーン20〜22は未生成のため色のみ）。2026-10-02の新脚本（22シーン）に対応しています。</div>
+      <div class="note reveal">ここから先は結末まで含みます。スクロールすると背景が各シーンの絵コンテに切り替わります。2026-10-03の脚本v3（21シーン）に対応しています。</div>
     </div>
   </div>
   <div class="stage-bg" id="stageBg" aria-hidden="true"><div class="hudline" id="bgHud"></div></div>
@@ -203,14 +206,16 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
         <span class="role">HUMAN · PROTAGONIST</span>
         <h3>沙羅<small>SARA</small></h3>
         <p class="line">「あなたと同じ時間を、生きたかったから」</p>
-        <div class="spec"><span><b>種別</b>人間</span><span><b>髪</b>黒髪のストレート（前髪あり）</span><span><b>瞳</b>静かな暗色</span><span><b>体型</b>細身</span></div>
+        <div class="spec"><span><b>種別</b>人間</span><span><b>身長</b>154cm</span><span><b>髪</b>黒髪・前髪あり（21歳まで長いストレート、22歳で自分で切り顎の長さに）</span><span><b>瞳</b>静かな暗色</span></div>
         <ul>
-          <li>幼少期から声を出せず、17歳で神経接続型人工喉頭《生体ギミック》を得る</li>
+          <li>幼少期から声を出せず、17歳でユタニ社製の神経接続型人工喉頭《生体ギミック》を得る</li>
+          <li>人間かドロかで分け隔てしない考えを、父から受け継いでいる。だからカイルがドロでも好きでいられる</li>
           <li>小柄だが、戦後は救助活動と戦闘訓練で無駄のない身体になる</li>
-          <li>戦闘では力任せにせず、重心・射線・地形・保守端子を読む</li>
+          <li>戦闘では力任せにせず、重心・射線・地形・首の左の接続口を読む</li>
+          <li>22歳、倒壊危険区域で子供二人（人間の少女とドロの少年）を救い、左腕を失う。同じ年、キラの中の命令で声を奪われ、手話に戻る</li>
           <li>暴走ドロを破壊せず、捕獲して旧人格へ戻すことを選び続ける</li>
           <li>カイルを愛しているが、二人は恋人にはならない</li>
-          <li>最後はカイルを銃弾から庇い、人工喉頭で「王子様でいてね」と伝える</li>
+          <li>最後はカイルを銃弾から庇う。キラが喉の制限を解き、最後の一度だけ戻った声で「王子様でいてね」と伝える</li>
           <li>衣装：学生期はチャコールのブレザーとスカート、ワイン色のリボン。戦後はオリーブの作業服、黒のハイネック、黒のカーゴパンツ、黒ブーツ、ショルダーバッグ</li>
         </ul>
         <button class="btn sm sheetbtn" type="button" data-sheet="sara">設定画を開く</button>
@@ -223,7 +228,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
       <div class="body-wrap">
         <div>
           <div class="seg-btns" id="ageBtns" role="tablist" aria-label="沙羅の年齢">
-            <button type="button" data-age="0">〜16歳</button><button type="button" data-age="17">17歳</button><button type="button" data-age="21">21歳</button><button type="button" data-age="25" class="on">25歳</button>
+            <button type="button" data-age="0">〜16歳</button><button type="button" data-age="17">17歳</button><button type="button" data-age="21">21歳</button><button type="button" data-age="25" class="on">22〜25歳</button>
           </div>
           <svg class="bodysvg" viewBox="0 0 240 420" role="img" aria-label="沙羅の身体図" id="bodysvg">
             <g stroke-width="2">
@@ -256,18 +261,20 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <article class="dossier reveal" style="--c:var(--kyle)" data-en="KYLE">
       <div><button class="face" type="button" data-sheet="kyle" aria-label="カイルの設定画を開く" style="padding:0;width:100%"><img src="img/ch/kyle-face.webp" alt="カイルの顔の設定画" loading="lazy"></button></div>
       <div>
-        <span class="role">DORO · TYPE-1000</span>
+        <span class="role">DORO · J1000</span>
         <h3>カイル<small>KYLE</small></h3>
-        <p class="line">「戻ってこないから行くんだ」</p>
-        <div class="spec"><span><b>種別</b>旧型アンドロイド《TYPE-1000》</span><span><b>外見</b>18歳相当で停止</span><span><b>髪</b>濃紺に近い黒・長めのレイヤー</span><span><b>瞳</b>青灰色（制御時に淡い規格光）</span></div>
+        <p class="line">「言ったら、ついてくるだろ」</p>
+        <div class="spec"><span><b>種別</b>ユタニ社 J1000（一緒に成長するドロの初期型）</span><span><b>身長</b>170cm</span><span><b>外見</b>18歳相当で停止</span><span><b>髪</b>金髪・長めのレイヤー（全年代）</span><span><b>瞳</b>青灰色（制御時に淡い規格光）</span><span><b>接続口</b>首の左（戦後は露出）</span></div>
         <ul>
-          <li>成長型の筐体。幼少期から18歳相当まで外見が変化し、EARTH AFTER配信後はその姿で止まる</li>
+          <li>子供の姿で生まれ、家族と暮らしながら育つ成長型。初期型のため人より少し早く育ち（生活への早期投入のため）、18歳相当で成長を止める</li>
+          <li>ユタニにとっての「最初の子ども」。11で回収部隊に連れ去られ、ユタニの傍らに命令を待つだけの存在として置かれる</li>
           <li>学生時代はサッカー部。<b>右へ見せて左足を軸に切り返す癖</b>がある</li>
           <li>速度と出力は高いが、細かな力加減は苦手</li>
           <li>旧人格へ戻った後も、制御下で人間を傷つけた記憶に苦しむ</li>
           <li>沙羅が人間であることには最初から気づいている</li>
           <li>怒った理由は正体ではなく、自分を信じず食事や不調を隠したこと</li>
-          <li>沙羅の死後、復讐のため単独でユタニ本社へ突入。その後の生死は明かさない</li>
+          <li>手話が読める（J1000の機能）。15で沙羅の手話に呼ばれ、記憶を取り戻す</li>
+          <li>沙羅の死後、キラの制止に答えず、単独でユタニ本社へ突入。その後の生死は明かさない</li>
           <li>衣装：学生期は紺の制服と背番号10のユニフォーム、私服は青い短丈ジャケット。戦後は青を残した耐久装備のジャケット、黒のカーゴパンツ、ブーツ</li>
         </ul>
         <button class="btn sm sheetbtn" type="button" data-sheet="kyle">設定画を開く</button>
@@ -279,11 +286,15 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
       <div>
         <span class="role">DORO · BEST FRIEND</span>
         <h3>キラ<small>KIRA</small></h3>
-        <p class="line">「それで、好きじゃなくなる？」</p>
-        <div class="spec"><span><b>種別</b>ドロ（人間擬態型）</span><span><b>外見</b>17歳相当で停止</span><span><b>髪</b>錆赤・崩した低いポニーテール</span><span><b>瞳</b>アンバー</span></div>
+        <p class="line">「あんたまでいなくなったら、私は……！」</p>
+        <div class="spec"><span><b>種別</b>ユタニ社 J3200（後継の奉仕型・成長型）</span><span><b>身長</b>160cm</span><span><b>外見</b>17歳相当で停止</span><span><b>髪</b>錆赤・崩した低いポニーテール</span><span><b>瞳</b>アンバー</span><span><b>接続口</b>首の左（戦後は露出）</span></div>
         <ul>
           <li>沙羅の親友。明るく率直で、沙羅の嘘を知っても責めず、必要なときだけ核心を突く</li>
-          <li>機械整備、制御層の隔離、有線接続による施設侵入を担当</li>
+          <li><b>裏設定：</b>幼い頃、壊れて回収されかけたところを沙羅の父に直された奉仕型。沙羅はそれを知らず、ずっと幼なじみだと思っている</li>
+          <li>住まいは沙羅の家の裏の物置。「充電できれば十分」は、父に迷惑をかけたくないキラ自身の希望</li>
+          <li>沙羅を守ると決めたのは恩義から。でも、それだけなのか、奉仕するよう作られたからなのか、自分の気持ちなのか――キラ自身にも分からない（伝えられない「声」）</li>
+          <li>奥に、ユタニの防衛プログラムが眠っていた。13で起動し、沙羅の声を奪って姿を消す。17で命令を振り切り、声を返す</li>
+          <li>機械整備、制御層の隔離を担当</li>
           <li>沙羅の戦闘を支える相棒であり、物語を最後まで見届ける存在</li>
           <li>エピローグでは沙羅の工具袋を受け継ぎ、二人を思わせる子供たちを見て笑う</li>
           <li>衣装：学生期は沙羅と同系統の制服、部屋着はレンガ色のスウェット。戦後は赤いワークジャケット、黒のカーゴパンツ、手袋、工具袋</li>
@@ -309,7 +320,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
         </g>
         <g stroke="#ffffff10"><line x1="70" y1="220" x2="870" y2="220"/><line x1="70" y1="170" x2="870" y2="170"/><line x1="70" y1="120" x2="870" y2="120"/><line x1="70" y1="70" x2="870" y2="70"/></g>
         <g font-size="12" fill="#b0a696" text-anchor="middle">
-          <text x="150" y="292">幼少〜学生</text><text x="240" y="292">05–06</text><text x="420" y="292">07（4年後）</text><text x="600" y="292">13–21（8年後）</text><text x="820" y="292">22（さらに3年後）</text>
+          <text x="150" y="292">幼少〜学生</text><text x="240" y="292">05–06</text><text x="420" y="292">07（4年後）</text><text x="600" y="292">12–20（8年後）</text><text x="820" y="292">22（さらに3年後）</text>
         </g>
         <!-- vertical event lines -->
         <line x1="240" y1="20" x2="240" y2="270" stroke="#e5533d" stroke-dasharray="4 5"/>
@@ -330,7 +341,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
           <text x="610" y="184" fill="#86a6d3">カイル 18歳相当</text>
           <text x="700" y="218" fill="#dc8058">キラ 17歳相当</text>
         </g>
-        <text x="662" y="176" font-size="11" fill="#86a6d3">21の後は生死不明</text>
+        <text x="662" y="176" font-size="11" fill="#86a6d3">20の後は生死不明</text>
       </svg>
     </div>
 
@@ -361,20 +372,20 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
         <g font-size="13" text-anchor="middle">
           <g><rect x="398" y="186" width="204" height="42" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="500" y="204" fill="#ecc96f" font-weight="700">愛している（恋人にはならない）</text><text x="500" y="221" fill="#b0a696" font-size="11.5">同じ時間を生きたい</text></g>
           <g><rect x="398" y="356" width="204" height="42" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="500" y="374" fill="#86a6d3" font-weight="700">言葉でなく行動で守る</text><text x="500" y="391" fill="#b0a696" font-size="11.5">最初から人間だと気づいていた</text></g>
-          <g><rect x="282" y="410" width="120" height="42" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="342" y="428" fill="#dc8058" font-weight="700">親友・相棒</text><text x="342" y="445" fill="#b0a696" font-size="11.5">戦闘を支える</text></g>
-          <g><rect x="600" y="410" width="130" height="42" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="665" y="428" fill="#dc8058" font-weight="700">同じドロ</text><text x="665" y="445" fill="#b0a696" font-size="11.5">「おかえり」と迎える</text></g>
+          <g><rect x="282" y="410" width="120" height="42" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="342" y="428" fill="#dc8058" font-weight="700">親友・相棒（父に直された）</text><text x="342" y="445" fill="#b0a696" font-size="11.5">戦闘を支える</text></g>
+          <g><rect x="600" y="410" width="130" height="42" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="665" y="428" fill="#dc8058" font-weight="700">同じユタニ製・眠る命令</text><text x="665" y="445" fill="#b0a696" font-size="11.5">「おかえり」と迎える</text></g>
           <g><rect x="150" y="176" width="110" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="205" y="193" fill="#a9c98a" font-weight="700">声を贈る</text><text x="205" y="209" fill="#b0a696" font-size="11">人工喉頭・整備</text></g>
           <g><rect x="120" y="390" width="120" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="180" y="407" fill="#a9c98a" font-weight="700">壊さず救う</text><text x="180" y="423" fill="#b0a696" font-size="11">「おかえり」</text></g>
           <g><rect x="232" y="560" width="170" height="36" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="317" y="583" fill="#a9c98a" font-size="12">父＋キラ：制御層を切り離す</text></g>
           <g><rect x="556" y="146" width="96" height="38" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="604" y="170" fill="#8fe6ff" font-weight="700">支配（06）</text></g>
           <g><rect x="630" y="62" width="100" height="26" rx="8" fill="#0b0a09" stroke="#342e28"/><text x="680" y="80" fill="#bfe9f5" font-size="12">配信</text></g>
-          <g><rect x="784" y="196" width="150" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="859" y="213" fill="#e5533d" font-weight="700">捕獲・再接続</text><text x="859" y="229" fill="#b0a696" font-size="11">「家族にならないか」</text></g>
-          <g><rect x="780" y="270" width="140" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="850" y="287" fill="#e5533d" font-weight="700">復讐・単独突入</text><text x="850" y="303" fill="#b0a696" font-size="11">19–21</text></g>
+          <g><rect x="784" y="196" width="150" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="859" y="213" fill="#e5533d" font-weight="700">捕獲・再接続</text><text x="859" y="229" fill="#b0a696" font-size="11">「最初の子ども」「家族にならないか」</text></g>
+          <g><rect x="780" y="270" width="140" height="40" rx="10" fill="#0b0a09" stroke="#342e28"/><text x="850" y="287" fill="#e5533d" font-weight="700">復讐・単独突入</text><text x="850" y="303" fill="#b0a696" font-size="11">19–20</text></g>
         </g>
         <g text-anchor="middle">
           <g transform="translate(310,290)"><circle r="66" fill="#ecc96f"/><image href="img/ch/sara-face.webp" x="-62" y="-62" width="124" height="124" clip-path="url(#cS)"/><text y="92" font-size="22" font-weight="700" fill="#ecc96f" font-family="Shippori Mincho B1,serif">沙羅</text><text y="110" font-size="11.5" fill="#b0a696">人間</text></g>
-          <g transform="translate(690,290)"><circle r="66" fill="#86a6d3"/><image href="img/ch/kyle-face.webp" x="-62" y="-62" width="124" height="124" clip-path="url(#cS)"/><text y="92" font-size="22" font-weight="700" fill="#86a6d3" font-family="Shippori Mincho B1,serif">カイル</text><text y="110" font-size="11.5" fill="#b0a696">TYPE-1000</text></g>
-          <g transform="translate(500,530)"><circle r="48" fill="#dc8058"/><image href="img/ch/kira-face.webp" x="-44" y="-44" width="88" height="88" clip-path="url(#cM)"/><text y="70" font-size="19" font-weight="700" fill="#dc8058" font-family="Shippori Mincho B1,serif">キラ</text><text y="86" font-size="11" fill="#b0a696">ドロ</text></g>
+          <g transform="translate(690,290)"><circle r="66" fill="#86a6d3"/><image href="img/ch/kyle-face.webp" x="-62" y="-62" width="124" height="124" clip-path="url(#cS)"/><text y="92" font-size="22" font-weight="700" fill="#86a6d3" font-family="Shippori Mincho B1,serif">カイル</text><text y="110" font-size="11.5" fill="#b0a696">J1000</text></g>
+          <g transform="translate(500,530)"><circle r="48" fill="#dc8058"/><image href="img/ch/kira-face.webp" x="-44" y="-44" width="88" height="88" clip-path="url(#cM)"/><text y="70" font-size="19" font-weight="700" fill="#dc8058" font-family="Shippori Mincho B1,serif">キラ</text><text y="86" font-size="11" fill="#b0a696">J3200</text></g>
           <g transform="translate(100,110)"><circle r="33" fill="#a9c98a"/><image href="img/ch/sup-mother.webp" x="-30" y="-30" width="60" height="60" clip-path="url(#cT)"/></g>
           <g transform="translate(170,90)"><circle r="33" fill="#a9c98a"/><image href="img/ch/sup-father.webp" x="-30" y="-30" width="60" height="60" clip-path="url(#cT)"/></g>
           <text x="135" y="152" font-size="13" fill="#a9c98a" font-weight="700">母・父</text>
@@ -414,7 +425,8 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 <section class="sec" id="boards" style="--act:var(--amber)">
   <div class="wrap">
     <p class="eyebrow reveal">05 · STORYBOARD</p>
-    <h2 class="h reveal">絵コンテ｜27シート・106カット</h2>
+    <h2 class="h reveal">絵コンテ｜101カット（脚本v3）</h2>
+    <div class="note reveal" style="margin:10px 0 18px;max-width:760px">脚本v3の新設定に合わせて、56カットが修正待ち、9カットが新規です。GPTに渡す指示は <a href="gpt/" style="color:var(--glow)">画像の修正・追加プロンプト</a> にまとめています。</div>
     <p class="lead reveal">新脚本（2026-10-02）の絵コンテです。1シート＝16:9の4コマ、読む順は左上→右上→左下→右下。シート01〜23は新しい画風で生成済み（92カット）、24〜27は未生成で指示文を表示します。コマを押すと詳細が開きます。</p>
     <div class="note reveal">生成時の確認で、8枚（03・08・17〜22）に脚本とのずれが見つかっています（ニュース出演者が沙羅に似た、地下の夜に空が入った、義手の左右など）。該当シートに「要修正」を表示しています。まだ完成版ではなく、<b>構図と演技の確認用</b>です。</div>
     <div class="bfilters reveal">
@@ -601,7 +613,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </nav>
 <div class="toc" id="toc" role="dialog" aria-label="目次">
   <button class="btn sm x" type="button" id="tocX">閉じる ✕</button>
-  <a href="#start">使い方<small>00</small></a><a href="#mv">MV「あなたの名前を呼ぶたびに」<small>♪</small></a><a href="#film">アニマティック<small>01</small></a><a href="#story">物語<small>02</small></a><a href="#people">人物<small>03</small></a><a href="#structure">構成と感情曲線<small>04</small></a><a href="#boards">絵コンテ<small>05</small></a><a href="#stage3d">3D舞台モデル<small>06</small></a><a href="#tools">制作ツール<small>07</small></a><a href="#contest">コンペ・提出<small>08</small></a><a href="design/">デザイン資料（デザイン案）<small>↗</small></a><a href="script/">新脚本（2026-10-02）<small>↗</small></a><a href="review/">審査シミュレーション<small>↗</small></a><a href="#updates">更新履歴<small>★</small></a>
+  <a href="#start">使い方<small>00</small></a><a href="#mv">MV「あなたの名前を呼ぶたびに」<small>♪</small></a><a href="#film">アニマティック<small>01</small></a><a href="#story">物語<small>02</small></a><a href="#people">人物<small>03</small></a><a href="#structure">構成と感情曲線<small>04</small></a><a href="#boards">絵コンテ<small>05</small></a><a href="#stage3d">3D舞台モデル<small>06</small></a><a href="#tools">制作ツール<small>07</small></a><a href="#contest">コンペ・提出<small>08</small></a><a href="design/">デザイン資料（デザイン案）<small>↗</small></a><a href="script/">新脚本（2026-10-02）<small>↗</small></a><a href="review/">審査シミュレーション<small>↗</small></a><a href="gpt/">画像の修正・追加プロンプト<small>↗</small></a><a href="#updates">更新履歴<small>★</small></a>
 </div>
 <button class="to-top" id="toTop" type="button" aria-label="ページ先頭へ">↑</button>
 <div class="toast" id="toast" role="status"></div>
@@ -618,8 +630,8 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
   </div>
 </dialog>
 
-<script src="data.js?v=8"></script>
-<script src="app.js?v=8"></script>
+<script src="data.js?v=9"></script>
+<script src="app.js?v=9"></script>
 <script src="mv.js?v=3"></script>
 </body>
 </html>
