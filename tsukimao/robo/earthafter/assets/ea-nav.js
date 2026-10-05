@@ -5,7 +5,7 @@
 'use strict';
 var S=document.currentScript;
 var ROOT=S.src.replace(/assets\/ea-nav\.js.*$/,'');
-var VER='3';
+var VER='4';
 var HERO=S.hasAttribute('data-hero');
 var PAGES=[
  {k:'guide',p:'',t:'制作ガイド',en:'PRODUCTION',c:'#e8a94f',d:'アニマティック・MV・絵コンテ・3D舞台・制作ツール',img:'img/bg3/10.webp'},

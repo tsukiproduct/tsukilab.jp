@@ -1,6 +1,6 @@
 # EARTH AFTER 脚本 v3.1（2026-10-03）
 
-原案・制作：月真猫 / TSUKIMAO　｜　22シーン・114カット・合計 16:44（計画値）　｜　キャラクター名：桔響（ききょう）・アカネ・油谷は決定、カイルは仮名
+原案・制作：月真猫 / TSUKIMAO　｜　22シーン・116カット・合計 17:06（計画値）　｜　キャラクター名：桔響（ききょう）・アカネ・油谷は決定、シオンは仮名
 
 ## 画風（STYLE）
 
@@ -69,7 +69,7 @@ No text, letters, numbers, logos, captions, subtitles or speech balloons anywher
 
 夕暮れの公園 ／ 夕方 ／ 桔響 6歳 ／ 尺 0:51 ／ R01
 
-> 声を持たない幼い桔響と、ボールを追ってきた幼いカイル。名前も知らないまま、同じ夕焼けを見る。
+> 声を持たない幼い桔響と、ボールを追ってきた幼いシオン。名前も知らないまま、同じ夕焼けを見る。
 
 ### 01-01（10秒・0:00〜）　固定・引き／35mm／目線より低いベンチ高さ
 
@@ -91,10 +91,10 @@ Wide locked-off view from just behind and to the side of an old wooden park benc
 **行動・台詞**
 
 転がってきたサッカーボールが桔響の靴に当たる。駆け寄った少年がボールを拾い、涙に気づく。  
-カイル「どうしたの？」  
+シオン「どうしたの？」  
 桔響は顔を背ける。
 
-**心理**　桔響：見られたくない。カイル：純粋な疑問。悪意も同情もまだない。
+**心理**　桔響：見られたくない。シオン：純粋な疑問。悪意も同情もまだない。
 
 **画像生成（SHOT）**　SARA_CHILD／KYLE_CHILD
 
@@ -106,11 +106,11 @@ Very low camera almost on the dirt path, 24mm, beside the bench legs. A scuffed 
 
 **行動・台詞**
 
-カイル「……しゃべりたくない？」  
+シオン「……しゃべりたくない？」  
 桔響は首を横に振り、喉を指す。〔手話〕「声が出ない」  
 少年は、じっと桔響の手を見る。瞳の奥で、ほんの一瞬、淡い光が揺れる。少し考え、ボールを抱えて隣に座る。間に一人分の空席。
 
-**心理**　桔響：伝えようとして、伝わったかどうか分からない。カイル：手話が読める（J1000の機能）。分かったから、何も聞かずに隣に座る。この「一人分の距離」が二人の関係の原点。
+**心理**　桔響：伝えようとして、伝わったかどうか分からない。シオン：手話が読める（J1000の機能）。分かったから、何も聞かずに隣に座る。この「一人分の距離」が二人の関係の原点。
 
 **画像生成（SHOT）**　SARA_CHILD／KYLE_CHILD
 
@@ -123,10 +123,10 @@ Side view at the children's eye level, 40mm, both small figures seated on the lo
 **行動・台詞**
 
 何も聞かず、同じ夕焼けを見る。桔響の肩が静まる。少年は横目で確かめ、自分までほっとして笑う。  
-カイル「……変なの」  
+シオン「……変なの」  
 ※嘲りではなく、自分の小さな戸惑いとして。
 
-**心理**　桔響：誰かが隣にいるだけで、泣き止めた。カイル：理由は分からないが、彼女が泣き止むと嬉しい。「変なの」は彼自身への言葉。
+**心理**　桔響：誰かが隣にいるだけで、泣き止めた。シオン：理由は分からないが、彼女が泣き止むと嬉しい。「変なの」は彼自身への言葉。
 
 **画像生成（SHOT）**　SARA_CHILD／KYLE_CHILD
 
@@ -138,11 +138,11 @@ Three-quarter front view of both children on the bench, 50mm, camera on the far 
 
 **行動・台詞**
 
-カイルは少し照れて、ぎこちない手つきで手話をする。  
-〔手話〕カイル「ありがとう」  
+シオンは少し照れて、ぎこちない手つきで手話をする。  
+〔手話〕シオン「ありがとう」  
 桔響が目を丸くする。伝わっていた。
 
-**心理**　隣にいさせてくれて、ありがとう。カイルは手話が分かると、観客と桔響にここで示す。10の「J1000だから」、16と18の手話の「おかえり」へつながる。
+**心理**　隣にいさせてくれて、ありがとう。シオンは手話が分かると、観客と桔響にここで示す。10の「J1000だから」、16と18の手話の「おかえり」へつながる。
 
 **画像生成（SHOT）**　SARA_CHILD／KYLE_CHILD
 
@@ -157,7 +157,7 @@ Dusk on the park bench, 50mm, warm low sun. The small blond boy, a little shy, m
 母が遠くで手を振る。桔響は立ち、少年に小さく会釈して母のもとへ駆ける。少年の瞳に一瞬、淡い診断光。名前は交換しない。  
 音：ボールを指で叩く小さな音を、次へつなぐ。
 
-**心理**　別れの寂しさはまだない。カイルの瞳の光で、彼がドロであることを観客にだけ示す。
+**心理**　別れの寂しさはまだない。シオンの瞳の光で、彼がドロであることを観客にだけ示す。
 
 **画像生成（SHOT）**　SARA_CHILD／KYLE_CHILD／MOTHER
 
@@ -326,14 +326,14 @@ Night, a cluttered storage shed behind a family house, 28mm from just outside th
 
 校庭のフェンス／放課後の教室 ／ 放課後 ／ 桔響 13〜14歳 ／ 尺 0:51 ／ R02
 
-> フェンス越しにボールを渡した相手は、サッカー部のカイル先輩。アカネは桔響の恋心をとっくに知っている。そして、カイルが初期型のドロだということも。
+> フェンス越しにボールを渡した相手は、サッカー部のシオン先輩。アカネは桔響の恋心をとっくに知っている。そして、シオンが初期型のドロだということも。
 
 ### 04-01（10秒・2:02〜）　校庭・望遠から足元へ／135mm→
 
 **行動・台詞**
 
-カイルがボールを右へ見せ、左足を軸に身体を返して相手を抜き、シュート。  
-部員「カイル、もう一本！」  
+シオンがボールを右へ見せ、左足を軸に身体を返して相手を抜き、シュート。  
+部員「シオン、もう一本！」  
 フェンスの外で、桔響は彼の名前を口の形だけでなぞる。
 
 **心理**　桔響：一目で惹かれる。この「右へ見せて左で返す」癖を、彼女は無意識に覚える（R07で回収）。
@@ -348,12 +348,12 @@ Long-lens 135mm from outside the field through the chain-link fence (mesh softly
 
 **行動・台詞**
 
-ボールがフェンスを越えて桔響の前へ。走ってきたカイルと目が合い、固まる。  
-カイル「ごめん。……ボール」  
+ボールがフェンスを越えて桔響の前へ。走ってきたシオンと目が合い、固まる。  
+シオン「ごめん。……ボール」  
 桔響は慌てて差し出す。礼を言おうとして唇が動くが、声は出ない。  
-カイル「ありがと」
+シオン「ありがと」
 
-**心理**　桔響：「ありがとう」さえ言えない悔しさと、近さへの動揺。カイル：特に気にしない、自然な優しさ。
+**心理**　桔響：「ありがとう」さえ言えない悔しさと、近さへの動揺。シオン：特に気にしない、自然な優しさ。
 
 **画像生成（SHOT）**　SARA_13／KYLE_SOCCER
 
@@ -366,7 +366,7 @@ At the open gate of the field fence, 40mm at eye level, late golden light from t
 **行動・台詞**
 
 掃除の終わった教室。アカネが向かいに座る。  
-アカネ「桔響さ、カイル先輩のこと見すぎ。バレバレ」  
+アカネ「桔響さ、シオン先輩のこと見すぎ。バレバレ」  
 〔手話〕桔響「見てない」  
 アカネ「はいはい。で、今日何点入れてた？」  
 桔響は指を三本立て、すぐ引っ込める。  
@@ -374,7 +374,7 @@ At the open gate of the field fence, 40mm at eye level, late golden light from t
 アカネ「ずーっと言ってるもんね、王子様って」  
 桔響がむくれる。
 
-**心理**　桔響：照れと、隠しきれない嬉しさ。アカネ：からかいながら全部分かっている、親友の温度。 「王子様」は、桔響が昔からカイルを呼ぶ言い方。18の最期の言葉につながる。
+**心理**　桔響：照れと、隠しきれない嬉しさ。アカネ：からかいながら全部分かっている、親友の温度。 「王子様」は、桔響が昔からシオンを呼ぶ言い方。18の最期の言葉につながる。
 
 **画像生成（SHOT）**　SARA_13／KIRA_SCHOOL
 
@@ -387,7 +387,7 @@ Empty classroom after cleaning, 50mm across a desk: the rust-red-haired girl sit
 **行動・台詞**
 
 アカネが少しだけ真面目な顔になる。  
-アカネ「カイル先輩、ドロだよ。J1000。いちばん最初の型」  
+アカネ「シオン先輩、ドロだよ。J1000。いちばん最初の型」  
 アカネ「……知らなかった？」  
 桔響の手が止まる。廊下の掲示に、人間とドロが混じる学級写真。
 
@@ -478,7 +478,7 @@ Close at 75mm: the girl's face as she speaks her first word, eyes wet and wide, 
 **行動・台詞**
 
 自室で、鏡に向かって告白の練習。  
-桔響「カイル……先輩」  
+桔響「シオン……先輩」  
 アカネ（戸口）「はい？」  
 桔響「いつからいたの！」  
 アカネ「今、普通に怒った」  
@@ -514,7 +514,7 @@ Night, 50mm from beside the bed toward the window: the girl sits on the windowsi
 
 ユタニ式典会場／夜の街／桔響の家 ／ 夜〜午前5時 ／ 桔響 17歳 ／ 尺 0:40 ／ R04
 
-> 超人類型機械新法・施行20周年の式典で、新世代統合AI《EARTH AFTER》が全国のドロへ配信される。カイルもアカネも反転する。
+> 超人類型機械新法・施行20周年の式典で、新世代統合AI《EARTH AFTER》が全国のドロへ配信される。シオンもアカネも反転する。
 
 ### 06-01（9秒・3:42〜）　式典会場・引き／24mm
 
@@ -535,7 +535,7 @@ Grand ceremony hall at night, 24mm from the back of the audience: rows of seated
 
 **行動・台詞**
 
-帰宅中のカイル。机に向かうアカネ。街の整備ドロ。全員の瞳に、同じ淡い制御光が走る。カイルの表情が消える。  
+帰宅中のシオン。机に向かうアカネ。街の整備ドロ。全員の瞳に、同じ淡い制御光が走る。シオンの表情が消える。  
 音：祝祭の音を切り、送電設備の低い唸りへ。
 
 **心理**　観客にだけ分かる恐怖。アカネもドロだったことが、ここで明かされる。
@@ -565,7 +565,7 @@ Bedroom at 5 a.m., 35mm from the doorway: the girl sits up in bed, hair tangled,
 
 **行動・台詞**
 
-テレビの中継。ドロが避難する人々を登録区域へ追い立てる。その中に、カイルの姿。  
+テレビの中継。ドロが避難する人々を登録区域へ追い立てる。その中に、シオンの姿。  
 テレビ音声「各地でアンドロイドが――通信が、いま――」  
 直後、放送が途絶える。
 
@@ -743,7 +743,7 @@ Repair bench lit by a single articulated work lamp, 40mm: the father in a gray w
 桔響「もう、命令は来ない。……おかえり」  
 ドロが顔を上げる。
 
-**心理**　この「おかえり」が、作品の核の言葉。R13で、桔響はカイルに同じ言葉を言う。
+**心理**　この「おかえり」が、作品の核の言葉。R13で、桔響はシオンに同じ言葉を言う。
 
 **画像生成（SHOT）**　SARA_21
 
@@ -756,14 +756,14 @@ Close at 85mm on the black-haired woman's face as she speaks softly, warm lamp l
 
 高架下の物資回収地点 ／ 昼 ／ 桔響 21歳 ／ 尺 0:48 ／ R07
 
-> 物資回収中、制御下のカイルと再会する。桔響は学生時代に見続けた彼のサッカーの癖を読み、止める。
+> 物資回収中、制御下のシオンと再会する。桔響は学生時代に見続けた彼のサッカーの癖を読み、止める。
 
 ### 09-01（9秒・5:40〜）　高架下・奥行きのある引き／28mm
 
 **行動・台詞**
 
-桔響が医療箱を搬送台へ積む。高架の上から影が落ち、出口を塞ぐ。カイル。18歳のままの顔、瞳に制御光。  
-桔響「……カイル」
+桔響が医療箱を搬送台へ積む。高架の上から影が落ち、出口を塞ぐ。シオン。18歳のままの顔、瞳に制御光。  
+桔響「……シオン」
 
 **心理**　4年探した人が、敵として立っている。
 
@@ -777,7 +777,7 @@ Under a collapsed elevated highway, 28mm deep perspective: daylight falls in har
 
 **行動・台詞**
 
-カイルが一瞬で間合いを詰める。捕獲索も停止器も弾かれる。  
+シオンが一瞬で間合いを詰める。捕獲索も停止器も弾かれる。  
 桔響「私だよ。桔響！」  
 アカネ「名前じゃ止まんない！」
 
@@ -810,7 +810,7 @@ Low 24mm action frame: the young man in the navy jacket lunges forward with impo
 
 **行動・台詞**
 
-カイルが左へ切り返した瞬間、アカネが腕を一瞬だけ封じ、桔響が首の左の接続口へ停止器を打ち込む。カイルが崩れる。
+シオンが左へ切り返した瞬間、アカネが腕を一瞬だけ封じ、桔響が首の左の接続口へ停止器を打ち込む。シオンが崩れる。
 
 **心理**　成功ではなく、痛み。愛する人を自分の手で止めた。
 
@@ -820,11 +820,11 @@ Low 24mm action frame: the young man in the navy jacket lunges forward with impo
 40mm mid-shot, frozen instant: the red-haired girl locks the young man's arm under hers with both hands, braced against a concrete pillar; the black-haired woman, behind him, drives a stopper device into the port on the left side of his neck with her right hand; a small blue-white discharge, his body starting to fold. Dust hanging in the light shafts.
 ```
 
-### 09-05（9秒・6:19〜）　倒れたカイル／85mm
+### 09-05（9秒・6:19〜）　倒れたシオン／85mm
 
 **行動・台詞**
 
-倒れたカイルの顔から、桔響が埃を拭う。  
+倒れたシオンの顔から、桔響が埃を拭う。  
 桔響「……やっと見つけた」
 
 **心理**　4年分の安堵と悲しみ。泣かない。
@@ -840,18 +840,18 @@ Close at 85mm, camera low on the ground: the young man lies unconscious on dusty
 
 地下共同体 ／ 昼〜夜 ／ 桔響 21歳 ／ 尺 1:24 ／ R08
 
-> 旧AIに戻ったカイルは桔響を覚えていない。三人の当たり前の日常。カイルは手話が読める。そして桔響は「私もドロ」と嘘をつく。
+> 旧AIに戻ったシオンは桔響を覚えていない。三人の当たり前の日常。シオンは手話が読める。そして桔響は「私もドロ」と嘘をつく。
 
 ### 10-01（11秒・6:28〜）　目覚め／40mm
 
 **行動・台詞**
 
-カイルが目を開ける。  
-カイル「……アカネ？」  
+シオンが目を開ける。  
+シオン「……アカネ？」  
 アカネ「おかえり」  
-カイル「そっちは？」  
+シオン「そっちは？」  
 桔響「桔響」  
-カイル「……会ったこと、ある？」  
+シオン「……会ったこと、ある？」  
 桔響「あるよ。ちょっとだけ」
 
 **心理**　桔響：覚えていないことは分かっていた。それでも、少しだけ期待した。
@@ -866,13 +866,13 @@ Repair bench, 40mm: the young man in the navy jacket sits up slowly, eyes normal
 
 **行動・台詞**
 
-その夜。カイルは給電席に座り、人を傷つけた記憶に怯えている。  
-カイル「また動いたら、止めてくれ」  
+その夜。シオンは給電席に座り、人を傷つけた記憶に怯えている。  
+シオン「また動いたら、止めてくれ」  
 桔響「外とは繋がってない。大丈夫」  
-カイル「……近づくな」  
+シオン「……近づくな」  
 桔響「私も、ドロだから」
 
-**心理**　桔響：離れてほしくない一心の嘘。カイル：その嘘に、救われてしまう。恋人ではなく、隣に座る関係。
+**心理**　桔響：離れてほしくない一心の嘘。シオン：その嘘に、救われてしまう。恋人ではなく、隣に座る関係。
 
 **画像生成（SHOT）**　SARA_21／KYLE_POST
 
@@ -884,9 +884,9 @@ Night, 65mm: the young man sits on a battered charging seat with a thin cable fr
 
 **行動・台詞**
 
-仮設小屋の屋根を直すカイル。板を力任せに割る。  
+仮設小屋の屋根を直すシオン。板を力任せに割る。  
 アカネ「J1000、力加減！」  
-カイル「分かってる」  
+シオン「分かってる」  
 割れた板が、また一枚。桔響が下で笑いをこらえる。
 
 **心理**　不器用で、力が強すぎる。板が足りなくなる（10-07への前振り）。
@@ -901,9 +901,9 @@ Night, 65mm: the young man sits on a battered charging seat with a thin cable fr
 
 **行動・台詞**
 
-布を巻いたボールで、子供たちと本気のサッカー。カイルが右へ見せ、左で返して子供を抜く。  
+布を巻いたボールで、子供たちと本気のサッカー。シオンが右へ見せ、左で返して子供を抜く。  
 桔響「大人げない！」  
-カイル「ドロだ」  
+シオン「ドロだ」  
 アカネ「言い訳まで子供」
 
 **心理**　桔響の目には、あの日の校庭が重なる（絵では描かず、表情で）。
@@ -918,7 +918,7 @@ Wide 24mm on the old station concourse: the young man dribbles a cloth-wrapped b
 
 **行動・台詞**
 
-仮設の通信ブースで、古いモニターを何台もつないだ青年が端末を叩いている。窓代わりの開口部の向こうで、カイルたちが子供とサッカーをしている。  
+仮設の通信ブースで、古いモニターを何台もつないだ青年が端末を叩いている。窓代わりの開口部の向こうで、シオンたちが子供とサッカーをしている。  
 アカネ「たまには外、出なよ」  
 青年「いや、おれはこっちで……体力ないんで」  
 青年は笑ってごまかし、画面に目を戻す。
@@ -935,14 +935,14 @@ Day in an underground shelter, 40mm over the shoulder of a thin pale young man h
 
 **行動・台詞**
 
-カイルに聞こえないように、桔響はアカネに手話で話す。  
+シオンに聞こえないように、桔響はアカネに手話で話す。  
 〔手話〕桔響「あの人、変わってない」  
-カイル「……変わってないって、誰が？」  
+シオン「……変わってないって、誰が？」  
 桔響「読めるの？」  
-カイル「J1000だから」  
+シオン「J1000だから」  
 アカネが吹き出す。
 
-**心理**　内緒話のつもりの手話が、カイルにだけは筒抜け。01で手話の「ありがとう」をした少年は、覚えていなくても、手話を読める。
+**心理**　内緒話のつもりの手話が、シオンにだけは筒抜け。01で手話の「ありがとう」をした少年は、覚えていなくても、手話を読める。
 
 **画像生成（SHOT）**　SARA_21／KYLE_POST／KIRA_POST
 
@@ -955,12 +955,12 @@ Day in an underground shelter, 40mm over the shoulder of a thin pale young man h
 **行動・台詞**
 
 共同体の出入口。アカネが自分の電動バイクを整備している。  
-アカネ「カイルなら、北の資材置き場。割った分の板、一人で取りに行った。……あそこ、巡回ドロが出るのに」  
+アカネ「シオンなら、北の資材置き場。割った分の板、一人で取りに行った。……あそこ、巡回ドロが出るのに」  
 桔響「ちょっとかります！」  
 桔響がアカネのヘルメットをかぶり、バイクで飛び出していく。  
 アカネ「ちょっ、私のバイク！」
 
-**心理**　カイルのことになると、桔響は迷わず走り出す。この日は、すぐに追いつける。11の朝は、追いつけない。
+**心理**　シオンのことになると、桔響は迷わず走り出す。この日は、すぐに追いつける。11の朝は、追いつけない。
 
 **画像生成（SHOT）**　SARA_21／KIRA_POST
 
@@ -972,12 +972,12 @@ Daytime at the entrance ramp of the underground community, 35mm. A red-haired an
 
 **行動・台詞**
 
-廃墟の資材置き場。板の束を担いだカイルの頭上を、巡回ドローンの探照灯がかすめる。カイルは物陰に身を沈める。  
+廃墟の資材置き場。板の束を担いだシオンの頭上を、巡回ドローンの探照灯がかすめる。シオンは物陰に身を沈める。  
 そこへ、アカネのバイクで桔響が滑り込む。  
 桔響「乗って！」  
-カイル「……なんで来た」
+シオン「……なんで来た」
 
-**心理**　カイルは一人で危ないところへ行く。桔響は迷わず追いかける。
+**心理**　シオンは一人で危ないところへ行く。桔響は迷わず追いかける。
 
 **画像生成（SHOT）**　SARA_21／KYLE_POST
 
@@ -991,14 +991,14 @@ Late afternoon in a ruined material yard of stacked beams and corrugated sheets,
 
 その夜。給電席の前で。  
 桔響「危ないことは、やめて」  
-カイル「屋根に穴あいたままだと、チビたちが濡れるだろ」  
+シオン「屋根に穴あいたままだと、チビたちが濡れるだろ」  
 桔響「だからって、一人で行かないで」  
-カイル「壊れても、俺は直せるから」  
+シオン「壊れても、俺は直せるから」  
 桔響「……そういう話じゃない」  
-カイル「……おやすみ」  
-カイルは給電席へ向かう。
+シオン「……おやすみ」  
+シオンは給電席へ向かう。
 
-**心理**　カイルは、人のためなら一人で危ないところへ行き、自分は直せると思っている。桔響の「そういう話じゃない」は、07でアカネが桔響に言った言葉。11の朝、カイルは同じように一人で出ていく。
+**心理**　シオンは、人のためなら一人で危ないところへ行き、自分は直せると思っている。桔響の「そういう話じゃない」は、07でアカネが桔響に言った言葉。11の朝、シオンは同じように一人で出ていく。
 
 **画像生成（SHOT）**　SARA_21／KYLE_POST
 
@@ -1011,21 +1011,21 @@ Night in the underground community, 50mm, warm lantern light. Beside the chargin
 
 共同体・夜の備蓄庫／廃墟の物資集積所 ／ 深夜〜朝 ／ 桔響 21歳 ／ 尺 1:00 ／ R09＋R10（統合）
 
-> カイルは最初から、桔響が人間だと気づいていた。翌朝、彼は桔響の食料と喉の部品を探しに出て、ユタニ社の回収部隊に連れ去られる。
+> シオンは最初から、桔響が人間だと気づいていた。翌朝、彼は桔響の食料と喉の部品を探しに出て、ユタニ社の回収部隊に連れ去られる。
 
-### 11-01（12秒・7:52〜）　戸口のカイル／50mm
+### 11-01（12秒・7:52〜）　戸口のシオン／50mm
 
 **行動・台詞**
 
-カイルが給電席へ向かったのを見届けて、桔響は備蓄庫で缶詰を開け、急いで食べる。  
-カイル（戸口）「そんなに急いで食うなよ」  
+シオンが給電席へ向かったのを見届けて、桔響は備蓄庫で缶詰を開け、急いで食べる。  
+シオン（戸口）「そんなに急いで食うなよ」  
 桔響が固まる。  
 桔響「……知ってた？」  
-カイル「うん」  
+シオン「うん」  
 桔響「いつから」  
-カイル「最初から」
+シオン「最初から」
 
-**心理**　桔響：見つかった恐怖。カイル：静かな怒りと、悲しさ。
+**心理**　桔響：見つかった恐怖。シオン：静かな怒りと、悲しさ。
 
 **画像生成（SHOT）**　SARA_21／KYLE_POST
 
@@ -1038,11 +1038,11 @@ Night in the underground community, 50mm, warm lantern light. Beside the chargin
 **行動・台詞**
 
 桔響「怒ってる？」  
-カイル「怒ってる」  
-カイル「そういうこと、黙ってないでくれ」  
+シオン「怒ってる」  
+シオン「そういうこと、黙ってないでくれ」  
 桔響は「ごめん」と言おうとするが、声がノイズで途切れる。代わりに手話で。  
 〔手話〕桔響「ごめん」  
-カイルはそれを読んで、うなずく。
+シオンはそれを読んで、うなずく。
 
 **心理**　声が壊れかけていることを、観客に初めて示す。手話が二人をつなぐ。
 
@@ -1056,8 +1056,8 @@ Night in the underground community, 50mm, warm lantern light. Beside the chargin
 
 **行動・台詞**
 
-カイル「……食べて。俺、向こうにいる」  
-カイルは戸口の外に腰を下ろし、背中を向けて座る。桔響は缶詰を手に、声を出さずに泣く。
+シオン「……食べて。俺、向こうにいる」  
+シオンは戸口の外に腰を下ろし、背中を向けて座る。桔響は缶詰を手に、声を出さずに泣く。
 
 **心理**　怒っていても、そばにいる。一人分の距離。R01の再現。
 
@@ -1071,7 +1071,7 @@ Night in the underground community, 50mm, warm lantern light. Beside the chargin
 
 **行動・台詞**
 
-夜明け前。カイルが端末で物資の場所を確かめ、眠る桔響を一度だけ振り返って、黙って出ていく。
+夜明け前。シオンが端末で物資の場所を確かめ、眠る桔響を一度だけ振り返って、黙って出ていく。
 
 **心理**　言えば、彼女はついてくる。だから言わない。
 
@@ -1086,7 +1086,7 @@ Pre-dawn, 35mm from inside the sleeping community: the young man stands at the f
 **行動・台詞**
 
 朝。空の給電席。  
-桔響「カイルは？」  
+桔響「シオンは？」  
 アカネは応答のない通信器を握る。  
 アカネ「探しに行こう」  
 桔響が布巻きのボールに触れる。
@@ -1103,10 +1103,10 @@ Morning, 50mm: the empty charging seat with its cable hanging loose; the black-h
 
 **行動・台詞**
 
-J1000専用の抑制器が胸に撃ち込まれる。倒れたカイルの通信器が、ブーツで踏み砕かれる。缶詰が転がる。  
+J1000専用の抑制器が胸に撃ち込まれる。倒れたシオンの通信器が、ブーツで踏み砕かれる。缶詰が転がる。  
 隊員（通信）「J1000、初号系列を確保。……社長が探していた個体です」
 
-**心理**　連れ去りは偶然ではない。油谷にとってカイルは「最初の子ども」。
+**心理**　連れ去りは偶然ではない。油谷にとってシオンは「最初の子ども」。
 
 **画像生成（SHOT）**　KYLE_POST／YUTANI_GUARD
 
@@ -1123,7 +1123,7 @@ J1000専用の抑制器が胸に撃ち込まれる。倒れたカイルの通信
 
 共同体／倒壊危険区域 ／ 夜〜昼 ／ 桔響 21→23歳 ／ 尺 0:34 ／ R11（改）
 
-> カイルを探す日々。「今日も見つからなかった」夜、桔響は自分で髪を切る。そしてEARTH AFTERが立ち入りを禁じた倒壊危険区域で、中に残された人間の少女とドロの少年を救い、左腕を失う。
+> シオンを探す日々。「今日も見つからなかった」夜、桔響は自分で髪を切る。そしてEARTH AFTERが立ち入りを禁じた倒壊危険区域で、中に残された人間の少女とドロの少年を救い、左腕を失う。
 
 ### 12-01（7秒・8:52〜）　記録と捜索／35mm
 
@@ -1215,7 +1215,7 @@ Collapsing building interior during a rescue, 24mm: a child is being pulled out 
 
 **行動・台詞**
 
-接続の瞬間、アカネの琥珀色の瞳の奥に、カイルと同じ細い淡い青の制御の輪が浮かぶ。表情が消える。  
+接続の瞬間、アカネの琥珀色の瞳の奥に、シオンと同じ細い淡い青の制御の輪が浮かぶ。表情が消える。  
 アカネ（かすれて）「……や……」
 
 **心理**　ユタニに意識を持っていかれる。抗おうとする声は、途中で消える。
@@ -1276,9 +1276,9 @@ Morning in a small sleeping alcove in the underground shelter, 40mm from beside 
 
 ## 14　2年後
 
-共同体・捜索室／通信ブース ／ 夜 ／ 桔響 25歳 ／ 尺 0:38 ／ 新規
+共同体・捜索室／通信ブース ／ 夜 ／ 桔響 25歳 ／ 尺 0:47 ／ 新規
 
-> 2年後。声を失った桔響は、仲間と一緒に、あの日消えたドロたちを探している。ある夜、引きこもりがちな青年が、ユタニ社の監視カメラの映像を見せる。そこには、油谷の横に立つカイルと、遠くのアカネが映っていた。
+> 2年後。声を失った桔響は、仲間と一緒に、あの日消えたドロたちを探している。ある夜、引きこもりがちな青年が、ユタニ社の監視カメラの映像を見せる。そこには、油谷の横に立つシオンと、遠くのアカネが映っていた。出発の前、医療担当は桔響に「これ以上つけてたら、体がもたない」と告げる。桔響の答えは「あと少しだけ」。
 
 ### 14-01（9秒・10:12〜）　捜索室・引き／28mm
 
@@ -1302,7 +1302,7 @@ Night, a cramped search room in the underground shelter, 28mm wide at standing e
 **行動・台詞**
 
 通信ブースから青年が身を乗り出し、モニターを指さす。  
-青年「桔響さん！　これ、カイルさんとアカネさんじゃないっすか？」  
+青年「桔響さん！　これ、シオンさんとアカネさんじゃないっすか？」  
 青年「おれ、前からユタニの監視カメラをハックしようとしてたんす。体力もないし、篭ってばっかで役に立ててないなって……で、今日やってみたら、つながったんす」
 
 **心理**　役に立てないと思っていた人の、たった一つの手がかり。青年の早口と照れ。
@@ -1317,7 +1317,7 @@ Night, the shelter comms booth of many old mismatched monitors, 35mm. The thin p
 
 **行動・台詞**
 
-監視カメラの映像（俯瞰・粗い画質）。ユタニ社の広い部屋。油谷のホログラムの横に、金髪のカイルが立っている。遠くの壁際にアカネ。ほかにもドロが等間隔に配置されている。  
+監視カメラの映像（俯瞰・粗い画質）。ユタニ社の広い部屋。油谷のホログラムの横に、金髪のシオンが立っている。遠くの壁際にアカネ。ほかにもドロが等間隔に配置されている。  
 青年（声）「これ、そうですよね？」
 
 **心理**　探し続けた二人が、生きて、そこにいる。だが二人とも「いない」顔をしている。
@@ -1344,6 +1344,24 @@ High-angle security-camera view on a monitor, slightly grainy with faint scan li
 Night at the comms booth, 50mm. A young woman with chin-length black hair, beaming with a wide genuine smile, pats the head of the thin pale young man with her biological right hand; he blinks, surprised, then grins shyly. Monitors glow behind them. Light: cool monitor light, a warm lamp edge.
 ```
 
+### 14-05（9秒・10:50〜）　医療室・義手の接続部／50mm
+
+**行動・台詞**
+
+その夜、出発の前。医療室で、医療担当が桔響の左腕を診ている。まくった袖の下、義手の接続部のまわりの皮膚が赤く腫れている。  
+医療担当「……これ以上つけてたら、体がもたないよ」  
+桔響は袖を下ろし、端末に打って見せる。  
+〔端末〕桔響「あと少しだけ。二人を連れて帰るまで」  
+※説明はここまで。病名や残りの時間の数字は出さない。
+
+**心理**　自分に残された時間が少ないことを、桔響は知っている。だから急ぐ。17で、やっと取り戻した二人だけは残すと決める理由が、ここで静かに置かれる。
+
+**画像生成（SHOT）**　SARA_25／MEDIC
+
+```
+Night, the shelter's small medical room, 50mm at seated eye level. A young woman with chin-length black hair sits on an exam stool with her olive jacket's left sleeve rolled up high, showing where a graphite prosthetic forearm-and-elbow meets her upper arm above the elbow; the skin around the socket edge is reddened and swollen. A woman medic in her forties with short black hair, pale blue medical coat over dark scrubs, examines it with a penlight, frowning. With her biological right hand the young woman holds up a small handheld terminal toward the medic (abstract lines on screen, no readable letters), her face calm and set. Light: one desk lamp, cool fluorescent spill from the corridor.
+```
+
 
 ## 15　ユタニ西棟へ
 
@@ -1351,7 +1369,7 @@ Night at the comms booth, 50mm. A young woman with chin-length black hair, beami
 
 > カメラの映像を手がかりに、桔響は人間の運転手とユタニ西棟へ潜入する。青年が通信でカメラを止める。施設には眠るドロだけでなく、働かされる人間もいる。
 
-### 15-01（8秒・10:50〜）　潜入／35mm
+### 15-01（8秒・10:59〜）　潜入／35mm
 
 **行動・台詞**
 
@@ -1366,12 +1384,12 @@ Night at the comms booth, 50mm. A young woman with chin-length black hair, beami
 35mm at a corporate service gate at night: a battered maintenance cart with a canvas cover waits at a barrier under sodium lights; the driver in a tan coverall hands a card to an armored security android; under the canvas, the two women's eyes are barely visible in the dark gap.
 ```
 
-### 15-02（8秒・10:58〜）　保管区画／24mm
+### 15-02（8秒・11:07〜）　保管区画／24mm
 
 **行動・台詞**
 
 西棟の保管区画。並んで眠るドロたち。  
-〔端末〕桔響「カイルを起こしたら、地下へ」  
+〔端末〕桔響「シオンを起こしたら、地下へ」  
 運転手「戻るまでが救出だ」
 
 **心理**　目的は一人。でも、ここには多すぎる。
@@ -1382,7 +1400,7 @@ Night at the comms booth, 50mm. A young woman with chin-length black hair, beami
 Wide 24mm: a long cold storage hall with rows of standing upright pods holding dormant androids, faces calm, dim cyan status strips; cold fluorescent tubes overhead, condensation on the floor. The two women move low between the rows, small in the frame.
 ```
 
-### 15-03（8秒・11:06〜）　働かされる人間／50mm
+### 15-03（8秒・11:15〜）　働かされる人間／50mm
 
 **行動・台詞**
 
@@ -1399,7 +1417,7 @@ Wide 24mm: a long cold storage hall with rows of standing upright pods holding d
 50mm through a dirty internal glass window: in the room beyond, exhausted human workers wearing restraint bands on their wrists sort parts under harsh white light; in the foreground, the woman's reflection overlaps the glass, her mechanical left hand pressed flat against it.
 ```
 
-### 15-04（7秒・11:14〜）　保管庫の扉／40mm
+### 15-04（7秒・11:23〜）　保管庫の扉／40mm
 
 **行動・台詞**
 
@@ -1418,13 +1436,13 @@ Wide 24mm: a long cold storage hall with rows of standing upright pods holding d
 
 西棟・社長室付きの間 ／ 夜 ／ 桔響 25歳 ／ 尺 0:46 ／ R13（改）
 
-> カイルとアカネは、油谷のホログラムの傍らに、命令を待つだけの存在として立っている。声のない桔響は、手話で二人を呼ぶ。二人は目覚め、アカネは桔響の声がないことに気づく。ホログラムが微笑み、傭兵が現れる。
+> シオンとアカネは、油谷のホログラムの傍らに、命令を待つだけの存在として立っている。声のない桔響は、手話で二人を呼ぶ。二人は目覚め、アカネは桔響の声がないことに気づく。ホログラムが微笑み、傭兵が現れる。
 
-### 16-01（11秒・11:21〜）　社長室付きの間・引き／24mm
+### 16-01（11秒・11:30〜）　社長室付きの間・引き／24mm
 
 **行動・台詞**
 
-静かな広い部屋。油谷の等身大ホログラムの傍らに、金髪のカイルが立っている。瞳に淡い青の制御光。表情がない。部屋の隅に、同じ光を宿したアカネ。扉が開き、桔響が入る。  
+静かな広い部屋。油谷の等身大ホログラムの傍らに、金髪のシオンが立っている。瞳に淡い青の制御光。表情がない。部屋の隅に、同じ光を宿したアカネ。扉が開き、桔響が入る。  
 油谷（ホログラム）「J1000は、私の最初の子どもだ。返してもらったよ」  
 油谷「声まで失って、まだ来るのかね」
 
@@ -1436,14 +1454,14 @@ Wide 24mm: a long cold storage hall with rows of standing upright pods holding d
 Night, a large quiet executive hall inside a corporate tower wing, 24mm wide from the doorway, camera at standing eye level. Polished dark floor, tall window walls showing city lights. In the center a life-size pale-cyan translucent hologram of a gray-haired man in his sixties in a navy suit stands beside a young man with soft blond hair and a worn navy field jacket, standing perfectly still, a thin pale-cyan ring in his eyes, face empty. In a far corner a red-haired girl in a red work jacket stands equally still with the same cyan ring. In the near foreground, the back of a young woman with chin-length black hair and a graphite prosthetic left arm entering. Light: cold city glow from the windows, the hologram casting cyan light but no shadow.
 ```
 
-### 16-02（12秒・11:32〜）　手話／50mm／桔響の正面やや斜め
+### 16-02（12秒・11:41〜）　手話／50mm／桔響の正面やや斜め
 
 **行動・台詞**
 
 桔響は声の代わりに、両手で手話をする。二人の名前。そして――  
-〔手話〕桔響「カイル。アカネ。……おかえり」  
-カイルの瞳の制御光が揺らぎ、消える。目に光が戻る。  
-カイル「……桔響？」  
+〔手話〕桔響「シオン。アカネ。……おかえり」  
+シオンの瞳の制御光が揺らぎ、消える。目に光が戻る。  
+シオン「……桔響？」  
 ※手元のアップは避け、手の動きと表情で伝える。正確な意味は字幕で。
 
 **心理**　二人が出会った頃の言葉で呼ぶ。J1000とJ3200は手話が読める。
@@ -1454,7 +1472,7 @@ Night, a large quiet executive hall inside a corporate tower wing, 24mm wide fro
 Night in the executive hall, 50mm from slightly in front and to the side of a young woman with chin-length black hair, camera at her shoulder height. She signs with both hands mid-motion (hands slightly blurred by movement, not a close-up of finger shapes), her face open and tearful. Beyond her, out of focus, a blond young man in a navy field jacket blinks as the cyan ring fades from his blue-gray eyes. Light: cold window glow, cyan spill from an off-screen hologram.
 ```
 
-### 16-03（8秒・11:44〜）　アカネの目覚め／寄り／65mm
+### 16-03（8秒・11:53〜）　アカネの目覚め／寄り／65mm
 
 **行動・台詞**
 
@@ -1469,7 +1487,7 @@ Night in the executive hall, 50mm from slightly in front and to the side of a yo
 Night in a wide executive room with a cold city-window glow, 65mm close shot from Sara's side. A red-haired android girl in a red work jacket has just woken: the thin pale-cyan control ring in her amber eyes is fading out. She stares toward the camera (toward Sara) with a sudden shocked realization, lips parted, one gloved hand rising to her own mouth. Cool blue light from the window, a faint cyan spill from a hologram off screen.
 ```
 
-### 16-04（8秒・11:52〜）　微笑むホログラム／24mm
+### 16-04（8秒・12:01〜）　微笑むホログラム／24mm
 
 **行動・台詞**
 
@@ -1485,14 +1503,14 @@ Night in a wide executive room with a cold city-window glow, 65mm close shot fro
 Night, the wide executive room, 24mm low wide shot. In the foreground the life-size translucent cyan hologram of an old man in a navy suit smiles calmly. Behind him the double doors slide open and armed corporate security troops in matte dark-gray tactical armor with full dark visors file in one after another, rifles raised. Cold window light, hologram spill on the polished floor.
 ```
 
-### 16-05（7秒・12:00〜）　行くぞ／35mm
+### 16-05（7秒・12:09〜）　行くぞ／35mm
 
 **行動・台詞**
 
-カイル「行くぞ！」  
-カイルが、桔響の生身の右手を引いて走り出す。アカネも続く。
+シオン「行くぞ！」  
+シオンが、桔響の生身の右手を引いて走り出す。アカネも続く。
 
-**心理**　今度は、カイルが桔響の手を引く。
+**心理**　今度は、シオンが桔響の手を引く。
 
 **画像生成（SHOT）**　SARA_25／KYLE_POST／KIRA_POST
 
@@ -1505,9 +1523,9 @@ Night, the wide executive room, 24mm low wide shot. In the foreground the life-s
 
 西棟・通路／隔壁扉 ／ 夜 ／ 桔響 25歳 ／ 尺 0:47 ／ R14
 
-> 逃げる三人に、館内放送で油谷の声が響く。「無駄だ」。カイルとアカネが直立で止まる。桔響は二人を厚い隔壁扉の向こうへ投げ込み、ひとりで銃弾を受ける。
+> 逃げる三人に、館内放送で油谷の声が響く。「無駄だ」。シオンとアカネが直立で止まる。桔響は二人を厚い隔壁扉の向こうへ投げ込み、ひとりで銃弾を受ける。
 
-### 17-01（6秒・12:07〜）　走る三人／28mm
+### 17-01（6秒・12:16〜）　走る三人／28mm
 
 **行動・台詞**
 
@@ -1522,11 +1540,11 @@ Night, the wide executive room, 24mm low wide shot. In the foreground the life-s
 Night in a long service corridor of a corporate building, 28mm, camera running backward ahead of them at chest height. A blond young man pulls a black-haired young woman by her biological right hand; a red-haired android girl runs just behind. Ceiling loudspeakers along the corridor. Cold strip lights, red warning lamps starting to rotate.
 ```
 
-### 17-02（6秒・12:13〜）　直立／40mm
+### 17-02（6秒・12:22〜）　直立／40mm
 
 **行動・台詞**
 
-カイルとアカネが、ふっと直立で止まる。瞳に淡い青の制御の輪。表情が消える。  
+シオンとアカネが、ふっと直立で止まる。瞳に淡い青の制御の輪。表情が消える。  
 手を離された桔響が振り返る。
 
 **心理**　取り戻したはずの二人が、一言で持っていかれる。
@@ -1537,7 +1555,7 @@ Night in a long service corridor of a corporate building, 28mm, camera running b
 Same corridor, 40mm from behind the woman. The blond young man and the red-haired android girl have stopped dead, standing perfectly upright side by side, arms at their sides, faces emptied, a thin pale-cyan control ring in their eyes. In the foreground the black-haired woman turns back toward them, her right hand still open where his hand slipped away.
 ```
 
-### 17-03（7秒・12:19〜）　投げる／24mm
+### 17-03（7秒・12:28〜）　投げる／24mm
 
 **行動・台詞**
 
@@ -1551,7 +1569,7 @@ Same corridor, 40mm from behind the woman. The blond young man and the red-haire
 Same corridor beside a massive open bulkhead door half a meter thick, 24mm. The black-haired woman braces and, with her graphite prosthetic left arm, hurls the blond young man and the red-haired girl through the opening into the dim freight passage beyond. Motion in the throw, fabric and hair swinging. Red warning light.
 ```
 
-### 17-04（8秒・12:26〜）　二人だけ／35mm／低い位置
+### 17-04（8秒・12:35〜）　二人だけ／35mm／低い位置
 
 **行動・台詞**
 
@@ -1567,7 +1585,7 @@ SE「ババババ」
 A dim freight passage behind a thick bulkhead, 35mm low near the floor. The blond young man and the red-haired android girl lie sprawled on the concrete where they landed, lifting their heads, the cyan rings gone from their eyes, faces turning toward the door in horror. Harsh flicker of muzzle flashes from off screen lights them from the doorway side. No one else in frame.
 ```
 
-### 17-05（7秒・12:34〜）　二人越しの後ろ姿／50mm
+### 17-05（7秒・12:43〜）　二人越しの後ろ姿／50mm
 
 **行動・台詞**
 
@@ -1582,11 +1600,11 @@ A dim freight passage behind a thick bulkhead, 35mm low near the floor. The blon
 50mm from the floor of the freight passage, over the shoulders of the blond young man and the red-haired girl scrambling up: in the bulkhead doorway stands the black-haired woman seen from behind, arms spread to block the opening, backlit by flickering muzzle flashes in the corridor beyond. No gore.
 ```
 
-### 17-06（7秒・12:41〜）　受け止める／35mm
+### 17-06（7秒・12:50〜）　受け止める／35mm
 
 **行動・台詞**
 
-桔響が、後ろへ倒れてくる。カイルが受け止める。  
+桔響が、後ろへ倒れてくる。シオンが受け止める。  
 アカネが扉の制御装置を操作する。厚い扉が閉まり始める。
 
 **心理**　—
@@ -1597,7 +1615,7 @@ A dim freight passage behind a thick bulkhead, 35mm low near the floor. The blon
 The doorway of the freight passage, 35mm. The black-haired woman falls backward and the blond young man catches her in his arms, sinking to his knees. Beside the door the red-haired girl slams her hand on a control panel; the massive bulkhead door begins to slide shut, the corridor glare narrowing.
 ```
 
-### 17-07（6秒・12:48〜）　制御装置／50mm
+### 17-07（6秒・12:57〜）　制御装置／50mm
 
 **行動・台詞**
 
@@ -1614,11 +1632,11 @@ Close on a door control panel beside a fully closed thick bulkhead, 50mm. The re
 
 ## 18　王子様
 
-西棟・隔壁の内側の搬出路 ／ 夜 ／ 桔響 25歳 ／ 尺 0:49 ／ R15（改）
+西棟・隔壁の内側の搬出路 ／ 夜 ／ 桔響 25歳 ／ 尺 1:02 ／ R15（改）
 
-> 閉じた隔壁の内側で、アカネが桔響の喉に手を当て、声を返す。戻った声で、桔響はカイルと最後の言葉を交わす。最後の「おかえり」だけは、出会った頃の言葉、手話で。
+> 閉じた隔壁の内側で、アカネが桔響の喉に手を当て、声を返す。「ドロだったらよかったのにね」とこぼす桔響に、アカネは「人間の桔響だったから、あったかかった」と答える。シオンは答えられない。最後の「おかえり」だけは、出会った頃の言葉、手話で。
 
-### 18-01（9秒・12:54〜）　アカネ／寄り／65mm／低い位置
+### 18-01（9秒・13:03〜）　アカネ／寄り／65mm／低い位置
 
 **行動・台詞**
 
@@ -1634,14 +1652,14 @@ Close on a door control panel beside a fully closed thick bulkhead, 50mm. The re
 Night at an underground loading ramp lit by red emergency lamps, 65mm low angle close on a kneeling red-haired android girl in a red work jacket. She presses a small handheld terminal to the throat area of a dying young woman (out of frame below, only her black hair and shoulder visible), while the thin cyan control ring in her amber eyes fractures and goes dark. A single tear runs down her cheek. Light: red emergency light from above right, a cold white strip light far behind.
 ```
 
-### 18-02（11秒・13:03〜）　抱く／85mm
+### 18-02（11秒・13:12〜）　抱く／85mm
 
 **行動・台詞**
 
-カイルの腕の中で、桔響が声を出す。  
+シオンの腕の中で、桔響が声を出す。  
 桔響「……まだ、怒ってる？」  
-カイル「怒ってない！ 桔響の食料と、部品を探しにっ……！」  
-カイル「もうしゃべるなっ！」
+シオン「怒ってない！ 桔響の食料と、部品を探しにっ……！」  
+シオン「もうしゃべるなっ！」
 
 **心理**　11の「怒ってる」に、ここで答える。黙って出ていった理由も、ここで初めて桔響に届く。
 
@@ -1651,14 +1669,16 @@ Night at an underground loading ramp lit by red emergency lamps, 65mm low angle 
 Close 85mm: the young man sits on the concrete floor holding the woman across his lap; her biological right hand rises to touch his cheek, smearing a little dust; his face wet, shaking. Warm light from the truck interior on one side, red emergency light on the other.
 ```
 
-### 18-03（9秒・13:14〜）　涙を拭う／65mm
+### 18-03（12秒・13:23〜）　涙を拭う／65mm
 
 **行動・台詞**
 
-桔響「わたし、全然カイルのこと知らないね」  
-桔響の生身の右手が、カイルの涙を拭う。
+桔響「わたし、全然シオンのこと知らないね」  
+桔響の生身の右手が、シオンの涙を拭う。  
+桔響「私も……二人と同じ、ドロだったらよかったのにね」  
+桔響「そしたら、ずっと一緒に……」
 
-**心理**　11の「知ってた？」「最初から」と対になる。
+**心理**　11の「知ってた？」「最初から」と対になる。10-02で、おびえるシオンに言った「私も、ドロだから」。寄り添うための嘘が、最期に本当の願いになって戻ってくる。
 
 **画像生成（SHOT）**　SARA_25／KYLE_POST
 
@@ -1666,13 +1686,32 @@ Close 85mm: the young man sits on the concrete floor holding the woman across hi
 Inside the closed freight passage, 65mm close two-shot. The blond young man kneels holding the black-haired woman across his lap; she looks up at him with a faint, tired smile and gently wipes a tear from his cheek with her biological right hand. Red emergency light, dim concrete. No gore.
 ```
 
-### 18-04（13秒・13:23〜）　右手と頬／100mm
+### 18-04（10秒・13:35〜）　アカネの答え／65mm
+
+**行動・台詞**
+
+アカネが、涙のまま笑う。  
+アカネ「何言ってんの」  
+アカネ「人間の桔響だったから……あったかかったんだよ」  
+シオンは何も言えない。桔響を抱く腕に、力がこもる。  
+桔響が、小さく笑う。  
+※アカネの答えのあと、1〜2秒の間を残す。
+
+**心理**　桔響の声を奪ったアカネが、返したその声で届いた願いに、全部を覚えている者として答える。シオンはまだ思い出せないから、答えられない。その答えられなさが、19からの彼を動かす。
+
+**画像生成（SHOT）**　KIRA_POST／KYLE_POST／SARA_25
+
+```
+Inside the closed freight passage lit by red emergency lamps, 65mm. The red-haired android girl in a red work jacket kneels close beside them, tears streaming down her face yet smiling through them as she speaks softly down to the dying woman; her amber eyes show no control ring. In the soft-focus foreground, the blond young man holds the woman tightly, his hand gripping her olive jacket; only the woman's black hair is visible at the bottom of frame. Light: red emergency light from above, a cold white strip light far behind. No gore.
+```
+
+### 18-05（13秒・13:45〜）　右手と頬／100mm
 
 **行動・台詞**
 
 桔響「ずっと、私の王子様。……あなたと同じ時間を、生きたかった」  
-右手で、カイルの頬に触れる。  
-桔響「カイル……」  
+右手で、シオンの頬に触れる。  
+桔響「シオン……」  
 頬から離れた右手が、ゆっくり手話をつくる。  
 〔手話〕桔響「おかえり」  
 ※手元のアップは避け、手の動きと表情で伝える。正確な意味は字幕で。
@@ -1685,13 +1724,13 @@ Inside the closed freight passage, 65mm close two-shot. The blond young man knee
 100mm extreme close on her face, eyes half open, a faint smile, lips just closing after a word; his blurred cheek and her fingertips in the foreground. Nothing glows on her neck. Soft warm light from the truck, everything else in shadow.
 ```
 
-### 18-05（7秒・13:36〜）　叫ぶ／35mm／見上げ
+### 18-06（7秒・13:58〜）　叫ぶ／35mm／見上げ
 
 **行動・台詞**
 
-カイルの目元は映さない（前髪の影）。  
-カイルが上を向き、叫ぶ。  
-カイル「――――！」  
+シオンの目元は映さない（前髪の影）。  
+シオンが上を向き、叫ぶ。  
+シオン「――――！」  
 カット。19へ。
 
 **心理**　—
@@ -1707,13 +1746,13 @@ Inside the closed freight passage, 35mm low angle looking up. The blond young ma
 
 共同体・医療室 ／ 夜明け前 ／ — ／ 尺 0:32 ／ R16
 
-> 共同体の医療室。桔響の顔まで白い布が掛けられている。カイルの中に、彼自身の記憶が蘇る。拳の震えが止まる。
+> 共同体の医療室。桔響の顔まで白い布が掛けられている。シオンの中に、彼自身の記憶が蘇る。拳の震えが止まる。
 
-### 19-01（8秒・13:43〜）　搬送車の中／35mm
+### 19-01（8秒・14:05〜）　搬送車の中／35mm
 
 **行動・台詞**
 
-暗い地下路を走る搬送車。白布を胸まで掛けられた桔響。カイルは彼女の生身の右手を両手で握っている。アカネは向かいで俯く。
+暗い地下路を走る搬送車。白布を胸まで掛けられた桔響。シオンは彼女の生身の右手を両手で握っている。アカネは向かいで俯く。
 
 **心理**　誰も話さない。エンジン音だけ。
 
@@ -1723,7 +1762,7 @@ Inside the closed freight passage, 35mm low angle looking up. The blond young ma
 35mm inside the moving rescue truck: dim interior light, the woman lying on a stretcher under a white sheet up to her chest, eyes closed; the young man sits beside her holding her right hand in both of his; across from them the red-haired girl sits with her head down. Passing tunnel lights sweep across them through the small rear window.
 ```
 
-### 19-02（8秒・13:51〜）　医療室・引き／28mm
+### 19-02（8秒・14:13〜）　医療室・引き／28mm
 
 **行動・台詞**
 
@@ -1737,11 +1776,11 @@ Inside the closed freight passage, 35mm low angle looking up. The blond young ma
 Wide 28mm, clinical room in the underground community: a simple bed with a body completely covered by a white sheet including the face, monitors switched off; the medic stands by a wall clock, head lowered; the young man stands a few steps away, very still. Flat cold light from a single fluorescent tube.
 ```
 
-### 19-03（9秒・13:59〜）　記憶／寄り／100mm
+### 19-03（9秒・14:21〜）　記憶／寄り／100mm
 
 **行動・台詞**
 
-白布を見つめるカイルの瞳に、断片が映る。夕暮れの公園、フェンス越しのボール、共同体の灯り。桔響のコピーではなく、カイル自身の記憶。
+白布を見つめるシオンの瞳に、断片が映る。夕暮れの公園、フェンス越しのボール、共同体の灯り。桔響のコピーではなく、シオン自身の記憶。
 
 **心理**　思い出せなかった幼い日が、今になって戻ってくる。
 
@@ -1751,11 +1790,11 @@ Wide 28mm, clinical room in the underground community: a simple bed with a body 
 Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of the eye, a tiny reflection of the white sheet and the fluorescent tube; no fantasy overlay, only real reflection. His lashes, a single unshed tear at the rim.
 ```
 
-### 19-04（7秒・14:08〜）　拳と銃／50mm
+### 19-04（7秒・14:30〜）　拳と銃／50mm
 
 **行動・台詞**
 
-カイルの拳が震え、やがて止まる。壁に立てかけられた銃を掴む。
+シオンの拳が震え、やがて止まる。壁に立てかけられた銃を掴む。
 
 **心理**　悲しみが、冷たい怒りに変わる瞬間。
 
@@ -1770,13 +1809,13 @@ Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of t
 
 共同体・格納庫／ユタニ本社正面 ／ 夜明け ／ — ／ 尺 0:53 ／ R17＋R18（統合）
 
-> カイルは装甲車を奪う。アカネが叫ぶ。「あんたまでいなくなったら、私は！」カイルは答えず、ユタニ本社の正面を突破する。
+> シオンは装甲車を奪う。アカネが叫ぶ。「あんたまでいなくなったら、私は！」シオンは答えず、ユタニ本社の正面を突破する。
 
-### 20-01（8秒・14:15〜）　格納庫／28mm
+### 20-01（8秒・14:37〜）　格納庫／28mm
 
 **行動・台詞**
 
-武器と弾薬を持ったカイルが装甲車へ向かう。  
+武器と弾薬を持ったシオンが装甲車へ向かう。  
 アカネ「待ちなさい！　一人で行って何になるの！」
 
 **心理**　アカネの怒りは、もう一人失うことへの恐怖。
@@ -1787,14 +1826,14 @@ Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of t
 28mm in a garage dug into the old station, pre-dawn: work lights on stands, wet concrete floor; the young man walks toward an armored truck with a rifle and ammunition bag; behind him the red-haired girl runs after him shouting.
 ```
 
-### 20-02（9秒・14:23〜）　車扉を挟む二人／40mm
+### 20-02（9秒・14:45〜）　車扉を挟む二人／40mm
 
 **行動・台詞**
 
-運転席に乗り込むカイル。開いた扉をアカネが掴む。  
+運転席に乗り込むシオン。開いた扉をアカネが掴む。  
 アカネ「あんたまでいなくなったら、私は……！」
 
-**心理**　アカネが初めて、自分の気持ちを声にしかける。桔響を失い、カイルまで失う恐怖。言い切れないところで止める。
+**心理**　アカネが初めて、自分の気持ちを声にしかける。桔響を失い、シオンまで失う恐怖。言い切れないところで止める。
 
 **画像生成（SHOT）**　KYLE_POST／KIRA_POST
 
@@ -1802,11 +1841,11 @@ Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of t
 40mm: the red-haired girl grips the open armored door with both hands, face furious and wet with tears; inside, the young man sits at the wheel looking straight ahead, his face lit by a dashboard glow.
 ```
 
-### 20-03（8秒・14:32〜）　横顔／85mm
+### 20-03（8秒・14:54〜）　横顔／85mm
 
 **行動・台詞**
 
-カイルの手が一瞬止まる。何も言わない。  
+シオンの手が一瞬止まる。何も言わない。  
 運転席の扉が閉まる。
 
 **心理**　答えないことが答え。言葉にしたら、行けなくなる。
@@ -1817,7 +1856,7 @@ Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of t
 85mm profile of the young man in the driver's seat, jaw set, eyes dry, faint cool light from the garage door seam on his face, hand frozen on the gearshift.
 ```
 
-### 20-04（7秒・14:40〜）　突破／20mm
+### 20-04（7秒・15:02〜）　突破／20mm
 
 **行動・台詞**
 
@@ -1831,7 +1870,7 @@ Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of t
 Wide 20mm from inside the garage: the armored truck bursts through the corrugated door into a ruined city at sunrise, metal panels flying, orange dawn light flooding in; the red-haired girl's silhouette stands in the foreground, hair whipped by the wind.
 ```
 
-### 20-05（7秒・14:47〜）　本社正面／16mm
+### 20-05（7秒・15:09〜）　本社正面／16mm
 
 **行動・台詞**
 
@@ -1845,11 +1884,11 @@ Wide 20mm from inside the garage: the armored truck bursts through the corrugate
 Ultra-wide 16mm low from the plaza: a colossal corporate headquarters tower of glass and concrete in cold morning light; an armored truck smashes through a barricade of concrete blocks, debris and sparks flying; dozens of armored security androids deploying across the plaza.
 ```
 
-### 20-06（7秒・14:54〜）　格闘／35mm
+### 20-06（7秒・15:16〜）　格闘／35mm
 
 **行動・台詞**
 
-降りてきたカイルに警備ドロが向かってくる。カイルは銃を撃たない。銃床と銃身で殴り、払い、右へ見せて左足で返す癖でかわして進む。  
+降りてきたシオンに警備ドロが向かってくる。シオンは銃を撃たない。銃床と銃身で殴り、払い、右へ見せて左足で返す癖でかわして進む。  
 警備ドロは妙に弱い。押せば下がり、道を空けるように退いていく。誘導されているような違和感。  
 ※銃は格闘の道具。撃たない。説明はしない（わかる人にはわかる、桔響の「壊さずに救う」）。
 
@@ -1861,7 +1900,7 @@ Ultra-wide 16mm low from the plaza: a colossal corporate headquarters tower of g
 Morning on the plaza in front of a corporate tower, 35mm at chest height amid debris. A blond young man in a navy field jacket fights armored security androids hand to hand, using his rifle only as a club: he slams the stock into one android's visor and sweeps another's rifle aside with the barrel, feinting right and pivoting on his left foot. His finger is off the trigger. Dust, sparks from armor, cold morning light.
 ```
 
-### 20-07（7秒・15:01〜）　ガラス扉／35mm
+### 20-07（7秒・15:23〜）　ガラス扉／35mm
 
 **行動・台詞**
 
@@ -1880,9 +1919,9 @@ Morning on the plaza in front of a corporate tower, 35mm at chest height amid de
 
 本社・中央ロビー ／ 夜明け ／ — ／ 尺 0:57 ／ R19
 
-> ロビーで待っていたのは、油谷の遠隔ホログラム。「家族にならないか」。カイルは撃ち、数十体の警備ドロが現れる。カイルは小さく笑う。「……変なの」
+> ロビーで待っていたのは、油谷の遠隔ホログラム。「家族にならないか」。シオンは撃ち、数十体の警備ドロが現れる。シオンは小さく笑う。「……変なの」
 
-### 21-01（9秒・15:08〜）　対峙／24mm
+### 21-01（9秒・15:30〜）　対峙／24mm
 
 **行動・台詞**
 
@@ -1897,7 +1936,7 @@ Morning on the plaza in front of a corporate tower, 35mm at chest height amid de
 Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galleries in shadow; in the center a life-size pale cyan translucent hologram of a gray-haired man in a suit, arms relaxed, faint scan lines; the young man stands far in front of it, rifle raised, bleeding. The only light: the hologram's glow and the bright doorway behind.
 ```
 
-### 21-02（17秒・15:17〜）　誘い／85mm
+### 21-02（17秒・15:39〜）　誘い／85mm
 
 **行動・台詞**
 
@@ -1916,16 +1955,16 @@ Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galler
 85mm on the hologram: the gray-haired man's translucent face with a polite, gentle smile, arms opening wide; scan lines and slight flicker; his light spills onto the stone floor but he casts no shadow.
 ```
 
-### 21-03（10秒・15:34〜）　爆発／35mm
+### 21-03（10秒・15:56〜）　爆発／35mm
 
 **行動・台詞**
 
-カイル「うるせぇ……」  
+シオン「うるせぇ……」  
 油谷は語り続ける。  
-カイル「うるせえええええ！」  
+シオン「うるせえええええ！」  
 発砲。弾はホログラムの頭部を素通りし、像がグリッチに崩れる。
 
-**心理**　カイルが銃を撃つのは、ここだけ。ブチギレても、撃った先はホログラム。誰も傷つかない。
+**心理**　シオンが銃を撃つのは、ここだけ。ブチギレても、撃った先はホログラム。誰も傷つかない。
 
 **画像生成（SHOT）**　KYLE_POST／YUTANI_HOLO
 
@@ -1933,7 +1972,7 @@ Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galler
 35mm on the young man firing on full auto, face contorted in a scream, muzzle flash lighting his face orange in the dim lobby; in the background the hologram's head breaks apart into glitching horizontal bands, no blood.
 ```
 
-### 21-04（9秒・15:44〜）　包囲／16mm
+### 21-04（9秒・16:06〜）　包囲／16mm
 
 **行動・台詞**
 
@@ -1949,14 +1988,14 @@ Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galler
 Ultra-wide 16mm from high above behind the glitching hologram: the young man small in the middle of the lobby floor; along the upper galleries and through opened rear doors dozens of armored security androids raise rifles at him, their visor lines a constellation of faint cyan.
 ```
 
-### 21-05（12秒・15:53〜）　突撃／24mm／背後から
+### 21-05（12秒・16:15〜）　突撃／24mm／背後から
 
 **行動・台詞**
 
-幼い日の桔響。ボールを抱えた桔響。隣に座った桔響。最後に頬へ触れた右手。カイルは小さく笑う。  
-カイル「……変なの」  
-銃弾の嵐へ、正面から突っ込む。カイルは撃たない。銃は振るうだけ。  
-カイル「うおおおおおおお――！」  
+幼い日の桔響。ボールを抱えた桔響。隣に座った桔響。最後に頬へ触れた右手。シオンは小さく笑う。  
+シオン「……変なの」  
+銃弾の嵐へ、正面から突っ込む。シオンは撃たない。銃は振るうだけ。  
+シオン「うおおおおおおお――！」  
 白い閃光。生死は映さない。
 
 **心理**　R01の「変なの」の回収。彼自身の言葉として。
@@ -1974,7 +2013,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 
 > 3年後の春。桜の下、桔響の工具袋を腰に下げたアカネ。桔響が倒壊区域から救った人間の少女とドロの少年が、ボールを介して出会う。画面の外から、男の声。
 
-### 22-01（8秒・16:05〜）　春の共同体／28mm
+### 22-01（8秒・16:27〜）　春の共同体／28mm
 
 **行動・台詞**
 
@@ -1988,7 +2027,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 28mm on a mountain-village path in spring: cherry trees in full bloom, petals falling naturally in a light breeze, wooden houses and solar panels; the red-haired girl, unchanged, walks with a worn brown leather bag on her belt; human and android children run past. Soft overcast spring light.
 ```
 
-### 22-02（9秒・16:13〜）　子供たち／50mm
+### 22-02（9秒・16:35〜）　子供たち／50mm
 
 **行動・台詞**
 
@@ -1996,7 +2035,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 少年「……ボール」  
 少女が渡す。二人は笑う。
 
-**心理**　桔響とカイルを思わせるが、本人でも転生でもない。
+**心理**　桔響とシオンを思わせるが、本人でも転生でもない。
 
 **画像生成（SHOT）**　KIDS
 
@@ -2004,7 +2043,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 50mm at child height: a small human girl with long straight black hair holds out a soccer ball to a small boy with messy dark hair; both smiling shyly; cherry petals on the grass. Spring daylight, bounce from the pale path.
 ```
 
-### 22-03（8秒・16:22〜）　アカネの口元／85mm
+### 22-03（8秒・16:44〜）　アカネの口元／85mm
 
 **行動・台詞**
 
@@ -2018,7 +2057,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 85mm close on the red-haired girl turning back over her shoulder, only the corner of her mouth lifting in a faint smile, amber eyes soft; petals drifting out of focus between her and the camera.
 ```
 
-### 22-04（8秒・16:30〜）　声の方へ／35mm
+### 22-04（8秒・16:52〜）　声の方へ／35mm
 
 **行動・台詞**
 
@@ -2028,7 +2067,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 アカネ「今行く！」  
 アカネが走っていく。声の主は映さない。
 
-**心理**　カイルかどうかは明かさない。観客に委ねる。
+**心理**　シオンかどうかは明かさない。観客に委ねる。
 
 **画像生成（SHOT）**　KIRA_POST
 
@@ -2036,7 +2075,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 35mm: the red-haired girl turns and runs toward the edge of the frame along the blossom path; the direction she runs to is empty and out of frame; no other person and no vehicle visible.
 ```
 
-### 22-05（6秒・16:38〜）　暗転
+### 22-05（6秒・17:00〜）　暗転
 
 **行動・台詞**
 
