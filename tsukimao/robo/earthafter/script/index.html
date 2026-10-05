@@ -12,6 +12,7 @@
 :root{--ink:#0b0a09;--ink2:#121010;--panel:#1a1714;--line:#342e28;--paper:#efe7d9;--mute:#b5ab9b;--dim:#80776a;--a1:#e8a94f;--a2:#9aa05c;--a3:#7f9cc4;--sara:#9fb08a;--kyle:#86a6d3;--kira:#dc8058;--sign:#8fe6ff;--serif:'Shippori Mincho B1',serif;--mono:'JetBrains Mono',monospace}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:120px;background:var(--ink)}
+html.ea-on[lang]{scroll-padding-top:calc(var(--ea-h) + 74px)}
 body{background:var(--ink);color:var(--paper);font-family:'Noto Sans JP',system-ui,sans-serif;font-size:16.5px;line-height:1.9;-webkit-text-size-adjust:100%}
 a{color:var(--a3)}
 button{font:inherit;color:inherit;cursor:pointer}
@@ -47,7 +48,7 @@ pre{background:#050505;border:1px solid var(--line);border-radius:12px;padding:1
 .chars span{color:#cfc6b6}
 @media(max-width:640px){.chars div{grid-template-columns:1fr}}
 /* toc */
-.toc{position:sticky;top:0;z-index:20;background:#0b0a09ee;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.toc{position:sticky;top:var(--ea-h,0px);z-index:20;background:#0b0a09ee;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .toc .in{display:flex;gap:6px;overflow-x:auto;padding:10px 18px;max-width:1080px;margin:0 auto;scrollbar-width:none;align-items:center}
 .toc .in::-webkit-scrollbar{display:none}
 .toc a{flex:none;text-decoration:none;font-size:13px;color:var(--mute);padding:6px 11px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
@@ -94,6 +95,7 @@ mark{background:#e8a94f55;color:inherit;border-radius:3px}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 footer{padding:40px 0 80px;color:var(--mute);font-size:13px}
 </style>
+<link rel="stylesheet" href="../assets/ea-nav.css?v=3">
 </head>
 <body>
 <header class="top"><div class="wrap">
@@ -104,7 +106,7 @@ footer{padding:40px 0 80px;color:var(--mute);font-size:13px}
   <div class="stats" id="stats"></div>
 </div></header>
 
-<section><div class="wrap">
+<section id="notes" data-ea-label="改訂ポイント"><div class="wrap">
   <h2>今回の改訂ポイント（v3.1）</h2>
   <div class="grid">
     <div class="card"><h3>第3幕を一本の因果に</h3><ul><li>11：カイルが食料を探しに出て、ユタニ社に連れ去られる</li><li>12：「今日も見つからなかった」夜に自分で髪を切り、そのまま倒壊区域へ。子供2人を救い、左腕を失う（23歳）</li><li>13：義手を動かすため、アカネがユタニの医療回線へつなぐ → その回線からアカネの奥の命令が起動 → 眠る桔響の喉に手を当てて声を止め（赤）、去る。翌朝、桔響は寝床で起き上がり、声にならない息と涙だけ（説明の台詞なし）</li><li><b>14「2年後」を新設</b>：通信係の青年がハックした監視カメラに、油谷の横のカイルと遠くのアカネが映る</li><li>15〜：西棟へ。16、手話の「おかえり」でカイルとアカネが目覚める → 17、油谷の「無駄だ」で二人が止まり、桔響が厚い隔壁の向こうへ投げ込んで銃弾を受ける（銃声だけ）→ 18、アカネが声を返す（緑）。最期の会話で11を回収し、最後の「おかえり」だけ手話で</li></ul></div>
@@ -150,10 +152,10 @@ let html='',cur=0;const toc=[];
 S.scenes.forEach(s=>{
   if(s.act!==cur){cur=s.act;html+=`<div class="actH" style="--c:${AC[cur]}"><small>ACT ${cur}</small>${esc(s.actName)}</div>`}
   toc.push(`<a href="#s${s.id}" style="--c:${AC[s.act]}" data-s="${s.id}">${s.id} ${esc(s.title)}</a>`);
-  html+=`<article class="scene" id="s${s.id}" style="--c:${AC[s.act]}"><h3><span class="no">${s.id}</span>${esc(s.title)}</h3>
+  html+=`<article class="scene" id="s${s.id}" data-ea-label="${s.id} ${esc(s.title)}" data-ea-group="ACT ${s.act}" style="--c:${AC[s.act]}"><h3><span class="no">${s.id}</span>${esc(s.title)}</h3>
    <div><span class="tag ${s.old==='新規'?'new':''}">${s.old==='新規'?'新規シーン':'旧'+s.old}</span><span class="tag">${esc(s.place)}</span><span class="tag">${esc(s.time)}</span>${s.age!=='—'?`<span class="tag">${esc(s.age)}</span>`:''}<span class="tag">尺 ${fmt(s.sec)}</span></div>
    <p class="sum">${esc(s.sum)}</p>
-   ${s.cuts.map((c,i)=>`<div class="cut" data-t="${esc((c.act+c.cam+c.psy+s.place+s.title).toLowerCase())}"><div class="meta"><b>${c.id}</b>${c.sec}秒<br>${fmt(c.t0)}〜</div><div>
+   ${s.cuts.map((c,i)=>`<div class="cut" id="c${c.id}" data-t="${esc((c.act+c.cam+c.psy+s.place+s.title).toLowerCase())}"><div class="meta"><b>${c.id}</b>${c.sec}秒<br>${fmt(c.t0)}〜</div><div>
      ${(()=>{const e=EAC[c.id];if(e&&e.img)return `<a class="shot" href="../img/sb3/${c.id}.webp" target="_blank" rel="noopener"><img src="../img/sb3/${c.id}.webp" alt="${c.id}" loading="lazy"><span class="st">${e.sheet}</span>${e.fix?'<span class="fx">要修正</span>':''}</a>${e.fix?`<p class="fixnote">修正待ち：${esc(e.fix)}</p>`:''}`;return `<div class="shot none">${e?e.sheet+' ・ ':''}絵コンテ未生成</div>`})()}<div class="cam">${esc(c.cam)}</div><div class="act">${fmtAct(c.act)}</div><div class="psy">${esc(c.psy)}</div>
      <details class="pr"><summary>画像生成プロンプト（SHOT）${c.chars.length?'・'+c.chars.join(' / '):''}</summary><pre>${esc(c.en)}</pre>
      <div class="bt"><button class="btn sm pri" type="button" data-full="${s.id}|${i}">全文をコピー（画風＋キャラ＋SHOT）</button><button class="btn sm" type="button" data-shot="${s.id}|${i}">SHOTのみコピー</button></div></details>
@@ -173,5 +175,6 @@ const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){links.
 document.querySelectorAll('.scene').forEach(s=>io.observe(s));
 })();
 </script>
+<script src="../assets/ea-nav.js?v=3" defer></script>
 </body>
 </html>

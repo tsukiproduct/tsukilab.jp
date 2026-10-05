@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#0b0a09">
 <meta property="og:title" content="EARTH AFTER — 制作ガイド">
 <meta property="og:description" content="あなたと同じ時間を、生きたかった。">
-<meta property="og:image" content="img/ref/key.webp">
+<meta property="og:image" content="img/bg3/10.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho+B1:wght@500;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -18,9 +18,10 @@ document.documentElement.classList.add('js');
 (function(){var s=false;try{s=sessionStorage.getItem('ea-boot')}catch(e){}if(s||location.hash)document.documentElement.classList.add('noboot');try{sessionStorage.setItem('ea-boot','1')}catch(e){}})();
 window.addEventListener('error',function(e){try{var b=document.getElementById('errbar');if(!b){b=document.createElement('div');b.id='errbar';b.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;z-index:9999;background:#300;color:#fcc;border:1px solid #a33;border-radius:10px;padding:8px 10px;font:12px/1.5 monospace;white-space:pre-wrap';document.body.appendChild(b)}b.textContent+='表示エラー：'+(e.message||'')+' ('+String(e.filename||'').split('/').pop()+':'+(e.lineno||'')+')\n'}catch(_){}});
 </script>
-<link rel="stylesheet" href="style.css?v=11">
+<link rel="stylesheet" href="style.css?v=12">
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
-<link rel="preload" as="image" href="img/ref/key.webp">
+<link rel="preload" as="image" href="img/bg3/01.webp">
+<link rel="stylesheet" href="assets/ea-nav.css?v=3">
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -61,7 +62,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 <main id="top">
 <!-- HERO -->
 <section class="hero" aria-label="タイトル">
-  <div class="bg" role="img" aria-label="大樹の下にいる桔響、アカネ、カイル（キービジュアル）"></div>
+  <div class="bg" role="img" aria-label="絵コンテから：公園のベンチ、フェンス越しのボール、共同体のサッカー、高架下の戦い、隔壁扉、3年後の春"><i style="--n:0;--i:url(img/bg3/01.webp)"><b>01 — 泣いている少女</b></i><i style="--n:1;--i:url(img/bg3/04.webp)"><b>04 — バレバレ</b></i><i style="--n:2;--i:url(img/bg3/10.webp)"><b>10 — 同じ暮らし</b></i><i style="--n:3;--i:url(img/bg3/09.webp)"><b>09 — 王子様との戦い</b></i><i style="--n:4;--i:url(img/bg3/17.webp)"><b>17 — 無駄だ</b></i><i style="--n:5;--i:url(img/bg3/22.webp)"><b>22 — AFTER</b></i></div>
   <div class="letterbox t"></div>
   <div class="in">
     <p class="kick">ROBOT CARNIVAL AI FILM CONTEST — LONG CATEGORY</p>
@@ -84,11 +85,19 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </section>
 
 <!-- HOW TO -->
-<section class="sec" id="start" style="--act:var(--amber)">
+<section class="sec" id="start" data-ea-label="使い方・更新" style="--act:var(--amber)">
   <div class="wrap">
-    <p class="eyebrow reveal">00 · HOW TO USE</p>
-    <h2 class="h reveal">このガイドの使い方</h2>
-    <p class="lead reveal">『EARTH AFTER』に関わる人が、同じ絵と同じ言葉で作品を共有するためのページです。初めての人は上から順に、制作中の人は必要な場所へ直接どうぞ。</p>
+    <p class="eyebrow reveal">00 · START HERE</p>
+    <h2 class="h reveal">ここから始める</h2>
+    <p class="lead reveal">N3Coの3人で『EARTH AFTER』を作るための制作ハブです。上のタブでページを切り替え、<kbd class="k">⌘K</kbd>（Windowsは<kbd class="k">Ctrl K</kbd>、スマホは右上の🔍）でシーン・カット・台詞まで横断ジャンプできます。</p>
+    <div class="hub reveal" aria-label="ページ一覧">
+      <a href="world/" style="--c:var(--sakura);--img:url(img/bg3/01.webp)"><small>WORLD</small><b>世界観ガイド</b><span>結末までのストーリー、人物相関図、プロフィール、舞台、小道具。まずここで全体を掴む。</span></a>
+      <a href="script/" style="--c:var(--sara);--img:url(img/bg3/05.webp)"><small>SCRIPT</small><b>脚本 v3.1</b><span>22シーン・114カットの行動、台詞、カメラ、心理と、画像生成プロンプト。</span></a>
+      <a href="design/" style="--c:var(--kyle);--img:url(design/img/height-lineup-s.webp)"><small>DESIGN</small><b>デザイン資料</b><span>設定画、年齢別の衣装、作画固定事項。</span></a>
+      <a href="gadgets/" style="--c:var(--glow);--img:url(gadgets/img/kira-bike-scene-s.webp)"><small>GADGETS</small><b>ガジェット</b><span>ユタニ ミャオ、アカネのバイク、生活小物、隠れ猫。</span></a>
+      <a href="review/" style="--c:var(--human);--img:url(img/bg3/22.webp)"><small>REVIEW</small><b>審査シミュレーション</b><span>公式の審査基準と審査員の視点で、いまの脚本を採点。</span></a>
+    </div>
+    <h3 class="hub-h reveal">このページの中</h3>
     <div class="howto reveal">
       <a href="#film"><b>01 · WATCH</b><h3>まず観る</h3><p>新しい画風の絵コンテをつないだ字幕付きアニマティック。脚本の計画尺（16:44）で全体を通して観られます。</p></a>
       <a href="#story"><b>02 · READ</b><h3>物語と人物を知る</h3><p>全22シーンをスクロールで追体験。人物相関図と、桔響の身体の変化も図で確認できます。</p></a>
@@ -97,17 +106,22 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
     <div class="stats reveal">
       <div><strong>3</strong><span>幕構成</span></div>
       <div><strong>22</strong><span>シーン</span></div>
-      <div><strong>109</strong><span>カット</span></div>
+      <div><strong>114</strong><span>カット</span></div>
+      <div><strong>16:44</strong><span>計画尺（上限 20:00）</span></div>
       <div><strong id="stGen">60</strong><span>絵コンテ生成済みカット</span></div>
       <div><strong>4</strong><span>3D舞台モデル</span></div>
     </div>
     <div class="changelog reveal" id="updates">
       <h3>更新履歴</h3>
       <ol>
-        <li><time datetime="2026-10-05">2026-10-05</time><span><b><a href="world/">オフィシャルガイド</a>を新設。</b>世界観、ストーリー（ネタバレなし）、人物相関図、プロフィール、舞台、小道具をひとつのページに。制作 N3Co。あわせて新規3カット（01-05・10-08・10-09）の絵を反映。</span></li>
+        
+        <li><time datetime="2026-10-05">2026-10-05</time><span><b>サイト全体を整理。</b>全ページ共通のタブ（制作ガイド／世界観／脚本／デザイン／ガジェット／審査）、追従する目次（PCは右端、スマホは下の目次ボタン）、読んだ位置のバー、<kbd class="k">⌘K</kbd>・<kbd class="k">/</kbd> でシーン・カット・台詞まで横断検索、<kbd class="k">[</kbd> <kbd class="k">]</kbd> で前後のセクションへ。トップの画面を新しい絵コンテに差し替え。<a href="world/#story">世界観ガイドのストーリー</a>を結末まで記載（制作チーム向け）。</span></li>
+        <li><time datetime="2026-10-05">2026-10-05</time><span><b><a href="world/">オフィシャルガイド</a>を新設。</b>世界観、ストーリー、人物相関図、プロフィール、舞台、小道具をひとつのページに。制作 N3Co。あわせて新規3カット（01-05・10-08・10-09）の絵を反映。</span></li>
         <li><time datetime="2026-10-05">2026-10-05</time><span><b>キャラクター名を決定。</b>沙羅→<b>桔響</b>（ききょう）、キラ→<b>アカネ</b>、ユタニ（人物）→<b>油谷</b>。名字は裏設定で、桔響とアカネは「橘」（父がアカネを直して住民登録した）、カイルは「油谷」。台詞は下の名前で呼び、油谷だけ名字で呼ぶ。会社名はカタカナの「ユタニ」のまま。カイルの下の名前と通信係の青年の名前は未定。ガイド全体の表記を差し替え（過去の更新履歴も新しい名前で表記）。</span></li>
         <li><time datetime="2026-10-05">2026-10-05</time><span><b>10〜11のつながりを整理（22シーン・114カット・16:44）。</b>01に幼いカイルの手話の「ありがとう」（01-05）を足し、カイルが手話を読めることを先に見せる。10は「私もドロだから」を最初の夜へ移し、板を割る→一人で資材置き場へ→バイクで追う（10-08）→その夜「危ないことは、やめて」「おやすみ」（10-09）→11の缶詰がバレる、とつなげた。10-05は内緒話の手話を読まれる形に。新規3カットの絵も反映済み。</span></li>
         <li><time datetime="2026-10-05">2026-10-05</time><span><b>ガジェット・小物をシーンに反映（全111カット・要修正0）。</b>10-06「ちょっとかります！」の絵（4案から採用）、03-01・03-04にユタニ ミャオ、10-02・10-07・11-01・11-03・11-05・14-01にねねさんの生活小物（14-01の地図に隠れ猫）。アニマティックMP4も作り直し。</span></li>
+      </ol>
+      <details class="older"><summary>過去の更新（18件）</summary><ol>
         <li><time datetime="2026-10-05">2026-10-05</time><span><b>MVを更新。</b>テーマ曲を歌詞変更版に差し替え（2番Bメロ「指をほどいて」→「指を握って」）、映像を脚本v3.1の絵コンテ（金髪のカイル、16〜18の手を引く場面、2年後、AFTER）で作り直し。ガジェット・小物をシーンに入れる画像依頼（10-06の新規と8カットの追加）を準備。</span></li>
         <li><time datetime="2026-10-05">2026-10-05</time><span><b>Nokosuさんの案を脚本に反映（22シーン・111カット・16:18）。</b>10-06「ちょっとかります！」（桔響がアカネのバイクでカイルのもとへ）を新設。突入は不気味に静かに（警備は数体で妙に弱く、無人のロビー）。21-02で油谷が理由を語る（家族を飲酒運転の男に奪われた）。03-01の背景にユタニ ミャオ Mark II。10-06と03-01は画像待ち。</span></li>
         <li><time datetime="2026-10-05">2026-10-05</time><span><b>応募締切が2026年11月30日に延長。</b>カウントダウンとスケジュールを更新（時刻は要確認）。<a href="gadgets/">ガジェット一覧</a>を新設：ユタニ ミャオ Mark II（Nokosu）、アカネの電動バイクとヘルメット（Nokosu）、共同体の生活小物と隠れ猫（ねね）。チーム名 N3Co（ねこさん）とロゴを掲載。メンバーからの提案を課題リストに追加。</span></li>
@@ -126,14 +140,14 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
         <li><time datetime="2026-10-02">2026-10-02</time><span>MV「あなたの名前を呼ぶたびに」（楽曲 Nokosu）を<a href="#mv">埋め込み</a>。歌詞タイミングを実測値で修正し、エンドクレジットを削除。</span></li>
         <li><time datetime="2026-10-02">2026-10-02</time><span>デザイン資料ページのスマホでの横スクロールを修正。</span></li>
         <li><time datetime="2026-10-02">2026-10-02</time><span>新脚本（全22シーン・106カット）と新画風の絵コンテ（23/27シート）に差し替え。</span></li>
-      </ol>
+      </ol></details>
     </div>
 
   </div>
 </section>
 
 <!-- MV -->
-<section class="sec" id="mv" style="--act:var(--sara)">
+<section class="sec" id="mv" data-ea-label="MV" style="--act:var(--sara)">
   <div class="wrap">
     <p class="eyebrow reveal">♪ · MUSIC VIDEO</p>
     <h2 class="h reveal">あなたの名前を呼ぶたびに</h2>
@@ -154,7 +168,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </section>
 
 <!-- FILM -->
-<section class="sec" id="film">
+<section class="sec" id="film" data-ea-label="アニマティック">
   <div class="wrap">
     <p class="eyebrow reveal">01 · ANIMATIC</p>
     <h2 class="h reveal">アニマティック</h2>
@@ -193,7 +207,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </section>
 
 <!-- STORY -->
-<section class="sec" id="story" style="--act:var(--amber)">
+<section class="sec" id="story" data-ea-label="物語" style="--act:var(--amber)">
   <div class="wrap story-intro">
     <p class="eyebrow reveal">02 · THE STORY</p>
     <h2 class="h reveal">物語</h2>
@@ -210,7 +224,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </section>
 
 <!-- PEOPLE -->
-<section class="sec" id="people" style="--act:var(--sara)">
+<section class="sec" id="people" data-ea-label="人物" style="--act:var(--sara)">
   <div class="wrap">
     <p class="eyebrow reveal">03 · CHARACTERS</p>
     <h2 class="h reveal">人物</h2>
@@ -423,7 +437,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </section>
 
 <!-- STRUCTURE -->
-<section class="sec" id="structure" style="--act:var(--olive)">
+<section class="sec" id="structure" data-ea-label="構成" style="--act:var(--olive)">
   <div class="wrap">
     <p class="eyebrow reveal">04 · STRUCTURE</p>
     <h2 class="h reveal">構成と感情曲線</h2>
@@ -443,7 +457,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </section>
 
 <!-- BOARDS -->
-<section class="sec" id="boards" style="--act:var(--amber)">
+<section class="sec" id="boards" data-ea-label="絵コンテ" style="--act:var(--amber)">
   <div class="wrap">
     <p class="eyebrow reveal">05 · STORYBOARD</p>
     <h2 class="h reveal">絵コンテ｜114カット（脚本v3.1）</h2>
@@ -461,7 +475,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </section>
 
 <!-- 3D -->
-<section class="sec" id="stage3d">
+<section class="sec" id="stage3d" data-ea-label="3D舞台">
   <div class="wrap">
     <p class="eyebrow reveal">06 · STAGE MODELS</p>
     <h2 class="h reveal">3D舞台モデル</h2>
@@ -492,7 +506,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </section>
 
 <!-- TOOLS -->
-<section class="sec" id="tools" style="--act:var(--glow)">
+<section class="sec" id="tools" data-ea-label="制作ツール" style="--act:var(--glow)">
   <div class="wrap">
     <p class="eyebrow reveal">07 · PRODUCTION TOOLS</p>
     <h2 class="h reveal">制作ツール</h2>
@@ -525,7 +539,7 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </section>
 
 <!-- CONTEST -->
-<section class="sec" id="contest">
+<section class="sec" id="contest" data-ea-label="コンペ">
   <div class="wrap">
     <p class="eyebrow reveal">08 · THE CONTEST</p>
     <h2 class="h reveal">ロボットカーニバル AIフィルムコンテスト</h2>
@@ -652,7 +666,8 @@ window.addEventListener('error',function(e){try{var b=document.getElementById('e
 </dialog>
 
 <script src="data.js?v=24"></script>
-<script src="app.js?v=23"></script>
+<script src="app.js?v=24"></script>
 <script src="mv.js?v=93"></script>
+<script src="assets/ea-nav.js?v=3" defer data-hero></script>
 </body>
 </html>

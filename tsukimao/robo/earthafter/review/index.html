@@ -146,6 +146,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--glow);outline-offse
 .back{max-width:980px;margin:0 auto;padding:14px 16px 0;display:flex;gap:18px;flex-wrap:wrap;font-family:var(--f-pix);font-size:14px}
 .back a{color:var(--glow);text-decoration:none}.back a:hover{text-decoration:underline}
 </style>
+<link rel="stylesheet" href="../assets/ea-nav.css?v=3">
 </head>
 <body>
 <nav class="back"><a href="../">← EARTH AFTER 制作ガイドへ戻る</a><a href="../#contest">コンペ情報</a></nav>
@@ -160,7 +161,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--glow);outline-offse
       <h1>EARTH AFTER<br>審査シミュレーション</h1>
     </div>
   </div>
-  <section class="win" style="margin-top:22px" aria-label="総合評価">
+  <section class="win" id="score" data-ea-label="総合評価" style="margin-top:22px" aria-label="総合評価">
     <div class="scorebox">
       <div class="big">85<small>/100</small></div>
       <div class="verdict">
@@ -172,7 +173,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--glow);outline-offse
   </section>
 </header>
 
-<section class="win" aria-labelledby="h-cat">
+<section class="win" id="cat" data-ea-label="3つの項目" aria-labelledby="h-cat">
   <h2 id="h-cat">3つの項目</h2>
   <div class="legend"><span><i class="lg-now"></i>今の点数</span><span><i class="lg-pot"></i>仕上がり次第で届く点数</span></div>
   <div class="cats">
@@ -203,7 +204,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--glow);outline-offse
   </div>
 </section>
 
-<section class="win" aria-labelledby="h-crit">
+<section class="win" id="crit" data-ea-label="9つの審査基準" aria-labelledby="h-crit">
   <h2 id="h-crit">公式の9つの審査基準</h2>
   <p class="lead">主催が公表している審査基準それぞれに、今の素材で10点満点を付けました。</p>
   <div class="radarbox">
@@ -212,14 +213,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--glow);outline-offse
   </div>
 </section>
 
-<section class="win" aria-labelledby="h-judge">
+<section class="win" id="judge" data-ea-label="審査員7名" aria-labelledby="h-judge">
   <h2 id="h-judge">審査員7名の見方</h2>
   <p class="note">公開されている肩書きと経歴から、各審査員が見そうな点を推し量ったシミュレーションです。ご本人の実際の好みや発言ではありません。審査員は順次発表とされています。</p>
   <div class="judges" id="judges"></div>
   <p class="lead">平均 <span class="nums" style="color:var(--amber)">8.0</span>（初回 7.3）。全員が7.5以上。第3幕の整理で、物語を見る人の評価がさらに上がりました。</p>
 </section>
 
-<section class="win" aria-labelledby="h-good">
+<section class="win" id="good" data-ea-label="強いところ" aria-labelledby="h-good">
   <h2 id="h-good">強いところ</h2>
   <ul class="items">
     <li><b>声の三段構造</b>ユタニの技術で声を得て、同じ登録の仕組みで奪われ、アカネの意志で最後の一声が返される。テーマ「共生」と社会への問いが一本でつながる。</li>
@@ -234,7 +235,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--glow);outline-offse
   </ul>
 </section>
 
-<section class="win" aria-labelledby="h-q">
+<section class="win" id="fix" data-ea-label="直す順番" aria-labelledby="h-q">
   <h2 id="h-q">直す順番</h2>
   <p class="lead">番号は優先度の順です。初回の課題のうち、尺・アカネの願い・絵の整合・終盤の銃撃が解決しました。</p>
   <ol class="quests">
@@ -251,7 +252,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--glow);outline-offse
   </ol>
 </section>
 
-<section class="win" aria-labelledby="h-lv">
+<section class="win" id="level" data-ea-label="予想される位置" aria-labelledby="h-lv">
   <h2 id="h-lv">予想される位置</h2>
   <div class="path">
     <div class="step s1"><canvas width="12" height="12" data-icon="flag" aria-hidden="true"></canvas><span class="lv">LV.1 今の状態</span><span class="goal">部門賞の手前</span><p>物語・人物・絵がそろい、名前もほぼ決まった。残りはカイルの下の名前。</p></div>
@@ -370,5 +371,6 @@ C.forEach(function(c,i){var a=-Math.PI/2+i*2*Math.PI/n,rx=50+Math.cos(a)*44,ry=5
 })();
 </script>
 
+<script src="../assets/ea-nav.js?v=3" defer></script>
 </body>
 </html>

@@ -295,12 +295,13 @@ const LB=(function(){
     main.innerHTML=`<div class="img">${img}</div><div class="lbside"><span class="tag">${s.id} ${esc(s.title)}</span><span class="tag">${c.sec}秒</span>${c.img?(c.fix?'<span class="tag warn">生成済み・要修正あり</span>':'<span class="tag ok">生成済み</span>'):'<span class="tag warn">未生成</span>'}${c.fix?`<p class="note" style="margin:10px 0">このシートの修正待ち：${esc(c.fix)}</p>`:''}
       <h4>${esc(c.cam)}</h4><div class="act">${esc(c.act)}</div>
       ${c.lines&&c.lines.length?`<div class="lines">${c.lines.map(([w,x])=>`<div><b>${esc(w)}</b>${esc(x)}</div>`).join('')}</div>`:''}
-      <div class="dl"><button class="btn sm pri" type="button" id="lbPlay">▶ ここから再生</button><button class="btn sm" type="button" id="lbCopy">${c.sheet}のプロンプト</button></div></div>`;
+      <div class="dl"><button class="btn sm pri" type="button" id="lbPlay">▶ ここから再生</button><button class="btn sm" type="button" id="lbCopy">${c.sheet}のプロンプト</button><a class="btn sm" href="script/#c${c.id}">脚本で読む ↗</a></div></div>`;
     $('#lbPlay').onclick=()=>{dlg.close();goFilm();P.fromCut(c.id);setTimeout(()=>P.play(),650)};
     $('#lbCopy').onclick=()=>copy(EA.prompts[c.sheet],c.sheet+' のプロンプトをコピーしました');
     if(!dlg.open)dlg.showModal()}
   function sheet(k){mode='sheet';const [t,src,d]=SHEETS[k];$('#lbT').textContent=t;
     main.innerHTML=`<div class="img sheetimg"><img src="${src}" alt="${t}"></div><div class="lbside"><h4>${t}</h4><p class="act">${d}</p></div>`;if(!dlg.open)dlg.showModal()}
+  dlg.addEventListener('close',()=>{if(/^#cut-/.test(location.hash))try{history.replaceState(null,'',location.pathname+location.search)}catch(e){}});
   $('#lbX').onclick=()=>dlg.close();$('#lbPrev').onclick=()=>mode==='cut'&&cut(idx-1);$('#lbNext').onclick=()=>mode==='cut'&&cut(idx+1);
   dlg.addEventListener('click',e=>{if(e.target===dlg||e.target.classList.contains('lbin'))dlg.close()});
   dlg.addEventListener('keydown',e=>{if(mode!=='cut')return;if(e.key==='ArrowRight')cut(idx+1);if(e.key==='ArrowLeft')cut(idx-1)});
@@ -405,4 +406,7 @@ $('#shotCsv').onclick=()=>download('EARTH_AFTER_ショットリスト.csv',['カ
 
 $('#stGen').textContent=CUTS.filter(c=>c.img).length;
 observeReveal();
+/* ---------- deep link: #cut-10-06 で絵コンテを開く（サイト内検索から） ---------- */
+(function(){function fromHash(){const m=location.hash.match(/^#cut-(\d\d-\d\d)$/);if(!m)return;const i=CUTS.findIndex(c=>c.id===m[1]);if(i>=0)LB.cut(i)}
+addEventListener('hashchange',fromHash);if(document.readyState==='complete')fromHash();else addEventListener('load',fromHash)})();
 })();

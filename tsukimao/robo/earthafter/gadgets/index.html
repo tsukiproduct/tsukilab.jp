@@ -59,6 +59,7 @@ footer{border-top:1px solid var(--line);padding:2rem 1.25rem;color:var(--muted);
 @media(max-width:480px){.props{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.gal img{transition:none}}
 </style>
+<link rel="stylesheet" href="../assets/ea-nav.css?v=3">
 </head>
 <body>
 <nav class="nav" aria-label="ページ内ナビゲーション"><div class="nav__in">
@@ -82,7 +83,7 @@ footer{border-top:1px solid var(--line);padding:2rem 1.25rem;color:var(--muted);
 
 <div class="toc"><a href="#meow">01 ユタニ ミャオ Mark II</a><a href="#bike">02 アカネの電動バイク</a><a href="#props">03 共同体の生活小物</a><a href="#cats">04 隠れ猫</a></div>
 
-<section class="item" id="meow" style="--accent:var(--cyan)">
+<section class="item" id="meow" data-ea-label="ユタニ ミャオ" style="--accent:var(--cyan)">
   <div class="item__head">
     <div>
       <span class="no">01 / YUTANI MEOW MARK II</span>
@@ -102,7 +103,7 @@ footer{border-top:1px solid var(--line);padding:2rem 1.25rem;color:var(--muted);
   <div class="note"><b>世界観のポイント：</b>ユタニの技術は本当に人の暮らしを助けている。かわいい掃除ロボットが当たり前にいることで、油谷を「ただの悪」と言い切れない空気が出る。</div>
 </section>
 
-<section class="item" id="bike" style="--accent:var(--kira)">
+<section class="item" id="bike" data-ea-label="アカネのバイク" style="--accent:var(--kira)">
   <div class="item__head">
     <div>
       <span class="no">02 / AKANE'S E-BIKE</span>
@@ -126,7 +127,7 @@ footer{border-top:1px solid var(--line);padding:2rem 1.25rem;color:var(--muted);
   <div class="note"><b>設定との注意：</b>イメージ画のアカネは、本編の設定（赤い作業ジャケットに黄土色の襟）と上着が違います。本編に出すときは本編の衣装で描きます。</div>
 </section>
 
-<section class="item" id="props" style="--accent:var(--olive)">
+<section class="item" id="props" data-ea-label="生活小物" style="--accent:var(--olive)">
   <div class="item__head">
     <div>
       <span class="no">03 / COMMUNITY PROPS</span>
@@ -155,7 +156,7 @@ footer{border-top:1px solid var(--line);padding:2rem 1.25rem;color:var(--muted);
   </div>
 </section>
 
-<section class="item" id="cats" style="--accent:var(--amber)">
+<section class="item" id="cats" data-ea-label="隠れ猫" style="--accent:var(--amber)">
   <div class="item__head">
     <div>
       <span class="no">04 / HIDDEN CATS</span>
@@ -173,5 +174,6 @@ footer{border-top:1px solid var(--line);padding:2rem 1.25rem;color:var(--muted);
 </section>
 
 <footer>EARTH AFTER — ガジェット一覧　｜　チーム N3Co　｜　設定は制作中のものです　｜　<a href="../">本編資料へ戻る</a></footer>
+<script src="../assets/ea-nav.js?v=3" defer></script>
 </body>
 </html>

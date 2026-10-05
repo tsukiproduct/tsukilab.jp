@@ -30,6 +30,7 @@
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.costume__img img,.scene__img img{transition:none}}
   @media(max-width:640px){.continuity{min-width:0;font-size:.78rem;table-layout:fixed}.continuity th,.continuity td{padding:.55rem .35rem;word-break:break-word}.continuity th:first-child,.continuity td:first-child{width:22%}}
 </style>
+<link rel="stylesheet" href="../assets/ea-nav.css?v=3">
 </head>
 <body>
   <a class="skip" href="#main">本文へ</a>
@@ -38,14 +39,14 @@
   </div></nav>
 
   <header class="hero" id="top">
-    <img src="img/key-visual.webp" fetchpriority="high" alt="大樹の下にいる桔響、アカネ、カイルのイメージビジュアル">
+    <img src="../img/bg3/10.webp" fetchpriority="high" alt="共同体で子供たちとサッカーをするカイル、アカネ、桔響（絵コンテ10より）">
     <div class="hero__copy"><span class="eyebrow">Character & Visual Design / Definitive Edition</span><h1>EARTH<br>AFTER</h1><p>三人の時間を、同じ画面に。衣装、年齢、身体設定、光と空気までを統一したアニメーション制作基準。</p></div>
   </header>
 
   <main id="main">
-    <section class="wrap intro"><div><span class="kicker">Visual thesis</span><h2>描くのは、<br>機械ではなく心。</h2></div><div><p>人物は繊細なセルルック、背景は生活の痕跡が残る写実的な美術。光源・重力・接触・素材の反応を物理的に扱いながら、誇張は表情と動きにだけ許す。本ページを、三人の外見と衣装に関する基準資料とする。</p><div class="stats"><div class="stat"><b>03</b><span>CHARACTERS</span></div><div class="stat"><b>10</b><span>COSTUME SHEETS</span></div><div class="stat"><b>06</b><span>SCENE VISUALS</span></div></div></div></section>
+    <section class="wrap intro" id="intro" data-ea-label="コンセプト"><div><span class="kicker">Visual thesis</span><h2>描くのは、<br>機械ではなく心。</h2></div><div><p>人物は繊細なセルルック、背景は生活の痕跡が残る写実的な美術。光源・重力・接触・素材の反応を物理的に扱いながら、誇張は表情と動きにだけ許す。本ページを、三人の外見と衣装に関する基準資料とする。</p><div class="stats"><div class="stat"><b>03</b><span>CHARACTERS</span></div><div class="stat"><b>10</b><span>COSTUME SHEETS</span></div><div class="stat"><b>06</b><span>SCENE VISUALS</span></div></div></div></section>
 
-    <section class="character wrap" id="sara" style="--accent:var(--sara)"><div class="character__lead"><div><span class="tag">01 / HUMAN</span><h2>KIKYO</h2><div class="jp">桔響</div></div><dl class="profile"><div><dt>HAIR</dt><dd>黒髪（色は全時代共通）。22歳まで長いストレート、23歳で自分で切り顎の長さに（義手になる前）</dd></div><div><dt>EYES</dt><dd>静かな暗色。感情は視線と呼吸で表現</dd></div><div><dt>AGE RANGE</dt><dd>14–17 / 21 / 23–25 ・ 身長154cm</dd></div><div><dt>SILHOUETTE</dt><dd>細身。未来では実用装備の直線を足す</dd></div></dl></div>
+    <section class="character wrap" id="sara" data-ea-label="桔響" style="--accent:var(--sara)"><div class="character__lead"><div><span class="tag">01 / HUMAN</span><h2>KIKYO</h2><div class="jp">桔響</div></div><dl class="profile"><div><dt>HAIR</dt><dd>黒髪（色は全時代共通）。22歳まで長いストレート、23歳で自分で切り顎の長さに（義手になる前）</dd></div><div><dt>EYES</dt><dd>静かな暗色。感情は視線と呼吸で表現</dd></div><div><dt>AGE RANGE</dt><dd>14–17 / 21 / 23–25 ・ 身長154cm</dd></div><div><dt>SILHOUETTE</dt><dd>細身。未来では実用装備の直線を足す</dd></div></dl></div>
       <div class="cards">
         <article class="costume"><button class="costume__img" data-full="img/sara-school.webp" data-caption="KIKYO / SCHOOL UNIFORM"><img loading="lazy" src="img/sara-school-s.webp" width="960" height="540" alt="桔響の制服設定画"></button><div class="costume__body"><h3>School Uniform</h3><p>チャコールのブレザーとスカート、白シャツ、くすんだワイン色のリボン。黒髪が顔の繊細さを縁取る。</p><span class="chip">AGE 14–17</span></div></article>
         <article class="costume"><button class="costume__img" data-full="img/sara-home.webp" data-caption="KIKYO / HOMEWEAR"><img loading="lazy" src="img/sara-home-s.webp" width="960" height="540" alt="桔響の部屋着設定画"></button><div class="costume__body"><h3>Homewear</h3><p>チャコールの大きめパーカと柔らかな室内着。警戒が解けた幼い表情と、肩に落ちる黒髪を見せる。</p><span class="chip">PRIVATE</span></div></article>
@@ -53,7 +54,7 @@
       </div>
     </section>
 
-    <section class="character wrap" id="kira" style="--accent:var(--kira)"><div class="character__lead"><div><span class="tag">02 / DROID</span><h2>AKANE</h2><div class="jp">アカネ</div></div><dl class="profile"><div><dt>HAIR</dt><dd>錆赤。崩した低いポニーテール</dd></div><div><dt>EYES</dt><dd>アンバー。人間らしい温度を保つ</dd></div><div><dt>MODEL</dt><dd>ユタニ社 J3200（奉仕型・成長型）・160cm</dd></div><div><dt>SILHOUETTE</dt><dd>作業着、手袋、工具で能動性を示す</dd></div></dl></div>
+    <section class="character wrap" id="kira" data-ea-label="アカネ" style="--accent:var(--kira)"><div class="character__lead"><div><span class="tag">02 / DROID</span><h2>AKANE</h2><div class="jp">アカネ</div></div><dl class="profile"><div><dt>HAIR</dt><dd>錆赤。崩した低いポニーテール</dd></div><div><dt>EYES</dt><dd>アンバー。人間らしい温度を保つ</dd></div><div><dt>MODEL</dt><dd>ユタニ社 J3200（奉仕型・成長型）・160cm</dd></div><div><dt>SILHOUETTE</dt><dd>作業着、手袋、工具で能動性を示す</dd></div></dl></div>
       <div class="cards">
         <article class="costume"><button class="costume__img" data-full="img/kira-school.webp" data-caption="AKANE / SCHOOL UNIFORM"><img loading="lazy" src="img/kira-school-s.webp" width="960" height="540" alt="アカネの制服設定画"></button><div class="costume__body"><h3>School Uniform</h3><p>桔響と同系統の制服。髪色と無造作な結び方、わずかに開いた姿勢で快活さを出す。</p><span class="chip">SCHOOL DAYS</span></div></article>
         <article class="costume"><button class="costume__img" data-full="img/kira-home.webp" data-caption="AKANE / HOMEWEAR"><img loading="lazy" src="img/kira-home-s.webp" width="960" height="540" alt="アカネの部屋着設定画"></button><div class="costume__body"><h3>Homewear</h3><p>レンガ色のスウェットを中心にした気取らない室内着。桔響の部屋ではベッドを自分の場所のように使う。</p><span class="chip">PRIVATE</span></div></article>
@@ -61,7 +62,7 @@
       </div>
     </section>
 
-    <section class="character wrap" id="kyle" style="--accent:var(--kyle)"><div class="character__lead"><div><span class="tag">03 / J1000</span><h2>KYLE</h2><div class="jp">カイル</div></div><dl class="profile"><div><dt>HAIR</dt><dd>金髪（全年代）。長めのレイヤー</dd></div><div><dt>EYES</dt><dd>青灰色。制御時のみ淡い規格光</dd></div><div><dt>MODEL</dt><dd>ユタニ社 J1000（初期型の成長型）・170cm</dd></div><div><dt>SILHOUETTE</dt><dd>しなやかな競技体型。過剰な筋肉表現は避ける</dd></div></dl></div>
+    <section class="character wrap" id="kyle" data-ea-label="カイル" style="--accent:var(--kyle)"><div class="character__lead"><div><span class="tag">03 / J1000</span><h2>KYLE</h2><div class="jp">カイル</div></div><dl class="profile"><div><dt>HAIR</dt><dd>金髪（全年代）。長めのレイヤー</dd></div><div><dt>EYES</dt><dd>青灰色。制御時のみ淡い規格光</dd></div><div><dt>MODEL</dt><dd>ユタニ社 J1000（初期型の成長型）・170cm</dd></div><div><dt>SILHOUETTE</dt><dd>しなやかな競技体型。過剰な筋肉表現は避ける</dd></div></dl></div>
       <div class="cards">
         <article class="costume wide"><button class="costume__img" data-full="img/kyle-child.webp" data-caption="KYLE / CHILD (J1000)"><img loading="lazy" src="img/kyle-child-s.webp" width="960" height="540" alt="幼いカイルの設定画"></button><div class="costume__body"><h3>Child</h3><p>7歳ほどの姿。子供の姿で生まれ、家族と暮らしながら育つJ1000。接続口は人工皮膚の下で見えない。髪は幼い頃から金髪。</p><span class="chip">AGE ~7 / BLOND</span></div></article>
         <article class="costume wide"><button class="costume__img" data-full="img/kyle-soccer.webp" data-caption="KYLE / SOCCER UNIFORM"><img loading="lazy" src="img/kyle-soccer-s.webp" width="960" height="540" alt="カイルのサッカーユニフォーム設定画"></button><div class="costume__body"><h3>Soccer Uniform</h3><p>紺と白のユニフォーム、背番号10。軽さと方向転換の速さが読めるシルエット。</p><span class="chip">NUMBER 10</span></div></article>
@@ -71,24 +72,24 @@
       </div>
     </section>
 
-    <section class="character wrap" id="hacker" style="--accent:#6d7a86"><div class="character__lead"><div><span class="tag">04 / HUMAN — SUPPORT</span><h2>HACKER</h2><div class="jp">通信係の青年（仮）</div></div><dl class="profile"><div><dt>HAIR</dt><dd>こげ茶のくせ毛。目にかかる長さ</dd></div><div><dt>FACE</dt><dd>黒縁の丸眼鏡。首にヘッドホン</dd></div><div><dt>OUTFIT</dt><dd>ぶかぶかのグレーのパーカー、黒のカーゴパンツ、指なし手袋</dd></div><div><dt>ROLE</dt><dd>体力はなく「役に立てていない」と思っている。2年かけてユタニ社の監視カメラに侵入する。登場は10と14（15は通信の声のみ）</dd></div></dl></div>
+    <section class="character wrap" id="hacker" data-ea-label="通信係の青年" style="--accent:#6d7a86"><div class="character__lead"><div><span class="tag">04 / HUMAN — SUPPORT</span><h2>HACKER</h2><div class="jp">通信係の青年（仮）</div></div><dl class="profile"><div><dt>HAIR</dt><dd>こげ茶のくせ毛。目にかかる長さ</dd></div><div><dt>FACE</dt><dd>黒縁の丸眼鏡。首にヘッドホン</dd></div><div><dt>OUTFIT</dt><dd>ぶかぶかのグレーのパーカー、黒のカーゴパンツ、指なし手袋</dd></div><div><dt>ROLE</dt><dd>体力はなく「役に立てていない」と思っている。2年かけてユタニ社の監視カメラに侵入する。登場は10と14（15は通信の声のみ）</dd></div></dl></div>
       <div class="cards">
         <article class="costume wide"><button class="costume__img" data-full="img/hacker.webp" data-caption="HACKER / COMMS BOOTH"><img loading="lazy" src="img/hacker-s.webp" width="960" height="540" alt="通信係の青年の設定画"></button><div class="costume__body"><h3>Comms Booth</h3><p>全身の正面・横・後ろと表情4種、キーボードを叩く手元。14で桔響に頭をぽんぽんされ、照れて笑う。名前は未定。</p><span class="chip">HUMAN / GLASSES / HEADPHONES</span></div></article>
       </div>
     </section>
 
-    <section class="scenes" id="scenes"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Scene Visual Development</span><h2>物語の中の三人</h2></div><p>同じデザインを、時間・動作・光の中で検証する。場面画は16:9の完成フレームとして、アニメーションの質感基準を兼ねる。</p></div>
+    <section class="scenes" id="scenes" data-ea-label="シーン画"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Scene Visual Development</span><h2>物語の中の三人</h2></div><p>同じデザインを、時間・動作・光の中で検証する。場面画は16:9の完成フレームとして、アニメーションの質感基準を兼ねる。</p></div>
       <div class="scene-grid">
         <figure class="scene"><button class="scene__img" data-full="img/scene-ball-handoff.webp" data-caption="SCENE 01 / ボール"><img loading="lazy" src="img/scene-ball-handoff-s.webp" width="960" height="540" alt="桔響がカイルにサッカーボールを渡す"></button><figcaption><span class="num">01</span><div><h3>ボール</h3><p>校庭の門脇。制服の桔響が、ユニフォーム姿のカイルへボールを渡す。</p></div></figcaption></figure>
         <figure class="scene"><button class="scene__img" data-full="img/scene-bedroom-talk.webp" data-caption="SCENE 02 / 桔響の自室"><img loading="lazy" src="img/scene-bedroom-talk-s.webp" width="960" height="540" alt="桔響の自室で話す桔響とアカネ"></button><figcaption><span class="num">02</span><div><h3>バレバレ</h3><p>校庭の見えない自室。アカネは、桔響の視線の行き先をとっくに知っている。</p></div></figcaption></figure>
         <figure class="scene"><button class="scene__img" data-full="img/scene-hideout-talk.webp" data-caption="SCENE 03 / アジトでの対話"><img loading="lazy" src="img/scene-hideout-talk-s.webp" width="960" height="540" alt="アジトで真剣に話すカイル、桔響、アカネ"></button><figcaption><span class="num">03</span><div><h3>アジト</h3><p>救うか、止めるか。三人の視線が、同じ地図の上でぶつかる。</p></div></figcaption></figure>
         <figure class="scene"><button class="scene__img" data-full="img/scene-capture-fight.webp" data-caption="SCENE 04 / 捕獲戦"><img loading="lazy" src="img/scene-capture-fight-s.webp" width="960" height="540" alt="制御されたカイルと戦う桔響とアカネ"></button><figcaption><span class="num">04</span><div><h3>捕獲戦</h3><p>21歳の桔響は両腕が生身。アカネと二人、制御されたカイルの力を受け流す。</p></div></figcaption></figure>
         <figure class="scene"><button class="scene__img" data-full="img/scene-final-embrace.webp" data-caption="SCENE 05 / 喪失"><img loading="lazy" src="img/scene-final-embrace-s.webp" width="960" height="540" alt="桔響を抱きしめ空へ叫ぶカイル"></button><figcaption><span class="num">05</span><div><h3>喪失</h3><p>腕の中で失われた命。カイルの叫びは、この直後油谷へ向かう怒りに変わる。</p></div></figcaption></figure>
-        <figure class="scene"><button class="scene__img" data-full="img/key-visual.webp" data-caption="KEY VISUAL / 同じ木の下で"><img loading="lazy" src="img/key-visual-s.webp" width="960" height="540" alt="大樹の下に並ぶ桔響、アカネ、カイル"></button><figcaption><span class="num">06</span><div><h3>同じ木の下で</h3><p>異なる時間の衣装を一枚に重ねた象徴画。三人が共にいられたかもしれない午後。</p></div></figcaption></figure>
+        <figure class="scene"><button class="scene__img" data-full="img/key-visual.webp" data-caption="KEY VISUAL / 同じ木の下で（旧デザイン・参考）"><img loading="lazy" src="img/key-visual-s.webp" width="960" height="540" alt="大樹の下に並ぶ桔響、アカネ、カイル"></button><figcaption><span class="num">06</span><div><h3>同じ木の下で</h3><p>異なる時間の衣装を一枚に重ねた象徴画。三人が共にいられたかもしれない午後。※カイルが黒髪の旧デザインです（参考）。</p></div></figcaption></figure>
       </div>
     </div></section>
 
-    <section class="wrap rules" id="rules"><div><span class="eyebrow">Continuity Rules</span><h2 style="font:400 clamp(2.3rem,5vw,5rem)/1 Georgia,serif;margin:.6rem 0 1rem">作画固定事項</h2><p style="color:var(--muted);font-size:.85rem">カットごとの解釈差を防ぐため、下記を優先する。設定画と場面画に差がある場合は、年齢別ルールを適用する。</p></div><div class="rules-list">
+    <section class="wrap rules" id="rules" data-ea-label="作画固定事項"><div><span class="eyebrow">Continuity Rules</span><h2 style="font:400 clamp(2.3rem,5vw,5rem)/1 Georgia,serif;margin:.6rem 0 1rem">作画固定事項</h2><p style="color:var(--muted);font-size:.85rem">カットごとの解釈差を防ぐため、下記を優先する。設定画と場面画に差がある場合は、年齢別ルールを適用する。</p></div><div class="rules-list">
       <div class="rule"><b>01</b><div><h3>桔響の髪</h3><p>黒髪で統一（髪色は変えない）。21歳までは長いストレート。23歳、カイルが見つからない日々の中で、倒壊危険区域へ向かう前に自分で切り、以降は顎の長さ（前髪は残す）。左腕を失うのはその後。</p></div></div>
       <div class="rule"><b>02</b><div><h3>桔響の腕</h3><p>21歳のカイル捕獲戦では両腕が生身。23歳の倒壊区域の救助以降は左腕のみ機械、右腕は生身。</p></div></div>
       <div class="rule"><b>03</b><div><h3>ドロの外見</h3><p>アカネとカイルは人間擬態型。通常時に関節線や露出機構を加えない。機械性は反応速度、精度、制御光で示す。接続口（充電・装置接続用、心臓の機能につながる）は<b>首の左・耳の下</b>。EARTH AFTER以前は人工皮膚の下で見えず、戦後は露出。</p></div></div>
@@ -100,7 +101,7 @@
       <div class="continuity-wrap"><table class="continuity"><thead><tr><th>時期</th><th>桔響</th><th>アカネ</th><th>カイル</th></tr></thead><tbody><tr><td>学生時代</td><td>制服 / 部屋着・長い黒髪</td><td>制服 / 部屋着（接続口は見えない）</td><td>金髪・制服 / #10 / 私服</td></tr><tr><td>17歳・声を得た後</td><td>制服 / 部屋着・人工喉頭（外からは見えない）</td><td>制服 / 部屋着</td><td>金髪・制服 / #10 / 私服</td></tr><tr><td>崩壊後・21〜22歳</td><td>作業服・両腕生身・長い黒髪</td><td>赤い作業服・首の左に接続口</td><td>金髪・青い未来服（11で連れ去られる）</td></tr><tr><td>23〜25歳</td><td>左腕機械 / 右腕生身・顎の長さの黒髪・声を失う（端末と手話で話す）</td><td>赤い作業服（13で去り、16で再登場・制御の目）</td><td>金髪・青い未来服・油谷の傍ら</td></tr></tbody></table></div>
     </div></section>
 
-    <section class="wrap check" id="check"><div class="section-head"><div><span class="eyebrow">Concept Notes</span><h2>本編との対応メモ</h2></div><p>このページはデザイン案とコンセプトアートです。本編にない場面も含みます。脚本v3.1（2026-10-03）と並べたときの対応と、本編に入れる場合の検討ポイントをメモしています。</p></div>
+    <section class="wrap check" id="check" data-ea-label="本編対応メモ"><div class="section-head"><div><span class="eyebrow">Concept Notes</span><h2>本編との対応メモ</h2></div><p>このページはデザイン案とコンセプトアートです。本編にない場面も含みます。脚本v3.1（2026-10-03）と並べたときの対応と、本編に入れる場合の検討ポイントをメモしています。</p></div>
       <div class="checks">
         <div class="ck ok"><span class="st">本編と一致</span><div><h3>25歳の桔響：左腕だけが機械</h3><p>三面図の正面・側面・背面すべてで、左腕のみ機械、右腕は生身になっている。最期に頬へ触れる「生身の右手」とも合う。</p></div></div>
         <div class="ck ok"><span class="st">本編と一致</span><div><h3>21歳の捕獲戦：両腕とも生身</h3><p>場面04で桔響の両腕は生身。アカネとの二人がかりでカイルを止める構図も、脚本v3の09と一致。</p></div></div>
@@ -132,5 +133,6 @@
     box.addEventListener('keydown',e=>{if(e.key==='ArrowRight')show(cur+1);if(e.key==='ArrowLeft')show(cur-1)});
     let sx=null;full.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});full.addEventListener('touchend',e=>{if(sx===null)return;const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(cur+(d<0?1:-1));sx=null});
   </script>
+<script src="../assets/ea-nav.js?v=3" defer></script>
 </body>
 </html>
