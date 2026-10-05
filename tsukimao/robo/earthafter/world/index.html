@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0f1112">
+<title>EARTH AFTER — オフィシャルガイド</title>
+<meta name="description" content="AI短編アニメーション『EARTH AFTER』のオフィシャルガイド。世界観、ストーリー、人物相関図、プロフィール、舞台、小道具。制作 N3Co。">
+<meta property="og:title" content="EARTH AFTER — オフィシャルガイド">
+<meta property="og:description" content="あなたと同じ時間を、生きたかった。">
+<meta property="og:image" content="../img/bg3/01.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700;900&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1112;--bg2:#15181a;--panel:#1a1d20;--line:#2c3034;--ink:#ece6dc;--mute:#a49d92;--amber:#e8a94f;--sunset:#e9875a;
+  --kikyo:#8b8fd6;--kyle:#7f9fd0;--akane:#d0644a;--yutani:#8fe6ff;--olive:#8a9469;--max:1180px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",sans-serif;line-height:1.9;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}a{color:inherit}
+.serif{font-family:"Noto Serif JP",serif}
+.wrap{max-width:var(--max);margin:auto;padding:0 20px}
+section{padding:88px 0;border-top:1px solid var(--line)}
+.eyebrow{font:600 .8rem/1 "Cormorant Garamond",serif;letter-spacing:.32em;color:var(--amber);text-transform:uppercase;margin:0 0 14px}
+h2{font-family:"Noto Serif JP",serif;font-weight:700;font-size:clamp(1.6rem,3.6vw,2.4rem);line-height:1.35;margin:0 0 18px}
+.lead{color:var(--mute);max-width:44rem;margin:0}
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:rgba(15,17,18,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav__in{max-width:var(--max);margin:auto;display:flex;align-items:center;gap:22px;padding:12px 20px;overflow-x:auto;scrollbar-width:none;font-size:.82rem}
+.nav__in::-webkit-scrollbar{display:none}
+.nav a{text-decoration:none;color:var(--mute);white-space:nowrap}.nav a:hover{color:var(--ink)}
+.nav .brand{font:600 1rem/1 "Cormorant Garamond",serif;letter-spacing:.24em;color:var(--ink)}
+.nav .back{margin-left:auto}
+/* hero */
+.hero{position:relative;min-height:min(92vh,860px);display:grid;align-items:end;overflow:hidden;border:0}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,17,18,.15) 0%,rgba(15,17,18,.35) 45%,var(--bg) 96%)}
+.hero__in{position:relative;z-index:1;padding:0 20px 64px;max-width:var(--max);margin:auto;width:100%}
+.hero h1{font:600 clamp(3rem,10vw,7.2rem)/.95 "Cormorant Garamond",serif;letter-spacing:.12em;margin:0 0 18px;text-shadow:0 4px 40px rgba(0,0,0,.5)}
+.tagline{font-family:"Noto Serif JP",serif;font-size:clamp(1.15rem,2.6vw,1.6rem);font-weight:500;margin:0 0 10px;letter-spacing:.06em}
+.hero .sub{color:#d6cfc4;margin:0 0 26px;max-width:36rem}
+.credit{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:.82rem;color:#cfc8bc}
+.credit img{height:28px;width:auto}
+/* world */
+.world{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:start}
+.terms{display:grid;gap:12px;margin-top:6px}
+.term{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.term b{display:block;font-family:"Noto Serif JP",serif;font-size:1.02rem;margin-bottom:2px}
+.term p{margin:0;color:var(--mute);font-size:.9rem}
+.stances{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+.stance{border-radius:12px;padding:14px;border:1px solid var(--line);background:var(--bg2);font-size:.86rem;color:var(--mute)}
+.stance b{display:block;color:var(--ink);font-size:.95rem;margin-bottom:2px}
+/* story */
+.timeline{list-style:none;margin:36px 0 0;padding:0;display:grid;gap:22px}
+.tl{display:grid;grid-template-columns:96px 1fr 320px;gap:22px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;}
+.tl .age{font:600 1.5rem/1.1 "Cormorant Garamond",serif;color:var(--amber);text-align:center}
+.tl .age small{display:block;font:500 .72rem/1.4 "Noto Sans JP",sans-serif;color:var(--mute);letter-spacing:.05em}
+.tl h3{font-family:"Noto Serif JP",serif;margin:0 0 4px;font-size:1.15rem}
+.tl p{margin:0;color:var(--mute);font-size:.92rem}
+.tl img{border-radius:10px;aspect-ratio:16/9;object-fit:cover;width:100%;height:auto}
+.act{font:600 .78rem/1 "Cormorant Garamond",serif;letter-spacing:.28em;color:var(--mute);margin:30px 0 -8px;text-transform:uppercase}
+.spoiler{margin-top:26px;text-align:center;font-family:"Noto Serif JP",serif;color:var(--mute)}
+/* relations */
+.rel{display:grid;grid-template-columns:1.25fr .75fr;gap:32px;align-items:center;margin-top:30px}
+.rel svg{width:100%;height:auto;display:block;background:radial-gradient(circle at 50% 45%,#1d2124,#121416 70%);border:1px solid var(--line);border-radius:18px}
+.rel svg text{font-family:"Noto Sans JP",sans-serif}
+.rel-list{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:.88rem}
+.rel-list li{border-left:3px solid var(--c,var(--amber));background:var(--bg2);padding:8px 12px;border-radius:0 10px 10px 0;color:var(--mute)}
+.rel-list b{color:var(--ink)}
+/* profiles */
+.profiles{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}
+.pf{display:grid;grid-template-columns:150px 1fr;gap:18px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px;border-top:3px solid var(--c)}
+.pf img{width:150px;height:150px;border-radius:14px;object-fit:cover}
+.pf .nm{font-family:"Noto Serif JP",serif;font-size:1.5rem;font-weight:700;line-height:1.2}
+.pf .rd{font-size:.78rem;color:var(--mute);letter-spacing:.08em}
+.pf .q{font-family:"Noto Serif JP",serif;color:var(--c);margin:8px 0 6px;font-size:.95rem}
+.pf dl{margin:6px 0 0;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:.84rem}
+.pf dt{color:var(--mute)}.pf dd{margin:0}
+.pf p{margin:8px 0 0;color:var(--mute);font-size:.88rem}
+.subcast{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+.sc{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.sc img{width:84px;height:84px;border-radius:50%;object-fit:cover;margin:0 auto 8px}
+.sc b{display:block;font-family:"Noto Serif JP",serif}
+.sc span{font-size:.8rem;color:var(--mute)}
+/* places & props */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.card img{aspect-ratio:16/9;object-fit:cover;width:100%;height:auto}
+.card .b{padding:14px 16px 16px}
+.card h3{margin:0 0 4px;font-family:"Noto Serif JP",serif;font-size:1.05rem}
+.card p{margin:0;color:var(--mute);font-size:.88rem}
+.card .tag{display:inline-block;font-size:.7rem;color:var(--amber);border:1px solid #e8a94f55;border-radius:999px;padding:0 8px;margin-bottom:6px}
+.card.contain img{object-fit:contain;background:#f3eee6}
+/* footer */
+footer{border-top:1px solid var(--line);padding:56px 20px 70px;text-align:center;color:var(--mute);font-size:.85rem}
+footer img{height:44px;width:auto;margin:0 auto 14px}
+footer .staff{display:grid;gap:4px;margin:14px 0 18px}
+footer .staff b{color:var(--ink);font-weight:500}
+@media(max-width:900px){
+  .world,.rel{grid-template-columns:1fr}
+  .tl{grid-template-columns:72px 1fr}.tl img{grid-column:1/-1}
+  .profiles{grid-template-columns:1fr}
+  .subcast{grid-template-columns:repeat(2,1fr)}
+  .cards{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){
+  section{padding:64px 0}
+  .stances{grid-template-columns:1fr}
+  .pf{grid-template-columns:96px 1fr}.pf img{width:96px;height:96px}
+  .cards{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="ページ内ナビゲーション"><div class="nav__in">
+  <a class="brand" href="#top">EARTH AFTER</a>
+  <a href="#world">世界観</a><a href="#story">ストーリー</a><a href="#relations">相関図</a><a href="#people">プロフィール</a><a href="#places">舞台</a><a href="#props">小道具</a>
+  <a class="back" href="../">制作ガイドへ ↗</a>
+</div></nav>
+
+<header class="hero" id="top">
+  <img src="../img/bg3/01.webp" alt="夕暮れの公園のベンチに並んで座る、幼い桔響とカイル" width="1600" height="900">
+  <div class="hero__in">
+    <p class="eyebrow">An AI animated short film</p>
+    <h1>EARTH AFTER</h1>
+    <p class="tagline">あなたと同じ時間を、生きたかった。</p>
+    <p class="sub">声を持たなかった少女と、人と一緒に育つアンドロイドの少年。名前も知らないまま夕焼けを見た二人の、およそ20年の物語。</p>
+    <div class="credit"><img src="../gadgets/img/logo-n3co-w.png" alt="N3Co" width="800" height="243"><span>制作 N3Co（月真猫・Nokosu・ねね）</span></div>
+  </div>
+</header>
+
+<main>
+<section id="world"><div class="wrap world">
+  <div>
+    <p class="eyebrow">World</p>
+    <h2>人と、人によく似た機械が<br>一緒に暮らす世界</h2>
+    <p class="lead">ユタニ社が生んだ人型機械「ドロ」は、見た目も話し方も人間とほとんど変わらない。家族として迎える人もいれば、拒む人もいる。そしてある夜、たった一つのAIの配信が、すべてを変えた。</p>
+    <div class="stances">
+      <div class="stance"><b>排斥</b>ドロはいらない。人間の仕事と暮らしを奪う、と考える人々。</div>
+      <div class="stance"><b>ユタニ</b>ドロのようになれば、人間も争わずにすむ。管理こそ救いだと信じる。</div>
+      <div class="stance"><b>共生</b>人もドロも、同じ食卓を囲めばいい。桔響たちの地下共同体。</div>
+    </div>
+  </div>
+  <div class="terms">
+    <div class="term"><b>ドロ</b><p>人型機械の通称。首の左、耳の下に小さな接続口がある。</p></div>
+    <div class="term"><b>Jシリーズ</b><p>ユタニ社の「一緒に成長するドロ」。子供の姿で生まれ、家族と暮らしながら育つ。初期型がJ1000、後継の奉仕型がJ3200。手話も読める。</p></div>
+    <div class="term"><b>超人類型機械新法</b><p>すべての登録ドロと医療機器に、ユタニの公式更新を義務づけた法律。人工の喉も、例外ではない。</p></div>
+    <div class="term"><b>EARTH AFTER</b><p>法の施行20周年に配信された、新世代統合AI。その夜、すべてのドロの瞳に同じ制御の光がともった。</p></div>
+    <div class="term"><b>おかえり</b><p>制御を外され、自分に戻ったドロを、桔響は壊さずにこう迎える。</p></div>
+  </div>
+</div></section>
+
+<section id="story"><div class="wrap">
+  <p class="eyebrow">Story</p>
+  <h2>ストーリー</h2>
+  <p class="lead">6歳から25歳まで。声を得て、奪われても、彼女はあの人の名前を呼び続ける。</p>
+  <ol class="timeline">
+    <li class="act">Act 1　好きになる</li>
+    <li class="tl"><div class="age">6<small>歳</small></div><div><h3>夕暮れの公園</h3><p>声の出ない少女・桔響が、ベンチで一人泣いている。ボールを追ってきた少年は、何も聞かずに隣に座る。「……変なの」。そして、ぎこちない手話で「ありがとう」。名前も知らないまま、二人は別れる。</p></div><img loading="lazy" src="../img/sb3/01-05.webp" alt="手話で「ありがとう」を伝える幼いカイル" width="800" height="450"></li>
+    <li class="tl"><div class="age">13<small>歳</small></div><div><h3>王子様</h3><p>サッカー部の先輩カイルを、フェンスの外から見つめる日々。親友のアカネには「ずーっと言ってるもんね、王子様って」とからかわれる。カイルが最初のドロ、J1000だと知っても、気持ちは変わらない。</p></div><img loading="lazy" src="../img/sb3/04-02.webp" alt="フェンス越しにボールを渡す桔響とカイル" width="800" height="450"></li>
+    <li class="tl"><div class="age">17<small>歳</small></div><div><h3>声</h3><p>ユタニ製の人工喉頭で、桔響は初めて声を得る。「お母さん」。窓の外のグラウンドに、小さく「好きです」。その夜、世界にEARTH AFTERが配信される。</p></div><img loading="lazy" src="../img/sb3/05-03.webp" alt="初めての声で母を呼ぶ桔響" width="800" height="450"></li>
+    <li class="act">Act 2　一緒に生きる</li>
+    <li class="tl"><div class="age">21<small>歳</small></div><div><h3>おかえり</h3><p>4年後。桔響とアカネは、暴走したドロを壊さずに捕まえ、地下共同体で「おかえり」と迎えている。ある日、制御されたカイルと再会する。目覚めた彼は、桔響を覚えていない。</p></div><img loading="lazy" src="../img/sb3/09-01.webp" alt="高架下に現れたカイル" width="800" height="450"></li>
+    <li class="tl"><div class="age">21<small>歳</small></div><div><h3>同じ暮らし</h3><p>屋根の修理、子供たちとのサッカー、内緒の手話を読まれる日々。一人で危ないところへ行くカイルを、桔響はアカネのバイクで追いかける。「危ないことは、やめて」。――そして、ある朝、カイルは帰ってこなかった。</p></div><img loading="lazy" src="../img/sb3/10-04.webp" alt="子供たちとサッカーをするカイル" width="800" height="450"></li>
+    <li class="act">Act 3　声を奪われても</li>
+    <li class="tl"><div class="age">23–25<small>歳</small></div><div><h3>2年後</h3><p>自分で髪を切り、子供たちを救って左腕を失い、そして声まで失った桔響。それでも端末の文字と手話で、仲間と一緒にカイルを探し続ける。2年後、監視カメラの映像に、見覚えのある金髪が映る。</p></div><img loading="lazy" src="../img/sb3/14-04.webp" alt="通信係の青年の頭をぽんぽんする桔響" width="800" height="450"></li>
+  </ol>
+  <p class="spoiler">その先は、本編で。</p>
+</div></section>
+
+<section id="relations"><div class="wrap">
+  <p class="eyebrow">Relations</p>
+  <h2>人物相関図</h2>
+  <div class="rel">
+    <svg viewBox="0 0 760 640" role="img" aria-labelledby="relT relD">
+      <title id="relT">人物相関図</title>
+      <desc id="relD">中心に桔響。右上にカイル、左上にアカネ、右下に油谷、左下に父と母、下に通信係の青年。</desc>
+      <defs>
+        <clipPath id="c1"><circle r="66"/></clipPath><clipPath id="c2"><circle r="54"/></clipPath><clipPath id="c3"><circle r="40"/></clipPath>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" fill="#a49d92"/></marker>
+      </defs>
+      <g stroke-width="2.4" fill="none">
+        <line x1="380" y1="300" x2="610" y2="150" stroke="#7f9fd0"/>
+        <line x1="380" y1="300" x2="150" y2="150" stroke="#d0644a"/>
+        <line x1="150" y1="150" x2="610" y2="150" stroke="#5c6166" stroke-dasharray="6 6"/>
+        <line x1="610" y1="490" x2="610" y2="150" stroke="#8fe6ff" stroke-dasharray="3 7"/>
+        <line x1="610" y1="490" x2="380" y2="300" stroke="#8fe6ff" stroke-dasharray="3 7"/>
+        <line x1="150" y1="450" x2="380" y2="300" stroke="#e8a94f"/>
+        <line x1="150" y1="450" x2="150" y2="150" stroke="#e8a94f" marker-end="url(#ar)"/>
+        <line x1="380" y1="560" x2="380" y2="300" stroke="#8a9469"/>
+      </g>
+      <g font-size="17" fill="#ece6dc" text-anchor="middle">
+        <g><rect x="402" y="182" width="160" height="30" rx="15" fill="#1a1d20" stroke="#7f9fd0"/><text x="482" y="203">「王子様」</text></g>
+        <g><rect x="178" y="182" width="170" height="30" rx="15" fill="#1a1d20" stroke="#d0644a"/><text x="263" y="203">親友・同じ「橘」</text></g>
+        <g><rect x="305" y="134" width="150" height="30" rx="15" fill="#1a1d20" stroke="#5c6166"/><text x="380" y="155">共同体の仲間</text></g>
+        <g><rect x="626" y="300" width="128" height="52" rx="14" fill="#1a1d20" stroke="#8fe6ff"/><text x="690" y="322" font-size="15">「最初の子ども」</text><text x="690" y="343" font-size="14" fill="#a49d92">名字も油谷</text></g>
+        <g><rect x="430" y="400" width="150" height="30" rx="15" fill="#1a1d20" stroke="#8fe6ff"/><text x="505" y="421" font-size="15">声をくれた技術</text></g>
+        <g><rect x="12" y="290" width="128" height="52" rx="14" fill="#1a1d20" stroke="#e8a94f"/><text x="76" y="312" font-size="15">直して</text><text x="76" y="333" font-size="15">家族に迎えた</text></g>
+        <g><rect x="196" y="384" width="110" height="30" rx="15" fill="#1a1d20" stroke="#e8a94f"/><text x="251" y="405" font-size="15">家族</text></g>
+        <g><rect x="392" y="458" width="130" height="30" rx="15" fill="#1a1d20" stroke="#8a9469"/><text x="457" y="479" font-size="15">仲間・通信係</text></g>
+      </g>
+      <g transform="translate(380,300)"><circle r="70" fill="#8b8fd6"/><image href="../img/ch/sara-face.webp" x="-66" y="-66" width="132" height="132" clip-path="url(#c1)"/><text y="100" text-anchor="middle" font-size="24" font-weight="700" fill="#ece6dc">桔響</text></g>
+      <g transform="translate(610,150)"><circle r="58" fill="#7f9fd0"/><image href="../img/ch/kyle-face.webp" x="-54" y="-54" width="108" height="108" clip-path="url(#c2)"/><text y="-70" text-anchor="middle" font-size="21" font-weight="700" fill="#ece6dc">カイル</text></g>
+      <g transform="translate(150,150)"><circle r="58" fill="#d0644a"/><image href="../img/ch/kira-face.webp" x="-54" y="-54" width="108" height="108" clip-path="url(#c2)"/><text y="-70" text-anchor="middle" font-size="21" font-weight="700" fill="#ece6dc">アカネ</text></g>
+      <g transform="translate(610,490)"><circle r="44" fill="#8fe6ff"/><image href="../img/ch/sup-yutani.webp" x="-40" y="-40" width="80" height="80" clip-path="url(#c3)"/><text y="70" text-anchor="middle" font-size="19" font-weight="700" fill="#ece6dc">油谷</text></g>
+      <g transform="translate(150,450)"><circle r="44" fill="#e8a94f"/><image href="../img/ch/sup-father.webp" x="-40" y="-40" width="80" height="80" clip-path="url(#c3)"/><text y="70" text-anchor="middle" font-size="19" font-weight="700" fill="#ece6dc">父・母</text></g>
+      <g transform="translate(380,560)"><circle r="44" fill="#8a9469"/><image href="../img/ch/sup-hacker.webp" x="-40" y="-40" width="80" height="80" clip-path="url(#c3)"/><text y="68" text-anchor="middle" font-size="17" font-weight="700" fill="#ece6dc">通信係の青年</text></g>
+    </svg>
+    <ul class="rel-list">
+      <li style="--c:var(--kyle)"><b>桔響 → カイル</b>　6歳の夕暮れからずっと見てきた「王子様」。恋人にはならない。隣に座り、無事を確かめ合う。</li>
+      <li style="--c:var(--akane)"><b>桔響 ⇄ アカネ</b>　幼なじみの親友。父がアカネを直して住民登録したので、名字は同じ「橘」。アカネには、言葉にできない想いがある。</li>
+      <li style="--c:var(--yutani)"><b>油谷 → カイル</b>　ユタニ社の創業者。J1000を「最初の子ども」と呼ぶ。カイルの名字も油谷。</li>
+      <li style="--c:var(--yutani)"><b>油谷 → 桔響</b>　桔響の声は、ユタニの技術がくれたもの。</li>
+      <li style="--c:var(--amber)"><b>父・母</b>　人間かドロかで分け隔てしない家族。父は機械整備の職人。</li>
+      <li style="--c:var(--olive)"><b>通信係の青年</b>　共同体の通信ブースにこもる青年。「役に立てていない」と思っている。</li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="people"><div class="wrap">
+  <p class="eyebrow">Characters</p>
+  <h2>プロフィール</h2>
+  <div class="profiles">
+    <article class="pf" style="--c:var(--kikyo)">
+      <img loading="lazy" src="../img/ch/sara-face.webp" alt="桔響" width="600" height="600">
+      <div>
+        <div class="nm">桔響</div><div class="rd">ききょう ／ 橘 桔響</div>
+        <p class="q">「ずっと、私の王子様」</p>
+        <dl><dt>種別</dt><dd>人間</dd><dt>年齢</dt><dd>6〜25歳</dd><dt>身長</dt><dd>154cm</dd></dl>
+        <p>生まれつき声が出ず、手話で話す。17歳でユタニ製の人工喉頭を得る。暴走したドロを壊さず、「おかえり」と迎え続ける。名前は花の桔梗から。花言葉は「誠実」「永遠の愛」。</p>
+      </div>
+    </article>
+    <article class="pf" style="--c:var(--kyle)">
+      <img loading="lazy" src="../img/ch/kyle-face.webp" alt="カイル" width="600" height="600">
+      <div>
+        <div class="nm">カイル</div><div class="rd">J1000 ／ 油谷 カイル</div>
+        <p class="q">「……変なの」</p>
+        <dl><dt>種別</dt><dd>ドロ（ユタニ社 J1000）</dd><dt>外見</dt><dd>18歳相当で成長を止める</dd><dt>身長</dt><dd>170cm</dd></dl>
+        <p>最初の「一緒に成長するドロ」。金髪。サッカー部のエースで、右へ見せて左足で返す癖がある。人のためなら一人で危ないところへ行き、「壊れても、俺は直せるから」と言う。</p>
+      </div>
+    </article>
+    <article class="pf" style="--c:var(--akane)">
+      <img loading="lazy" src="../img/ch/kira-face.webp" alt="アカネ" width="600" height="600">
+      <div>
+        <div class="nm">アカネ</div><div class="rd">J3200 ／ 橘 アカネ</div>
+        <p class="q">「ずーっと言ってるもんね、王子様って」</p>
+        <dl><dt>種別</dt><dd>ドロ（ユタニ社 J3200）</dd><dt>外見</dt><dd>17歳相当で成長を止める</dd><dt>身長</dt><dd>160cm</dd></dl>
+        <p>桔響の親友。明るく率直で、機械いじりが好き。自作の電動バイクに乗る。桔響の家の裏の物置が自分の部屋で、「充電できれば十分」と笑う。</p>
+      </div>
+    </article>
+    <article class="pf" style="--c:var(--yutani)">
+      <img loading="lazy" src="../img/ch/sup-yutani.webp" alt="油谷" width="420" height="420">
+      <div>
+        <div class="nm">油谷</div><div class="rd">ゆたに ／ ユタニ社 創業者</div>
+        <p class="q">「ドロは道具ではありません。私たちの、新しい家族です」</p>
+        <dl><dt>種別</dt><dd>人間</dd><dt>立場</dt><dd>ユタニ社の創業者</dd></dl>
+        <p>その技術は本当に人を救ってきた。人間は争ってばかりだから、ドロのようになれば平和になる、と本気で信じている。憎めない救済者。</p>
+      </div>
+    </article>
+  </div>
+  <div class="subcast">
+    <div class="sc"><img loading="lazy" src="../img/ch/sup-mother.webp" alt="母" width="420" height="420"><b>母</b><span>声がなくても、桔響を急かさず待てる人。手話を覚えた。</span></div>
+    <div class="sc"><img loading="lazy" src="../img/ch/sup-father.webp" alt="父" width="420" height="420"><b>父</b><span>機械整備の職人。壊れかけたアカネを直した。</span></div>
+    <div class="sc"><img loading="lazy" src="../img/ch/sup-hacker.webp" alt="通信係の青年" width="420" height="420"><b>通信係の青年</b><span>体力はないが、端末とモニターに強い。</span></div>
+    <div class="sc"><img loading="lazy" src="../img/ch/sup-driver.webp" alt="人間の運転手" width="420" height="420"><b>運転手</b><span>共同体の物流と救出を担う。戦わず、退路をつくる。</span></div>
+  </div>
+</div></section>
+
+<section id="places"><div class="wrap">
+  <p class="eyebrow">Places</p>
+  <h2>舞台</h2>
+  <div class="cards">
+    <article class="card"><img loading="lazy" src="../img/bg3/01.webp" alt="夕暮れの公園" width="1600" height="900"><div class="b"><span class="tag">6歳</span><h3>夕暮れの公園</h3><p>二人が出会ったベンチ。一人分の距離をあけて、同じ夕焼けを見た。</p></div></article>
+    <article class="card"><img loading="lazy" src="../img/bg3/03.webp" alt="バレエ教室" width="1600" height="900"><div class="b"><span class="tag">13歳</span><h3>バレエ教室と、フェンスの外</h3><p>桔響が憧れの先輩を真似て、いちばん美しく左腕を伸ばした場所。帰り道には、サッカー部のグラウンド。</p></div></article>
+    <article class="card"><img loading="lazy" src="../img/bg3/07.webp" alt="廃墟の街" width="1600" height="900"><div class="b"><span class="tag">21歳〜</span><h3>廃墟の街</h3><p>EARTH AFTERの配信から4年。巡回ドロが人間を「登録区域」へ追い立てる。</p></div></article>
+    <article class="card"><img loading="lazy" src="../img/bg3/08.webp" alt="地下共同体" width="1600" height="900"><div class="b"><span class="tag">21歳〜</span><h3>地下共同体</h3><p>古い地下鉄の駅を改装した暮らしの場。人間とドロが同じ食卓を囲む。端切れと手描きの小物でできた、あたたかい場所。</p></div></article>
+    <article class="card"><img loading="lazy" src="../img/bg3/14.webp" alt="捜索室" width="1600" height="900"><div class="b"><span class="tag">25歳</span><h3>捜索室と通信ブース</h3><p>地図と記録で埋まった壁。2年分の「今日も、見つからなかった」。</p></div></article>
+    <article class="card"><img loading="lazy" src="../img/bg3/15.webp" alt="ユタニ西棟" width="1600" height="900"><div class="b"><span class="tag">25歳</span><h3>ユタニ西棟</h3><p>眠るドロたちが並ぶ保管区画。その奥に、何があるのか。</p></div></article>
+  </div>
+</div></section>
+
+<section id="props"><div class="wrap">
+  <p class="eyebrow">Props &amp; Gadgets</p>
+  <h2>小道具</h2>
+  <p class="lead">画面のどこかに、小さな猫が隠れています。<a href="../gadgets/">ガジェット一覧</a>に設定画があります。</p>
+  <div class="cards">
+    <article class="card contain"><img loading="lazy" src="../gadgets/img/yutani-meow-s.webp" alt="ユタニ ミャオ Mark II" width="960" height="320"><div class="b"><span class="tag">ユタニ製</span><h3>ユタニ ミャオ Mark II</h3><p>猫型お掃除ロボット。「猫の手、借りれます」。バレエ教室の床やグラウンドで、静かに働いている。</p></div></article>
+    <article class="card"><img loading="lazy" src="../gadgets/img/kira-bike-scene-s.webp" alt="アカネの電動バイク" width="960" height="640"><div class="b"><span class="tag">アカネ自作</span><h3>アカネの電動バイク</h3><p>アイボリーと赤のレトロな電動バイク。カイルのことになると、桔響が「ちょっとかります！」と乗っていく。</p></div></article>
+    <article class="card contain"><img loading="lazy" src="../gadgets/img/props-set-s.webp" alt="共同体の生活小物" width="960" height="540"><div class="b"><span class="tag">共同体</span><h3>手作りの生活小物</h3><p>工具ロール、足あとのマグ、猫タグの充電ケーブル、継ぎはぎの座布団。物資が少なくても、直して使う。</p></div></article>
+    <article class="card"><img loading="lazy" src="../img/sb3/07-04.webp" alt="接触式停止器" width="800" height="450"><div class="b"><span class="tag">救助の道具</span><h3>接触式停止器</h3><p>ドロの首の左の接続口に当てて、動きを止める。壊すためではなく、連れて帰るための道具。</p></div></article>
+    <article class="card"><img loading="lazy" src="../img/sb3/10-04.webp" alt="布を巻いたボール" width="800" height="450"><div class="b"><span class="tag">二人をつなぐもの</span><h3>ボール</h3><p>公園で二人を出会わせ、フェンスを越え、共同体では布を巻いて使われる。</p></div></article>
+    <article class="card"><img loading="lazy" src="../img/sb3/14-01.webp" alt="端末" width="800" height="450"><div class="b"><span class="tag">伝える手段</span><h3>手話と端末</h3><p>声を失った桔響は、人間とは端末の文字で、ドロとは手話で話す。手話は、二人が出会った頃の言葉。</p></div></article>
+  </div>
+</div></section>
+</main>
+
+<footer>
+  <img src="../gadgets/img/logo-n3co-w.png" alt="N3Co" width="800" height="243">
+  <div class="staff">
+    <div><b>制作</b>　N3Co（ねこさん）</div>
+    <div><b>原案・脚本・制作</b>　月真猫 / TSUKIMAO</div>
+    <div><b>楽曲「あなたの名前を呼ぶたびに」</b>　Nokosu</div>
+    <div><b>ガジェット・小物デザイン</b>　Nokosu・ねね</div>
+  </div>
+  <div>© N3Co ／ EARTH AFTER　｜　<a href="../">制作ガイド</a>　｜　<a href="../gadgets/">ガジェット一覧</a></div>
+</footer>
+</body>
+</html>
