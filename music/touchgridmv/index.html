@@ -1454,22 +1454,50 @@ function updateNeko(now,dt,sc){
 }
 
 /* ---------- RECORD stage: a soft vinyl you can scratch (up = forward, down = backward) ---------- */
-// the audio: a player that can run at any speed, forwards or backwards, steered by the finger
-const SCRATCH_SRC=`class ScratchProc extends AudioWorkletProcessor{
-  constructor(){super();this.L=null;this.R=null;this.n=0;this.pos=0;this.rate=1;this.target=1;this.k=.001;this.cnt=0;
-    this.port.onmessage=e=>{const d=e.data;if(d.buf){this.L=d.buf[0];this.R=d.buf[1];this.n=this.L.length;this.pos=d.pos||0;}
-      if(d.target!=null){this.target=d.target;this.k=d.k;} if(d.rate!=null)this.rate=d.rate;};}
-  process(_,outs){const o=outs[0],L=o[0],R=o[1]||o[0];
-    if(!this.L||!this.n){L.fill(0);if(o[1])o[1].fill(0);return true;}
-    const n=this.n,SL=this.L,SR=this.R;
-    for(let i=0;i<L.length;i++){this.rate+=(this.target-this.rate)*this.k;let p=this.pos;const i0=Math.floor(p),f=p-i0,a=((i0%n)+n)%n,b=(a+1)%n;
-      L[i]=SL[a]+(SL[b]-SL[a])*f;R[i]=SR[a]+(SR[b]-SR[a])*f;p+=this.rate;if(p>=n)p-=n;else if(p<0)p+=n;this.pos=p;}
-    if(++this.cnt%6===0)this.port.postMessage({pos:this.pos,rate:this.rate});
-    return true;}
+// the audio: a player that can run at any speed, forwards or backwards, steered by the finger.
+// Fast scratches read from pre-filtered half/quarter/... speed copies (mip levels), so they never alias into hiss,
+// the level follows the speed, and a soft limiter keeps every peak round.
+const PLAYER_SRC=`class RecPlayer{
+  constructor(){this.bank={};this.cur=null;this.pos=0;this.rate=1;this.target=1;this.k=.001;this.g=0;this.gT=0;}
+  msg(d){
+    if(d.store){this.bank[d.store]=d.lv;}
+    if(d.drop){delete this.bank[d.drop];if(this.cur&&this.cur.id===d.drop)this.cur=null;}
+    if(d.use!=null){const lv=this.bank[d.use];if(lv){this.cur={id:d.use,lv,n:lv[0][0].length};this.pos=d.pos||0;this.g=0;}}
+    if(d.target!=null){this.target=d.target;this.k=d.k;}
+    if(d.rate!=null)this.rate=d.rate;
+    if(d.gain!=null)this.gT=d.gain;
+  }
+  render(L,R,len){
+    const c=this.cur; if(!c){for(let i=0;i<len;i++){L[i]=0;R[i]=0;}return;}
+    const lv=c.lv,n=c.n,top=lv.length-1,gk=.0015;
+    for(let i=0;i<len;i++){
+      this.rate+=(this.target-this.rate)*this.k; this.g+=(this.gT-this.g)*gk;
+      const ar=Math.abs(this.rate), lvf=ar>1?Math.min(top,Math.log2(ar)):0, l0=Math.floor(lvf), fr=lvf-l0;
+      let p=this.pos, a=0, b=0;
+      for(let q=0;q<2;q++){
+        const li=q?Math.min(top,l0+1):l0, w=q?fr:1-fr; if(w<=0)continue;
+        const ch=lv[li], m=ch[0].length, s=1/(1<<li); let x=p*s; if(x>=m)x-=m;
+        const i0=Math.floor(x), f=x-i0, j0=i0<m?i0:i0-m, j1=j0+1<m?j0+1:0, A=ch[0], B=ch[1]||ch[0];
+        a+=w*(A[j0]+(A[j1]-A[j0])*f); b+=w*(B[j0]+(B[j1]-B[j0])*f);
+      }
+      const gg=this.g/(1+.1*(ar>1?ar-1:0));
+      a*=gg; b*=gg;
+      if(a>.6||a<-.6){const s=a<0?-1:1,x=Math.min(3,Math.abs(a));a=s*(.6+.4*Math.tanh((x-.6)/.4));}
+      if(b>.6||b<-.6){const s=b<0?-1:1,x=Math.min(3,Math.abs(b));b=s*(.6+.4*Math.tanh((x-.6)/.4));}
+      L[i]=a; R[i]=b;
+      p+=this.rate; if(p>=n)p-=n; else if(p<0)p+=n; this.pos=p;
+    }
+  }
+}`;
+const SCRATCH_SRC=PLAYER_SRC+`
+class ScratchProc extends AudioWorkletProcessor{
+  constructor(){super();this.pl=new RecPlayer();this.cnt=0;this.port.onmessage=e=>this.pl.msg(e.data);}
+  process(_,outs){const o=outs[0];this.pl.render(o[0],o[1]||o[0],o[0].length);
+    if(++this.cnt%6===0)this.port.postMessage({pos:this.pl.pos,rate:this.pl.rate});return true;}
 }
 registerProcessor('scratch-proc',ScratchProc);`;
 const REC={node:null,out:null,ready:false,pos:0,rate:1,t:0,sr:44100,len:1,kicks:[],track:-1,touching:false,lastMove:0,target:1,angle:0,prevSec:0,
-  cache:{},fric:null,fricF:null,crackle:null};
+  cache:{},stored:{},crackle:null,songKey:null,songOff:0,loadSeq:0};
 let recInit=null;
 async function initScratch(){
   if(recInit) return recInit;
@@ -1483,33 +1511,45 @@ async function initScratch(){
           await ac.audioWorklet.addModule(url);
           const node=new AudioWorkletNode(ac,'scratch-proc',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
           node.port.onmessage=e=>{REC.pos=e.data.pos;REC.rate=e.data.rate;REC.t=ac.currentTime;};
-          REC.send=m=>node.port.postMessage(m,m.buf?[m.buf[0].buffer,m.buf[1].buffer]:[]);
+          REC.send=(m,tr)=>node.port.postMessage(m,tr||[]);
           node.connect(REC.lp); REC.node=node; ok=true; break;
         }catch(_){}
       }
     }
-    if(!ok){ // fallback: same player on the main thread
-      const sp=ac.createScriptProcessor(2048,0,2), st={L:null,R:null,n:0,pos:0,rate:1,target:1,k:.001};
-      REC.send=m=>{if(m.buf){st.L=m.buf[0];st.R=m.buf[1];st.n=st.L.length;st.pos=m.pos||0;}if(m.target!=null){st.target=m.target;st.k=m.k;}if(m.rate!=null)st.rate=m.rate;};
-      sp.onaudioprocess=e=>{const L=e.outputBuffer.getChannelData(0),R=e.outputBuffer.getChannelData(1);if(!st.L){L.fill(0);R.fill(0);return;}
-        for(let i=0;i<L.length;i++){st.rate+=(st.target-st.rate)*st.k;const i0=Math.floor(st.pos),f=st.pos-i0,a=((i0%st.n)+st.n)%st.n,b=(a+1)%st.n;
-          L[i]=st.L[a]+(st.L[b]-st.L[a])*f;R[i]=st.R[a]+(st.R[b]-st.R[a])*f;st.pos+=st.rate;if(st.pos>=st.n)st.pos-=st.n;else if(st.pos<0)st.pos+=st.n;}
-        REC.pos=st.pos;REC.rate=st.rate;REC.t=ac.currentTime;};
+    if(!ok){ // fallback: the very same player on the main thread (large buffer = no dropouts)
+      const pl=new (new Function(PLAYER_SRC+';return RecPlayer;')())(), sp=ac.createScriptProcessor(4096,0,2);
+      REC.send=m=>pl.msg(m);
+      sp.onaudioprocess=e=>{const L=e.outputBuffer.getChannelData(0),R2=e.outputBuffer.getChannelData(1);pl.render(L,R2,L.length);REC.pos=pl.pos;REC.rate=pl.rate;REC.t=ac.currentTime;};
       sp.connect(REC.lp); REC.node=sp;
     }
-    // hand-on-vinyl friction and a little surface crackle
-    const fr=ac.createBufferSource(); fr.buffer=noiseBuf; fr.loop=true;
-    REC.fricF=ac.createBiquadFilter(); REC.fricF.type='bandpass'; REC.fricF.Q.value=2.5; REC.fricF.frequency.value=1800;
-    REC.fric=ac.createGain(); REC.fric.gain.value=0; fr.connect(REC.fricF); REC.fricF.connect(REC.fric); REC.fric.connect(A.bed); fr.start();
+    // a few soft surface pops (no hiss)
     const cb=ac.createBuffer(1,ac.sampleRate*3,ac.sampleRate), cd=cb.getChannelData(0);
-    for(let i=0;i<cd.length;i++){if(R()<.00012){const a=(R()*.6+.2)*(R()<.5?-1:1);for(let k=0;k<24&&i+k<cd.length;k++)cd[i+k]+=a*Math.exp(-k/4);}}
-    const cs=ac.createBufferSource(); cs.buffer=cb; cs.loop=true; const chp=ac.createBiquadFilter(); chp.type='highpass'; chp.frequency.value=900;
+    for(let i=0;i<cd.length;i++){if(R()<.00008){const a=(R()*.6+.2)*(R()<.5?-1:1);for(let k=0;k<24&&i+k<cd.length;k++)cd[i+k]+=a*Math.exp(-k/4);}}
+    const cs=ac.createBufferSource(); cs.buffer=cb; cs.loop=true; const chp=ac.createBiquadFilter(); chp.type='bandpass'; chp.frequency.value=1600; chp.Q.value=.7;
     REC.crackle=ac.createGain(); REC.crackle.gain.value=0; cs.connect(chp); chp.connect(REC.crackle); REC.crackle.connect(A.bed); cs.start();
     REC.ready=true;
   })();
   return recInit;
 }
 function recTarget(target,tau){REC.target=target;if(REC.send)REC.send({target,k:1-Math.exp(-1/(Math.max(.002,tau)*REC.sr))});}
+// pre-filtered half-speed copies for fast scratching (mono is plenty up there)
+const HB=[-.0110,0,.0505,0,-.1365,0,.6062,1,.6062,0,-.1365,0,.0505,0,-.0110].map(v=>v*.5);
+function halfDown(x){
+  const n=x.length, m=Math.ceil(n/2), y=new Float32Array(m), H=HB.length, h2=H>>1;
+  for(let j=0;j<m;j++){const c=2*j;let s=0;for(let t=0;t<H;t++){let k=c+t-h2;if(k<0)k+=n;else if(k>=n)k-=n;s+=HB[t]*x[k];}y[j]=s;}
+  return y;
+}
+function buildLevels(L,R2){
+  const lv=[[L,R2]]; let m=new Float32Array(L.length); for(let i=0;i<L.length;i++) m[i]=(L[i]+R2[i])*.5;
+  for(let k=1;k<=4;k++){m=halfDown(m); lv.push([m]);}
+  return lv;
+}
+function storeRec(id,lv){
+  if(REC.stored[id]) return;
+  const copy=lv.map(ch=>ch.map(a=>a.slice()));
+  REC.send({store:id,lv:copy},copy.flatMap(ch=>ch.map(a=>a.buffer)));
+  REC.stored[id]=true;
+}
 // press a built-in track onto vinyl: render its 4-bar loop offline with the very same instruments
 async function pressTrack(i){
   if(REC.cache[i]) return REC.cache[i];
@@ -1523,42 +1563,68 @@ async function pressTrack(i){
   for(let k=0;k<buf.length;k++){const j=k%n; L[j]+=a[k]; Rr[j]+=b[k];}   // fold the ringing tail onto the start: a seamless loop
   const ab=ac.createBuffer(2,n,sr); ab.getChannelData(0).set(L); ab.getChannelData(1).set(Rr);
   let kicks=[]; try{kicks=analyzeSong(ab).kicks;}catch(_){}
-  return REC.cache[i]={L,R:Rr,n,kicks,gain:1};
+  return REC.cache[i]={id:'t'+i,lv:buildLevels(L,Rr),n,kicks,gain:.85,off:0};
+}
+// your own song: press a window of whole bars (≤ ~48 s) starting at the bar you're on — light enough for any phone
+function pressSong(atSec){
+  const sr=song.buf.sampleRate, bar=4*60/song.bpm, ls=song.loopStart, le=Math.min(song.dur,song.loopEnd), MAXW=50;
+  let ws, we;
+  if(le<=MAXW){ws=0;we=le;}                                   // the whole song fits: same loop as live playback
+  else if(le-ls<=MAXW&&atSec>=ls){ws=ls;we=le;}               // the loop part fits
+  else{ const b0=((song.bar0%bar)+bar)%bar, nb=Math.max(1,Math.floor(48/bar));
+    ws=Math.max(0,b0+Math.floor((atSec-b0)/bar)*bar); we=Math.min(le,ws+nb*bar);
+    if(we-ws<4*bar) ws=Math.max(0,we-nb*bar); }
+  const key=song.name+'|'+song.dur+'|'+ws.toFixed(3);
+  if(REC.songKey===key&&REC.cache.song) return REC.cache.song;
+  const s0=Math.floor(ws*sr), s1=Math.min(song.buf.length,Math.floor(we*sr)), c0=song.buf.getChannelData(0), c1=song.buf.numberOfChannels>1?song.buf.getChannelData(1):c0;
+  const L=c0.slice(s0,s1), R2=c1.slice(s0,s1), fade=Math.min(256,(s1-s0)>>2);
+  for(let i=0;i<fade;i++){const g=i/fade;L[i]*=g;R2[i]*=g;L[L.length-1-i]*=g;R2[R2.length-1-i]*=g;}   // no click at the seam
+  if(REC.stored.song){REC.send({drop:'song'});delete REC.stored.song;}
+  REC.songKey=key;
+  return REC.cache.song={id:'song',lv:buildLevels(L,R2),n:L.length,kicks:song.kicks.filter(k=>k>=ws&&k<we).map(k=>k-ws),gain:song.gain*.85,off:ws};
 }
 async function loadRecord(i,keepTime){
   if(!ac) return;
+  const seq=++REC.loadSeq;
   await initScratch();
   let rec;
+  const songAt=(i===SONG_I&&song)?songPos(Math.max(0,songM)):0;
   if(i===SONG_I&&song){
-    rec={L:song.buf.getChannelData(0),R:song.buf.numberOfChannels>1?song.buf.getChannelData(1):song.buf.getChannelData(0),n:song.buf.length,kicks:song.kicks,gain:song.gain};
+    rec=pressSong(keepTime?songAt:0);
   }else{
     if(!REC.cache[i]){$('busyTxt').textContent='レコードをプレスしています…';$('busy').hidden=false;}
     try{ rec=await pressTrack(i); } finally{ $('busy').hidden=true; }
   }
-  if(stageMode!=='record'||cur!==i) return;
+  if(seq!==REC.loadSeq||stageMode!=='record'||cur!==i) return;
   let pos=0;
   if(keepTime){
-    if(i===SONG_I&&song) pos=songPos(Math.max(0,songM))*REC.sr;
+    if(i===SONG_I&&song) pos=Math.max(0,Math.min(rec.n-1,(songAt-rec.off)*REC.sr));
     else pos=((((ac.currentTime-startT)/(60/96/4))%64)+64)%64*(60/96/4)*REC.sr;
   }
-  REC.send({buf:[rec.L.slice(),rec.R.slice()],pos,rate:keepTime?1:0});
-  REC.len=rec.n; REC.kicks=rec.kicks; REC.track=i; REC.pos=pos; REC.t=ac.currentTime; REC.prevSec=pos/REC.sr;
-  REC.out.gain.setTargetAtTime(rec.gain*1.1,ac.currentTime,.05);
+  storeRec(rec.id,rec.lv);
+  REC.send({use:rec.id,pos,rate:keepTime?1:0,gain:rec.gain});
+  REC.len=rec.n; REC.kicks=rec.kicks; REC.track=i; REC.songOff=rec.off; REC.pos=pos; REC.t=ac.currentTime; REC.prevSec=pos/REC.sr;
+  REC.out.gain.cancelScheduledValues(ac.currentTime); REC.out.gain.setTargetAtTime(1,ac.currentTime,.03);
   recTarget(1,keepTime?.01:.35);   // a fresh record spins up from standstill
   paintLabel();
 }
 function enterRecord(){
   if(!ac) return;
   if(cur===SONG_I) stopSong();
-  clearLoop();
+  clearLoop(); fx.dream=fx.drive=fx.crush=0;
   for(const g2 of trackGains) g2.gain.setTargetAtTime(0,ac.currentTime,.05);
-  loadRecord(cur,true).then(()=>{REC.crackle&&REC.crackle.gain.setTargetAtTime(.02,ac.currentTime,.4);}).catch(err=>{console.error(err);showToast('この端末ではレコードを再生できませんでした');});
+  loadRecord(cur,true).then(()=>{REC.crackle&&REC.crackle.gain.setTargetAtTime(.015,ac.currentTime,.4);}).catch(err=>{console.error(err);showToast('この端末ではレコードを再生できませんでした');});
 }
 function leaveRecord(){
+  REC.loadSeq++;
   if(!ac||!REC.ready) { if(ac&&REC.out) REC.out.gain.value=0; if(ac){trackGains[cur].gain.setTargetAtTime(trackLevel(cur),ac.currentTime,.1); if(cur===SONG_I) startSong();} return; }
-  REC.out.gain.setTargetAtTime(0,ac.currentTime,.04); REC.crackle.gain.setTargetAtTime(0,ac.currentTime,.1); REC.fric.gain.setTargetAtTime(0,ac.currentTime,.05);
+  REC.out.gain.setTargetAtTime(0,ac.currentTime,.04); REC.crackle.gain.setTargetAtTime(0,ac.currentTime,.1);
+  REC.send({gain:0});
   trackGains[cur].gain.setTargetAtTime(trackLevel(cur),ac.currentTime,.1);
-  if(cur===SONG_I) startSong();
+  if(cur===SONG_I){ // pick the song up where the needle was
+    const at=REC.track===SONG_I&&song?REC.songOff+REC.prevSec:0;
+    startSong(at>0&&at<song.dur-.5?at:0);
+  }
 }
 // the disc: polar soft surface (rings × segments) with its own wave equation
 const RN=24, RS=72, RMIN=1.1, RMAX=10, RDR=(RMAX-RMIN)/(RN-1), RV=RN*RS;
@@ -1630,8 +1696,8 @@ function updateRecord(now,dt,vis){
     REC.prevSec=sec;
     // a hand that stops moving holds the record still
     if(REC.touching&&now-REC.lastMove>.08&&REC.target!==0) recTarget(0,.035);
-    const ar=Math.abs(REC.rate); REC.fric.gain.setTargetAtTime(0,ac.currentTime,.02);
-    REC.lp.frequency.setTargetAtTime(ar>1.3?Math.max(5000,18000/Math.pow(ar,.7)):18000,ac.currentTime,.03);
+    const ar=Math.abs(REC.rate);
+    REC.lp.frequency.setTargetAtTime(ar>1.2?Math.max(7000,18000/Math.pow(ar,.5)):18000,ac.currentTime,.03);
   }
   REC.angle+=(REC.ready?REC.rate:1)*dt*TAU*(100/3/60);
   recDisc.rotation.y=-REC.angle;
