@@ -1475,6 +1475,7 @@ async function initScratch(){
   if(recInit) return recInit;
   recInit=(async()=>{
     REC.sr=ac.sampleRate; REC.out=ac.createGain(); REC.out.gain.value=0; REC.out.connect(A.bed);
+    REC.lp=ac.createBiquadFilter(); REC.lp.type='lowpass'; REC.lp.frequency.value=18000; REC.lp.Q.value=.5; REC.lp.connect(REC.out);
     let ok=false;
     if(ac.audioWorklet&&window.AudioWorkletNode){
       for(const url of [URL.createObjectURL(new Blob([SCRATCH_SRC],{type:'application/javascript'})),'data:application/javascript;charset=utf-8,'+encodeURIComponent(SCRATCH_SRC)]){
@@ -1483,7 +1484,7 @@ async function initScratch(){
           const node=new AudioWorkletNode(ac,'scratch-proc',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
           node.port.onmessage=e=>{REC.pos=e.data.pos;REC.rate=e.data.rate;REC.t=ac.currentTime;};
           REC.send=m=>node.port.postMessage(m,m.buf?[m.buf[0].buffer,m.buf[1].buffer]:[]);
-          node.connect(REC.out); REC.node=node; ok=true; break;
+          node.connect(REC.lp); REC.node=node; ok=true; break;
         }catch(_){}
       }
     }
@@ -1494,14 +1495,14 @@ async function initScratch(){
         for(let i=0;i<L.length;i++){st.rate+=(st.target-st.rate)*st.k;const i0=Math.floor(st.pos),f=st.pos-i0,a=((i0%st.n)+st.n)%st.n,b=(a+1)%st.n;
           L[i]=st.L[a]+(st.L[b]-st.L[a])*f;R[i]=st.R[a]+(st.R[b]-st.R[a])*f;st.pos+=st.rate;if(st.pos>=st.n)st.pos-=st.n;else if(st.pos<0)st.pos+=st.n;}
         REC.pos=st.pos;REC.rate=st.rate;REC.t=ac.currentTime;};
-      sp.connect(REC.out); REC.node=sp;
+      sp.connect(REC.lp); REC.node=sp;
     }
     // hand-on-vinyl friction and a little surface crackle
     const fr=ac.createBufferSource(); fr.buffer=noiseBuf; fr.loop=true;
     REC.fricF=ac.createBiquadFilter(); REC.fricF.type='bandpass'; REC.fricF.Q.value=2.5; REC.fricF.frequency.value=1800;
     REC.fric=ac.createGain(); REC.fric.gain.value=0; fr.connect(REC.fricF); REC.fricF.connect(REC.fric); REC.fric.connect(A.bed); fr.start();
     const cb=ac.createBuffer(1,ac.sampleRate*3,ac.sampleRate), cd=cb.getChannelData(0);
-    for(let i=0;i<cd.length;i++){cd[i]=(R()*2-1)*.012; if(R()<.0004){const a=(R()*.7+.3)*(R()<.5?-1:1);for(let k=0;k<40&&i+k<cd.length;k++)cd[i+k]+=a*Math.exp(-k/6);}}
+    for(let i=0;i<cd.length;i++){if(R()<.00012){const a=(R()*.6+.2)*(R()<.5?-1:1);for(let k=0;k<24&&i+k<cd.length;k++)cd[i+k]+=a*Math.exp(-k/4);}}
     const cs=ac.createBufferSource(); cs.buffer=cb; cs.loop=true; const chp=ac.createBiquadFilter(); chp.type='highpass'; chp.frequency.value=900;
     REC.crackle=ac.createGain(); REC.crackle.gain.value=0; cs.connect(chp); chp.connect(REC.crackle); REC.crackle.connect(A.bed); cs.start();
     REC.ready=true;
@@ -1551,7 +1552,7 @@ function enterRecord(){
   if(cur===SONG_I) stopSong();
   clearLoop();
   for(const g2 of trackGains) g2.gain.setTargetAtTime(0,ac.currentTime,.05);
-  loadRecord(cur,true).then(()=>{REC.crackle&&REC.crackle.gain.setTargetAtTime(.05,ac.currentTime,.2);}).catch(err=>{console.error(err);showToast('この端末ではレコードを再生できませんでした');});
+  loadRecord(cur,true).then(()=>{REC.crackle&&REC.crackle.gain.setTargetAtTime(.02,ac.currentTime,.4);}).catch(err=>{console.error(err);showToast('この端末ではレコードを再生できませんでした');});
 }
 function leaveRecord(){
   if(!ac||!REC.ready) { if(ac&&REC.out) REC.out.gain.value=0; if(ac){trackGains[cur].gain.setTargetAtTime(trackLevel(cur),ac.currentTime,.1); if(cur===SONG_I) startSong();} return; }
@@ -1629,8 +1630,8 @@ function updateRecord(now,dt,vis){
     REC.prevSec=sec;
     // a hand that stops moving holds the record still
     if(REC.touching&&now-REC.lastMove>.08&&REC.target!==0) recTarget(0,.035);
-    const fr=REC.touching?Math.min(.22,Math.abs(REC.rate-1)*.05+Math.abs(REC.rate)*.02):0;
-    REC.fric.gain.setTargetAtTime(fr,ac.currentTime,.02); REC.fricF.frequency.setTargetAtTime(900+Math.min(4000,Math.abs(REC.rate)*700),ac.currentTime,.02);
+    const ar=Math.abs(REC.rate); REC.fric.gain.setTargetAtTime(0,ac.currentTime,.02);
+    REC.lp.frequency.setTargetAtTime(ar>1.3?Math.max(5000,18000/Math.pow(ar,.7)):18000,ac.currentTime,.03);
   }
   REC.angle+=(REC.ready?REC.rate:1)*dt*TAU*(100/3/60);
   recDisc.rotation.y=-REC.angle;
