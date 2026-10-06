@@ -56,12 +56,18 @@ input[type=range]{touch-action:pan-x}
 
 #hud{position:fixed;top:0;left:0;right:0;z-index:3;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
   padding:calc(env(safe-area-inset-top,0px) + 14px) 16px 0;pointer-events:none}
-.track{display:flex;flex-direction:column;gap:2px;min-width:0}
+.track{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
 #tno{font-size:11px;letter-spacing:.24em;color:var(--dim);font-variant-numeric:tabular-nums}
-#tname{font-family:var(--f-disp);font-weight:400;font-size:clamp(26px,8vw,46px);line-height:1;color:var(--acc);white-space:nowrap;
+#tname{font-family:var(--f-disp);font-weight:400;font-size:clamp(26px,8vw,46px);line-height:1;color:var(--acc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
   text-shadow:0 0 22px var(--acc);letter-spacing:.04em;transition:color .6s,text-shadow .6s}
 #tjp{font-size:11px;color:var(--dim);letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100vw - 210px)}
 #tname.flip{animation:flip .5s steps(6) both}
+#seek{pointer-events:auto;margin-top:4px;display:flex;align-items:center;gap:8px;touch-action:none}
+#seekBar{position:relative;width:min(44vw,220px);height:26px;cursor:pointer}
+#seekBar::before{content:"";position:absolute;left:0;right:0;top:12px;height:3px;border-radius:2px;background:var(--line)}
+#seekFill{position:absolute;left:0;top:12px;height:3px;border-radius:2px;background:var(--acc)}
+#seekHead{position:absolute;top:6px;width:15px;height:15px;margin-left:-7px;border-radius:50%;background:var(--fg);box-shadow:0 0 10px var(--acc)}
+#seekTime{font-size:10px;color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}
 @keyframes flip{0%{transform:translateX(-6px);clip-path:inset(0 0 60% 0);opacity:.2}40%{transform:translateX(5px);clip-path:inset(40% 0 0 0)}70%{transform:translateX(-2px);clip-path:inset(0 0 20% 0)}100%{transform:none;clip-path:inset(0);opacity:1}}
 .hbtns{display:flex;gap:6px;align-items:stretch}
 .hbtn{pointer-events:auto;font-family:var(--f-disp);min-width:44px;height:46px;padding:0 9px;border:1px solid var(--line);border-radius:12px;
@@ -108,7 +114,7 @@ input[type=range]{touch-action:pan-x}
 @keyframes cpull{0%,100%{transform:translateY(30px)}50%{transform:translateY(-60px)}}
 @keyframes cswipe{0%{transform:translateX(-80px);opacity:0}20%{opacity:1}80%{opacity:1}100%{transform:translateX(80px);opacity:0}}
 
-#toast{position:fixed;left:0;right:0;margin:0 auto;width:fit-content;top:calc(env(safe-area-inset-top,0px) + 92px);transform:translateY(-8px);z-index:6;pointer-events:none;opacity:0;
+#toast{position:fixed;left:0;right:0;margin:0 auto;width:fit-content;top:calc(env(safe-area-inset-top,0px) + 132px);transform:translateY(-8px);z-index:6;pointer-events:none;opacity:0;
   transition:opacity .3s,transform .3s;font-size:13px;letter-spacing:.04em;padding:9px 16px;border-radius:14px;background:rgba(10,8,16,.82);border:1px solid var(--line);
   max-width:calc(100vw - 32px);text-align:center;line-height:1.5}
 #toast.on{opacity:1;transform:none}
@@ -181,9 +187,10 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
     <span id="tno">01 / 04</span>
     <strong id="tname">GLITCH</strong>
     <span id="tjp">グリッチ</span>
+    <div id="seek" hidden><div id="seekBar" role="slider" aria-label="再生位置" tabindex="0"><i id="seekFill"></i><b id="seekHead"></b></div><span id="seekTime">0:00</span></div>
   </div>
   <div class="hbtns">
-    <button class="hbtn" id="stageBtn" aria-label="ステージを切り替え"><small>ステージ</small><b id="stageLbl">格子</b></button>
+    <button class="hbtn" id="stageBtn" aria-label="ステージを切り替え"><small>ステージ</small><b id="stageLbl">格子の膜</b></button>
     <button class="hbtn" id="modeBtn" aria-label="キャラの表示を切り替え"><small>キャラ</small><b id="modeLbl">ON</b></button>
     <button class="hbtn icon" id="volBtn" aria-label="音量" aria-expanded="false" aria-controls="volPop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path id="volWave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path id="volX" d="M16 9l5 6M21 9l-5 6" hidden/></svg></button>
     <button class="hbtn icon" id="helpBtn" aria-label="あそびかた">?</button>
@@ -192,6 +199,7 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
 
 <div id="foot">
   <div id="chips">
+    <button class="chip" id="addBtn" aria-pressed="true">音を足す：<b>ON</b></button>
     <button class="chip" id="resetBtn" hidden>⟲ 正面に戻す</button>
     <button class="chip" id="loopBtn" hidden>ループ <b id="loopN">0</b>音 ・ 消す</button>
   </div>
@@ -231,7 +239,7 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
 <div class="sheet" id="helpSheet" hidden role="dialog" aria-modal="true" aria-labelledby="helpTitle">
   <div class="panel">
     <h2 id="helpTitle">あそびかた</h2>
-    <h3>格子（ステージ：格子）</h3>
+    <h3>格子の膜（ステージ：格子の膜）</h3>
     <dl>
       <dt>タップ</dt><dd>拍に合わせて音が鳴り、その場所に光の柱が立つ。音は画面下のループに並び、4小節ごとにくり返し鳴って少しずつ消えていく。たくさん重ねるほど、あなたの音が主役に</dd>
       <dt>つまんで上下</dt><dd>膜を引き伸ばすと曲ごと音が上がり、沈めると下がる。離すとボヨンと戻る</dd>
@@ -239,9 +247,9 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
       <dt>指の左右</dt><dd>左でこもった音、右でシャリシャリした音</dd>
       <dt>キャラ</dt><dd>拍ごとに空から降ってきて、膜の上でぽよんと跳ねる（最大30匹）。膜を引っぱって離すと跳ね上がる。叩くと鳴いて、続けて叩くとコンボ、5連続でFEVER、金色はJACKPOT</dd>
     </dl>
-    <h3>歌う球（ステージ：白猫・ドクロ・線）</h3>
+    <h3>球（ステージ：白猫・ドクロ・線の球）</h3>
     <dl>
-      <dt>つまんで上下</dt><dd>音程。曲のキーに自動で合い、ハモりも付く</dd>
+      <dt>つまんで上下</dt><dd>白猫とドクロは歌う（音程は曲のキーに自動で合い、ハモりも付く）。線の球は曲ごと音程が伸びる</dd>
       <dt>つまんで左右</dt><dd>母音が「う・お・あ・え・い」と変わる</dd>
       <dt>押し続ける</dt><dd>ぎゅっとつぶれる。外へ引けば伸びる</dd>
       <dt>外側をなぞる</dt><dd>球が回る。ダブルタップか「正面に戻す」で正面へ</dd>
@@ -255,6 +263,8 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
     <h3>どこでも</h3>
     <dl>
       <dt>素早く払う</dt><dd>曲を切り替え（‹ › でも）</dd>
+      <dt>音を足す</dt><dd>画面下のボタンでON／OFF。OFFにするとタップ音・ループ・歌声・効果音が出なくなり、触ると曲そのものだけが変わる</dd>
+      <dt>再生位置</dt><dd>自分の曲では、曲名の下のバーで好きな位置から再生できる</dd>
       <dt>＋</dt><dd>自分の曲を読み込む。BPMとキーを自動で解析して、5曲目として遊べる</dd>
       <dt id="recHelpT">● 録画</dt><dd id="recHelpD">最大30秒を動画にして、保存・シェアできる</dd>
       <dt>音量</dt><dd>右上のスピーカーから、全体・曲・あなたの音（タップ音と歌声）を別々に調節。ミュートもここから</dd>
@@ -615,6 +625,12 @@ const coachEl=$('coach'), coachTxt=$('coachTxt'), toastEl=$('toast'), fileIn=$('
 loopBtn.addEventListener('click',()=>{clearLoop();showToast('ループを空にしました');});
 resetBtn.addEventListener('click',()=>resetBall());
 let toastT=0;
+let addOn=true; try{addOn=localStorage.getItem('tg_add')!=='0';}catch(_){}
+function paintAdd(){const b=$('addBtn');b.setAttribute('aria-pressed',addOn);b.querySelector('b').textContent=addOn?'ON':'OFF';b.hidden=stageMode==='record';}
+function setAdd(on){addOn=on;try{localStorage.setItem('tg_add',on?'1':'0');}catch(_){}
+  if(!on){clearLoop();voiceUntil=0;} paintAdd();
+  showToast(on?'音を足す：ON（タップ音・ループ・歌声）':'音を足す：OFF（触ると曲そのものだけが変わる）',2400);}
+$('addBtn').addEventListener('click',()=>setAdd(!addOn));
 /* ---------- no accidental page zoom on phones (and a way back if it happens) ---------- */
 for(const ev of['gesturestart','gesturechange','gestureend']) document.addEventListener(ev,e=>e.preventDefault(),{passive:false});
 document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1&&!e.target.closest('#stage'))e.preventDefault();},{passive:false});
@@ -648,7 +664,7 @@ applyVol();
 function showToast(msg,ms){toastEl.textContent=msg;toastEl.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('on'),ms||2400);}
 const stageBtn=document.getElementById('stageBtn');
 const STAGES=['grid','neko','skull','wire','record'];
-const STAGE_JP={grid:'格子',neko:'白猫',skull:'ドクロ',wire:'線',record:'レコード'};
+const STAGE_JP={grid:'格子の膜',neko:'白猫',skull:'ドクロ',wire:'線の球',record:'レコード'};
 stageBtn.addEventListener('click',()=>{const m=STAGES[(STAGES.indexOf(stageMode==='ball'?ballSkin:stageMode)+1)%STAGES.length];setStage(m);showToast('ステージ：'+STAGE_JP[m]+(m==='grid'?'':m==='record'?'（上下にこすってスクラッチ）':'（つまむと歌う）'),1800);});
 let stageMode='grid', ballSkin='neko';
 function setStage(m){
@@ -660,7 +676,7 @@ function setStage(m){
   $('stageLbl').textContent=STAGE_JP[m];
   if(m!=='grid') sprites.length=0;
   if(typeof applySkin==='function') applySkin();
-  resetBtn.hidden=stageMode!=='ball'; paintHint(); if(coachOn) coachNext();
+  resetBtn.hidden=stageMode!=='ball'; paintAdd(); paintHint(); if(coachOn) coachNext();
 }
 function buildDots(){
   dotsEl.textContent='';
@@ -854,7 +870,7 @@ try{loopExplained=localStorage.getItem('tg_loop_v1')==='1';}catch(_){}
 function explainLoop(){if(loopExplained)return;loopExplained=true;try{localStorage.setItem('tg_loop_v1','1');}catch(_){}
   setTimeout(()=>showToast('さわった音は、下のループに記録されて4小節ごとにくり返し鳴ります',4200),500);}
 function tapNote(nx,row,gx,gz,gd){
-  if(!ac) return;
+  if(!ac||!addOn) return null;
   const m=SCALE[Math.min(SCALE.length-1,Math.floor(nx*SCALE.length))]+(row===0?12:row===2?-12:0);
   const t=quantT(), k=Math.round((t-startT)/STEP);
   playTap(t,m,cur,1);
@@ -867,7 +883,7 @@ function tapNote(nx,row,gx,gz,gd){
 function clearLoop(){loopNotes.length=0;paintLoop();}
 function paintLoop(){$('loopN').textContent=loopNotes.length;loopBtn.hidden=loopNotes.length===0;}
 function snapSound(P){
-  if(!ac) return;
+  if(!ac||!addOn) return;
   const t=ac.currentTime, f=mtof(57+Math.round(P*12));
   const o=ac.createOscillator(); o.type='triangle';
   o.frequency.setValueAtTime(f*(P>0?2:.5),t); o.frequency.exponentialRampToValueAtTime(f,t+.14);
@@ -883,7 +899,7 @@ function glide(t,dest,type,f0,f1,dur,peak){
 }
 // instant answer the moment a finger lands (the musical note follows on the beat)
 function touchSound(nx,ny){
-  if(!ac) return;
+  if(!ac||!addOn) return;
   const t=ac.currentTime+.002;
   const m=SCALE[Math.min(SCALE.length-1,Math.floor(nx*SCALE.length))]+24+(ny<1/3?12:ny>2/3?-12:0), f=mtof(m);
   glide(t,A.lead,cur===0?'square':cur===2?'triangle':'sine',f*1.5,f,.14,cur===0?.05:.09);
@@ -904,7 +920,7 @@ function meow(t){
   o.connect(f); f.connect(gg); gg.connect(A.lead); bendIt(o); o.start(t); o.stop(t+.45);
 }
 function hitSound(kind,cmb,golden){
-  if(!ac) return;
+  if(!ac||!addOn) return;
   const t=ac.currentTime+.002;
   glide(t,A.lead,'sine',900,140,.18,.22);
   noise(t,A.lead,{type:'highpass',f:2500,peak:.12,d:.03});
@@ -953,7 +969,7 @@ function voiceMul(){return ballSkin==='skull'?.9:1.18;}
 function voiceShift(){return ballSkin==='skull'?-12:0;}
 function updateVoice(now){
   if(!VOX) return;
-  const t=ac.currentTime, on=voiceSing||now<voiceUntil, mul=voiceMul(), sk=ballSkin==='skull';
+  const t=ac.currentTime, on=(voiceSing||now<voiceUntil)&&addOn, mul=voiceMul(), sk=ballSkin==='skull';
   let F=vowelF(vVow,mul);
   const ons=now-singStart; if(ons<.14){const Fi=vowelF(4,mul),w=ons/.14;F=F.map((v,k)=>Fi[k]+(v-Fi[k])*w);}   // "nya" onset
   const notes=[vMidi+voiceShift(), harmonyOf(vMidi+voiceShift(),t)];
@@ -976,7 +992,7 @@ function echoSing(t,n){
   v.env.gain.setTargetAtTime(.85*n.vel,t,.015); v.env.gain.setTargetAtTime(0,t+STEP*1.6,.06);
 }
 function recordVoice(midi,vow,gd){
-  if(!ac) return null;
+  if(!ac||!addOn) return null;
   const t=quantT(), k=Math.round((t-startT)/STEP);
   for(let i=loopNotes.length-1;i>=0;i--) if(loopNotes[i].voice&&loopNotes[i].k===k) loopNotes.splice(i,1);
   const n={s:k%64,k,m:midi,gx:0,gz:0,gd,vel:1,voice:true,vow,skin:ballSkin,t0:nowS()}; explainLoop();
@@ -1109,14 +1125,15 @@ function schedSong(t0,t1){
     else {emit(p0,song.loopEnd,t0); emit(song.loopStart,song.loopStart+(p1-song.loopEnd),t0+(song.loopEnd-p0));}
   }
 }
-function startSong(){
+function startSong(offset){
   if(!song||!ac) return;
+  offset=offset||0;
   stopSong();
   const src=ac.createBufferSource(); src.buffer=song.buf; src.loop=true; src.loopStart=song.loopStart; src.loopEnd=song.loopEnd;
-  songBend=!!src.detune; if(songBend) bendSrc.connect(src.detune);
+  songBend=false;
   src.connect(trackGains[SONG_I]);
-  songT0=ac.currentTime+.06; src.start(songT0,0); songSrc=src; songM=-.06; songLastAc=ac.currentTime;
-  const bar=4*60/song.bpm; setGrid(song.bpm, songT0+song.bar0-Math.ceil(song.bar0/bar)*bar);
+  songT0=ac.currentTime+.06; src.start(songT0,offset); songSrc=src; songM=offset-.06; songLastAc=ac.currentTime;
+  const bar=4*60/song.bpm; setGrid(song.bpm, songT0-offset+song.bar0-Math.ceil(song.bar0/bar)*bar);
   KEY=song.key; buildScales(); clearLoop();
 }
 function stopSong(){
@@ -1135,6 +1152,29 @@ function tickSong(){
   const bar=4*60/song.bpm, gridOrigin=expected+song.bar0-Math.ceil(song.bar0/bar)*bar, drift=gridOrigin-startT;
   if(Math.abs(bendNow)<.02&&Math.abs(drift)>.015){startT+=drift;nextT+=drift;}
 }
+const fmtT=x=>{x=Math.max(0,x|0);return (x/60|0)+':'+String(x%60).padStart(2,'0');};
+let seekDrag=false, seekFrac=0;
+function seekShown(){return cur===SONG_I&&!!song&&stageMode!=='record';}
+function seekTo(frac){
+  if(!song||!ac) return;
+  const want=clamp(frac,0,1)*song.dur, bar=4*60/song.bpm;
+  let off=want<song.bar0?0:song.bar0+Math.round((want-song.bar0)/bar)*bar;   // land on a downbeat so taps stay on the grid
+  off=clamp(off,0,Math.max(0,song.loopEnd-bar));
+  trackGains[SONG_I].gain.setTargetAtTime(trackLevel(SONG_I),ac.currentTime,.05);
+  startSong(off); showToast(fmtT(off)+' から再生',1200);
+}
+function paintSeek(){
+  const sk=$('seek'), show=seekShown(); if(sk.hidden===show) sk.hidden=!show; if(!show) return;
+  const f=seekDrag?seekFrac:(songSrc?songPos(Math.max(0,songM))/song.dur:0);
+  $('seekFill').style.width=(f*100).toFixed(2)+'%'; $('seekHead').style.left=(f*100).toFixed(2)+'%';
+  const txt=fmtT(f*song.dur)+' / '+fmtT(song.dur); if($('seekTime').textContent!==txt) $('seekTime').textContent=txt;
+}
+{const bar=$('seekBar'), fr=e=>{const r=bar.getBoundingClientRect();return clamp((e.clientX-r.left)/r.width,0,1);};
+ bar.addEventListener('pointerdown',e=>{e.stopPropagation();seekDrag=true;seekFrac=fr(e);try{bar.setPointerCapture(e.pointerId);}catch(_){}});
+ bar.addEventListener('pointermove',e=>{if(seekDrag)seekFrac=fr(e);});
+ const end=e=>{if(!seekDrag)return;seekDrag=false;seekTo(seekFrac);};
+ bar.addEventListener('pointerup',end); bar.addEventListener('pointercancel',()=>{seekDrag=false;});
+ bar.addEventListener('keydown',e=>{if(!song)return;const f=songPos(Math.max(0,songM))/song.dur;if(e.key==='ArrowRight'){e.stopPropagation();seekTo(f+.05);}if(e.key==='ArrowLeft'){e.stopPropagation();seekTo(f-.05);}});}
 function keyJP(k){const n=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'][k.root];return n+(k.minor?'マイナー':'メジャー');}
 function openSongPicker(){
   if(!started) begin('chara','grid');
@@ -1182,7 +1222,7 @@ function applyFx(dt){
   A.clean.gain.setTargetAtTime(Math.max(.05,1-dr*.35-dv*.85-cr*.9),now,.05);
   const b=bendNow, cents=Math.sign(b)*Math.pow(Math.abs(b),1.15)*1200;
   bendSrc.offset.setTargetAtTime(cents,now,.012); songCents=cents;
-  A.tensG.gain.setTargetAtTime(Math.min(.1,Math.abs(pullSum)*.1),now,.04);
+  A.tensG.gain.setTargetAtTime(addOn?Math.min(.1,Math.abs(pullSum)*.1):0,now,.04);
   A.tensF.frequency.setTargetAtTime(600*Math.pow(2,pullSum*2.4),now,.04);
   loopEnergy=loopNotes.reduce((a,n)=>a+n.vel,0);
   A.bed.gain.setTargetAtTime((1-.55*Math.min(1,loopEnergy/10))*volSongGain(),now,.4);
@@ -1843,7 +1883,7 @@ window.addEventListener('keydown',e=>{
 });
 let audioWaiting=false;
 function wakeAudio(){
-  if(!ac||document.hidden||ac.state==='closed') return;
+  if(!ac||document.hidden||ac.state==='closed'||recPaused) return;
   if(ac.state!=='running'){
     const p=ac.resume(); if(p&&p.then) p.then(()=>{if(ac.state==='running'&&audioWaiting){audioWaiting=false;showToast('音が戻りました',1400);}}).catch(()=>{});
     setTimeout(()=>{if(ac.state!=='running'&&!document.hidden&&!audioWaiting){audioWaiting=true;showToast('画面にさわると音が戻ります',3000);}},350);
@@ -1861,7 +1901,7 @@ function begin(m,st){
   started=true;
   document.getElementById('intro').hidden=true;
   if(canRec) recBtn.hidden=false;
-  paintHint(); if(coachOn) coachNext();
+  paintAdd(); paintHint(); if(coachOn) coachNext();
 }
 $('startMain').addEventListener('click',()=>begin('chara','grid'));
 $('startBall').addEventListener('click',()=>begin('chara','neko'));
@@ -1922,9 +1962,11 @@ function showRecResult(blob,type){
   let can=false; try{can=!!(navigator.canShare&&navigator.canShare({files:[file]}));}catch(_){}
   sh.hidden=!can; sh.onclick=()=>navigator.share({files:[file],title:'TOUCH GRID',text:'#TOUCHGRID https://tsukilab.jp/music/touchgridmv/'}).catch(()=>{});
   openSheet($('recSheet'),'recClose');
+  if(ac&&ac.state==='running'){recPaused=true;ac.suspend().catch(()=>{});}
 }
 recBtn.addEventListener('click',()=>{if(rec)stopRec();else startRec();});
-$('recClose').addEventListener('click',()=>{$('recVid').pause();closeSheet($('recSheet'));});
+let recPaused=false;
+$('recClose').addEventListener('click',()=>{$('recVid').pause();closeSheet($('recSheet'));if(recPaused){recPaused=false;if(ac)ac.resume().catch(()=>{});}});
 /* ---------- ball reset: spin back to face front and settle ---------- */
 let resetUntil=0;
 function resetBall(){
@@ -1984,7 +2026,7 @@ function jackpot(t){
 }
 let lastBoing=0;
 function boing(v){
-  if(!ac||mode!=='chara') return; const t=ac.currentTime; if(t-lastBoing<.09) return; lastBoing=t;
+  if(!ac||mode!=='chara'||!addOn) return; const t=ac.currentTime; if(t-lastBoing<.09) return; lastBoing=t;
   const f=mtof(SCALE[Math.floor(R()*5)+3]); glide(t,A.lead,'sine',f*.7,f*1.25,.16,Math.min(.05,.012+v*.0018));
 }
 function stepSprite(s,dt){
@@ -2252,7 +2294,7 @@ function step(){
       const kk=Math.min(1,dt*18); p.T[0]+=(tmpV2.x-p.T[0])*kk; p.T[1]+=(tmpV2.y-p.T[1])*kk; p.T[2]+=(tmpV2.z-p.T[2])*kk;
       p.ext=Math.hypot(p.T[0],p.T[1],p.T[2])/BR;
       p.bp+=(clamp((sOut-press*.6)/(BR*1.1),-1,1)-p.bp)*Math.min(1,dt*16); p.pullS=p.bp;
-      if(ballSkin==='wire') pullSum+=p.pullS;
+      if(ballSkin==='wire'||!addOn) pullSum+=p.pullS;
       else if(!singer){
         singer=p;
         const vy=clamp((p.y0-p.y)/(Hh*.3),-1,1), idx=clamp(Math.round(5+vy*5),0,VNOTES.length-1);
@@ -2291,6 +2333,7 @@ function step(){
   if(singer&&!voiceSing) singStart=now;
   voiceSing=!!singer;
   if(ac){updateVoice(now); tickSong();}
+  paintSeek();
   vOpen+=(((voiceSing||now<voiceUntil)?.35+.65*(VOPEN[Math.round(vVow)]||.6):now<echoOpenUntil?.55:0)-vOpen)*Math.min(1,dt*14);
 
   // hold effects
