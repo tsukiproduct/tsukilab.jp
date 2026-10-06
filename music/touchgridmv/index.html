@@ -155,7 +155,17 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
 #busy div{display:flex;flex-direction:column;align-items:center;gap:14px;font-family:var(--f-disp);font-size:16px;letter-spacing:.1em}
 #busy i{width:44px;height:44px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--acc2);animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-@media (max-width:380px){.hbtn{padding:0 7px}.hbtn small{font-size:8px}.hbtn b{font-size:13px}}
+#volPop{position:fixed;top:calc(env(safe-area-inset-top,0px) + 70px);right:16px;z-index:7;width:min(280px,calc(100vw - 32px));box-sizing:border-box;
+  padding:14px 16px 12px;border-radius:16px;border:1px solid var(--line);background:rgba(17,14,25,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;gap:6px;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+#volPop label{display:grid;grid-template-columns:6.2em minmax(0,1fr) 2.4em;align-items:center;gap:8px;font-size:12px;letter-spacing:.04em}
+#volPop output{font-variant-numeric:tabular-nums;color:var(--dim);text-align:right;font-size:11px}
+#volPop input[type=range]{width:100%;height:36px;margin:0;accent-color:var(--acc2);background:transparent}
+#muteBtn{margin-top:4px;height:38px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.06);font-size:13px;cursor:pointer}
+#muteBtn[aria-pressed="true"]{border-color:var(--rec);color:var(--rec)}
+.hbtn.icon svg{width:20px;height:20px;display:block}
+@media (max-width:420px){.hbtns{gap:5px}.hbtn{padding:0 7px}.hbtn.icon{width:42px}#tname{font-size:clamp(24px,7.4vw,46px)}}
+@media (max-width:380px){.hbtn small{font-size:8px}.hbtn b{font-size:13px}}
 @media (prefers-reduced-motion:reduce){#tname.flip,#coach .hand,#recBtn.on,#busy i{animation:none}}
 </style>
 </head>
@@ -174,6 +184,7 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
   <div class="hbtns">
     <button class="hbtn" id="stageBtn" aria-label="ステージを切り替え"><small>ステージ</small><b id="stageLbl">格子</b></button>
     <button class="hbtn" id="modeBtn" aria-label="キャラの表示を切り替え"><small>キャラ</small><b id="modeLbl">ON</b></button>
+    <button class="hbtn icon" id="volBtn" aria-label="音量" aria-expanded="false" aria-controls="volPop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path id="volWave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path id="volX" d="M16 9l5 6M21 9l-5 6" hidden/></svg></button>
     <button class="hbtn icon" id="helpBtn" aria-label="あそびかた">?</button>
   </div>
 </div>
@@ -190,6 +201,12 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
     <button id="recBtn" hidden aria-label="録画を開始"><i></i><span id="recTime"></span></button>
   </div>
   <p id="hint"></p>
+</div>
+<div id="volPop" hidden role="group" aria-label="音量">
+  <label>全体<input type="range" id="volAll" min="0" max="100" step="1" value="80"><output id="volAllO">80</output></label>
+  <label>曲<input type="range" id="volSong" min="0" max="100" step="1" value="80"><output id="volSongO">80</output></label>
+  <label>あなたの音<input type="range" id="volMe" min="0" max="100" step="1" value="80"><output id="volMeO">80</output></label>
+  <button id="muteBtn" type="button" aria-pressed="false">ミュート</button>
 </div>
 <div id="coach" hidden data-pose="tap"><div class="hand"></div><p id="coachTxt"></p></div>
 <div id="toast" role="status" aria-live="polite"></div>
@@ -233,7 +250,8 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
       <dt>素早く払う</dt><dd>曲を切り替え（‹ › でも）</dd>
       <dt>＋</dt><dd>自分の曲を読み込む。BPMとキーを自動で解析して、5曲目として遊べる</dd>
       <dt id="recHelpT">● 録画</dt><dd id="recHelpD">最大30秒を動画にして、保存・シェアできる</dd>
-      <dt>PC</dt><dd>← → 曲 ／ B ステージ ／ M キャラ ／ R 正面 ／ ? あそびかた</dd>
+      <dt>音量</dt><dd>右上のスピーカーから、全体・曲・あなたの音（タップ音と歌声）を別々に調節。ミュートもここから</dd>
+      <dt>PC</dt><dd>← → 曲 ／ B ステージ ／ M キャラ ／ R 正面 ／ 0 ミュート ／ ? あそびかた</dd>
     </dl>
     <p>読み込んだ曲は端末の中だけで処理され、外部には送信されません。音は全てブラウザの中でその場で鳴らしています。</p>
     <p>制作 <a href="https://tsukilab.jp/tsukimao/official/" target="_blank" rel="noopener">TSUKI PRODUCT ／ 月真猫</a></p>
@@ -590,6 +608,26 @@ const coachEl=$('coach'), coachTxt=$('coachTxt'), toastEl=$('toast'), fileIn=$('
 loopBtn.addEventListener('click',()=>{clearLoop();showToast('重ねた音を消しました');});
 resetBtn.addEventListener('click',()=>resetBall());
 let toastT=0;
+/* ---------- volume: overall / song / your sounds, remembered on this device ---------- */
+const VOL={all:80,song:80,me:80,mute:false};
+try{const v=JSON.parse(localStorage.getItem('tg_vol')||'null');if(v)Object.assign(VOL,v);}catch(_){}
+const vcurve=v=>Math.pow(v/100,2);
+function volSongGain(){return vcurve(VOL.song)/vcurve(80);}
+function applyVol(){
+  for(const k of['all','song','me']){const id='vol'+(k==='all'?'All':k==='song'?'Song':'Me');$(id).value=VOL[k];$(id+'O').textContent=VOL[k];}
+  $('muteBtn').setAttribute('aria-pressed',VOL.mute); $('muteBtn').textContent=VOL.mute?'ミュート中（タップで解除）':'ミュート';
+  const silent=VOL.mute||VOL.all===0; $('volWave').style.display=silent?'none':''; $('volX').hidden=!silent;
+  if(ac&&A.master){const t=ac.currentTime;
+    A.master.gain.setTargetAtTime(VOL.mute?0:.8*vcurve(VOL.all)/vcurve(80),t,.03);
+    A.lead.gain.setTargetAtTime(1.2*vcurve(VOL.me)/vcurve(80),t,.03);}
+  try{localStorage.setItem('tg_vol',JSON.stringify(VOL));}catch(_){}
+}
+for(const [id,k] of [['volAll','all'],['volSong','song'],['volMe','me']]) $(id).addEventListener('input',e=>{VOL[k]=+e.target.value;if(k==='all'&&VOL[k]>0)VOL.mute=false;applyVol();});
+$('muteBtn').addEventListener('click',()=>{VOL.mute=!VOL.mute;applyVol();});
+const volPop=$('volPop'), volBtn=$('volBtn');
+function toggleVol(open){volPop.hidden=!open;volBtn.setAttribute('aria-expanded',open);}
+volBtn.addEventListener('click',()=>toggleVol(volPop.hidden));
+applyVol();
 function showToast(msg,ms){toastEl.textContent=msg;toastEl.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('on'),ms||2400);}
 const stageBtn=document.getElementById('stageBtn');
 const STAGES=['grid','neko','skull','wire'];
@@ -681,6 +719,8 @@ function initAudio(){
   const lead=ac.createGain(); lead.gain.value=1.2; lead.connect(bus);  // your taps, up front
   A={master,an,bus,hp,lp,clean,driveG,crushG,verbSend,fb,dlySend,tensF,tensG,bed,lead,dly};
   VOX=[makeVoice(1),makeVoice(.42),makeVoice(.7)];
+  setTimeout(applyVol,0);
+  ac.onstatechange=()=>{if(ac.state!=='running'&&!document.hidden) wakeAudio();};
   trackGains=[0,1,2,3,4].map(i=>{const gg=ac.createGain();gg.gain.value=i===cur?1:0;gg.connect(bed);return gg;});
 }
 function bendIt(node){
@@ -756,7 +796,8 @@ const PAT=[
   ()=>{},
 ];
 function sched(){
-  if(!ac) return;
+  if(!ac||ac.state!=='running') return;
+  if(nextT<ac.currentTime-.25){const skip=Math.ceil((ac.currentTime+.02-nextT)/STEP);stepN+=skip;nextT+=skip*STEP;events.length=0;}
   while(nextT<ac.currentTime+.12){
     const s=stepN%64;
     for(let i=0;i<PAT.length;i++){if(i===cur||ac.currentTime<fadeUntil[i]){schedTrack=i;PAT[i](nextT,s,trackGains[i]);}}
@@ -1118,7 +1159,7 @@ function applyFx(dt){
   A.tensG.gain.setTargetAtTime(Math.min(.1,Math.abs(pullSum)*.1),now,.04);
   A.tensF.frequency.setTargetAtTime(600*Math.pow(2,pullSum*2.4),now,.04);
   loopEnergy=loopNotes.reduce((a,n)=>a+n.vel,0);
-  A.bed.gain.setTargetAtTime(1-.55*Math.min(1,loopEnergy/10),now,.4);
+  A.bed.gain.setTargetAtTime((1-.55*Math.min(1,loopEnergy/10))*volSongGain(),now,.4);
 }
 
 /* ---------- membrane ---------- */
@@ -1501,6 +1542,7 @@ function release(p,t){
 }
 let lastOutTap=0,lastOutX=0,lastOutY=0;
 stage.addEventListener('pointerdown',e=>{
+  if(!volPop.hidden){toggleVol(false);return;}
   if(!started) return;
   try{stage.setPointerCapture(e.pointerId);}catch(_){}
   const x=e.clientX, y=e.clientY, t=nowS();
@@ -1552,9 +1594,20 @@ window.addEventListener('keydown',e=>{
   if(e.key==='b'||e.key==='B') stageBtn.click();
   if(e.key==='r'||e.key==='R') resetBall();
   if(e.key==='?') openSheet(helpSheet,'helpClose');
-  if(e.key==='Escape'){closeSheet(helpSheet);}
+  if(e.key==='Escape'){closeSheet(helpSheet);toggleVol(false);}
+  if(e.key==='0'){VOL.mute=!VOL.mute;applyVol();}
 });
-document.addEventListener('visibilitychange',()=>{if(!ac)return;if(document.hidden){if(rec)stopRec();ac.suspend();}else ac.resume();});
+let audioWaiting=false;
+function wakeAudio(){
+  if(!ac||document.hidden||ac.state==='closed') return;
+  if(ac.state!=='running'){
+    const p=ac.resume(); if(p&&p.then) p.then(()=>{if(ac.state==='running'&&audioWaiting){audioWaiting=false;showToast('音が戻りました',1400);}}).catch(()=>{});
+    setTimeout(()=>{if(ac.state!=='running'&&!document.hidden&&!audioWaiting){audioWaiting=true;showToast('画面にさわると音が戻ります',3000);}},350);
+  }
+}
+document.addEventListener('visibilitychange',()=>{if(!ac)return;if(document.hidden){if(rec)stopRec();ac.suspend().catch(()=>{});}else wakeAudio();});
+window.addEventListener('pageshow',wakeAudio); window.addEventListener('focus',wakeAudio);
+for(const ev of['pointerdown','touchend','keydown']) window.addEventListener(ev,()=>{if(ac&&ac.state!=='running')wakeAudio();},{capture:true,passive:true});
 function begin(m,st){
   if(started) return;
   setMode(m); setStage(st||'grid');
