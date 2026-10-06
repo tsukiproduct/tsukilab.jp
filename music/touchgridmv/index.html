@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
 <title>TOUCH GRID — さわると、曲がかわる。| TSUKI PRODUCT</title>
 <meta name="description" content="さわると、曲がかわる。格子の膜をつまんで音を伸ばし、白猫のスクイーズ球を握ると歌いだす。自分の曲も読み込める、気づいたら触っている音楽のおもちゃ。">
 <meta name="theme-color" content="#07060c">
@@ -44,9 +44,10 @@
   --f-body:'M PLUS 1 Code','Hiragino Kaku Gothic ProN','Noto Sans JP',ui-monospace,monospace;
   color-scheme:dark;
 }
-html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);overflow:hidden;font-family:var(--f-body);-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+html,body{touch-action:pan-x pan-y;height:100%;margin:0;background:var(--bg);color:var(--fg);overflow:hidden;font-family:var(--f-body);-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
 body{transition:background-color .8s}
-button{font-family:inherit;color:inherit}
+button{font-family:inherit;color:inherit;touch-action:manipulation}
+input[type=range]{touch-action:pan-x}
 [hidden]{display:none!important}
 #stage{position:fixed;inset:0;touch-action:none;cursor:grab;-webkit-touch-callout:none}
 #stage:active{cursor:grabbing}
@@ -112,7 +113,7 @@ button{font-family:inherit;color:inherit}
   max-width:calc(100vw - 32px);text-align:center;line-height:1.5}
 #toast.on{opacity:1;transform:none}
 
-#intro{position:fixed;inset:0;z-index:5;display:grid;place-items:center;overflow:auto;
+#intro{touch-action:pan-y;position:fixed;inset:0;z-index:5;display:grid;place-items:center;overflow:auto;
   padding-block:calc(env(safe-area-inset-top,0px) + 24px) calc(env(safe-area-inset-bottom,0px) + 24px);padding-inline:16px;
   background:linear-gradient(rgba(7,6,12,.82),rgba(7,6,12,.35) 50%,rgba(7,6,12,.9))}
 #intro[hidden]{display:none}
@@ -137,7 +138,7 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
 
 .sheet{position:fixed;inset:0;z-index:8;display:flex;align-items:flex-end;justify-content:center;background:rgba(4,3,8,.6);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .sheet[hidden]{display:none}
-.panel{box-sizing:border-box;width:min(520px,100%);max-height:86vh;max-height:86dvh;overflow:auto;background:#110e19;border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;
+.panel{touch-action:pan-y;overscroll-behavior:contain;box-sizing:border-box;width:min(520px,100%);max-height:86vh;max-height:86dvh;overflow:auto;background:#110e19;border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;
   padding:20px 18px calc(env(safe-area-inset-bottom,0px) + 18px);display:flex;flex-direction:column;gap:14px;-webkit-user-select:text;user-select:text}
 .panel h2{margin:0;font-family:var(--f-disp);font-weight:400;font-size:22px;letter-spacing:.08em}
 .panel h3{margin:6px 0 0;font-size:12px;letter-spacing:.2em;color:var(--acc2);font-weight:600}
@@ -216,7 +217,7 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
     <p class="eyebrow">TSUKI PRODUCT · PLAYABLE MUSIC</p>
     <h1>TOUCH<br><span>GRID</span></h1>
     <p class="tag">さわると、曲がかわる。</p>
-    <p class="lead">張りつめた格子の膜をつまむと、曲ごと音が伸びる。白猫の球を握ると、歌いだす。4つの曲と、あなたの曲で。</p>
+    <p class="lead">張りつめた格子の膜をつまむと、曲ごと音が伸びる。白猫の球を握ると、歌いだす。やわらかいレコードをこすれば、スクラッチ。4つの曲と、あなたの曲で。</p>
     <button class="start main" id="startMain" type="button">はじめる<small>格子とキャラで遊ぶ</small></button>
     <div class="starts2">
       <button class="start ball" id="startBall" type="button">歌う白猫<small>にぎれるスクイーズ球</small></button>
@@ -236,7 +237,7 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
       <dt>つまんで上下</dt><dd>膜を引き伸ばすと曲ごと音が上がり、沈めると下がる。離すとボヨンと戻る</dd>
       <dt>押し続ける</dt><dd>画面の上段は残響、中段は歪み、下段はビット劣化がじわじわ深くなる</dd>
       <dt>指の左右</dt><dd>左でこもった音、右でシャリシャリした音</dd>
-      <dt>キャラを叩く</dt><dd>拍ごとに地面から顔を出すキャラは、叩くゲーム。叩くと鳴いて、5連続でFEVER、金色はJACKPOT</dd>
+      <dt>キャラ</dt><dd>拍ごとに空から降ってきて、膜の上でぽよんと跳ねる（最大30匹）。膜を引っぱって離すと跳ね上がる。叩くと鳴いて、続けて叩くとコンボ、5連続でFEVER、金色はJACKPOT</dd>
     </dl>
     <h3>歌う球（ステージ：白猫・ドクロ・線）</h3>
     <dl>
@@ -244,6 +245,12 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
       <dt>つまんで左右</dt><dd>母音が「う・お・あ・え・い」と変わる</dd>
       <dt>押し続ける</dt><dd>ぎゅっとつぶれる。外へ引けば伸びる</dd>
       <dt>外側をなぞる</dt><dd>球が回る。ダブルタップか「正面に戻す」で正面へ</dd>
+    </dl>
+    <h3>レコード（ステージ：レコード）</h3>
+    <dl>
+      <dt>上下にこする</dt><dd>スクラッチ。上で早送り、下で巻き戻し。こする速さがそのまま再生の速さになる</dd>
+      <dt>さわったまま</dt><dd>レコードが止まる。離すとモーターが回って再生に戻る</dd>
+      <dt>やわらかい盤</dt><dd>押すとへこんで、キックで盤面が波打つ。溝は曲の音域に合わせて光る</dd>
     </dl>
     <h3>どこでも</h3>
     <dl>
@@ -608,6 +615,16 @@ const coachEl=$('coach'), coachTxt=$('coachTxt'), toastEl=$('toast'), fileIn=$('
 loopBtn.addEventListener('click',()=>{clearLoop();showToast('ループを空にしました');});
 resetBtn.addEventListener('click',()=>resetBall());
 let toastT=0;
+/* ---------- no accidental page zoom on phones (and a way back if it happens) ---------- */
+for(const ev of['gesturestart','gesturechange','gestureend']) document.addEventListener(ev,e=>e.preventDefault(),{passive:false});
+document.addEventListener('touchmove',e=>{if(e.touches&&e.touches.length>1&&!e.target.closest('#stage'))e.preventDefault();},{passive:false});
+document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});
+function resetZoom(){
+  const m=document.querySelector('meta[name=viewport]'); if(!m) return;
+  const c=m.getAttribute('content')||'width=device-width, initial-scale=1';
+  m.setAttribute('content',c.replace(/,?\s*maximum-scale=[^,]*/,'')+', maximum-scale=1'); setTimeout(()=>m.setAttribute('content',c),400);
+}
+if(window.visualViewport) visualViewport.addEventListener('resize',()=>{if(visualViewport.scale>1.02) resetZoom();});
 /* ---------- volume: overall / song / your sounds, remembered on this device ---------- */
 const VOL={all:80,song:80,me:80,mute:false};
 try{const v=JSON.parse(localStorage.getItem('tg_vol')||'null');if(v)Object.assign(VOL,v);}catch(_){}
@@ -630,17 +647,20 @@ volBtn.addEventListener('click',()=>toggleVol(volPop.hidden));
 applyVol();
 function showToast(msg,ms){toastEl.textContent=msg;toastEl.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>toastEl.classList.remove('on'),ms||2400);}
 const stageBtn=document.getElementById('stageBtn');
-const STAGES=['grid','neko','skull','wire'];
-const STAGE_JP={grid:'格子',neko:'白猫',skull:'ドクロ',wire:'線'};
-stageBtn.addEventListener('click',()=>{const m=STAGES[(STAGES.indexOf(stageMode==='grid'?'grid':ballSkin)+1)%STAGES.length];setStage(m);showToast('ステージ：'+STAGE_JP[m]+(m==='grid'?'':'（つまむと歌う）'),1600);});
+const STAGES=['grid','neko','skull','wire','record'];
+const STAGE_JP={grid:'格子',neko:'白猫',skull:'ドクロ',wire:'線',record:'レコード'};
+stageBtn.addEventListener('click',()=>{const m=STAGES[(STAGES.indexOf(stageMode==='ball'?ballSkin:stageMode)+1)%STAGES.length];setStage(m);showToast('ステージ：'+STAGE_JP[m]+(m==='grid'?'':m==='record'?'（上下にこすってスクラッチ）':'（つまむと歌う）'),1800);});
 let stageMode='grid', ballSkin='neko';
 function setStage(m){
   if(m==='ball') m='neko';
-  stageMode=m==='grid'?'grid':'ball'; if(m!=='grid') ballSkin=m;
+  const prevStage=stageMode;
+  stageMode=m==='grid'?'grid':m==='record'?'record':'ball'; if(stageMode==='ball') ballSkin=m;
+  if(started&&prevStage!=='record'&&stageMode==='record') enterRecord();
+  if(started&&prevStage==='record'&&stageMode!=='record') leaveRecord();
   $('stageLbl').textContent=STAGE_JP[m];
   if(m!=='grid') sprites.length=0;
   if(typeof applySkin==='function') applySkin();
-  resetBtn.hidden=m==='grid'; paintHint(); if(coachOn) coachNext();
+  resetBtn.hidden=stageMode!=='ball'; paintHint(); if(coachOn) coachNext();
 }
 function buildDots(){
   dotsEl.textContent='';
@@ -799,6 +819,7 @@ function sched(){
   if(!ac||ac.state!=='running') return;
   if(nextT<ac.currentTime-.25){const skip=Math.ceil((ac.currentTime+.02-nextT)/STEP);stepN+=skip;nextT+=skip*STEP;events.length=0;}
   while(nextT<ac.currentTime+.12){
+    if(stageMode==='record'){stepN++;nextT+=STEP;continue;}
     const s=stepN%64;
     for(let i=0;i<PAT.length;i++){if(i===cur||ac.currentTime<fadeUntil[i]){schedTrack=i;PAT[i](nextT,s,trackGains[i]);}}
     if(cur===SONG_I&&songSrc){schedTrack=SONG_I;schedSong(nextT,nextT+STEP);}
@@ -977,10 +998,11 @@ function switchTrack(dir,to){
   if(ac){
     const now=ac.currentTime;
     trackGains[prev].gain.setTargetAtTime(0,now,.3);
-    trackGains[cur].gain.setTargetAtTime(trackLevel(cur),now,.22);
+    if(stageMode!=='record') trackGains[cur].gain.setTargetAtTime(trackLevel(cur),now,.22);
     fadeUntil[prev]=now+2.2; events.length=0; whoosh();
-    if(cur===SONG_I) startSong();
+    if(cur===SONG_I){ if(stageMode!=='record') startSong(); else if(song){KEY=song.key;buildScales();} }
     else if(prev===SONG_I){ stopSong(); setGrid(96,ac.currentTime+.05); KEY={root:9,minor:true,name:'A minor'}; buildScales(); clearLoop(); }
+    if(stageMode==='record'){ recTarget(0,.07); setTimeout(()=>loadRecord(cur,false),140); }
   }
   // a sweep across the membrane marks the change
   for(let k=0;k<7;k++) impulse(-SIZE/2+4+k*(SIZE-8)/6,(dir>0?-1:1)*4,1.2,2.6);
@@ -1304,7 +1326,7 @@ const ballQ=new THREE.Quaternion(), QI=new THREE.Quaternion(), qTmp=new THREE.Qu
 const AXX=new THREE.Vector3(1,0,0), AXY=new THREE.Vector3(0,1,0), tmpV2=new THREE.Vector3(), tmpV3=new THREE.Vector3(), lookV=new THREE.Vector3();
 const bSphere=new THREE.Sphere(BALLC.clone(),BR);
 let squash=0, squashV=0, squashT=0;
-let stageB=0, ballScale=0, ballScaleV=0, spinX=0, spinY=0, lastSpin=-9, dizzyUntil=0;
+let recB=0, stageB=0, ballScale=0, ballScaleV=0, spinX=0, spinY=0, lastSpin=-9, dizzyUntil=0;
 const ballGhosts=[];
 function rotBall(ay,ax){qTmp.setFromAxisAngle(AXY,ay);ballQ.premultiply(qTmp);qTmp.setFromAxisAngle(AXX,ax);ballQ.premultiply(qTmp);}
 function nearestV(d){const n=Math.hypot(d[0],d[1],d[2]);let b=0,bc=-2;for(let k=0;k<BV;k++){const c=(BD[k*3]*d[0]+BD[k*3+1]*d[1]+BD[k*3+2]*d[2])/n;if(c>bc){bc=c;b=k;}}return b;}
@@ -1389,6 +1411,207 @@ function updateNeko(now,dt,sc){
       tailPos[o]=tC[i].x+tN.x*ca+tB.x*sa; tailPos[o+1]=tC[i].y+tN.y*ca+tB.y*sa; tailPos[o+2]=tC[i].z+tN.z*ca+tB.z*sa;}
   }
   tailGeo.attributes.position.needsUpdate=true; tailGeo.computeVertexNormals();
+}
+
+/* ---------- RECORD stage: a soft vinyl you can scratch (up = forward, down = backward) ---------- */
+// the audio: a player that can run at any speed, forwards or backwards, steered by the finger
+const SCRATCH_SRC=`class ScratchProc extends AudioWorkletProcessor{
+  constructor(){super();this.L=null;this.R=null;this.n=0;this.pos=0;this.rate=1;this.target=1;this.k=.001;this.cnt=0;
+    this.port.onmessage=e=>{const d=e.data;if(d.buf){this.L=d.buf[0];this.R=d.buf[1];this.n=this.L.length;this.pos=d.pos||0;}
+      if(d.target!=null){this.target=d.target;this.k=d.k;} if(d.rate!=null)this.rate=d.rate;};}
+  process(_,outs){const o=outs[0],L=o[0],R=o[1]||o[0];
+    if(!this.L||!this.n){L.fill(0);if(o[1])o[1].fill(0);return true;}
+    const n=this.n,SL=this.L,SR=this.R;
+    for(let i=0;i<L.length;i++){this.rate+=(this.target-this.rate)*this.k;let p=this.pos;const i0=Math.floor(p),f=p-i0,a=((i0%n)+n)%n,b=(a+1)%n;
+      L[i]=SL[a]+(SL[b]-SL[a])*f;R[i]=SR[a]+(SR[b]-SR[a])*f;p+=this.rate;if(p>=n)p-=n;else if(p<0)p+=n;this.pos=p;}
+    if(++this.cnt%6===0)this.port.postMessage({pos:this.pos,rate:this.rate});
+    return true;}
+}
+registerProcessor('scratch-proc',ScratchProc);`;
+const REC={node:null,out:null,ready:false,pos:0,rate:1,t:0,sr:44100,len:1,kicks:[],track:-1,touching:false,lastMove:0,target:1,angle:0,prevSec:0,
+  cache:{},fric:null,fricF:null,crackle:null};
+let recInit=null;
+async function initScratch(){
+  if(recInit) return recInit;
+  recInit=(async()=>{
+    REC.sr=ac.sampleRate; REC.out=ac.createGain(); REC.out.gain.value=0; REC.out.connect(A.bed);
+    let ok=false;
+    if(ac.audioWorklet&&window.AudioWorkletNode){
+      for(const url of [URL.createObjectURL(new Blob([SCRATCH_SRC],{type:'application/javascript'})),'data:application/javascript;charset=utf-8,'+encodeURIComponent(SCRATCH_SRC)]){
+        try{
+          await ac.audioWorklet.addModule(url);
+          const node=new AudioWorkletNode(ac,'scratch-proc',{numberOfInputs:0,numberOfOutputs:1,outputChannelCount:[2]});
+          node.port.onmessage=e=>{REC.pos=e.data.pos;REC.rate=e.data.rate;REC.t=ac.currentTime;};
+          REC.send=m=>node.port.postMessage(m,m.buf?[m.buf[0].buffer,m.buf[1].buffer]:[]);
+          node.connect(REC.out); REC.node=node; ok=true; break;
+        }catch(_){}
+      }
+    }
+    if(!ok){ // fallback: same player on the main thread
+      const sp=ac.createScriptProcessor(2048,0,2), st={L:null,R:null,n:0,pos:0,rate:1,target:1,k:.001};
+      REC.send=m=>{if(m.buf){st.L=m.buf[0];st.R=m.buf[1];st.n=st.L.length;st.pos=m.pos||0;}if(m.target!=null){st.target=m.target;st.k=m.k;}if(m.rate!=null)st.rate=m.rate;};
+      sp.onaudioprocess=e=>{const L=e.outputBuffer.getChannelData(0),R=e.outputBuffer.getChannelData(1);if(!st.L){L.fill(0);R.fill(0);return;}
+        for(let i=0;i<L.length;i++){st.rate+=(st.target-st.rate)*st.k;const i0=Math.floor(st.pos),f=st.pos-i0,a=((i0%st.n)+st.n)%st.n,b=(a+1)%st.n;
+          L[i]=st.L[a]+(st.L[b]-st.L[a])*f;R[i]=st.R[a]+(st.R[b]-st.R[a])*f;st.pos+=st.rate;if(st.pos>=st.n)st.pos-=st.n;else if(st.pos<0)st.pos+=st.n;}
+        REC.pos=st.pos;REC.rate=st.rate;REC.t=ac.currentTime;};
+      sp.connect(REC.out); REC.node=sp;
+    }
+    // hand-on-vinyl friction and a little surface crackle
+    const fr=ac.createBufferSource(); fr.buffer=noiseBuf; fr.loop=true;
+    REC.fricF=ac.createBiquadFilter(); REC.fricF.type='bandpass'; REC.fricF.Q.value=2.5; REC.fricF.frequency.value=1800;
+    REC.fric=ac.createGain(); REC.fric.gain.value=0; fr.connect(REC.fricF); REC.fricF.connect(REC.fric); REC.fric.connect(A.bed); fr.start();
+    const cb=ac.createBuffer(1,ac.sampleRate*3,ac.sampleRate), cd=cb.getChannelData(0);
+    for(let i=0;i<cd.length;i++){cd[i]=(R()*2-1)*.012; if(R()<.0004){const a=(R()*.7+.3)*(R()<.5?-1:1);for(let k=0;k<40&&i+k<cd.length;k++)cd[i+k]+=a*Math.exp(-k/6);}}
+    const cs=ac.createBufferSource(); cs.buffer=cb; cs.loop=true; const chp=ac.createBiquadFilter(); chp.type='highpass'; chp.frequency.value=900;
+    REC.crackle=ac.createGain(); REC.crackle.gain.value=0; cs.connect(chp); chp.connect(REC.crackle); REC.crackle.connect(A.bed); cs.start();
+    REC.ready=true;
+  })();
+  return recInit;
+}
+function recTarget(target,tau){REC.target=target;if(REC.send)REC.send({target,k:1-Math.exp(-1/(Math.max(.002,tau)*REC.sr))});}
+// press a built-in track onto vinyl: render its 4-bar loop offline with the very same instruments
+async function pressTrack(i){
+  if(REC.cache[i]) return REC.cache[i];
+  const sr=ac.sampleRate, step=60/96/4, len=64*step, tail=16*step, oc=new OfflineAudioContext(2,Math.ceil((len+tail)*sr),sr);
+  const keep={ac,bendSrc,STEP,schedTrack}; const dest=oc.createGain(); dest.gain.value=1; dest.connect(oc.destination);
+  ac=oc; bendSrc=null; STEP=step; schedTrack=-1;
+  try{ for(let s=0;s<64;s++) PAT[i](.02+s*step,s,dest); }
+  finally{ ac=keep.ac; bendSrc=keep.bendSrc; STEP=keep.STEP; schedTrack=keep.schedTrack; }
+  const buf=await oc.startRendering(), n=Math.round(len*sr), L=new Float32Array(n), Rr=new Float32Array(n);
+  const a=buf.getChannelData(0), b=buf.getChannelData(1);
+  for(let k=0;k<buf.length;k++){const j=k%n; L[j]+=a[k]; Rr[j]+=b[k];}   // fold the ringing tail onto the start: a seamless loop
+  const ab=ac.createBuffer(2,n,sr); ab.getChannelData(0).set(L); ab.getChannelData(1).set(Rr);
+  let kicks=[]; try{kicks=analyzeSong(ab).kicks;}catch(_){}
+  return REC.cache[i]={L,R:Rr,n,kicks,gain:1};
+}
+async function loadRecord(i,keepTime){
+  if(!ac) return;
+  await initScratch();
+  let rec;
+  if(i===SONG_I&&song){
+    rec={L:song.buf.getChannelData(0),R:song.buf.numberOfChannels>1?song.buf.getChannelData(1):song.buf.getChannelData(0),n:song.buf.length,kicks:song.kicks,gain:song.gain};
+  }else{
+    if(!REC.cache[i]){$('busyTxt').textContent='レコードをプレスしています…';$('busy').hidden=false;}
+    try{ rec=await pressTrack(i); } finally{ $('busy').hidden=true; }
+  }
+  if(stageMode!=='record'||cur!==i) return;
+  let pos=0;
+  if(keepTime){
+    if(i===SONG_I&&song) pos=songPos(Math.max(0,songM))*REC.sr;
+    else pos=((((ac.currentTime-startT)/(60/96/4))%64)+64)%64*(60/96/4)*REC.sr;
+  }
+  REC.send({buf:[rec.L.slice(),rec.R.slice()],pos,rate:keepTime?1:0});
+  REC.len=rec.n; REC.kicks=rec.kicks; REC.track=i; REC.pos=pos; REC.t=ac.currentTime; REC.prevSec=pos/REC.sr;
+  REC.out.gain.setTargetAtTime(rec.gain*1.1,ac.currentTime,.05);
+  recTarget(1,keepTime?.01:.35);   // a fresh record spins up from standstill
+  paintLabel();
+}
+function enterRecord(){
+  if(!ac) return;
+  if(cur===SONG_I) stopSong();
+  clearLoop();
+  for(const g2 of trackGains) g2.gain.setTargetAtTime(0,ac.currentTime,.05);
+  loadRecord(cur,true).then(()=>{REC.crackle&&REC.crackle.gain.setTargetAtTime(.05,ac.currentTime,.2);}).catch(err=>{console.error(err);showToast('この端末ではレコードを再生できませんでした');});
+}
+function leaveRecord(){
+  if(!ac||!REC.ready) { if(ac&&REC.out) REC.out.gain.value=0; if(ac){trackGains[cur].gain.setTargetAtTime(trackLevel(cur),ac.currentTime,.1); if(cur===SONG_I) startSong();} return; }
+  REC.out.gain.setTargetAtTime(0,ac.currentTime,.04); REC.crackle.gain.setTargetAtTime(0,ac.currentTime,.1); REC.fric.gain.setTargetAtTime(0,ac.currentTime,.05);
+  trackGains[cur].gain.setTargetAtTime(trackLevel(cur),ac.currentTime,.1);
+  if(cur===SONG_I) startSong();
+}
+// the disc: polar soft surface (rings × segments) with its own wave equation
+const RN=24, RS=72, RMIN=1.1, RMAX=10, RDR=(RMAX-RMIN)/(RN-1), RV=RN*RS;
+const rH=new Float32Array(RV), rVel=new Float32Array(RV);
+const recPos=new Float32Array(RV*3), recCol=new Float32Array(RV*3), recGeo=new THREE.BufferGeometry();
+recGeo.setAttribute('position',new THREE.BufferAttribute(recPos,3)); recGeo.setAttribute('color',new THREE.BufferAttribute(recCol,3));
+{const ix=[];for(let r=0;r<RN-1;r++)for(let s=0;s<RS;s++){const a=r*RS+s,b=r*RS+(s+1)%RS,c=(r+1)*RS+s,d=(r+1)*RS+(s+1)%RS;ix.push(a,c,b,b,c,d);}recGeo.setIndex(ix);}
+const recGroup=new THREE.Group(); recGroup.visible=false; scene.add(recGroup);
+const recDisc=new THREE.Group(); recGroup.add(recDisc);
+const recMesh=new THREE.Mesh(recGeo,toonMat('#ffffff','#bbbbbb',true)); recMesh.frustumCulled=false; recDisc.add(recMesh);
+const grvPos=new Float32Array((RN>>1)*RS*6), grvCol=new Float32Array((RN>>1)*RS*6), grvGeo=new THREE.BufferGeometry();
+grvGeo.setAttribute('position',new THREE.BufferAttribute(grvPos,3)); grvGeo.setAttribute('color',new THREE.BufferAttribute(grvCol,3));
+const grooves=new THREE.LineSegments(grvGeo,new THREE.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.9})); grooves.frustumCulled=false; recDisc.add(grooves);
+const labelCv=document.createElement('canvas'); labelCv.width=labelCv.height=512; const labelTex=new THREE.CanvasTexture(labelCv);
+const label=new THREE.Mesh(new THREE.CircleGeometry(RMIN+1.9,48),new THREE.MeshBasicMaterial({map:labelTex,transparent:true}));
+label.rotation.x=-Math.PI/2; recDisc.add(label);
+const spindle=new THREE.Mesh(new THREE.CylinderGeometry(.22,.22,.9,16),toonMat('#d8d8e0','#8a8a96')); spindle.position.y=.35; recDisc.add(spindle);
+// tonearm, so it reads as a turntable at a glance
+const armMat=toonMat('#d9d9e2','#8c8c99'), arm=new THREE.Group(); recGroup.add(arm);
+const ARM_PIV=new THREE.Vector3(11.6,.9,-8.2), ARM_TIP=new THREE.Vector3(5.9,.42,6.1);
+{const base=new THREE.Mesh(new THREE.CylinderGeometry(.9,1.1,.8,24),armMat);base.position.copy(ARM_PIV).setY(.4);arm.add(base);
+ const len=ARM_PIV.distanceTo(ARM_TIP), bar=new THREE.Mesh(new THREE.BoxGeometry(.28,.22,len),armMat);
+ bar.position.copy(ARM_PIV).add(ARM_TIP).multiplyScalar(.5); bar.lookAt(ARM_TIP); arm.add(bar);
+ const head=new THREE.Mesh(new THREE.BoxGeometry(.8,.3,1.1),toonMat('#ff3ea5','#b02a72')); head.position.copy(ARM_TIP); head.lookAt(ARM_PIV); arm.add(head); arm.userData.head=head;}
+function paintLabel(){
+  const c=labelCv.getContext('2d'), S=512, T=TRACKS[cur]||TRACKS[0];
+  c.clearRect(0,0,S,S); c.save(); c.translate(S/2,S/2);
+  c.fillStyle=T.css; c.beginPath(); c.arc(0,0,S/2-2,0,TAU); c.fill();
+  c.strokeStyle='rgba(20,7,15,.35)'; c.lineWidth=3; for(const r of[.86,.72]){c.beginPath();c.arc(0,0,S/2*r,0,TAU);c.stroke();}
+  const img=charImg('neko',false); c.drawImage(img,-118,-150,236,236);
+  c.fillStyle='#14070f'; c.textAlign='center'; c.font='40px "DotGothic16", monospace'; c.fillText(T.id,0,140);
+  c.font='22px "DotGothic16", monospace'; c.fillText('TOUCH GRID · 33⅓',0,178);
+  c.fillStyle='#14070f'; c.beginPath(); c.arc(0,0,14,0,TAU); c.fill();
+  c.restore(); labelTex.needsUpdate=true;
+}
+function recDent(lx,lz,amp,sig){ // local disc coords
+  const rr=Math.hypot(lx,lz), th=Math.atan2(lz,lx), s2=2*sig*sig;
+  for(let r=0;r<RN;r++){const R0=RMIN+r*RDR; if(Math.abs(R0-rr)>sig*3) continue;
+    for(let s=0;s<RS;s++){const a=s/RS*TAU, x=R0*Math.cos(a), z=R0*Math.sin(a), d2=(x-lx)**2+(z-lz)**2; if(d2>9*sig*sig) continue; rVel[r*RS+s]+=amp*Math.exp(-d2/s2);}}
+}
+function recHold(lx,lz,depth,sig){
+  const s2=2*sig*sig;
+  for(let r=0;r<RN;r++){const R0=RMIN+r*RDR; for(let s=0;s<RS;s++){const a=s/RS*TAU,d2=(R0*Math.cos(a)-lx)**2+(R0*Math.sin(a)-lz)**2; if(d2>9*sig*sig) continue;
+    const i=r*RS+s, w=Math.exp(-d2/s2); rH[i]+=(-depth*w-rH[i])*w*.4; rVel[i]*=1-w*.4;}}
+}
+function recStep(){
+  for(let r=1;r<RN-1;r++){const R0=RMIN+r*RDR, wa=Math.min(1,(RDR/(R0*TAU/RS))**2);
+    for(let s=0;s<RS;s++){const i=r*RS+s, sl=r*RS+(s+RS-1)%RS, sr=r*RS+(s+1)%RS;
+      const lap=rH[i-RS]+rH[i+RS]-2*rH[i]+wa*(rH[sl]+rH[sr]-2*rH[i]); rVel[i]=(rVel[i]+lap*.2-rH[i]*.012)*.988;}}
+  for(let s=0;s<RS;s++){rVel[s]=(rVel[s]+(rH[RS+s]-rH[s])*.2-rH[s]*.05)*.98; const o=(RN-1)*RS+s; rVel[o]=(rVel[o]+(rH[o-RS]-rH[o])*.2-rH[o]*.02)*.985;}
+  for(let i=0;i<RV;i++){let h=rH[i]+rVel[i]; if(!(h>-6&&h<6)){h=0;rVel[i]=0;} rH[i]=h;}
+}
+const recHit=new THREE.Plane(new THREE.Vector3(0,1,0),0);
+function recLocal(px,py){ // screen → disc-local x,z (or null if off the disc)
+  v2.set(px/W*2-1,-(py/Hh)*2+1); ray.setFromCamera(v2,camera); const h=ray.ray.intersectPlane(recHit,hitV); if(!h) return null;
+  const c=Math.cos(-REC.angle), s=Math.sin(-REC.angle), x=h.x*c-h.z*s, z=h.x*s+h.z*c;
+  return Math.hypot(x,z)<=RMAX+.6?{x,z}:null;
+}
+function updateRecord(now,dt,vis){
+  recGroup.visible=vis>.01; if(!recGroup.visible) return;
+  // playback state from the audio thread, extrapolated to now
+  let sec=REC.prevSec;
+  if(REC.ready&&REC.len>1){
+    const pos=REC.pos+REC.rate*(ac.currentTime-REC.t)*REC.sr; sec=(((pos%REC.len)+REC.len)%REC.len)/REC.sr;
+    // drum hits under the stylus kick the soft vinyl, forwards or backwards
+    const prev=REC.prevSec, d=sec-prev;
+    if(Math.abs(d)<.5&&Math.abs(d)>1e-4){const lo=Math.min(prev,sec),hi=Math.max(prev,sec);
+      for(const k of REC.kicks){if(k>lo&&k<=hi){kickPulse=1;for(let s=0;s<RS;s+=6)rVel[2*RS+s]+=.35;recDent(0,0,-.5,2.2);}}}
+    REC.prevSec=sec;
+    // a hand that stops moving holds the record still
+    if(REC.touching&&now-REC.lastMove>.08&&REC.target!==0) recTarget(0,.035);
+    const fr=REC.touching?Math.min(.22,Math.abs(REC.rate-1)*.05+Math.abs(REC.rate)*.02):0;
+    REC.fric.gain.setTargetAtTime(fr,ac.currentTime,.02); REC.fricF.frequency.setTargetAtTime(900+Math.min(4000,Math.abs(REC.rate)*700),ac.currentTime,.02);
+  }
+  REC.angle+=(REC.ready?REC.rate:1)*dt*TAU*(100/3/60);
+  recDisc.rotation.y=-REC.angle;
+  for(let k=0;k<3;k++) recStep();
+  // write the disc
+  const T=TRACKS[cur]||TRACKS[0];
+  for(let r=0;r<RN;r++){const R0=RMIN+r*RDR, groove=r%2?.27:.2, sheen=.12*Math.max(0,Math.cos(r*.55));
+    for(let s=0;s<RS;s++){const i=r*RS+s,a=s/RS*TAU,h=rH[i]; recPos[i*3]=R0*Math.cos(a); recPos[i*3+1]=h; recPos[i*3+2]=R0*Math.sin(a);
+      const lit=groove+sheen+Math.max(0,-h)*.05+Math.max(0,h)*.12; recCol[i*3]=lit*1.05; recCol[i*3+1]=lit*.95; recCol[i*3+2]=lit*1.15;}}
+  recGeo.attributes.position.needsUpdate=true; recGeo.attributes.color.needsUpdate=true; recGeo.computeVertexNormals();
+  // grooves light up with the spectrum: outer rings = low end, inner = highs
+  let o=0;
+  for(let q=0;q<(RN>>1);q++){const r=RN-2-q*2; if(r<1) break; const R0=RMIN+r*RDR+.02, v=fd[1+Math.floor(q/(RN>>1)*60)]/255, b=q===0?.95:.12+v*v*1.1;
+    for(let s=0;s<RS;s++){for(const ss of[s,(s+1)%RS]){const a=ss/RS*TAU,i=r*RS+ss; grvPos[o]=R0*Math.cos(a); grvPos[o+1]=rH[i]+.03; grvPos[o+2]=R0*Math.sin(a);
+      grvCol[o]=hiC[0]*b; grvCol[o+1]=hiC[1]*b; grvCol[o+2]=hiC[2]*b; o+=3;}}}
+  grvGeo.setDrawRange(0,o/3); grvGeo.attributes.position.needsUpdate=true; grvGeo.attributes.color.needsUpdate=true;
+  let c0=0; for(let s=0;s<RS;s++) c0+=rH[s]; c0/=RS; label.position.y=c0+.05; spindle.position.y=c0+.35;
+  // the stylus rides the soft surface
+  const tipR=Math.hypot(ARM_TIP.x,ARM_TIP.z), tipA=Math.atan2(ARM_TIP.z,ARM_TIP.x)-REC.angle, rr=Math.round((tipR-RMIN)/RDR), ss=((Math.round(tipA/TAU*RS)%RS)+RS)%RS;
+  arm.userData.head.position.y=ARM_TIP.y+(rH[clamp(rr,0,RN-1)*RS+ss]||0);
+  recGroup.scale.setScalar(.6+.4*vis);
 }
 
 // post: bloom + chromatic aberration / scanline / grain / glitch bands
@@ -1496,6 +1719,7 @@ function ballHit(px,py){
 }
 function commit(p,t){
   coachMark('tap');
+  if(stageMode==='record'){p.state='idle';return;}
   if(stageMode==='ball'){
     const d=ballHit(p.x0,p.y0);
     p.tStart=t; p.row=rowOf(p.y0); p.pull=0; p.pullS=0;
@@ -1552,12 +1776,15 @@ stage.addEventListener('pointerdown',e=>{
   if(mode==='chara'&&stageMode==='grid'){
     let best=null, bd=1e9;
     for(const s of sprites){
-      if(!s.mole||s.dead||s.sx==null||s.dig>.7) continue;
+      if(!(s.mole||s.faller)||s.dead||s.sx==null||s.dig>.7) continue;
       const d=Math.hypot(s.sx-x,s.sy-y), r=Math.max(32,s.pr*1.2);
       if(d<r&&d<bd){bd=d;best=s;}
     }
     if(best){whack(best,t,false);ptrs.set(e.pointerId,{x0:x,y0:y,x,y,t0:t,state:'whack',pull:0,pullS:0});return;}
   }
+  if(stageMode==='record'&&REC.ready){const L=recLocal(x,y);
+    if(L){REC.touching=true;REC.lastMove=t;recTarget(0,.06);recDent(L.x,L.z,-.9,1);coachMark('tap');
+      ptrs.set(e.pointerId,{x0:x,y0:y,x,y,t0:t,state:'scratch',ly:y,lt:t,pull:0,pullS:0});return;}}
   touchSound(x/W,y/Hh);
   if(stageMode==='ball'){const d=ballHit(x,y); if(d) ballImpulse(d,-14,.25);
     else{ if(t-lastOutTap<.32&&Math.hypot(x-lastOutX,y-lastOutY)<60){resetBall();lastOutTap=0;} else {lastOutTap=t;lastOutX=x;lastOutY=y;} }}
@@ -1567,6 +1794,11 @@ stage.addEventListener('pointerdown',e=>{
 stage.addEventListener('pointermove',e=>{
   const p=ptrs.get(e.pointerId); if(!p) return;
   p.x=e.clientX; p.y=e.clientY;
+  if(p.state==='scratch'){
+    const t=nowS(), dtt=Math.max(.008,t-p.lt), dy=p.y-p.ly;
+    if(Math.abs(dy)>.5){const v=-dy/dtt, tg=clamp(v/340,-10,10); recTarget(tg,.012); REC.lastMove=t; if(Math.abs(tg)>2) coachMark('pull');}
+    p.ly=p.y; p.lt=t; return;
+  }
   if(p.state==='pending'){
     const dx=p.x-p.x0, dy=p.y-p.y0, t=nowS();
     if(Math.hypot(dx,dy)>14){ if(t-p.t0<.26&&Math.abs(dx)>Math.abs(dy)*1.3) p.state='flick'; else commit(p,t); }
@@ -1576,6 +1808,11 @@ function up(e){
   const p=ptrs.get(e.pointerId); if(!p) return; ptrs.delete(e.pointerId);
   const t=nowS(), dx=p.x-p.x0;
   if(p.state==='whack') return;
+  if(p.state==='scratch'){
+    REC.touching=[...ptrs.values()].some(q=>q.state==='scratch');
+    if(!REC.touching){recTarget(1,.2);const L=recLocal(p.x,p.y);if(L)recDent(L.x,L.z,1.4,1.2);}
+    return;
+  }
   if(e.type==='pointercancel'){release(p,t);return;}
   if(p.state==='flick'){ if(Math.abs(dx)>50){switchTrack(dx<0?1:-1);return;} commit(p,t); }
   if(p.state==='pending') commit(p,t);
@@ -1588,6 +1825,10 @@ function up(e){
   release(p,t);
 }
 stage.addEventListener('pointerup',up); stage.addEventListener('pointercancel',up);
+stage.addEventListener('lostpointercapture',e=>{if(ptrs.has(e.pointerId)) up({pointerId:e.pointerId,type:'pointercancel'});});
+function releaseAll(){for(const id of [...ptrs.keys()]) up({pointerId:id,type:'pointercancel'});}
+document.addEventListener('touchend',e=>{if(e.touches&&e.touches.length===0&&ptrs.size) setTimeout(()=>{if(ptrs.size) releaseAll();},60);},{passive:true});
+window.addEventListener('blur',releaseAll);
 stage.addEventListener('contextmenu',e=>e.preventDefault());
 window.addEventListener('keydown',e=>{
   if(!started) return;
@@ -1608,7 +1849,7 @@ function wakeAudio(){
     setTimeout(()=>{if(ac.state!=='running'&&!document.hidden&&!audioWaiting){audioWaiting=true;showToast('画面にさわると音が戻ります',3000);}},350);
   }
 }
-document.addEventListener('visibilitychange',()=>{if(!ac)return;if(document.hidden){if(rec)stopRec();ac.suspend().catch(()=>{});}else wakeAudio();});
+document.addEventListener('visibilitychange',()=>{if(document.hidden) releaseAll(); if(!ac)return;if(document.hidden){if(rec)stopRec();ac.suspend().catch(()=>{});}else wakeAudio();});
 window.addEventListener('pageshow',wakeAudio); window.addEventListener('focus',wakeAudio);
 for(const ev of['pointerdown','touchend','keydown']) window.addEventListener(ev,()=>{if(ac&&ac.state!=='running')wakeAudio();},{capture:true,passive:true});
 function begin(m,st){
@@ -1630,9 +1871,9 @@ let coachOn=true; try{coachOn=localStorage.getItem('tg_coach_v1')!=='1';}catch(_
 const coachDone={tap:false,pull:false,swipe:false};
 function coachNext(){
   if(!coachOn||!started) return;
-  const ball=stageMode==='ball'; let msg, pose;
-  if(!coachDone.tap){msg=ball?'白猫にさわってみて':'どこでもタップ';pose='tap';}
-  else if(!coachDone.pull){msg=ball?'つまんで上下に動かすと歌う':'つまんで上下に引っぱる';pose='pull';}
+  const ball=stageMode==='ball', recd=stageMode==='record'; let msg, pose;
+  if(!coachDone.tap){msg=recd?'レコードにさわると止まる':ball?'白猫にさわってみて':'どこでもタップ';pose='tap';}
+  else if(!coachDone.pull){msg=recd?'上下にこすってスクラッチ':ball?'つまんで上下に動かすと歌う':'つまんで上下に引っぱる';pose='pull';}
   else if(!coachDone.swipe){msg='左右に払うと曲が変わる';pose='swipe';}
   else{msg='あとは、気の向くままに。';pose='done';coachOn=false;try{localStorage.setItem('tg_coach_v1','1');}catch(_){}
     setTimeout(()=>{coachEl.hidden=true;paintHint();},2400);}
@@ -1641,7 +1882,7 @@ function coachNext(){
 function coachMark(k){if(!coachOn||coachDone[k])return;coachDone[k]=true;coachNext();}
 function paintHint(){
   if(coachOn&&started){hintEl.textContent='';return;}
-  hintEl.textContent=stageMode==='ball'?'外側をなぞると回る ・ ダブルタップで正面':'長押しでエフェクト ・ キャラを叩ける';
+  hintEl.textContent=stageMode==='record'?'上にこする＝早送り ・ 下にこする＝巻き戻し':stageMode==='ball'?'外側をなぞると回る ・ ダブルタップで正面':'膜を引っぱって離すとキャラが跳ねる ・ 叩ける';
 }
 /* ---------- recording: a 30 s clip with the track name and a watermark ---------- */
 let canRec=false; try{canRec=window.self===window.top&&typeof MediaRecorder!=='undefined'&&!!HTMLCanvasElement.prototype.captureStream;}catch(_){}
@@ -1703,14 +1944,14 @@ function spawnSprite(kind,wx,wz,size){
   sprites.push(o); if(sprites.length>42) sprites.shift();
   return o;
 }
-function spawnMole(){
+const MAX_CHARS=30;
+function spawnMole(){   // now: a character falls from the sky
   const golden=R()<.06, t=nowS();
-  const wx=(R()-.5)*30, wz=-13+R()*24, h=sampleH(wx,wz);
-  sprites.push({kind:pickKind(cur),wx,wz,wy:h,vy:0,born:t,life:999,size:1.7,tr:cur,seed:R()*10,rot:0,spin:0,squash:0,prevH:h,air:false,
-    mole:true,golden,phase:'rise',pt:t,dig:1,upFor:Math.max(1.1,2.4-combo*.07)*(golden?.7:1)});
-  if(sprites.length>42) sprites.shift();
-  moleSound(golden);
-  impulse(wx,wz,1,1.6);
+  const wx=(R()-.5)*(camera.aspect<1?20:32), wz=-14+R()*24, h=sampleH(wx,wz);
+  sprites.push({kind:pickKind(cur),wx,wz,wy:h+16+R()*8,vy:-2-R()*3,vx:(R()-.5)*1.5,vz:(R()-.5)*1.5,born:t,life:24+R()*12,size:1.45+R()*.4,tr:cur,seed:R()*10,
+    rot:0,spin:0,squash:0,prevH:h,air:true,faller:true,golden});
+  const alive=sprites.filter(o=>!o.dead);
+  if(alive.length>MAX_CHARS+4){const old=alive.find(o=>o.faller&&!o.golden);if(old){old.life=Math.min(old.life,(t-old.born)+1);}}
 }
 const HITWORD=new Proxy({},{get:(_,k)=>SND_WORD[KIND_SND[k]||'pop']});
 function whack(s,t,chain){
@@ -1741,16 +1982,26 @@ function jackpot(t){
   flash=1;
   sprites.forEach((o,i)=>{ if(!o.dead&&o.sx!=null) setTimeout(()=>{if(!o.dead&&o.sx!=null&&mode==='chara')whack(o,nowS(),true);},80+i*55); });
 }
+let lastBoing=0;
+function boing(v){
+  if(!ac||mode!=='chara') return; const t=ac.currentTime; if(t-lastBoing<.09) return; lastBoing=t;
+  const f=mtof(SCALE[Math.floor(R()*5)+3]); glide(t,A.lead,'sine',f*.7,f*1.25,.16,Math.min(.05,.012+v*.0018));
+}
 function stepSprite(s,dt){
   const hs=sampleH(s.wx,s.wz), dh=dt>0?(hs-s.prevH)/dt:0; s.prevH=hs;
   if(s.dead){s.vy-=38*dt;s.wy+=s.vy*dt;s.rot+=s.spin*dt;return hs;}
   if(s.mole){s.wy=hs;return hs;}
+  if(s.vx||s.vz){s.wx=clamp(s.wx+(s.vx||0)*dt,-LIM,LIM);s.wz=clamp(s.wz+(s.vz||0)*dt,-LIM,LIM);const fr=Math.pow(s.air?.6:.05,dt);s.vx*=fr;s.vz*=fr;}
   if(!s.air){
-    if(dh>9){s.vy=Math.min(60,dh*.9);s.wy=hs+.05;s.air=true;}
-    else s.wy=hs;
+    if(dh>9){s.vy=Math.min(60,dh*.9);s.wy=hs+.05;s.air=true;s.vx=(s.vx||0)+(R()-.5)*6;s.vz=(s.vz||0)+(R()-.5)*6;s.spin=(R()-.5)*8;}
+    else {s.wy=hs; s.spin*=Math.pow(.01,dt);}
   } else {
     s.vy-=38*dt; s.wy+=s.vy*dt;
-    if(s.wy<=hs){ if(s.vy<-5) s.squash=Math.min(.5,-s.vy*.022); s.wy=hs; s.vy=0; s.air=false; }
+    if(s.wy<=hs){
+      if(s.vy<-5) s.squash=Math.min(.55,-s.vy*.024);
+      if(s.faller&&s.vy<-7){ s.vy=-s.vy*.45; s.wy=hs+.01; boing(s.vy); }   // ぽよん
+      else { s.wy=hs; s.vy=0; s.air=false; }
+    }
   }
   s.squash*=Math.pow(.002,dt);
   s.rot+=s.spin*dt;
@@ -1966,8 +2217,9 @@ function step(){
   if(started&&mode==='chara'&&ac){
     const beat=Math.floor((ac.currentTime-startT)/(STEP*4));
     if(beat!==lastBeat){lastBeat=beat;
-      const fev=now<feverUntil, active=sprites.filter(o=>o.mole&&!o.dead).length;
-      if(stageMode==='grid'&&(fev||beat%2===0)&&active<(fev?9:4)&&R()<(fev?1:.7)) spawnMole();}
+      const fev=now<feverUntil, alive=sprites.filter(o=>!o.dead).length;
+      if(stageMode==='grid'&&alive<MAX_CHARS){spawnMole(); if(fev&&alive<MAX_CHARS-1) spawnMole();}}
+    if(combo>0&&now-lastHit>4){if(combo>1)popups.push({x:W/2,y:Hh*.3+60,t0:now,str:'COMBO END',c:'rgba(242,238,252,.6)'});combo=0;}
   }
 
   // pointers
@@ -2054,6 +2306,9 @@ function step(){
   // physics: 3 substeps
   for(let s=0;s<3;s++) simStep(grabs);
   stageB+=((stageMode==='ball'?1:0)-stageB)*Math.min(1,dt*2.5);
+  recB+=((stageMode==='record'?1:0)-recB)*Math.min(1,dt*2.5);
+  for(const p of ptrs.values()) if(p.state==='scratch'){const L=recLocal(p.x,p.y); if(L) recHold(L.x,L.z,.75,.95);}
+  updateRecord(now,dt,recB);
   ballScaleV+=(-90*(ballScale-(stageMode==='ball'?1:0))-9*ballScaleV)*dt; ballScale=Math.max(0,ballScale+ballScaleV*dt);
   if(stageMode==='ball'||ballScale>.01){
     for(let s=0;s<3;s++) ballStep(bgrabs);
@@ -2114,7 +2369,7 @@ function step(){
     pcol[k*3]=hiC[0]*b; pcol[k*3+1]=hiC[1]*b; pcol[k*3+2]=hiC[2]*b;
   }
   geo.attributes.position.needsUpdate=true; geo.attributes.color.needsUpdate=true;
-  gridMat.opacity=.92-.62*stageB; gridPtsMat.opacity=1-.7*stageB;
+  gridMat.opacity=(.92-.62*stageB)*(1-recB)**2; gridPtsMat.opacity=(1-.7*stageB)*(1-recB)**2; gridMat.visible=gridMat.opacity>.02; gridPtsMat.visible=gridPtsMat.opacity>.02;
   ballGroup.visible=ballScale>.01;
   if(ballGroup.visible){
     const qb=.15+fx.crush*.9;
@@ -2171,6 +2426,9 @@ function step(){
     mixc(camBase.y+Math.sin(now*.17)*.6+kickPulse*.25+Math.max(0,bendNow)*3,BALLC.y+3.5+kickPulse*.15)+shake.y*.05,
     mixc(camBase.z-ab*5,BALLC.z+(camera.aspect<1?27:22)-ab*3));
   lookV.set(0,mixc(Math.max(0,bendNow)*4.5,BALLC.y+Math.max(0,bendNow)*1.5),mixc(-4,BALLC.z));
+  if(recB>.001){const rB=recB*recB*(3-2*recB), por=camera.aspect<1;
+    camera.position.lerp(tmpV.set(Math.sin(now*.11)*.8,(por?23:14)+kickPulse*.2,(por?18:12)),rB);
+    lookV.lerp(tmpV2.set(0,0,por?1.5:1),rB);}
   camera.lookAt(lookV);
 
   flash*=Math.pow(.02,dt);
