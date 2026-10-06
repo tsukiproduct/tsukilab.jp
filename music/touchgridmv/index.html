@@ -192,7 +192,7 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
 <div id="foot">
   <div id="chips">
     <button class="chip" id="resetBtn" hidden>⟲ 正面に戻す</button>
-    <button class="chip" id="loopBtn" hidden>重ねた音 <b id="loopN">0</b> ・ 消す</button>
+    <button class="chip" id="loopBtn" hidden>ループ <b id="loopN">0</b>音 ・ 消す</button>
   </div>
   <div class="nav">
     <button class="hbtn" id="prevBtn" aria-label="前の曲">‹</button>
@@ -232,11 +232,11 @@ body:has(#intro:not([hidden])) #hud,body:has(#intro:not([hidden])) #foot{visibil
     <h2 id="helpTitle">あそびかた</h2>
     <h3>格子（ステージ：格子）</h3>
     <dl>
-      <dt>タップ</dt><dd>拍に合わせて音が鳴り、4小節のループに重なっていく。重ねるほどあなたの音が主役に</dd>
+      <dt>タップ</dt><dd>拍に合わせて音が鳴り、その場所に光の柱が立つ。音は画面下のループに並び、4小節ごとにくり返し鳴って少しずつ消えていく。たくさん重ねるほど、あなたの音が主役に</dd>
       <dt>つまんで上下</dt><dd>膜を引き伸ばすと曲ごと音が上がり、沈めると下がる。離すとボヨンと戻る</dd>
       <dt>押し続ける</dt><dd>画面の上段は残響、中段は歪み、下段はビット劣化がじわじわ深くなる</dd>
       <dt>指の左右</dt><dd>左でこもった音、右でシャリシャリした音</dd>
-      <dt>キャラを叩く</dt><dd>拍ごとに顔を出すキャラを叩くと鳴く。5連続でFEVER、金色はJACKPOT</dd>
+      <dt>キャラを叩く</dt><dd>拍ごとに地面から顔を出すキャラは、叩くゲーム。叩くと鳴いて、5連続でFEVER、金色はJACKPOT</dd>
     </dl>
     <h3>歌う球（ステージ：白猫・ドクロ・線）</h3>
     <dl>
@@ -605,7 +605,7 @@ const tname=document.getElementById('tname'), tjp=document.getElementById('tjp')
 const $=id=>document.getElementById(id);
 const dotsEl=$('dots'), modeBtn=$('modeBtn'), loopBtn=$('loopBtn'), resetBtn=$('resetBtn'), recBtn=$('recBtn'), hintEl=$('hint');
 const coachEl=$('coach'), coachTxt=$('coachTxt'), toastEl=$('toast'), fileIn=$('fileIn');
-loopBtn.addEventListener('click',()=>{clearLoop();showToast('重ねた音を消しました');});
+loopBtn.addEventListener('click',()=>{clearLoop();showToast('ループを空にしました');});
 resetBtn.addEventListener('click',()=>resetBall());
 let toastT=0;
 /* ---------- volume: overall / song / your sounds, remembered on this device ---------- */
@@ -807,7 +807,7 @@ function sched(){
     for(let k=loopNotes.length-1;k>=0;k--){
       const n=loopNotes[k];
       if(n.s!==s||stepN<=n.k) continue;
-      n.vel*=.82;
+      n.vel*=.88;
       if(n.vel<.12){loopNotes.splice(k,1);changed=true;continue;}
       if(n.voice) echoSing(nextT,n); else playTap(nextT,n.m,cur,n.vel);
       events.push({t:nextT,k:'echo',v:n});
@@ -828,12 +828,16 @@ function playTap(t,m,tr,vel){
   else if(tr===2||tr===4){tone(t,d,{type:'triangle',f,peak:.14*v,a:.005,d:.9});tone(t,d,{f:f*2,peak:.035*v,a:.003,d:.5});}
   else {bell(t,d,f,{peak:.12*v,d:2.4,mark:false});bell(t+.012,d,f,{peak:.07*v,d:2.2,det:24,mark:false});tone(t,d,{f:f/2,peak:.05*v,a:.02,d:1.4});}
 }
+let loopExplained=false;
+try{loopExplained=localStorage.getItem('tg_loop_v1')==='1';}catch(_){}
+function explainLoop(){if(loopExplained)return;loopExplained=true;try{localStorage.setItem('tg_loop_v1','1');}catch(_){}
+  setTimeout(()=>showToast('さわった音は、下のループに記録されて4小節ごとにくり返し鳴ります',4200),500);}
 function tapNote(nx,row,gx,gz,gd){
   if(!ac) return;
   const m=SCALE[Math.min(SCALE.length-1,Math.floor(nx*SCALE.length))]+(row===0?12:row===2?-12:0);
   const t=quantT(), k=Math.round((t-startT)/STEP);
   playTap(t,m,cur,1);
-  const n={s:k%64,k,m,gx,gz,gd,vel:1};
+  const n={s:k%64,k,m,gx,gz,gd,vel:1,t0:nowS()}; explainLoop();
   loopNotes.push(n);
   if(loopNotes.length>32) loopNotes.shift();
   paintLoop();
@@ -954,7 +958,7 @@ function recordVoice(midi,vow,gd){
   if(!ac) return null;
   const t=quantT(), k=Math.round((t-startT)/STEP);
   for(let i=loopNotes.length-1;i>=0;i--) if(loopNotes[i].voice&&loopNotes[i].k===k) loopNotes.splice(i,1);
-  const n={s:k%64,k,m:midi,gx:0,gz:0,gd,vel:1,voice:true,vow,skin:ballSkin};
+  const n={s:k%64,k,m:midi,gx:0,gz:0,gd,vel:1,voice:true,vow,skin:ballSkin,t0:nowS()}; explainLoop();
   loopNotes.push(n); if(loopNotes.length>32) loopNotes.shift(); paintLoop();
   return n;
 }
@@ -1468,8 +1472,8 @@ function handleEv(e){
   if(stageMode==='ball') ballEv(e,T);
   if(e.k==='echo'){
     const n=e.v; impulse(n.gx,n.gz,-1.3*n.vel-.2,1.7);
-    if(n.sp&&!n.sp.dead&&sprites.includes(n.sp)){n.sp.vy=8+8*n.vel;n.sp.air=true;n.sp.wy+=.05;if(n.sp.sx!=null)popups.push({x:n.sp.sx+12,y:n.sp.sy-n.sp.pr*.8,t0:nowS(),str:'♪',c:TRACKS[cur].css2});}
-    if(mode==='chara'){const s=project(n.gx,sampleH(n.gx,n.gz),n.gz);if(s){const t=nowS(),c=TRACKS[cur];
+    n.flash=nowS();
+    if(mode==='chara'&&!n.voice){const s=project(n.gx,sampleH(n.gx,n.gz),n.gz);if(s){const t=nowS(),c=TRACKS[cur];
       for(let k=0;k<6;k++){const a=k/6*TAU;sparks.push({x:s.x,y:s.y,vx:Math.cos(a)*90*n.vel,vy:Math.sin(a)*90*n.vel,t0:t,c:k%2?c.css:c.css2});}}}
   }
 }
@@ -1517,7 +1521,6 @@ function commit(p,t){
   p.loopRef=tapNote(p.x0/W,p.row,p.gx,p.gz);
   impulse(p.gx,p.gz,-.6,1.8);
   if(mode==='chara'){
-    const sg=spawnSprite(pickKind(cur),p.gx,p.gz,1.5); if(p.loopRef){sg.note=p.loopRef; p.loopRef.sp=sg; sg.life=Infinity;}
     for(let k=0;k<10;k++){const a=k/10*TAU+R()*.3;sparks.push({x:p.x0,y:p.y0,vx:Math.cos(a)*(80+R()*120),vy:Math.sin(a)*(80+R()*120),t0:t,c:R()<.5?TRACKS[cur].css:TRACKS[cur].css2});}
   }
 }
@@ -1825,6 +1828,44 @@ function drawFace(now,pressed,big){
   for(const k of [FACE.cL,FACE.cR]){const C=ballPt(k);if(C&&C.f>.2){g.fillStyle=hexA(T.css,.35);g.beginPath();g.ellipse(C.x,C.y,s*.55,s*.3,ang,0,TAU);g.fill();}}
   g.restore();
 }
+/* your notes: a light pillar where you touched, lit each time the loop plays it */
+function drawBeacons(now){
+  const T=TRACKS[cur];
+  for(const n of loopNotes){
+    if(n.voice) continue;
+    const P=project(n.gx,sampleH(n.gx,n.gz),n.gz); if(!P) continue;
+    const k=Math.exp(-(now-(n.flash||n.t0||-9))*4.5), a=.3+.7*n.vel, born=Math.min(1,(now-(n.t0||0))*4);
+    const hgt=(52+80*k)*born, col=T.css2;
+    const gr=g.createLinearGradient(P.x,P.y,P.x,P.y-hgt); gr.addColorStop(0,hexA(col,.85*a)); gr.addColorStop(1,hexA(col,0));
+    g.fillStyle=gr; g.fillRect(P.x-(2+3*k),P.y-hgt,4+6*k,hgt);
+    g.globalAlpha=a; g.strokeStyle=col; g.lineWidth=1.5+2*k;
+    g.beginPath(); g.ellipse(P.x,P.y,10+24*k,(10+24*k)*.32,0,0,TAU); g.stroke();
+    g.fillStyle='#fff'; g.beginPath(); g.arc(P.x,P.y-hgt*.15,2+2*k,0,TAU); g.fill();
+    if(k>.4){g.globalAlpha=a*k; g.fillStyle=col; g.font='16px "DotGothic16", monospace'; g.textAlign='center'; g.fillText('♪',P.x+10,P.y-hgt-4); g.textAlign='start';}
+    g.globalAlpha=1;
+  }
+}
+/* the loop as a 4-bar track: your notes sit on it and light up when the playhead passes */
+let stripA=0;
+function drawLoopStrip(now){
+  stripA+=((loopNotes.length&&started?1:0)-stripA)*Math.min(1,.12);
+  if(stripA<.02||!ac) return;
+  const chips=$('chips').getBoundingClientRect(), w=Math.min(W-40,360), x0=(W-w)/2, y=chips.top-30, h=16, T=TRACKS[cur];
+  const pos=((((ac.currentTime-startT)/STEP)%64)+64)%64;
+  g.save(); g.globalAlpha=stripA;
+  g.fillStyle='rgba(10,8,16,.55)'; g.beginPath(); g.roundRect?g.roundRect(x0-8,y-8,w+16,h+16,10):g.rect(x0-8,y-8,w+16,h+16); g.fill();
+  for(let b=0;b<4;b++){g.fillStyle=b%2?'rgba(242,238,252,.07)':'rgba(242,238,252,.12)';g.fillRect(x0+b*w/4,y,w/4-2,h);}
+  for(let k=0;k<16;k++){g.fillStyle='rgba(242,238,252,.18)';g.fillRect(x0+k*w/16,y+h-3,1,3);}
+  const lo=Math.min(...loopNotes.map(n=>n.m)), hi=Math.max(...loopNotes.map(n=>n.m)), span=Math.max(6,hi-lo);
+  for(const n of loopNotes){
+    const nx=x0+(n.s+.5)*w/64, ny=y+h-3-((n.m-lo)/span)*(h-6), k=Math.exp(-(now-(n.flash||-9))*5);
+    g.globalAlpha=stripA*(.35+.65*n.vel); g.fillStyle=k>.3?'#fff':(n.voice?T.css:T.css2);
+    g.beginPath(); g.arc(nx,ny,2.2+3*k,0,TAU); g.fill();
+  }
+  const px=x0+pos*w/64; g.globalAlpha=stripA; g.fillStyle=T.css; g.shadowColor=T.css; g.shadowBlur=8; g.fillRect(px-1,y-4,2,h+8); g.shadowBlur=0;
+  g.font='10px "M PLUS 1 Code", monospace'; g.fillStyle='rgba(242,238,252,.6)'; g.fillText('LOOP',x0-2,y-12);
+  g.restore();
+}
 const INK='#1f191d';
 function faceFrame(A,B){const L=ballPt(A),Rr=ballPt(B);if(!L||!Rr)return null;const f=Math.min(L.f,Rr.f);if(f<.12)return null;
   const fovK=Hh/(2*Math.tan(camera.fov*Math.PI/360));return {L,Rr,f,s:BR*.15*ballScale*fovK/L.d,ang:Math.atan2(Rr.y-L.y,Rr.x-L.x)};}
@@ -1973,8 +2014,6 @@ function step(){
     p.gx=clamp(p.gx0+(p.x-p.x0)*p.wpp,-LIM,LIM);
     pullSum+=p.pullS;
     grabs.push({gx:p.gx,gz:p.gz,pn:p.pullS,str:1});
-    if(mode==='chara'&&now-p.lastSpawn>.6&&Math.abs(p.pullS)<.5){p.lastSpawn=now;const a=R()*TAU,r=2+R()*4;
-      spawnSprite(pickKind(cur),clamp(p.gx+Math.cos(a)*r,-LIM,LIM),clamp(p.gz+Math.sin(a)*r,-LIM,LIM),.9+R()*.6);}
   }
   // released grabs ring like springs (damping .14, ~1.75 Hz) and pull the pitch with them
   let ghostSum=0;
@@ -2147,6 +2186,8 @@ function step(){
 
   // 2D layer
   g.clearRect(0,0,W,Hh);
+  if(stageMode==='grid') drawBeacons(now);
+  drawLoopStrip(now);
   if(ballScale>.3){
     const fst={squeeze:squash,big:ballExt>.55,dizzy:now<dizzyUntil,sing:voiceSing||now<voiceUntil,open:vOpen,look:primary||singer};
     if(ballSkin==='neko') drawNekoFace(now,fst); else if(ballSkin==='skull') drawSkullFace(now,fst);
