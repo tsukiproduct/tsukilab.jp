@@ -2093,7 +2093,7 @@ function jackpot(t){
 }
 let lastBoing=0;
 function boing(v){
-  if(!ac||mode!=='chara'||!addOn) return; const t=ac.currentTime; if(t-lastBoing<.09) return; lastBoing=t;
+  if(!ac||mode!=='chara'||!addOn||stageMode!=='grid') return; const t=ac.currentTime; if(t-lastBoing<.09) return; lastBoing=t;
   const f=mtof(SCALE[Math.floor(R()*5)+3]); glide(t,A.lead,'sine',f*.7,f*1.25,.16,Math.min(.05,.012+v*.0018));
 }
 function stepSprite(s,dt){
