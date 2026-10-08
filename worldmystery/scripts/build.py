@@ -344,7 +344,10 @@ def marker_text(lines, size, color_hl):
 
 def telop_img(text):
     lines = text.split("\n")
-    body = marker_text(lines, 78, LEMON + (255,))
+    size = 78  # 長い行はカードが広がりすぎてキャラに重なるので、幅760pxに収まるまで文字を小さくする
+    while max(F_TITLE(size).getlength(l) for l in lines) > 760 and size > 48:
+        size -= 4
+    body = marker_text(lines, size, LEMON + (255,))
     w, h = body.width + 70, body.height + 50
     card, pad = sticker(w, h, 44, PAPER, shadow=MINT + (255,), off=(10, 10))
     out = Image.new("RGBA", card.size, (0, 0, 0, 0))
@@ -393,7 +396,7 @@ def title_card(series, title, episode):
 
 def photo_card(entry, img=None):
     """ポラロイド風の写真枠(出典つき)。画像が無い間は「画像待ち」の枠を出す。img を渡すとその画像を使う(連番アニメ用)"""
-    box_w, box_h = entry.get("box") or (600, 340)
+    box_w, box_h = entry.get("box") or (720, 410)
     path = REFS / entry["image"]
     if img is not None or path.exists():
         ph = (img if img is not None else Image.open(path)).convert("RGB")

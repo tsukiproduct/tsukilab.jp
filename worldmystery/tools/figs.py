@@ -631,6 +631,414 @@ def eras(name, bars, x0=0, x1=1100, w=1200, h=520, frames=150, title=None):
     return frames
 
 
+def cme(name, w=1200, h=700, frames=300, start="10月6日 噴火", end="10月9日 到着(予報)"):
+    """太陽の噴出物(CME)が地球に届き、磁気のバリアを押しつぶして、極にオーロラが光る。距離と大きさは実際とは違う模式図。"""
+    sys.path.insert(0, str(ROOT / "tools"))
+    import geo_maps as G, random
+    d_ = _out(name)
+    earth = G.globe(G.texture(G.load(), highlight=False), 135, 25, size=300).convert("RGBA")
+    m = Image.new("L", earth.size, 0)  # 地球儀の四角い下地を消して丸だけ使う
+    ImageDraw.Draw(m).ellipse([3, 3, earth.width - 4, earth.height - 4], fill=255)
+    earth.putalpha(m)
+    fb = B.F(("ZenMaruGothic_900Black.ttf"), 34 * SS)
+    fs = B.F(("ZenMaruGothic_700Bold.ttf"), 24 * SS)
+    EX, EY = 960, 380
+    rnd = random.Random(5)
+    stars = [(rnd.randint(0, w), rnd.randint(0, h), rnd.choice([1, 1.5, 2])) for _ in range(140)]
+    parts = [(rnd.gauss(0, 0.28), rnd.random() ** 1.6, rnd.uniform(3, 8)) for _ in range(520)]
+    for fr in range(frames):
+        im = Image.new("RGB", (w * SS, h * SS), (16, 20, 44)); d = ImageDraw.Draw(im, "RGBA")
+        for x, y, r in stars:
+            d.ellipse([(x - r) * SS, (y - r) * SS, (x + r) * SS, (y + r) * SS], fill=(255, 250, 230, 170))
+        for k in range(6, 0, -1):  # 太陽(左端)とにじみ
+            r = 250 + k * 22
+            d.ellipse([(-140 - r) * SS, (EY - r) * SS, (-140 + r) * SS, (EY + r) * SS], fill=(255, 150, 40, 18))
+        d.ellipse([-390 * SS, (EY - 250) * SS, 110 * SS, (EY + 250) * SS], fill=(255, 176, 52), outline=(255, 230, 140), width=6 * SS)
+        p = min(1, max(0, (fr - 20) / 170))  # 噴出物が進む割合
+        hit = max(0, min(1, (fr - 175) / 40))  # 地球に当たってからの割合
+        # 地球の磁気のバリア(双極子の磁力線)。当たると昼側が押しつぶされる
+        for k, L in enumerate([1.8, 2.5, 3.3]):
+            pts = []
+            for t in range(-80, 81, 4):
+                th = math.radians(t)
+                rr = L * 75 * math.cos(th) ** 2
+                x = rr * math.cos(th); y = -rr * math.sin(th)
+                for sgn in (-1, 1):
+                    pass
+                pts.append((x, y))
+            for side in (-1, 1):
+                sq = 1 - 0.35 * hit if side == -1 else 1 + 0.25 * hit
+                poly = [((EX + side * x * sq) * SS, (EY + y) * SS) for x, y in pts]
+                d.line(poly, fill=(140, 200, 255, 120 - k * 25), width=3 * SS)
+        if p > 0 and hit < 1:  # 噴出物(太陽から広がる三日月形の粒の雲)
+            dist = 260 + (EX - 200 - 260 + 140) * _ease(p)
+            for a, u, r in parts:
+                ang = a * (0.35 + 0.25 * p)
+                rr = dist - 190 * u * (0.4 + 0.6 * p)
+                x = -140 + rr * math.cos(ang)
+                y = EY + rr * math.sin(ang)
+                al = int((90 + 130 * (1 - u)) * (1 - hit))
+                d.ellipse([(x - r) * SS, (y - r) * SS, (x + r) * SS, (y + r) * SS], fill=(255, 130, 70, al))
+        im2 = im.convert("RGBA")
+        im2.alpha_composite(earth.resize((150 * SS, 150 * SS), Image.LANCZOS), ((EX - 75) * SS, (EY - 75) * SS))
+        d = ImageDraw.Draw(im2, "RGBA")
+        if hit > 0:  # 極のオーロラ
+            glow = int(200 * hit * (0.75 + 0.25 * math.sin(fr / 4)))
+            for sy in (-1, 1):
+                d.ellipse([(EX - 50) * SS, (EY + sy * 66 - 12) * SS, (EX + 50) * SS, (EY + sy * 66 + 12) * SS],
+                          outline=(90, 255, 150, glow), width=7 * SS)
+        if fr > 20:
+            _box(d, (40, 40, 330, 110), start, (255, 233, 150), fb)
+        if 70 < fr:
+            q = min(1, (fr - 70) / 20)
+            d.text(((EX - 380) * SS, 610 * SS), "約3日かけて地球へ", font=fb, fill=(255, 240, 200, int(255 * q)), anchor="mm")
+        if hit > 0:
+            _box(d, (EX - 190, 40, EX + 200, 110), end, (255, 206, 190), fb)
+        d.text((w / 2 * SS, (h - 22) * SS), "距離と大きさは実際とは違う模式図です", font=fs, fill=(200, 210, 240, 200), anchor="mm")
+        im2.convert("RGB").resize((w, h), Image.LANCZOS).save(d_ / f"{fr:03d}.png")
+
+
+def flyby(name, w=1200, h=760, frames=300):
+    """アポフィスが静止衛星の軌道の内側を通り過ぎる(真上から見た模式図。地球の大きさは見やすく誇張)"""
+    sys.path.insert(0, str(ROOT / "tools"))
+    import geo_maps as G, random
+    d_ = _out(name)
+    earth = G.globe(G.texture(G.load(), highlight=False), 30, 10, size=240).convert("RGBA")
+    m = Image.new("L", earth.size, 0)
+    ImageDraw.Draw(m).ellipse([3, 3, earth.width - 4, earth.height - 4], fill=255)
+    earth.putalpha(m)
+    fb = B.F(("ZenMaruGothic_900Black.ttf"), 30 * SS)
+    fs = B.F(("ZenMaruGothic_700Bold.ttf"), 24 * SS)
+    CX, CY, GEO = 560, 450, 280
+    rA = GEO * 38015 / 42164  # 地球の中心からの距離(静止軌道との比は実際どおり)
+    rnd = random.Random(9)
+    stars = [(rnd.randint(0, w), rnd.randint(0, h), rnd.choice([1, 1.5, 2])) for _ in range(150)]
+    for fr in range(frames):
+        im = Image.new("RGB", (w * SS, h * SS), (16, 20, 44)); d = ImageDraw.Draw(im, "RGBA")
+        for x, y, r in stars:
+            d.ellipse([(x - r) * SS, (y - r) * SS, (x + r) * SS, (y + r) * SS], fill=(255, 250, 230, 160))
+        d.ellipse([(CX - GEO) * SS, (CY - GEO) * SS, (CX + GEO) * SS, (CY + GEO) * SS], outline=(140, 200, 255, 200), width=3 * SS)
+        for k in range(10):  # 静止衛星(地球と一緒に回る)
+            a = 2 * math.pi * k / 10 + fr / 300
+            x, y = CX + GEO * math.cos(a), CY + GEO * math.sin(a)
+            d.rectangle([(x - 5) * SS, (y - 3) * SS, (x + 5) * SS, (y + 3) * SS], fill=(200, 220, 255))
+        im2 = im.convert("RGBA")
+        im2.alpha_composite(earth.resize((84 * SS, 84 * SS), Image.LANCZOS), ((CX - 42) * SS, (CY - 42) * SS))
+        d = ImageDraw.Draw(im2, "RGBA")
+        d.text(((CX + GEO * 0.75 + 10) * SS, (CY + GEO * 0.75 + 20) * SS), "静止衛星の高さ(約3万6千km)", font=fs, fill=(170, 210, 255), anchor="lm")
+        # アポフィスの道すじ: 左上から右下へ、最接近点で地球の上側を通る
+        t = (fr - 30) / 210
+        path = [(CX + (u - 0.5) * 1300, CY - rA - 0.00034 * ((u - 0.5) * 1300) ** 2) for u in [k / 60 for k in range(61)]]
+        if t > 0:
+            nshow = int(min(1, t) * 60)
+            if nshow > 1:
+                d.line([(x * SS, y * SS) for x, y in path[:nshow + 1]], fill=(255, 150, 90, 160), width=3 * SS)
+            x, y = path[min(60, nshow)]
+            d.ellipse([(x - 10) * SS, (y - 8) * SS, (x + 10) * SS, (y + 8) * SS], fill=(190, 160, 130), outline=(90, 60, 40), width=2 * SS)
+            d.text((x * SS, (y - 26) * SS), "アポフィス", font=fs, fill=(255, 200, 160), anchor="mm")
+        if 0.45 < t:
+            q = min(1, (t - 0.45) / 0.1)
+            col = (255, 233, 150, int(255 * q))
+            d.line([(CX * SS, (CY - 44) * SS), (CX * SS, (CY - rA + 12) * SS)], fill=col, width=3 * SS)
+            d.text(((CX + 16) * SS, (CY - rA / 2 - 10) * SS), "地表から\n約3万2千km", font=fb, fill=col, anchor="lm")
+        if fr > 20:
+            _box(d, (30, 30, 420, 100), "2029年4月13日(金)", (255, 233, 150), fb)
+        if t > 0.6:
+            _box(d, (CX - 530, CY - 80, CX - 170, CY - 10), "静止衛星より内側！", (255, 206, 190), fb)
+        d.text(((w - 20) * SS, (h - 50) * SS), "月はこの約10倍遠く →", font=fs, fill=(220, 220, 240), anchor="rm")
+        d.text((w / 2 * SS, (h - 18) * SS), "真上から見た模式図(地球と小惑星の大きさは誇張)", font=fs, fill=(200, 210, 240, 200), anchor="mm")
+        im2.convert("RGB").resize((w, h), Image.LANCZOS).save(d_ / f"{fr:03d}.png")
+
+
+def ep010():
+    flyby("ep010_flyby")
+    chart("ep010_prob", [((0, 2.7), (1, 2.7), (1.02, 0), (2, 0))], (0, 2), (0, 3), "", "2029年に衝突する確率(%)", [], [0, 1, 2, 3],
+          notes=[(1.0, 2.7, "2004年12月27日 2.7%(37分の1)"), (1.6, 0.2, "同じ日のうちに 0%")]) if False else None
+
+
+def bitb(name, w=1200, h=760, frames=330):
+    """偽のログイン窓(Browser-in-the-Browser)。窓の中のアドレスは本物に見えるが、本当のアドレスは上のバー。
+    最後に窓をブラウザの外へ引っぱると、枠で切れて出られない(=偽物)。"""
+    d_ = _out(name)
+    fb = B.F(("ZenMaruGothic_900Black.ttf"), 30 * SS)
+    fs = B.F(("ZenMaruGothic_700Bold.ttf"), 26 * SS)
+    fm = B.F(("ZenMaruGothic_700Bold.ttf"), 22 * SS)
+    BX0, BY0, BX1, BY1 = 60, 70, 900, 690   # 本物のブラウザ
+    for fr in range(frames):
+        im = _canvas(w, h); d = ImageDraw.Draw(im, "RGBA")
+        d.rounded_rectangle([BX0 * SS, BY0 * SS, BX1 * SS, BY1 * SS], 18 * SS, fill=(255, 255, 255), outline=B.INK, width=4 * SS)
+        d.rectangle([BX0 * SS + 8, (BY0 + 60) * SS, BX1 * SS - 8, (BY0 + 62) * SS], fill=(200, 200, 200))
+        d.rounded_rectangle([(BX0 + 20) * SS, (BY0 + 14) * SS, (BX1 - 20) * SS, (BY0 + 50) * SS], 16 * SS, fill=(240, 240, 240))
+        d.text(((BX0 + 40) * SS, (BY0 + 32) * SS), "https://museads.ai/connect", font=fm, fill=(80, 80, 80), anchor="lm")
+        d.text(((BX0 + 40) * SS, (BY0 + 120) * SS), "AI広告ツール(偽物)", font=fb, fill=(150, 150, 150), anchor="lm")
+        # 偽の窓: 途中から右へ引っぱられ、ブラウザの枠で切れる
+        drag = max(0, min(1, (fr - 220) / 70))
+        ox = 330 * _ease(drag)
+        P0, P1 = (BX0 + 170 + ox, BY0 + 170), (BX0 + 670 + ox, BY0 + 560)
+        layer = Image.new("RGBA", im.size, (0, 0, 0, 0)); ld = ImageDraw.Draw(layer)
+        ld.rounded_rectangle([P0[0] * SS, P0[1] * SS, P1[0] * SS, P1[1] * SS], 14 * SS, fill=(250, 250, 252), outline=(120, 120, 130), width=3 * SS)
+        ld.rounded_rectangle([(P0[0] + 14) * SS, (P0[1] + 12) * SS, (P1[0] - 14) * SS, (P0[1] + 46) * SS], 12 * SS, fill=(236, 240, 236))
+        ld.text(((P0[0] + 28) * SS, (P0[1] + 29) * SS), "accounts.google.com", font=fm, fill=(40, 120, 60), anchor="lm")
+        ld.text((((P0[0] + P1[0]) / 2) * SS, (P0[1] + 120) * SS), "ログイン", font=fb, fill=B.INK, anchor="mm")
+        for k in range(2):
+            ld.rounded_rectangle([(P0[0] + 50) * SS, (P0[1] + 170 + k * 80) * SS, (P1[0] - 50) * SS, (P0[1] + 220 + k * 80) * SS], 10 * SS, outline=(150, 150, 160), width=2 * SS)
+        mask = Image.new("L", im.size, 0)  # ブラウザの表示領域の外は描かれない
+        ImageDraw.Draw(mask).rectangle([(BX0 + 4) * SS, (BY0 + 64) * SS, (BX1 - 4) * SS, (BY1 - 4) * SS], fill=255)
+        im.paste(layer, (0, 0), Image.fromarray(__import__("numpy").minimum(__import__("numpy").array(mask), __import__("numpy").array(layer.split()[3]))))
+        d = ImageDraw.Draw(im, "RGBA")
+        if 40 < fr:
+            a = min(1, (fr - 40) / 15)
+            d.rounded_rectangle([(P0[0] + 10) * SS, (P0[1] + 8) * SS, (min(P1[0], BX1) - 10) * SS, (P0[1] + 50) * SS], 12 * SS, outline=(70, 160, 90, int(255 * a)), width=5 * SS)
+            _box(d, (910, 150, 1180, 250), "窓の中は\n本物そっくり", (214, 240, 222), fs)
+        if 110 < fr:
+            a = min(1, (fr - 110) / 15)
+            d.rounded_rectangle([(BX0 + 14) * SS, (BY0 + 8) * SS, (BX1 - 14) * SS, (BY0 + 56) * SS], 18 * SS, outline=(214, 52, 52, int(255 * a)), width=6 * SS)
+            _box(d, (910, 40, 1180, 140), "本当の場所は\nここ(偽サイト)", (255, 206, 190), fs)
+        if 220 < fr:
+            _box(d, (910, 420, 1180, 560), "外へ引っぱると\n枠で切れる\n= 偽物", (255, 233, 150), fs)
+        im.resize((w, h), Image.LANCZOS).save(d_ / f"{fr:03d}.png")
+
+
+def ep011():
+    bitb("ep011_bitb")
+    flow("ep011_flow", [
+        (20, 60, 370, 170, "偽の招待メール\n「広告ツール準備完了」", (255, 233, 150)),
+        (425, 60, 775, 170, "AI広告ツールを\n装った偽サイト", (255, 206, 190)),
+        (830, 60, 1180, 170, "「接続」ボタンで\n偽のログイン窓", (255, 206, 190)),
+        (830, 300, 1180, 410, "パスワードを入力", (230, 230, 240)),
+        (425, 300, 775, 410, "裏で人間が見ていて\n二段階認証の種類を選ぶ", (255, 206, 190)),
+        (20, 300, 370, 410, "届いたコードも\n入力させて奪う", (255, 160, 160)),
+        (200, 520, 1000, 630, "広告アカウントを乗っ取り(売る・悪用する)", (255, 160, 160)),
+    ], [(0, 1, "", B.INK), (1, 2, "", B.INK), (2, 3, "", B.INK), (3, 4, "", B.INK), (4, 5, "", B.INK), (5, 6, "", (214, 52, 52))], per=26)
+
+
+def ep012():
+    flow("ep012_flow", [
+        (20, 50, 370, 160, "2025年秋\nブナの実が大凶作", (255, 206, 190)),
+        (425, 50, 775, 160, "食べ物を探して\n人里の近くへ", (255, 206, 190)),
+        (830, 50, 1180, 160, "2025年度の人身被害\n238人(過去最多)", (255, 160, 160)),
+        (20, 330, 370, 440, "2026年秋\n豊作〜並作", (214, 240, 222)),
+        (425, 330, 775, 440, "母グマが\nしっかり太る", (214, 240, 222)),
+        (830, 330, 1180, 440, "翌年の春\n子グマが増える?", (255, 233, 150)),
+        (300, 560, 900, 660, "その次の秋が凶作なら…?", (255, 160, 160)),
+    ], [(0, 1, "", B.INK), (1, 2, "", (214, 52, 52)), (3, 4, "", B.INK), (4, 5, "", B.INK), (5, 6, "", (214, 52, 52))], per=28)
+
+
+def kessler(name, w=1100, h=760, frames=330):
+    """宇宙ゴミの連鎖(ケスラーシンドローム)のイメージ。衝突でかけらが増え、そのかけらが別の衛星に当たる。"""
+    sys.path.insert(0, str(ROOT / "tools"))
+    import geo_maps as G, random
+    d_ = _out(name)
+    earth = G.globe(G.texture(G.load(), highlight=False), 140, 30, size=300).convert("RGBA")
+    m = Image.new("L", earth.size, 0)
+    ImageDraw.Draw(m).ellipse([3, 3, earth.width - 4, earth.height - 4], fill=255)
+    earth.putalpha(m)
+    fb = B.F(("ZenMaruGothic_900Black.ttf"), 30 * SS)
+    fs = B.F(("ZenMaruGothic_700Bold.ttf"), 22 * SS)
+    CX, CY, R0 = w // 2, h // 2 + 20, 250
+    rnd = random.Random(11)
+    sats = [dict(a=rnd.uniform(0, 2 * math.pi), r=R0 + rnd.uniform(-28, 28), v=rnd.choice([1, -1]) * rnd.uniform(0.006, 0.010), alive=True) for _ in range(46)]
+    frags = []
+    hits = [(60, 0, 1)]  # (フレーム, 衛星i, 衛星j)
+    for fr in range(frames):
+        im = Image.new("RGB", (w * SS, h * SS), (16, 20, 44)); d = ImageDraw.Draw(im, "RGBA")
+        im2 = im.convert("RGBA")
+        im2.alpha_composite(earth.resize((200 * SS, 200 * SS), Image.LANCZOS), ((CX - 100) * SS, (CY - 100) * SS))
+        d = ImageDraw.Draw(im2, "RGBA")
+        band = Image.new("RGBA", im2.size, (0, 0, 0, 0))  # 低軌道の帯(半透明)
+        ImageDraw.Draw(band).ellipse([(CX - R0 - 29) * SS, (CY - R0 * 0.92 - 29) * SS, (CX + R0 + 29) * SS, (CY + R0 * 0.92 + 29) * SS], outline=(120, 160, 230, 38), width=58 * SS)
+        im2.alpha_composite(band)
+        d = ImageDraw.Draw(im2, "RGBA")
+        for s_ in sats:
+            s_["a"] += s_["v"]
+        for f_ in frags:
+            f_["a"] += f_["v"]; f_["r"] += f_["dr"]; f_["dr"] *= 0.97
+        # 最初の衝突: 2つの衛星を同じ場所に重ねてぶつける
+        if fr == 60:
+            a, b = sats[0], sats[1]
+            a["alive"] = b["alive"] = False
+            for _ in range(40):
+                frags.append(dict(a=a["a"] + rnd.uniform(-0.05, 0.05), r=a["r"], v=rnd.uniform(-0.016, 0.016), dr=rnd.uniform(-1.2, 1.2)))
+        # 2回目以降: かけらが近くの衛星に当たると、さらにかけらが出る(見せるための単純なルール)
+        if fr > 90 and fr % 18 == 0:
+            alive = [s_ for s_ in sats if s_["alive"]]
+            if alive and frags:
+                t = rnd.choice(alive)
+                t["alive"] = False
+                for _ in range(min(60, 15 + len(frags) // 3)):
+                    frags.append(dict(a=t["a"] + rnd.uniform(-0.05, 0.05), r=t["r"], v=rnd.uniform(-0.016, 0.016), dr=rnd.uniform(-1.2, 1.2)))
+                hits.append((fr, 0, 0))
+        for s_ in sats:
+            if s_["alive"]:
+                x, y = CX + s_["r"] * math.cos(s_["a"]), CY + s_["r"] * math.sin(s_["a"]) * 0.92
+                d.rectangle([(x - 6) * SS, (y - 3) * SS, (x + 6) * SS, (y + 3) * SS], fill=(200, 220, 255))
+        for f_ in frags:
+            x, y = CX + f_["r"] * math.cos(f_["a"]), CY + f_["r"] * math.sin(f_["a"]) * 0.92
+            d.ellipse([(x - 2) * SS, (y - 2) * SS, (x + 2) * SS, (y + 2) * SS], fill=(255, 150, 90, 220))
+        for hf, _, _ in hits:
+            if 0 <= fr - hf < 10:
+                k = fr - hf
+                tgt = sats[0] if hf == 60 else None
+                if tgt is not None:
+                    x, y = CX + tgt["r"] * math.cos(tgt["a"]), CY + tgt["r"] * math.sin(tgt["a"]) * 0.92
+                    d.ellipse([(x - 10 - 4 * k) * SS, (y - 10 - 4 * k) * SS, (x + 10 + 4 * k) * SS, (y + 10 + 4 * k) * SS], outline=(255, 230, 120, 255 - 25 * k), width=4 * SS)
+        _box(d, (24, 24, 380, 92), "かけら: %d個" % len(frags), (255, 206, 190), fb)
+        d.text((w / 2 * SS, (h - 20) * SS), "連鎖のイメージ図(数や速さは実際とは違います)", font=fs, fill=(200, 210, 240, 210), anchor="mm")
+        im2.convert("RGB").resize((w, h), Image.LANCZOS).save(d_ / f"{fr:03d}.png")
+
+
+def ep013():
+    kessler("ep013_kessler")
+
+
+def lightday(name, w=1300, h=600, frames=330):
+    """光の速さで、地球から太陽・海王星・ボイジャー1号まで(距離は対数目盛り)。光の粒が進み、かかった時間を数える。"""
+    d_ = _out(name)
+    fb = B.F(("ZenMaruGothic_900Black.ttf"), 34 * SS)
+    fs = B.F(("ZenMaruGothic_700Bold.ttf"), 26 * SS)
+    X0, X1, Y = 110, w - 110, 330
+    # (名前, 地球からの距離[天文単位], 光でかかる時間の表示)
+    pts = [("地球", 0.0026, ""), ("月", 0.00257, "1.3秒"), ("太陽", 1, "約8分"), ("海王星", 30, "約4時間"), ("ボイジャー1号", 173, "約1日")]
+    lg = lambda au: math.log10(au)
+    a0, a1 = lg(0.002), lg(320)
+    xpos = lambda au: X0 + (X1 - X0) * (lg(au) - a0) / (a1 - a0)
+    for fr in range(frames):
+        im = Image.new("RGB", (w * SS, h * SS), (16, 20, 44)); d = ImageDraw.Draw(im, "RGBA")
+        d.line([(X0 * SS, Y * SS), (X1 * SS, Y * SS)], fill=(150, 170, 220), width=4 * SS)
+        t = min(1, max(0, (fr - 20) / 260))
+        xl = X0 + (X1 - X0) * t
+        d.line([(X0 * SS, Y * SS), (xl * SS, Y * SS)], fill=(255, 233, 150), width=8 * SS)
+        d.ellipse([(xl - 12) * SS, (Y - 12) * SS, (xl + 12) * SS, (Y + 12) * SS], fill=(255, 250, 200))
+        for k, (nm, au, tt) in enumerate(pts):
+            if nm == "月":
+                continue
+            x = xpos(au) if nm != "地球" else X0
+            col = (120, 180, 255) if nm == "地球" else (255, 190, 80) if nm == "太陽" else (140, 170, 255) if nm == "海王星" else (255, 233, 150)
+            r = 16 if nm != "ボイジャー1号" else 10
+            d.ellipse([(x - r) * SS, (Y - r) * SS, (x + r) * SS, (Y + r) * SS], fill=col, outline=(255, 255, 255), width=2 * SS)
+            nx = x + (50 if nm == "ボイジャー1号" else 0)
+            d.text((nx * SS, (Y - 55) * SS), nm, font=fb, fill=(240, 240, 255), anchor="mm")
+            if tt and xl >= x - 2:
+                by = Y + (150 if nm == "ボイジャー1号" else 75)
+                bx = x - (50 if nm == "海王星" else 0)
+                d.line([(x * SS, (Y + 14) * SS), (x * SS, (by - 30) * SS)], fill=(255, 233, 150), width=2 * SS)
+                _box(d, (bx - 95, by - 30, bx + 95, by + 30), "光で" + tt, (255, 233, 150), fs)
+        d.text((w / 2 * SS, (h - 24) * SS), "距離は対数目盛り(右へ行くほど縮めて描いています)", font=fs, fill=(200, 210, 240, 210), anchor="mm")
+        im.resize((w, h), Image.LANCZOS).save(d_ / f"{fr:03d}.png")
+
+
+def ep014():
+    lightday("ep014_lightday")
+
+
+def giant_impact(name, w=1200, h=720, frames=330):
+    """火星くらいの天体(テイア)が若い地球にぶつかり、飛び散った岩から月ができる(模式図)。"""
+    import random
+    d_ = _out(name)
+    fb = B.F(("ZenMaruGothic_900Black.ttf"), 30 * SS)
+    fs = B.F(("ZenMaruGothic_700Bold.ttf"), 22 * SS)
+    CX, CY, RE, RT = 560, 380, 120, 64
+    rnd = random.Random(21)
+    stars = [(rnd.randint(0, w), rnd.randint(0, h), rnd.choice([1, 1.5, 2])) for _ in range(140)]
+    deb = [(rnd.uniform(0, 2 * math.pi), rnd.uniform(1.25, 2.1), rnd.uniform(2, 6), rnd.uniform(0.02, 0.05)) for _ in range(420)]
+    for fr in range(frames):
+        im = Image.new("RGBA", (w * SS, h * SS), (16, 14, 30, 255))
+        d = ImageDraw.Draw(im, "RGBA")
+        for x, y, r in stars:
+            d.ellipse([(x - r) * SS, (y - r) * SS, (x + r) * SS, (y + r) * SS], fill=(255, 250, 230, 150))
+        hit = 80
+        lay = Image.new("RGBA", im.size, (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
+        # 若い地球(どろどろに溶けた岩の星)
+        glow = 0 if fr < hit else max(0, 1 - (fr - hit) / 120)
+        ld.ellipse([(CX - RE) * SS, (CY - RE) * SS, (CX + RE) * SS, (CY + RE) * SS], fill=(150 + int(90 * glow), 70 + int(60 * glow), 50))
+        ld.ellipse([(CX - RE + 20) * SS, (CY - RE + 16) * SS, (CX + RE - 50) * SS, (CY + RE - 70) * SS], fill=(255, 140, 70, 60 + int(120 * glow)))
+        if fr < hit + 6:  # テイアが近づく
+            p = _ease(min(1, fr / hit))
+            tx, ty = CX + 520 - (520 - RE - RT + 30) * p, CY - 240 + (240 - 70) * p
+            ld.ellipse([(tx - RT) * SS, (ty - RT) * SS, (tx + RT) * SS, (ty + RT) * SS], fill=(170, 150, 130), outline=(220, 200, 180), width=3 * SS)
+            if fr < hit:
+                ld.text((tx * SS, (ty - RT - 26) * SS), "テイア(火星くらい)", font=fs, fill=(240, 230, 220), anchor="mm")
+        if hit <= fr:  # 飛び散った岩が地球のまわりを回り、やがて集まって月になる
+            k = fr - hit
+            gather = min(1, max(0, (k - 120) / 110))
+            for a, rr, r, v in deb:
+                ang = a + v * k
+                rad = RE * (1 + (rr - 1) * min(1, k / 30))
+                mx, my = CX + 2.6 * RE * math.cos(0.9), CY + 2.6 * RE * math.sin(0.9) * 0.45
+                x = CX + rad * math.cos(ang); y = CY + rad * math.sin(ang) * 0.45
+                x = x + (mx - x) * gather; y = y + (my - y) * gather
+                ld.ellipse([(x - r) * SS, (y - r) * SS, (x + r) * SS, (y + r) * SS], fill=(255, 170 - int(60 * gather), 90, 200))
+            if k < 14:
+                ld.ellipse([(CX + RE - 40 - 8 * k) * SS, (CY - 70 - 8 * k) * SS, (CX + RE + 40 + 8 * k) * SS, (CY - 70 + 8 * k + 80) * SS], fill=(255, 240, 180, 230 - 15 * k))
+            if gather >= 1:
+                mx, my = CX + 2.6 * RE * math.cos(0.9), CY + 2.6 * RE * math.sin(0.9) * 0.45
+                ld.ellipse([(mx - 34) * SS, (my - 34) * SS, (mx + 34) * SS, (my + 34) * SS], fill=(210, 205, 200), outline=(250, 250, 250), width=3 * SS)
+                ld.text((mx * SS, (my + 56) * SS), "月", font=fb, fill=(240, 240, 240), anchor="mm")
+        im.alpha_composite(lay)
+        d = ImageDraw.Draw(im, "RGBA")
+        d.text((CX * SS, (CY - RE - 30) * SS), "若い地球", font=fs, fill=(240, 230, 220), anchor="mm")
+        lab = "約45億年前" if fr < hit else ("岩が蒸発して飛び散る" if fr < hit + 120 else "集まって、月になる")
+        _box(d, (30, 30, 400, 100), lab, (255, 233, 150), fb)
+        d.text((w / 2 * SS, (h - 20) * SS), "有力な説にもとづく模式図(大きさや時間は実際とは違います)", font=fs, fill=(200, 210, 240, 210), anchor="mm")
+        im.convert("RGB").resize((w, h), Image.LANCZOS).save(d_ / f"{fr:03d}.png")
+
+
+def ep015():
+    giant_impact("ep015_impact")
+
+
+def saa_map(name, w=1200, h=680, frames=270):
+    """南大西洋の磁気の弱い場所(南大西洋異常帯)が、2014年から2025年にかけて広がるようす(おおよその模式図)。"""
+    sys.path.insert(0, str(ROOT / "tools"))
+    import geo_maps as G
+    d_ = _out(name)
+    base, P = G.draw_map(G.load(), G.projector("eqearth"), (w, h), highlight=False, lat_range=(-60, 83))
+    fb = B.F(("ZenMaruGothic_900Black.ttf"), 30 * SS)
+    fs = B.F(("ZenMaruGothic_700Bold.ttf"), 22 * SS)
+    big = base.resize((w * SS, h * SS), Image.LANCZOS).convert("RGBA")
+    def blob(cx, cy, rx, ry):
+        return [P(cx + rx * math.cos(a), cy + ry * math.sin(a)) for a in [k / 48 * 2 * math.pi for k in range(48)]]
+    for fr in range(frames):
+        t = _ease(min(1, max(0, (fr - 30) / 180)))
+        im = big.copy()
+        lay = Image.new("RGBA", im.size, (0, 0, 0, 0)); ld = ImageDraw.Draw(lay)
+        ld.polygon(blob(-45 + 8 * t, -25 - 2 * t, 33 + 14 * t, 19 + 4 * t), fill=(214, 52, 52, 90), outline=(214, 52, 52, 220))
+        if t > 0.35:  # 2020年以降、アフリカの南西で弱まり方が速い
+            u = (t - 0.35) / 0.65
+            ld.polygon(blob(4, -36, 6 + 12 * u, 5 + 7 * u), fill=(214, 52, 52, 120), outline=(214, 52, 52, 230))
+        im.alpha_composite(lay)
+        d = ImageDraw.Draw(im, "RGBA")
+        year = 2014 + round(11 * t)
+        _box(d, (30, 30, 300, 100), f"{year}年", (255, 233, 150), fb)
+        if t > 0.6:
+            x, y = P(4, -36)
+            _box(d, (x / SS + 40, y / SS + 10, x / SS + 360, y / SS + 80), "アフリカの南西で\n弱まり方が速い", (255, 206, 190), fs)
+        x, y = P(-45, -5)
+        d.text((x, y), "磁気が弱い場所", font=fb, fill=(150, 30, 30), anchor="mm")
+        d.text((w / 2 * SS, (h - 16) * SS), "形と範囲はおおよその模式図(ESA Swarm の報告をもとに作成)", font=fs, fill=B.INK, anchor="mm")
+        im.convert("RGB").resize((w, h), Image.LANCZOS).save(d_ / f"{fr:03d}.png")
+
+
+def ep016():
+    saa_map("ep016_saa")
+    timeline("ep016_reversal", [
+        (0.08, "約77万年前", "最後の逆転", RED, 1),
+        (0.45, "2020年", "地層が「チバニアン」に", GREEN, -1),
+        (0.9, "今", "弱い場所が広がる", B.INK, 1),
+    ], h=600)
+
+
+def ep009():
+    cme("ep009_cme")
+    timeline("ep009_history", [
+        (0.0, "1859年", "電信機が火花", RED, 1),
+        (0.3, "1989年", "カナダで大停電", RED, -1),
+        (0.58, "2022年", "衛星 約40基が落下", BLUE, 1),
+        (0.8, "2024年", "日本でオーロラ", GREEN, -1),
+        (0.97, "今回", "10月9日 到着", B.INK, 1),
+    ], h=620)
+
+
 def ep006():
     if not (REFS / "ep006_cannon").exists():
         cannonball("ep006_cannon")

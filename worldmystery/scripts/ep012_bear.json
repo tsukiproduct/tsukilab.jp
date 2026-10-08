@@ -1,0 +1,330 @@
+{
+  "title": "豊作なのにクマに安心できないバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#012",
+  "theme": "forest",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "豊作",
+    "過去最多",
+    "来年",
+    "人の近く"
+  ],
+  "chapter_titles": [
+    "今年のブナの実は豊作〜並作",
+    "2025年度の人身被害は過去最多",
+    "豊作の次の年が危ない理由",
+    "クマは人の近くに広がっている"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/relaxing_piano_guitar.mp3",
+    "credit": "Relaxing Piano Guitar / Migfus20",
+    "license": "CC BY 4.0",
+    "url": "https://freesound.org/people/Migfus20/sounds/559840"
+  },
+  "report": {
+    "no": "012",
+    "name": "豊作なのにクマに安心できない",
+    "place": "東北をはじめとする全国の人里",
+    "reporter": "東北森林管理局・環境省・秋田県・青森県",
+    "severity": 4,
+    "status": "未解決"
+  },
+  "sources": [
+    "日本経済新聞(共同通信) 2025年度のクマ被害、全国238人で過去最多 うち13人死亡 https://www.nikkei.com/article/DGXZQOUF0776K0X00C26A4000000/",
+    "環境省 クマ類の生息状況、被害状況等について(分布の拡大、凶作の影響、人家周辺での被害の割合) https://www.env.go.jp/nature/choju/effort/effort12/kuma-situation.pdf",
+    "NHK 2026年10月6日 ブナの実 ことしは2年ぶり「並作」(秋田) https://news.web.nhk/newsweb/na/nd-20261006de55035",
+    "ミヤテレNEWS 2026年10月7日 クマのエサ“ブナの実” 宮城県は豊作 東北森林管理局が調査 https://www.wacoca.com/news/2950918/",
+    "山形新聞 2026年10月7日 ブナ豊作、県「クマ警戒緩めず」 https://www.yamagata-np.jp/news/202610/07/kj_2026100700138.php",
+    "リスク対策.com クマの餌、再来年も不足か＝ブナの実、21年から豊作と凶作交互に(2025年12月8日、時事通信。秋田県林業研究研修センターの調査) https://www.risktaisaku.com/articles/-/107909",
+    "ABA青森朝日放送 「ブナの実」2026年秋の結実予測(翌春の注意報の方針) https://www.aba-net.com/news/news-190397.html"
+  ],
+  "lines": [
+    {
+      "who": "zunda",
+      "text": "今年は、クマのごはんの[[ブナの実]]が、たくさんなってるらしいのだ！これで、クマは山から出てこないのだ！",
+      "emote": "happy",
+      "chapter": 0,
+      "telop": "今年のブナの実\n豊作〜並作"
+    },
+    {
+      "who": "tsumugi",
+      "text": "それが、そうとも言い切れないんです。",
+      "emote": "normal",
+      "punch": true
+    },
+    {
+      "who": "zunda",
+      "text": "えっ。ごはんがあるのに、なんでなのだ？",
+      "emote": "surprise",
+      "pop": "なんで！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "[[豊作の年が、次の危険を育てる]]かもしれないからです。理由は、最後に説明します。",
+      "emote": "normal",
+      "sfx": "kira"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんなのだ。今日は、ふざけずに聞くのだ。",
+      "emote": "normal",
+      "mode": "full"
+    },
+    {
+      "who": "tsumugi",
+      "text": "まず、去年の話です。二〇二五年度、クマに襲われてけがをしたり、亡くなったりした人は、[[二百三十八人]]。そのうち、[[十三人]]が亡くなりました。",
+      "emote": "normal",
+      "telop": "2025年度の人身被害\n238人(うち死亡13人)"
+    },
+    {
+      "who": "tsumugi",
+      "text": "どちらも、それまで最も多かった、二〇二三年度の、二百十九人、死亡六人を上回り、過去最多です。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "死亡が、倍以上なのだ…。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "特に多かったのは、十月です。冬眠の前に、たくさん食べておきたい時期だからです。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そして去年の秋、東北では、ブナの実が、[[大凶作]]でした。",
+      "emote": "normal",
+      "chapter": 1,
+      "seq": "ep012_flow",
+      "fit": "contain",
+      "credit": "東北森林管理局・環境省・報道をもとに番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "山に食べ物がないと、クマは、食べ物を探して、[[人の暮らす場所の近く]]まで出てきます。環境省も、出没が増えた理由の一つとして、木の実の凶作を挙げています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "だから、今年は豊作で、ひと安心、じゃないのだ？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "十月六日、東北森林管理局の発表では、岩手、宮城、山形は[[豊作]]、青森と秋田は[[並作]]でした。",
+      "emote": "normal",
+      "chapter": 2,
+      "telop": "10月6日の発表\n岩手・宮城・山形 豊作\n青森・秋田 並作"
+    },
+    {
+      "who": "tsumugi",
+      "text": "今年の秋は、山に食べ物が多いので、去年ほど人里に出てこない、と考えられています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "やっぱり、ひと安心なのだ！",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "問題は、[[来年]]です。",
+      "emote": "normal",
+      "punch": true,
+      "sfx": "bubu"
+    },
+    {
+      "who": "tsumugi",
+      "text": "よく食べて太った母グマは、冬の間に、[[子どもを多く産む]]と考えられています。青森県は、秋が並作や豊作だった年は、次の春に注意報を出す方針です。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "さらに、秋田県の林業研究研修センターの調査では、ブナの実が、二〇二一年から、[[豊作と凶作を一年おきに]]くり返しています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "子グマが増えた次の秋に、凶作が来たら…。",
+      "emote": "surprise"
+    },
+    {
+      "who": "tsumugi",
+      "text": "食べ物を探すクマが、もっと増えるかもしれません。報道によると、豊作の次の年に凶作になると、[[人身被害が深刻になる]]傾向があるそうです。",
+      "emote": "normal",
+      "report": true
+    },
+    {
+      "who": "zunda",
+      "text": "豊作なのに、安心できないのだ…。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "それに、クマが暮らす場所そのものも、広がっています。環境省によると、四国以外の地域で、分布が広がり、[[標高の低い所]]、つまり人の近くにも、増えているそうです。",
+      "emote": "normal",
+      "chapter": 3
+    },
+    {
+      "who": "tsumugi",
+      "text": "二〇二三年度は、秋の人身被害のうち、およそ[[三割から六割]]が、人家の周りで起きていました。",
+      "emote": "normal",
+      "telop": "秋の人身被害の\n約3〜6割が人家の周り\n(2023年度)"
+    },
+    {
+      "who": "zunda",
+      "text": "山に入らなくても、出会うかもしれないのだ。",
+      "emote": "surprise"
+    },
+    {
+      "who": "tsumugi",
+      "text": "はい。だから、出没情報を確かめる。生ゴミや果物を、外に置かない。朝と夕方は、特に気をつける。自治体の呼びかけに従ってください。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "というわけで、今回のバグのステータスは、[[未解決]]です。豊作の年こそ、次の年に備える必要があります。",
+      "emote": "happy",
+      "stamp": true
+    },
+    {
+      "who": "zunda",
+      "text": "ブナの実の、ニュースの見方が、変わったのだ。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "あなたの地域の、クマへの備えや、気づいたことも、コメントで教えてください。",
+      "emote": "happy"
+    },
+    {
+      "who": "zunda",
+      "text": "チャンネル登録も、よろしくなのだ。",
+      "emote": "happy"
+    }
+  ],
+  "publish": {
+    "thumb_style": "pop",
+    "titles": [
+      "ブナの実が豊作なのに、クマに安心できない理由。2025年度は人身被害が過去最多",
+      "なぜ「豊作の年」の次がクマに危ないのか？ブナの実のニュースの正しい読み方",
+      "クマの被害238人・死亡13人。今年は豊作、でも来年が危ないかもしれない"
+    ],
+    "hook": [
+      "2026年10月6日、東北のブナの実は「豊作〜並作」と発表されました。前年は大凶作で、2025年度のクマによる人身被害は238人(うち死亡13人)と過去最多でした。",
+      "なぜ豊作でも安心できないのか。母グマと子グマ、1年おきの豊凶の周期、人の近くに広がるクマの分布をバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#クマ",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "豊作なのに",
+          "危ない"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep012_flow/395.png",
+        "crop": [
+          0.0,
+          0.45,
+          1.0,
+          1.0
+        ],
+        "focus": 0.5,
+        "style": "pop"
+      },
+      {
+        "text": [
+          "来年の春",
+          "注意"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "style": "dark"
+      },
+      {
+        "text": [
+          "過去最多",
+          "238人"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "think"
+          ]
+        ],
+        "style": "dark"
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 13,
+      "to": 20,
+      "hook": [
+        "ブナの実が豊作",
+        "なのに",
+        "安心できない"
+      ],
+      "title": "ブナの実が豊作なのに、クマに安心できない理由 #Shorts",
+      "thumb_photo": false
+    },
+    {
+      "from": 23,
+      "to": 26,
+      "hook": [
+        "山に入らなくても",
+        "クマに",
+        "出会う理由"
+      ],
+      "title": "クマの被害、秋は人家の周りでも起きている #Shorts",
+      "thumb_photo": false
+    }
+  ]
+}
