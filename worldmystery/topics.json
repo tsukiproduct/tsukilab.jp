@@ -20,7 +20,7 @@
     {
       "id": "001",
       "title": "世界地図のバグ(国連の地図見直し決議)",
-      "status": "produced",
+      "status": "published",
       "script": "scripts/ep001_world_map.json",
       "keywords": [
         "世界地図",
@@ -41,7 +41,7 @@
     {
       "id": "002",
       "title": "AIが勝手に政府サイトへ侵入(OpenAIのモデルと豪政府)",
-      "status": "produced",
+      "status": "published",
       "keywords": [
         "AI",
         "OpenAI",
@@ -116,7 +116,7 @@
     {
       "id": "005",
       "title": "1日の長さが毎日ちがう理由(地球の内核)",
-      "status": "produced",
+      "status": "published",
       "keywords": [
         "1日の長さ",
         "自転",
@@ -239,7 +239,7 @@
     {
       "id": "003",
       "title": "2026年11月13日に人類滅亡?(1960年のドゥームズデイ論文)",
-      "status": "produced",
+      "status": "published",
       "script": "scripts/ep003_doomsday.json",
       "keywords": [
         "人類滅亡",
@@ -256,7 +256,7 @@
     {
       "id": "004",
       "title": "宇宙に果てはあるのか(平らなのに有限?)",
-      "status": "produced",
+      "status": "published",
       "script": "scripts/ep004_universe.json",
       "keywords": [
         "宇宙",
@@ -273,7 +273,7 @@
     {
       "id": "006",
       "title": "スターシップが初めて地球を回った(軌道とは)",
-      "status": "produced",
+      "status": "published",
       "script": "scripts/ep006_starship.json",
       "keywords": [
         "スターシップ",
@@ -290,7 +290,7 @@
     {
       "id": "007",
       "title": "最古の爬虫類が爬虫類じゃなかった(リジー)",
-      "status": "produced",
+      "status": "published",
       "script": "scripts/ep007_oldest_reptile.json",
       "keywords": [
         "爬虫類",
@@ -307,7 +307,7 @@
     {
       "id": "008",
       "title": "ナスカ文明は征服されたのか(ワリの神殿のミイラ)",
-      "status": "produced",
+      "status": "published",
       "script": "scripts/ep008_nasca.json",
       "keywords": [
         "ナスカ",
@@ -334,6 +334,131 @@
       ],
       "news_date": "2026-10-01",
       "notes": "10/1打ち上げ予定。結果が出てから作る。追いかけ軌道のアニメ(figs.orbit chase=True)が使える"
+    },
+    {
+      "id": "009",
+      "title": "太陽嵐が地球へ(10月9日到着予報)",
+      "status": "produced",
+      "script": "scripts/ep009_solar_storm.json",
+      "keywords": [
+        "太陽フレア",
+        "CME",
+        "磁気嵐",
+        "オーロラ",
+        "キャリントン",
+        "Starlink"
+      ],
+      "report_status": "仕様です",
+      "news_date": "2026-10-06",
+      "demand": "太陽フレア 上位10本の中央値 約47万回 / キャリントン・イベント 約81万回"
+    },
+    {
+      "id": "010",
+      "title": "小惑星アポフィスが静止衛星より内側を通る(2029年4月13日)",
+      "status": "produced",
+      "script": "scripts/ep010_apophis.json",
+      "keywords": [
+        "小惑星",
+        "アポフィス",
+        "衝突確率",
+        "ラムセス",
+        "H3"
+      ],
+      "report_status": "誤報でした",
+      "news_date": "2026-09-23",
+      "demand": "上位10本の中央値 約34万回"
+    },
+    {
+      "id": "011",
+      "title": "偽のAI広告ツールで二段階認証のコードまで盗まれる",
+      "status": "produced",
+      "script": "scripts/ep011_fake_login.json",
+      "keywords": [
+        "フィッシング",
+        "二段階認証",
+        "ブラウザ・イン・ザ・ブラウザ",
+        "パスキー",
+        "偽サイト"
+      ],
+      "report_status": "調査中",
+      "news_date": "2026-10-06",
+      "demand": "二段階認証 突破 フィッシング 上位10本の中央値 約21万回"
+    },
+    {
+      "id": "012",
+      "title": "ブナの実が豊作なのにクマに安心できない",
+      "status": "produced",
+      "script": "scripts/ep012_bear.json",
+      "keywords": [
+        "クマ",
+        "ブナ",
+        "人身被害",
+        "出没"
+      ],
+      "report_status": "未解決",
+      "news_date": "2026-10-06",
+      "demand": "クマ なぜ増えた 上位10本の中央値 約65万回"
+    },
+    {
+      "id": "013",
+      "title": "宇宙ゴミの連鎖(ケスラーシンドローム)",
+      "status": "produced",
+      "script": "scripts/ep013_space_debris.json",
+      "keywords": [
+        "宇宙ゴミ",
+        "デブリ",
+        "ケスラーシンドローム",
+        "CRASH Clock"
+      ],
+      "report_status": "未解決",
+      "news_date": "2026-09-08",
+      "demand": "宇宙ゴミ 上位10本の中央値 約43万回"
+    },
+    {
+      "id": "014",
+      "title": "ボイジャー1号が光で1日の距離へ、電気が切れていく",
+      "status": "produced",
+      "script": "scripts/ep014_voyager.json",
+      "keywords": [
+        "ボイジャー",
+        "探査機",
+        "光日",
+        "プルトニウム"
+      ],
+      "report_status": "修正パッチ配布中",
+      "news_date": "2026-10",
+      "demand": "ボイジャー1号 上位10本の中央値 約64万回"
+    },
+    {
+      "id": "015",
+      "title": "地球が殴られて月ができた(ウェッブの大激突の跡)",
+      "status": "produced",
+      "script": "scripts/ep015_moon_impact.json",
+      "keywords": [
+        "月",
+        "ジャイアント・インパクト",
+        "テイア",
+        "ウェッブ"
+      ],
+      "report_status": "仕様です",
+      "news_date": "2026-10-07",
+      "demand": "月はどうやってできた 上位10本の中央値 約3万回(参考)"
+    },
+    {
+      "id": "016",
+      "title": "地球の磁場の弱い場所が広がる(南大西洋異常帯・チバニアン)",
+      "status": "produced",
+      "script": "scripts/ep016_magnetic.json",
+      "keywords": [
+        "地磁気",
+        "磁場",
+        "南大西洋異常帯",
+        "チバニアン",
+        "Swarm"
+      ],
+      "report_status": "調査中",
+      "news_date": "2026-02-25",
+      "demand": "地磁気逆転 上位10本の中央値 約17万回"
     }
   ]
 }
