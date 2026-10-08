@@ -11,7 +11,12 @@ python3 scripts/build.py "$S" --use-wavs --out "out/$N.mp4" | grep -E "^->|BGM"
 python3 scripts/package.py "$S"
 python3 scripts/shorts.py "$S" "out/$N.mp4"
 mb=$(du -m "out/$N.mp4" | cut -f1)
-if [ "$mb" -ge 29 ]; then ffmpeg -y -loglevel error -i "out/$N.mp4" -c:v libx264 -preset slow -crf 25 -pix_fmt yuv420p -c:a copy "out/${N}_publish/video.mp4"; else cp "out/$N.mp4" "out/${N}_publish/video.mp4"; fi
+if [ "$mb" -ge 29 ]; then
+  for crf in 25 28 31 34; do  # 送信用は30MB未満に(動きの多い背景は大きくなりやすい)
+    ffmpeg -y -loglevel error -i "out/$N.mp4" -c:v libx264 -preset slow -crf $crf -pix_fmt yuv420p -c:a copy "out/${N}_publish/video.mp4"
+    [ "$(du -m "out/${N}_publish/video.mp4" | cut -f1)" -lt 29 ] && break
+  done
+else cp "out/$N.mp4" "out/${N}_publish/video.mp4"; fi
 du -h "out/${N}_publish/video.mp4"
 # 確認用: 本編の4場面を1枚に
 D=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "out/$N.mp4")
