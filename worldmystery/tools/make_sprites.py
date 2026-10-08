@@ -3,7 +3,7 @@
 PSDは worldmystery/assets/psd/{zunda,tsumugi}.psd に置く(リポジトリには含めない)。
 使い方: python3 tools/make_sprites.py [zunda|tsumugi ...]
 """
-import sys, itertools
+import os, sys, itertools
 from pathlib import Path
 from psd_tools import PSDImage
 from PIL import Image
@@ -24,6 +24,7 @@ CHARS = {
             "happy":    dict(brow="上がり眉", eye="にっこり",  cheek="ほっぺ2"),
             "surprise": dict(brow="上がり眉", eye="eyeset:見開き白目", cheek="ほっぺ"),
             "think":    dict(brow="困り眉1", eye=None,       cheek="ほっぺ", larm="考える"),
+            "serious":  dict(brow="普通眉",  eye=None,       cheek="ほっぺ"),  # 笑わない真剣な顔(事故・災害の話)
         },
         "groups": dict(brow="!眉", eye="!目", cheek="!顔色", mouth="!口"),
     },
@@ -35,6 +36,7 @@ CHARS = {
             "happy":    dict(brow="ごきげん眉", eye="にっこり", cheek="赤面"),
             "surprise": dict(brow="普通眉",    eye="eyeset:白目見開き", cheek="基本"),
             "think":    dict(brow="困り眉",    eye=None,      cheek="基本"),
+            "serious":  dict(brow="普通眉",    eye=None,      cheek="基本", mouth={"closed": "む", "half": "お", "open": "えあー"}),
         },
         "groups": dict(brow="!まゆ", eye="!目", cheek="!ほっぺ", mouth="!口"),
     },
@@ -87,8 +89,11 @@ def render(key):
     cfg = CHARS[key]
     out = OUT / key
     out.mkdir(parents=True, exist_ok=True)
+    only_e = os.environ.get("EMOTES", "").split(",") if os.environ.get("EMOTES") else None
     for ename, emote in cfg["emotes"].items():
-        for mname, mouth in cfg["mouth"].items():
+        if only_e and ename not in only_e:
+            continue
+        for mname, mouth in {**cfg["mouth"], **emote.get("mouth", {})}.items():
             for blink in (False, True):
                 psd = PSDImage.open(PSD_DIR / f"{key}.psd")
                 apply(psd, cfg, emote, mouth, blink)
