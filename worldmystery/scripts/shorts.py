@@ -82,7 +82,7 @@ def thumb_png(sc, sh, k, path):
         im.alpha_composite(pb, ((VW - pb.width) // 2, y + bt.height + 10))
     names = sorted(sc["characters"], key=lambda c: sc["characters"][c].get("side") != "left")  # 左の担当を左に
     for j, key in enumerate(names):
-        fc = P.face(key, "surprise", 520 if ph else 600)
+        fc = P.face(key, sh.get("thumb_emote", sc.get("publish", {}).get("short_emote", "surprise")), 520 if ph else 600)
         x = -40 if j == 0 else VW - fc.width + 40
         im.alpha_composite(fc, (x, VH - fc.height + 30))
     im.alpha_composite(bt, ((VW - bt.width) // 2, y))

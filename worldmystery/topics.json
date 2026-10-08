@@ -400,65 +400,116 @@
       "demand": "クマ なぜ増えた 上位10本の中央値 約65万回"
     },
     {
-      "id": "013",
+      "id": null,
       "title": "宇宙ゴミの連鎖(ケスラーシンドローム)",
-      "status": "produced",
-      "script": "scripts/ep013_space_debris.json",
+      "status": "planned",
+      "script": "scripts/backlog/space_debris.json",
       "keywords": [
         "宇宙ゴミ",
         "デブリ",
-        "ケスラーシンドローム",
-        "CRASH Clock"
+        "ケスラーシンドローム"
       ],
-      "report_status": "未解決",
-      "news_date": "2026-09-08",
-      "demand": "宇宙ゴミ 上位10本の中央値 約43万回"
+      "notes": "台本完成済み。宇宙系が続かないよう、他ジャンルの間に挟んで番号を振り直して使う"
     },
     {
-      "id": "014",
-      "title": "ボイジャー1号が光で1日の距離へ、電気が切れていく",
-      "status": "produced",
-      "script": "scripts/ep014_voyager.json",
+      "id": null,
+      "title": "ボイジャー1号が光で1日の距離へ(11/18ごろ)",
+      "status": "planned",
+      "script": "scripts/backlog/voyager.json",
       "keywords": [
         "ボイジャー",
         "探査機",
-        "光日",
-        "プルトニウム"
+        "光日"
       ],
-      "report_status": "修正パッチ配布中",
-      "news_date": "2026-10",
-      "demand": "ボイジャー1号 上位10本の中央値 約64万回"
+      "notes": "台本完成済み。11月18日の前後に公開すると時事性が高い"
     },
     {
-      "id": "015",
-      "title": "地球が殴られて月ができた(ウェッブの大激突の跡)",
-      "status": "produced",
-      "script": "scripts/ep015_moon_impact.json",
+      "id": null,
+      "title": "地球が殴られて月ができた(ウェッブ)",
+      "status": "planned",
+      "script": "scripts/backlog/moon_impact.json",
       "keywords": [
         "月",
         "ジャイアント・インパクト",
-        "テイア",
-        "ウェッブ"
+        "テイア"
+      ],
+      "notes": "台本完成済み"
+    },
+    {
+      "id": null,
+      "title": "地球の磁場の弱い場所が広がる(チバニアン)",
+      "status": "planned",
+      "script": "scripts/backlog/magnetic.json",
+      "keywords": [
+        "地磁気",
+        "南大西洋異常帯",
+        "チバニアン"
+      ],
+      "notes": "台本完成済み"
+    },
+    {
+      "id": "013",
+      "title": "配膳ロボの肉の横取りと「これくらいいいや」の心理",
+      "status": "produced",
+      "script": "scripts/ep013_buffet.json",
+      "keywords": [
+        "食べ放題",
+        "しゃぶ葉",
+        "配膳ロボ",
+        "窃盗",
+        "中和の技術",
+        "心理"
+      ],
+      "report_status": "修正パッチ配布中",
+      "news_date": "2026-10-02",
+      "demand": "食べ放題 迷惑客 上位の中央値 約180万回(4本) / 犯罪心理学 なぜ 約50万回"
+    },
+    {
+      "id": "014",
+      "title": "怖いもの・事件の話をつい見てしまう心理(暗い好奇心)",
+      "status": "produced",
+      "script": "scripts/ep014_morbid.json",
+      "keywords": [
+        "心理",
+        "ホラー",
+        "暗い好奇心",
+        "トゥルークライム"
       ],
       "report_status": "仕様です",
-      "news_date": "2026-10-07",
-      "demand": "月はどうやってできた 上位10本の中央値 約3万回(参考)"
+      "news_date": "2026-10",
+      "demand": "犯罪心理学 なぜ 上位10本の中央値 約50万回"
+    },
+    {
+      "id": "015",
+      "title": "千葉で高台なのに水があふれる(内水氾濫)",
+      "status": "produced",
+      "script": "scripts/ep015_chiba_flood.json",
+      "keywords": [
+        "千葉",
+        "豪雨",
+        "内水氾濫",
+        "くぼ地",
+        "ハザードマップ"
+      ],
+      "report_status": "未解決",
+      "news_date": "2026-09-22",
+      "demand": "千葉 冠水 なぜ 中央値 約127万回 / 内水氾濫 約208万回"
     },
     {
       "id": "016",
-      "title": "地球の磁場の弱い場所が広がる(南大西洋異常帯・チバニアン)",
+      "title": "宗教の信者数の合計が人口より多い",
       "status": "produced",
-      "script": "scripts/ep016_magnetic.json",
+      "script": "scripts/ep016_believers.json",
       "keywords": [
-        "地磁気",
-        "磁場",
-        "南大西洋異常帯",
-        "チバニアン",
-        "Swarm"
+        "宗教",
+        "信者数",
+        "宗教年鑑",
+        "神社",
+        "寺"
       ],
-      "report_status": "調査中",
-      "news_date": "2026-02-25",
-      "demand": "地磁気逆転 上位10本の中央値 約17万回"
+      "report_status": "仕様です",
+      "news_date": "2025-12-26",
+      "demand": "日本 宗教 信者数 上位10本の中央値 約53万回"
     }
   ]
 }

@@ -1028,6 +1028,168 @@ def ep016():
     ], h=600)
 
 
+def robot_grab(name, w=900, h=640, frames=300):
+    """配膳ロボの棚の料理を、別の席の人が取ってしまう(模式図)。最後に音声で知らせる新しい機能。"""
+    d_ = _out(name)
+    fb = B.F(("ZenMaruGothic_900Black.ttf"), 30 * SS)
+    fs = B.F(("ZenMaruGothic_700Bold.ttf"), 28 * SS)
+    for fr in range(frames):
+        im = _canvas(w, h); d = ImageDraw.Draw(im, "RGBA")
+        # 通路と席
+        d.rectangle([0, 420 * SS, w * SS, 470 * SS], fill=(236, 226, 210))
+        for k, (x, lab) in enumerate([(150, "Aの席"), (450, "Bの席"), (750, "Cの席")]):
+            d.rounded_rectangle([(x - 120) * SS, 500 * SS, (x + 120) * SS, 600 * SS], 16 * SS, fill=(255, 250, 240), outline=B.INK, width=4 * SS)
+            d.text((x * SS, 550 * SS), lab, font=fb, fill=B.INK, anchor="mm")
+        # ロボ: 右から来て、Bの席の前で止まる
+        p = _ease(min(1, fr / 60))
+        rx = 860 - (860 - 450) * p
+        d.rounded_rectangle([(rx - 90) * SS, 120 * SS, (rx + 90) * SS, 430 * SS], 26 * SS, fill=(250, 250, 252), outline=B.INK, width=5 * SS)
+        d.ellipse([(rx - 60) * SS, 130 * SS, (rx + 60) * SS, 200 * SS], fill=(60, 60, 70))
+        for ex in (-25, 25):
+            d.ellipse([(rx + ex - 8) * SS, 155 * SS, (rx + ex + 8) * SS, 171 * SS], fill=(120, 230, 255))
+        trays = [(230, "Aの肉", (255, 206, 190)), (300, "Bの肉", (255, 233, 150)), (370, "Cの肉", (214, 240, 222))]
+        taken = fr > 140
+        for k, (ty, lab, col) in enumerate(trays):
+            d.rectangle([(rx - 80) * SS, ty * SS, (rx + 80) * SS, (ty + 6) * SS], fill=B.INK)
+            if k == 0 and taken:
+                continue
+            d.rounded_rectangle([(rx - 64) * SS, (ty - 44) * SS, (rx + 64) * SS, (ty - 4) * SS], 10 * SS, fill=col, outline=B.INK, width=3 * SS)
+            d.text((rx * SS, (ty - 24) * SS), lab, font=fs, fill=B.INK, anchor="mm")
+        if 90 < fr <= 140:  # Bの席の人の手が、Aの段へ
+            q = _ease((fr - 90) / 50)
+            hx, hy = 450 - 140 + 80 * q, 520 - 330 * q
+            d.line([(410 * SS, 520 * SS), (hx * SS, hy * SS)], fill=(240, 200, 170), width=26 * SS)
+            _box(d, (20, 30, 470, 100), "Bの席の人が、Aの段から取る", (255, 206, 190), fs)
+        if taken:
+            _box(d, (20, 30, 470, 100), "Aの席には、肉が届かない", (255, 206, 190), fs)
+            # Aの席へ空の段で向かう矢印
+            d.text((150 * SS, 470 * SS), "?", font=B.F_TITLE(60 * SS), fill=(214, 52, 52), anchor="mm")
+        if fr > 210:
+            _box(d, (560, 130, 890, 240), "新しい機能:\n別の席の料理を取ると\n音声でお知らせ", (214, 240, 222), fs)
+        d.text((w / 2 * SS, (h - 22) * SS), "しくみの模式図", font=fs, fill=B.INK, anchor="mm")
+        im.resize((w, h), Image.LANCZOS).save(d_ / f"{fr:03d}.png")
+
+
+def ep013b():
+    robot_grab("ep013b_robot")
+    flow("ep013b_neutral", [
+        (20, 40, 580, 140, "「わざとじゃない」\n(責任の否定)", (255, 233, 150)),
+        (620, 40, 1180, 140, "「だれも損してない」\n(害の否定)", (255, 233, 150)),
+        (20, 200, 580, 300, "「店が悪い」\n(被害者の否定)", (255, 206, 190)),
+        (620, 200, 1180, 300, "「みんなやってる」\n(非難する側への非難)", (255, 206, 190)),
+        (320, 360, 880, 460, "「仲間のためだから」\n(より高い忠誠)", (214, 240, 222)),
+    ], [], per=30)
+
+
+def ep014b():
+    flow("ep014b_four", [
+        (20, 40, 580, 170, "危ない人の心\n(なぜ事件を起こしたのか)", (255, 206, 190)),
+        (620, 40, 1180, 170, "暴力\n(何が起きたのか見たい)", (255, 160, 160)),
+        (20, 230, 580, 360, "体のこと\n(けがや死のあと、体はどうなるか)", (255, 233, 150)),
+        (620, 230, 1180, 360, "見えない恐怖\n(心霊・超常現象)", (214, 226, 246)),
+        (250, 440, 950, 560, "どれも「危険の情報」を集めたい気持ち", (214, 240, 222)),
+    ], [], per=28)
+    flow("ep014b_sim", [
+        (20, 60, 360, 190, "安全な場所で\n怖い話を見る", (214, 226, 246)),
+        (430, 60, 770, 190, "心の中で\n「もし自分なら」", (255, 233, 150)),
+        (840, 60, 1180, 190, "怖さに慣れる・\n備え方を考える", (214, 240, 222)),
+        (300, 320, 900, 440, "現実の危機での\n気持ちの立て直しに役立つ?(研究中)", (255, 206, 190)),
+    ], [(0, 1, "", B.INK), (1, 2, "", B.INK), (2, 3, "", (214, 52, 52))], per=30)
+
+
+def hollow_flood(name, w=1200, h=640, frames=300):
+    """高台のくぼ地に雨水が集まる断面図。川から離れていても、下水があふれると低い所にたまる。"""
+    d_ = _out(name)
+    fb = B.F(("ZenMaruGothic_900Black.ttf"), 30 * SS)
+    fs = B.F(("ZenMaruGothic_700Bold.ttf"), 26 * SS)
+    # 地面の高さ(左は川沿いの低地、右は高台。高台の中にくぼ地)
+    def ground(x):
+        if x < 260: return 470
+        if x < 380: return 470 - (x - 260) * 1.6
+        base = 278
+        if 640 < x < 900:  # くぼ地
+            return base + 70 * math.sin(math.pi * (x - 640) / 260)
+        return base
+    xs = list(range(0, w + 1, 6))
+    for fr in range(frames):
+        im = _canvas(w, h); d = ImageDraw.Draw(im, "RGBA")
+        d.rectangle([0, 0, w * SS, 220 * SS], fill=(220, 228, 240))
+        rain = min(1, fr / 60)
+        for k in range(90):  # 雨
+            x = (k * 137 + fr * 9) % w
+            y = (k * 59 + fr * 23) % 260
+            d.line([(x * SS, y * SS), ((x - 6) * SS, (y + 18) * SS)], fill=(110, 150, 210, int(160 * rain)), width=2 * SS)
+        poly = [(x * SS, ground(x) * SS) for x in xs] + [(w * SS, h * SS), (0, h * SS)]
+        d.polygon(poly, fill=(214, 196, 160), outline=B.INK)
+        d.line([(x * SS, ground(x) * SS) for x in xs], fill=B.INK, width=4 * SS)
+        # 下水管(高台)
+        d.rectangle([420 * SS, 400 * SS, 1160 * SS, 424 * SS], fill=(160, 160, 170), outline=B.INK, width=2 * SS)
+        d.text((1150 * SS, 446 * SS), "下水管(1時間に約50mmまで)", font=fs, fill=B.INK, anchor="rm")
+        # 川(左の低地)
+        d.rectangle([0, 450 * SS, 200 * SS, 470 * SS], fill=(110, 160, 220))
+        d.text((100 * SS, 500 * SS), "川", font=fb, fill=B.INK, anchor="mm")
+        # くぼ地にたまる水
+        lvl = max(0, min(1, (fr - 90) / 150))
+        if lvl > 0:
+            top = 278 + 70 - 64 * lvl
+            pts = [(x, max(top, 0)) for x in range(640, 901, 4) if ground(x) > top]
+            if len(pts) > 2:
+                wp = [(x * SS, top * SS) for x, _ in pts] + [(x * SS, ground(x) * SS) for x, _ in reversed(pts)]
+                d.polygon(wp, fill=(90, 150, 220, 200))
+        if fr > 60:
+            _box(d, (30, 20, 470, 90), "1時間に100mm超の雨(8月)", (255, 233, 150), fs)
+        if fr > 150:
+            _box(d, (420, 480, 860, 590), "川から離れた高台の\nくぼ地に水がたまる", (255, 206, 190), fs)
+        d.text((770 * SS, 240 * SS), "高台", font=fb, fill=B.INK, anchor="mm")
+        d.text(((w - 20) * SS, (h - 18) * SS), "断面の模式図(高さは誇張)", font=fs, fill=B.INK, anchor="rm")
+        im.resize((w, h), Image.LANCZOS).save(d_ / f"{fr:03d}.png")
+
+
+def ep015b():
+    hollow_flood("ep015b_hollow")
+
+
+def believers_bar(name, w=1200, h=660, frames=240):
+    """日本の人口と、宗教団体が報告した信者数の合計をくらべる棒グラフ(伸びるアニメ)。"""
+    d_ = _out(name)
+    fb = B.F(("ZenMaruGothic_900Black.ttf"), 34 * SS)
+    fs = B.F(("ZenMaruGothic_700Bold.ttf"), 26 * SS)
+    X0, MAXV, BW = 260, 18000, 620
+    rows = [("日本の人口", [(12374, (150, 190, 230), "")], "約1億2374万人", "2024年12月"),
+            ("信者数の合計", [(8636, (255, 190, 160), "神道系"), (8046, (255, 226, 150), "仏教系"), (187 + 636, (200, 220, 200), "")], "約1億7505万人", "2024年末")]
+    for fr in range(frames):
+        im = _canvas(w, h); d = ImageDraw.Draw(im, "RGBA")
+        for k, (lab, segs, total, when) in enumerate(rows):
+            y = 150 + k * 220
+            q = _ease(min(1, max(0, (fr - 20 - k * 70) / 60)))
+            d.text(((X0 - 20) * SS, (y + 40) * SS), lab, font=fb, fill=B.INK, anchor="rm")
+            x = X0
+            for v, col, sl in segs:
+                wv = BW * v / MAXV * q
+                d.rectangle([x * SS, y * SS, (x + wv) * SS, (y + 80) * SS], fill=col, outline=B.INK, width=3 * SS)
+                if sl and q > 0.9:
+                    d.text(((x + wv / 2) * SS, (y + 40) * SS), sl, font=fs, fill=B.INK, anchor="mm")
+                x += wv
+            if q >= 1:
+                d.text(((x + 16) * SS, (y + 26) * SS), total, font=fb, fill=B.INK, anchor="lm")
+                d.text(((x + 16) * SS, (y + 62) * SS), when, font=fs, fill=(120, 100, 90), anchor="lm")
+        if fr > 170:
+            px = X0 + BW * 12374 / MAXV
+            d.line([(px * SS, 120 * SS), (px * SS, 470 * SS)], fill=(214, 52, 52), width=4 * SS)
+            _box(d, (px - 220, 500, px + 240, 570), "人口より約5千万人多い", (255, 206, 190), fb)
+        d.text((w / 2 * SS, (h - 18) * SS), "文化庁「宗教年鑑 令和7年版」・総務省「人口推計」より作成", font=fs, fill=B.INK, anchor="mm")
+        im.resize((w, h), Image.LANCZOS).save(d_ / f"{fr:03d}.png")
+
+
+def ep016b():
+    believers_bar("ep016b_bar")
+    flow("ep016b_double", [
+        (60, 60, 540, 180, "神社の「氏子」として\n数えられる", (255, 190, 160)),
+        (660, 60, 1140, 180, "お寺の「檀家」としても\n数えられる", (255, 226, 150)),
+        (300, 300, 900, 420, "同じ1人が、2回数えられる", (255, 206, 190)),
+    ], [(0, 2, "", B.INK), (1, 2, "", B.INK)], per=30)
+
+
 def ep009():
     cme("ep009_cme")
     timeline("ep009_history", [

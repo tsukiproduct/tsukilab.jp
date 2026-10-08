@@ -133,7 +133,7 @@ def star(d, cx, cy, r, fill, outline=None, ow=0, rot=0):
 def background(series, title, episode):
     """(下地, 流れる水玉, 固定の飾り) を返す。水玉だけ毎フレームずらして動きを出す"""
     T = THEME
-    base = Image.new("RGBA", (W * SS, H * SS), T["base"] + (255,))
+    base = Image.new("RGBA", (W * SS, H * SS), tuple(T["base"]) + (255,))
     d = ImageDraw.Draw(base, "RGBA")
     for (cx, cy, rx, ry), col in zip([(120, 1010, 430, 300), (1830, 1000, 470, 320), (1750, 190, 250, 150), (130, 230, 230, 140)],
                                      T["blobs"]):

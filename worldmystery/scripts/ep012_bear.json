@@ -258,7 +258,7 @@
         "faces": [
           [
             "zunda",
-            "surprise"
+            "think"
           ]
         ],
         "photo": "ep012_flow/395.png",
@@ -292,7 +292,7 @@
         "faces": [
           [
             "tsumugi",
-            "surprise"
+            "think"
           ],
           [
             "zunda",
@@ -301,7 +301,8 @@
         ],
         "style": "dark"
       }
-    ]
+    ],
+    "short_emote": "think"
   },
   "shorts": [
     {

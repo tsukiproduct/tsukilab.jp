@@ -55,7 +55,7 @@ def photo_block(path, size, focus=0.5, circle=None, rot=-3, crop=None):
 
 
 def face(key, emote, height):
-    sp = B.sprite(key, f"{emote}_open_open", 1.0)
+    sp = B.sprite(key, f"{emote}_closed_open" if emote == "think" else f"{emote}_open_open", 1.0)  # 考え顔は口を閉じる(まじめな話題向け)
     w, h = sp.size
     im = sp.crop((int(w * 0.08), 0, int(w * 0.92), int(h * 0.40)))  # 顔と肩まで(顔を大きく見せる)
     return im.resize((int(im.width * height / im.height), height), Image.LANCZOS)
