@@ -49,6 +49,7 @@ def _box(d, xy, text, fill, f, alpha=1.0, outline=B.INK):
 def flow(name, nodes, edges, w=1200, h=700, per=24, hold=60):
     """フロー図: nodes=[(x0,y0,x1,y1,"文字",色)], edges=[(i,j,"ラベル",色)]。ノードと矢印が順番に現れる。"""
     d_ = _out(name)
+    h = min(h, max(n[3] for n in nodes) + 50)  # 下の余白を詰めて、動画の枠に大きく表示されるようにする
     f = B.F(("ZenMaruGothic_900Black.ttf"), 30 * SS)
     fl = B.F(("ZenMaruGothic_700Bold.ttf"), 24 * SS)
     order = []
