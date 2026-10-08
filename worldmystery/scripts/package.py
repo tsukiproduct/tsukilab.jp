@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import build as B
 
 TW, TH = 1280, 720
+TW_, TH_ = TW, TH
 RED = (226, 40, 40)
 
 
@@ -60,12 +61,57 @@ def face(key, emote, height):
     return im.resize((int(im.width * height / im.height), height), Image.LANCZOS)
 
 
-def thumbnail(sc, v):
+def thumb_bg(style, v, size=None):
+    """サムネの下地。style: pop(黄色ストライプ)/ dark(黒×赤の警告調)/ space(夜空)/ photo(図や写真を全面に敷く)"""
+    import random
+    TW, TH = size or (TW_, TH_)
+    if style == "dark":
+        im = Image.new("RGBA", (TW, TH), (22, 18, 22, 255))
+        g = Image.new("L", (TW, TH), 0)
+        ImageDraw.Draw(g).ellipse([TW * 0.35, -TH * 0.4, TW * 1.35, TH * 1.2], fill=255)
+        g = g.filter(ImageFilter.GaussianBlur(160))
+        im.paste(Image.new("RGBA", (TW, TH), (170, 24, 30, 255)), (0, 0), g.point(lambda x: int(x * 0.75)))
+        tape = Image.new("RGBA", (TW, TH), (0, 0, 0, 0))
+        d = ImageDraw.Draw(tape)
+        for i in range(-TH, TW + TH, 90):  # 薄い注意テープ
+            d.polygon([(i, 0), (i + 30, 0), (i + 30 - TH, TH), (i - TH, TH)], fill=(255, 200, 40, 28))
+        im.alpha_composite(tape)
+        return im
+    if style == "space":
+        im = Image.new("RGBA", (TW, TH), (14, 18, 46, 255))
+        g = Image.new("L", (TW, TH), 0)
+        ImageDraw.Draw(g).ellipse([TW * 0.3, TH * 0.1, TW * 1.2, TH * 1.4], fill=255)
+        g = g.filter(ImageFilter.GaussianBlur(170))
+        im.paste(Image.new("RGBA", (TW, TH), (70, 60, 170, 255)), (0, 0), g.point(lambda x: int(x * 0.7)))
+        d = ImageDraw.Draw(im, "RGBA")
+        rnd = random.Random(3)
+        for _ in range(220):
+            x, y, r = rnd.randint(0, TW), rnd.randint(0, TH), rnd.choice([1, 1, 1.5, 2, 3])
+            d.ellipse([x - r, y - r, x + r, y + r], fill=(255, 250, 230, rnd.randint(80, 240)))
+        return im
+    if style == "photo" and v.get("photo"):
+        ph = Image.open(B.REFS / v["photo"]).convert("RGB")
+        c = v.get("crop")
+        if c:
+            ph = ph.crop((int(c[0] * ph.width), int(c[1] * ph.height), int(c[2] * ph.width), int(c[3] * ph.height)))
+        ph = ImageOps.fit(ph, (TW, TH), Image.LANCZOS, centering=(0.5, v.get("focus", 0.5)))
+        im = ph.convert("RGBA")
+        shade = Image.new("L", (TW, TH), 0)  # 左側を暗くして文字を読みやすく
+        ImageDraw.Draw(shade).rectangle([0, 0, TW * 0.55, TH], fill=255)
+        shade = shade.filter(ImageFilter.GaussianBlur(120))
+        im.paste(Image.new("RGBA", (TW, TH), (10, 10, 20, 255)), (0, 0), shade.point(lambda x: int(x * 0.8)))
+        return im
     im = Image.new("RGBA", (TW, TH), B.MARKER + (255,))
     d = ImageDraw.Draw(im)
     for i in range(-TH, TW + TH, 70):  # シリーズ共通の斜めストライプ
         d.polygon([(i, 0), (i + 35, 0), (i + 35 - TH, TH), (i - TH, TH)], fill=(255, 238, 160, 255))
-    if v.get("photo"):
+    return im
+
+
+def thumbnail(sc, v):
+    style = v.get("style") or sc.get("publish", {}).get("thumb_style", "pop")
+    im = thumb_bg(style, v)
+    if v.get("photo") and style != "photo":
         pw, ph_ = v.get("photo_size", (760, 470))
         pb = photo_block(B.REFS / v["photo"], (pw, ph_), v.get("focus", 0.5), v.get("circle"), crop=v.get("crop"))
         pos = v.get("photo_pos") or (TW - pb.width - (60 if pw < 600 else 10), 70 if ph_ < 520 else 6)

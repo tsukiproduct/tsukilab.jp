@@ -25,7 +25,7 @@
 台本の "brand" で札・報告書の言葉・強調色を差し替えられる(BRAND を参照)。
 キャラごとの字幕色は characters.<key>.colors = {"text": [R,G,B], "main": [R,G,B]}。
 """
-import argparse, functools, json, math, os, re, subprocess, sys, wave, struct, urllib.request, urllib.parse, hashlib
+import argparse, functools, json, math, os, random, re, subprocess, sys, wave, struct, urllib.request, urllib.parse, hashlib
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps
 
@@ -64,9 +64,28 @@ BRAND = {
 }
 
 
+# 背景のテーマ。回ごとに台本の "theme" で切り替え、毎回同じ見た目(テンプレ感)にならないようにする。
+# 字幕・カード・報告書は読みやすさのため紙色のまま。変えるのは下地・大きな丸・流れる模様・枠線。
+THEMES = {
+    "pop":    dict(base=(255, 246, 228), blobs=[(190, 232, 207), (255, 206, 190), (255, 233, 150), (198, 226, 246)],
+                   pattern="dots", pat=(255, 214, 160, 255), frame=(216, 176, 130, 255)),
+    "night":  dict(base=(24, 30, 62), blobs=[(38, 52, 104), (58, 40, 96), (30, 72, 100), (48, 44, 92)],
+                   pattern="stars", pat=(200, 214, 255, 150), frame=(120, 140, 210, 255), stars=True),
+    "alert":  dict(base=(40, 36, 40), blobs=[(92, 36, 40), (70, 40, 34), (96, 70, 30), (60, 46, 52)],
+                   pattern="stripes", pat=(255, 196, 60, 34), frame=(230, 160, 60, 255)),
+    "lab":    dict(base=(234, 244, 246), blobs=[(204, 232, 238), (220, 230, 250), (214, 240, 222), (236, 226, 246)],
+                   pattern="grid", pat=(150, 196, 210, 120), frame=(120, 170, 190, 255)),
+    "forest": dict(base=(238, 244, 224), blobs=[(198, 226, 176), (226, 210, 170), (176, 214, 186), (240, 226, 180)],
+                   pattern="dots", pat=(196, 222, 160, 255), frame=(150, 170, 110, 255)),
+}
+THEME = dict(THEMES["pop"])
+
+
 def set_brand(sc):
-    """台本の "brand" を既定値に重ねる。強調色も差し替える"""
+    """台本の "brand" を既定値に重ねる。強調色も差し替える。"theme" で背景を切り替える"""
     global MARKER
+    th = sc.get("theme", "pop")
+    THEME.clear(); THEME.update(THEMES[th] if isinstance(th, str) else {**THEMES["pop"], **th})
     BRAND.update(sc.get("brand", {}))
     if BRAND.get("marker"):
         MARKER = tuple(BRAND["marker"])
@@ -113,20 +132,42 @@ def star(d, cx, cy, r, fill, outline=None, ow=0, rot=0):
 
 def background(series, title, episode):
     """(下地, 流れる水玉, 固定の飾り) を返す。水玉だけ毎フレームずらして動きを出す"""
-    base = Image.new("RGBA", (W * SS, H * SS), CREAM + (255,))
+    T = THEME
+    base = Image.new("RGBA", (W * SS, H * SS), T["base"] + (255,))
     d = ImageDraw.Draw(base, "RGBA")
-    for (cx, cy, rx, ry, col) in [(120, 1010, 430, 300, MINT), (1830, 1000, 470, 320, PEACH),
-                                  (1750, 190, 250, 150, LEMON), (130, 230, 230, 140, SKY)]:
-        d.ellipse([(cx - rx) * SS, (cy - ry) * SS, (cx + rx) * SS, (cy + ry) * SS], fill=col + (255,))
+    for (cx, cy, rx, ry), col in zip([(120, 1010, 430, 300), (1830, 1000, 470, 320), (1750, 190, 250, 150), (130, 230, 230, 140)],
+                                     T["blobs"]):
+        d.ellipse([(cx - rx) * SS, (cy - ry) * SS, (cx + rx) * SS, (cy + ry) * SS], fill=tuple(col) + (255,))
+    if T.get("stars"):  # 夜空: 動かない星をちりばめる(繰り返し模様にならないよう乱数で)
+        rnd = random.Random(7)
+        for _ in range(170):
+            x, y, r = rnd.randint(0, W), rnd.randint(0, H), rnd.choice([1, 1, 1.5, 2, 2.5])
+            a = rnd.randint(90, 230)
+            d.ellipse([(x - r) * SS, (y - r) * SS, (x + r) * SS, (y + r) * SS], fill=(255, 250, 230, a))
     base = base.resize((W, H), Image.LANCZOS)
     dots = Image.new("RGBA", ((W + 156) * SS, (H + 156) * SS), (0, 0, 0, 0))
     dd = ImageDraw.Draw(dots)
-    for gy, y in enumerate(range(0, H + 156, 78)):  # 水玉(78px周期なのでループして継ぎ目が出ない)
-        for x in range((gy % 2) * 39, W + 156, 78):
-            dd.ellipse([(x - 6) * SS, (y - 6) * SS, (x + 6) * SS, (y + 6) * SS], fill=(255, 214, 160, 255))
+    pat, pc = T["pattern"], tuple(T["pat"])
+    if pat == "dots":
+        for gy, y in enumerate(range(0, H + 156, 78)):  # 水玉(78px周期なのでループして継ぎ目が出ない)
+            for x in range((gy % 2) * 39, W + 156, 78):
+                dd.ellipse([(x - 6) * SS, (y - 6) * SS, (x + 6) * SS, (y + 6) * SS], fill=pc)
+    elif pat == "grid":  # 方眼(実験ノート風)
+        for x in range(0, W + 156, 78):
+            dd.line([(x * SS, 0), (x * SS, (H + 156) * SS)], fill=pc, width=2 * SS)
+        for y in range(0, H + 156, 78):
+            dd.line([(0, y * SS), ((W + 156) * SS, y * SS)], fill=pc, width=2 * SS)
+    elif pat == "stripes":  # 注意テープ風の斜線(x+y が78の倍数)
+        for k in range(-(H + 156), W + 156 + H + 156, 78):
+            dd.line([(k * SS, 0), ((k - (H + 156)) * SS, (H + 156) * SS)], fill=pc, width=22 * SS)
+    elif pat == "stars":  # 流れる小さな光の粒
+        for gy, y in enumerate(range(0, H + 156, 78)):
+            for x in range((gy % 2) * 39, W + 156, 78):
+                dd.ellipse([(x - 2) * SS, (y - 2) * SS, (x + 2) * SS, (y + 2) * SS], fill=pc)
+                dd.ellipse([(x + 27) * SS, (y + 41) * SS, (x + 28.5) * SS, (y + 42.5) * SS], fill=pc[:3] + (pc[3] // 2,))
     dots = dots.resize((W + 156, H + 156), Image.LANCZOS)
     ov = Image.new("RGBA", (W * SS, H * SS), (0, 0, 0, 0))
-    dashed_frame(ImageDraw.Draw(ov, "RGBA"), 20 * SS, (216, 176, 130, 255))
+    dashed_frame(ImageDraw.Draw(ov, "RGBA"), 20 * SS, tuple(T["frame"]))
     im = ov.resize((W, H), Image.LANCZOS)
     tf = F_TITLE(50)  # タイトルのリボン
     tw = int(tf.getlength(title)) + 140

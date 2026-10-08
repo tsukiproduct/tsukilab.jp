@@ -64,10 +64,8 @@ def centered_text(lines, size):
 def thumb_png(sc, sh, k, path):
     """ショート用の縦型サムネイル。本編サムネと同じ黄色ストライプ・見出し・顔で、シリーズとして見分けやすく"""
     import package as P
-    im = Image.new("RGBA", (VW, VH), B.MARKER + (255,))
-    d = ImageDraw.Draw(im)
-    for i in range(-VH, VW + VH, 80):
-        d.polygon([(i, 0), (i + 40, 0), (i + 40 - VH, VH), (i - VH, VH)], fill=(255, 238, 160, 255))
+    style = sc.get("publish", {}).get("thumb_style", "pop")
+    im = P.thumb_bg(style if style != "photo" else "pop", {}, (VW, VH))
     photos = [v for v in sc.get("publish", {}).get("thumbnails", []) if v.get("photo")]
     ph = sh.get("thumb_photo", photos[min(k - 1, len(photos) - 1)] if photos else None)  # false で図なし
     if isinstance(ph, str):
