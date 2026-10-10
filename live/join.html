@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0d0b17">
+  <title>LIVE STAMP — 参加</title>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body { min-height: 100%; }
+    body {
+      background: #0d0b17;
+      background-image:
+        radial-gradient(120vw 60vh at 0% 0%, rgba(255, 61, 154, .18), transparent 70%),
+        radial-gradient(120vw 60vh at 100% 100%, rgba(61, 180, 255, .16), transparent 70%);
+      background-attachment: fixed;
+      color: #fff;
+      font-family: 'M PLUS Rounded 1c', system-ui, sans-serif;
+      -webkit-user-select: none; user-select: none;
+      overscroll-behavior: none;
+      touch-action: manipulation;
+    }
+    main {
+      max-width: 520px; margin: 0 auto;
+      padding: calc(12px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom));
+    }
+
+    header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .brand { font-weight: 800; letter-spacing: .08em; font-size: 15px; }
+    .brand b { color: #ff3d9a; }
+    .conn { display: flex; align-items: center; gap: 6px; font-size: 13px; opacity: .9; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: #888; }
+    .dot.ok { background: #3dffb6; box-shadow: 0 0 8px #3dffb6; }
+    .dot.ng { background: #ff5b5b; }
+
+    .meter {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; margin-bottom: 16px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 14px;
+      font-size: 13px;
+    }
+    .meter .bar { flex: 1; height: 8px; border-radius: 99px; background: rgba(255,255,255,.12); overflow: hidden; }
+    .meter .fill { height: 100%; width: 0%; background: linear-gradient(90deg, #3db4ff, #ff3d9a, #ffd23d); transition: width .3s; }
+    .meter .people b { color: #ffd23d; font-size: 15px; }
+
+    h2 { font-size: 13px; font-weight: 500; opacity: .7; margin: 4px 2px 8px; letter-spacing: .05em; }
+
+    .stamps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+    .stamp-btn {
+      aspect-ratio: 1; border: 1px solid rgba(255,255,255,.14); border-radius: 18px;
+      background: rgba(255,255,255,.07); color: #fff;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+      font: inherit; cursor: pointer;
+      transition: transform .08s, background .15s;
+    }
+    .stamp-btn .e { font-size: clamp(30px, 10vw, 44px); line-height: 1.1; }
+    .stamp-btn .l { font-size: 11px; opacity: .75; }
+    .stamp-btn:active, .stamp-btn.hit { transform: scale(.9); background: rgba(255, 61, 154, .3); }
+
+    .msgs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .msg-btn {
+      padding: 13px 8px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.07); color: #fff;
+      font: inherit; font-weight: 800; font-size: 15px; cursor: pointer;
+      transition: transform .08s, background .15s;
+    }
+    .msg-btn:active, .msg-btn.hit { transform: scale(.95); background: rgba(61, 180, 255, .3); }
+    button:disabled { opacity: .35; }
+
+    .foot { text-align: center; font-size: 12px; opacity: .5; margin-top: 20px; }
+
+    /* 押したときに手元でも小さく飛ぶ */
+    .pop { position: fixed; pointer-events: none; font-size: 34px; animation: pop .7s ease-out forwards; z-index: 5; }
+    @keyframes pop {
+      from { transform: translate(-50%, -50%) scale(.6); opacity: 1; }
+      to   { transform: translate(-50%, -160%) scale(1.3); opacity: 0; }
+    }
+
+    #fever {
+      position: fixed; inset: 0; display: grid; place-items: center; pointer-events: none;
+      font-size: 64px; font-weight: 800; opacity: 0;
+      background: radial-gradient(circle, rgba(255, 61, 154, .45), transparent 70%);
+    }
+    #fever.on { animation: fever 1.8s ease-out; }
+    @keyframes fever { 0% { opacity: 0; transform: scale(.6); } 15% { opacity: 1; transform: scale(1.1); } 70% { opacity: 1; transform: scale(1); } 100% { opacity: 0; } }
+
+    /* ルームコード入力（QR 以外で来た人向け） */
+    #enter { display: none; margin-top: 18vh; text-align: center; }
+    #enter p { margin-bottom: 14px; opacity: .8; }
+    #enter input {
+      font: inherit; font-size: 28px; letter-spacing: .2em; text-align: center; text-transform: uppercase;
+      width: 100%; max-width: 260px; padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,.3);
+      background: rgba(255,255,255,.08); color: #fff;
+    }
+    #enter button {
+      display: block; margin: 14px auto 0; padding: 12px 40px; border: 0; border-radius: 12px;
+      background: #ff3d9a; color: #fff; font: inherit; font-weight: 800; font-size: 16px;
+    }
+    body.need-room #enter { display: block; }
+    body.need-room #app { display: none; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="brand">LIVE <b>STAMP</b></div>
+      <div class="conn"><span class="dot" id="dot"></span><span id="conn-text">接続中…</span></div>
+    </header>
+
+    <form id="enter">
+      <p>スクリーンに出ているルームコードを入力してください</p>
+      <input id="room-input" maxlength="8" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="ABCDE">
+      <button type="submit">参加する</button>
+    </form>
+
+    <div id="app">
+      <div class="meter">
+        <span class="people"><b id="count">-</b> 人参加中</span>
+        <span class="bar"><span class="fill" id="gauge"></span></span>
+        <span>HYPE</span>
+      </div>
+
+      <h2>スタンプ（連打OK！）</h2>
+      <div class="stamps" id="stamps"></div>
+
+      <h2>メッセージ</h2>
+      <div class="msgs" id="msgs"></div>
+
+      <div class="foot">送信数 <span id="sent">0</span></div>
+    </div>
+  </main>
+  <div id="fever">FEVER!!</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+  <script src="config.js"></script>
+  <script>
+  (() => {
+    const cfg = window.LIVE_CONFIG;
+    const $ = (id) => document.getElementById(id);
+    const params = new URLSearchParams(location.search);
+    const room = (params.get('room') || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+    if (!room) {
+      document.body.classList.add('need-room');
+      $('enter').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const code = $('room-input').value.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (code) location.search = '?room=' + code;
+      });
+      return;
+    }
+
+    // ---------- ボタンを並べる ----------
+    const buttons = [];
+    cfg.stamps.forEach((s) => {
+      const b = document.createElement('button');
+      b.className = 'stamp-btn';
+      b.innerHTML = `<span class="e"></span><span class="l"></span>`;
+      b.querySelector('.e').textContent = s.emoji;
+      b.querySelector('.l').textContent = s.label;
+      b.addEventListener('pointerdown', (e) => send({ t: 'stamp', id: s.id }, b, e, s.emoji));
+      $('stamps').appendChild(b);
+      buttons.push(b);
+    });
+    cfg.messages.forEach((m, i) => {
+      const b = document.createElement('button');
+      b.className = 'msg-btn';
+      b.textContent = m;
+      b.addEventListener('pointerdown', (e) => send({ t: 'msg', i }, b, e, '💬'));
+      $('msgs').appendChild(b);
+      buttons.push(b);
+    });
+
+    // ---------- 送信 ----------
+    let conn = null;
+    let lastSend = 0;
+    let sent = 0;
+
+    function send(payload, btn, ev, popChar) {
+      ev.preventDefault();
+      const now = Date.now();
+      if (!conn || !conn.open || now - lastSend < cfg.sendCooldownMs) return;
+      lastSend = now;
+      conn.send(payload);
+      $('sent').textContent = ++sent;
+      if (navigator.vibrate) navigator.vibrate(12);
+      btn.classList.remove('hit'); void btn.offsetWidth; btn.classList.add('hit');
+      setTimeout(() => btn.classList.remove('hit'), 120);
+      const p = document.createElement('div');
+      p.className = 'pop';
+      p.textContent = popChar;
+      p.style.left = ev.clientX + 'px';
+      p.style.top = ev.clientY + 'px';
+      p.addEventListener('animationend', () => p.remove());
+      document.body.appendChild(p);
+    }
+
+    // ---------- 接続 ----------
+    const hostId = cfg.peerPrefix + room;
+    let peer = null;
+    let retryTimer = null;
+
+    function setConn(state, text) {
+      $('dot').className = 'dot' + (state ? ' ' + state : '');
+      $('conn-text').textContent = text;
+      buttons.forEach((b) => { b.disabled = state !== 'ok'; });
+    }
+
+    function scheduleRetry(ms) {
+      clearTimeout(retryTimer);
+      retryTimer = setTimeout(connect, ms);
+    }
+
+    function connect() {
+      clearTimeout(retryTimer);
+      if (conn && conn.open) return;
+      setConn('', '接続中…');
+      if (!peer || peer.destroyed) {
+        const p = peer = new Peer(cfg.peerOptions);
+        p.on('open', dial);
+        p.on('disconnected', () => { if (p === peer && !p.destroyed && p.disconnected) p.reconnect(); });
+        p.on('error', (err) => {
+          console.warn('peer error', err.type, err);
+          if (p !== peer) return;
+          if (err.type === 'peer-unavailable') {
+            setConn('ng', 'スクリーンが見つかりません');
+            scheduleRetry(3000);
+          } else if (['network', 'server-error', 'socket-error', 'socket-closed'].includes(err.type)) {
+            setConn('ng', '通信エラー・再接続します');
+            p.destroy();
+            scheduleRetry(3000);
+          }
+        });
+      } else if (peer.open) {
+        dial();
+      }
+    }
+
+    function dial() {
+      if (conn && conn.open) return;
+      const c = peer.connect(hostId, { reliable: true, serialization: 'json' });
+      conn = c;
+      c.on('open', () => setConn('ok', '接続OK'));
+      c.on('data', onData);
+      const lost = () => {
+        if (conn !== c) return;
+        conn = null;
+        setConn('ng', '切断・再接続します');
+        scheduleRetry(2000);
+      };
+      c.on('close', lost);
+      c.on('error', lost);
+    }
+
+    function onData(d) {
+      if (!d || typeof d !== 'object') return;
+      if (d.t === 'state') {
+        $('count').textContent = d.count;
+        $('gauge').style.width = Math.max(0, Math.min(100, d.gauge)) + '%';
+      } else if (d.t === 'fever') {
+        const f = $('fever');
+        f.classList.remove('on'); void f.offsetWidth; f.classList.add('on');
+        if (navigator.vibrate) navigator.vibrate([60, 40, 60, 40, 120]);
+      }
+    }
+
+    // スマホがスリープから戻ったらすぐ繋ぎ直す
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && !(conn && conn.open)) connect();
+    });
+
+    connect();
+  })();
+  </script>
+</body>
+</html>

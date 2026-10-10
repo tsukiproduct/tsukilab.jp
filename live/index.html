@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIVE STAMP — 月ラボ</title>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #0d0b17; color: #eee;
+      font-family: 'M PLUS Rounded 1c', system-ui, sans-serif; line-height: 1.8;
+    }
+    main { max-width: 680px; margin: 0 auto; padding: 48px 16px 64px; }
+    h1 { font-size: 34px; letter-spacing: .06em; }
+    h1 b { color: #ff3d9a; }
+    .lead { opacity: .8; margin: 6px 0 28px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 36px; }
+    .actions a {
+      display: inline-block; padding: 12px 22px; border-radius: 12px;
+      background: #ff3d9a; color: #fff; text-decoration: none; font-weight: 800;
+    }
+    .actions a.sub { background: #2a2540; }
+    h2 { font-size: 17px; margin: 28px 0 8px; color: #ffd23d; }
+    ol, ul { padding-left: 1.4em; }
+    li { margin: 4px 0; }
+    code, kbd { font-family: ui-monospace, monospace; background: #2a2540; padding: 1px 6px; border-radius: 4px; font-size: .92em; }
+    .note { font-size: 14px; opacity: .7; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>LIVE <b>STAMP</b></h1>
+    <p class="lead">会場のスクリーンに、来場者や配信視聴者のスマホからスタンプとメッセージを飛ばせる試作版です。</p>
+
+    <div class="actions">
+      <a href="screen.html">スクリーンを開く</a>
+      <a class="sub" href="screen.html?demo=1">デモを見る</a>
+      <a class="sub" href="join.html">スマホで参加（コード入力）</a>
+    </div>
+
+    <h2>使い方</h2>
+    <ol>
+      <li>会場の PC で「スクリーンを開く」を押し、プロジェクターに映して <kbd>F</kbd> で全画面にします。</li>
+      <li>画面左下の QR コードをスマホで読み取ると、スタンプ送信画面が開きます。</li>
+      <li>押したスタンプやメッセージがスクリーンに飛びます。みんなで送るとゲージが溜まり、満タンで FEVER 演出が出ます。</li>
+    </ol>
+
+    <h2>映像と組み合わせる</h2>
+    <ul>
+      <li><b>動画ファイルを流す</b>：スクリーン右下の ⚙ から動画ファイルを選ぶと、その上にスタンプが重なります。</li>
+      <li><b>OBS で映像に重ねる</b>：OBS のブラウザソースに <code>screen.html?bg=transparent</code> の URL を入れると背景が透過になり、カメラ映像や配信画面にそのまま重ねられます。</li>
+      <li><b>クロマキー</b>：<code>?bg=green</code> でグリーンバックになります。</li>
+    </ul>
+
+    <h2>キーボード操作（スクリーン）</h2>
+    <ul>
+      <li><kbd>Q</kbd> QR の表示切替 ／ <kbd>H</kbd> 表示物をすべて隠す ／ <kbd>F</kbd> 全画面</li>
+      <li><kbd>D</kbd> デモ（自動でスタンプが飛ぶ） ／ <kbd>T</kbd> テストで 1 つ出す ／ <kbd>S</kbd> 設定</li>
+    </ul>
+
+    <h2>試作版の注意点</h2>
+    <ul class="note">
+      <li>サーバーを持たない構成です。スクリーンとスマホは WebRTC で直接つながり、つなぐ仲介には PeerJS の無料公開サーバーを使っています。会場・スマホともにインターネット接続が必要です。</li>
+      <li>数十人規模の試験向けです。数百人規模の本番では、専用のリアルタイムサーバーへの置き換えを想定しています。</li>
+      <li>スタンプと定型文だけを受け付け、自由入力はできません（荒らし対策）。中身は <code>live/config.js</code> で変更できます。</li>
+    </ul>
+  </main>
+</body>
+</html>

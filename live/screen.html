@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIVE STAMP — スクリーン</title>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+    body {
+      background: #07060d;
+      color: #fff;
+      font-family: 'M PLUS Rounded 1c', system-ui, sans-serif;
+      cursor: default;
+    }
+    body.bg-transparent { background: transparent; }
+    body.bg-green { background: #00b140; }
+
+    /* ---------- 背景 ---------- */
+    #bg-demo {
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(60vmax 60vmax at 20% 30%, rgba(255, 60, 160, .35), transparent 60%),
+        radial-gradient(50vmax 50vmax at 80% 70%, rgba(60, 120, 255, .35), transparent 60%),
+        radial-gradient(40vmax 40vmax at 60% 10%, rgba(255, 200, 60, .18), transparent 60%),
+        #07060d;
+      animation: hue 18s linear infinite;
+    }
+    @keyframes hue { to { filter: hue-rotate(360deg); } }
+    #bg-video { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #000; display: none; }
+    body.bg-video #bg-video { display: block; }
+    body:not(.bg-demo) #bg-demo { display: none; }
+
+    /* ---------- 演出レイヤー ---------- */
+    #stamps, #messages, #fever { position: fixed; inset: 0; pointer-events: none; }
+    .stamp {
+      position: absolute; bottom: -12vh;
+      font-size: var(--size, 9vh);
+      line-height: 1;
+      filter: drop-shadow(0 .4vh 1vh rgba(0,0,0,.45));
+      animation: rise var(--dur, 3.8s) cubic-bezier(.2,.7,.3,1) forwards;
+      will-change: transform, opacity;
+    }
+    @keyframes rise {
+      0%   { transform: translate(0, 0) scale(.4) rotate(0deg); opacity: 0; }
+      10%  { transform: translate(calc(var(--dx) * .1), -10vh) scale(1.15) rotate(calc(var(--rot) * .2)); opacity: 1; }
+      20%  { transform: translate(calc(var(--dx) * .2), -20vh) scale(1) rotate(calc(var(--rot) * .3)); }
+      80%  { opacity: 1; }
+      100% { transform: translate(var(--dx), -95vh) scale(.9) rotate(var(--rot)); opacity: 0; }
+    }
+    .msg {
+      position: absolute; left: 0; white-space: nowrap;
+      font-size: 6.2vh; font-weight: 800;
+      color: #fff;
+      -webkit-text-stroke: .5vh rgba(10, 6, 20, .85);
+      paint-order: stroke fill;
+      text-shadow: 0 0 2vh rgba(255, 80, 180, .55);
+      will-change: transform;
+    }
+
+    /* ---------- FEVER ---------- */
+    #fever { display: grid; place-items: center; }
+    #fever .text {
+      font-size: 20vh; font-weight: 800; letter-spacing: .04em;
+      background: linear-gradient(90deg, #ff3d9a, #ffd23d, #3dffb6, #3db4ff, #ff3d9a);
+      background-size: 200% 100%;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 0 3vh rgba(255, 61, 154, .8));
+      opacity: 0; transform: scale(.3);
+    }
+    #fever.on .text { animation: feverPop 2.6s ease-out forwards, feverSlide .6s linear infinite; }
+    @keyframes feverPop {
+      0% { opacity: 0; transform: scale(.3) rotate(-8deg); }
+      15% { opacity: 1; transform: scale(1.15) rotate(3deg); }
+      25% { transform: scale(1) rotate(0); }
+      80% { opacity: 1; transform: scale(1.03); }
+      100% { opacity: 0; transform: scale(1.4); }
+    }
+    @keyframes feverSlide { to { background-position: -200% 0; } }
+    #flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+    #flash.on { animation: flash .5s ease-out; }
+    @keyframes flash { from { opacity: .55; } to { opacity: 0; } }
+
+    /* ---------- HUD ---------- */
+    .hud { transition: opacity .3s; }
+    body.hud-off .hud { opacity: 0; pointer-events: none; }
+
+    #qr-card {
+      position: fixed; left: 2.5vh; bottom: 2.5vh;
+      display: flex; align-items: center; gap: 2vh;
+      padding: 1.8vh 2.4vh 1.8vh 1.8vh;
+      background: rgba(10, 8, 20, .78);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 2vh;
+      backdrop-filter: blur(8px);
+    }
+    body.qr-off #qr-card { opacity: 0; pointer-events: none; }
+    #qr { width: 18vh; height: 18vh; image-rendering: pixelated; border-radius: 1vh; background: #fff; }
+    #qr-card .lead { font-size: 2.6vh; margin-bottom: .8vh; }
+    #qr-card .code { font-size: 5.4vh; letter-spacing: .12em; color: #ffd23d; line-height: 1.1; }
+    #qr-card .url { font-size: 1.6vh; opacity: .65; margin-top: .8vh; font-family: ui-monospace, monospace; }
+
+    #stats {
+      position: fixed; top: 2.5vh; right: 2.5vh;
+      display: flex; align-items: center; gap: 1.4vh;
+      padding: 1.2vh 2vh;
+      background: rgba(10, 8, 20, .7);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 999px;
+      font-size: 2.6vh;
+    }
+    .dot { width: 1.4vh; height: 1.4vh; border-radius: 50%; background: #888; }
+    .dot.ok { background: #3dffb6; box-shadow: 0 0 1.2vh #3dffb6; }
+    .dot.ng { background: #ff5b5b; }
+    #count { color: #ffd23d; font-size: 3.4vh; }
+
+    #gauge {
+      position: fixed; right: 3vh; top: 12vh; bottom: 19vh; width: 3.2vh;
+      background: rgba(10, 8, 20, .7);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 999px; overflow: hidden;
+    }
+    #gauge-fill {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 0%;
+      background: linear-gradient(0deg, #3db4ff, #ff3d9a 60%, #ffd23d);
+      transition: height .2s linear;
+    }
+    #gauge-label {
+      position: fixed; right: 1.6vh; bottom: 14.5vh; width: 6vh; text-align: center;
+      font-size: 1.8vh; letter-spacing: .1em; opacity: .8;
+    }
+
+    #status {
+      position: fixed; top: 2.5vh; left: 2.5vh;
+      font-size: 1.8vh; padding: .8vh 1.6vh; border-radius: 1vh;
+      background: rgba(10, 8, 20, .7); opacity: .85;
+    }
+    #status:empty { display: none; }
+
+    /* ---------- 設定パネル ---------- */
+    #settings {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 32px); overflow: auto;
+      background: #14111f; color: #eee;
+      border: 1px solid rgba(255,255,255,.2); border-radius: 16px;
+      padding: 24px; font-size: 15px; line-height: 1.7;
+      box-shadow: 0 20px 60px rgba(0,0,0,.6);
+      display: none;
+    }
+    #settings.open { display: block; }
+    #settings h2 { font-size: 20px; margin-bottom: 12px; }
+    #settings h3 { font-size: 15px; margin: 16px 0 6px; color: #ffd23d; }
+    #settings label { display: block; cursor: pointer; }
+    #settings button, #settings input[type=file] { font: inherit; }
+    #settings button {
+      background: #ff3d9a; color: #fff; border: 0; border-radius: 8px;
+      padding: 6px 14px; cursor: pointer; margin: 4px 8px 4px 0;
+    }
+    #settings button.ghost { background: #2a2540; }
+    #settings kbd {
+      display: inline-block; min-width: 1.8em; text-align: center;
+      padding: 0 6px; border-radius: 4px; background: #2a2540; font-family: ui-monospace, monospace;
+    }
+    #settings .note { font-size: 13px; opacity: .7; }
+    #gear {
+      position: fixed; right: 2.5vh; bottom: 2.5vh;
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.25); background: rgba(10,8,20,.7); color: #fff;
+      font-size: 22px; cursor: pointer; opacity: .35;
+    }
+    #gear:hover { opacity: 1; }
+  </style>
+</head>
+<body class="bg-demo">
+  <div id="bg-demo"></div>
+  <video id="bg-video" playsinline loop></video>
+
+  <div id="stamps"></div>
+  <div id="messages"></div>
+  <div id="fever"><div class="text">FEVER!!</div></div>
+  <div id="flash"></div>
+
+  <div id="status" class="hud"></div>
+
+  <div id="stats" class="hud">
+    <span class="dot" id="dot"></span>
+    <span>参加</span><span id="count">0</span><span>人</span>
+  </div>
+
+  <div id="gauge" class="hud"><div id="gauge-fill"></div></div>
+  <div id="gauge-label" class="hud">HYPE</div>
+
+  <div id="qr-card" class="hud">
+    <img id="qr" alt="参加用QRコード">
+    <div>
+      <div class="lead">スマホで参加して<br>スタンプを送ろう！</div>
+      <div class="code" id="room-code">-----</div>
+      <div class="url" id="join-url"></div>
+    </div>
+  </div>
+
+  <button id="gear" class="hud" title="設定（S）">⚙</button>
+
+  <div id="settings">
+    <h2>スクリーン設定</h2>
+
+    <h3>背景</h3>
+    <label><input type="radio" name="bg" value="demo"> グラデーション（デモ用）</label>
+    <label><input type="radio" name="bg" value="video"> 動画ファイルを流す</label>
+    <div style="margin-left: 24px;">
+      <input type="file" id="video-file" accept="video/*">
+      <label><input type="checkbox" id="video-sound"> 動画の音を出す</label>
+    </div>
+    <label><input type="radio" name="bg" value="transparent"> 透過（OBS のブラウザソースで映像に重ねる）</label>
+    <label><input type="radio" name="bg" value="green"> グリーンバック（クロマキー合成用）</label>
+
+    <h3>ルーム</h3>
+    <div>ルームコード：<b id="room-code-2"></b></div>
+    <button id="new-room" class="ghost">新しいルームコードにする</button>
+    <div class="note">ルームコードはこのブラウザに保存され、再読み込みしても変わりません。</div>
+
+    <h3>キーボード操作</h3>
+    <div><kbd>Q</kbd> QRコードの表示切替　<kbd>H</kbd> 表示物をすべて隠す</div>
+    <div><kbd>D</kbd> デモ（自動でスタンプが飛ぶ）　<kbd>F</kbd> 全画面</div>
+    <div><kbd>T</kbd> テストでスタンプを1つ出す　<kbd>S</kbd> この設定を開閉</div>
+
+    <div style="margin-top: 18px;"><button id="close-settings">閉じる</button></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+  <script src="config.js"></script>
+  <script>
+  (() => {
+    const cfg = window.LIVE_CONFIG;
+    const params = new URLSearchParams(location.search);
+    const $ = (id) => document.getElementById(id);
+
+    const stampById = new Map(cfg.stamps.map((s) => [s.id, s]));
+
+    // ---------- ルームコード ----------
+    const ROOM_KEY = 'tsukilab-live-room';
+    const ROOM_CHARS = 'abcdefghjkmnpqrstuvwxyz23456789';
+    const makeRoom = () => Array.from({ length: 5 }, () => ROOM_CHARS[Math.floor(Math.random() * ROOM_CHARS.length)]).join('');
+    const storage = {
+      get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+      set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+    };
+    let room = (params.get('room') || storage.get(ROOM_KEY) || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (!room) room = makeRoom();
+    storage.set(ROOM_KEY, room);
+
+    function renderRoom() {
+      const joinUrl = new URL('join.html?room=' + room, location.href).href;
+      $('room-code').textContent = room.toUpperCase();
+      $('room-code-2').textContent = room.toUpperCase();
+      $('join-url').textContent = joinUrl.replace(/^https?:\/\//, '');
+      const qr = qrcode(0, 'M');
+      qr.addData(joinUrl);
+      qr.make();
+      $('qr').src = qr.createDataURL(8, 2);
+    }
+    renderRoom();
+
+    // ---------- 接続（このスクリーンが PeerJS のホストになる） ----------
+    const conns = new Set();
+    let peer = null;
+    let retryTimer = null;
+
+    function setStatus(text, state) {
+      $('status').textContent = text || '';
+      $('dot').className = 'dot' + (state ? ' ' + state : '');
+    }
+
+    function openPeer() {
+      clearTimeout(retryTimer);
+      if (peer) peer.destroy();
+      setStatus('接続準備中…');
+      const p = peer = new Peer(cfg.peerPrefix + room, cfg.peerOptions);
+      p.on('open', () => setStatus('', 'ok'));
+      p.on('connection', setupConn);
+      p.on('disconnected', () => {
+        // 既存の参加者とは繋がったまま。新規参加を受けるためにシグナリングへ再接続
+        if (p !== peer || p.destroyed) return;
+        setStatus('再接続中…', 'ng');
+        setTimeout(() => { if (p === peer && !p.destroyed && p.disconnected) p.reconnect(); }, 1500);
+      });
+      p.on('error', (err) => {
+        console.warn('peer error', err.type, err);
+        if (p !== peer) return;
+        if (err.type === 'unavailable-id') {
+          // 再読み込み直後は前回の ID がまだ解放されていないことがある
+          setStatus('ルームを準備中…（前回の接続が切れるのを待っています）', 'ng');
+          retryTimer = setTimeout(openPeer, 4000);
+        } else if (['network', 'server-error', 'socket-error', 'socket-closed'].includes(err.type)) {
+          setStatus('サーバーに接続できません。再試行します…', 'ng');
+          retryTimer = setTimeout(openPeer, 5000);
+        }
+      });
+    }
+
+    function setupConn(conn) {
+      conn._win = 0; conn._n = 0;
+      conn.on('open', () => {
+        conns.add(conn);
+        updateCount();
+        conn.send({ t: 'state', count: conns.size, gauge: Math.round(gauge) });
+      });
+      conn.on('data', (data) => handleData(conn, data));
+      const drop = () => { conns.delete(conn); updateCount(); };
+      conn.on('close', drop);
+      conn.on('error', drop);
+    }
+
+    function allow(conn) {
+      // 1人あたりの流量制限（超えた分は黙って捨てる）
+      const now = Date.now();
+      if (now - conn._win > 1000) { conn._win = now; conn._n = 0; }
+      return ++conn._n <= cfg.hostMaxPerSec;
+    }
+
+    function handleData(conn, data) {
+      if (!data || typeof data !== 'object' || !allow(conn)) return;
+      // 設定にある id / 番号だけを受け付ける（任意の文字列は表示しない）
+      if (data.t === 'stamp' && stampById.has(data.id)) {
+        spawnStamp(stampById.get(data.id));
+        addGauge(cfg.gaugePerStamp);
+      } else if (data.t === 'msg' && Number.isInteger(data.i) && cfg.messages[data.i] !== undefined) {
+        spawnMessage(cfg.messages[data.i]);
+        addGauge(cfg.gaugePerMessage);
+      }
+    }
+
+    function updateCount() { $('count').textContent = conns.size; }
+
+    function broadcast(obj) {
+      for (const c of conns) { if (c.open) { try { c.send(obj); } catch {} } }
+    }
+    setInterval(() => broadcast({ t: 'state', count: conns.size, gauge: Math.round(gauge) }), 1000);
+
+    // ---------- スタンプ ----------
+    const stampLayer = $('stamps');
+    const MAX_STAMPS = 160;
+    const rand = (a, b) => a + Math.random() * (b - a);
+
+    function spawnStamp(stamp, opts = {}) {
+      while (stampLayer.childElementCount >= MAX_STAMPS) stampLayer.firstElementChild.remove();
+      const el = document.createElement('div');
+      el.className = 'stamp';
+      el.textContent = stamp.emoji;
+      el.style.left = (opts.x ?? rand(8, 86)) + 'vw';
+      el.style.setProperty('--dx', rand(-12, 12) + 'vw');
+      el.style.setProperty('--rot', rand(-35, 35) + 'deg');
+      el.style.setProperty('--dur', (opts.dur ?? rand(3.2, 4.6)) + 's');
+      el.style.setProperty('--size', (opts.size ?? rand(7, 11)) + 'vh');
+      el.addEventListener('animationend', () => el.remove());
+      stampLayer.appendChild(el);
+    }
+
+    // ---------- メッセージ（右から左へ流れる） ----------
+    const msgLayer = $('messages');
+    const LANES = 6;
+    const laneFreeAt = new Array(LANES).fill(0);
+    const MSG_SPEED = 0.22; // 1 秒で画面幅の何割ぶん進むか
+
+    function spawnMessage(text) {
+      const el = document.createElement('div');
+      el.className = 'msg';
+      el.textContent = text;
+      msgLayer.appendChild(el);
+      const w = el.offsetWidth;
+      const vw = window.innerWidth;
+      const pxPerMs = (vw * MSG_SPEED) / 1000;
+      const dur = (vw + w) / pxPerMs;
+
+      // 一番早く空くレーンを選ぶ（前のメッセージに重ならないように）
+      const now = performance.now();
+      let lane = 0;
+      for (let i = 1; i < LANES; i++) if (laneFreeAt[i] < laneFreeAt[lane]) lane = i;
+      laneFreeAt[lane] = Math.max(now, laneFreeAt[lane]) + (w + vw * 0.04) / pxPerMs;
+
+      el.style.top = (6 + lane * 9.5) + 'vh';
+      el.animate(
+        [{ transform: `translateX(${vw}px)` }, { transform: `translateX(${-w}px)` }],
+        { duration: dur, easing: 'linear' }
+      ).onfinish = () => el.remove();
+      while (msgLayer.childElementCount > 60) msgLayer.firstElementChild.remove();
+    }
+
+    // ---------- 盛り上がりゲージ ----------
+    let gauge = 0;
+    let feverUntil = 0;
+
+    function addGauge(n) {
+      if (performance.now() < feverUntil) return;
+      gauge = Math.min(100, gauge + n);
+      if (gauge >= 100) fever();
+      $('gauge-fill').style.height = gauge + '%';
+    }
+    setInterval(() => {
+      if (gauge > 0 && performance.now() >= feverUntil) {
+        gauge = Math.max(0, gauge - 0.6);
+        $('gauge-fill').style.height = gauge + '%';
+      }
+    }, 200);
+
+    function fever() {
+      feverUntil = performance.now() + 3000;
+      gauge = 0;
+      $('gauge-fill').style.height = '0%';
+      const f = $('fever');
+      f.classList.remove('on'); void f.offsetWidth; f.classList.add('on');
+      const fl = $('flash');
+      fl.classList.remove('on'); void fl.offsetWidth; fl.classList.add('on');
+      for (let i = 0; i < 40; i++) {
+        setTimeout(() => spawnStamp(cfg.stamps[i % cfg.stamps.length], { x: (i * 2.3) % 92 + 2, dur: rand(2.4, 3.4), size: rand(8, 13) }), i * 35);
+      }
+      broadcast({ t: 'fever' });
+    }
+
+    // ---------- デモ ----------
+    let demoTimer = null;
+    function setDemo(on) {
+      clearInterval(demoTimer);
+      demoTimer = null;
+      if (!on) return;
+      demoTimer = setInterval(() => {
+        const burst = Math.random() < 0.15 ? 6 : 1;
+        for (let i = 0; i < burst; i++) {
+          spawnStamp(cfg.stamps[Math.floor(Math.random() * cfg.stamps.length)]);
+          addGauge(cfg.gaugePerStamp);
+        }
+        if (Math.random() < 0.18) {
+          spawnMessage(cfg.messages[Math.floor(Math.random() * cfg.messages.length)]);
+          addGauge(cfg.gaugePerMessage);
+        }
+      }, 220);
+    }
+    if (params.get('demo') === '1') setDemo(true);
+
+    // ---------- 背景 ----------
+    const video = $('bg-video');
+    function setBg(mode) {
+      document.body.classList.remove('bg-demo', 'bg-video', 'bg-transparent', 'bg-green');
+      document.body.classList.add('bg-' + mode);
+      document.querySelectorAll('input[name=bg]').forEach((r) => { r.checked = r.value === mode; });
+      if (mode === 'video') video.play().catch(() => {});
+      else video.pause();
+    }
+    setBg(['demo', 'video', 'transparent', 'green'].includes(params.get('bg')) ? params.get('bg') : 'demo');
+
+    document.querySelectorAll('input[name=bg]').forEach((r) => r.addEventListener('change', () => setBg(r.value)));
+    $('video-file').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (video.src) URL.revokeObjectURL(video.src);
+      video.src = URL.createObjectURL(file);
+      video.muted = !$('video-sound').checked;
+      setBg('video');
+    });
+    $('video-sound').addEventListener('change', (e) => { video.muted = !e.target.checked; });
+
+    // ---------- 設定・キーボード ----------
+    const settings = $('settings');
+    const toggleSettings = (open) => settings.classList.toggle('open', open);
+    $('gear').addEventListener('click', () => toggleSettings(true));
+    $('close-settings').addEventListener('click', () => toggleSettings(false));
+    $('new-room').addEventListener('click', () => {
+      if (!confirm('ルームコードを変えると、今つながっているスマホは切断されます。よろしいですか？')) return;
+      room = makeRoom();
+      storage.set(ROOM_KEY, room);
+      for (const c of conns) c.close();
+      conns.clear(); updateCount();
+      renderRoom();
+      openPeer();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.metaKey || e.ctrlKey || e.altKey) return;
+      const k = e.key.toLowerCase();
+      if (k === 'q') document.body.classList.toggle('qr-off');
+      else if (k === 'h') document.body.classList.toggle('hud-off');
+      else if (k === 'd') setDemo(!demoTimer);
+      else if (k === 't') { spawnStamp(cfg.stamps[Math.floor(Math.random() * cfg.stamps.length)]); addGauge(cfg.gaugePerStamp); }
+      else if (k === 's') toggleSettings(!settings.classList.contains('open'));
+      else if (k === 'escape') toggleSettings(false);
+      else if (k === 'f') {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen().catch(() => {});
+      }
+    });
+
+    openPeer();
+  })();
+  </script>
+</body>
+</html>
