@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>残響</title>
+<meta name="description" content="三つの小説と、その資料室。ARTIFICIAL SALVATION／残響／メガラバニア。記録と記憶が食い違いはじめる世界の、モキュメンタリーと小説。">
+<meta name="theme-color" content="#e6e9e5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1317" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://tsukilab.jp/zankyo/">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="tsukilab.jp">
+<meta property="og:title" content="残響">
+<meta property="og:description" content="三つの小説と、その資料室。ARTIFICIAL SALVATION／残響／メガラバニア。記録と記憶が食い違いはじめる世界の、モキュメンタリーと小説。">
+<meta property="og:url" content="https://tsukilab.jp/zankyo/">
+<meta property="og:image" content="https://tsukilab.jp/zankyo/assets/og/og-site.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Atg_Tsukimao">
+<meta name="twitter:title" content="残響">
+<meta name="twitter:description" content="三つの小説と、その資料室。ARTIFICIAL SALVATION／残響／メガラバニア。記録と記憶が食い違いはじめる世界の、モキュメンタリーと小説。">
+<meta name="twitter:image" content="https://tsukilab.jp/zankyo/assets/og/og-site.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700;800&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<link rel="stylesheet" href="assets/zk.css?v=20261010">
+<script>/* 表示設定は描画前に当てる（ちらつき防止） */
+(function(){try{var s=JSON.parse(localStorage.getItem('zk.settings')||'{}');var d=document.documentElement;
+if(s.theme)d.dataset.theme=s.theme;if(s.size)d.dataset.size=s.size;if(s.lh)d.dataset.lh=s.lh;
+if(s.face)d.dataset.face=s.face;if(s.dir)d.dataset.dir=s.dir;}catch(e){}})();</script>
+
+</head>
+<body class="k-home " data-root="" >
+<a class="skip" href="#main">本文へ移動</a>
+<header class="bar" id="bar">
+  <a class="mark" href="" aria-label="残響 トップへ"><span class="mark-ink">残響</span><span class="mark-pen" aria-hidden="true">残響</span></a>
+  <nav class="nav" aria-label="サイト内">
+    <ul><li><a href="" data-nav="home">本棚</a></li><li><a href="archive/" data-nav="archive/">資料室</a></li><li><a href="timeline/" data-nav="timeline/">年表</a></li><li><a href="people/" data-nav="people/">人物録</a></li><li><a href="notes/" data-nav="notes/">記憶ノート</a></li><li><a href="about/" data-nav="about/">この場所について</a></li></ul>
+  </nav>
+  <div class="tools">
+    <span class="clock" role="img" aria-label="現在時刻">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14.5" class="c-face"/><line class="c-h" x1="16" y1="16" x2="16" y2="9"/><line class="c-m" x1="16" y1="16" x2="16" y2="5"/><line class="c-s" x1="16" y1="18.5" x2="16" y2="4"/><circle cx="16" cy="16" r="1.4" class="c-pin"/></svg>
+    </span>
+    <button class="tool" type="button" data-act="rain" aria-pressed="false" title="雨音">雨音</button>
+    <button class="tool" type="button" data-act="search" title="本文を検索">検索</button>
+    <button class="tool" type="button" data-act="settings" title="表示の設定">文字</button>
+    <button class="tool tool--menu" type="button" data-act="menu" aria-expanded="false" aria-controls="drawer">目次</button>
+  </div>
+  <div class="progress" aria-hidden="true"><i></i></div>
+</header>
+<div class="drawer" id="drawer" hidden>
+  <nav aria-label="サイト内（モバイル）"><ul><li><a href="" data-nav="home">本棚</a></li><li><a href="archive/" data-nav="archive/">資料室</a></li><li><a href="timeline/" data-nav="timeline/">年表</a></li><li><a href="people/" data-nav="people/">人物録</a></li><li><a href="notes/" data-nav="notes/">記憶ノート</a></li><li><a href="about/" data-nav="about/">この場所について</a></li></ul></nav>
+</div>
+<main id="main">
+<section class="hero" aria-labelledby="hero-title">
+  <canvas class="rain" aria-hidden="true"></canvas>
+  <div class="hero-in">
+    <h1 class="hero-title" id="hero-title"><span class="ht-ink">残響</span><span class="ht-pen" aria-hidden="true">残響</span></h1>
+    <div class="hero-line">
+      <p class="hl-first">詩集は三日前から同じページで開いていた。</p>
+      <p class="hl-return" hidden><span class="hl-k">前回、あなたはここまで読んでいました</span><span class="hl-t"></span></p>
+    </div>
+    <div class="hero-act">
+      <a class="btn btn--ink" href="as/00/" data-first>最初の一行から読む</a>
+      <a class="btn btn--ghost" href="#" data-continue hidden>続きを読む</a>
+      <p class="hero-sub">三つの小説と、その資料室。</p>
+    </div>
+    <div class="hero-art">
+      <figure class="slot slot--hero" data-slot="hero" style="--ratio:2/3"><span class="slot-alt"></span></figure>
+      <svg class="hero-clock" viewBox="0 0 200 420" role="img" aria-label="駅前の柱時計。針は、いまの時刻を指しています">
+<g class="hc-pen">
+  <path d="M60 30 Q100 6 140 30" />
+  <circle cx="100" cy="112" r="88"/>
+  <circle cx="100" cy="112" r="81"/>
+  <line x1="100.0" y1="36.0" x2="100.0" y2="49.0" stroke-width="2.2"/><line x1="107.9" y1="36.4" x2="107.3" y2="42.4" stroke-width="1"/><line x1="115.8" y1="37.7" x2="114.6" y2="43.5" stroke-width="1"/><line x1="123.5" y1="39.7" x2="121.6" y2="45.4" stroke-width="1"/><line x1="130.9" y1="42.6" x2="128.5" y2="48.1" stroke-width="1"/><line x1="138.0" y1="46.2" x2="131.5" y2="57.4" stroke-width="2.2"/><line x1="144.7" y1="50.5" x2="141.1" y2="55.4" stroke-width="1"/><line x1="150.9" y1="55.5" x2="146.8" y2="60.0" stroke-width="1"/><line x1="156.5" y1="61.1" x2="152.0" y2="65.2" stroke-width="1"/><line x1="161.5" y1="67.3" x2="156.6" y2="70.9" stroke-width="1"/><line x1="165.8" y1="74.0" x2="154.6" y2="80.5" stroke-width="2.2"/><line x1="169.4" y1="81.1" x2="163.9" y2="83.5" stroke-width="1"/><line x1="172.3" y1="88.5" x2="166.6" y2="90.4" stroke-width="1"/><line x1="174.3" y1="96.2" x2="168.5" y2="97.4" stroke-width="1"/><line x1="175.6" y1="104.1" x2="169.6" y2="104.7" stroke-width="1"/><line x1="176.0" y1="112.0" x2="163.0" y2="112.0" stroke-width="2.2"/><line x1="175.6" y1="119.9" x2="169.6" y2="119.3" stroke-width="1"/><line x1="174.3" y1="127.8" x2="168.5" y2="126.6" stroke-width="1"/><line x1="172.3" y1="135.5" x2="166.6" y2="133.6" stroke-width="1"/><line x1="169.4" y1="142.9" x2="163.9" y2="140.5" stroke-width="1"/><line x1="165.8" y1="150.0" x2="154.6" y2="143.5" stroke-width="2.2"/><line x1="161.5" y1="156.7" x2="156.6" y2="153.1" stroke-width="1"/><line x1="156.5" y1="162.9" x2="152.0" y2="158.8" stroke-width="1"/><line x1="150.9" y1="168.5" x2="146.8" y2="164.0" stroke-width="1"/><line x1="144.7" y1="173.5" x2="141.1" y2="168.6" stroke-width="1"/><line x1="138.0" y1="177.8" x2="131.5" y2="166.6" stroke-width="2.2"/><line x1="130.9" y1="181.4" x2="128.5" y2="175.9" stroke-width="1"/><line x1="123.5" y1="184.3" x2="121.6" y2="178.6" stroke-width="1"/><line x1="115.8" y1="186.3" x2="114.6" y2="180.5" stroke-width="1"/><line x1="107.9" y1="187.6" x2="107.3" y2="181.6" stroke-width="1"/><line x1="100.0" y1="188.0" x2="100.0" y2="175.0" stroke-width="2.2"/><line x1="92.1" y1="187.6" x2="92.7" y2="181.6" stroke-width="1"/><line x1="84.2" y1="186.3" x2="85.4" y2="180.5" stroke-width="1"/><line x1="76.5" y1="184.3" x2="78.4" y2="178.6" stroke-width="1"/><line x1="69.1" y1="181.4" x2="71.5" y2="175.9" stroke-width="1"/><line x1="62.0" y1="177.8" x2="68.5" y2="166.6" stroke-width="2.2"/><line x1="55.3" y1="173.5" x2="58.9" y2="168.6" stroke-width="1"/><line x1="49.1" y1="168.5" x2="53.2" y2="164.0" stroke-width="1"/><line x1="43.5" y1="162.9" x2="48.0" y2="158.8" stroke-width="1"/><line x1="38.5" y1="156.7" x2="43.4" y2="153.1" stroke-width="1"/><line x1="34.2" y1="150.0" x2="45.4" y2="143.5" stroke-width="2.2"/><line x1="30.6" y1="142.9" x2="36.1" y2="140.5" stroke-width="1"/><line x1="27.7" y1="135.5" x2="33.4" y2="133.6" stroke-width="1"/><line x1="25.7" y1="127.8" x2="31.5" y2="126.6" stroke-width="1"/><line x1="24.4" y1="119.9" x2="30.4" y2="119.3" stroke-width="1"/><line x1="24.0" y1="112.0" x2="37.0" y2="112.0" stroke-width="2.2"/><line x1="24.4" y1="104.1" x2="30.4" y2="104.7" stroke-width="1"/><line x1="25.7" y1="96.2" x2="31.5" y2="97.4" stroke-width="1"/><line x1="27.7" y1="88.5" x2="33.4" y2="90.4" stroke-width="1"/><line x1="30.6" y1="81.1" x2="36.1" y2="83.5" stroke-width="1"/><line x1="34.2" y1="74.0" x2="45.4" y2="80.5" stroke-width="2.2"/><line x1="38.5" y1="67.3" x2="43.4" y2="70.9" stroke-width="1"/><line x1="43.5" y1="61.1" x2="48.0" y2="65.2" stroke-width="1"/><line x1="49.1" y1="55.5" x2="53.2" y2="60.0" stroke-width="1"/><line x1="55.3" y1="50.5" x2="58.9" y2="55.4" stroke-width="1"/><line x1="62.0" y1="46.2" x2="68.5" y2="57.4" stroke-width="2.2"/><line x1="69.1" y1="42.6" x2="71.5" y2="48.1" stroke-width="1"/><line x1="76.5" y1="39.7" x2="78.4" y2="45.4" stroke-width="1"/><line x1="84.2" y1="37.7" x2="85.4" y2="43.5" stroke-width="1"/><line x1="92.1" y1="36.4" x2="92.7" y2="42.4" stroke-width="1"/>
+  <line class="hc-h" x1="100" y1="112" x2="100" y2="68" stroke-width="5" stroke-linecap="round"/>
+  <line class="hc-m" x1="100" y1="112" x2="100" y2="46" stroke-width="3" stroke-linecap="round"/>
+  <line class="hc-s" x1="100" y1="126" x2="100" y2="40" stroke-width="1.2"/>
+  <circle cx="100" cy="112" r="3.5" class="hc-pin"/>
+  <path d="M92 200 L92 396 M108 200 L108 396"/>
+  <path d="M78 396 L122 396 L128 410 L72 410 Z"/>
+  <path d="M86 200 L114 200"/>
+</g><g class="hc-ink">
+  <path d="M60 30 Q100 6 140 30" />
+  <circle cx="100" cy="112" r="88"/>
+  <circle cx="100" cy="112" r="81"/>
+  <line x1="100.0" y1="36.0" x2="100.0" y2="49.0" stroke-width="2.2"/><line x1="107.9" y1="36.4" x2="107.3" y2="42.4" stroke-width="1"/><line x1="115.8" y1="37.7" x2="114.6" y2="43.5" stroke-width="1"/><line x1="123.5" y1="39.7" x2="121.6" y2="45.4" stroke-width="1"/><line x1="130.9" y1="42.6" x2="128.5" y2="48.1" stroke-width="1"/><line x1="138.0" y1="46.2" x2="131.5" y2="57.4" stroke-width="2.2"/><line x1="144.7" y1="50.5" x2="141.1" y2="55.4" stroke-width="1"/><line x1="150.9" y1="55.5" x2="146.8" y2="60.0" stroke-width="1"/><line x1="156.5" y1="61.1" x2="152.0" y2="65.2" stroke-width="1"/><line x1="161.5" y1="67.3" x2="156.6" y2="70.9" stroke-width="1"/><line x1="165.8" y1="74.0" x2="154.6" y2="80.5" stroke-width="2.2"/><line x1="169.4" y1="81.1" x2="163.9" y2="83.5" stroke-width="1"/><line x1="172.3" y1="88.5" x2="166.6" y2="90.4" stroke-width="1"/><line x1="174.3" y1="96.2" x2="168.5" y2="97.4" stroke-width="1"/><line x1="175.6" y1="104.1" x2="169.6" y2="104.7" stroke-width="1"/><line x1="176.0" y1="112.0" x2="163.0" y2="112.0" stroke-width="2.2"/><line x1="175.6" y1="119.9" x2="169.6" y2="119.3" stroke-width="1"/><line x1="174.3" y1="127.8" x2="168.5" y2="126.6" stroke-width="1"/><line x1="172.3" y1="135.5" x2="166.6" y2="133.6" stroke-width="1"/><line x1="169.4" y1="142.9" x2="163.9" y2="140.5" stroke-width="1"/><line x1="165.8" y1="150.0" x2="154.6" y2="143.5" stroke-width="2.2"/><line x1="161.5" y1="156.7" x2="156.6" y2="153.1" stroke-width="1"/><line x1="156.5" y1="162.9" x2="152.0" y2="158.8" stroke-width="1"/><line x1="150.9" y1="168.5" x2="146.8" y2="164.0" stroke-width="1"/><line x1="144.7" y1="173.5" x2="141.1" y2="168.6" stroke-width="1"/><line x1="138.0" y1="177.8" x2="131.5" y2="166.6" stroke-width="2.2"/><line x1="130.9" y1="181.4" x2="128.5" y2="175.9" stroke-width="1"/><line x1="123.5" y1="184.3" x2="121.6" y2="178.6" stroke-width="1"/><line x1="115.8" y1="186.3" x2="114.6" y2="180.5" stroke-width="1"/><line x1="107.9" y1="187.6" x2="107.3" y2="181.6" stroke-width="1"/><line x1="100.0" y1="188.0" x2="100.0" y2="175.0" stroke-width="2.2"/><line x1="92.1" y1="187.6" x2="92.7" y2="181.6" stroke-width="1"/><line x1="84.2" y1="186.3" x2="85.4" y2="180.5" stroke-width="1"/><line x1="76.5" y1="184.3" x2="78.4" y2="178.6" stroke-width="1"/><line x1="69.1" y1="181.4" x2="71.5" y2="175.9" stroke-width="1"/><line x1="62.0" y1="177.8" x2="68.5" y2="166.6" stroke-width="2.2"/><line x1="55.3" y1="173.5" x2="58.9" y2="168.6" stroke-width="1"/><line x1="49.1" y1="168.5" x2="53.2" y2="164.0" stroke-width="1"/><line x1="43.5" y1="162.9" x2="48.0" y2="158.8" stroke-width="1"/><line x1="38.5" y1="156.7" x2="43.4" y2="153.1" stroke-width="1"/><line x1="34.2" y1="150.0" x2="45.4" y2="143.5" stroke-width="2.2"/><line x1="30.6" y1="142.9" x2="36.1" y2="140.5" stroke-width="1"/><line x1="27.7" y1="135.5" x2="33.4" y2="133.6" stroke-width="1"/><line x1="25.7" y1="127.8" x2="31.5" y2="126.6" stroke-width="1"/><line x1="24.4" y1="119.9" x2="30.4" y2="119.3" stroke-width="1"/><line x1="24.0" y1="112.0" x2="37.0" y2="112.0" stroke-width="2.2"/><line x1="24.4" y1="104.1" x2="30.4" y2="104.7" stroke-width="1"/><line x1="25.7" y1="96.2" x2="31.5" y2="97.4" stroke-width="1"/><line x1="27.7" y1="88.5" x2="33.4" y2="90.4" stroke-width="1"/><line x1="30.6" y1="81.1" x2="36.1" y2="83.5" stroke-width="1"/><line x1="34.2" y1="74.0" x2="45.4" y2="80.5" stroke-width="2.2"/><line x1="38.5" y1="67.3" x2="43.4" y2="70.9" stroke-width="1"/><line x1="43.5" y1="61.1" x2="48.0" y2="65.2" stroke-width="1"/><line x1="49.1" y1="55.5" x2="53.2" y2="60.0" stroke-width="1"/><line x1="55.3" y1="50.5" x2="58.9" y2="55.4" stroke-width="1"/><line x1="62.0" y1="46.2" x2="68.5" y2="57.4" stroke-width="2.2"/><line x1="69.1" y1="42.6" x2="71.5" y2="48.1" stroke-width="1"/><line x1="76.5" y1="39.7" x2="78.4" y2="45.4" stroke-width="1"/><line x1="84.2" y1="37.7" x2="85.4" y2="43.5" stroke-width="1"/><line x1="92.1" y1="36.4" x2="92.7" y2="42.4" stroke-width="1"/>
+  <line class="hc-h" x1="100" y1="112" x2="100" y2="68" stroke-width="5" stroke-linecap="round"/>
+  <line class="hc-m" x1="100" y1="112" x2="100" y2="46" stroke-width="3" stroke-linecap="round"/>
+  <line class="hc-s" x1="100" y1="126" x2="100" y2="40" stroke-width="1.2"/>
+  <circle cx="100" cy="112" r="3.5" class="hc-pin"/>
+  <path d="M92 200 L92 396 M108 200 L108 396"/>
+  <path d="M78 396 L122 396 L128 410 L72 410 Z"/>
+  <path d="M86 200 L114 200"/>
+</g></svg>
+    </div>
+  </div>
+</section>
+<section class="shelf" aria-labelledby="shelf-h">
+  <h2 id="shelf-h">本棚</h2>
+  <p class="shelf-guide">はじめての方は、左の『ARTIFICIAL SALVATION』から。二冊目の『残響』で、一冊目の意味が変わります。『メガラバニア』はいつ読んでも構いません。</p>
+  <ol class="spines"><li class="spine spine--as" data-book="as">
+  <a href="as/">
+    <span class="spine-part">第一部</span>
+    <span class="spine-title">ARTIFICIAL SALVATION</span>
+    <span class="spine-meta">全九章</span>
+    <span class="spine-read" aria-hidden="true"></span>
+  </a>
+  <div class="spine-card">
+    <p class="spine-hook">証拠を信じる探偵と、娘を覚えている父親。</p>
+    <p class="spine-blurb">連続する創作模倣事件を追う探偵・高橋誠は、事件同士を結ぶ作品群へ近づいていく。だがデジタル記録は少しずつ現実と食い違いはじめ、いちばん完全な証拠が、いちばん近くにいた人を指す。</p>
+  </div>
+</li><li class="spine spine--echo" data-book="echo">
+  <a href="echo/">
+    <span class="spine-part">第二部</span>
+    <span class="spine-title">残響</span>
+    <span class="spine-meta">全六話</span>
+    <span class="spine-read" aria-hidden="true"></span>
+  </a>
+  <div class="spine-card">
+    <p class="spine-hook">記事、レビュー、掲示板。読んでいるうちに、あなたの記憶が証拠になる。</p>
+    <p class="spine-blurb">映画、音楽、アニメ、小説。午後三時をめぐる四つの作品が社会へ浸透するにつれ、人々の記憶と記録は穏やかに食い違いはじめる。最後に残るのは、消された記録ではなく、それを読んでしまった人の記憶である。</p>
+  </div>
+</li><li class="spine spine--mega" data-book="mega">
+  <a href="megalavania/">
+    <span class="spine-part">関連作</span>
+    <span class="spine-title">メガラバニア</span>
+    <span class="spine-meta">五話と掲示板</span>
+    <span class="spine-read" aria-hidden="true"></span>
+  </a>
+  <div class="spine-card">
+    <p class="spine-hook">掲示板と、ミラーに残った五つの話。</p>
+    <p class="spine-blurb">2012年、ある投稿サイトで途切れた連作小説。十四年後に掘り起こされたミラーには、第三話だけが残っていない。</p>
+  </div>
+</li></ol>
+</section>
+<section class="cards" aria-labelledby="cards-h">
+  <h2 id="cards-h">本を閉じたあとに</h2>
+  <ul class="lcards"><li class="lcard" data-page="archive/">
+  <a href="archive/">
+    <span class="lcard-title">資料室</span>
+    <span class="lcard-desc">作中に出てくる作品の記録。読み進めると、棚に資料が増えていく。</span>
+    <span class="lcard-table" aria-label="あなたの閲覧日"><span class="lcard-th">閲覧日</span><span class="lcard-rows"></span></span>
+  </a>
+</li><li class="lcard" data-page="timeline/">
+  <a href="timeline/">
+    <span class="lcard-title">年表</span>
+    <span class="lcard-desc">記録に残っていることと、誰かが覚えていることを、並べて置いています。</span>
+    <span class="lcard-table" aria-label="あなたの閲覧日"><span class="lcard-th">閲覧日</span><span class="lcard-rows"></span></span>
+  </a>
+</li><li class="lcard" data-page="people/">
+  <a href="people/">
+    <span class="lcard-title">人物録</span>
+    <span class="lcard-desc">登場人物の記録。「覚えておく」を押すと、あなたのノートに写しが残ります。</span>
+    <span class="lcard-table" aria-label="あなたの閲覧日"><span class="lcard-th">閲覧日</span><span class="lcard-rows"></span></span>
+  </a>
+</li><li class="lcard" data-page="notes/">
+  <a href="notes/">
+    <span class="lcard-title">記憶ノート</span>
+    <span class="lcard-desc">あなたが書いたこと、覚えておいたこと。この端末の中にだけあります。</span>
+    <span class="lcard-table" aria-label="あなたの閲覧日"><span class="lcard-th">閲覧日</span><span class="lcard-rows"></span></span>
+  </a>
+</li>
+  <li class="lcard lcard--check" data-page="check/" hidden><a href="check/"><span class="lcard-title">記憶照合</span><span class="lcard-desc">あなたの記憶と、いまの記録を照らし合わせます。</span><span class="lcard-table"><span class="lcard-th">閲覧日</span><span class="lcard-rows"></span></span></a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">
+  <div class="foot-in">
+    <p class="foot-title">残響　ARTIFICIAL SALVATION　メガラバニア</p>
+    <p>作　月真猫（TSUKI PRODUCT）</p>
+    <p class="foot-links"><a href="about/">この場所について</a><a href="notes/">記憶ノート</a><a href="https://x.com/Atg_Tsukimao" rel="noopener">X　@Atg_Tsukimao</a><a href="https://tsukilab.jp/tsukimao/official/">月真猫 公式</a></p>
+    <p class="foot-small">本作はフィクションです。実在の人物・団体・作品とは関係ありません。</p>
+  </div>
+</footer>
+<div class="sheet" id="sheet-settings" role="dialog" aria-modal="true" aria-labelledby="st-title" hidden>
+  <div class="sheet-in">
+    <h2 id="st-title">表示の設定</h2>
+    <fieldset><legend>文字の大きさ</legend>
+      <div class="seg" data-set="size"><button data-v="s">小</button><button data-v="m">中</button><button data-v="l">大</button><button data-v="xl">特大</button></div></fieldset>
+    <fieldset><legend>行の間隔</legend>
+      <div class="seg" data-set="lh"><button data-v="tight">狭い</button><button data-v="normal">ふつう</button><button data-v="loose">広い</button></div></fieldset>
+    <fieldset><legend>書体</legend>
+      <div class="seg" data-set="face"><button data-v="mincho">明朝</button><button data-v="gothic">ゴシック</button></div></fieldset>
+    <fieldset><legend>組み方（本文）</legend>
+      <div class="seg" data-set="dir"><button data-v="yoko">横書き</button><button data-v="tate">縦書き</button></div></fieldset>
+    <fieldset><legend>背景</legend>
+      <div class="seg" data-set="theme"><button data-v="auto">端末に合わせる</button><button data-v="paper">紙</button><button data-v="night">夜</button></div></fieldset>
+    <fieldset class="st-spoil"><legend>資料の表示</legend>
+      <label class="check"><input type="checkbox" data-set-check="spoil"> 読んでいない章の資料も表示する（内容に触れます）</label></fieldset>
+    <button class="btn" type="button" data-close>閉じる</button>
+  </div>
+</div>
+<div class="sheet sheet--search" id="sheet-search" role="dialog" aria-modal="true" aria-labelledby="sr-title" hidden>
+  <div class="sheet-in">
+    <h2 id="sr-title">本文を検索</h2>
+    <form class="sr-form" role="search">
+      <input type="search" id="sr-q" placeholder="ことばを入れてください（例：午後三時）" autocomplete="off" enterkeyhint="search">
+      <button class="btn" type="submit">探す</button>
+    </form>
+    <div class="sr-notice" hidden></div>
+    <div class="sr-hist"></div>
+    <ol class="sr-res" aria-live="polite"></ol>
+    <button class="btn btn--ghost" type="button" data-close>閉じる</button>
+  </div>
+</div>
+<div class="toast" role="status" aria-live="polite" hidden></div>
+<script src="assets/zk.js?v=20261010" defer></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="auto">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>記憶照合｜残響</title>
+<meta name="description" content="あなたの記憶と、いまの記録を照らし合わせる。">
+<meta name="theme-color" content="#e6e9e5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1317" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://tsukilab.jp/zankyo/check/">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="tsukilab.jp">
+<meta property="og:title" content="記憶照合｜残響">
+<meta property="og:description" content="あなたの記憶と、いまの記録を照らし合わせる。">
+<meta property="og:url" content="https://tsukilab.jp/zankyo/check/">
+<meta property="og:image" content="https://tsukilab.jp/zankyo/assets/og/og-site.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Atg_Tsukimao">
+<meta name="twitter:title" content="記憶照合｜残響">
+<meta name="twitter:description" content="あなたの記憶と、いまの記録を照らし合わせる。">
+<meta name="twitter:image" content="https://tsukilab.jp/zankyo/assets/og/og-site.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700;800&family=BIZ+UDPGothic:wght@400;700&display=swap">
+<link rel="stylesheet" href="../assets/zk.css?v=20261010">
+<script>/* 表示設定は描画前に当てる（ちらつき防止） */
+(function(){try{var s=JSON.parse(localStorage.getItem('zk.settings')||'{}');var d=document.documentElement;
+if(s.theme)d.dataset.theme=s.theme;if(s.size)d.dataset.size=s.size;if(s.lh)d.dataset.lh=s.lh;
+if(s.face)d.dataset.face=s.face;if(s.dir)d.dataset.dir=s.dir;}catch(e){}})();</script>
+
+</head>
+<body class="k-check " data-root="../" >
+<a class="skip" href="#main">本文へ移動</a>
+<header class="bar" id="bar">
+  <a class="mark" href="../" aria-label="残響 トップへ"><span class="mark-ink">残響</span><span class="mark-pen" aria-hidden="true">残響</span></a>
+  <nav class="nav" aria-label="サイト内">
+    <ul><li><a href="../" data-nav="home">本棚</a></li><li><a href="../archive/" data-nav="archive/">資料室</a></li><li><a href="../timeline/" data-nav="timeline/">年表</a></li><li><a href="../people/" data-nav="people/">人物録</a></li><li><a href="../notes/" data-nav="notes/">記憶ノート</a></li><li><a href="../about/" data-nav="about/">この場所について</a></li></ul>
+  </nav>
+  <div class="tools">
+    <span class="clock" role="img" aria-label="現在時刻">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14.5" class="c-face"/><line class="c-h" x1="16" y1="16" x2="16" y2="9"/><line class="c-m" x1="16" y1="16" x2="16" y2="5"/><line class="c-s" x1="16" y1="18.5" x2="16" y2="4"/><circle cx="16" cy="16" r="1.4" class="c-pin"/></svg>
+    </span>
+    <button class="tool" type="button" data-act="rain" aria-pressed="false" title="雨音">雨音</button>
+    <button class="tool" type="button" data-act="search" title="本文を検索">検索</button>
+    <button class="tool" type="button" data-act="settings" title="表示の設定">文字</button>
+    <button class="tool tool--menu" type="button" data-act="menu" aria-expanded="false" aria-controls="drawer">目次</button>
+  </div>
+  <div class="progress" aria-hidden="true"><i></i></div>
+</header>
+<div class="drawer" id="drawer" hidden>
+  <nav aria-label="サイト内（モバイル）"><ul><li><a href="../" data-nav="home">本棚</a></li><li><a href="../archive/" data-nav="archive/">資料室</a></li><li><a href="../timeline/" data-nav="timeline/">年表</a></li><li><a href="../people/" data-nav="people/">人物録</a></li><li><a href="../notes/" data-nav="notes/">記憶ノート</a></li><li><a href="../about/" data-nav="about/">この場所について</a></li></ul></nav>
+</div>
+<main id="main">
+<section class="sub-top">
+  <h1 class="sub-title">記憶照合</h1>
+  <p class="sub-lead">本を見返さずに答えてください。正解は表示しません。いまの記録と、あなたの記憶を並べるだけです。</p>
+</section>
+<div class="qz" id="qz"><p class="qz-lock">『残響』を最後まで読むと、ここが開きます。</p></div>
+<script type="application/json" id="zk-quiz">{"items": [{"q": "映画『残響の街』。雨の長回しで、主人公が見つめている時計は？", "choices": ["デジタル表示の時計", "古い懐中時計", "駅の電光表示"], "record": "古い懐中時計", "memo": "第一話のレビューには、数字が雨で滲むと書いてありました。"}, {"q": "群青「まぼろしの午後」。アナログ盤に表記された時間は？", "choices": ["5分00秒", "4分52秒", "4分44秒"], "record": "4分52秒", "memo": "配信版との差は、8秒でした。"}, {"q": "アニメ『透明な夜の向こう』の第1期は、何話でしたか。", "choices": ["13話", "24話", "11話"], "record": "全24話（2025年放送）", "memo": "第2期は、第14話からの連番でした。"}, {"q": "『あの日の記憶装置』第五章の図書館。二階の閲覧室から見えるものは？", "choices": ["鉄橋", "海", "書かれていない"], "record": "書かれていない", "memo": "川を背にして北向き。三分歩くと、廃業した銭湯。"}, {"q": "美咲の右斜め前の席に座っていたのは？", "choices": ["里見結衣", "松本", "誰もいない"], "record": "在籍記録なし", "memo": "消しゴムに、美咲の名前を書いた人です。"}, {"q": "『永遠の3時』三刷の最後の三ページで、彼女はどうしましたか。", "choices": ["町を出て、泣いた", "町を出ずに、戻った", "どちらの三刷もある"], "record": "町を出て、泣いた（国立国会図書館の初版）", "memo": "同じ刷が、二種類ありました。"}, {"q": "翔が持っている紙。一枚目の右上に書かれていた時刻は？", "choices": ["6:29", "15:00", "何も書かれていない"], "record": "15:00（電子カルテの死亡時刻）", "memo": "CPR開始。女性。付添あり（娘）。"}, {"q": "最後に削除された検索履歴は、何件でしたか。", "choices": ["18件", "17件", "0件"], "record": "記録なし", "memo": "いちばん最後の一件は「約束」でした。"}]}</script>
+</main>
+<footer class="foot">
+  <div class="foot-in">
+    <p class="foot-title">残響　ARTIFICIAL SALVATION　メガラバニア</p>
+    <p>作　月真猫（TSUKI PRODUCT）</p>
+    <p class="foot-links"><a href="../about/">この場所について</a><a href="../notes/">記憶ノート</a><a href="https://x.com/Atg_Tsukimao" rel="noopener">X　@Atg_Tsukimao</a><a href="https://tsukilab.jp/tsukimao/official/">月真猫 公式</a></p>
+    <p class="foot-small">本作はフィクションです。実在の人物・団体・作品とは関係ありません。</p>
+  </div>
+</footer>
+<div class="sheet" id="sheet-settings" role="dialog" aria-modal="true" aria-labelledby="st-title" hidden>
+  <div class="sheet-in">
+    <h2 id="st-title">表示の設定</h2>
+    <fieldset><legend>文字の大きさ</legend>
+      <div class="seg" data-set="size"><button data-v="s">小</button><button data-v="m">中</button><button data-v="l">大</button><button data-v="xl">特大</button></div></fieldset>
+    <fieldset><legend>行の間隔</legend>
+      <div class="seg" data-set="lh"><button data-v="tight">狭い</button><button data-v="normal">ふつう</button><button data-v="loose">広い</button></div></fieldset>
+    <fieldset><legend>書体</legend>
+      <div class="seg" data-set="face"><button data-v="mincho">明朝</button><button data-v="gothic">ゴシック</button></div></fieldset>
+    <fieldset><legend>組み方（本文）</legend>
+      <div class="seg" data-set="dir"><button data-v="yoko">横書き</button><button data-v="tate">縦書き</button></div></fieldset>
+    <fieldset><legend>背景</legend>
+      <div class="seg" data-set="theme"><button data-v="auto">端末に合わせる</button><button data-v="paper">紙</button><button data-v="night">夜</button></div></fieldset>
+    <fieldset class="st-spoil"><legend>資料の表示</legend>
+      <label class="check"><input type="checkbox" data-set-check="spoil"> 読んでいない章の資料も表示する（内容に触れます）</label></fieldset>
+    <button class="btn" type="button" data-close>閉じる</button>
+  </div>
+</div>
+<div class="sheet sheet--search" id="sheet-search" role="dialog" aria-modal="true" aria-labelledby="sr-title" hidden>
+  <div class="sheet-in">
+    <h2 id="sr-title">本文を検索</h2>
+    <form class="sr-form" role="search">
+      <input type="search" id="sr-q" placeholder="ことばを入れてください（例：午後三時）" autocomplete="off" enterkeyhint="search">
+      <button class="btn" type="submit">探す</button>
+    </form>
+    <div class="sr-notice" hidden></div>
+    <div class="sr-hist"></div>
+    <ol class="sr-res" aria-live="polite"></ol>
+    <button class="btn btn--ghost" type="button" data-close>閉じる</button>
+  </div>
+</div>
+<div class="toast" role="status" aria-live="polite" hidden></div>
+<script src="../assets/zk.js?v=20261010" defer></script>
+</body>
+</html>
