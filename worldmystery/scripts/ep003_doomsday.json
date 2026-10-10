@@ -1,0 +1,348 @@
+{
+  "title": "人類滅亡の日が計算されたバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#003",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "予言",
+    "検証",
+    "理由",
+    "報告"
+  ],
+  "chapter_titles": [
+    "1960年の論文が出した“最後の日”",
+    "予言の式と実際の人口",
+    "なぜ外れたのか",
+    "バグ報告とまとめ"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/noche_de_verano_chill.mp3",
+    "credit": "Noche de verano (Chill) / PPE",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/663407"
+  },
+  "report": {
+    "no": "003",
+    "name": "人口が無限大になる日",
+    "place": "1960年の科学論文(Science誌)",
+    "reporter": "国連 世界人口推計(2024年)",
+    "severity": 3,
+    "status": "修正済み"
+  },
+  "lines": [
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "chapter": 0,
+      "text": "今年の十一月十三日に、人類が滅亡するのだ！？",
+      "pop": "滅亡！？",
+      "punch": true,
+      "telop": "2026年11月13日(金)\n人類滅亡？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "落ち着いてください。一九六〇年に、ある科学論文が、[[その日付]]を出していたんです。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "論文のタイトルは、ドゥームズデイ。日本語にすると、[[最後の審判の日]]。二〇二六年、十一月十三日、金曜日。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "十三日の金曜日なのだ…。こわすぎるのだ。"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "mode": "full",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "mode": "full",
+      "text": "ずんだもんなのだ！今日が、最後の放送かもしれないのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "書いたのは、アメリカの大学の、フォン・フェルスターたち三人の研究者。一九六〇年十一月、科学誌[[サイエンス]]に載りました。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "彼らは、昔からの世界の人口を調べて、人口の増え方を、ひとつの式で表しました。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "式なのだ？難しいのは、苦手なのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ざっくり言うと、人が増えるほど、増える速さも上がっていく式です。この式を先へ伸ばすと、ある日、人口が[[無限大]]になってしまいます。"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "無限大！？地球に、入りきらないのだ！",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "その日が、二〇二六年、十一月十三日。ちなみにこの日は、フォン・フェルスターの、[[百十五歳の誕生日]]にあたります。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "誕生日に、人類を滅亡させないでほしいのだ！",
+      "pop": "誕生日！？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 1,
+      "text": "では、検証です。赤い点線が、この式の形。青が、実際の世界人口です。",
+      "seq": "ep003_pop",
+      "fit": "contain",
+      "box": [
+        640,
+        373
+      ],
+      "note": "赤い点線は論文の式の形を1960年の人口に合わせて作図",
+      "credit": "Our World in Data(HYDE・Gapminder・国連 世界人口推計2024)をもとに番組で作図",
+      "license": "CC BY 4.0",
+      "url": "https://ourworldindata.org/grapher/population"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "式の形を、一九六〇年の人口に合わせて描くと、一九八〇年代ごろまでは、実際の人口と、[[よく重なって]]います。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "ほんとなのだ…。ちょっと、当たってるのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ところが、その先で、二本の線は離れていきます。式は二〇二六年に向かって急上昇。実際の人口は、二〇二三年で、約[[八十一億人]]です。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "無限大には、ほど遠いのだ！",
+      "pop": "セーフ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 2,
+      "text": "なぜ、ずれたのか。大きな理由は、世界の多くの地域で、[[生まれる子どもの数]]が、減っていったことです。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "増える速さそのものが、落ちていった。つまり、式の前提が、[[途中で変わった]]んです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "式のほうが、置いていかれたのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "国連の予測では、世界の人口は、二〇八〇年代の半ばに、約[[百三億人]]で頂点を迎え、その後は、ゆっくり減っていく見込みです。",
+      "seq": "ep003_future",
+      "fit": "contain",
+      "box": [
+        640,
+        373
+      ],
+      "credit": "国連 世界人口推計2024(要約)の値から番組で概形を作図",
+      "license": "番組作成の図",
+      "url": "https://population.un.org/wpp/"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "人口って、減るのだ！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "はい。今の見通しでは、増え続ける時代は、今世紀のうちに、終わる可能性が高いとされています。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "chapter": 3,
+      "report": true,
+      "text": "じゃあ、十一月十三日は、普通の金曜日なのだ？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "はい。著者たちも、本当に無限大になるとは考えておらず、このまま増え続けたら、という[[警告]]の意味が強かったとされています。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "stamp": true,
+      "text": "人口の増え方の暴走は、私たち自身が、止めていたんです。今回のバグのステータスは、[[修正済み]]です。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "十一月十三日は、フォン・フェルスターさんの誕生日を、お祝いするのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "百十五歳、おめでとうございます。",
+      "sfx": "kira"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "あなたが見つけた、この世界のバグも、コメントで報告してください。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "チャンネル登録も、よろしくなのだ！"
+    }
+  ],
+  "sources": [
+    "von Foerster H, Mora PM, Amiot LW (1960) Doomsday: Friday, 13 November, A.D. 2026. Science 132",
+    "Wikipedia: Heinz von Foerster(生年月日 1911年11月13日、論文の概要) https://en.wikipedia.org/wiki/Heinz_von_Foerster",
+    "phys.org 2026-09-30 Scientists in 1960 predicted Friday 13 November 2026 will be 'Doomsday' https://phys.org/news/2026-09-scientists-friday-november-doomsday.html",
+    "Our World in Data: Population(HYDE 2023・Gapminder 2022・UN WPP 2024) https://ourworldindata.org/grapher/population",
+    "国連 World Population Prospects 2024: Summary of Results https://population.un.org/wpp/"
+  ],
+  "publish": {
+    "titles": [
+      "2026年11月13日、人類滅亡？1960年の科学論文が出した“最後の日”の正体",
+      "なぜ1960年の科学者は「今年11月13日に人口が無限大になる」と計算したのか",
+      "13日の金曜日に人類滅亡…と計算した論文。なぜ外れた？【ドゥームズデイ方程式】"
+    ],
+    "hook": [
+      "1960年、科学誌Scienceに「Doomsday: Friday, 13 November, A.D. 2026」という論文が載りました。人口の式を伸ばすと、その日に人口が無限大になるというのです。",
+      "予言の式と実際の世界人口を重ねて検証し、なぜ外れたのかをバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#雑学",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "人類滅亡",
+          "11月13日"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep003_pop_final.png",
+        "crop": [
+          0.35,
+          0.0,
+          1.0,
+          0.9
+        ],
+        "focus": 0.5,
+        "size": 130
+      },
+      {
+        "text": [
+          "予言は",
+          "外れた？"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "ep003_pop_final.png",
+        "crop": [
+          0.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "13日の",
+          "金曜日"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ]
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 0,
+      "to": 3,
+      "hook": [
+        "1960年の論文が",
+        "人類滅亡の日を",
+        "計算していた"
+      ],
+      "title": "1960年の科学論文が出した「人類滅亡の日」は今年の11月13日 #Shorts"
+    },
+    {
+      "from": 14,
+      "to": 18,
+      "hook": [
+        "予言の式と",
+        "現実を重ねたら…"
+      ],
+      "title": "人類滅亡を予言した式、現実と重ねてみたら… #Shorts"
+    }
+  ]
+}

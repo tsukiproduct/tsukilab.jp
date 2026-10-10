@@ -1,0 +1,395 @@
+{
+  "title": "食べ放題で肉が横取りされるバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#013",
+  "theme": {
+    "base": [
+      255,
+      240,
+      232
+    ],
+    "blobs": [
+      [
+        255,
+        206,
+        190
+      ],
+      [
+        255,
+        226,
+        170
+      ],
+      [
+        244,
+        196,
+        196
+      ],
+      [
+        255,
+        214,
+        180
+      ]
+    ],
+    "pattern": "dots",
+    "pat": [
+      255,
+      190,
+      170,
+      255
+    ],
+    "frame": [
+      220,
+      150,
+      130,
+      255
+    ]
+  },
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "横取り",
+    "犯罪?",
+    "言い訳",
+    "目"
+  ],
+  "chapter_titles": [
+    "配膳ロボから肉の横取り",
+    "食べ放題でも窃盗罪になり得る理由",
+    "「これくらいいいや」の心理(中和の技術)",
+    "目の写真で人は変わる?"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/finding_curious_taking.mp3",
+    "credit": "Finding, curious, taking / Wobinidan",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/209419"
+  },
+  "report": {
+    "no": "013",
+    "name": "食べ放題で肉が横取りされる",
+    "place": "配膳ロボのある食べ放題の店",
+    "reporter": "SNSの投稿・すかいらーくHD(2026年10月)",
+    "severity": 2,
+    "status": "修正パッチ配布中"
+  },
+  "sources": [
+    "J-CASTニュース 2026年10月2日 しゃぶ葉の配膳ロボで「横取り」問題再燃 他の客の商品を取ると音声通知、運営元が全店導入へ https://www.j-cast.com/2026/10/02518266.html",
+    "弁護士JPニュース 2026年10月7日 しゃぶ葉「配膳ロボ」から“国産牛”横取りが物議…食べ放題でも“店への窃盗罪”が成立し得るワケ(阿部由羅弁護士) https://ben54.jp/news/3989",
+    "Wikipedia: Techniques of neutralization(Sykes & Matza 1957) https://en.wikipedia.org/wiki/Techniques_of_neutralization",
+    "Bateson, Nettle & Roberts (2006) Cues of being watched enhance cooperation in a real-world setting. Biology Letters 2(3):412-414 https://royalsocietypublishing.org/doi/10.1098/rsbl.2006.0509",
+    "Carbon & Hesslinger (2011) Bateson et al.'s (2006) cues-of-being-watched paradigm revisited. Swiss Journal of Psychology https://www.researchgate.net/publication/254735668"
+  ],
+  "lines": [
+    {
+      "who": "zunda",
+      "text": "食べ放題の店で、配膳ロボが運んでる[[よその席の肉]]を、取っちゃう人がいるのだ！",
+      "emote": "surprise",
+      "chapter": 0,
+      "punch": true,
+      "pop": "横取り！？",
+      "telop": "配膳ロボから\n肉の横取り"
+    },
+    {
+      "who": "tsumugi",
+      "text": "しゃぶしゃぶ食べ放題の、しゃぶ葉の話です。九月、SNSで、高い肉が届かない、という投稿が広がりました。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "食べ放題なんだから、ちょっとくらい、いいのだ？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "よくないです。今日は、これが[[犯罪になり得る理由]]と、人が「これくらいいいや」と思ってしまう[[心のバグ]]を報告します。最後に、目が描いてあるだけで、人が変わる実験も紹介します。",
+      "emote": "normal",
+      "sfx": "kira"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんなのだ！今日は、おなかいっぱいで来たので、横取りはしないのだ！",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "tsumugi",
+      "text": "しくみは、こうです。猫の形の配膳ロボの棚に、いくつかの席の料理が、段ごとに載っています。",
+      "emote": "normal",
+      "chapter": 1,
+      "seq": "ep013b_robot",
+      "fit": "contain",
+      "note": "しくみの模式図",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "本当は、自分の席の段だけ取ります。でも、別の段から取ってしまう人がいると、その席には、[[空っぽの棚]]が届きます。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "肉が来ると思ったら、ロボだけ来るのだ…。悲しすぎるのだ。",
+      "emote": "think",
+      "pop": "空っぽ"
+    },
+    {
+      "who": "tsumugi",
+      "text": "運営する、すかいらーくホールディングスは、[[お詫び]]を出しました。受け取り方の説明が、十分に伝わっていなかった、と説明しています。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "対策として、別の席の料理を取ろうとすると、ロボが[[声で知らせる]]機能を、一部の店で試していて、全店に広げる予定です。",
+      "emote": "normal",
+      "telop": "他の席の料理を取ると\n音声でお知らせ\n(全店に展開予定)"
+    },
+    {
+      "who": "zunda",
+      "text": "でも、食べ放題なら、店は損してないのだ？",
+      "emote": "think",
+      "chapter": 2
+    },
+    {
+      "who": "tsumugi",
+      "text": "弁護士の解説では、ロボの上の料理は、注文した人が受け取るまで、[[店のもの]]と考えられます。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "だから、他の人の料理と知っていて取って食べれば、[[店に対する窃盗罪]]になり得る、とのことです。",
+      "emote": "normal",
+      "telop": "知っていて取れば\n店への窃盗罪になり得る",
+      "punch": true
+    },
+    {
+      "who": "zunda",
+      "text": "間違えて取っちゃったら、どうなるのだ？",
+      "emote": "surprise"
+    },
+    {
+      "who": "tsumugi",
+      "text": "自分の料理だと思って取った場合は、窃盗罪にはならない、と解説されています。ただ、本当にそうだったかは、[[まわりの状況]]からも判断されます。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "一緒に来た人に、取っちゃおうって言ってたら、アウトなのだ。",
+      "emote": "think",
+      "pop": "バレる"
+    },
+    {
+      "who": "tsumugi",
+      "text": "では、なぜ人は、「これくらい、いいや」と思ってしまうのか。",
+      "emote": "normal",
+      "chapter": 3,
+      "seq": "ep013b_neutral",
+      "fit": "contain",
+      "credit": "Sykes & Matza(1957)の分類をもとに番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "一九五七年、アメリカの社会学者、[[サイクスとマッツァ]]は、ルールを破る人が使う、[[心の言い訳]]を、五つに分けました。中和の技術、と呼ばれています。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "わざとじゃない。だれも損してない。店が悪い。みんなやってる。そして、仲間のためだから。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "全部、言ったことがある気がするのだ…。",
+      "emote": "surprise",
+      "punch": true,
+      "pop": "ギクッ"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ポイントは、悪いことだと[[分かっているのに]]、言い訳で、心のブレーキを外してしまうところです。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "食べ放題は、まさに、[[だれも損してない]]と思いやすい場所なんです。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "じゃあ、最初に言ってた、目が描いてあるだけで変わる実験は、なんなのだ！",
+      "emote": "surprise"
+    },
+    {
+      "who": "tsumugi",
+      "text": "二〇〇六年、イギリスの大学の休憩室で、飲み物の代金を、自分で箱に入れる仕組みがありました。",
+      "emote": "normal",
+      "report": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "料金表の上に、[[人の目の写真]]を貼った週は、花の写真の週に比べて、払われたお金が、およそ[[三倍]]近くになりました。",
+      "emote": "normal",
+      "telop": "目の写真を貼ると\n支払いが約3倍近く\n(2006年の実験)"
+    },
+    {
+      "who": "zunda",
+      "text": "写真の目に、見張られてる気がしたのだ！",
+      "emote": "surprise"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ただ、この効果は、別の実験では、はっきり出なかったこともあります。[[効く場面と効かない場面]]がある、と考えた方がよさそうです。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "というわけで、今回のバグのステータスは、[[修正パッチ配布中]]。ロボが声を出すのは、人の心に、もう一度ブレーキをかけるため、かもしれません。",
+      "emote": "happy",
+      "stamp": true
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんの肉にも、目の写真を貼っておくのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "肉に目は、ちょっと怖いです。",
+      "emote": "normal",
+      "pop": "ホラー",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "text": "あなたが見た、思わず、それダメでしょ、と思った行動も、コメントで報告してください。",
+      "emote": "happy"
+    },
+    {
+      "who": "zunda",
+      "text": "チャンネル登録も、よろしくなのだ！",
+      "emote": "happy"
+    }
+  ],
+  "publish": {
+    "thumb_style": "pop",
+    "titles": [
+      "食べ放題で配膳ロボの肉を横取り。それ、店への窃盗罪になり得ます",
+      "なぜ人は「食べ放題ならいいや」と思ってしまうのか？横取りの心理と5つの言い訳",
+      "目の写真を貼るだけで払うお金が約3倍に？配膳ロボ横取り事件と人の心のバグ"
+    ],
+    "hook": [
+      "2026年9月、しゃぶ葉で配膳ロボが運ぶ肉を他の客が取ってしまうという投稿が広がり、運営会社が謝罪と対策を発表しました。",
+      "食べ放題でも窃盗罪になり得る理由、人が「これくらいいいや」と思う5つの言い訳(中和の技術)、目の写真の実験をバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#心理学",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "肉が",
+          "届かない"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep013b_robot/280.png",
+        "crop": [
+          0.0,
+          0.0,
+          1.0,
+          0.9
+        ],
+        "focus": 0.5,
+        "style": "pop"
+      },
+      {
+        "text": [
+          "それ",
+          "窃盗です"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "style": "dark"
+      },
+      {
+        "text": [
+          "みんな",
+          "やってる?"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep013b_neutral/209.png",
+        "style": "pop"
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 12,
+      "to": 17,
+      "hook": [
+        "食べ放題でも",
+        "窃盗罪に",
+        "なり得る"
+      ],
+      "title": "食べ放題でも、他人の料理を取ると窃盗罪になり得る #Shorts",
+      "thumb_photo": false
+    },
+    {
+      "from": 25,
+      "to": 28,
+      "hook": [
+        "目の写真で",
+        "払うお金が",
+        "約3倍"
+      ],
+      "title": "目の写真を貼るだけで、払うお金が約3倍に？ #Shorts",
+      "thumb_photo": false
+    }
+  ]
+}

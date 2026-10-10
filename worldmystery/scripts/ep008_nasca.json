@@ -1,0 +1,335 @@
+{
+  "title": "ナスカ文明の終わり方が分からないバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#008",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "征服説",
+    "ミイラ",
+    "時代",
+    "報告"
+  ],
+  "chapter_titles": [
+    "ナスカは征服されたのか",
+    "千年眠っていたミイラ",
+    "重なる二つの時代",
+    "バグ報告とまとめ"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/noche_de_verano_chill.mp3",
+    "credit": "Noche de verano (Chill) / PPE",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/663407"
+  },
+  "report": {
+    "no": "008",
+    "name": "ナスカ文明の終わり方が分からない",
+    "place": "ペルー南部 ウアカ・デル・ロロ遺跡",
+    "reporter": "北アリゾナ大・ペルー・カトリカ大ほか(2026年9月)",
+    "severity": 3,
+    "status": "調査中"
+  },
+  "lines": [
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "chapter": 0,
+      "text": "ナスカの地上絵の文明って、別の国に、征服されたのだ！？",
+      "pop": "征服！？",
+      "punch": true,
+      "telop": "ナスカの文明は\n征服されたのか"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "長いあいだ、そう考えられてきました。でも九月、ペルーの[[ミイラ]]の研究が、その説に、疑問を投げかけています。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "征服ではなく、[[協力]]だったのかもしれない、というんです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "ミイラが、しゃべったのだ…？"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "mode": "full",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "mode": "full",
+      "text": "ずんだもんなのだ！今日は、南米の大冒険なのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "舞台は、南米ペルーの南の海岸。有名な地上絵を残した、[[ナスカ文化]]の地域です。",
+      "seq": "ep008_map",
+      "fit": "contain",
+      "box": [
+        380,
+        422
+      ],
+      "note": "位置はおおよそ",
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ナスカ文化が栄えたのは、紀元一年ごろから、七百五十年ごろ。その後、山の上で力を持った[[ワリ]]の影響が、広がっていきます。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ワリの都は、今のアヤクチョという町の近く。ナスカから見ると、アンデスの山を越えた先です。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "山の上から、攻めてきたのだ？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "そう考えられてきました。ワリ帝国が、ナスカを[[征服した]]、という見方です。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 1,
+      "text": "今回、ペルーとアメリカの研究者たちが調べたのは、[[ウアカ・デル・ロロ]]という遺跡です。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "そこで、布に包まれ、ひざを曲げた姿の、[[四体のミイラ]]が見つかりました。千年以上、手つかずのままでした。",
+      "telop": "布に包まれたミイラ\n4体"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "千年以上、だれにも見つからなかったのだ！？",
+      "pop": "千年！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "注目されたのは、埋められた場所です。墓地ではなく、ワリの[[神殿]]のそばでした。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "研究者は、この地域が、暴力で奪われたのではなく、二つの文化の[[協力]]で開かれたのではないか、という疑問を投げかけています。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 2,
+      "text": "時代を並べてみると、ナスカ文化とワリ文化は、およそ西暦五百年から七百五十年ごろまで、[[重なって]]います。",
+      "seq": "ep008_eras",
+      "fit": "contain",
+      "note": "年代はおおよそ",
+      "credit": "Wikipedia(ナスカ文化・ワリ文化)と報道をもとに番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "重なってるなら、仲良くしてた時期も、あったかもしれないのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "研究チームは、ミイラのCTスキャンや、DNA、そして食べ物や移動の跡を調べる、[[同位体分析]]を進めています。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "誰が、どこから来て、どんな関係だったのか。答えは、これからのデータにかかっています。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "chapter": 3,
+      "report": true,
+      "text": "征服か、協力か。どっちなのだ？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "まだ分かりません。ただ、ひとつの説を、[[うのみにしない]]理由が、また一つ見つかりました。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "stamp": true,
+      "text": "というわけで、今回のバグのステータスは、[[調査中]]です。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "ずんだもんとつむぎも、協力関係なのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "はい。征服された覚えは、ありませんからね。",
+      "pop": "ないです",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "あなたが見つけた、この世界のバグも、コメントで報告してください。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "チャンネル登録も、よろしくなのだ！"
+    }
+  ],
+  "sources": [
+    "phys.org 2026-09-30 Peruvian mummies raise questions about Wari conquest of Nasca civilization https://phys.org/news/2026-09-peruvian-mummies-wari-conquest-nasca.html",
+    "Wikipedia: Wari culture(西暦500〜1000年ごろ、都はアヤクチョの北東11km) https://en.wikipedia.org/wiki/Wari_culture",
+    "Wikipedia: Nazca culture https://en.wikipedia.org/wiki/Nazca_culture"
+  ],
+  "publish": {
+    "titles": [
+      "ナスカ文明は本当に征服されたのか？千年眠っていたミイラが投げかけた謎",
+      "地上絵の文明の終わり方が分からない。ワリ帝国の“征服”説に疑問",
+      "千年以上手つかずのミイラ4体。ナスカとワリは協力していた？"
+    ],
+    "hook": [
+      "地上絵で知られるナスカ文化は、ワリ帝国に征服されたと考えられてきました。",
+      "しかし2026年9月、ワリの神殿のそばで見つかったミイラが「協力だったのでは」という疑問を投げかけています。地図と年表でバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#歴史",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "征服？",
+          "協力？"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep008_map_final.png",
+        "photo_size": [
+          470,
+          610
+        ],
+        "crop": [
+          0.1,
+          0.25,
+          0.9,
+          0.95
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "ナスカの",
+          "終わり方"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "ep008_eras_final.png",
+        "photo_size": [
+          760,
+          330
+        ],
+        "photo_pos": [
+          470,
+          360
+        ],
+        "crop": [
+          0.08,
+          0.0,
+          0.95,
+          0.95
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "千年眠った",
+          "ミイラ"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "size": 130
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 0,
+      "to": 3,
+      "hook": [
+        "ナスカの文明は",
+        "本当に",
+        "征服されたのか"
+      ],
+      "title": "ナスカの文明は本当に征服されたのか？ #Shorts"
+    },
+    {
+      "from": 13,
+      "to": 16,
+      "hook": [
+        "千年眠っていた",
+        "ミイラ4体"
+      ],
+      "title": "千年以上手つかずだったミイラが語ること #Shorts",
+      "thumb_photo": false
+    }
+  ]
+}
