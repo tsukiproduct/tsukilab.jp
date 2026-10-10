@@ -97,5 +97,45 @@ def icons():
     svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="10" fill="#e6e9e5"/><circle cx="32" cy="32" r="23" fill="none" stroke="#1c2024" stroke-width="3.5"/><line x1="32" y1="32" x2="32" y2="15" stroke="#1c2024" stroke-width="4" stroke-linecap="round"/><line x1="32" y1="32" x2="45" y2="32" stroke="#1c2024" stroke-width="4" stroke-linecap="round"/><line x1="29" y1="35" x2="31" y2="12" stroke="#2a45b0" stroke-width="2"/></svg>"""
     (OUT / "favicon.svg").write_text(svg, encoding="utf-8")
 
+
+
+# ---------------------------------------------------------------- 表紙画像があれば、左に表紙・右に文字のOGにする
+def load_cover(name):
+    for ext in ("webp", "png"):
+        f = OUT / "img" / f"{name}.{ext}"
+        if f.exists():
+            im = Image.open(f).convert("RGB")
+            return im.resize((round(im.width * 630 / im.height), 630), Image.LANCZOS)
+    return None
+
+def og_cover(out, cover, bg, ink, sub, lines, foot, title=None, title_vertical=None):
+    cov = load_cover(cover)
+    if cov is None:
+        return False
+    img = Image.new("RGB", (1200, 630), bg)
+    if bg == PAPER: grid(img)
+    img.paste(cov, (0, 0)); w = cov.width
+    d = ImageDraw.Draw(img); d.line([(w, 0), (w, 630)], fill=INK, width=4)
+    x = w + 56
+    d.text((x, 60), sub, font=font(SANS, 22), fill=PENCIL if bg == PAPER else (160, 166, 170))
+    if title_vertical:
+        img = misregistered(img, 1200 - 210, 60, title_vertical, 170)
+        d = ImageDraw.Draw(img)
+    if title:
+        f = font(SERIF_B, title[1])
+        for i, line in enumerate(title[0]):
+            d.text((x - 3, 110 + i * (title[1] + 12) + 3), line, font=f, fill=(70, 92, 190))
+            d.text((x, 110 + i * (title[1] + 12)), line, font=f, fill=ink)
+    y = 400
+    for size, line in lines:
+        d.text((x, y), line, font=font(SERIF_M, size), fill=ink); y += size + 18
+    d.text((x, 560), foot, font=font(SANS, 20), fill=PENCIL if bg == PAPER else (150, 156, 160))
+    img.save(OUT / "og" / out, optimize=True)
+    return True
+
 og_site(); og_as(); og_echo(); og_mega(); icons()
+og_cover("og-site.png", "hero", PAPER, INK, "三つの小説と、その資料室", [(30, "詩集は三日前から"), (30, "同じページで開いていた。")], "tsukilab.jp/zankyo", title_vertical="残響")
+og_cover("og-as.png", "cover-as", INK, PAPER, "第一部", [(28, "証拠を信じる探偵と、"), (28, "娘を覚えている父親。")], "残響 ／ tsukilab.jp/zankyo", title=(["ARTIFICIAL", "SALVATION"], 64))
+og_cover("og-echo.png", "cover-echo", PAPER, INK, "第二部", [(28, "記事、レビュー、掲示板。"), (26, "読んでいるうちに、"), (26, "あなたの記憶が証拠になる。")], "tsukilab.jp/zankyo", title_vertical="残響")
+og_cover("og-mega.png", "cover-mega", (201, 207, 198), (34, 40, 42), "関連作　深夜の図書館（ミラー）", [(30, "第3話だけが、"), (30, "残っていない。")], "残響 関連作 ／ tsukilab.jp/zankyo", title=(["メガラバニア"], 64))
 print("ok")

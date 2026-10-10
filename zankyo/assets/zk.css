@@ -568,3 +568,17 @@ body:not(.k-chapter) .progress{display:none}
   .bar,.foot,.ch-end,.resume,.sheet,.toast,.drawer{display:none!important}
   body{background:#fff;color:#000}
 }
+
+/* 本棚：背表紙の下端を一本の棚板に揃える */
+.spines{grid-template-rows:auto auto;align-items:end;row-gap:0}
+.spine{display:grid;grid-row:span 2;grid-template-rows:subgrid}
+.spine a{margin-top:0;align-self:end}
+.spine-card{align-self:start}
+.spine-part,.spine-meta{flex-shrink:0;white-space:nowrap}
+.spine--mega .spine-title{white-space:nowrap;font-size:clamp(1rem,2.4vw,1.5rem)}
+@media (max-width:640px){
+  .spine--mega .spine-meta{display:none}
+  .spine--mega a{height:clamp(240px,62vw,300px)}
+}
+.reader--mega .slot--chapter{margin-block:1rem 1.75rem}
+:root[data-dir="tate"] .text .slot{display:none!important}

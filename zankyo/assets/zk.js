@@ -155,13 +155,19 @@
   });
   applySettings();
 
-  // ------------------------------------------------------------ 画像スロット（assets/img/<名前>.png があれば表示）
+  // ------------------------------------------------------------ 画像スロット（assets/img/<名前>.webp、なければ .png を表示）
   function loadSlots(scope = doc) {
     $$('.slot[data-slot]', scope).forEach(fig => {
       if (fig.dataset.tried) return; fig.dataset.tried = '1';
-      const img = new Image(); img.decoding = 'async'; img.alt = '';
-      img.onload = () => { fig.appendChild(img); fig.classList.add('has-img'); };
-      img.src = `${ROOT}assets/img/${fig.dataset.slot}.png`;
+      const exts = ['webp', 'png'];
+      const tryNext = () => {
+        const ext = exts.shift(); if (!ext) return;
+        const img = new Image(); img.decoding = 'async'; img.alt = '';
+        img.onload = () => { fig.appendChild(img); fig.classList.add('has-img'); };
+        img.onerror = tryNext;
+        img.src = `${ROOT}assets/img/${fig.dataset.slot}.${ext}`;
+      };
+      tryNext();
     });
   }
   loadSlots();
