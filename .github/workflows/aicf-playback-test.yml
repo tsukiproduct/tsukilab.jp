@@ -1,0 +1,19 @@
+name: AICF playback diagnostics
+on:
+  push:
+    paths:
+      - '.github/workflows/aicf-playback-test.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check deployed page and JSON
+        run: |
+          curl -sSL -o /dev/null -w 'PAGE_HTTP=%{http_code} TYPE=%{content_type}\n' https://tsukilab.jp/aicf/tool/
+          curl -sSL -o /dev/null -w 'MEDIA_JSON_HTTP=%{http_code} TYPE=%{content_type}\n' https://tsukilab.jp/aicf/tool/media.json
+      - name: Check direct MP4 range request
+        run: |
+          curl -sSL -r 0-1023 -o /dev/null -w 'VIDEO_HTTP=%{http_code} TYPE=%{content_type} BYTES=%{size_download}\n' 'https://video.twimg.com/amplify_video/2101688490727755776/vid/avc1/720x970/vFzevdBhyq0l66bR.mp4'
