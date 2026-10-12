@@ -1,0 +1,116 @@
+[
+  {
+    "id": "AICF-0001",
+    "category": "AI動画新人部門",
+    "description": "オリジナルのミニキャラの子の願いを温かい世界にしました。",
+    "tools": "ChatGPT、Pollo 2.5"
+  },
+  {
+    "id": "AICF-0003",
+    "category": "AI動画部門",
+    "description": "ほんのちょっとの勇気で広がる世界があります！",
+    "tools": "DomoAI、Seedance 2.0、Suno AI"
+  },
+  {
+    "id": "AICF-0005",
+    "category": "AI動画部門",
+    "description": "日本の昔話の主人公たちが集い、多様性と連帯をラテンポップで表現。",
+    "tools": "Suno、Grok"
+  },
+  {
+    "id": "AICF-0010",
+    "category": "AI動画部門",
+    "description": "歌詞ガチャで出会った詩から着想。日常の愛、数え歌、1980年代の懐かしさ、今も温かい人でありたいという思い。",
+    "tools": "Claude Code、Suno、DomoAI、Nano Banana Pro"
+  },
+  {
+    "id": "AICF-0013",
+    "category": "AI動画部門",
+    "description": "世界の終わりに残る愛と希望。",
+    "tools": "Suno、Midjourney、MTSほか"
+  },
+  {
+    "id": "AICF-0015",
+    "category": "AI動画新人部門",
+    "description": "好きなことや得意なことを活かし合う理想郷。",
+    "tools": "Gemini、Suno、Kling AI"
+  },
+  {
+    "id": "AICF-0023",
+    "category": "AI動画部門",
+    "description": "祖母から少年へ、そして次の世代へと受け継がれる縫い物と愛。",
+    "tools": "Seedance mini、Suno、Claude"
+  },
+  {
+    "id": "AICF-0027",
+    "category": "AI動画新人部門",
+    "description": "自由な想像力と魔法の筆。実際のアートも取り入れた作品。",
+    "tools": "Seedance、MiniMax H3、Suno、ChatGPT"
+  },
+  {
+    "id": "AICF-0031",
+    "category": "AI動画部門",
+    "description": "大切な人との再会を願う、言葉を超えた愛。",
+    "tools": "Vidu、CapCut、Suno"
+  },
+  {
+    "id": "AICF-0032",
+    "category": "AI動画部門",
+    "description": "セル画と立体表現を融合。",
+    "tools": "Seedance 2.0、Suno"
+  },
+  {
+    "id": "AICF-0035",
+    "category": "AI動画部門",
+    "description": "孤独なドラゴンが音楽を通じて世界を結ぶ。",
+    "tools": "PixVerse、Kling、Flow music、ChatGPT"
+  },
+  {
+    "id": "AICF-0038",
+    "category": "AI動画部門",
+    "description": "空腹をめぐる母子のやりとりを歌劇に。",
+    "tools": "Kling、Suno、ChatGPT、Gemini"
+  },
+  {
+    "id": "AICF-0041",
+    "category": "AI動画部門",
+    "description": "同僚の助けで早く帰宅する父親と娘。",
+    "tools": "Seedance 2.0、ChatGPT"
+  },
+  {
+    "id": "AICF-0042",
+    "category": "AI動画新人部門",
+    "description": "うさぎのぬいぐるみから広がる優しさの連鎖。",
+    "tools": "Seedance 2.5、Codex"
+  },
+  {
+    "id": "AICF-0045",
+    "category": "AI動画部門",
+    "description": "オリジナルIPの90秒のサイドストーリー。",
+    "tools": "Tapnow"
+  },
+  {
+    "id": "AICF-0046",
+    "category": "AI動画部門",
+    "description": "寒い世界に広がる温かな部屋、コーヒー、灯り。",
+    "tools": "Seedance 2.0、Suno、FlexClip、Claude"
+  },
+  {
+    "id": "AICF-0050",
+    "category": "AI動画新人部門",
+    "description": "小さな贈り物を渡し、受け取る温かさ。",
+    "tools": "Suno、ChatGPT Image、Claude"
+  },
+  {
+    "id": "AICF-0059",
+    "category": "AI動画部門",
+    "description": "違いを受け入れる柔軟さこそ温かい世界をつくる。",
+    "tools": "Midjourney、Kling AI、Suno AI、CapCut"
+  },
+  {
+    "id": "AICF-0060",
+    "category": "AI動画部門",
+    "description": "冬の森で命から命へ伝わる優しさと感謝。",
+    "tools": "未確認"
+  }
+]
