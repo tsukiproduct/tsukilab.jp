@@ -1,0 +1,17 @@
+name: AICF single video test
+on:
+  push:
+    paths:
+      - '.github/workflows/aicf-one-test.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -U yt-dlp
+      - run: yt-dlp --skip-download --print "VIDEO_URL=%(url)s" --extractor-args "twitter:api=syndication" "https://x.com/ra1bcibrwo1610/status/2101688507731472703"
