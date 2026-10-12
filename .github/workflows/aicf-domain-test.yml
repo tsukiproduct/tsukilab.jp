@@ -1,0 +1,13 @@
+name: AICF pages domain check
+on:
+  push:
+    paths:
+      - '.github/workflows/aicf-domain-test.yml'
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for u in 'https://tsukiproduct.github.io/tsukilab.jp/aicf/tool/' 'https://tsukilab.jp/aicf/tool/' 'https://www.tsukilab.jp/aicf/tool/'; do echo "$u"; curl -sSL -o /dev/null -w 'HTTP=%{http_code} REDIRECT=%{url_effective}\n' "$u"; done
