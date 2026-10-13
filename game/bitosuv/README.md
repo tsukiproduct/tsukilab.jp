@@ -16,7 +16,7 @@ Data key `bito-survivors-v3` stores only cleared-tier booleans, integer currency
 
 ## Performance and animation
 
-30 fps, device-pixel ratio 1, pre-rendered small sprite canvases, offscreen culling, spatial-grid bullet collision. Limits: 72–96 regular enemies plus bosses, 100 player bullets, 65 hostile bullets, 260 pickups, 90 particles. Walking is distance-driven with three sprite frames; mirrored facing, breathing, steps, bat/ghost float, hit flashes, dash afterimage, rotating cards, chest reward reveal and telegraphed boss effects. Reduced-motion preference disables menu transitions.
+30 fps, device-pixel ratio 1, pre-rendered small sprite canvases, offscreen culling, spatial-grid bullet collision. Limits: 72–96 regular enemies plus bosses, 100 player bullets, 65 hostile bullets, 260 pickups, 90 particles. Player source rectangles are measured from alpha silhouettes, aligned to a shared foot baseline and head center, and scaled consistently per character. Walking is distance-driven with directional front/side/back frames; only left-facing side sprites are mirrored. Includes bat/ghost float, hit flashes, dash afterimage, rotating cards, chest reward reveal and telegraphed boss effects. Reduced-motion preference disables menu transitions.
 
 ## Security
 
@@ -24,7 +24,7 @@ No external JS/CSS dependencies, analytics, input forms, accounts, network APIs,
 
 ## Validation
 
-Run `node --test tests/core.test.mjs tests/ui.test.mjs` from this folder. Fifteen tests cover save validation, all five unlocks, currency/purchases, timed bosses, chest outcomes, caps, pause/dash, victory/defeat, long-run resource limits and mocked DOM menu transitions. Run `node tests/balance.mjs` for seeded avoidance-bot simulations. Bot results inform tuning but do not replace human playtests. UI tests mock Canvas/DOM and are not browser screenshots. iOS device crash reproduction and visual browser QA remain unverified in this environment.
+Run `node --test tests/core.test.mjs tests/ui.test.mjs tests/animation.test.mjs` from this folder. Nineteen tests cover save validation, all five unlocks, currency/purchases, timed bosses, chest outcomes, caps, pause/dash, victory/defeat, long-run resource limits mocked DOM menu transitions, isolated sprite bounds, four-way facing, diagonal hysteresis and dash gait cadence. Run `node tests/balance.mjs` for seeded avoidance-bot simulations. Bot results inform tuning but do not replace human playtests. UI tests mock Canvas/DOM and are not browser screenshots. iOS device crash reproduction and visual browser QA remain unverified in this environment.
 
 ## Design references
 
