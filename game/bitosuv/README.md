@@ -45,3 +45,11 @@ Shared API: https://bito-ranking.tsukiyomigame.chatgpt.site . D1 stores server-c
 The leaderboard is a casual leaderboard, not a server-authoritative replay system. These checks do not fully prevent a modified game client from forging a plausible score. No accounts, sensitive data, rewards or money depend on rankings. Browser/device-specific animation and iPhone QA remain unverified.
 
 The earlier "no network APIs" statement applies to v3. v4 explicitly allows only the shared API in connect-src; all other external connections remain blocked by CSP. Player progress remains device-local and the shared API stores only ranking records/sessions. Run all game tests with `node --test tests/*.test.mjs`. The API has separate validation/CORS/SQL/error-handling tests in its source repository.
+
+## Character weapons (v5)
+
+Each character now has a distinct primary attack and matching upgrade/build-screen labels: Bito fires a piercing glasses laser; Red Cape sends homing bats and heals slightly on kills; Opera throws a fan of piercing mask blades; UsaBito throws carrots that hit once outbound and once returning; Bard emits an expanding sound ring; Swimsuit Bito fires bubbles with splash damage; Cat Girl strikes a forward flame cone with a two-second burn; Don slams the ground for radial damage and knockback. Projectile-count upgrades increase reach for sound/flame/slam instead. Secondary aura/orbit equipment uses character-specific names, colors and graphics.
+
+Don requires a normal campaign difficulty-2 clear. Ranked survival never grants campaign unlocks. Existing difficulty-2 clears immediately make Don available.
+
+Validation: `node --test tests/*.test.mjs` passes 35 tests including all eight weapons, piercing, tracking, return-leg hits, splash, burn, knockback, area upgrades, progression and mocked UI transitions. Real-device/iPhone visual validation remains unverified.
