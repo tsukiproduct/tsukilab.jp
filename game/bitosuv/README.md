@@ -33,3 +33,15 @@ Run `node --test tests/core.test.mjs tests/ui.test.mjs tests/animation.test.mjs`
 - Josh Ge, How to Make a Roguelike: https://www.gamedeveloper.com/design/how-to-make-a-roguelike
 
 The design uses a short core loop, legible attack tells, capped build choices and replay rewards. Difficulty adjusts health, movement, damage, density, XP efficiency and boss bullet count; it does not rely solely on larger health pools.
+
+## Halloween 2026 update
+
+The Bito page is the Halloween edition. `/game/halotei/` is a separate title/roster variant sharing the same tested engine and assets. Bito remains initially playable. Cat Girl (猫娘, ID 6) unlocks after difficulty 1; Don (ドン, ID 7) after difficulty 2. Existing clears unlock them automatically. Original characters remain in the Bito edition; Halotei's roster contains Bito, Cat Girl and Don. Each has distinct starting stats. The new Halloween atlas has 21 alpha-inspected source rectangles, including front/side/back poses. Don's generated opposite-facing side frame is corrected when caching.
+
+Campaign: 3 minutes plus final boss, workshop bonuses enabled, clears unlock characters and difficulty. Ranked survival: maximum 480 seconds, workshop bonuses disabled, boss kills do not end the run, extra bosses appear after minute 4, and the clock always ends the run at 8 minutes. A ranked clear does not unlock campaign tiers. During upgrade/chest/pause screens the simulation clock stops. Scores sort by survival milliseconds descending, kills descending, remaining HP percentage descending, then submission date ascending. Boards are separated by edition and difficulty. Name and score are posted only after the player clicks the submission button.
+
+Shared API: https://bito-ranking.tsukiyomigame.chatgpt.site . D1 stores server-created sessions and public scores. Session token hashes, 4-hour expiry, one submission per session, allowed game origins, JSON/body-size validation, name character/length checks, score bounds, server elapsed-time checks, parameterized SQL and IP-day-hash session rate limits reduce abuse. No raw IP is stored by application code. Nicknames are escaped before rendering. Session tokens stay in memory. HTTPS, persistence and actual leaderboard/session requests were verified after deployment.
+
+The leaderboard is a casual leaderboard, not a server-authoritative replay system. These checks do not fully prevent a modified game client from forging a plausible score. No accounts, sensitive data, rewards or money depend on rankings. Browser/device-specific animation and iPhone QA remain unverified.
+
+The earlier "no network APIs" statement applies to v3. v4 explicitly allows only the shared API in connect-src; all other external connections remain blocked by CSP. Player progress remains device-local and the shared API stores only ranking records/sessions. Run all game tests with `node --test tests/*.test.mjs`. The API has separate validation/CORS/SQL/error-handling tests in its source repository.

@@ -12,10 +12,10 @@ def groups(mask,gap=4):
   elif start is not None and i-last>gap:runs.append((start,last));start=None
  if start is not None:runs.append((start,last))
  return runs
-def inspect(name,cols):
+def inspect(name,cols,row_count=6):
  a=np.asarray(Image.open(ROOT/'assets'/name))[:,:,3]>200
  rows=groups(a.sum(1)>10,2)
- assert len(rows)==6,(name,rows)
+ assert len(rows)==row_count,(name,rows)
  out=[]
  for y0,y1 in rows:
   sub=a[y0:y1+1]; xs=groups(sub.sum(0)>3,5)
@@ -29,9 +29,9 @@ def inspect(name,cols):
    frames.append({'x':sx,'y':sy,'w':ex-sx+1,'h':ey-sy+1,'anchorX':round(ax-sx,2)})
   out.append(frames)
  return out
-front=inspect('heroes.png',3);motion=inspect('motion.png',4)
+front=inspect('heroes.png',3);motion=inspect('motion.png',4);halloween=inspect('halloween.png',7,3)
 # All frames in a row share one scale, so changing pose never resizes the body.
 scales=[round(76/max(f['h'] for f in front[r]+motion[r]),6) for r in range(6)]
-result={'front':front,'motion':motion,'scales':scales}
+result={'front':front,'motion':motion,'scales':scales,'halloween':halloween,'halloweenScales':[round(76/max(f['h'] for f in frames),6) for frames in halloween]}
 (ROOT/'sprite-data.mjs').write_text('export default '+json.dumps(result,separators=(',',':'))+';\n')
 print('Validated 42 source rectangles; 6 shared scales; anchored to head center and feet.')
