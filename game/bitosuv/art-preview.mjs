@@ -1,0 +1,13 @@
+import {enemyDefs,stageDefs,createRun,spawn,prepareAttack} from './core.mjs';
+import {makeEnemySprite,enemyPose,setEnemyAtlas} from './enemy-art.mjs';
+import {drawWorld,setWorldAtlas} from './world-art.mjs';
+import {drawTelegraphs} from './presentation.mjs';
+const atlas=new Image(),sceneryImage=new Image();atlas.src=new URL('./assets/foes-v2.png',import.meta.url).href;sceneryImage.src=new URL('./assets/scenery-v2.png',import.meta.url).href;await Promise.all([atlas.decode(),sceneryImage.decode()]);setEnemyAtlas(atlas);setWorldAtlas(sceneryImage);const sprites=Array.from({length:12},(_,type)=>[makeEnemySprite(type,0),makeEnemySprite(type,1)]);
+const descriptions=['ぷるんと跳ねる群れ','翼の上下で羽ばたく','よろめくスーツ姿','裾が揺れる浮遊霊','かぼちゃ頭の案山子','剣と盾の突進役','角を持つ重装の中ボス','杖を掲げる夜の主','牙を開いて予告突進','脚を交互に動かし蛇行','提灯が揺れ、足元を狙う','時計の顔で針弾を狙う'];
+function card(parent,name,desc,w,h){const a=document.createElement('article'),c=document.createElement('canvas'),title=document.createElement('h3'),p=document.createElement('p');c.width=w;c.height=h;title.textContent=name;p.textContent=desc;a.append(c,title,p);document.getElementById(parent).append(a);return c}
+const stages=stageDefs.map((s,i)=>card('stages',s.name,s.foes,360,280));
+const foes=enemyDefs.map((e,i)=>card('enemies',e.name,descriptions[i],160,128));
+let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const button=document.getElementById('motion');function label(){button.textContent=reduced?'アニメーションを動かす':'アニメーションを止める'}label();button.onclick=()=>{reduced=!reduced;label()};
+function draw(ms){const t=reduced?0:ms/1000;for(let i=0;i<3;i++){const c=stages[i],g=c.getContext('2d');g.imageSmoothingEnabled=false;drawWorld(g,i,0,0,c.width,c.height,0,0,t,reduced);const s=createRun(0,0,undefined,()=>.5,'campaign',{edition:'halotei',stage:i});s.p.x=180;s.p.y=210;for(let j=0;j<3;j++){const e=spawn(s,[9,10,11][i]);e.x=80+j*85;e.y=180+j%2*38;const pose=enemyPose(e,t,reduced);g.save();g.translate(e.x-24,e.y-43+pose.bob);g.drawImage(sprites[e.type][pose.frame%2],0,0,60,60);g.restore()}const warning=spawn(s,i===0?8:i===1?10:11);warning.x=80;warning.y=100;prepareAttack(s,warning);warning.attack*=.65;drawTelegraphs(g,s);for(const z of s.hazards){g.strokeStyle='#ffe2a1';g.lineWidth=2;g.beginPath();g.arc(z.x,z.y,z.r,0,Math.PI*2);g.stroke()}}
+ for(let i=0;i<12;i++){const g=foes[i].getContext('2d');g.imageSmoothingEnabled=false;g.fillStyle='#262333';g.fillRect(0,0,160,128);g.fillStyle='#141522';g.fillRect(38,107,84,5);g.save();g.translate(24,3);g.drawImage(sprites[i][enemyPose({type:i,phase:0},t,reduced).frame%2],0,0,112,112);g.restore()}document.getElementById('status').textContent='描画正常 / 12種・24ポーズ / 3ステージ';requestAnimationFrame(draw)}requestAnimationFrame(draw);
