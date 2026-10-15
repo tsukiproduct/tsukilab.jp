@@ -1,4 +1,4 @@
-import {drawTelegraphs,drawDamage,drawMarkers,drawLanterns} from './presentation.mjs?v=6';
+import {drawTelegraphs,drawDamage,drawMarkers,drawLanterns} from './presentation.mjs?v=6b';
 import {chars,weaponDefs,upgradeLabel,attackSize,difficulties,upgradeDefs,metaDefs,validateSave,unlockCount,unlockedCharacters,metaCost,purchase,settle,createRun,step,choose,openChest,evolutionDefs,evolutionProgress,upgradePreview,reroll,encounter,nextMilestone} from './core.mjs?v=6';
 import spriteData from './sprite-data.mjs?v=6';
 import {heroPose} from './animation.mjs?v=6';
