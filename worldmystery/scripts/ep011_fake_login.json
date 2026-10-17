@@ -1,0 +1,374 @@
+{
+  "title": "二段階認証のコードまで盗まれるバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#011",
+  "theme": "alert",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "無敵じゃない",
+    "手口",
+    "ニセの窓",
+    "見分け方"
+  ],
+  "chapter_titles": [
+    "二段階認証でも盗まれる",
+    "AI広告ツールを装った偽サイトの手口",
+    "画面の中のニセの窓(ブラウザ・イン・ザ・ブラウザ)",
+    "10秒でできる見分け方"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/investigator.mp3",
+    "credit": "Investigator / noaccordion",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/1183568"
+  },
+  "report": {
+    "no": "011",
+    "name": "二段階認証のコードまで盗まれる",
+    "place": "AI広告ツールを装った偽サイト",
+    "reporter": "Island の研究者(2026年10月6日報道)",
+    "severity": 4,
+    "status": "調査中"
+  },
+  "sources": [
+    "The Hacker News 2026-10-06 Fake ChatGPT, Gemini, and Claude Ad Portals Capture Credentials and MFA Codes https://thehackernews.com/2026/10/fake-chatgpt-gemini-and-claude-ad.html",
+    "TechNadu: Fake ChatGPT, Gemini, and Claude Ad Tools Steal Logins and MFA Codes in New Phishing Campaign https://www.technadu.com/fake-chatgpt-gemini-and-claude-ad-tools-steal-logins-and-mfa-codes-in-new-phishing-campaign/640880/",
+    "FIDO Alliance: パスキー(Passkeys) https://fidoalliance.org/passkeys/"
+  ],
+  "lines": [
+    {
+      "who": "zunda",
+      "text": "ずんだもんは、[[二段階認証]]してるから、無敵なのだ！",
+      "emote": "happy",
+      "chapter": 0,
+      "telop": "二段階認証でも\n盗まれる手口"
+    },
+    {
+      "who": "tsumugi",
+      "text": "無敵じゃないです。十月六日、二段階認証の[[コードごと]]盗む、偽サイトの仕組みが報告されました。",
+      "emote": "normal",
+      "punch": true
+    },
+    {
+      "who": "zunda",
+      "text": "コードごと！？どうやってなのだ！？",
+      "emote": "surprise",
+      "pop": "コードごと！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "答えは、画面の中に、もう一つの[[ニセの窓]]を描くことです。最後に、十秒でできる[[見分け方]]も教えます。",
+      "emote": "normal",
+      "sfx": "kira"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんなのだ！今日は、パスワードを、全部変えてから来たのだ！",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "tsumugi",
+      "text": "えらいです。今回、セキュリティ企業の研究者が見つけたのは、AIの[[広告ツール]]を名乗る、偽サイトです。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "使われた名前は、チャットジーピーティー、ジェミニ、クロードなど。有名なAIの名前ばかりです。",
+      "emote": "normal",
+      "telop": "AIの「広告ツール」を\n名乗る偽サイト"
+    },
+    {
+      "who": "zunda",
+      "text": "AIの会社が、乗っ取られたのだ？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "いいえ。[[名前を勝手に使われただけ]]です。偽物が、本物のふりをしています。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "狙われたのは、会社の[[広告アカウント]]を管理している人たちです。広告アカウントは、乗っ取って売ったり、悪用したりできるからです。",
+      "emote": "normal",
+      "chapter": 1,
+      "seq": "ep011_flow",
+      "fit": "contain",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "流れはこうです。まず、広告ツールの準備ができました、という、[[招待メール]]が届きます。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "偽サイトで、接続のボタンを押すと、グーグルのログイン窓が出ます。でも、これが[[偽物の窓]]です。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "窓まで偽物なのだ…。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "パスワードを入れると、その裏で、[[人間が待ち構えて]]います。",
+      "emote": "normal",
+      "punch": true
+    },
+    {
+      "who": "zunda",
+      "text": "人間！？AIじゃなくて、人間なのだ！？",
+      "emote": "surprise",
+      "pop": "中の人！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "はい。研究者によると、相手は画面の向こうで、次にどの確認を出すかを、その場で選べました。ショートメールか、認証アプリか、と。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そして、届いた[[コードも入力させて]]、それを使って、本物のアカウントに入ってしまうんです。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "二段階認証が、一段階で、抜かれたのだ…。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "うまいこと言いますね。",
+      "emote": "normal",
+      "pop": "座布団1枚"
+    },
+    {
+      "who": "tsumugi",
+      "text": "では、なぜ、偽の窓だと気づけないのか。",
+      "emote": "normal",
+      "chapter": 2,
+      "seq": "ep011_bitb",
+      "fit": "contain",
+      "note": "仕組みの模式図",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "偽の窓の中には、本物と同じ、[[グーグルのアドレス]]まで描いてあります。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "でも、それは[[ただの絵]]です。本当にいる場所は、いちばん上の、ブラウザのアドレス欄に出ています。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "この手口は、ブラウザの中のブラウザ、と呼ばれています。",
+      "emote": "normal",
+      "telop": "ブラウザ・イン・ザ・ブラウザ\n(画面の中のニセの窓)"
+    },
+    {
+      "who": "zunda",
+      "text": "で、十秒でできる見分け方は、なんなのだ！",
+      "emote": "surprise",
+      "chapter": 3
+    },
+    {
+      "who": "tsumugi",
+      "text": "ログインの窓を、つかんで、[[ブラウザの外]]まで引っぱってみてください。",
+      "emote": "normal",
+      "report": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "本物の窓は、外に出せます。偽物は、ページの中の絵なので、[[ブラウザの枠で切れて]]、外に出られません。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "絵だから、額縁から出られないのだ！",
+      "emote": "happy",
+      "pop": "額縁！"
+    },
+    {
+      "who": "tsumugi",
+      "text": "もう一つ。研究者は、[[パスキー]]のような、偽サイトに強いログインを勧めています。パスキーは、本物のサイトかどうかを、機械が確かめてくれます。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そして、頼んでもいない招待メールから、ログインしないこと。これが一番です。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "というわけで、今回のバグのステータスは、[[調査中]]。研究者は、いくつものAIの名前を使った偽サイトを、同じ仕組みで見つけています。",
+      "emote": "happy",
+      "stamp": true
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんも、今日から、窓を引っぱって確かめるのだ！",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "全部の窓を引っぱらなくて、大丈夫です。",
+      "emote": "normal",
+      "pop": "ほどほどに",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "text": "あなたが見かけた、あやしいログイン画面の話も、コメントで報告してください。",
+      "emote": "happy"
+    },
+    {
+      "who": "zunda",
+      "text": "チャンネル登録も、よろしくなのだ！",
+      "emote": "happy"
+    }
+  ],
+  "publish": {
+    "thumb_style": "dark",
+    "titles": [
+      "二段階認証でも盗まれる。AIツールを装った「ニセの窓」の手口と10秒でできる見分け方",
+      "なぜ二段階認証のコードまで盗まれたのか？画面の向こうに人間がいた",
+      "その窓、ブラウザの外に出せますか？偽ログイン窓の見分け方"
+    ],
+    "hook": [
+      "2026年10月6日、AIの「広告ツール」を名乗る偽サイトが、パスワードと二段階認証のコードを盗む仕組みが報告されました。",
+      "画面の中に描かれたニセのログイン窓(ブラウザ・イン・ザ・ブラウザ)の正体と、10秒でできる見分け方をバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#セキュリティ",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "二段階認証",
+          "突破"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep011_bitb/150.png",
+        "crop": [
+          0.0,
+          0.0,
+          0.78,
+          1.0
+        ],
+        "focus": 0.5,
+        "style": "dark"
+      },
+      {
+        "text": [
+          "その窓",
+          "ニセモノ"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "ep011_bitb/320.png",
+        "crop": [
+          0.0,
+          0.0,
+          0.78,
+          1.0
+        ],
+        "style": "pop"
+      },
+      {
+        "text": [
+          "中に",
+          "人間がいた"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "style": "dark"
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 15,
+      "to": 19,
+      "hook": [
+        "二段階認証の",
+        "コードまで",
+        "盗む手口"
+      ],
+      "title": "二段階認証のコードまで盗む手口 #Shorts",
+      "thumb_photo": false
+    },
+    {
+      "from": 26,
+      "to": 29,
+      "hook": [
+        "偽ログイン窓の",
+        "10秒",
+        "見分け方"
+      ],
+      "title": "偽のログイン窓は、ブラウザの外に出せない #Shorts",
+      "thumb_photo": {
+        "photo": "ep011_bitb/320.png",
+        "crop": [
+          0.0,
+          0.0,
+          0.78,
+          1.0
+        ]
+      }
+    }
+  ]
+}
