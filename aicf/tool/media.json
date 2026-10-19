@@ -1,6 +1,60 @@
 {
-  "generated_at": "2026-10-13T00:59:42+09:00",
+  "generated_at": "2026-10-19T08:04:28.382011+00:00",
   "AICF-0001": {
     "url": "https://video.twimg.com/amplify_video/2101688490727755776/vid/avc1/720x970/vFzevdBhyq0l66bR.mp4"
+  },
+  "AICF-0003": {
+    "url": "https://video.twimg.com/amplify_video/2102223303801020416/vid/avc1/1280x720/fGa2NE1AvZhiPP-6.mp4?tag=14"
+  },
+  "AICF-0005": {
+    "url": "https://video.twimg.com/amplify_video/2102327207070961664/vid/avc1/1920x1080/NCLUaSHJcM8qVVMT.mp4"
+  },
+  "AICF-0010": {
+    "url": "https://video.twimg.com/amplify_video/2103447991285858304/vid/avc1/2560x1440/hOA0K1ZbZe-SEMdB.mp4"
+  },
+  "AICF-0013": {
+    "error": "動画URLを取得できませんでした"
+  },
+  "AICF-0015": {
+    "url": "https://video.twimg.com/amplify_video/2104182886849183744/vid/avc1/1280x720/LXeYTERWqONcDivQ.mp4?tag=14"
+  },
+  "AICF-0023": {
+    "url": "https://video.twimg.com/amplify_video/2106218532472270848/vid/avc1/1280x720/KIqkMmLxB_0NagJj.mp4"
+  },
+  "AICF-0027": {
+    "url": "https://video.twimg.com/amplify_video/2106624392650424320/vid/avc1/1280x720/5Wr-rXcRuzpFMs7m.mp4?tag=14"
+  },
+  "AICF-0031": {
+    "url": "https://video.twimg.com/amplify_video/2107780800662134784/vid/avc1/2560x1440/wJKtTTwtLGKslv3E.mp4"
+  },
+  "AICF-0032": {
+    "error": "作品投稿のURLが必要です"
+  },
+  "AICF-0035": {
+    "url": "https://video.twimg.com/amplify_video/2108458029020745728/vid/avc1/1280x720/wo7kkEwd1b-0gUUx.mp4?tag=14"
+  },
+  "AICF-0038": {
+    "url": "https://video.twimg.com/amplify_video/2108938414703915009/vid/avc1/1280x720/Pa7RYoUvMN5UEbuR.mp4?tag=14"
+  },
+  "AICF-0041": {
+    "url": "https://video.twimg.com/amplify_video/2108972678195609600/vid/avc1/3840x2160/5e1Z9qW8fKZvg9gX.mp4"
+  },
+  "AICF-0042": {
+    "url": "https://video.twimg.com/amplify_video/2109152938958655488/vid/avc1/1920x1080/nRnJ8nCRzcpUHp3d.mp4"
+  },
+  "AICF-0045": {
+    "url": "https://video.twimg.com/amplify_video/2109372154781605888/vid/avc1/1280x718/jPnT34F5A8PVD4nb.mp4"
+  },
+  "AICF-0046": {
+    "url": "https://video.twimg.com/amplify_video/2109423863251759104/vid/avc1/1280x720/J2YAXQoOVQr-VaSY.mp4?tag=14"
+  },
+  "AICF-0050": {
+    "url": "https://video.twimg.com/amplify_video/2109517118555508736/vid/avc1/1920x1080/wO9FB2M9VwM2YkTG.mp4"
+  },
+  "AICF-0059": {
+    "url": "https://video.twimg.com/amplify_video/2109645616313925633/vid/avc1/1288x720/2uqoxBH7DXEkneLc.mp4"
+  },
+  "AICF-0060": {
+    "url": "https://video.twimg.com/amplify_video/2109649092511170560/vid/avc1/3414x1920/h7IlJxfFvZAs0F4d.mp4"
   }
 }
