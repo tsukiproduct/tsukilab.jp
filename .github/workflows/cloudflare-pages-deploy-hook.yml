@@ -1,0 +1,23 @@
+name: Cloudflare Pages deploy hook
+# GitHubからの自動連携が届かない時のための保険。
+# リポジトリのシークレット CF_PAGES_DEPLOY_HOOK に Cloudflare の「デプロイフック」URLを入れると、
+# main にプッシュするたびに Cloudflare Pages の本番デプロイを起動します。
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages deploy
+        env:
+          HOOK: ${{ secrets.CF_PAGES_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "CF_PAGES_DEPLOY_HOOK が未設定のためスキップします"
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK" && echo "デプロイを起動しました"
