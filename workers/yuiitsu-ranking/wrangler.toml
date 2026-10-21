@@ -1,0 +1,10 @@
+# 油一（ゆいいつ）ランキング API — deployed by .github/workflows/deploy-yuiitsu-ranking.yml
+name = "yuiitsu-ranking"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "yuiitsu-ranking"
+database_id = "__D1_ID__"

@@ -1,0 +1,96 @@
+name: Deploy 油一 ranking (Cloudflare Worker)
+
+# Needs two repository secrets (Settings > Secrets and variables > Actions):
+#   CLOUDFLARE_API_TOKEN   token from the "Edit Cloudflare Workers" template plus Account > D1 > Edit
+#   CLOUDFLARE_ACCOUNT_ID  the Account ID shown in the Cloudflare dashboard
+# Until both exist this workflow does nothing and succeeds.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "workers/yuiitsu-ranking/**"
+      - ".github/workflows/deploy-yuiitsu-ranking.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: yuiitsu-ranking
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    defaults:
+      run:
+        working-directory: workers/yuiitsu-ranking
+    steps:
+      - name: Check secrets
+        id: check
+        working-directory: .
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::notice::CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID are not set yet. Skipping deploy."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.check.outputs.ready == 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.check.outputs.ready == 'true'
+        with:
+          node-version: 22
+
+      - name: Install wrangler
+        if: steps.check.outputs.ready == 'true'
+        run: npm install -g wrangler@4.92.0
+
+      - name: Find or create the D1 database
+        if: steps.check.outputs.ready == 'true'
+        run: |
+          find_id() {
+            wrangler d1 list --json | node -e 'let d="";process.stdin.on("data",c=>d+=c).on("end",()=>{const a=JSON.parse(d);const x=a.find(r=>r.name==="yuiitsu-ranking");process.stdout.write(x?(x.uuid||x.id||""):"")})'
+          }
+          ID=$(find_id)
+          if [ -z "$ID" ]; then
+            wrangler d1 create yuiitsu-ranking
+            ID=$(find_id)
+          fi
+          if [ -z "$ID" ]; then echo "::error::Could not find or create the D1 database"; exit 1; fi
+          sed -i "s/__D1_ID__/$ID/" wrangler.toml
+          wrangler d1 execute yuiitsu-ranking --remote --file=schema.sql
+
+      - name: Deploy worker
+        if: steps.check.outputs.ready == 'true'
+        run: |
+          wrangler deploy 2>&1 | tee deploy.log
+          URL=$(grep -oE 'https://[A-Za-z0-9.-]+\.workers\.dev' deploy.log | head -1)
+          if [ -z "$URL" ]; then
+            echo "::error::No workers.dev URL in the deploy output. Open Workers & Pages in the Cloudflare dashboard once to choose a workers.dev subdomain, then re-run."
+            exit 1
+          fi
+          echo "URL=$URL" >> "$GITHUB_ENV"
+          echo "### 油一 ranking API: $URL" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Point the game at the API
+        if: steps.check.outputs.ready == 'true'
+        working-directory: .
+        run: |
+          printf '{"url":"%s"}\n' "$URL" > game/yuiitsu/api.json
+          if git diff --quiet -- game/yuiitsu/api.json 2>/dev/null && git ls-files --error-unmatch game/yuiitsu/api.json >/dev/null 2>&1; then
+            echo "api.json unchanged"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add game/yuiitsu/api.json
+            git commit -m "chore(yuiitsu): point game at ranking API"
+            git push
+          fi
