@@ -1,0 +1,363 @@
+{
+  "title": "信者数が人口より多いバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#016",
+  "theme": {
+    "base": [
+      248,
+      240,
+      226
+    ],
+    "blobs": [
+      [
+        240,
+        214,
+        180
+      ],
+      [
+        226,
+        200,
+        170
+      ],
+      [
+        236,
+        226,
+        196
+      ],
+      [
+        214,
+        200,
+        180
+      ]
+    ],
+    "pattern": "dots",
+    "pat": [
+      226,
+      196,
+      150,
+      200
+    ],
+    "frame": [
+      180,
+      140,
+      100,
+      255
+    ]
+  },
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "計算ミス?",
+    "1億7500万人",
+    "数え方",
+    "36%"
+  ],
+  "chapter_titles": [
+    "宗教の信者数は人口より多い",
+    "宗教年鑑の最新の数字",
+    "自己申告と二重の数え方",
+    "信仰している人は約36%"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/elevate_bossanossa.mp3",
+    "credit": "Elevate with BossaNossa / kjartan_abel",
+    "license": "CC BY 4.0",
+    "url": "https://freesound.org/people/kjartan_abel/sounds/558266"
+  },
+  "report": {
+    "no": "016",
+    "name": "信者数が人口より多い",
+    "place": "文化庁「宗教年鑑」の統計",
+    "reporter": "文化庁・総務省・NHK放送文化研究所",
+    "severity": 1,
+    "status": "仕様です"
+  },
+  "sources": [
+    "文化庁「宗教年鑑 令和7年版」(令和6年12月31日現在 信者数 総数175,054,047人、神道系86,359,612人、仏教系80,463,918人、キリスト教系1,872,320人、諸教6,358,197人) https://www.bunka.go.jp/tokei_hakusho_shuppan/hakusho_nenjihokokusho/shukyo_nenkan/pdf/r07nenkan.pdf",
+    "総務省統計局 人口推計 2024年(令和6年)12月1日現在(概算値) 1億2374万人 https://www.stat.go.jp/data/jinsui/pdf/202412.pdf",
+    "nippon.com 2018年7月2日 日本の人口1.26億人なのに、宗教の信者数は1.82億人！(自己申告、氏子と檀家の重複) https://www.nippon.com/ja/features/h00226/",
+    "小林利行(2019)「日本人の宗教的意識や行動はどう変わったか ～ISSP国際比較調査「宗教」・日本の結果から～」放送研究と調査 https://www.jstage.jst.go.jp/article/bunken/69/4/69_52/_article/-char/ja/"
+  ],
+  "lines": [
+    {
+      "who": "zunda",
+      "text": "日本の宗教の信者を全部足すと、[[日本の人口より多い]]らしいのだ！計算、合ってないのだ！",
+      "emote": "surprise",
+      "chapter": 0,
+      "punch": true,
+      "pop": "計算ミス！？",
+      "telop": "信者数の合計 ＞ 日本の人口"
+    },
+    {
+      "who": "tsumugi",
+      "text": "本当です。国の統計で、宗教の信者数を足すと、人口より、およそ[[五千万人]]も多くなります。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "五千万人も、どこから来たのだ！？",
+      "emote": "surprise"
+    },
+    {
+      "who": "tsumugi",
+      "text": "しかも、別の調査では、信仰している宗教がある、と答えた人は、[[三割台]]しかいません。この二つの数字のずれの正体を、最後に解きます。",
+      "emote": "normal",
+      "sfx": "kira"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんなのだ！今日は、数字の名探偵になるのだ！",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "tsumugi",
+      "text": "文化庁は、毎年、宗教年鑑という統計を出しています。最新の令和七年版によると、二〇二四年の末の、信者数の合計は、およそ[[一億七千五百万人]]です。",
+      "emote": "normal",
+      "chapter": 1,
+      "seq": "ep016b_bar",
+      "fit": "contain",
+      "credit": "文化庁「宗教年鑑 令和7年版」・総務省「人口推計」より番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "内訳は、神道系が、およそ八千六百万人。仏教系が、およそ八千万人。キリスト教系と、その他を合わせて、八百万人ほどです。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "一方、同じ頃の日本の人口は、およそ[[一億二千四百万人]]でした。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "一・四倍なのだ。日本人、分身してるのだ…？",
+      "emote": "think",
+      "pop": "分身"
+    },
+    {
+      "who": "tsumugi",
+      "text": "分身はしていません。理由の一つ目は、信者の数え方です。",
+      "emote": "normal",
+      "chapter": 2
+    },
+    {
+      "who": "tsumugi",
+      "text": "この統計は、それぞれの宗教団体が、自分たちで報告した数を、[[集めたもの]]です。だれを信者と数えるかも、団体ごとに違います。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "二つ目は、[[二重に数えられている人]]が、たくさんいることです。",
+      "emote": "normal",
+      "seq": "ep016b_double",
+      "fit": "contain",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "たとえば、地元の神社の[[氏子]]で、家のお墓があるお寺の[[檀家]]でもある。日本では、珍しくありません。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんの家も、初詣は神社、お葬式はお寺なのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そうすると、同じ一人が、神道系にも、仏教系にも、数えられることがあるんです。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "じゃあ、三割台って話は、どういうことなのだ！",
+      "emote": "surprise",
+      "chapter": 3
+    },
+    {
+      "who": "tsumugi",
+      "text": "二〇一八年、NHK放送文化研究所の調査で、ふだん信仰している宗教がある、と答えた人は、およそ[[三十六パーセント]]でした。",
+      "emote": "normal",
+      "report": true,
+      "telop": "信仰している宗教がある\n約36%(2018年の調査)"
+    },
+    {
+      "who": "tsumugi",
+      "text": "信仰している宗教はない、と答えた人は、およそ[[六十二パーセント]]です。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "信者の数は人口より多いのに、信じてる人は三割台…。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "つまり、多くの人は、お参りやお葬式などの[[行事]]には参加していても、自分では、信仰している、とは思っていない。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "団体の側から見ると信者で、本人から見ると、そうではない。ここに、数字のずれが生まれていると考えられます。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもん、知らないうちに、二つの信者になってたのだ！",
+      "emote": "surprise",
+      "punch": true,
+      "pop": "知らなかった"
+    },
+    {
+      "who": "tsumugi",
+      "text": "というわけで、今回のバグのステータスは、[[仕様です]]。数え方の違いが生んだ、日本ならではの数字でした。",
+      "emote": "happy",
+      "stamp": true
+    },
+    {
+      "who": "zunda",
+      "text": "クリスマスも祝うから、三つ目も、入っちゃうのだ？",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ケーキを食べただけでは、数えられません。",
+      "emote": "normal",
+      "pop": "ノーカウント",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "text": "あなたの家の、行事や習わしで、ちょっと不思議だなと思うことも、コメントで教えてください。",
+      "emote": "happy"
+    },
+    {
+      "who": "zunda",
+      "text": "チャンネル登録も、よろしくなのだ！",
+      "emote": "happy"
+    }
+  ],
+  "publish": {
+    "thumb_style": "pop",
+    "titles": [
+      "日本の宗教の信者数を足すと人口より5千万人多い。この計算ミスの正体",
+      "なぜ日本の信者数は人口の1.4倍なのか？信じている人は約36%なのに",
+      "初詣は神社、お葬式はお寺。日本人が知らないうちに2つの信者になっている理由"
+    ],
+    "hook": [
+      "文化庁の宗教年鑑(令和7年版)によると、2024年末の信者数の合計は約1億7505万人。日本の人口(約1億2374万人)より約5千万人多くなっています。",
+      "一方で「信仰している宗教がある」と答えた人は約36%。このずれの正体(自己申告と二重の数え方)をバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#雑学",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "信者が",
+          "人口超え"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep016b_bar/235.png",
+        "crop": [
+          0.0,
+          0.1,
+          1.0,
+          0.85
+        ],
+        "focus": 0.5,
+        "style": "pop"
+      },
+      {
+        "text": [
+          "5千万人",
+          "どこから?"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "style": "dark"
+      },
+      {
+        "text": [
+          "知らずに",
+          "2つの信者"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "style": "pop"
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 7,
+      "to": 10,
+      "hook": [
+        "宗教の信者数",
+        "人口より",
+        "5千万人多い"
+      ],
+      "title": "日本の宗教の信者数は人口より5千万人多い #Shorts",
+      "thumb_photo": "ep016b_bar/235.png"
+    },
+    {
+      "from": 13,
+      "to": 16,
+      "hook": [
+        "初詣は神社",
+        "お葬式はお寺",
+        "2回数えられる"
+      ],
+      "title": "初詣は神社、お葬式はお寺。信者数が2回数えられる理由 #Shorts",
+      "thumb_photo": false
+    }
+  ]
+}

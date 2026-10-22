@@ -1,0 +1,388 @@
+{
+  "title": "一番遠い探査機の電気が切れていくバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#014",
+  "theme": {
+    "base": [
+      36,
+      28,
+      54
+    ],
+    "blobs": [
+      [
+        58,
+        40,
+        86
+      ],
+      [
+        86,
+        52,
+        70
+      ],
+      [
+        44,
+        52,
+        96
+      ],
+      [
+        70,
+        50,
+        90
+      ]
+    ],
+    "pattern": "stars",
+    "pat": [
+      230,
+      210,
+      255,
+      150
+    ],
+    "frame": [
+      180,
+      150,
+      220,
+      255
+    ],
+    "stars": true
+  },
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "50年",
+    "光で1日",
+    "電気",
+    "大作戦"
+  ],
+  "chapter_titles": [
+    "人類で一番遠い探査機ボイジャー1号",
+    "11月、地球から光で1日の距離に",
+    "電気が毎年減っていく",
+    "節電の大作戦「ビッグバン」"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/space_ambient_voyage.mp3",
+    "credit": "Space Ambient Voyage / Romariogrande",
+    "license": "CC0 1.0",
+    "url": "https://freesound.org/people/Romariogrande/sounds/639495"
+  },
+  "report": {
+    "no": "014",
+    "name": "一番遠い探査機の電気が切れていく",
+    "place": "地球から約257億km(星と星の間)",
+    "reporter": "NASA ジェット推進研究所(JPL)",
+    "severity": 3,
+    "status": "修正パッチ配布中"
+  },
+  "sources": [
+    "EarthSky: Voyager 1 to reach 1 light-day from Earth on November 18(2026年10月初めに約257.2億km) https://earthsky.org/space/voyager-1-1-light-day-from-earth-november-17-18-2026/",
+    "BBC Sky at Night: NASA's Voyager 1 probe is about to reach a distance of 1 light-day from Earth https://www.skyatnightmagazine.com/news/nasa-voyager-1-light-day",
+    "NASA Science 2026-04-17 NASA Shuts Off Instrument on Voyager 1 to Keep Spacecraft Operating https://science.nasa.gov/blogs/voyager/2026/04/17/nasa-shuts-off-instrument-on-voyager-1-to-keep-spacecraft-operating/",
+    "JPL: NASA Shuts Off Instrument on Voyager 1 to Keep Spacecraft Operating https://www.jpl.nasa.gov/news/nasa-shuts-off-instrument-on-voyager-1-to-keep-spacecraft-operating/",
+    "CNN 2026-04-27 Voyager 1 shuts down instrument ahead of ambitious ‘Big Bang’ fix https://www.cnn.com/2026/04/27/science/voyager-1-big-bang",
+    "Wikipedia: Voyager 1(1977年9月5日打ち上げ、2012年に星間空間へ) https://en.wikipedia.org/wiki/Voyager_1"
+  ],
+  "lines": [
+    {
+      "who": "zunda",
+      "text": "人類がつくった物で、[[一番遠く]]にいる探査機が、少しずつ、[[電気切れ]]で黙っていくのだ…。",
+      "emote": "think",
+      "chapter": 0,
+      "telop": "ボイジャー1号\n電気が少しずつ切れていく"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ボイジャー1号ですね。しかも来月、地球から、[[光で丸一日]]かかる場所に届きます。",
+      "emote": "normal",
+      "punch": true
+    },
+    {
+      "who": "zunda",
+      "text": "光で一日！？光って、一秒で地球を七周半するやつなのだ！？",
+      "emote": "surprise",
+      "pop": "光で1日！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "はい。そして今、技術者たちは、ボイジャーを生かすための、ある[[大作戦]]を準備しています。名前は、最後に言います。",
+      "emote": "normal",
+      "sfx": "kira"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんなのだ！スマホの充電は、百パーセントで来たのだ！",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ボイジャー1号が打ち上げられたのは、一九七七年。もうすぐ[[五十年]]です。",
+      "emote": "normal",
+      "telop": "1977年に打ち上げ"
+    },
+    {
+      "who": "tsumugi",
+      "text": "二〇一二年には、太陽の風が届く範囲を抜けて、[[星と星の間の空間]]に出ました。そんな場所にいる探査機は、ほかにボイジャー2号だけです。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "今月の初めの時点で、地球からの距離は、およそ[[二百五十七億キロ]]。",
+      "emote": "normal",
+      "chapter": 1,
+      "seq": "ep014_lightday",
+      "fit": "contain",
+      "note": "距離は対数目盛り",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "光で、太陽までは八分。海王星までは四時間ほど。そして十一月、ボイジャー1号は、光で[[一日]]かかる距離に届きます。NASAの計算では、十一月十八日です。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "話しかけたら、返事はいつ来るのだ？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "行きに一日、帰りに一日。プロジェクトの責任者によると、[[月曜の朝に送った指令の返事が、水曜の朝]]に届くそうです。",
+      "emote": "normal",
+      "telop": "月曜の朝に送ると\n返事は水曜の朝"
+    },
+    {
+      "who": "zunda",
+      "text": "既読がつくまで、二日なのだ…。",
+      "emote": "think",
+      "pop": "既読2日"
+    },
+    {
+      "who": "tsumugi",
+      "text": "問題は、電気です。",
+      "emote": "normal",
+      "chapter": 2,
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "ボイジャーは、[[プルトニウム]]が出す熱を、電気に変えて動いています。でも、プルトニウムは少しずつ減るので、電気は、毎年およそ[[四ワット]]ずつ減っています。",
+      "emote": "normal",
+      "telop": "使える電気が\n毎年 約4ワット減る"
+    },
+    {
+      "who": "zunda",
+      "text": "四ワットって、どれくらいなのだ？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "小さな電球、一つ分くらいです。でも、残りが少ないボイジャーには、大きな差です。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "二〇二六年二月、向きを変える作業の途中で、電気が、思ったより[[下がり]]ました。もう少しで、自動で多くの機能を止める、安全装置が働くところでした。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "危なかったのだ！",
+      "emote": "surprise",
+      "pop": "ヒヤリ"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そこでNASAは、四月、観測装置の一つを止めました。止める装置を一つずつ選びながら、電気を、やりくりしているんです。",
+      "emote": "normal",
+      "telop": "2026年4月\n観測装置をまた1つ停止"
+    },
+    {
+      "who": "zunda",
+      "text": "止めた装置は、もう二度と使えないのだ？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "センサーを回す、小さなモーターだけは、電気を残しました。[[いつか、また動かせるかもしれない]]から、だそうです。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "あきらめてないのだ…！",
+      "emote": "happy"
+    },
+    {
+      "who": "zunda",
+      "text": "で、最後に言う大作戦って、なんなのだ！",
+      "emote": "surprise",
+      "chapter": 3
+    },
+    {
+      "who": "tsumugi",
+      "text": "作戦の名前は、[[ビッグバン]]。たくさんの機器を、[[いっぺんに]]止めて、一部を、電気の少ない方法に切りかえる計画です。",
+      "emote": "normal",
+      "report": true,
+      "telop": "作戦名「ビッグバン」\nまとめて止めて節電"
+    },
+    {
+      "who": "zunda",
+      "text": "宇宙の始まりみたいな名前で、節電するのだ！？",
+      "emote": "surprise",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "はい。全部うまくいけば、ボイジャー1号は、もう少し長く、星の間から、声を届けてくれるかもしれません。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "というわけで、今回のバグのステータスは、[[修正パッチ配布中]]。電気が減るのは止められませんが、技術者たちが、やりくりを続けています。",
+      "emote": "happy",
+      "stamp": true
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんのスマホも、ビッグバン作戦で、節電するのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "まず、寝る前に動画を見るのを、やめましょう。",
+      "emote": "normal",
+      "pop": "正論",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "text": "あなたが、ボイジャーに伝えたいことも、コメントに書いてください。",
+      "emote": "happy"
+    },
+    {
+      "who": "zunda",
+      "text": "チャンネル登録も、よろしくなのだ！",
+      "emote": "happy"
+    }
+  ],
+  "publish": {
+    "thumb_style": "space",
+    "titles": [
+      "人類で一番遠い探査機ボイジャー1号、11月に「光で1日」の距離へ。そして電気が切れていく",
+      "なぜボイジャー1号は装置を1つずつ止めているのか？節電の大作戦「ビッグバン」",
+      "返事が届くまで2日。49年飛び続けるボイジャー1号の最後の戦い"
+    ],
+    "hook": [
+      "1977年に打ち上げられたボイジャー1号は、2026年11月、地球から光で1日かかる距離(約259億km)に届きます。",
+      "電気が毎年約4ワットずつ減るなか、観測装置を1つずつ止めてやりくりする技術者たちと、節電の大作戦「ビッグバン」をバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#ボイジャー",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "光で",
+          "1日"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep014_lightday/320.png",
+        "crop": [
+          0.3,
+          0.1,
+          1.0,
+          0.9
+        ],
+        "focus": 0.5,
+        "style": "space"
+      },
+      {
+        "text": [
+          "電気が",
+          "切れていく"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "style": "dark"
+      },
+      {
+        "text": [
+          "返事は",
+          "2日後"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "think"
+          ]
+        ],
+        "style": "space"
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 10,
+      "to": 14,
+      "hook": [
+        "話しかけたら",
+        "返事は",
+        "2日後"
+      ],
+      "title": "ボイジャー1号に話しかけたら、返事は2日後 #Shorts",
+      "thumb_photo": "ep014_lightday/320.png"
+    },
+    {
+      "from": 25,
+      "to": 28,
+      "hook": [
+        "節電の",
+        "大作戦",
+        "ビッグバン"
+      ],
+      "title": "ボイジャー1号を生かす節電の大作戦「ビッグバン」 #Shorts",
+      "thumb_photo": false
+    }
+  ]
+}

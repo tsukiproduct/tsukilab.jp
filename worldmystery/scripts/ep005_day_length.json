@@ -1,0 +1,356 @@
+{
+  "title": "1日が24時間ぴったりじゃないバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#005",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "ずれ",
+    "原因",
+    "未来",
+    "報告"
+  ],
+  "chapter_titles": [
+    "1日は24時間ぴったりじゃない",
+    "地球の奥の“綱引き”",
+    "うるう秒がなくなる？",
+    "バグ報告とまとめ"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/noche_de_verano_chill.mp3",
+    "credit": "Noche de verano (Chill) / PPE",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/663407"
+  },
+  "report": {
+    "no": "005",
+    "name": "1日が24時間ぴったりにならない",
+    "place": "地球の自転",
+    "reporter": "アルバータ大学(2026年 Nature)",
+    "severity": 2,
+    "status": "仕様です"
+  },
+  "lines": [
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "chapter": 0,
+      "text": "1日って、24時間ぴったりじゃないのだ！？",
+      "pop": "ウソ！？",
+      "punch": true,
+      "telop": "1日は24時間\nぴったりじゃない"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "はい。1日の長さは、ほんの少しずつ[[変わっています]]。記録上いちばん短かったのは、二〇二二年六月二十九日。二十四時間より、一・五九ミリ秒、短い日でした。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "そして九月の終わり、その原因のひとつが、地球の[[ずっと奥]]にある、という研究が発表されました。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "地球の奥に、時計をいじる犯人がいるのだ…？"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "mode": "full",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "mode": "full",
+      "text": "ずんだもんなのだ！今日は、地球の真ん中まで、もぐるのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "まず、1日とは、地球が一回、自転する時間。時計の上では、[[八万六千四百秒]]です。",
+      "seq": "ep005_spin",
+      "fit": "contain",
+      "box": [
+        440,
+        440
+      ],
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ところが、地球の回る速さは、一定ではありません。速くなったり、遅くなったりして、1日の長さが、ミリ秒の単位で変わるんです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "ミリ秒って、千分の一秒なのだ？それくらい、気にしないのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ところが、世界の時刻は、その小さなずれも、気にしています。一九七二年からは、時刻を地球の回転に合わせるために、[[うるう秒]]が、二十七回入れられました。",
+      "telop": "うるう秒は\n1972年から27回"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "時計に、一秒、足してたのだ！？",
+      "pop": "27回！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 1,
+      "text": "では、なぜ回る速さが変わるのか。ここで、地球の中を、のぞいてみます。",
+      "seq": "ep005_layers",
+      "fit": "contain",
+      "box": [
+        580,
+        434
+      ],
+      "credit": "番組で作成",
+      "license": "番組作成の図",
+      "note": "模式図。大きさの比は概略"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "表面の地殻の下に、マントル。その下に、液体の[[外核]]。そして中心には、固体の[[内核]]があります。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "内核は、半径およそ千二百二十キロ。液体の外核に包まれて、地球の真ん中に、収まっています。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "地球の中に、もう一個、玉が入ってるのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "九月二十九日、カナダのアルバータ大学の研究者たちが、科学誌[[ネイチャー]]で、こう報告しました。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "内核の回る速さが少し変わると、内核とマントルの間で、[[重力]]が引っぱり合います。その力が、地球の自転を、速めたり、遅らせたりしている、というんです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "地球の中で、綱引きしてるのだ！？",
+      "pop": "綱引き！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "さらに、マントルとの境目では、摩擦や電磁気の力が、ブレーキをかけます。このせめぎ合いで、1日の長さが、数十年かけて、[[数ミリ秒]]変わる、と説明しています。",
+      "telop": "数十年で\n数ミリ秒の変化"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "研究では、内核が、およそ十年ほどかけて、[[ゆっくり形を変えている]]可能性も、示されました。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "固体なのに、形が変わるのだ…？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "はい。地球の中心は、思っていたより、[[動いている]]のかもしれません。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 2,
+      "text": "ちなみに、ここ数年の地球は、回るのが少し速く、日が短くなる傾向もあります。そのため、うるう秒を、逆に一秒[[引く]]日が来るかもしれない、とも言われています。"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "時計から、一秒、なくなるのだ！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ただ、うるう秒そのものは、二〇三五年までに、[[廃止]]されることが、決まっています。",
+      "telop": "うるう秒は\n2035年までに廃止"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "chapter": 3,
+      "report": true,
+      "text": "地球の回り方も、きっちりじゃないのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "地球は、時計のための機械ではありませんからね。中で液体が流れ、固体の玉が回っている、[[生きた星]]なんです。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "stamp": true,
+      "text": "というわけで、今回のバグのステータスは、[[仕様です]]。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "ずんだもんの遅刻も、地球の自転のせいなのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "数ミリ秒では、言い訳になりません。",
+      "pop": "なりません",
+      "sfx": "bubu"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "あなたが見つけた、この世界のバグも、コメントで報告してください。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "チャンネル登録も、よろしくなのだ！"
+    }
+  ],
+  "sources": [
+    "ScienceDaily 2026-09-28 Earth's day isn't exactly 24 hours. The reason may lie deep inside the planet(Zhang & Dumberry, Nature, 2026) https://www.sciencedaily.com/releases/2026/09/260928100540.htm",
+    "Wikipedia: Leap second(1972年から27回、最後は2016年12月31日、2035年までに廃止、最短の日は2022年6月29日) https://en.wikipedia.org/wiki/Leap_second",
+    "Wikipedia: Structure of Earth(内核の半径約1,220km、マントルは深さ約2,890kmまで) https://en.wikipedia.org/wiki/Structure_of_Earth"
+  ],
+  "publish": {
+    "titles": [
+      "1日は24時間ぴったりじゃない？原因は地球の中心の“綱引き”だった",
+      "なぜ1日の長さは毎日ちがうのか。地球の内核が自転を変えていた",
+      "時計に1秒を27回足してきた理由。地球の奥で起きている“回転のバグ”"
+    ],
+    "hook": [
+      "1日の長さは、ぴったり24時間ではありません。2022年6月29日は、24時間より1.59ミリ秒短い日でした。",
+      "その原因のひとつは地球の中心にあるかもしれない――2026年9月のNature誌の研究を、地球の断面図と3Dの地球でバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#地球",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "24時間",
+          "じゃない"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep005_layers_final.png",
+        "crop": [
+          0.0,
+          0.0,
+          0.62,
+          1.0
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "犯人は",
+          "地球の中心"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "ep005_layers_final.png",
+        "crop": [
+          0.05,
+          0.08,
+          0.62,
+          0.92
+        ],
+        "focus": 0.5,
+        "size": 120
+      },
+      {
+        "text": [
+          "1秒",
+          "足してた"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ]
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 0,
+      "to": 3,
+      "hook": [
+        "1日は",
+        "24時間",
+        "ぴったりじゃない"
+      ],
+      "title": "1日は24時間ぴったりじゃない。いちばん短かった日は？ #Shorts",
+      "thumb_photo": "ep005_spin/075.png"
+    },
+    {
+      "from": 16,
+      "to": 19,
+      "hook": [
+        "地球の中で",
+        "綱引きが…"
+      ],
+      "title": "地球の中心の“綱引き”が1日の長さを変えていた #Shorts"
+    }
+  ]
+}
