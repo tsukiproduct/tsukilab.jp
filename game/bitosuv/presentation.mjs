@@ -1,4 +1,4 @@
-import {drawWorld} from './world-art.mjs?v=9';
+import {drawWorld} from './world-art.mjs?v=10';
 // Visual feedback is separate from simulation. No particles affect damage or clocks.
 export function drawTelegraphs(ctx,s){
  for(const e of s.enemies){if(e.hp<=0||e.attack<=0)continue;let progress=1-e.attack/(e.windup||.95);ctx.save();ctx.translate(e.x,e.y);ctx.rotate(e.aim||0);ctx.strokeStyle='#f0aa75';ctx.fillStyle='#c9563828';ctx.lineWidth=1.5;

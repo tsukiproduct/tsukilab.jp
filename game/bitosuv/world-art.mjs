@@ -1,9 +1,11 @@
-import artData from './art-data.mjs?v=9';
+import artData from './art-data.mjs?v=10';
 // 背景の模様は低コントラスト、灯りとランドマークは間隔を空けて配置する。
 let scenery=null;
 export function setWorldAtlas(image){scenery=image;propCache.clear()}
 const palettes=[['#252330','#302c39','#393442','#43444d'],['#2b222f','#352938','#42313e','#51404b'],['#202937','#293343','#344152','#455266']];
 const tileCache=new Map(),propCache=new Map();
+// 装飾は背景に退かせる。敵の視認性を優先（2026-10 調整）。
+export const PROP_SIZE=92,PROP_ALPHA=.55;
 const hash=(x,y)=>{let n=Math.imul(x,374761393)^Math.imul(y,668265263);n=Math.imul(n^(n>>>13),1274126177);return (n^(n>>>16))>>>0};
 function ground(g,stage,variant){
  const p=palettes[stage],r=(x,y,w,h,c)=>{g.fillStyle=c;g.fillRect(x,y,w,h)};
@@ -36,7 +38,7 @@ export function drawWorld(ctx,stage,minx,miny,W,H,ox,oy,time=0,reduced=false){
  const tile=160,startX=Math.floor(-ox/tile)*tile,startY=Math.floor(-oy/tile)*tile;
  for(let x=startX;x<W-ox+tile;x+=tile)for(let y=startY;y<H-oy+tile;y+=tile){let variant=hash(x/tile,y/tile)%4,c=cached(tileCache,stage+','+variant,80,80,g=>ground(g,stage,variant));if(c)ctx.drawImage(c,x,y,tile,tile);else{ctx.save();ctx.translate(x,y);ctx.scale(2,2);ground(ctx,stage,variant);ctx.restore()}}
  const block=320,bx=Math.floor((-ox-128)/block)*block,by=Math.floor((-oy-128)/block)*block;
- for(let x=bx;x<W-ox+block;x+=block)for(let y=by;y<H-oy+block;y+=block){let n=hash(x/block,y/block),variant=n%3,px=x+50+n%90,py=y+40+(n>>>9)%90,c=cached(propCache,stage+','+variant,64,64,g=>prop(g,stage,variant));if(c)ctx.drawImage(c,px,py,128,128);else{ctx.save();ctx.translate(px,py);ctx.scale(2,2);prop(ctx,stage,variant);ctx.restore()}
+ for(let x=bx;x<W-ox+block;x+=block)for(let y=by;y<H-oy+block;y+=block){let n=hash(x/block,y/block),variant=n%3,px=x+50+n%90,py=y+40+(n>>>9)%90,c=cached(propCache,stage+','+variant,64,64,g=>prop(g,stage,variant));ctx.globalAlpha=PROP_ALPHA;if(c)ctx.drawImage(c,px+(128-PROP_SIZE)/2,py+(128-PROP_SIZE),PROP_SIZE,PROP_SIZE);else{ctx.save();ctx.translate(px+(128-PROP_SIZE)/2,py+(128-PROP_SIZE));ctx.scale(PROP_SIZE/64,PROP_SIZE/64);prop(ctx,stage,variant);ctx.restore()}ctx.globalAlpha=1;
   if(!reduced){ctx.fillStyle='#edc985';for(let i=0;i<2;i++){const phase=time*.65+i*3+n%9;ctx.globalAlpha=.18+.14*Math.sin(phase);ctx.fillRect(Math.round(px+25+i*53+Math.sin(phase)*8),Math.round(py+15+i*24-Math.cos(phase)*12),2,2)}ctx.globalAlpha=1}
  }
 }
