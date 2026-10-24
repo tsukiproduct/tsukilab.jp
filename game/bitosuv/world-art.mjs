@@ -1,4 +1,4 @@
-import artData from './art-data.mjs?v=10';
+import artData from './art-data.mjs?v=11';
 // 背景の模様は低コントラスト、灯りとランドマークは間隔を空けて配置する。
 let scenery=null;
 export function setWorldAtlas(image){scenery=image;propCache.clear()}

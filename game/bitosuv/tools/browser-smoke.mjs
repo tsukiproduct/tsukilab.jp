@@ -21,7 +21,7 @@ try{
     page.on('response',r=>{if(r.status()>=400)errors.push(r.status()+' '+r.url())});
     await page.route('https://**/*',route=>{external++;return route.abort()});
     // テスト時にだけ状態を観察する。配布するapp.mjsにはこのフックを含めない。
-    await page.route('**/app.mjs?v=10',route=>route.fulfill({contentType:'text/javascript',body:app+'\nglobalThis.__haloteiQa={getRun:()=>run};'}));
+    await page.route('**/app.mjs?v=11',route=>route.fulfill({contentType:'text/javascript',body:app+'\nglobalThis.__haloteiQa={getRun:()=>run};'}));
     await page.addInitScript(()=>localStorage.setItem('bito-survivors-v3',JSON.stringify({clears:[true,true,true,true,true],haloteiStages:[true,true,true]})));
     await page.clock.install();
     await page.goto(origin+'/game/halotei/');
