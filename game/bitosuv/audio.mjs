@@ -66,6 +66,18 @@ function play(i,t){const s=song,li=i%s.loop,bar=Math.floor(li/s.bar),k=li%s.bar,
   if(hot&&(k===4||k===12))snare(t,.08);if(boss&&k%4===0)kick(t,.3)}}
 function schedule(){if(!ac||!song)return;while(nextTime<ac.currentTime+.16){play(step,nextTime);nextTime+=stepDur();step++}}
 
+// ---------- 収録曲（イントロ付きループ）----------
+// LOOPSTART/LOOPLENGTH はファイルのタグ値（サンプル数, 44.1kHz）。Safari向けに m4a も用意。
+const tracks={bitoTheme:{urls:[new URL('./assets/bito-theme.ogg',import.meta.url).href,new URL('./assets/bito-theme.m4a',import.meta.url).href],loopStart:264600/44100,loopEnd:(264600+3175200)/44100,gain:.21,buf:null,loading:null}};
+let trackName=null,trackSrc=null,trackGain=null;
+export const trackNames=Object.keys(tracks);
+function canPlay(url){try{const a=document.createElement('audio');return a.canPlayType(url.endsWith('.ogg')?'audio/ogg; codecs="vorbis"':'audio/mp4; codecs="mp4a.40.2"')!==''}catch{return false}}
+function loadTrack(name){const tr=tracks[name];if(tr.buf||tr.loading)return tr.loading;
+ tr.loading=(async()=>{for(const url of tr.urls.filter(canPlay).concat(tr.urls)){try{const r=await fetch(url);if(!r.ok)continue;tr.buf=await ac.decodeAudioData(await r.arrayBuffer());return tr.buf}catch{}}tr.loading=null;return null})();return tr.loading}
+function stopTrack(){if(trackSrc){const src=trackSrc,g=trackGain,t=ac.currentTime;g.gain.cancelScheduledValues(t);g.gain.setValueAtTime(g.gain.value,t);g.gain.linearRampToValueAtTime(0,t+.6);src.stop(t+.65);src.onended=()=>{src.disconnect();g.disconnect()}}trackSrc=null;trackGain=null}
+async function startTrack(name){if(!ac||!musicOn)return;const tr=tracks[name],buf=await loadTrack(name);if(!buf||trackName!==name||trackSrc||!musicOn)return;
+ const src=ac.createBufferSource(),g=ac.createGain();src.buffer=buf;src.loop=true;src.loopStart=tr.loopStart;src.loopEnd=Math.min(tr.loopEnd,buf.duration);g.gain.value=tr.gain;src.connect(g);g.connect(musicBus);src.start(ac.currentTime+.05);trackSrc=src;trackGain=g}
+
 // ---------- 公開関数 ----------
 export function init(){if(ac){if(ac.state==='suspended')ac.resume();return ac}const C=globalThis.AudioContext||globalThis.webkitAudioContext;if(!C)return null;try{build(new C())}catch{return null}if(ac.state==='suspended')ac.resume();return ac}
 function build(ctx){ac=ctx;
@@ -76,10 +88,10 @@ function build(ctx){ac=ctx;
  sfxOut=ac.createGain();sfxOut.connect(sfxBus);const sv=ac.createGain();sv.gain.value=.25;sfxOut.connect(sv);sv.connect(verb);
  noiseBuf=ac.createBuffer(1,ac.sampleRate*2,ac.sampleRate);const nd=noiseBuf.getChannelData(0);for(let i=0;i<nd.length;i++)nd[i]=Math.random()*2-1;
  return ac}
-function level(){if(!ac)return;const v=musicOn&&song?levels.music*duck:0;musicBus.gain.cancelScheduledValues(ac.currentTime);musicBus.gain.setTargetAtTime(v,ac.currentTime,.25)}
-export function setEnabled(music,sfx){musicOn=!!music;sfxOn=!!sfx;if(musicOn||sfxOn)init();if(!ac)return;level();if(musicOn&&song&&!timer){nextTime=ac.currentTime+.05;timer=setInterval(schedule,30)}if(!musicOn&&timer){clearInterval(timer);timer=null}}
-export function setSong(name){if(!songs[name]){song=null;level();return}if(songs[name]!==song){song=songs[name];step=0;leadFreq=0;if(ac)nextTime=Math.max(nextTime,ac.currentTime+.05)}level();if(musicOn&&ac&&!timer){nextTime=ac.currentTime+.05;timer=setInterval(schedule,30)}}
-export function stopSong(){song=null;if(timer){clearInterval(timer);timer=null}level()}
+function level(){if(!ac)return;const v=musicOn&&(song||trackName)?levels.music*duck:0;musicBus.gain.cancelScheduledValues(ac.currentTime);musicBus.gain.setTargetAtTime(v,ac.currentTime,.25)}
+export function setEnabled(music,sfx){musicOn=!!music;sfxOn=!!sfx;if(musicOn||sfxOn)init();if(!ac)return;level();if(trackName){if(musicOn)startTrack(trackName);else stopTrack()}if(musicOn&&song&&!timer){nextTime=ac.currentTime+.05;timer=setInterval(schedule,30)}if(!musicOn&&timer){clearInterval(timer);timer=null}}
+export function setSong(name){if(tracks[name]){if(trackName===name)return;song=null;if(ac)stopTrack();trackName=name;level();if(ac)startTrack(name);return}if(trackName){trackName=null;if(ac)stopTrack()}if(!songs[name]){song=null;level();return}if(songs[name]!==song){song=songs[name];step=0;leadFreq=0;if(ac)nextTime=Math.max(nextTime,ac.currentTime+.05)}level();if(musicOn&&ac&&!timer){nextTime=ac.currentTime+.05;timer=setInterval(schedule,30)}}
+export function stopSong(){song=null;trackName=null;if(ac)stopTrack();if(timer){clearInterval(timer);timer=null}level()}
 export function setIntensity(v){intensity=Math.max(0,Math.min(1,+v||0))}
 export function setBoss(on){boss=!!on}
 export function setDuck(on){duck=on?.35:1;level()}

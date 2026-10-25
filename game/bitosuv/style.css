@@ -15,3 +15,26 @@ body.halotei #encounter{margin:3px 0 3px}
 body.halotei .stage-track{margin-bottom:0}
 body.halotei #gear{display:none}
 }
+/* 2026-10-25 ハロテイ タイトル刷新：夜景が透ける背景・ロゴ・光るSTART */
+body.halotei #overlay.title{background:linear-gradient(180deg,#0a061026 0,#0a06104d 32%,#0a0610c8 60%,#0a0610f0 100%)}
+body.halotei .title-top{border-color:#ffffff1f;color:#bba7c7}
+body.halotei .title-main{flex-direction:column;align-items:center;text-align:center;padding:12px 0 6px;gap:4px}
+body.halotei .title-copy{width:100%;display:flex;flex-direction:column;align-items:center}
+body.halotei .eyebrow{letter-spacing:5px;text-shadow:0 0 12px #e0873f99}
+body.halotei .logo-h1{margin:10px 0 2px;line-height:0;width:100%;letter-spacing:0}
+body.halotei .title-logo{display:block;margin:0 auto;width:min(100%,560px);height:auto;filter:drop-shadow(0 6px 16px #000c);animation:logo-in .9s cubic-bezier(.2,.9,.25,1.2) both,logo-float 4.5s ease-in-out .9s infinite}
+body.halotei .title-rule{display:none}
+body.halotei .tagline{font-size:14px;letter-spacing:2px;text-shadow:0 2px 8px #000,0 0 2px #000}
+body.halotei .portrait{border:0;width:auto;margin:0;position:relative;padding:2px 30px 0;isolation:isolate}
+body.halotei .portrait::before{content:'';position:absolute;left:50%;bottom:10px;width:190px;height:190px;transform:translateX(-50%);background:radial-gradient(circle,#f08a3c66 0,#b25ad126 46%,transparent 70%);z-index:-1}
+body.halotei .portrait canvas{width:150px;height:174px;animation:hero-float 2.8s ease-in-out infinite}
+body.halotei .portrait small{color:#e9c27e;letter-spacing:4px;text-shadow:0 1px 4px #000}
+body.halotei .title-menu{border-color:#ffffff1f}
+body.halotei .primary{background:linear-gradient(180deg,#ffb45a,#e0662c);color:#1a0d10;animation:start-pulse 1.8s ease-in-out infinite}
+body.halotei .primary:hover,body.halotei .primary:focus-visible{background:linear-gradient(180deg,#ffd27a,#f07a38);color:#1a0d10}
+@keyframes logo-in{from{opacity:0;transform:translateY(-18px) scale(.92)}to{opacity:1;transform:none}}
+@keyframes logo-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes hero-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes start-pulse{0%,100%{box-shadow:0 0 0 2px #1a0d10,0 0 12px #f08a3c66}50%{box-shadow:0 0 0 2px #1a0d10,0 0 28px #f08a3cbb}}
+@media(max-width:550px){body.halotei .portrait{padding-top:0}body.halotei .portrait canvas{width:128px;height:148px}body.halotei .tagline{font-size:12px}}
+@media(prefers-reduced-motion:reduce){body.halotei .title-logo,body.halotei .portrait canvas,body.halotei .primary{animation:none}}

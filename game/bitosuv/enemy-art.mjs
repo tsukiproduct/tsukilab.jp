@@ -1,4 +1,4 @@
-import artData from './art-data.mjs?v=11';
+import artData from './art-data.mjs?v=12';
 // 素材の実測矩形と共通スケールで足元を固定。コード描画は確認・読込失敗時の代替用。
 let atlas=null;
 export function setEnemyAtlas(image){atlas=image}
