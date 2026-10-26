@@ -1,0 +1,378 @@
+{
+  "title": "怖いものをつい見てしまうバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#014",
+  "theme": {
+    "base": [
+      30,
+      24,
+      36
+    ],
+    "blobs": [
+      [
+        60,
+        30,
+        50
+      ],
+      [
+        44,
+        30,
+        60
+      ],
+      [
+        70,
+        36,
+        40
+      ],
+      [
+        40,
+        40,
+        60
+      ]
+    ],
+    "pattern": "stripes",
+    "pat": [
+      200,
+      120,
+      255,
+      26
+    ],
+    "frame": [
+      170,
+      120,
+      200,
+      255
+    ]
+  },
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "つい見る",
+    "4つの種類",
+    "練習",
+    "ゾンビ"
+  ],
+  "chapter_titles": [
+    "怖いのについ見てしまう(暗い好奇心)",
+    "暗い好奇心の4つの種類",
+    "安全な場所での心の練習",
+    "ホラー好きは心が折れにくい?"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/investigator.mp3",
+    "credit": "Investigator / noaccordion",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/1183568"
+  },
+  "report": {
+    "no": "014",
+    "name": "怖いものをつい見てしまう",
+    "place": "人の心(暗い好奇心)",
+    "reporter": "コルタン・スクリブナーほか(心理学の研究)",
+    "severity": 1,
+    "status": "仕様です"
+  },
+  "sources": [
+    "Scrivner (2021) The psychology of morbid curiosity: Development and initial validation of the morbid curiosity scale. Personality and Individual Differences https://www.researchgate.net/publication/353653516",
+    "Scrivner, Johnson, Kjeldgaard-Christiansen & Clasen (2021) Pandemic practice: Horror fans and morbidly curious individuals are more psychologically resilient during the COVID-19 pandemic. Personality and Individual Differences 168:110397 https://doi.org/10.1016/j.paid.2020.110397",
+    "ScienceDaily 2021-01-11 Zombie movies and psychological resilience https://www.sciencedaily.com/releases/2021/01/210111190106.htm",
+    "Out of the dark: psychological perspectives on people's fascination with true crime. British Journal of Psychology https://bpspsychub.onlinelibrary.wiley.com/doi/10.1111/bjop.70038",
+    "Coltan Scrivner 公式サイト https://www.coltanscrivner.com/"
+  ],
+  "lines": [
+    {
+      "who": "zunda",
+      "text": "事件のドキュメンタリーとか、ホラーとか、怖いのに、[[つい見ちゃう]]のだ！ずんだもん、性格が悪いのだ？",
+      "emote": "think",
+      "chapter": 0,
+      "telop": "怖いのに\nつい見てしまう"
+    },
+    {
+      "who": "tsumugi",
+      "text": "性格の問題とは、限りません。心理学では、ちゃんと名前がついています。[[モービッド・キュリオシティ]]。日本語にすると、[[暗い好奇心]]です。",
+      "emote": "normal",
+      "punch": true
+    },
+    {
+      "who": "zunda",
+      "text": "名前がついてるのだ！？",
+      "emote": "surprise",
+      "pop": "名前あった"
+    },
+    {
+      "who": "tsumugi",
+      "text": "しかも、ある研究では、ホラーが好きな人ほど、パンデミックの間、[[心が折れにくかった]]という結果も出ています。その話は、最後にします。",
+      "emote": "normal",
+      "sfx": "kira"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんなのだ！今日は、部屋の電気をつけて、お送りするのだ！",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "tsumugi",
+      "text": "十月は、ハロウィンに向けて、ホラー映画や怖い話が、たくさん見られる季節です。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "アメリカの心理学者、[[コルタン・スクリブナー]]さんは、暗い好奇心を、危険についての情報を知りたいという気持ち、と説明しています。",
+      "emote": "normal",
+      "chapter": 1
+    },
+    {
+      "who": "tsumugi",
+      "text": "暗い、という言葉は、内容が暗いという意味で、その人が悪いという意味ではありません。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "ほっとしたのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "スクリブナーさんは、二〇二一年に、この気持ちをはかる[[二十四の質問]]を作りました。そして、四つの種類に分けています。",
+      "emote": "normal",
+      "seq": "ep014b_four",
+      "fit": "contain",
+      "credit": "Scrivner (2021) の分類をもとに番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "危ない人の心。暴力。体のこと。そして、心霊のような、見えない恐怖です。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "事件のドキュメンタリーが好きな人は、特に、[[危ない人の心]]、つまり、なぜその人は事件を起こしたのか、に興味が強いと考えられています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんは、暴力の場面より、なんでそうなったのかが、気になるのだ。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "人によって、どこに興味があるかが、違うんです。血が苦手でも、理由は知りたい、という人もいます。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "でも、なんで危険を知りたくなるように、できてるのだ？",
+      "emote": "surprise",
+      "chapter": 2
+    },
+    {
+      "who": "tsumugi",
+      "text": "スクリブナーさんの考えでは、危険を知ることは、[[生き残るため]]に役立ってきたからです。",
+      "emote": "normal",
+      "seq": "ep014b_sim",
+      "fit": "contain",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "安全な場所で、怖い話を見ながら、もし自分ならどうするか、と[[心の中で練習]]できる。そういう役目がある、と考えられています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "怖い話は、避難訓練なのだ…！",
+      "emote": "surprise",
+      "punch": true,
+      "pop": "訓練！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そういう見方もできる、ということです。ただ、これはまだ[[研究の途中]]の考えです。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "別の研究では、事件ものを見る理由として、暗い好奇心が、強く関係していました。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "で、ホラー好きは、心が折れにくいって話は、なんなのだ！",
+      "emote": "surprise",
+      "chapter": 3
+    },
+    {
+      "who": "tsumugi",
+      "text": "二〇二〇年、パンデミックが始まった頃、三百十人を調べた研究です。",
+      "emote": "normal",
+      "report": true,
+      "telop": "2020年 310人の調査\nホラー好きほど\n心が折れにくかった"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ホラー映画が好きな人ほど、[[気持ちの落ち込みが少なかった]]。ゾンビや世界の終わりを描く映画が好きな人は、さらに、[[備えもできていた]]と答えました。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "ゾンビ映画を見てた人が、一番、準備ができてたのだ！？",
+      "emote": "surprise",
+      "punch": true,
+      "pop": "ゾンビ最強"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ただし、ホラーを見たから強くなった、と[[決まったわけではありません]]。もともと強い人が、ホラーを好きなだけかもしれません。研究者自身も、そう注意しています。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "それに、本当の事件には、傷ついた人がいます。見るときは、被害にあった人への思いやりを、忘れないことも大切です。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "というわけで、今回のバグのステータスは、[[仕様です]]。怖いものを見たくなるのは、危険から身を守るための、心の仕組みかもしれません。",
+      "emote": "happy",
+      "stamp": true
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんも、今夜はホラーを見て、訓練するのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "夜中に、トイレに行けなくなっても、知りません。",
+      "emote": "normal",
+      "pop": "自己責任",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "text": "あなたが、つい見てしまう怖いジャンルも、コメントで教えてください。",
+      "emote": "happy"
+    },
+    {
+      "who": "zunda",
+      "text": "チャンネル登録も、よろしくなのだ！",
+      "emote": "happy"
+    }
+  ],
+  "publish": {
+    "thumb_style": "dark",
+    "titles": [
+      "なぜ人は怖いもの・事件の話をつい見てしまうのか？心理学では名前がついていた",
+      "怖いのに見てしまう「暗い好奇心」の正体。ホラー好きはパンデミックで心が折れにくかった",
+      "事件のドキュメンタリーをつい見てしまう心理。それは心の「避難訓練」かもしれない"
+    ],
+    "hook": [
+      "ホラーや事件の話を、怖いのについ見てしまう。心理学ではこれを「暗い好奇心(モービッド・キュリオシティ)」と呼びます。",
+      "暗い好奇心の4つの種類と、2020年の研究で「ホラー好きほど心が折れにくかった」という結果をバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#心理学",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "つい",
+          "見ちゃう"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "style": "dark"
+      },
+      {
+        "text": [
+          "ホラー好き",
+          "最強?"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "ep014b_four/199.png",
+        "style": "dark"
+      },
+      {
+        "text": [
+          "それ",
+          "避難訓練"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "style": "pop"
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 0,
+      "to": 3,
+      "hook": [
+        "怖いのに",
+        "つい見ちゃう",
+        "心理"
+      ],
+      "title": "怖いのについ見てしまう心理には名前があった #Shorts",
+      "thumb_photo": false
+    },
+    {
+      "from": 23,
+      "to": 26,
+      "hook": [
+        "ホラー好きは",
+        "心が",
+        "折れにくい?"
+      ],
+      "title": "ホラー好きはパンデミックで心が折れにくかった？ #Shorts",
+      "thumb_photo": false
+    }
+  ]
+}

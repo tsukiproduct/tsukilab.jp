@@ -1,0 +1,30 @@
+{
+  "_説明": "題材の管理リスト。status: published / produced / planned / candidate / rejected。keywords は重複確認に使う(python3 tools/topics.py check キーワード)。",
+  "topics": [
+    {
+      "id": "001",
+      "title": "{{題材}}",
+      "status": "planned",
+      "script": "scripts/ep001_xxx.json",
+      "keywords": [
+        "{{キーワード}}"
+      ],
+      "report_status": "{{ステータス}}",
+      "news_date": "{{YYYY-MM-DD}}",
+      "demand": "{{同テーマ上位10本の再生数の中央値 約○万回 / 直近1年 約○万回}}",
+      "sources": [
+        "{{URL}}"
+      ],
+      "notes": ""
+    },
+    {
+      "id": null,
+      "title": "{{扱わない題材の例}}",
+      "status": "rejected",
+      "keywords": [
+        "{{キーワード}}"
+      ],
+      "notes": "{{扱わない理由}}"
+    }
+  ]
+}
