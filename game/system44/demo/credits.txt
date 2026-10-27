@@ -1,0 +1,11 @@
+REDEMPTION
+Character model: "Walk carrying briefcase - Jordan 3D Person, Animated", Innerscene, adapted from MakeHuman CC0 assets, CC0 1.0. Modified by hiding the briefcase and reducing texture resolution.
+Source: https://www.innerscene.com/tools/library/3d-parts/walk-carrying-briefcase-jordan-3d-person-animated-c805c97a
+Three.js, GLTFLoader, BufferGeometryUtils, SkeletonUtils: MIT License, https://github.com/mrdoob/three.js
+Background plates and title image: generated for this game.
+Matter.js 0.20.0: MIT License, https://github.com/liabru/matter-js
+Yokai Emaki backgrounds, samurai, enemies and bosses: generated for this game collection.
+
+JUNK FOOD FEVER food images: generated for this game collection.
+Bebas Neue font: SIL Open Font License 1.1, see fonts/OFL-bebas.txt.
+Yokai Emaki title artwork: generated for this collection.
