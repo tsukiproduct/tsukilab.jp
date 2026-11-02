@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111315">
+  <meta name="description" content="アニメーション作品『EARTH AFTER』のキャラクター衣装・作画設定とシーンビジュアル。">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>EARTH AFTER — Character & Visual Design</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%23111315%22/><path d=%22M15 18h34v7H23v7h22v7H23v7h26v7H15z%22 fill=%22%23d5c5a8%22/></svg>">
+  <style>
+    :root{--ink:#e9e5dc;--muted:#a9a79f;--paper:#111315;--panel:#191c1f;--line:#303438;--sand:#d5c5a8;--sara:#758066;--kira:#a94f3d;--kyle:#38516f;--max:1440px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--paper);font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;line-height:1.8;letter-spacing:.02em}body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:48px 48px}img{max-width:100%;display:block}a{color:inherit;text-decoration:none}button{font:inherit}
+    .skip{position:fixed;z-index:100;left:1rem;top:-4rem;padding:.7rem 1rem;background:#fff;color:#000}.skip:focus{top:1rem}
+    .nav{position:sticky;top:0;z-index:20;background:rgba(17,19,21,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.nav__in{max-width:var(--max);margin:auto;display:flex;align-items:center;gap:1.4rem;padding:.75rem 2rem}.brand{font:700 .92rem/1 Georgia,serif;letter-spacing:.16em;margin-right:auto}.nav a:not(.brand){font-size:.8rem;letter-spacing:.14em;color:var(--muted)}.nav a:hover{color:#fff}.back{border:1px solid var(--line);padding:.35rem .65rem;border-radius:99px}
+    .hero{position:relative;min-height:min(82vh,920px);display:grid;align-items:end;overflow:hidden;border-bottom:1px solid var(--line)}.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 48%}.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,13,14,.06) 25%,rgba(11,13,14,.85) 100%),linear-gradient(90deg,rgba(11,13,14,.42),transparent 50%)}.hero__copy{position:relative;z-index:1;width:min(var(--max),100%);margin:auto;padding:5rem 2rem}.eyebrow{font-size:.67rem;letter-spacing:.24em;text-transform:uppercase;color:var(--sand)}h1{font:400 clamp(2.5rem,7vw,7rem)/.88 Georgia,"Times New Roman",serif;letter-spacing:-.05em;margin:.5rem 0 1rem;max-width:12ch}.hero p{max-width:41rem;color:#d1cec7;font-size:clamp(.9rem,1.5vw,1.08rem)}
+    main{position:relative}.wrap{max-width:var(--max);margin:auto;padding:7rem 2rem}.intro{display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:start}.kicker{color:var(--sand);font:italic 1.05rem Georgia,serif}.intro h2,.section-head h2{font:400 clamp(2rem,4vw,4.2rem)/1.05 Georgia,"Times New Roman",serif;letter-spacing:-.035em;margin:.5rem 0}.intro p{color:var(--muted);max-width:52rem}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:2.4rem}.stat{background:var(--panel);padding:1rem}.stat b{display:block;font:400 1.8rem Georgia,serif}.stat span{font-size:.74rem;color:var(--muted);letter-spacing:.12em}
+    .character{border-top:1px solid var(--line)}.character__lead{display:grid;grid-template-columns:.8fr 1.2fr;gap:4rem;margin-bottom:2.5rem}.tag{display:inline-flex;align-items:center;gap:.7rem;font-size:.7rem;letter-spacing:.16em;color:var(--muted)}.tag::before{content:"";width:2.2rem;height:2px;background:var(--accent)}.character h2{font:400 clamp(3.6rem,8vw,8rem)/.8 Georgia,serif;margin:1rem 0}.jp{font-size:1rem;color:var(--sand);letter-spacing:.2em}.profile{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem 1.5rem;align-content:end}.profile div{padding:.7rem 0;border-bottom:1px solid var(--line)}.profile dt{font-size:.65rem;letter-spacing:.13em;color:var(--muted)}.profile dd{margin:.15rem 0 0;font-size:.98rem}
+    .cards{display:grid;grid-template-columns:repeat(12,1fr);gap:1.2rem}.costume{grid-column:span 4;background:var(--panel);border:1px solid var(--line);overflow:hidden}.costume.wide{grid-column:span 6}.costume__img{display:block;width:100%;aspect-ratio:16/9;overflow:hidden;background:#ece8df;cursor:zoom-in}.costume__img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}.costume__img:hover img{transform:scale(1.02)}.costume__body{padding:1.25rem}.costume h3{margin:0 0 .4rem;font:400 1.3rem Georgia,serif}.costume p{margin:0;color:#bdbab2;font-size:.92rem;line-height:1.85}.chip{display:inline-block;margin-top:.8rem;padding:.2rem .6rem;border:1px solid var(--line);border-radius:99px;font-size:.72rem;color:var(--sand);letter-spacing:.08em}
+    .scenes{background:#0c0e0f;border-block:1px solid var(--line)}.section-head{display:flex;align-items:end;justify-content:space-between;gap:2rem;margin-bottom:2.5rem}.section-head p{max-width:34rem;color:#bdbab2;font-size:.95rem}.scene-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem}.scene{margin:0}.scene__img{position:relative;display:block;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--line);cursor:zoom-in;background:#16191b}.scene__img img{width:100%;height:100%;object-fit:cover;transition:transform .65s ease}.scene__img:hover img{transform:scale(1.018)}.scene__img::after{content:"＋";position:absolute;right:1rem;bottom:1rem;width:2.4rem;height:2.4rem;display:grid;place-items:center;border-radius:50%;background:rgba(10,11,12,.7);border:1px solid rgba(255,255,255,.35)}.scene figcaption{display:grid;grid-template-columns:auto 1fr;gap:1rem;padding:.9rem .15rem}.num{font:italic .8rem Georgia,serif;color:var(--sand)}.scene h3{margin:0;font-size:1.02rem}.scene p{margin:.25rem 0 0;color:#bdbab2;font-size:.9rem}
+    .rules{display:grid;grid-template-columns:.75fr 1.25fr;gap:5rem}.rules-list{border-top:1px solid var(--line)}.rule{display:grid;grid-template-columns:3rem 1fr;gap:1rem;padding:1.2rem 0;border-bottom:1px solid var(--line)}.rule b{font:italic 1rem Georgia,serif;color:var(--sand)}.rule h3{margin:0 0 .25rem;font-size:1rem}.rule p{margin:0;color:#bdbab2;font-size:.92rem}.continuity{width:100%;border-collapse:collapse;margin-top:2rem;font-size:.9rem}.continuity th,.continuity td{text-align:left;vertical-align:top;padding:.8rem;border-bottom:1px solid var(--line)}.continuity th{color:var(--sand);font-weight:500;letter-spacing:.08em}.continuity td{color:var(--muted)}
+    footer{border-top:1px solid var(--line);padding:2.5rem 2rem;color:var(--muted);font-size:.7rem}.footer-in{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:2rem}.footer-in strong{color:var(--ink);font-family:Georgia,serif;letter-spacing:.12em}
+    dialog{width:min(96vw,1600px);max-width:none;padding:0;border:1px solid #454a4f;background:#0b0d0e;color:white;box-shadow:0 2rem 8rem #000}dialog::backdrop{background:rgba(0,0,0,.88);backdrop-filter:blur(6px)}dialog img{width:100%;max-height:88vh;object-fit:contain}.close{position:fixed;top:1rem;right:1rem;border:1px solid #777;background:#111;color:#fff;width:2.8rem;height:2.8rem;border-radius:50%;cursor:pointer;font-size:1.3rem}.modal-cap{padding:.8rem 1rem;color:#bbb;font-size:.75rem}
+    .continuity-wrap{margin-top:2rem;max-width:100%}.rules>*,.intro>*,.character__lead>*,.rules-list,.rule,.rule>*{min-width:0}html,body{overflow-x:clip}.continuity{margin-top:0;min-width:560px}
+    .check{border-top:1px solid var(--line)}.checks{display:grid;gap:1rem;grid-template-columns:repeat(2,1fr)}.ck{background:var(--panel);border:1px solid var(--line);padding:1.2rem 1.3rem;display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start}.ck .st{font-size:.72rem;letter-spacing:.1em;padding:.2rem .55rem;border:1px solid;border-radius:99px;white-space:nowrap}.ck.ok .st{color:#9fd3a8;border-color:#9fd3a866}.ck.memo .st{color:#c9c4b8;border-color:#c9c4b866}.ck.warn .st{color:#e3b16a;border-color:#e3b16a66}.ck.done .st{color:#9ec5e6;border-color:#9ec5e666}.ck h3{margin:0 0 .3rem;font-size:1rem}.ck p{margin:0;color:#bdbab2;font-size:.9rem}.ck .ref{display:flex;gap:.5rem;margin-top:.8rem}.ck .ref button{width:7.5rem;aspect-ratio:16/9;padding:0;border:1px solid var(--line);background:#000;cursor:zoom-in}.ck .ref img{width:100%;height:100%;object-fit:cover}
+    .lb-nav{position:fixed;top:50%;transform:translateY(-50%);width:3rem;height:3rem;border-radius:50%;border:1px solid #777;background:#111c;color:#fff;font-size:1.4rem;cursor:pointer}.lb-prev{left:1rem}.lb-next{right:1rem}.modal-cap{display:flex;justify-content:space-between;gap:1rem}
+    @media(max-width:900px){.checks{grid-template-columns:1fr}}
+    @media(max-width:900px){.nav__in{overflow-x:auto;padding:.6rem 1rem;gap:1rem;scrollbar-width:none}.nav__in::-webkit-scrollbar{display:none}.nav a{white-space:nowrap;padding:.45rem 0}.brand{margin-right:.4rem}.continuity-wrap{overflow-x:auto}.wrap{padding:5rem 1rem}.hero__copy{padding:4rem 1rem}.intro,.character__lead,.rules{grid-template-columns:1fr;gap:2rem}.costume,.costume.wide{grid-column:span 6}.scene-grid{grid-template-columns:1fr}.section-head{display:block}.profile{margin-top:1rem}}
+    @media(max-width:560px){.hero{min-height:70vh}.stats{grid-template-columns:1fr}.cards{display:block}.costume{margin-bottom:1rem}.profile{grid-template-columns:1fr}.footer-in{display:block}.scene-grid{gap:2.6rem}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.costume__img img,.scene__img img{transition:none}}
+  @media(max-width:640px){.continuity{min-width:0;font-size:.78rem;table-layout:fixed}.continuity th,.continuity td{padding:.55rem .35rem;word-break:break-word}.continuity th:first-child,.continuity td:first-child{width:22%}}
+</style>
+<link rel="stylesheet" href="../assets/ea-nav.css?v=3">
+<style>
+.ns{background:#0c0e0f;border-block:1px solid var(--line)}
+.ns .badge{display:inline-block;font:600 .75rem/1 "JetBrains Mono",monospace;letter-spacing:.14em;color:#0c0e0f;background:#8fe6ff;border-radius:999px;padding:.4rem .8rem;margin-bottom:1rem}
+.ns h2{margin:.2rem 0 1rem}
+.ns .lead2{color:var(--muted,#a7a29a);max-width:46rem;margin:0 0 2rem}
+.ns-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.ns-grid figure{margin:0;background:#111315;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.ns-grid figure.w{grid-column:1/-1}
+.ns-grid img{width:100%;height:auto;display:block}
+.ns-grid figcaption{padding:.6rem .8rem;font-size:.82rem;color:var(--muted,#a7a29a)}
+.ns-rules{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem 2rem;margin:2rem 0 0;padding:0;list-style:none}
+.ns-rules li{border-left:3px solid #8fe6ff;padding:.2rem 0 .2rem .9rem;font-size:.9rem;color:var(--muted,#a7a29a)}
+.ns-rules b{color:var(--ink,#ece6dc);display:block}
+@media(max-width:900px){.ns-grid{grid-template-columns:1fr 1fr}.ns-rules{grid-template-columns:1fr}}
+@media(max-width:560px){.ns-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <a class="skip" href="#main">本文へ</a>
+  <nav class="nav" aria-label="ページ内ナビゲーション"><div class="nav__in">
+    <a class="brand" href="#top">EARTH AFTER / DESIGN</a><a href="#sara">KIKYO</a><a href="#kira">AKANE</a><a href="#kyle">SHION</a><a href="#hacker">HACKER</a><a href="../gadgets/">GADGETS</a><a href="#scenes">SCENES</a><a href="#rules">RULES</a><a href="#check">NOTES</a><a href="../script/">SCRIPT</a><a href="../world/">オフィシャルガイド</a><a class="back" href="../">本編資料へ ↗</a>
+  </div></nav>
+
+  <header class="hero" id="top">
+    <img src="../img/bg3/10.webp" fetchpriority="high" alt="共同体で子供たちとサッカーをするシオン、アカネ、桔響（絵コンテ10より）">
+    <div class="hero__copy"><span class="eyebrow">Character & Visual Design / Definitive Edition</span><h1>EARTH<br>AFTER</h1><p>三人の時間を、同じ画面に。衣装、年齢、身体設定、光と空気までを統一したアニメーション制作基準。</p></div>
+  </header>
+
+  <main id="main">
+
+    <section class="ns" id="newstyle" data-ea-label="新画風（正式採用）"><div class="wrap">
+      <span class="badge">OFFICIAL STYLE · 2026-10-24</span>
+      <h2>新画風（正式採用）</h2>
+      <p class="lead2">2026年10月24日、この画風を正式に採用しました。人物はフラットなセル画、背景は実写に近い手描き美術。動画もこの画風で作ります。絵コンテ（全119カット）・各シーンの背景・アニマティック・MVも新画風に差し替え済みです（10/24）。このページの下にある設定画・衣装・場面画は旧画風の資料です（人物の特徴と衣装の決まりはそのまま有効）。生成用のプロンプトは「新画風 汎用スタイルプロンプト」（v2：参照画像あり／v3：参照画像なし）と「EARTH AFTER 新画風システムプロンプト v2」を使います。</p>
+      <div class="ns-grid"><figure class="w"><a href="img/ns-key.webp" target="_blank" rel="noopener"><img src="img/ns-key-s.webp" width="960" height="540" loading="lazy" alt="新画風 キービジュアル：屋上の三人"></a><figcaption>キービジュアル：屋上の三人</figcaption></figure><figure><a href="img/ns-kikyo.webp" target="_blank" rel="noopener"><img src="img/ns-kikyo-s.webp" width="960" height="540" loading="lazy" alt="新画風 設定画：桔響（25歳）"></a><figcaption>設定画：桔響（25歳）</figcaption></figure><figure><a href="img/ns-shion.webp" target="_blank" rel="noopener"><img src="img/ns-shion-s.webp" width="960" height="540" loading="lazy" alt="新画風 設定画：シオン"></a><figcaption>設定画：シオン</figcaption></figure><figure><a href="img/ns-akane.webp" target="_blank" rel="noopener"><img src="img/ns-akane-s.webp" width="960" height="540" loading="lazy" alt="新画風 設定画：アカネ"></a><figcaption>設定画：アカネ</figcaption></figure><figure><a href="img/ns-s01.webp" target="_blank" rel="noopener"><img src="img/ns-s01-s.webp" width="960" height="540" loading="lazy" alt="新画風 01 夕暮れの公園"></a><figcaption>01 夕暮れの公園</figcaption></figure><figure><a href="img/ns-s10.webp" target="_blank" rel="noopener"><img src="img/ns-s10-s.webp" width="960" height="540" loading="lazy" alt="新画風 10 共同体のサッカー"></a><figcaption>10 共同体のサッカー</figcaption></figure><figure><a href="img/ns-s10-07.webp" target="_blank" rel="noopener"><img src="img/ns-s10-07-s.webp" width="960" height="540" loading="lazy" alt="新画風 10-07 ちょっとかります！"></a><figcaption>10-07 ちょっとかります！</figcaption></figure><figure><a href="img/ns-s14-01.webp" target="_blank" rel="noopener"><img src="img/ns-s14-01-s.webp" width="960" height="540" loading="lazy" alt="新画風 14-01 2年後のバイク"></a><figcaption>14-01 2年後のバイク</figcaption></figure><figure><a href="img/ns-s18.webp" target="_blank" rel="noopener"><img src="img/ns-s18-s.webp" width="960" height="540" loading="lazy" alt="新画風 18 王子様"></a><figcaption>18 王子様</figcaption></figure><figure><a href="img/ns-s22.webp" target="_blank" rel="noopener"><img src="img/ns-s22-s.webp" width="960" height="540" loading="lazy" alt="新画風 22 AFTER"></a><figcaption>22 AFTER</figcaption></figure></div>
+      <ul class="ns-rules">
+        <li><b>人物の形</b>大きく表情豊かな頭、小さく狭い肩、コンパクトな胴、筋肉や関節を描かない細く滑らかな手足</li>
+        <li><b>髪と衣装</b>髪は大きなまとまりと少ない内部線。衣装は大きく読みやすいパーツ。人物と衣装の特徴は維持</li>
+        <li><b>塗り</b>フラットな固有色＋素材ごとに一段のセル影。グラデーション、質感、光る金属は避ける。義手もつや消しの単純な形</li>
+        <li><b>背景</b>実写に近い手描き美術。実在の光源、正直なパース、素材の傷み。HDRや過剰な色調補正はしない</li>
+        <li><b>なじませ方</b>人物はセル画のまま、背景と同じ光の向きと色温度に。影はキーライトの反対側</li>
+        <li><b>ノイズを出さない</b>ざらつき、点々、かすれた線、意味のない細かい描き込み、文字を入れない</li>
+      </ul>
+    </div></section>
+    <section class="wrap intro" id="intro" data-ea-label="コンセプト"><div><span class="kicker">Visual thesis</span><h2>描くのは、<br>機械ではなく心。</h2><p style="color:#8fe6ff;font-size:.85rem;margin-top:.8rem">※ここから下は旧画風の資料です。画風は上の「新画風（正式採用）」を正とします。</p></div><div><p>人物は繊細なセルルック、背景は生活の痕跡が残る写実的な美術。光源・重力・接触・素材の反応を物理的に扱いながら、誇張は表情と動きにだけ許す。本ページを、三人の外見と衣装に関する基準資料とする。</p><div class="stats"><div class="stat"><b>03</b><span>CHARACTERS</span></div><div class="stat"><b>10</b><span>COSTUME SHEETS</span></div><div class="stat"><b>06</b><span>SCENE VISUALS</span></div></div></div></section>
+
+    <section class="character wrap" id="sara" data-ea-label="桔響" style="--accent:var(--sara)"><div class="character__lead"><div><span class="tag">01 / HUMAN</span><h2>KIKYO</h2><div class="jp">桔響</div></div><dl class="profile"><div><dt>HAIR</dt><dd>黒髪（色は全時代共通）。22歳まで長いストレート、23歳で自分で切り顎の長さに（義手になる前）</dd></div><div><dt>EYES</dt><dd>静かな暗色。感情は視線と呼吸で表現</dd></div><div><dt>AGE RANGE</dt><dd>14–17 / 21 / 23–25 ・ 身長154cm</dd></div><div><dt>SILHOUETTE</dt><dd>細身。未来では実用装備の直線を足す</dd></div></dl></div>
+      <div class="cards">
+        <article class="costume"><button class="costume__img" data-full="img/sara-school.webp" data-caption="KIKYO / SCHOOL UNIFORM"><img loading="lazy" src="img/sara-school-s.webp" width="960" height="540" alt="桔響の制服設定画"></button><div class="costume__body"><h3>School Uniform</h3><p>チャコールのブレザーとスカート、白シャツ、くすんだワイン色のリボン。黒髪が顔の繊細さを縁取る。</p><span class="chip">AGE 14–17</span></div></article>
+        <article class="costume"><button class="costume__img" data-full="img/sara-home.webp" data-caption="KIKYO / HOMEWEAR"><img loading="lazy" src="img/sara-home-s.webp" width="960" height="540" alt="桔響の部屋着設定画"></button><div class="costume__body"><h3>Homewear</h3><p>チャコールの大きめパーカと柔らかな室内着。警戒が解けた幼い表情と、肩に落ちる黒髪を見せる。</p><span class="chip">PRIVATE</span></div></article>
+        <article class="costume"><button class="costume__img" data-full="img/sara-future.webp" data-caption="KIKYO / FUTURE FIELD (23–25)"><img loading="lazy" src="img/sara-future-s.webp" width="960" height="540" alt="未来の桔響の設定画"></button><div class="costume__body"><h3>Future Field</h3><p>オリーブの作業服。23歳、倒壊危険区域へ向かう前に自分で髪を顎の長さに切り、その救助で左腕が機械化した（右腕は生身）。髪色は黒のまま。傷と交換部品は実用の履歴として描く。</p><span class="chip">AGE 23–25 / LEFT ARM / SHORT</span></div></article>
+      </div>
+    </section>
+
+    <section class="character wrap" id="kira" data-ea-label="アカネ" style="--accent:var(--kira)"><div class="character__lead"><div><span class="tag">02 / DROID</span><h2>AKANE</h2><div class="jp">アカネ</div></div><dl class="profile"><div><dt>HAIR</dt><dd>錆赤。崩した低いポニーテール</dd></div><div><dt>EYES</dt><dd>アンバー。人間らしい温度を保つ</dd></div><div><dt>MODEL</dt><dd>ユタニ社 J3200（奉仕型・成長型）・160cm</dd></div><div><dt>SILHOUETTE</dt><dd>作業着、手袋、工具で能動性を示す</dd></div></dl></div>
+      <div class="cards">
+        <article class="costume"><button class="costume__img" data-full="img/kira-school.webp" data-caption="AKANE / SCHOOL UNIFORM"><img loading="lazy" src="img/kira-school-s.webp" width="960" height="540" alt="アカネの制服設定画"></button><div class="costume__body"><h3>School Uniform</h3><p>桔響と同系統の制服。髪色と無造作な結び方、わずかに開いた姿勢で快活さを出す。</p><span class="chip">SCHOOL DAYS</span></div></article>
+        <article class="costume"><button class="costume__img" data-full="img/kira-home.webp" data-caption="AKANE / HOMEWEAR"><img loading="lazy" src="img/kira-home-s.webp" width="960" height="540" alt="アカネの部屋着設定画"></button><div class="costume__body"><h3>Homewear</h3><p>レンガ色のスウェットを中心にした気取らない室内着。桔響の部屋ではベッドを自分の場所のように使う。</p><span class="chip">PRIVATE</span></div></article>
+        <article class="costume"><button class="costume__img" data-full="img/kira-future.webp" data-caption="AKANE / FUTURE WORKWEAR"><img loading="lazy" src="img/kira-future-s.webp" width="960" height="540" alt="未来のアカネの設定画"></button><div class="costume__body"><h3>Future Workwear</h3><p>赤いワークジャケット、黒いカーゴ、工具袋。外見は人間のまま。機械性は露出させず所作の精度で匂わせる。接続口は首の左・耳の下（戦後は露出）。</p><span class="chip">J3200 / 160cm</span></div></article>
+      </div>
+    </section>
+
+    <section class="character wrap" id="kyle" data-ea-label="シオン" style="--accent:var(--kyle)"><div class="character__lead"><div><span class="tag">03 / J1000</span><h2>SHION</h2><div class="jp">シオン</div></div><dl class="profile"><div><dt>HAIR</dt><dd>金髪（全年代）。長めのレイヤー</dd></div><div><dt>EYES</dt><dd>青灰色。制御時のみ淡い規格光</dd></div><div><dt>MODEL</dt><dd>ユタニ社 J1000（初期型の成長型）・170cm</dd></div><div><dt>SILHOUETTE</dt><dd>しなやかな競技体型。過剰な筋肉表現は避ける</dd></div></dl></div>
+      <div class="cards">
+        <article class="costume wide"><button class="costume__img" data-full="img/kyle-child.webp" data-caption="SHION / CHILD (J1000)"><img loading="lazy" src="img/kyle-child-s.webp" width="960" height="540" alt="幼いシオンの設定画"></button><div class="costume__body"><h3>Child</h3><p>7歳ほどの姿。子供の姿で生まれ、家族と暮らしながら育つJ1000。接続口は人工皮膚の下で見えない。髪は幼い頃から金髪。</p><span class="chip">AGE ~7 / BLOND</span></div></article>
+        <article class="costume wide"><button class="costume__img" data-full="img/kyle-soccer.webp" data-caption="SHION / SOCCER UNIFORM"><img loading="lazy" src="img/kyle-soccer-s.webp" width="960" height="540" alt="シオンのサッカーユニフォーム設定画"></button><div class="costume__body"><h3>Soccer Uniform</h3><p>紺と白のユニフォーム、背番号10。軽さと方向転換の速さが読めるシルエット。</p><span class="chip">NUMBER 10</span></div></article>
+        <article class="costume wide"><button class="costume__img" data-full="img/kyle-school.webp" data-caption="SHION / SCHOOL UNIFORM"><img loading="lazy" src="img/kyle-school-s.webp" width="960" height="540" alt="シオンの制服設定画"></button><div class="costume__body"><h3>School Uniform</h3><p>端正だが着崩しすぎない学生服。人間社会へ自然に溶け込む外見を優先。</p><span class="chip">SCHOOL DAYS</span></div></article>
+        <article class="costume wide"><button class="costume__img" data-full="img/kyle-casual.webp" data-caption="SHION / CASUAL"><img loading="lazy" src="img/kyle-casual-s.webp" width="960" height="540" alt="シオンの私服設定画"></button><div class="costume__body"><h3>Casual</h3><p>青い短丈ジャケット、生成りのシャツ、黒いブーツ。無意識に機動性を選ぶ私服。</p><span class="chip">OFF FIELD</span></div></article>
+        <article class="costume wide"><button class="costume__img" data-full="img/kyle-future.webp" data-caption="SHION / FUTURE FIELD"><img loading="lazy" src="img/kyle-future-s.webp" width="960" height="540" alt="未来のシオンの設定画"></button><div class="costume__body"><h3>Future Field</h3><p>私服の青を残した耐久装備。外見年齢はほぼ変化しない。損傷は汚れと縫い直しで蓄積する。</p><span class="chip">J1000 / 170cm / 接続口は首の左</span></div></article>
+      </div>
+    </section>
+
+    <section class="character wrap" id="hacker" data-ea-label="通信係の青年" style="--accent:#6d7a86"><div class="character__lead"><div><span class="tag">04 / HUMAN — SUPPORT</span><h2>HACKER</h2><div class="jp">通信係の青年（仮）</div></div><dl class="profile"><div><dt>HAIR</dt><dd>こげ茶のくせ毛。目にかかる長さ</dd></div><div><dt>FACE</dt><dd>黒縁の丸眼鏡。首にヘッドホン</dd></div><div><dt>OUTFIT</dt><dd>ぶかぶかのグレーのパーカー、黒のカーゴパンツ、指なし手袋</dd></div><div><dt>ROLE</dt><dd>体力はなく「役に立てていない」と思っている。2年かけてユタニ社の監視カメラに侵入する。登場は10と14（15は通信の声のみ）</dd></div></dl></div>
+      <div class="cards">
+        <article class="costume wide"><button class="costume__img" data-full="img/hacker.webp" data-caption="HACKER / COMMS BOOTH"><img loading="lazy" src="img/hacker-s.webp" width="960" height="540" alt="通信係の青年の設定画"></button><div class="costume__body"><h3>Comms Booth</h3><p>全身の正面・横・後ろと表情4種、キーボードを叩く手元。14で桔響に頭をぽんぽんされ、照れて笑う。名前は未定。</p><span class="chip">HUMAN / GLASSES / HEADPHONES</span></div></article>
+      </div>
+    </section>
+
+    <section class="scenes" id="scenes" data-ea-label="シーン画"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Scene Visual Development</span><h2>物語の中の三人</h2></div><p>同じデザインを、時間・動作・光の中で検証する。場面画は16:9の完成フレームとして、アニメーションの質感基準を兼ねる。</p></div>
+      <div class="scene-grid">
+        <figure class="scene"><button class="scene__img" data-full="img/scene-ball-handoff.webp" data-caption="SCENE 01 / ボール"><img loading="lazy" src="img/scene-ball-handoff-s.webp" width="960" height="540" alt="桔響がシオンにサッカーボールを渡す"></button><figcaption><span class="num">01</span><div><h3>ボール</h3><p>校庭の門脇。制服の桔響が、ユニフォーム姿のシオンへボールを渡す。</p></div></figcaption></figure>
+        <figure class="scene"><button class="scene__img" data-full="img/scene-bedroom-talk.webp" data-caption="SCENE 02 / 桔響の自室"><img loading="lazy" src="img/scene-bedroom-talk-s.webp" width="960" height="540" alt="桔響の自室で話す桔響とアカネ"></button><figcaption><span class="num">02</span><div><h3>バレバレ</h3><p>校庭の見えない自室。アカネは、桔響の視線の行き先をとっくに知っている。</p></div></figcaption></figure>
+        <figure class="scene"><button class="scene__img" data-full="img/scene-hideout-talk.webp" data-caption="SCENE 03 / アジトでの対話"><img loading="lazy" src="img/scene-hideout-talk-s.webp" width="960" height="540" alt="アジトで真剣に話すシオン、桔響、アカネ"></button><figcaption><span class="num">03</span><div><h3>アジト</h3><p>救うか、止めるか。三人の視線が、同じ地図の上でぶつかる。</p></div></figcaption></figure>
+        <figure class="scene"><button class="scene__img" data-full="img/scene-capture-fight.webp" data-caption="SCENE 04 / 捕獲戦"><img loading="lazy" src="img/scene-capture-fight-s.webp" width="960" height="540" alt="制御されたシオンと戦う桔響とアカネ"></button><figcaption><span class="num">04</span><div><h3>捕獲戦</h3><p>21歳の桔響は両腕が生身。アカネと二人、制御されたシオンの力を受け流す。</p></div></figcaption></figure>
+        <figure class="scene"><button class="scene__img" data-full="img/scene-final-embrace.webp" data-caption="SCENE 05 / 喪失"><img loading="lazy" src="img/scene-final-embrace-s.webp" width="960" height="540" alt="桔響を抱きしめ空へ叫ぶシオン"></button><figcaption><span class="num">05</span><div><h3>喪失</h3><p>腕の中で失われた命。シオンの叫びは、この直後油谷へ向かう怒りに変わる。</p></div></figcaption></figure>
+        <figure class="scene"><button class="scene__img" data-full="img/key-visual.webp" data-caption="KEY VISUAL / 同じ木の下で（旧デザイン・参考）"><img loading="lazy" src="img/key-visual-s.webp" width="960" height="540" alt="大樹の下に並ぶ桔響、アカネ、シオン"></button><figcaption><span class="num">06</span><div><h3>同じ木の下で</h3><p>異なる時間の衣装を一枚に重ねた象徴画。三人が共にいられたかもしれない午後。※シオンが黒髪の旧デザインです（参考）。</p></div></figcaption></figure>
+      </div>
+    </div></section>
+
+    <section class="wrap rules" id="rules" data-ea-label="作画固定事項"><div><span class="eyebrow">Continuity Rules</span><h2 style="font:400 clamp(2.3rem,5vw,5rem)/1 Georgia,serif;margin:.6rem 0 1rem">作画固定事項</h2><p style="color:var(--muted);font-size:.85rem">カットごとの解釈差を防ぐため、下記を優先する。設定画と場面画に差がある場合は、年齢別ルールを適用する。</p></div><div class="rules-list">
+      <div class="rule"><b>01</b><div><h3>桔響の髪</h3><p>黒髪で統一（髪色は変えない）。21歳までは長いストレート。23歳、シオンが見つからない日々の中で、倒壊危険区域へ向かう前に自分で切り、以降は顎の長さ（前髪は残す）。左腕を失うのはその後。</p></div></div>
+      <div class="rule"><b>02</b><div><h3>桔響の腕</h3><p>21歳のシオン捕獲戦では両腕が生身。23歳の倒壊区域の救助以降は左腕のみ機械、右腕は生身。</p></div></div>
+      <div class="rule"><b>03</b><div><h3>ドロの外見</h3><p>アカネとシオンは人間擬態型。通常時に関節線や露出機構を加えない。機械性は反応速度、精度、制御光で示す。接続口（充電・装置接続用、心臓の機能につながる）は<b>首の左・耳の下</b>。EARTH AFTER以前は人工皮膚の下で見えず、戦後は露出。</p></div></div>
+      <div class="rule"><b>04</b><div><h3>関係性</h3><p>桔響とシオンを明示的な恋人として描かない。言葉にしきれない好意と、互いを一人の存在として選ぶ行動で示す。</p></div></div>
+      <div class="rule"><b>05</b><div><h3>画面の物理</h3><p>光源、接地、重さ、素材を説明できる画面にする。人物だけを照らす無根拠な補助光、装飾的なフレアや粒子は避ける。</p></div></div>
+      <div class="rule"><b>06</b><div><h3>人工喉頭</h3><p>17歳以降の桔響は神経接続型の人工喉頭を持つが、外からは見えない。首元に装置や光を描かず、存在は声の質感（わずかなノイズ）と、手術や整備の場面だけで伝える。喉が光るのは2回だけ：13でアカネが声を止める時（赤）と、18でアカネが声を返す時（緑）。</p></div></div>
+      <div class="rule"><b>07</b><div><h3>身長とシオンの髪</h3><p>桔響154cm／アカネ160cm／シオン170cm。シオンは幼少期から戦後まで金髪（髪型は長めのレイヤーのまま）。</p></div></div>
+      <figure style="margin:1.4rem 0 0"><button class="costume__img" data-full="img/height-lineup.webp" data-caption="HEIGHT LINEUP — KIKYO 154 / SHION 170 / AKANE 160" style="display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in"><img loading="lazy" src="img/height-lineup-s.webp" width="960" height="540" alt="桔響・シオン・アカネの身長比較" style="width:100%;height:auto;display:block"></button><figcaption style="color:var(--muted);font-size:.8rem;margin-top:.5rem">身長比較（左から桔響154cm／シオン170cm／アカネ160cm）</figcaption></figure>
+      <div class="continuity-wrap"><table class="continuity"><thead><tr><th>時期</th><th>桔響</th><th>アカネ</th><th>シオン</th></tr></thead><tbody><tr><td>学生時代</td><td>制服 / 部屋着・長い黒髪</td><td>制服 / 部屋着（接続口は見えない）</td><td>金髪・制服 / #10 / 私服</td></tr><tr><td>17歳・声を得た後</td><td>制服 / 部屋着・人工喉頭（外からは見えない）</td><td>制服 / 部屋着</td><td>金髪・制服 / #10 / 私服</td></tr><tr><td>崩壊後・21〜22歳</td><td>作業服・両腕生身・長い黒髪</td><td>赤い作業服・首の左に接続口</td><td>金髪・青い未来服（11で連れ去られる）</td></tr><tr><td>23〜25歳</td><td>左腕機械 / 右腕生身・顎の長さの黒髪・声を失う（端末と手話で話す）</td><td>赤い作業服（13で去り、16で再登場・制御の目）</td><td>金髪・青い未来服・油谷の傍ら</td></tr></tbody></table></div>
+    </div></section>
+
+    <section class="wrap check" id="check" data-ea-label="本編対応メモ"><div class="section-head"><div><span class="eyebrow">Concept Notes</span><h2>本編との対応メモ</h2></div><p>このページはデザイン案とコンセプトアートです。本編にない場面も含みます。脚本v3.1（2026-10-03）と並べたときの対応と、本編に入れる場合の検討ポイントをメモしています。</p></div>
+      <div class="checks">
+        <div class="ck ok"><span class="st">本編と一致</span><div><h3>25歳の桔響：左腕だけが機械</h3><p>三面図の正面・側面・背面すべてで、左腕のみ機械、右腕は生身になっている。最期に頬へ触れる「生身の右手」とも合う。</p></div></div>
+        <div class="ck ok"><span class="st">本編と一致</span><div><h3>21歳の捕獲戦：両腕とも生身</h3><p>場面04で桔響の両腕は生身。アカネとの二人がかりでシオンを止める構図も、脚本v3の09と一致。</p></div></div>
+        <div class="ck ok"><span class="st">本編と一致</span><div><h3>ドロの接続口</h3><p>アカネとシオンの未来服シートに、首の接続口の拡大図がある（位置は首の左に変更）。人間擬態型で機構を露出させないルールとも両立している。</p></div></div>
+        <div class="ck ok"><span class="st">本編と一致</span><div><h3>場面05「喪失」</h3><p>非常灯の赤い搬出路、撃たれた桔響を抱えて叫ぶシオン。脚本v3.1の18（閉じた隔壁の内側、18-05で上を向いて叫ぶ）に一致する。</p></div></div>
+        <div class="ck ok"><span class="st">決定</span><div><h3>人工喉頭は外から見せない</h3><p>今回のシートどおり、首元には何も描かない。喉が光るのは2回だけ：13（アカネが声を止める・赤）と18（アカネが声を返す・緑）。最後の声は一度だけ澄んで、音で途切れる。</p></div></div>
+        <div class="ck memo"><span class="st">追加するなら</span><div><h3>場面03「アジト」</h3><p>25歳の桔響（左腕が機械）と三人が拠点で地図を囲む、本編にはない場面。追加する場合は、16の再会から17の脱出までの間ではなく、10（同じ暮らし）の21歳の場面として使うのが自然。その場合、桔響の両腕は生身で長い黒髪。</p><div class="ref"><button type="button" data-full="img/scene-hideout-talk.webp" data-caption="場面03 / アジト"><img src="img/scene-hideout-talk-s.webp" alt="場面03"></button></div></div></div>
+        <div class="ck memo"><span class="st">追加するなら</span><div><h3>場面02「桔響の自室」</h3><p>脚本v3の04「バレバレ」は放課後の教室。自室の場面として新たに足すことも、05の「告白練習」（17歳・声を得た後）の絵として使うこともできる。声を出している描写なら17歳以降の場面になる（人工喉頭は外からは見えない）。</p><div class="ref"><button type="button" data-full="img/scene-bedroom-talk.webp" data-caption="場面02 / 桔響の自室"><img src="img/scene-bedroom-talk-s.webp" alt="場面02"></button></div></div></div>
+        <div class="ck ok"><span class="st">決定（10/03）</span><div><h3>ドロの接続口の位置</h3><p>首の左・耳の下に決定（寝るときに邪魔にならない位置。心臓の機能につながる）。デザイン案の未来服シートの「うなじ」の拡大図は、左側に移して描き直す。</p></div></div>
+        <div class="ck ok"><span class="st">反映済み（10/03）</span><div><h3>新設定の設定画</h3><p>シオンの金髪（幼少期・制服・サッカー・私服・未来服）、22〜25歳の桔響のショート、アカネの首の左の接続口、3人の身長比較を、新しい設定画に差し替えた。</p></div></div>
+        <div class="ck done"><span class="st">修正済み</span><div><h3>桔響の学生期の年齢</h3><p>05（17歳の誕生日に声を得る）も制服の時期なので、年齢表記を「14–15」から「14–17」に広げ、時期別の表に「17歳・声を得た後」の行を加えた。</p></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="footer-in"><strong>EARTH AFTER</strong><span>Character & Visual Design Bible — Definitive Edition ／ 制作 N3Co（月真猫、ねね、Nokosu）</span></div></footer>
+
+  <dialog id="lightbox" aria-label="拡大表示"><button class="close" aria-label="閉じる">×</button><button class="lb-nav lb-prev" aria-label="前の画像">‹</button><button class="lb-nav lb-next" aria-label="次の画像">›</button><img alt=""><div class="modal-cap"><span class="cap"></span><span class="cnt"></span></div></dialog>
+  <script>
+    const box=document.querySelector('#lightbox'),full=box.querySelector('img'),cap=box.querySelector('.cap'),cnt=box.querySelector('.cnt');
+    const items=[...document.querySelectorAll('main [data-full]')].filter((b,i,a)=>a.findIndex(x=>x.dataset.full===b.dataset.full)===i);
+    let cur=0;
+    function show(i){cur=(i+items.length)%items.length;const b=items[cur];full.src=b.dataset.full;const im=b.querySelector('img');full.alt=im?im.alt:'';cap.textContent=b.dataset.caption||'';cnt.textContent=(cur+1)+' / '+items.length;if(!box.open)box.showModal()}
+    document.querySelectorAll('main [data-full]').forEach(b=>b.addEventListener('click',()=>show(items.findIndex(x=>x.dataset.full===b.dataset.full))));
+    box.querySelector('.close').addEventListener('click',()=>box.close());
+    box.querySelector('.lb-prev').addEventListener('click',()=>show(cur-1));
+    box.querySelector('.lb-next').addEventListener('click',()=>show(cur+1));
+    box.addEventListener('click',e=>{if(e.target===box)box.close()});
+    box.addEventListener('keydown',e=>{if(e.key==='ArrowRight')show(cur+1);if(e.key==='ArrowLeft')show(cur-1)});
+    let sx=null;full.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});full.addEventListener('touchend',e=>{if(sx===null)return;const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(cur+(d<0?1:-1));sx=null});
+  </script>
+<script src="../assets/ea-nav.js?v=3" defer></script>
+</body>
+</html>
