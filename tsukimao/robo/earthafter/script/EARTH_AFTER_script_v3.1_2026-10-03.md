@@ -1,6 +1,6 @@
 # EARTH AFTER 脚本 v3.1（2026-10-03）
 
-原案・制作：月真猫 / TSUKIMAO　｜　22シーン・119カット・合計 17:36（計画値）　｜　キャラクター名：桔響（ききょう）・アカネ・油谷は決定、シオンは仮名
+原案・制作：月真猫 / TSUKIMAO　｜　22シーン・121カット・合計 17:52（計画値・2026-11-02改訂）　｜　キャラクター名：桔響（ききょう）・シオン・アカネ・油谷
 
 ## 画風（STYLE）
 
@@ -60,6 +60,7 @@ No text, letters, numbers, logos, captions, subtitles or speech balloons anywher
 - **SARA_22**: SARA (age 23, human woman, 154 cm): straight black hair she has just cut herself to chin length, bangs kept, tired dark eyes; olive field jacket, black high-neck top, black cargo pants, boots. Her LEFT arm from above the elbow is a newly fitted dark graphite mechanical prosthesis; her RIGHT hand is biological. Artificial larynx NOT visible.
 - **KIDS_SMALL**: Two small children, about 3: a tiny human girl with straight black hair and a small J-series android boy who looks fully human, with messy dark hair; dusty simple clothes.
 - **HACKER**: HACKER (human young man, about 20): thin and pale from staying indoors, messy dark brown hair, round glasses, oversized faded gray hoodie, headphones around his neck, fingerless gloves; quick nervous smile, talks fast.
+- **ENA**: ENA (small robot, Kikyo's companion): a grapefruit-sized, perfectly round, matte cream-colored robot shaped like a Shimaenaga (long-tailed tit); round black eyes, a tiny triangular black beak, short dark taupe-gray wings, a thin tail longer than its body; a tiny camera lens under one wing with a small pale-blue recording light beside it; no legs: it floats on a faint pale-blue glow from the levitation unit on its belly.
 
 ---
 
@@ -685,7 +686,7 @@ Aftermath, 50mm: the two women kneel by the subdued android lying on a folding s
 
 ## 08　おかえり
 
-地下共同体 ／ 夜 ／ 桔響 21歳 ／ 尺 0:37 ／ R06
+地下共同体 ／ 夜 ／ 桔響 21歳 ／ 尺 0:43 ／ R06
 
 > 地下の共同体では、人間と旧AIへ戻されたドロが暮らしている。戻されたドロの全員が感謝するわけではない。それでも桔響は「おかえり」と言う。
 
@@ -751,6 +752,23 @@ Repair bench lit by a single articulated work lamp, 40mm: the father in a gray w
 Close at 85mm on the black-haired woman's face as she speaks softly, warm lamp light from the side, dark station behind her; her expression gentle and steady, a slight tiredness under the eyes. Catchlight from the single lamp only.
 ```
 
+### 08-05（6秒・5:40〜）　エナ／肩口／50mm
+
+**行動・台詞**
+
+桔響の肩に、シマエナガ型の小さなロボット、エナがふわりと降りてくる。  
+エナ（電子音）「ピピッ」  
+翼の下のレンズの横で、録画の小さな青い光が灯る。桔響は指先でエナの頭をなでる。  
+※エナが撮っていることは説明しない。光だけ見せる。
+
+**心理**　桔響のそばには、いつもエナがいる。誰かを迎える桔響を、エナも見ている。19-03への仕込み。
+
+**画像生成（SHOT）**　SARA_21／ENA
+
+```
+50mm, warm side lamp in the dark underground station: Ena, the small round matte-cream robot bird, settles in the air beside the black-haired woman's shoulder, floating on a faint pale-blue belly glow; a tiny pale-blue recording light glows beside the small lens under its wing; she touches its head with one fingertip, a small tired smile. Background: soft shapes of the shared dining tables.
+```
+
 
 ## 09　王子様との戦い
 
@@ -758,7 +776,7 @@ Close at 85mm on the black-haired woman's face as she speaks softly, warm lamp l
 
 > 物資回収中、制御下のシオンと再会する。桔響は学生時代に見続けた彼のサッカーの癖を読み、止める。
 
-### 09-01（9秒・5:40〜）　高架下・奥行きのある引き／28mm
+### 09-01（9秒・5:46〜）　高架下・奥行きのある引き／28mm
 
 **行動・台詞**
 
@@ -773,7 +791,7 @@ Close at 85mm on the black-haired woman's face as she speaks softly, warm lamp l
 Under a collapsed elevated highway, 28mm deep perspective: daylight falls in hard bands between broken concrete slabs. In the foreground the black-haired woman freezes while loading a medical case onto a handcart. At the far opening, backlit, stands a young man in a navy field jacket, his face unchanged since he was eighteen, thin cyan rings in his eyes.
 ```
 
-### 09-02（10秒・5:49〜）　攻撃／24mm／低い位置
+### 09-02（10秒・5:55〜）　攻撃／24mm／低い位置
 
 **行動・台詞**
 
@@ -789,7 +807,7 @@ Under a collapsed elevated highway, 28mm deep perspective: daylight falls in har
 Low 24mm action frame: the young man in the navy jacket lunges forward with impossible speed, swatting a capture cable aside, concrete dust exploding from his footstep; the black-haired woman is thrown back, hand outstretched as if calling his name; the red-haired girl in the background readies another cable. Hard daylight shafts through the dust.
 ```
 
-### 09-03（11秒・5:59〜）　読み／50mm
+### 09-03（11秒・6:05〜）　読み／50mm
 
 **行動・台詞**
 
@@ -806,7 +824,7 @@ Low 24mm action frame: the young man in the navy jacket lunges forward with impo
 50mm from behind the black-haired woman's shoulder: her eyes fixed on the young man's feet as he feints to his right, weight shifting onto his left foot. A brief overlaid sense of memory is NOT drawn; only the real moment, sharp focus on his pivoting left boot, her face partly turned to camera with wet eyes and absolute certainty.
 ```
 
-### 09-04（9秒・6:10〜）　捕獲／40mm
+### 09-04（9秒・6:16〜）　捕獲／40mm
 
 **行動・台詞**
 
@@ -820,7 +838,7 @@ Low 24mm action frame: the young man in the navy jacket lunges forward with impo
 40mm mid-shot, frozen instant: the red-haired girl locks the young man's arm under hers with both hands, braced against a concrete pillar; the black-haired woman, behind him, drives a stopper device into the port on the left side of his neck with her right hand; a small blue-white discharge, his body starting to fold. Dust hanging in the light shafts.
 ```
 
-### 09-05（9秒・6:19〜）　倒れたシオン／85mm
+### 09-05（9秒・6:25〜）　倒れたシオン／85mm
 
 **行動・台詞**
 
@@ -842,7 +860,7 @@ Close at 85mm, camera low on the ground: the young man lies unconscious on dusty
 
 > 旧AIに戻ったシオンは桔響を覚えていない。三人の当たり前の日常。シオンは手話が読める。そして桔響は「私もドロ」と嘘をつく。
 
-### 10-01（11秒・6:28〜）　目覚め／40mm
+### 10-01（11秒・6:34〜）　目覚め／40mm
 
 **行動・台詞**
 
@@ -862,7 +880,7 @@ Close at 85mm, camera low on the ground: the young man lies unconscious on dusty
 Repair bench, 40mm: the young man in the navy jacket sits up slowly, eyes normal, looking at the red-haired girl who smiles with relief; the black-haired woman stands a little further back, arms crossed tightly, trying to smile. One warm work lamp and the dim glow of string lights in the station behind.
 ```
 
-### 10-02（11秒・6:39〜）　夜・嘘／65mm
+### 10-02（11秒・6:45〜）　夜・嘘／65mm
 
 **行動・台詞**
 
@@ -880,7 +898,7 @@ Repair bench, 40mm: the young man in the navy jacket sits up slowly, eyes normal
 Night, 65mm: the young man sits on a battered charging seat with a thin cable from the wall, knees drawn up, face haunted; the black-haired woman sits down on a crate beside him at a careful distance, speaking. Only a dim cyan charging indicator and a far lantern light them; the rest of the station asleep in darkness.
 ```
 
-### 10-03（9秒・6:50〜）　屋根の修理／28mm
+### 10-03（9秒・6:56〜）　屋根の修理／28mm
 
 **行動・台詞**
 
@@ -897,7 +915,7 @@ Night, 65mm: the young man sits on a battered charging seat with a thin cable fr
 28mm from below a makeshift shack built on the station platform: the young man kneels on a corrugated roof, holding a plank that has just snapped in half in his hands, splinters flying; below, the red-haired girl points up at him, scolding; the black-haired woman holds a box of nails, biting her lip to hold back a laugh. Lantern light and a skylight shaft from a street grate above.
 ```
 
-### 10-04（9秒・6:59〜）　子供とサッカー／24mm
+### 10-04（9秒・7:05〜）　子供とサッカー／24mm
 
 **行動・台詞**
 
@@ -914,7 +932,7 @@ Night, 65mm: the young man sits on a battered charging seat with a thin cable fr
 Wide 24mm on the old station concourse: the young man dribbles a cloth-wrapped ball past three laughing children, faking right and turning on his left foot; the black-haired woman cups her hands to shout from the side, the red-haired girl sits on a crate laughing. Warm string lights overhead, tiled floor scuffed into a makeshift pitch with tape lines.
 ```
 
-### 10-05（7秒・7:08〜）　共同体の隅／40mm／青年の肩越し
+### 10-05（7秒・7:14〜）　共同体の隅／40mm／青年の肩越し
 
 **行動・台詞**
 
@@ -931,7 +949,7 @@ Wide 24mm on the old station concourse: the young man dribbles a cloth-wrapped b
 Day in an underground shelter, 40mm over the shoulder of a thin pale young man hunched at a makeshift comms booth built from several old mismatched monitors showing abstract code shapes and camera grids. Through a rough opening in the wall beyond, out of focus, a blond young man plays soccer with children in warm lantern light. A red-haired girl in a red work jacket leans on the booth frame, talking to him. Light: cool monitor glow on his face, warm practical lights outside.
 ```
 
-### 10-06（10秒・7:15〜）　手話を読む／50mm
+### 10-06（10秒・7:21〜）　手話を読む／50mm
 
 **行動・台詞**
 
@@ -950,7 +968,7 @@ Day in an underground shelter, 40mm over the shoulder of a thin pale young man h
 50mm at a long table: the black-haired woman signs discreetly to the red-haired girl; the young man, sitting across with a tin cup, raises his eyes, reading her hands; the red-haired girl has burst into laughter. Warm lantern light on their faces, the station dark behind them.
 ```
 
-### 10-07（8秒・7:25〜）　ちょっとかります！／35mm
+### 10-07（8秒・7:31〜）　ちょっとかります！／35mm
 
 **行動・台詞**
 
@@ -968,7 +986,7 @@ Day in an underground shelter, 40mm over the shoulder of a thin pale young man h
 Daytime at the entrance ramp of the underground community, 35mm. A red-haired android girl in a red work jacket kneels beside a retro electric minibike (ivory and rust-red panels, fat block tires, brown leather seat, canvas tool roll on the rack) with a wrench in hand, turning in surprise. A black-haired young woman in an olive field jacket has already jammed on an ivory-and-red half helmet and is riding the bike up the ramp toward the daylight, grinning. Dust kicked up, warm daylight from the opening above.
 ```
 
-### 10-08（8秒・7:33〜）　資材置き場／35mm
+### 10-08（8秒・7:39〜）　資材置き場／35mm
 
 **行動・台詞**
 
@@ -985,7 +1003,7 @@ Daytime at the entrance ramp of the underground community, 35mm. A red-haired an
 Late afternoon in a ruined material yard of stacked beams and corrugated sheets, 35mm at chest height. A blond young man in a navy field jacket crouches behind a stack with a bundle of planks on his shoulder while the searchlight of a hovering patrol drone sweeps just over his head. From the right, a black-haired young woman in an olive field jacket and an ivory-and-red half helmet skids in on a retro ivory-and-rust-red electric minibike, dust flying, one hand reaching out to him.
 ```
 
-### 10-09（11秒・7:41〜）　その夜・給電席の前／50mm
+### 10-09（11秒・7:47〜）　その夜・給電席の前／50mm
 
 **行動・台詞**
 
@@ -1013,7 +1031,7 @@ Night in the underground community, 50mm, warm lantern light. Beside the chargin
 
 > シオンは最初から、桔響が人間だと気づいていた。翌朝、彼は桔響の食料と喉の部品を探しに出て、ユタニ社の回収部隊に連れ去られる。
 
-### 11-01（12秒・7:52〜）　戸口のシオン／50mm
+### 11-01（12秒・7:58〜）　戸口のシオン／50mm
 
 **行動・台詞**
 
@@ -1033,7 +1051,7 @@ Night in the underground community, 50mm, warm lantern light. Beside the chargin
 50mm from inside the room toward the door: the young man stands in the dark doorway, one hand on the frame, face half lit by the lantern on the floor; in the foreground, out of focus, the woman's frozen hand holding the spoon.
 ```
 
-### 11-02（12秒・8:04〜）　「怒ってる」／65mm
+### 11-02（12秒・8:10〜）　「怒ってる」／65mm
 
 **行動・台詞**
 
@@ -1052,7 +1070,7 @@ Night in the underground community, 50mm, warm lantern light. Beside the chargin
 65mm close two-shot: the woman's mouth open but silent, her right hand forming a sign of apology at chest height; the young man watches her hand, his anger dissolving into concern. Lantern light from below, cool darkness above.
 ```
 
-### 11-03（9秒・8:16〜）　食べて／35mm
+### 11-03（9秒・8:22〜）　食べて／35mm
 
 **行動・台詞**
 
@@ -1067,7 +1085,7 @@ Night in the underground community, 50mm, warm lantern light. Beside the chargin
 35mm from the far end of the storage room: the woman sits alone with the can in her lap, crying silently; beyond the open door, the young man sits on the corridor floor with his back against the frame, facing away. The lantern lights her; he is a dark silhouette against a faint corridor bulb. One person's width of distance, like a park bench long ago.
 ```
 
-### 11-04（8秒・8:25〜）　夜明けの出発／35mm
+### 11-04（8秒・8:31〜）　夜明けの出発／35mm
 
 **行動・台詞**
 
@@ -1081,7 +1099,7 @@ Night in the underground community, 50mm, warm lantern light. Beside the chargin
 Pre-dawn, 35mm from inside the sleeping community: the young man stands at the foot of the station stairs, a small tablet glowing faintly in his hand with abstract map shapes, looking back over his shoulder toward the dark sleeping area. Cold blue light from the street grate above, a single warm lantern far behind.
 ```
 
-### 11-05（9秒・8:33〜）　空の給電席／50mm
+### 11-05（9秒・8:39〜）　空の給電席／50mm
 
 **行動・台詞**
 
@@ -1099,7 +1117,7 @@ Pre-dawn, 35mm from inside the sleeping community: the young man stands at the f
 Morning, 50mm: the empty charging seat with its cable hanging loose; the black-haired woman stands beside it holding the cloth-wrapped ball against her chest; the red-haired girl behind her grips a silent radio. Thin gray daylight from the grate overhead, dust in the air.
 ```
 
-### 11-06（10秒・8:42〜）　捕獲／50mm
+### 11-06（10秒・8:48〜）　捕獲／50mm
 
 **行動・台詞**
 
@@ -1125,7 +1143,7 @@ J1000専用の抑制器が胸に撃ち込まれる。倒れたシオンの通信
 
 > シオンを探す日々。「今日も見つからなかった」夜、桔響は自分で髪を切る。そしてEARTH AFTERが立ち入りを禁じた倒壊危険区域で、中に残された人間の少女とドロの少年を救い、左腕を失う。
 
-### 12-01（7秒・8:52〜）　記録と捜索／35mm
+### 12-01（7秒・8:58〜）　記録と捜索／35mm
 
 **行動・台詞**
 
@@ -1140,7 +1158,7 @@ J1000専用の抑制器が胸に撃ち込まれる。倒れたシオンの通信
 35mm at a cluttered desk in the underground community at night: the black-haired woman marks a hand-drawn map with a pencil, a voice recorder beside a cold cup of tea; dozens of crossed-out marks on the map. A desk lamp with a warm bulb is the only light; her face tired, hair longer.
 ```
 
-### 12-02（9秒・8:59〜）　鏡の前／50mm／鏡越し
+### 12-02（9秒・9:05〜）　鏡の前／50mm／鏡越し
 
 **行動・台詞**
 
@@ -1157,7 +1175,7 @@ J1000専用の抑制器が胸に撃ち込まれる。倒れたシオンの通信
 Night, a cramped communal washroom in an underground shelter, 50mm over the shoulder into a cracked mirror, camera at standing eye level. A young woman with BOTH ARMS BIOLOGICAL gathers a hank of her long straight black hair in her left hand and cuts it at chin length with scissors in her right hand; long strands lie in the sink and on the floor. Her bangs remain. Her face is set and determined, not tearful. Light: one fluorescent tube above the mirror, greenish-white, hard shadows under her eyes.
 ```
 
-### 12-03（9秒・9:08〜）　危険区域の外縁／35mm／瓦礫越し
+### 12-03（9秒・9:14〜）　危険区域の外縁／35mm／瓦礫越し
 
 **行動・台詞**
 
@@ -1174,7 +1192,7 @@ Night, a cramped communal washroom in an underground shelter, 50mm over the shou
 Daylight at the edge of a condemned district, 35mm through a gap in broken concrete, camera at chest height. A tilted mid-rise building with cracked floors leans over a debris-filled street. A small municipal surveillance drone hovers at left with a rotating amber warning light. Deep inside the gap in the rubble, barely visible, two small children huddle together: a tiny black-haired human girl and a small android boy who looks fully human, both dusty. In the near foreground a young woman with freshly self-cut chin-length black hair and an olive field jacket looks up at the drone for one beat, then runs past it into the gap. Light: flat overcast sky, dust hanging only near the collapsed slabs.
 ```
 
-### 12-04（9秒・9:17〜）　救助現場の崩落／24mm
+### 12-04（9秒・9:23〜）　救助現場の崩落／24mm
 
 **行動・台詞**
 
@@ -1195,7 +1213,7 @@ Collapsing building interior during a rescue, 24mm: a child is being pulled out 
 
 > 義手を動かすには、ユタニの医療回線につなぐしかない。そう判断したのはアカネだった。接続した瞬間、アカネの奥に眠っていた命令が目を覚ます。アカネは眠る桔響の喉に手を当て、声を止めて去る。目覚めた桔響は声を失い、アカネを探して走る。出入口には、手入れされたアカネのバイクとヘルメットが残されていた。
 
-### 13-01（9秒・9:26〜）　義手の調整／50mm
+### 13-01（9秒・9:32〜）　義手の調整／50mm
 
 **行動・台詞**
 
@@ -1211,7 +1229,7 @@ Collapsing building interior during a rescue, 24mm: a child is being pulled out 
 50mm at a repair-and-clinic bench: the woman lies on the bench while her father fits a dark graphite mechanical left arm at her shoulder and the medic checks a spinal brace; her biological right hand grips her father's sleeve. Work lamp overhead, surgical tools and parts on a tray, her eyes open, staring at the ceiling.
 ```
 
-### 13-02（10秒・9:35〜）　アカネの瞳／寄り／100mm
+### 13-02（10秒・9:41〜）　アカネの瞳／寄り／100mm
 
 **行動・台詞**
 
@@ -1226,7 +1244,7 @@ Collapsing building interior during a rescue, 24mm: a child is being pulled out 
 Night in an underground repair room, 100mm extreme close-up on a red-haired android girl's face in profile, camera at her eye level. Inside her warm amber irises a thin pale-cyan control ring flickers on; her expression strains as if fighting it. In the soft out-of-focus foreground her gloved fingers grip a small handheld calibration terminal whose screen shows only abstract waveforms. In the blurred background a young woman sleeps on a surgical bench. Light: one work lamp behind the bench, deep shadows, the cyan ring the only cold light.
 ```
 
-### 13-03（9秒・9:45〜）　眠る桔響とアカネの手／寄り／65mm
+### 13-03（9秒・9:51〜）　眠る桔響とアカネの手／寄り／65mm
 
 **行動・台詞**
 
@@ -1240,7 +1258,7 @@ Night in an underground repair room, 100mm extreme close-up on a red-haired andr
 Night in an underground repair room, 65mm close shot. A young woman with chin-length black hair lies asleep under anesthesia on a surgical bench. A red-haired android girl in a red work jacket gently rests her gloved palm on the sleeping woman's throat; under the palm a soft RED glow shines through the fingers. The android girl's amber eyes carry a thin pale-cyan control ring and her face is empty. Light: one work lamp, the red glow the only colored light on the throat.
 ```
 
-### 13-04（8秒・9:54〜）　端末と去るアカネ／35mm
+### 13-04（8秒・10:00〜）　端末と去るアカネ／35mm
 
 **行動・台詞**
 
@@ -1255,25 +1273,25 @@ Night in an underground repair room, 65mm close shot. A young woman with chin-le
 Night, the same repair room, 35mm. In the near foreground a small handheld terminal on the bench shows an abstract green progress-complete shape (no letters). Beyond it, out of focus, a red-haired girl in a red work jacket walks away through a doorway into a dark corridor without looking back. A father figure sleeps slumped in a chair by the bench. Light: terminal glow, corridor darkness.
 ```
 
-### 13-05（10秒・10:02〜）　朝・寝床で起き上がる／40mm
+### 13-05（10秒・10:08〜）　朝・寝床で起き上がる／40mm
 
 **行動・台詞**
 
-朝。寝床で目を覚ました桔響が、体を起こす。「アカネ」と呼ぼうとして、口を開ける。  
+朝。枕元でエナが「ピピッ」と鳴き、顔の前で羽ばたいて桔響を起こす。いつもの朝。桔響が体を起こす。「アカネ」と呼ぼうとして、口を開ける。  
 桔響（息）「かっ……かっ……」  
 息だけが喉で引っかかり、声にならない。もう一度。出ない。  
 桔響の目から、涙がこぼれる。  
 ※説明の台詞は入れない。
 
-**心理**　17歳で得た声が、同じ仕組みで奪われた。何が起きたのかは誰も説明しない。観客だけが13-03の赤い光を知っている。
+**心理**　17歳で得た声が、同じ仕組みで奪われた。何が起きたのかは誰も説明しない。観客だけが13-03の赤い光を知っている。呼んでくれる存在はいるのに、呼び返せない。
 
-**画像生成（SHOT）**　SARA_22
+**画像生成（SHOT）**　SARA_22／ENA
 
 ```
-Morning in a small sleeping alcove in the underground shelter, 40mm from beside the cot, camera at seated height. A young woman with freshly cut chin-length black hair and a newly fitted graphite prosthetic left arm has just sat up on her cot under a thin gray blanket; her mouth is open, straining to call out, but no sound comes; her biological right hand rises toward her throat; tears run down her cheeks. She is alone. Nothing is visible on her throat. Light: thin gray morning daylight from a ventilation grate above, the rest of the alcove still dim.
+Morning in a small sleeping alcove in the underground shelter, 40mm from beside the cot, camera at seated height. A young woman with freshly cut chin-length black hair and a newly fitted graphite prosthetic left arm has just sat up on her cot under a thin gray blanket; her mouth is open, straining to call out, but no sound comes; her biological right hand rises toward her throat; tears run down her cheeks. The only other presence is Ena, the small round cream robot bird, hovering in front of her face with fluttering wings as it does every morning. Nothing is visible on her throat. Light: thin gray morning daylight from a ventilation grate above, the rest of the alcove still dim.
 ```
 
-### 13-06（9秒・10:12〜）　アカネを探して走る／35mm
+### 13-06（9秒・10:18〜）　アカネを探して走る／35mm
 
 **行動・台詞**
 
@@ -1289,7 +1307,7 @@ Morning in a small sleeping alcove in the underground shelter, 40mm from beside 
 Early morning in the underground shelter, 35mm handheld feel at running height. A young woman with self-cut chin-length black hair, olive field jacket, and a new graphite prosthetic left arm runs down a cluttered corridor of the shelter past an open storeroom door, looking around desperately, her mouth open as if calling a name but no sound; tear tracks on her cheeks. Light: cold morning daylight from a grate above, a few practical bulbs.
 ```
 
-### 13-07（10秒・10:21〜）　出入口・残されたバイク／35mm
+### 13-07（10秒・10:27〜）　出入口・残されたバイク／35mm
 
 **行動・台詞**
 
@@ -1313,7 +1331,7 @@ Morning at the shelter's entrance ramp, 35mm low wide. The red-and-ivory retro e
 
 > 2年後。桔響はアカネのバイクを手入れし続けている。声を失った桔響は、仲間と一緒に、あの日消えたドロたちを探している。ある夜、引きこもりがちな青年が、ユタニ社の監視カメラの映像を見せる。そこには、油谷の横に立つシオンと、遠くのアカネが映っていた。出発の前、医療担当は桔響に「これ以上つけてたら、体がもたない」と告げる。桔響の答えは「あと少しだけ」。
 
-### 14-01（9秒・10:31〜）　2年後・バイクの手入れ／50mm
+### 14-01（9秒・10:37〜）　2年後・バイクの手入れ／50mm
 
 **行動・台詞**
 
@@ -1331,7 +1349,7 @@ Morning at the shelter's entrance ramp, 35mm low wide. The red-and-ivory retro e
 Two years later, the shelter's entrance ramp, 50mm. A young woman with chin-length black hair, thinner face, olive field jacket and graphite prosthetic left arm crouches beside the red-and-ivory retro electric minibike, polishing it with a cloth, a small tool roll open beside her; the ivory-red half helmet gleams on the seat. Behind her, a thin pale young man in an oversized gray hoodie with headphones around his neck leans in from a doorway, calling to her. Light: warm afternoon light down the ramp.
 ```
 
-### 14-02（9秒・10:40〜）　捜索室・引き／28mm
+### 14-02（9秒・10:46〜）　捜索室・引き／28mm
 
 **行動・台詞**
 
@@ -1347,7 +1365,7 @@ Two years later, the shelter's entrance ramp, 50mm. A young woman with chin-leng
 Night, a cramped search room in the underground shelter, 28mm wide at standing eye level. Walls covered in hand-marked maps, photos and string. A young woman with chin-length black hair, olive field jacket and a graphite prosthetic left arm stands at a table with three tired volunteers, holding up a small handheld terminal with its screen turned toward them (screen shows abstract text-like lines, no readable letters). Light: one hanging work lamp, cool spill from a corridor.
 ```
 
-### 14-03（10秒・10:49〜）　通信ブース／35mm
+### 14-03（10秒・10:55〜）　通信ブース／35mm
 
 **行動・台詞**
 
@@ -1363,7 +1381,7 @@ Night, a cramped search room in the underground shelter, 28mm wide at standing e
 Night, the shelter comms booth of many old mismatched monitors, 35mm. The thin pale young man in an oversized gray hoodie with headphones around his neck leans out of his chair, excitedly pointing at one monitor; a young woman with chin-length black hair turns sharply toward the screen. Light: cool monitor glow on both faces.
 ```
 
-### 14-04（10秒・10:59〜）　モニターの中／監視カメラ映像
+### 14-04（10秒・11:05〜）　モニターの中／監視カメラ映像
 
 **行動・台詞**
 
@@ -1378,7 +1396,7 @@ Night, the shelter comms booth of many old mismatched monitors, 35mm. The thin p
 High-angle security-camera view on a monitor, slightly grainy with faint scan lines and a vignette (no timestamp, no text). A large polished corporate hall: a pale-cyan translucent hologram of a gray-haired man in a navy suit stands center; beside it a blond young man in a navy field jacket stands perfectly still; far back by the wall a red-haired girl in a red work jacket; several other androids stand evenly spaced along the walls.
 ```
 
-### 14-05（9秒・11:09〜）　頭ぽんぽん／50mm
+### 14-05（9秒・11:15〜）　頭ぽんぽん／50mm
 
 **行動・台詞**
 
@@ -1394,7 +1412,7 @@ High-angle security-camera view on a monitor, slightly grainy with faint scan li
 Night at the comms booth, 50mm. A young woman with chin-length black hair, beaming with a wide genuine smile, pats the head of the thin pale young man with her biological right hand; he blinks, surprised, then grins shyly. Monitors glow behind them. Light: cool monitor light, a warm lamp edge.
 ```
 
-### 14-06（9秒・11:18〜）　医療室・義手の接続部／50mm
+### 14-06（9秒・11:24〜）　医療室・義手の接続部／50mm
 
 **行動・台詞**
 
@@ -1419,7 +1437,7 @@ Night, the shelter's small medical room, 50mm at seated eye level. A young woman
 
 > カメラの映像を手がかりに、桔響は人間の運転手とユタニ西棟へ潜入する。青年が通信でカメラを止める。施設には眠るドロだけでなく、働かされる人間もいる。
 
-### 15-01（8秒・11:27〜）　潜入／35mm
+### 15-01（8秒・11:33〜）　潜入／35mm
 
 **行動・台詞**
 
@@ -1434,7 +1452,7 @@ Night, the shelter's small medical room, 50mm at seated eye level. A young woman
 35mm at a corporate service gate at night: a battered maintenance cart with a canvas cover waits at a barrier under sodium lights; the driver in a tan coverall hands a card to an armored security android; under the canvas, the two women's eyes are barely visible in the dark gap.
 ```
 
-### 15-02（8秒・11:35〜）　保管区画／24mm
+### 15-02（8秒・11:41〜）　保管区画／24mm
 
 **行動・台詞**
 
@@ -1450,7 +1468,7 @@ Night, the shelter's small medical room, 50mm at seated eye level. A young woman
 Wide 24mm: a long cold storage hall with rows of standing upright pods holding dormant androids, faces calm, dim cyan status strips; cold fluorescent tubes overhead, condensation on the floor. The two women move low between the rows, small in the frame.
 ```
 
-### 15-03（8秒・11:43〜）　働かされる人間／50mm
+### 15-03（8秒・11:49〜）　働かされる人間／50mm
 
 **行動・台詞**
 
@@ -1467,7 +1485,7 @@ Wide 24mm: a long cold storage hall with rows of standing upright pods holding d
 50mm through a dirty internal glass window: in the room beyond, exhausted human workers wearing restraint bands on their wrists sort parts under harsh white light; in the foreground, the woman's reflection overlaps the glass, her mechanical left hand pressed flat against it.
 ```
 
-### 15-04（7秒・11:51〜）　保管庫の扉／40mm
+### 15-04（7秒・11:57〜）　保管庫の扉／40mm
 
 **行動・台詞**
 
@@ -1488,7 +1506,7 @@ Wide 24mm: a long cold storage hall with rows of standing upright pods holding d
 
 > シオンとアカネは、油谷のホログラムの傍らに、命令を待つだけの存在として立っている。声のない桔響は、手話で二人を呼ぶ。二人は目覚め、アカネは桔響の声がないことに気づく。ホログラムが微笑み、傭兵が現れる。
 
-### 16-01（11秒・11:58〜）　社長室付きの間・引き／24mm
+### 16-01（11秒・12:04〜）　社長室付きの間・引き／24mm
 
 **行動・台詞**
 
@@ -1504,7 +1522,7 @@ Wide 24mm: a long cold storage hall with rows of standing upright pods holding d
 Night, a large quiet executive hall inside a corporate tower wing, 24mm wide from the doorway, camera at standing eye level. Polished dark floor, tall window walls showing city lights. In the center a life-size pale-cyan translucent hologram of a gray-haired man in his sixties in a navy suit stands beside a young man with soft blond hair and a worn navy field jacket, standing perfectly still, a thin pale-cyan ring in his eyes, face empty. In a far corner a red-haired girl in a red work jacket stands equally still with the same cyan ring. In the near foreground, the back of a young woman with chin-length black hair and a graphite prosthetic left arm entering. Light: cold city glow from the windows, the hologram casting cyan light but no shadow.
 ```
 
-### 16-02（12秒・12:09〜）　手話／50mm／桔響の正面やや斜め
+### 16-02（12秒・12:15〜）　手話／50mm／桔響の正面やや斜め
 
 **行動・台詞**
 
@@ -1522,7 +1540,7 @@ Night, a large quiet executive hall inside a corporate tower wing, 24mm wide fro
 Night in the executive hall, 50mm from slightly in front and to the side of a young woman with chin-length black hair, camera at her shoulder height. She signs with both hands mid-motion (hands slightly blurred by movement, not a close-up of finger shapes), her face open and tearful. Beyond her, out of focus, a blond young man in a navy field jacket blinks as the cyan ring fades from his blue-gray eyes. Light: cold window glow, cyan spill from an off-screen hologram.
 ```
 
-### 16-03（8秒・12:21〜）　アカネの目覚め／寄り／65mm
+### 16-03（8秒・12:27〜）　アカネの目覚め／寄り／65mm
 
 **行動・台詞**
 
@@ -1537,7 +1555,7 @@ Night in the executive hall, 50mm from slightly in front and to the side of a yo
 Night in a wide executive room with a cold city-window glow, 65mm close shot from Sara's side. A red-haired android girl in a red work jacket has just woken: the thin pale-cyan control ring in her amber eyes is fading out. She stares toward the camera (toward Sara) with a sudden shocked realization, lips parted, one gloved hand rising to her own mouth. Cool blue light from the window, a faint cyan spill from a hologram off screen.
 ```
 
-### 16-04（8秒・12:29〜）　微笑むホログラム／24mm
+### 16-04（8秒・12:35〜）　微笑むホログラム／24mm
 
 **行動・台詞**
 
@@ -1553,7 +1571,7 @@ Night in a wide executive room with a cold city-window glow, 65mm close shot fro
 Night, the wide executive room, 24mm low wide shot. In the foreground the life-size translucent cyan hologram of an old man in a navy suit smiles calmly. Behind him the double doors slide open and armed corporate security troops in matte dark-gray tactical armor with full dark visors file in one after another, rifles raised. Cold window light, hologram spill on the polished floor.
 ```
 
-### 16-05（7秒・12:37〜）　行くぞ／35mm
+### 16-05（7秒・12:43〜）　行くぞ／35mm
 
 **行動・台詞**
 
@@ -1575,7 +1593,7 @@ Night, the wide executive room, 24mm low wide shot. In the foreground the life-s
 
 > 逃げる三人に、館内放送で油谷の声が響く。「無駄だ」。シオンとアカネが直立で止まる。桔響は二人を厚い隔壁扉の向こうへ投げ込み、ひとりで銃弾を受ける。
 
-### 17-01（6秒・12:44〜）　走る三人／28mm
+### 17-01（6秒・12:50〜）　走る三人／28mm
 
 **行動・台詞**
 
@@ -1590,7 +1608,7 @@ Night, the wide executive room, 24mm low wide shot. In the foreground the life-s
 Night in a long service corridor of a corporate building, 28mm, camera running backward ahead of them at chest height. A blond young man pulls a black-haired young woman by her biological right hand; a red-haired android girl runs just behind. Ceiling loudspeakers along the corridor. Cold strip lights, red warning lamps starting to rotate.
 ```
 
-### 17-02（6秒・12:50〜）　直立／40mm
+### 17-02（6秒・12:56〜）　直立／40mm
 
 **行動・台詞**
 
@@ -1605,7 +1623,7 @@ Night in a long service corridor of a corporate building, 28mm, camera running b
 Same corridor, 40mm from behind the woman. The blond young man and the red-haired android girl have stopped dead, standing perfectly upright side by side, arms at their sides, faces emptied, a thin pale-cyan control ring in their eyes. In the foreground the black-haired woman turns back toward them, her right hand still open where his hand slipped away.
 ```
 
-### 17-03（7秒・12:56〜）　投げる／24mm
+### 17-03（7秒・13:02〜）　投げる／24mm
 
 **行動・台詞**
 
@@ -1619,7 +1637,7 @@ Same corridor, 40mm from behind the woman. The blond young man and the red-haire
 Same corridor beside a massive open bulkhead door half a meter thick, 24mm. The black-haired woman braces and, with her graphite prosthetic left arm, hurls the blond young man and the red-haired girl through the opening into the dim freight passage beyond. Motion in the throw, fabric and hair swinging. Red warning light.
 ```
 
-### 17-04（8秒・13:03〜）　二人だけ／35mm／低い位置
+### 17-04（8秒・13:09〜）　二人だけ／35mm／低い位置
 
 **行動・台詞**
 
@@ -1635,7 +1653,7 @@ SE「ババババ」
 A dim freight passage behind a thick bulkhead, 35mm low near the floor. The blond young man and the red-haired android girl lie sprawled on the concrete where they landed, lifting their heads, the cyan rings gone from their eyes, faces turning toward the door in horror. Harsh flicker of muzzle flashes from off screen lights them from the doorway side. No one else in frame.
 ```
 
-### 17-05（7秒・13:11〜）　二人越しの後ろ姿／50mm
+### 17-05（7秒・13:17〜）　二人越しの後ろ姿／50mm
 
 **行動・台詞**
 
@@ -1650,7 +1668,7 @@ A dim freight passage behind a thick bulkhead, 35mm low near the floor. The blon
 50mm from the floor of the freight passage, over the shoulders of the blond young man and the red-haired girl scrambling up: in the bulkhead doorway stands the black-haired woman seen from behind, arms spread to block the opening, backlit by flickering muzzle flashes in the corridor beyond. No gore.
 ```
 
-### 17-06（7秒・13:18〜）　受け止める／35mm
+### 17-06（7秒・13:24〜）　受け止める／35mm
 
 **行動・台詞**
 
@@ -1665,7 +1683,7 @@ A dim freight passage behind a thick bulkhead, 35mm low near the floor. The blon
 The doorway of the freight passage, 35mm. The black-haired woman falls backward and the blond young man catches her in his arms, sinking to his knees. Beside the door the red-haired girl slams her hand on a control panel; the massive bulkhead door begins to slide shut, the corridor glare narrowing.
 ```
 
-### 17-07（6秒・13:25〜）　制御装置／50mm
+### 17-07（6秒・13:31〜）　制御装置／50mm
 
 **行動・台詞**
 
@@ -1686,7 +1704,7 @@ Close on a door control panel beside a fully closed thick bulkhead, 50mm. The re
 
 > 閉じた隔壁の内側で、アカネが桔響の喉に手を当て、声を返す。「ドロだったらよかったのにね」とこぼす桔響に、シオンは押し殺した声で「何言ってんだよ……」。アカネが「人間の桔響だから、あったかかった。桔響に、会えてよかった」と答える。最後の「おかえり」だけは、出会った頃の言葉、手話で。
 
-### 18-01（9秒・13:31〜）　アカネ／寄り／65mm／低い位置
+### 18-01（9秒・13:37〜）　アカネ／寄り／65mm／低い位置
 
 **行動・台詞**
 
@@ -1702,7 +1720,7 @@ Close on a door control panel beside a fully closed thick bulkhead, 50mm. The re
 Night at an underground loading ramp lit by red emergency lamps, 65mm low angle close on a kneeling red-haired android girl in a red work jacket. She presses a small handheld terminal to the throat area of a dying young woman (out of frame below, only her black hair and shoulder visible), while the thin cyan control ring in her amber eyes fractures and goes dark. A single tear runs down her cheek. Light: red emergency light from above right, a cold white strip light far behind.
 ```
 
-### 18-02（11秒・13:40〜）　抱く／85mm
+### 18-02（11秒・13:46〜）　抱く／85mm
 
 **行動・台詞**
 
@@ -1719,7 +1737,7 @@ Night at an underground loading ramp lit by red emergency lamps, 65mm low angle 
 Close 85mm: the young man sits on the concrete floor holding the woman across his lap; her biological right hand rises to touch his cheek, smearing a little dust; his face wet, shaking. Warm light from the truck interior on one side, red emergency light on the other.
 ```
 
-### 18-03（12秒・13:51〜）　涙を拭う／65mm
+### 18-03（12秒・13:57〜）　涙を拭う／65mm
 
 **行動・台詞**
 
@@ -1736,7 +1754,7 @@ Close 85mm: the young man sits on the concrete floor holding the woman across hi
 Inside the closed freight passage, 65mm close two-shot. The blond young man kneels holding the black-haired woman across his lap; she looks up at him with a faint, tired smile and gently wipes a tear from his cheek with her biological right hand. Red emergency light, dim concrete. No gore.
 ```
 
-### 18-04（12秒・14:03〜）　シオンの一言とアカネの答え／65mm
+### 18-04（12秒・14:09〜）　シオンの一言とアカネの答え／65mm
 
 **行動・台詞**
 
@@ -1757,7 +1775,7 @@ Inside the closed freight passage, 65mm close two-shot. The blond young man knee
 Inside the closed freight passage lit by red emergency lamps, 65mm. The red-haired android girl in a red work jacket kneels close beside them, tears streaming down her face yet smiling through them as she speaks softly down to the dying woman; her amber eyes show no control ring. In the soft-focus foreground, the blond young man holds the woman tightly, his hand gripping her olive jacket; only the woman's black hair is visible at the bottom of frame. Light: red emergency light from above, a cold white strip light far behind. No gore.
 ```
 
-### 18-05（13秒・14:15〜）　右手と頬／100mm
+### 18-05（13秒・14:21〜）　右手と頬／100mm
 
 **行動・台詞**
 
@@ -1776,7 +1794,7 @@ Inside the closed freight passage lit by red emergency lamps, 65mm. The red-hair
 100mm extreme close on her face, eyes half open, a faint smile, lips just closing after a word; his blurred cheek and her fingertips in the foreground. Nothing glows on her neck. Soft warm light from the truck, everything else in shadow.
 ```
 
-### 18-06（7秒・14:28〜）　叫ぶ／35mm／見上げ
+### 18-06（7秒・14:34〜）　叫ぶ／35mm／見上げ
 
 **行動・台詞**
 
@@ -1796,11 +1814,11 @@ Inside the closed freight passage, 35mm low angle looking up. The blond young ma
 
 ## 19　白い布
 
-共同体・医療室 ／ 夜明け前 ／ — ／ 尺 0:32 ／ R16
+共同体・医療室 ／ 夜明け前 ／ — ／ 尺 0:41 ／ R16
 
-> 共同体の医療室。桔響の顔まで白い布が掛けられている。シオンの中に、彼自身の記憶が蘇る。拳の震えが止まる。
+> 共同体の医療室。桔響の顔まで白い布が掛けられている。白布の上で止まっていたエナの記録に、笑う桔響が映る。それをきっかけに、シオン自身の記憶が蘇る。拳の震えが止まる。
 
-### 19-01（8秒・14:35〜）　搬送車の中／35mm
+### 19-01（8秒・14:41〜）　搬送車の中／35mm
 
 **行動・台詞**
 
@@ -1814,7 +1832,7 @@ Inside the closed freight passage, 35mm low angle looking up. The blond young ma
 35mm inside the moving rescue truck: dim interior light, the woman lying on a stretcher under a white sheet up to her chest, eyes closed; the young man sits beside her holding her right hand in both of his; across from them the red-haired girl sits with her head down. Passing tunnel lights sweep across them through the small rear window.
 ```
 
-### 19-02（8秒・14:43〜）　医療室・引き／28mm
+### 19-02（8秒・14:49〜）　医療室・引き／28mm
 
 **行動・台詞**
 
@@ -1828,11 +1846,27 @@ Inside the closed freight passage, 35mm low angle looking up. The blond young ma
 Wide 28mm, clinical room in the underground community: a simple bed with a body completely covered by a white sheet including the face, monitors switched off; the medic stands by a wall clock, head lowered; the young man stands a few steps away, very still. Flat cold light from a single fluorescent tube.
 ```
 
-### 19-03（9秒・14:51〜）　記憶／寄り／100mm
+### 19-03（9秒・14:57〜）　エナの記録／手のひら／50mm
 
 **行動・台詞**
 
-白布を見つめるシオンの瞳に、断片が映る。夕暮れの公園、隣に座った泣き虫の少女、フェンス越しのボール。桔響のコピーではなく、シオン自身の記憶。
+白布の上で、エナがじっと止まっている。いつもの「ピピッ」は鳴らない。  
+シオンがエナを両手ですくい上げる。手のひらの上で録画の光が一度だけ灯り、記録が淡く浮かぶ。屋根を直す二人を見て笑う桔響。バイクで「乗って！」と叫ぶ桔響。子供たちとボールを追う桔響。  
+※記録は音なし。説明の台詞は入れない。
+
+**心理**　エナが撮っていたのは、シオンとアカネを見て笑う桔響の日々。誰かを想っていたのは、桔響だけではなかった。この記録が、シオン自身の記憶の扉になる（19-04）。
+
+**画像生成（SHOT）**　KYLE_POST／ENA
+
+```
+50mm, cold fluorescent light in the bare medical room: the young blond man's hands cup Ena, the small round cream robot bird, motionless with its belly glow dim; above his palms a faint translucent pale-blue image projected from its tiny lens shows the black-haired woman laughing on a rooftop, soft and ghostly; the white sheet softly out of focus behind his hands. His face only partly in frame, eyes lowered.
+```
+
+### 19-04（9秒・15:06〜）　記憶／寄り／100mm
+
+**行動・台詞**
+
+エナの記録が消えたあと、白布を見つめるシオンの瞳に、断片が映る。夕暮れの公園、隣に座った泣き虫の少女、フェンス越しのボール。桔響のコピーではなく、シオン自身の記憶。
 
 **心理**　旧AIに戻ったときに失った幼い日が、今になって戻ってくる。共同体で出会い直した桔響は、あの夕暮れの少女だった。
 
@@ -1842,7 +1876,7 @@ Wide 28mm, clinical room in the underground community: a simple bed with a body 
 Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of the eye, a tiny reflection of the white sheet and the fluorescent tube; no fantasy overlay, only real reflection. His lashes, a single unshed tear at the rim.
 ```
 
-### 19-04（7秒・15:00〜）　拳と銃／50mm
+### 19-05（7秒・15:15〜）　拳と銃／50mm
 
 **行動・台詞**
 
@@ -1863,7 +1897,7 @@ Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of t
 
 > シオンは装甲車を奪う。アカネが叫ぶ。「あんたまでいなくなったら、私は！」シオンは答えず、ユタニ本社の正面を突破する。
 
-### 20-01（8秒・15:07〜）　格納庫／28mm
+### 20-01（8秒・15:22〜）　格納庫／28mm
 
 **行動・台詞**
 
@@ -1878,7 +1912,7 @@ Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of t
 28mm in a garage dug into the old station, pre-dawn: work lights on stands, wet concrete floor; the young man walks toward an armored truck with a rifle and ammunition bag; behind him the red-haired girl runs after him shouting.
 ```
 
-### 20-02（9秒・15:15〜）　車扉を挟む二人／40mm
+### 20-02（9秒・15:30〜）　車扉を挟む二人／40mm
 
 **行動・台詞**
 
@@ -1893,7 +1927,7 @@ Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of t
 40mm: the red-haired girl grips the open armored door with both hands, face furious and wet with tears; inside, the young man sits at the wheel looking straight ahead, his face lit by a dashboard glow.
 ```
 
-### 20-03（8秒・15:24〜）　横顔／85mm
+### 20-03（8秒・15:39〜）　横顔／85mm
 
 **行動・台詞**
 
@@ -1908,7 +1942,7 @@ Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of t
 85mm profile of the young man in the driver's seat, jaw set, eyes dry, faint cool light from the garage door seam on his face, hand frozen on the gearshift.
 ```
 
-### 20-04（7秒・15:32〜）　突破／20mm
+### 20-04（7秒・15:47〜）　突破／20mm
 
 **行動・台詞**
 
@@ -1922,7 +1956,7 @@ Extreme close-up 100mm on the young man's blue-gray eye: in the wet surface of t
 Wide 20mm from inside the garage: the armored truck bursts through the corrugated door into a ruined city at sunrise, metal panels flying, orange dawn light flooding in; the red-haired girl's silhouette stands in the foreground, hair whipped by the wind.
 ```
 
-### 20-05（7秒・15:39〜）　本社正面／16mm
+### 20-05（7秒・15:54〜）　本社正面／16mm
 
 **行動・台詞**
 
@@ -1936,13 +1970,13 @@ Wide 20mm from inside the garage: the armored truck bursts through the corrugate
 Ultra-wide 16mm low from the plaza: a colossal corporate headquarters tower of glass and concrete in cold morning light; an armored truck smashes through a barricade of concrete blocks, debris and sparks flying; dozens of armored security androids deploying across the plaza.
 ```
 
-### 20-06（7秒・15:46〜）　格闘／35mm
+### 20-06（7秒・16:01〜）　格闘／35mm
 
 **行動・台詞**
 
 降りてきたシオンに警備ドロが向かってくる。シオンは銃を撃たない。銃床と銃身で殴り、払い、右へ見せて左足で返す癖でかわして進む。  
 警備ドロは妙に弱い。押せば下がり、道を空けるように退いていく。誘導されているような違和感。  
-※銃は格闘の道具。撃たない。説明はしない（わかる人にはわかる、桔響の「壊さずに救う」）。
+※銃は格闘の道具。撃たない。理由は説明しない。
 
 **心理**　怒りに任せて突っ込んでも、撃たない。桔響がそうしてきたから。そして、あまりに簡単に進めてしまう。
 
@@ -1952,7 +1986,7 @@ Ultra-wide 16mm low from the plaza: a colossal corporate headquarters tower of g
 Morning on the plaza in front of a corporate tower, 35mm at chest height amid debris. A blond young man in a navy field jacket fights armored security androids hand to hand, using his rifle only as a club: he slams the stock into one android's visor and sweeps another's rifle aside with the barrel, feinting right and pivoting on his left foot. His finger is off the trigger. Dust, sparks from armor, cold morning light.
 ```
 
-### 20-07（7秒・15:53〜）　ガラス扉／35mm
+### 20-07（7秒・16:08〜）　ガラス扉／35mm
 
 **行動・台詞**
 
@@ -1973,7 +2007,7 @@ Morning on the plaza in front of a corporate tower, 35mm at chest height amid de
 
 > ロビーで待っていたのは、油谷の遠隔ホログラム。「家族にならないか」。シオンは撃ち、数十体の警備ドロが現れる。シオンは小さく笑う。「……変なの」
 
-### 21-01（9秒・16:00〜）　対峙／24mm
+### 21-01（9秒・16:15〜）　対峙／24mm
 
 **行動・台詞**
 
@@ -1988,7 +2022,7 @@ Morning on the plaza in front of a corporate tower, 35mm at chest height amid de
 Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galleries in shadow; in the center a life-size pale cyan translucent hologram of a gray-haired man in a suit, arms relaxed, faint scan lines; the young man stands far in front of it, rifle raised, bleeding. The only light: the hologram's glow and the bright doorway behind.
 ```
 
-### 21-02（17秒・16:09〜）　誘い／85mm
+### 21-02（17秒・16:24〜）　誘い／85mm
 
 **行動・台詞**
 
@@ -2007,7 +2041,7 @@ Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galler
 85mm on the hologram: the gray-haired man's translucent face with a polite, gentle smile, arms opening wide; scan lines and slight flicker; his light spills onto the stone floor but he casts no shadow.
 ```
 
-### 21-03（10秒・16:26〜）　爆発／35mm
+### 21-03（10秒・16:41〜）　爆発／35mm
 
 **行動・台詞**
 
@@ -2024,7 +2058,7 @@ Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galler
 35mm on the young man firing on full auto, face contorted in a scream, muzzle flash lighting his face orange in the dim lobby; in the background the hologram's head breaks apart into glitching horizontal bands, no blood.
 ```
 
-### 21-04（9秒・16:36〜）　包囲／16mm
+### 21-04（9秒・16:51〜）　包囲／16mm
 
 **行動・台詞**
 
@@ -2040,7 +2074,7 @@ Wide 24mm in a vast lobby: polished dark stone floor, tall columns, upper galler
 Ultra-wide 16mm from high above behind the glitching hologram: the young man small in the middle of the lobby floor; along the upper galleries and through opened rear doors dozens of armored security androids raise rifles at him, their visor lines a constellation of faint cyan.
 ```
 
-### 21-05（12秒・16:45〜）　突撃／24mm／背後から
+### 21-05（12秒・17:00〜）　突撃／24mm／背後から
 
 **行動・台詞**
 
@@ -2061,25 +2095,27 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 
 ## 22　AFTER
 
-山間の共同体 ／ 春 ／ — ／ 尺 0:39 ／ R20
+山間の共同体 ／ 春 ／ — ／ 尺 0:40 ／ R20
 
-> 3年後の春。桜の下、桔響の工具袋を腰に下げたアカネ。桔響が倒壊区域から救った人間の少女とドロの少年が、ボールを介して出会う。画面の外から、男の声。
+> 3年後の春。桜の下、桔響の工具袋を腰に下げたアカネ。桔響が倒壊区域から救った人間の少女とドロの少年が、ボールを介して出会う。画面の外から、シオンかもしれない声。暗闇に、エナの「ピピッ」。
 
-### 22-01（8秒・16:57〜）　春の共同体／28mm
+### 22-01（8秒・17:12〜）　春の共同体／28mm
 
 **行動・台詞**
 
-山間の共同体。桜の下をアカネが歩く。腰には桔響が使っていた工具袋。人間とドロの子供たちが同じ道を行き交う。
+山間の共同体。桜の下をアカネが歩く。腰には桔響が使っていた工具袋。人間とドロの子供たちが同じ道を行き交う。  
+奥の荷下ろし場では、運転手が、あの西棟でガラスの向こうにいた人たちと笑いながら荷を下ろしている。  
+※説明はしない。15-03で見た顔だと分かる人にだけ分かればいい。
 
-**心理**　失ったものの上に、続いている日常。
+**心理**　失ったものの上に、続いている日常。桔響が見つけた人たちも、ここで暮らしている。
 
-**画像生成（SHOT）**　KIRA_POST
+**画像生成（SHOT）**　KIRA_POST／DRIVER
 
 ```
-28mm on a mountain-village path in spring: cherry trees in full bloom, petals falling naturally in a light breeze, wooden houses and solar panels; the red-haired girl, unchanged, walks with a worn brown leather bag on her belt; human and android children run past. Soft overcast spring light.
+28mm on a mountain-village path in spring: cherry trees in full bloom, petals falling naturally in a light breeze, wooden houses and solar panels; the red-haired girl, unchanged, walks with a worn brown leather bag on her belt; human and android children run past. In the background at a loading area, a human driver in a tan work coverall and a few thin adults in plain clothes unload crates together, laughing. Soft overcast spring light.
 ```
 
-### 22-02（9秒・17:05〜）　子供たち／50mm
+### 22-02（9秒・17:20〜）　子供たち／50mm
 
 **行動・台詞**
 
@@ -2095,7 +2131,7 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 50mm at child height: a small human girl with long straight black hair holds out a soccer ball to a small boy with messy dark hair; both smiling shyly; cherry petals on the grass. Spring daylight, bounce from the pale path.
 ```
 
-### 22-03（8秒・17:14〜）　アカネの口元／85mm
+### 22-03（8秒・17:29〜）　アカネの口元／85mm
 
 **行動・台詞**
 
@@ -2109,17 +2145,18 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 85mm close on the red-haired girl turning back over her shoulder, only the corner of her mouth lifting in a faint smile, amber eyes soft; petals drifting out of focus between her and the camera.
 ```
 
-### 22-04（8秒・17:22〜）　声の方へ／35mm
+### 22-04（8秒・17:37〜）　声の方へ／35mm
 
 **行動・台詞**
 
-画面の外から、遠い男性の声。  
-男の声「アカネ！　行くぞ！」  
+画面の外から、遠くで呼ぶ声。シオンの声に似ている。  
+声「アカネ！　行くぞ！」  
 アカネが声の方を見る。  
 アカネ「今行く！」  
-アカネが走っていく。声の主は映さない。
+アカネが走っていく。声の主は映さない。  
+※声はシオンの声の素材で作る。
 
-**心理**　シオンかどうかは明かさない。観客に委ねる。
+**心理**　シオンかもしれない、と思わせる。でも、断定はしない。茜の花言葉「私を思って」に、誰かが応えている。
 
 **画像生成（SHOT）**　KIRA_POST
 
@@ -2127,19 +2164,21 @@ Ultra-wide 16mm from high above behind the glitching hologram: the young man sma
 35mm: the red-haired girl turns and runs toward the edge of the frame along the blossom path; the direction she runs to is empty and out of frame; no other person and no vehicle visible.
 ```
 
-### 22-05（6秒・17:30〜）　暗転
+### 22-05（7秒・17:45〜）　暗転
 
 **行動・台詞**
 
 画面の外で、車のドアが閉まる。  
 バン！  
 同時に、完全な暗転。  
+暗闇の中で、小さく「ピピッ」。  
 終。
 
-**心理**　音と同時に切る。余韻は観客の中に。
+**心理**　音と同時に切る。最後の「ピピッ」で、止まっていたエナがまた動いていると分かる。誰が直したのかは言わない。
 
 **画像生成（SHOT）**　（人物なし）
 
 ```
 Completely black frame. Nothing visible.
 ```
+
