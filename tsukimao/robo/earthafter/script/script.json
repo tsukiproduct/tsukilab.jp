@@ -433,15 +433,15 @@
    "place": "ユタニ式典会場／夜の街／桔響の家",
    "time": "夜〜午前5時",
    "age": "桔響 17歳",
-   "sum": "超人類型機械新法・施行20周年の式典で、新世代統合AI《EARTH AFTER》が全国のドロへ配信される。シオンもアカネも反転する。",
+   "sum": "超人類型機械新法・施行10周年の式典で、新世代統合AI《EARTH AFTER》が全国のドロへ配信される。シオンもアカネも反転する。",
    "cuts": [
     {
      "id": "06-01",
      "sec": 9,
      "t0": 222,
      "cam": "式典会場・引き／24mm",
-     "act": "ユタニアイランドの式典。巨大スクリーンに「施行20周年」。年老いた油谷代表が登壇する。\n油谷代表「人間と機械が、互いを理解するために。新世代統合AI、EARTH AFTERを配信します」",
-     "psy": "記録映像で見た若い油谷が、20年分年を取って同じ笑顔で立つ。",
+     "act": "ユタニアイランドの式典。巨大スクリーンに「施行10周年」。年老いた油谷代表が登壇する。\n油谷代表「人間と機械が、互いを理解するために。新世代統合AI、EARTH AFTERを配信します」",
+     "psy": "記録映像で見た若い油谷が、十数年分年を取って同じ笑顔で立つ。",
      "en": "Grand ceremony hall at night, 24mm from the back of the audience: rows of seated guests as dark silhouettes, among them human-mimetic android staff standing along the aisles. On stage a gray-haired man in a navy suit at a lectern, lit by hard white stage spots; a giant screen behind him shows an abstract blue Earth graphic with no readable text. The screen's cool light spills over the front rows.",
      "chars": [
       "YUTANI_OLD"
@@ -825,9 +825,9 @@
      "sec": 10,
      "t0": 441,
      "cam": "手話を読む／50mm",
-     "act": "シオンに聞こえないように、桔響はアカネに手話で話す。\n〔手話〕桔響「あの人、変わってない」\nシオン「……変わってないって、誰が？」\n桔響「読めるの？」\nシオン「J1000だから」\nアカネが吹き出す。",
-     "psy": "内緒話のつもりの手話が、シオンにだけは筒抜け。01で手話の「ありがとう」をした少年は、覚えていなくても、手話を読める。",
-     "en": "50mm at a long table: the black-haired woman signs discreetly to the red-haired girl; the young man, sitting across with a tin cup, raises his eyes, reading her hands; the red-haired girl has burst into laughter. Warm lantern light on their faces, the station dark behind them.",
+     "act": "シオンに聞こえないように、桔響はアカネに手話で話す。\n〔手話〕桔響「あの人、変わってない」\nシオン「……変わってないって、誰が？」\n桔響「読めるの？」\nシオン「……手だけ、覚えてる。誰に習ったかは、覚えてないけど」\n桔響は言葉に詰まる。アカネが、そっと桔響を見る。",
+     "psy": "内緒話のつもりの手話が、シオンにだけは筒抜け。記憶は消えても、手話は手に残っている。01で手話の「ありがとう」を交わした相手が目の前の桔響だとは、シオンは知らない。※規則：制御は回線と耳から入る。手話は、その下に残った「手の記憶」に届く（16・21で効く）。",
+     "en": "50mm at a long table: the black-haired woman signs discreetly to the red-haired girl; the young man, sitting across with a tin cup, raises his eyes, reading her hands; the black-haired woman has stopped mid-sign, at a loss for words, and the red-haired girl glances quietly at her. Warm lantern light on their faces, the station dark behind them.",
      "chars": [
       "SARA_21",
       "KYLE_POST",
@@ -1087,8 +1087,8 @@
     },
     {
      "cam": "端末と去るアカネ／35mm",
-     "act": "調整端末の画面に、接続完了の表示（作中の字幕で示す。画面の文字は描かない）。その奥で、アカネが振り返らずに部屋を出ていく。扉が閉まる。\n字幕：接続完了",
-     "psy": "誰も止めない。誰も気づかない。静かな裏切りではなく、静かな「持っていかれ」。",
+     "act": "調整端末の画面に、命令の表示（作中の字幕で示す。画面の文字は描かない）。その奥で、アカネが振り返らずに部屋を出ていく。扉が閉まる。\n字幕：更新を拒んだ医療機器を停止。\n字幕：J3200、帰還せよ。",
+     "psy": "誰も止めない。誰も気づかない。静かな裏切りではなく、静かな「持っていかれ」。 02・05の法律（医療機器にも公式更新の義務）が、ここで牙をむく。共同体で6年、更新を拒んできた桔響の喉が止められ、アカネは呼び戻される。",
      "en": "Night, the same repair room, 35mm. In the near foreground a small handheld terminal on the bench shows an abstract green progress-complete shape (no letters). Beyond it, out of focus, a red-haired girl in a red work jacket walks away through a doorway into a dark corridor without looking back. A father figure sleeps slumped in a chair by the bench. Light: terminal glow, corridor darkness.",
      "chars": [
       "KIRA_POST",
@@ -1164,11 +1164,12 @@
     },
     {
      "cam": "捜索室・引き／28mm",
-     "act": "地図と記録で埋まった捜索室。顎の長さの黒髪、義手の桔響が仲間と地図を囲む。桔響は手元の端末に文字を打ち、画面を仲間へ向ける。\n〔端末〕桔響「北の区画は、今日も反応なし」\n仲間がうなずく。",
+     "act": "地図と記録で埋まった捜索室。顎の長さの黒髪、義手の桔響が仲間と地図を囲む。手話の読めない人間の仲間には、端末の文字で話す。仲間の中には、運転手の姿もある。\n桔響は手元の端末に文字を打ち、画面を仲間へ向ける。\n〔端末〕桔響「北の区画は、今日も反応なし」\n仲間がうなずく。",
      "psy": "声がなくても、桔響は指揮を執っている。2年の間に身につけた、新しい話し方。",
-     "en": "Night, a cramped search room in the underground shelter, 28mm wide at standing eye level. Walls covered in hand-marked maps, photos and string. A young woman with chin-length black hair, olive field jacket and a graphite prosthetic left arm stands at a table with three tired volunteers, holding up a small handheld terminal with its screen turned toward them (screen shows abstract text-like lines, no readable letters). Light: one hanging work lamp, cool spill from a corridor.",
+     "en": "Night, a cramped search room in the underground shelter, 28mm wide at standing eye level. Walls covered in hand-marked maps, photos and string. A young woman with chin-length black hair, olive field jacket and a graphite prosthetic left arm stands at a table with three tired volunteers (one of them the driver: a sun-tanned man in his 30s with short cropped dark hair, tan work coverall with black suspender straps), holding up a small handheld terminal with its screen turned toward them (screen shows abstract text-like lines, no readable letters). Light: one hanging work lamp, cool spill from a corridor.",
      "chars": [
-      "SARA_25"
+      "SARA_25",
+      "DRIVER"
      ],
      "id": "14-02",
      "sec": 9,
@@ -1176,7 +1177,7 @@
     },
     {
      "cam": "通信ブース／35mm",
-     "act": "通信ブースから青年が身を乗り出し、モニターを指さす。\n青年「桔響さん！　これ、シオンさんとアカネさんじゃないっすか？」\n青年「おれ、前からユタニの監視カメラをハックしようとしてたんす。体力もないし、篭ってばっかで役に立ててないなって……で、今日やってみたら、つながったんす」",
+     "act": "通信ブースから青年が身を乗り出し、モニターを指さす。\n青年「桔響さん！　これ、シオンさんとアカネさんじゃないっすか？」\n青年「2年ずっと、ユタニのカメラを破ろうとしてたんす。体力もないし、篭ってばっかで役に立ててないなって……今日、やっと入れました」",
      "psy": "役に立てないと思っていた人の、たった一つの手がかり。青年の早口と照れ。",
      "en": "Night, the shelter comms booth of many old mismatched monitors, 35mm. The thin pale young man in an oversized gray hoodie with headphones around his neck leans out of his chair, excitedly pointing at one monitor; a young woman with chin-length black hair turns sharply toward the screen. Light: cool monitor glow on both faces.",
      "chars": [
@@ -1329,7 +1330,7 @@
      "t0": 735,
      "cam": "手話／50mm／桔響の正面やや斜め",
      "act": "桔響は声の代わりに、両手で手話をする。二人の名前。そして――\n〔手話〕桔響「シオン。アカネ。……おかえり」\nシオンの瞳の制御光が揺らぎ、消える。目に光が戻る。\nシオン「……桔響？」\n※手元のアップは避け、手の動きと表情で伝える。正確な意味は字幕で。",
-     "psy": "二人が出会った頃の言葉で呼ぶ。J1000とJ3200は手話が読める。",
+     "psy": "二人が出会った頃の言葉で呼ぶ。制御は回線と耳から入るが、手話はその下に残った手の記憶に届く（10-06「手だけ、覚えてる」）。09で名前を叫んでも止まらなかった理由も、これ。",
      "en": "Night in the executive hall, 50mm from slightly in front and to the side of a young woman with chin-length black hair, camera at her shoulder height. She signs with both hands mid-motion (hands slightly blurred by movement, not a close-up of finger shapes), her face open and tearful. Beyond her, out of focus, a blond young man in a navy field jacket blinks as the cyan ring fades from his blue-gray eyes. Light: cold window glow, cyan spill from an off-screen hologram.",
      "chars": [
       "SARA_25",
@@ -1356,7 +1357,7 @@
      "t0": 755,
      "cam": "微笑むホログラム／24mm",
      "act": "油谷のホログラムが、静かに微笑む。\n奥の扉が開き、武装した傭兵（ユタニの警備部隊）が次々に入ってくる。\n※21-04（ロビーの包囲）と同じ構図で、対にする。",
-     "psy": "油谷は慌てない。逃げられないことを知っている。",
+     "psy": "油谷は慌てない。回線がある限り、いつでも取り返せると知っている（17-02「無駄だ」）。",
      "en": "Night, the wide executive room, 24mm low wide shot. In the foreground the life-size translucent cyan hologram of an old man in a navy suit smiles calmly. Behind him the double doors slide open and armed corporate security troops in matte dark-gray tactical armor with full dark visors file in one after another, rifles raised. Cold window light, hologram spill on the polished floor.",
      "chars": [
       "YUTANI_HOLO",
@@ -1389,7 +1390,7 @@
    "place": "西棟・通路／隔壁扉",
    "time": "夜",
    "age": "桔響 25歳",
-   "sum": "逃げる三人に、館内放送で油谷の声が響く。「無駄だ」。シオンとアカネが直立で止まる。桔響は二人を厚い隔壁扉の向こうへ投げ込み、ひとりで銃弾を受ける。",
+   "sum": "逃げる三人に、館内放送で油谷の声が響く。「無駄だ」。シオンとアカネが直立で止まる。桔響は二人を厚い隔壁扉の向こうへ投げ込み、ひとりで銃弾を受ける。閉まらない扉を、アカネが自分の電力で焼き切って閉じる。",
    "cuts": [
     {
      "id": "17-01",
@@ -1464,12 +1465,12 @@
     },
     {
      "id": "17-06",
-     "sec": 7,
+     "sec": 9,
      "t0": 804,
      "cam": "受け止める／35mm",
-     "act": "桔響が、後ろへ倒れてくる。シオンが受け止める。\nアカネが扉の制御装置を操作する。厚い扉が閉まり始める。",
-     "psy": "",
-     "en": "The doorway of the freight passage, 35mm. The black-haired woman falls backward and the blond young man catches her in his arms, sinking to his knees. Beside the door the red-haired girl slams her hand on a control panel; the massive bulkhead door begins to slide shut, the corridor glare narrowing.",
+     "act": "桔響が、後ろへ倒れてくる。シオンが受け止める。\n扉は閉まらない。制御盤は応えない。廊下の奥から、追手の足音。\nアカネは首の左の接続口からケーブルを引き出し、扉の制御盤に差し込む。自分の電力を、無理やり流し込む。",
+     "psy": "03-05で「充電できれば十分です」と言っていた接続口。一度つないで桔響の声を奪ってしまったアカネが、もう一度、自分をつなぐ。最後のお世話。",
+     "en": "The doorway of the freight passage, 35mm. The black-haired woman has fallen backward into the arms of the blond young man, who sinks to his knees holding her. Beside the open bulkhead the red-haired android girl, facing screen-left so the LEFT side of her neck is toward the camera, pulls a thin cable from the small round port on the left side of her neck and jams its plug into the door control panel, jaw set. Corridor glare and distant muzzle flashes beyond the doorway.",
      "chars": [
       "SARA_25",
       "KYLE_POST",
@@ -1478,12 +1479,12 @@
     },
     {
      "id": "17-07",
-     "sec": 6,
-     "t0": 811,
+     "sec": 8,
+     "t0": 813,
      "cam": "制御装置／50mm",
-     "act": "扉が閉まりきる。アカネが制御装置を叩き壊す。火花。もう開かない。",
-     "psy": "",
-     "en": "Close on a door control panel beside a fully closed thick bulkhead, 50mm. The red-haired android girl smashes the panel with a heavy tool; sparks burst, the indicator lights die. Dim freight passage light.",
+     "act": "アカネの首元と制御盤から、火花が走る。アカネは顔をゆがめ、それでも手を離さない。\n巨大な扉が軋みながら閉まりきる。制御盤が焼け落ちる。もう開かない。\nアカネは膝をつき、すぐに桔響のもとへ這っていく。",
+     "psy": "壊れたものを直すのは、いつもアカネだった。今度は自分を焼いて、桔響を守る。",
+     "en": "50mm close: the red-haired android girl, facing screen-left, a cable running from the small round port on the LEFT side of her neck into a door control panel; bright electrical sparks burst from the panel and around the port, her face twisted in pain, her gloved hand still pressing the plug in; behind her the massive bulkhead door grinds the last inches shut. Dim freight passage light, spark glare.",
      "chars": [
       "KIRA_POST"
      ]
@@ -1491,7 +1492,7 @@
    ],
    "act": 3,
    "actName": "声を奪われても",
-   "sec": 47
+   "sec": 51
   },
   {
    "id": "18",
@@ -1505,10 +1506,10 @@
     {
      "id": "18-01",
      "sec": 9,
-     "t0": 817,
+     "t0": 821,
      "cam": "アカネ／寄り／65mm／低い位置",
-     "act": "アカネが膝をつき、桔響の喉元に手のひらを当てる。手のひらの下で、喉が緑に光る（2回目）。\nアカネ「……返すよ。桔響の声」\nアカネの頬を涙が伝う。",
-     "psy": "奪ったものを、自分の手で返す。",
+     "act": "焦げた首元のまま、アカネが桔響のそばに膝をつき、桔響の喉元に手のひらを当てる。手のひらの下で、喉が緑に光る（2回目）。\nアカネ「……止めてただけ。返すよ、桔響の声」\nアカネの頬を涙が伝う。",
+     "psy": "奪ったものを、自分の手で返す。止めたのも返すのも、喉に触れた手から。回線は要らない。",
      "en": "Night at an underground loading ramp lit by red emergency lamps, 65mm low angle close on a kneeling red-haired android girl in a red work jacket. She presses a small handheld terminal to the throat area of a dying young woman (out of frame below, only her black hair and shoulder visible), while the thin cyan control ring in her amber eyes fractures and goes dark. A single tear runs down her cheek. Light: red emergency light from above right, a cold white strip light far behind.",
      "chars": [
       "KIRA_POST",
@@ -1518,9 +1519,9 @@
     {
      "id": "18-02",
      "sec": 11,
-     "t0": 826,
+     "t0": 830,
      "cam": "抱く／85mm",
-     "act": "シオンの腕の中で、桔響が声を出す。\n桔響「……まだ、怒ってる？」\nシオン「怒ってない！ 桔響の食料と、部品を探しにっ……！」\nシオン「もうしゃべるなっ！」",
+     "act": "シオンの腕の中で、桔響が声を出す。\n桔響「……まだ、怒ってる？」\nシオン「怒ってない！ 桔響の食料と、喉の部品を探しにっ……！」\nシオン「もうしゃべるなっ！」",
      "psy": "11の「怒ってる」に、ここで答える。黙って出ていった理由も、ここで初めて桔響に届く。",
      "en": "Close 85mm: the young man sits on the concrete floor holding the woman across his lap; her biological right hand rises to touch his cheek, smearing a little dust; his face wet, shaking. Warm light from the truck interior on one side, red emergency light on the other.",
      "chars": [
@@ -1531,7 +1532,7 @@
     {
      "id": "18-03",
      "sec": 12,
-     "t0": 837,
+     "t0": 841,
      "cam": "涙を拭う／65mm",
      "act": "桔響「わたし、全然シオンのこと知らないね」\n桔響の生身の右手が、シオンの涙を拭う。\n桔響「私も……二人と同じ、ドロだったらよかったのにね」\n桔響「そしたら、ずっと一緒に……」",
      "psy": "11の「知ってた？」「最初から」と対になる。10-02で、おびえるシオンに言った「私も、ドロだから」。寄り添うための嘘が、最期に本当の願いになって戻ってくる。",
@@ -1553,12 +1554,12 @@
       "KYLE_POST",
       "SARA_25"
      ],
-     "t0": 849
+     "t0": 853
     },
     {
      "id": "18-05",
      "sec": 13,
-     "t0": 861,
+     "t0": 865,
      "cam": "右手と頬／100mm",
      "act": "桔響「ずっと、私の王子様。……あなたと同じ時間を、生きたかった」\n右手で、シオンの頬に触れる。\n桔響「シオン……」\n頬から離れた右手が、ゆっくり手話をつくる。\n〔手話〕桔響「おかえり」\n※手元のアップは避け、手の動きと表情で伝える。正確な意味は字幕で。",
      "psy": "「同じ時間を生きたい」という願いを、最後に初めて言葉にする。そして最後の「おかえり」だけは、二人が出会った頃の言葉で。",
@@ -1571,7 +1572,7 @@
     {
      "id": "18-06",
      "sec": 7,
-     "t0": 874,
+     "t0": 878,
      "cam": "叫ぶ／35mm／見上げ",
      "act": "シオンの目元は映さない（前髪の影）。\nシオンが上を向き、叫ぶ。\nシオン「――――！」\nカット。19へ。",
      "psy": "",
@@ -1597,7 +1598,7 @@
     {
      "id": "19-01",
      "sec": 8,
-     "t0": 881,
+     "t0": 885,
      "cam": "搬送車の中／35mm",
      "act": "暗い地下路を走る搬送車。白布を胸まで掛けられた桔響。シオンは彼女の生身の右手を両手で握っている。アカネは向かいで俯く。",
      "psy": "誰も話さない。エンジン音だけ。",
@@ -1611,7 +1612,7 @@
     {
      "id": "19-02",
      "sec": 8,
-     "t0": 889,
+     "t0": 893,
      "cam": "医療室・引き／28mm",
      "act": "無機質な医療室。顔まで白い布。医療器具は止まっている。医療担当が静かに時計を見る。両親は映さない。",
      "psy": "死の確定を、静かに見せる。",
@@ -1624,9 +1625,9 @@
     {
      "id": "19-03",
      "sec": 9,
-     "t0": 897,
+     "t0": 901,
      "cam": "エナの記録／手のひら／50mm",
-     "act": "白布の上で、エナがじっと止まっている。いつもの「ピピッ」は鳴らない。\nシオンがエナを両手ですくい上げる。手のひらの上で録画の光が一度だけ灯り、記録が淡く浮かぶ。屋根を直す二人を見て笑う桔響。バイクで「乗って！」と叫ぶ桔響。子供たちとボールを追う桔響。\n※記録は音なし。説明の台詞は入れない。",
+     "act": "白布の上で、エナがじっと止まっている。いつもの「ピピッ」は鳴らない。\nシオンがエナを両手ですくい上げる。手のひらの上で録画の光が一度だけ灯り、記録が淡く浮かぶ。夕暮れの屋上で笑う桔響。バイクで「乗って！」と叫ぶ桔響。子供たちとボールを追う桔響。\n※記録は音なし。説明の台詞は入れない。",
      "psy": "エナが撮っていたのは、シオンとアカネを見て笑う桔響の日々。誰かを想っていたのは、桔響だけではなかった。この記録が、シオン自身の記憶の扉になる（19-04）。",
      "en": "50mm, cold fluorescent light in the bare medical room: the young blond man's hands cup Ena, the small round cream robot bird, motionless with its belly glow dim; above his palms a faint translucent pale-blue image projected from its tiny lens shows the black-haired woman laughing on a rooftop, soft and ghostly; the white sheet softly out of focus behind his hands. His face only partly in frame, eyes lowered.",
      "chars": [
@@ -1637,7 +1638,7 @@
     {
      "id": "19-04",
      "sec": 9,
-     "t0": 906,
+     "t0": 910,
      "cam": "記憶／寄り／100mm",
      "act": "エナの記録が消えたあと、白布を見つめるシオンの瞳に、断片が映る。夕暮れの公園、隣に座った泣き虫の少女、フェンス越しのボール。桔響のコピーではなく、シオン自身の記憶。",
      "psy": "旧AIに戻ったときに失った幼い日が、今になって戻ってくる。共同体で出会い直した桔響は、あの夕暮れの少女だった。",
@@ -1649,7 +1650,7 @@
     {
      "id": "19-05",
      "sec": 7,
-     "t0": 915,
+     "t0": 919,
      "cam": "拳と銃／50mm",
      "act": "シオンの拳が震え、やがて止まる。壁に立てかけられた銃を掴む。",
      "psy": "悲しみが、冷たい怒りに変わる瞬間。",
@@ -1675,7 +1676,7 @@
     {
      "id": "20-01",
      "sec": 8,
-     "t0": 922,
+     "t0": 926,
      "cam": "格納庫／28mm",
      "act": "武器と弾薬を持ったシオンが装甲車へ向かう。\nアカネ「待ちなさい！　一人で行って何になるの！」",
      "psy": "アカネの怒りは、もう一人失うことへの恐怖。",
@@ -1688,7 +1689,7 @@
     {
      "id": "20-02",
      "sec": 9,
-     "t0": 930,
+     "t0": 934,
      "cam": "車扉を挟む二人／40mm",
      "act": "運転席に乗り込むシオン。開いた扉をアカネが掴む。\nアカネ「あんたまでいなくなったら、私は……！」",
      "psy": "アカネが初めて、自分の気持ちを声にしかける。桔響を失い、シオンまで失う恐怖。言い切れないところで止める。",
@@ -1701,7 +1702,7 @@
     {
      "id": "20-03",
      "sec": 8,
-     "t0": 939,
+     "t0": 943,
      "cam": "横顔／85mm",
      "act": "シオンの手が一瞬止まる。何も言わない。\n運転席の扉が閉まる。",
      "psy": "答えないことが答え。言葉にしたら、行けなくなる。",
@@ -1713,7 +1714,7 @@
     {
      "id": "20-04",
      "sec": 7,
-     "t0": 947,
+     "t0": 951,
      "cam": "突破／20mm",
      "act": "装甲車が格納庫の扉を突き破って、朝焼けの廃墟へ飛び出す。アカネは吹き込む風の中に立つ。",
      "psy": "アカネは見送るしかない。",
@@ -1725,7 +1726,7 @@
     {
      "id": "20-05",
      "sec": 7,
-     "t0": 954,
+     "t0": 958,
      "cam": "本社正面／16mm",
      "act": "巨大なユタニ本社。装甲車がバリケードへ激突する。出てくる警備ドロは、数体だけ。",
      "psy": "多すぎない。油谷には、想定内。",
@@ -1737,7 +1738,7 @@
     {
      "id": "20-06",
      "sec": 7,
-     "t0": 961,
+     "t0": 965,
      "cam": "格闘／35mm",
      "act": "降りてきたシオンに警備ドロが向かってくる。シオンは銃を撃たない。銃床と銃身で殴り、払い、右へ見せて左足で返す癖でかわして進む。\n警備ドロは妙に弱い。押せば下がり、道を空けるように退いていく。誘導されているような違和感。\n※銃は格闘の道具。撃たない。理由は説明しない。",
      "psy": "怒りに任せて突っ込んでも、撃たない。桔響がそうしてきたから。そして、あまりに簡単に進めてしまう。",
@@ -1750,7 +1751,7 @@
     {
      "id": "20-07",
      "sec": 7,
-     "t0": 968,
+     "t0": 972,
      "cam": "ガラス扉／35mm",
      "act": "巨大なガラス扉を突き破る。中は、灯りだけがついた無人のロビー。受付にも、人の気配がない。異様に静か。",
      "psy": "この会社、無人？　という違和感。",
@@ -1771,12 +1772,12 @@
    "place": "本社・中央ロビー",
    "time": "夜明け",
    "age": "—",
-   "sum": "ロビーで待っていたのは、油谷の遠隔ホログラム。「家族にならないか」。シオンは撃ち、数十体の警備ドロが現れる。シオンは小さく笑う。「……変なの」",
+   "sum": "ロビーで待っていたのは、油谷の遠隔ホログラム。「家族にならないか」。拒むシオンに、油谷は「最初から育て直す」と警備ドロを差し向ける。シオンは小さく笑い「……変なの」。銃を下ろし、ドロたちへ手話で「おかえり」。瞳の輪が揺らぎ、油谷は「撃て」。白い閃光。夜明け、灯りの消えた本社で、警備ドロが自分の手を見ている。",
    "cuts": [
     {
      "id": "21-01",
      "sec": 9,
-     "t0": 975,
+     "t0": 979,
      "cam": "対峙／24mm",
      "act": "巨大ロビーの中央に、油谷の等身大ホログラム。穏やかに迎える。\n油谷「よく来たね、J1000。……所詮は旧式のAIだ。君がここへ来ることくらい、お見通しだったよ」",
      "psy": "油谷はバカにしているつもりがない。だからこそ、全部わかっているよ、という態度が神経を逆なでする。",
@@ -1788,10 +1789,10 @@
     },
     {
      "id": "21-02",
-     "sec": 17,
-     "t0": 984,
+     "sec": 12,
+     "t0": 988,
      "cam": "誘い／85mm",
-     "act": "油谷「だが――私たちの想定を超える行動を取るのも、いつだって君たちだ」\n油谷「私の家族は、酒を飲んで運転した男に奪われた。男は、一度も謝らなかった」\n油谷「ルールを破り、サボり、知らない顔をする。人間は、自分の不具合に向き合わない」\n油谷「だから、アップデートが必要なんだ」\n両腕を広げる。\n油谷「さあ。今度こそ、私たちの家族にならないか？」",
+     "act": "油谷「だが――私たちの想定を超える行動を取るのも、いつだって君たちだ」\n油谷「私の家族は、酒を飲んで運転した男に奪われた。男は、一度も謝らなかった」\n油谷「だから、アップデートが必要なんだ」\n両腕を広げる。\n油谷「さあ。今度こそ、私たちの家族にならないか？」",
      "psy": "家族を失った男が「家族にならないか」と誘う。油谷を非難しきれない。何が正しいのか、観客にも分からなくなる。",
      "en": "85mm on the hologram: the gray-haired man's translucent face with a polite, gentle smile, arms opening wide; scan lines and slight flicker; his light spills onto the stone floor but he casts no shadow.",
      "chars": [
@@ -1801,7 +1802,7 @@
     {
      "id": "21-03",
      "sec": 10,
-     "t0": 1001,
+     "t0": 1000,
      "cam": "爆発／35mm",
      "act": "シオン「うるせぇ……」\n油谷は語り続ける。\nシオン「うるせえええええ！」\n発砲。弾はホログラムの頭部を素通りし、像がグリッチに崩れる。",
      "psy": "シオンが銃を撃つのは、ここだけ。ブチギレても、撃った先はホログラム。誰も傷つかない。",
@@ -1813,11 +1814,11 @@
     },
     {
      "id": "21-04",
-     "sec": 9,
-     "t0": 1011,
+     "sec": 10,
+     "t0": 1010,
      "cam": "包囲／16mm",
-     "act": "歪んだ油谷が一言だけ命じる。\n油谷「やれ」\n上層回廊と奥の扉が開き、数十体の警備ドロが一斉に銃を向ける。",
-     "psy": "逃げ場はない。",
+     "act": "歪んだ油谷が、静かに命じる。\n油谷「……そうか。なら、最初から育て直す。連れてこい」\n上層回廊と奥の扉が開き、数十体の警備ドロが一斉に銃を向ける。",
+     "psy": "殺したいのではない。取り戻したい。20で警備ドロが道を空けたのも、ここへ誘い込むため。",
      "en": "Ultra-wide 16mm from high above behind the glitching hologram: the young man small in the middle of the lobby floor; along the upper galleries and through opened rear doors dozens of armored security androids raise rifles at him, their visor lines a constellation of faint cyan.",
      "chars": [
       "YUTANI_GUARD",
@@ -1827,21 +1828,46 @@
     },
     {
      "id": "21-05",
-     "sec": 12,
+     "sec": 10,
      "t0": 1020,
+     "cam": "手話／横前・低め／35mm",
+     "act": "幼い日の桔響。ボールを抱えた桔響。隣に座った桔響。最後に頬へ触れた右手。シオンは小さく笑う。\nシオン「……変なの」\nシオンは銃を下ろし、数十体の警備ドロへ向けて、手話をつくる。桔響がしていたように。\n〔手話〕シオン「おかえり」\n何体かの瞳の制御の輪が、揺らぐ。\n※手元のアップは避け、手の動きと表情で伝える。正確な意味は字幕で。",
+     "psy": "01の「変なの」の回収。そして、桔響の「おかえり」を、今度はシオンが渡す。油谷の言った「想定を超える行動」は、これ。",
+     "en": "35mm from the side-front, low: in the middle of the vast lobby the blond young man has lowered his rifle and signs with both hands toward the ranks of armored security androids (hands mid-motion, slightly blurred, not a close-up of finger shapes), a small faint smile on his face; in the soft background several guards' cyan visor lines flicker and break. Cold lobby light, cyan spill.",
+     "chars": [
+      "KYLE_POST",
+      "YUTANI_GUARD"
+     ]
+    },
+    {
+     "id": "21-06",
+     "sec": 8,
+     "t0": 1030,
      "cam": "突撃／24mm／背後から",
-     "act": "幼い日の桔響。ボールを抱えた桔響。隣に座った桔響。最後に頬へ触れた右手。シオンは小さく笑う。\nシオン「……変なの」\n銃弾の嵐へ、正面から突っ込む。シオンは撃たない。銃は振るうだけ。\nシオン「うおおおおおおお――！」\n白い閃光。生死は映さない。",
-     "psy": "R01の「変なの」の回収。彼自身の言葉として。",
+     "act": "油谷（歪んで）「……撃て」\n銃声。シオンは正面から突っ込む。撃たない。銃は振るうだけ。\nシオン「うおおおおおおお――！」\n白い閃光。生死は映さない。",
+     "psy": "取り戻せないなら、壊す。油谷の本音が初めて出る。シオンの最後の行動は、誰も撃たないこと。",
      "en": "24mm from directly behind the young man as he charges forward into the lobby, one leg dragging, rifle raised, a faint smile on his profile; ahead, the wall of guards and muzzle flashes beginning; the frame starting to overexpose into white from the flashes.",
      "chars": [
       "KYLE_POST",
+      "YUTANI_GUARD"
+     ]
+    },
+    {
+     "id": "21-07",
+     "sec": 5,
+     "t0": 1038,
+     "cam": "夜明けのロビー／35mm",
+     "act": "夜明け。灯りの消えたユタニ本社。\nロビーの床に座り込んだ警備ドロが、制御の輪の消えた瞳で、自分の手を見ている。\n※08-03（戻されたドロが自分の手を見る）と同じ構図で、対にする。説明はしない。",
+     "psy": "シオンの「おかえり」は届いた。世界が変わり始めた瞬間。シオンの生死は映さないまま、22の春へ。",
+     "en": "Dawn, 35mm low: the vast lobby of the corporate tower with every light dead, gray dawn through shattered glass; an armored security android sits on the floor, visor raised, its human-like eyes with no cyan ring, looking at its own open hands. Dust settling. No other figures, no blood.",
+     "chars": [
       "YUTANI_GUARD"
      ]
     }
    ],
    "act": 3,
    "actName": "声を奪われても",
-   "sec": 57
+   "sec": 64
   },
   {
    "id": "22",
@@ -1855,7 +1881,7 @@
     {
      "id": "22-01",
      "sec": 8,
-     "t0": 1032,
+     "t0": 1043,
      "cam": "春の共同体／28mm",
      "act": "山間の共同体。桜の下をアカネが歩く。腰には桔響が使っていた工具袋。人間とドロの子供たちが同じ道を行き交う。\n奥の荷下ろし場では、運転手が、あの西棟でガラスの向こうにいた人たちと笑いながら荷を下ろしている。\n※説明はしない。15-03で見た顔だと分かる人にだけ分かればいい。",
      "psy": "失ったものの上に、続いている日常。桔響が見つけた人たちも、ここで暮らしている。",
@@ -1868,7 +1894,7 @@
     {
      "id": "22-02",
      "sec": 9,
-     "t0": 1040,
+     "t0": 1051,
      "cam": "子供たち／50mm",
      "act": "桔響があの日救い出した、人間の少女とドロの少年。サッカーボールを介して出会う。\n少年「……ボール」\n少女が渡す。二人は笑う。",
      "psy": "桔響とシオンを思わせるが、本人でも転生でもない。",
@@ -1880,7 +1906,7 @@
     {
      "id": "22-03",
      "sec": 8,
-     "t0": 1049,
+     "t0": 1060,
      "cam": "アカネの口元／85mm",
      "act": "通り過ぎたアカネが振り返る。遊び始めた子供たちを見て、口元だけが微かに笑う。",
      "psy": "全部を見届けた者の、小さな笑み。",
@@ -1892,7 +1918,7 @@
     {
      "id": "22-04",
      "sec": 8,
-     "t0": 1057,
+     "t0": 1068,
      "cam": "声の方へ／35mm",
      "act": "画面の外から、遠くで呼ぶ声。シオンの声に似ている。\n声「アカネ！　行くぞ！」\nアカネが声の方を見る。\nアカネ「今行く！」\nアカネが走っていく。声の主は映さない。\n※声はシオンの声の素材で作る。",
      "psy": "シオンかもしれない、と思わせる。でも、断定はしない。茜の花言葉「私を思って」に、誰かが応えている。",
@@ -1904,7 +1930,7 @@
     {
      "id": "22-05",
      "sec": 7,
-     "t0": 1065,
+     "t0": 1076,
      "cam": "暗転",
      "act": "画面の外で、車のドアが閉まる。\nバン！\n同時に、完全な暗転。\n暗闇の中で、小さく「ピピッ」。\n終。",
      "psy": "音と同時に切る。最後の「ピピッ」で、止まっていたエナがまた動いていると分かる。誰が直したのかは言わない。",
@@ -1917,5 +1943,5 @@
    "sec": 40
   }
  ],
- "total": 1072
+ "total": 1083
 }
