@@ -645,10 +645,10 @@
      "id": "08-05",
      "sec": 6,
      "t0": 340,
-     "cam": "エナ／肩口／50mm",
-     "act": "桔響の肩に、シマエナガ型の小さなロボット、エナがふわりと降りてくる。\nエナ（電子音）「ピピッ」\n翼の下のレンズの横で、録画の小さな青い光が灯る。桔響は指先でエナの頭をなでる。\n※エナが撮っていることは説明しない。光だけ見せる。",
+     "cam": "エナ／机の上／50mm",
+     "act": "桔響のそばの机に、シマエナガ型の小さなロボット、エナがふわりと降りてくる。\nエナ（電子音）「ピピッ」\n翼の下のレンズの横で、録画の小さな青い光が灯る。桔響は指先でエナの頭をなでる。\n※エナが撮っていることは説明しない。光だけ見せる。",
      "psy": "桔響のそばには、いつもエナがいる。誰かを迎える桔響を、エナも見ている。19-03への仕込み。",
-     "en": "50mm, warm side lamp in the dark underground station: Ena, the small round matte-cream robot bird, settles in the air beside the black-haired woman's shoulder, floating on a faint pale-blue belly glow; a tiny pale-blue recording light glows beside the small lens under its wing; she touches its head with one fingertip, a small tired smile. Background: soft shapes of the shared dining tables.",
+     "en": "50mm, warm side lamp in the dark underground station: Ena, the small round matte-cream robot bird, settles onto the wooden table beside the black-haired woman, its faint pale-blue belly glow lighting the tabletop; a tiny pale-blue recording light glows beside the small lens under its wing; she touches its head with one fingertip, a small tired smile. Background: soft shapes of the shared dining tables.",
      "chars": [
       "SARA_21",
       "ENA"

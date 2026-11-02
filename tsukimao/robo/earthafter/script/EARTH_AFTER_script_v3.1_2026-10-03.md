@@ -752,11 +752,11 @@ Repair bench lit by a single articulated work lamp, 40mm: the father in a gray w
 Close at 85mm on the black-haired woman's face as she speaks softly, warm lamp light from the side, dark station behind her; her expression gentle and steady, a slight tiredness under the eyes. Catchlight from the single lamp only.
 ```
 
-### 08-05（6秒・5:40〜）　エナ／肩口／50mm
+### 08-05（6秒・5:40〜）　エナ／机の上／50mm
 
 **行動・台詞**
 
-桔響の肩に、シマエナガ型の小さなロボット、エナがふわりと降りてくる。  
+桔響のそばの机に、シマエナガ型の小さなロボット、エナがふわりと降りてくる。  
 エナ（電子音）「ピピッ」  
 翼の下のレンズの横で、録画の小さな青い光が灯る。桔響は指先でエナの頭をなでる。  
 ※エナが撮っていることは説明しない。光だけ見せる。
@@ -766,7 +766,7 @@ Close at 85mm on the black-haired woman's face as she speaks softly, warm lamp l
 **画像生成（SHOT）**　SARA_21／ENA
 
 ```
-50mm, warm side lamp in the dark underground station: Ena, the small round matte-cream robot bird, settles in the air beside the black-haired woman's shoulder, floating on a faint pale-blue belly glow; a tiny pale-blue recording light glows beside the small lens under its wing; she touches its head with one fingertip, a small tired smile. Background: soft shapes of the shared dining tables.
+50mm, warm side lamp in the dark underground station: Ena, the small round matte-cream robot bird, settles onto the wooden table beside the black-haired woman, its faint pale-blue belly glow lighting the tabletop; a tiny pale-blue recording light glows beside the small lens under its wing; she touches its head with one fingertip, a small tired smile. Background: soft shapes of the shared dining tables.
 ```
 
 
