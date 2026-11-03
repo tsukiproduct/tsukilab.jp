@@ -1,0 +1,351 @@
+{
+  "title": "巨大ロケットが地球を回れなかったバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#006",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "到達",
+    "軌道",
+    "再利用",
+    "報告"
+  ],
+  "chapter_titles": [
+    "スターシップ、初の周回軌道へ",
+    "軌道とは「ずっと落ちている」こと",
+    "使い捨てからの卒業",
+    "バグ報告とまとめ"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/noche_de_verano_chill.mp3",
+    "credit": "Noche de verano (Chill) / PPE",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/663407"
+  },
+  "report": {
+    "no": "006",
+    "name": "巨大ロケットが地球を回れない",
+    "place": "地球の周回軌道",
+    "reporter": "スペースXの試験飛行(2026年9月28日)",
+    "severity": 2,
+    "status": "修正済み"
+  },
+  "lines": [
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "chapter": 0,
+      "text": "史上最大級のロケットが、ついに、地球を回ったのだ！",
+      "pop": "回った！",
+      "punch": true,
+      "telop": "スターシップ\n初の地球周回軌道へ"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "はい。九月二十八日、スペースXの[[スターシップ]]が、初めて、地球を回る軌道に乗りました。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "でも実は、宇宙へ行くことと、地球を回ることは、[[別のこと]]なんです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "えっ、宇宙に行けば、勝手に回るんじゃないのだ？"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "mode": "full",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "mode": "full",
+      "text": "ずんだもんなのだ！今日は、ロケットに乗った気分で、いくのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "まずは、ここから。高い山の上から、ボールを、真横に投げたとします。",
+      "seq": "ep006_cannon",
+      "fit": "contain",
+      "box": [
+        460,
+        460
+      ],
+      "note": "考え方の模式図",
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "遅いと、すぐ落ちます。もっと速くすると、遠くに落ちます。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "さらに速くすると、地球が丸いせいで、落ちていく先の地面も、[[同じだけ下がっていく]]。すると、落ちながら、ずっと回り続けます。これが、軌道です。"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "軌道って、ずっと落ちてるのだ！？",
+      "pop": "落ちてる！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "そうなんです。地球の近くを回るのに必要な速さは、秒速およそ[[七・八キロ]]です。",
+      "telop": "地球を回る速さ\n秒速 約7.8km"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "一秒で、七・八キロなのだ…。新幹線どころじゃないのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 1,
+      "text": "今回のスターシップは、二段式。全体の高さは、[[百二十メートル]]を超えます。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "一段目が切り離されたあと、上の段の、六つあるエンジンのうち、[[一つが止まって]]しまいました。",
+      "telop": "6基のエンジンのうち\n1基が停止"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "大ピンチなのだ！",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "スペースXは、いったん中止を判断しかけましたが、数分後に続行を決め、そのまま[[軌道に到達]]しました。",
+      "seq": "ep006_orbit",
+      "fit": "contain",
+      "box": [
+        460,
+        460
+      ],
+      "note": "イメージ図",
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "そして、本物の通信衛星、スターリンクを、[[二十六基]]、宇宙に放ちました。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ただ、エンジンのトラブルを受けて、予定より早く飛行を切り上げ、太平洋に着水しています。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "最後は、慎重にしたのだ。えらいのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 2,
+      "text": "では、なぜ、このロケットが注目されるのか。キーワードは、[[使い回し]]です。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "これまでのロケットの多くは、一度飛ぶと、使い捨てでした。スターシップは、一段目も上の段も、まるごと[[繰り返し使う]]ことを、目指しています。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "二〇二四年十月には、戻ってきた一段目を、発射塔の巨大なアームで、空中で[[キャッチ]]することにも、成功しています。",
+      "telop": "戻ってきた1段目を\n発射塔でキャッチ"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "ロケットを、お箸でつまむみたいに、捕まえたのだ！？",
+      "pop": "キャッチ！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "今回の一段目は、海の上で、着陸の練習をしました。スターシップは、NASAの月探査で、[[月着陸船]]の役目も、任されています。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "chapter": 3,
+      "report": true,
+      "text": "宇宙が、ちょっと近くなったのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ロケットは、使ったら捨てるもの。その常識が、少しずつ、書き換えられています。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "stamp": true,
+      "text": "というわけで、今回のバグのステータスは、[[修正済み]]です。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "ずんだもんも、秒速七・八キロで走れば、地球を回れるのだ？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "空気がなければ、ですね。あと、新幹線の、およそ[[九十倍]]の速さが必要です。",
+      "pop": "90倍",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "あなたが見つけた、この世界のバグも、コメントで報告してください。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "チャンネル登録も、よろしくなのだ！"
+    }
+  ],
+  "sources": [
+    "TechCrunch 2026-09-28 SpaceX's Starship rocket reaches orbit for the first time https://techcrunch.com/2026/09/28/spacexs-starship-rocket-reaches-orbit-for-the-first-time/",
+    "EarthSky: Starship reaches Earth's orbit for 1st time https://earthsky.org/spaceflight/spacex-starship-reaches-earths-orbit-for-1st-time/",
+    "Wikipedia: SpaceX Starship(高さ121.3m(Block 1)、2024年10月13日に初の1段目キャッチ、Artemisの月着陸船) https://en.wikipedia.org/wiki/SpaceX_Starship"
+  ],
+  "publish": {
+    "titles": [
+      "史上最大級のロケットが初めて地球を回った。「宇宙へ行く」と「軌道に乗る」の違い",
+      "なぜスターシップの軌道到達がすごいのか？エンジン停止からの続行",
+      "軌道って、ずっと落ちている？スターシップが地球を回った日"
+    ],
+    "hook": [
+      "2026年9月28日、スペースXのスターシップが初めて地球周回軌道に到達し、スターリンク衛星26基を放出しました。",
+      "でも「宇宙へ行く」と「地球を回る」は別のこと。軌道のしくみと、使い回せるロケットの意味を、アニメでバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#宇宙",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "地球を",
+          "回った！"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep006_cannon_final.png",
+        "crop": [
+          0.05,
+          0.0,
+          0.95,
+          0.95
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "エンジン",
+          "停止"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ]
+        ],
+        "photo": "ep006_orbit_final.png",
+        "crop": [
+          0.0,
+          0.15,
+          1.0,
+          0.85
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "ずっと",
+          "落ちてる？"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ]
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 0,
+      "to": 3,
+      "hook": [
+        "宇宙へ行くのと",
+        "地球を回るのは",
+        "別のこと"
+      ],
+      "title": "宇宙へ行くことと、地球を回ることは別のこと #Shorts"
+    },
+    {
+      "from": 7,
+      "to": 11,
+      "hook": [
+        "軌道って",
+        "ずっと落ちてる？"
+      ],
+      "title": "軌道に乗るって、ずっと落ち続けること #Shorts"
+    }
+  ]
+}

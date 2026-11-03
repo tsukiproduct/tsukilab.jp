@@ -1,0 +1,383 @@
+{
+  "title": "小惑星が衛星より近くを通るバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#010",
+  "theme": "night",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "13日の金曜日",
+    "37分の1",
+    "内側",
+    "答え"
+  ],
+  "chapter_titles": [
+    "2029年4月13日、小惑星アポフィスが大接近",
+    "衝突確率2.7%騒動",
+    "静止衛星より内側を通る",
+    "日本のH3と探査機ラムセス"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/ambient_voyager.mp3",
+    "credit": "Ambient Voyager / Zeropage",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/20231"
+  },
+  "report": {
+    "no": "010",
+    "name": "小惑星が静止衛星より内側を通る",
+    "place": "地球の近く(2029年4月13日)",
+    "reporter": "NASA JPL・ESA・JAXA",
+    "severity": 2,
+    "status": "誤報でした"
+  },
+  "sources": [
+    "Wikipedia: 99942 Apophis(2004年6月19日発見、2004年12月27日に2.7%・トリノスケール4、同日に否定、2021年に100年は衝突なし、2029年4月13日に地表から約3万1600km、見える地域、名前の由来) https://en.wikipedia.org/wiki/99942_Apophis",
+    "phys.org 2026-05 Asteroid Apophis will skim past Earth in 2029, and a new joint mission plans to watch every change https://phys.org/news/2026-05-asteroid-apophis-skim-earth-joint.html",
+    "ESA: First switch on for ESA-JAXA Ramses asteroid mission https://www.esa.int/Space_Safety/Planetary_Defence/First_switch_on_for_ESA-JAXA_Ramses_asteroid_mission (2026年9月23日)",
+    "マイナビニュース 2026-05-11 JAXAとESAがRAMSESとDESTINY＋で「アポフィス」を探査へ https://news.mynavi.jp/techplus/article/20260511-4448428/",
+    "JAXA宇宙科学研究所 プラネタリーディフェンス https://www.isas.jaxa.jp/missions/planetary_defense/",
+    "NASA: Apophis facts https://science.nasa.gov/solar-system/asteroids/apophis-facts"
+  ],
+  "lines": [
+    {
+      "who": "zunda",
+      "text": "二〇二九年の[[十三日の金曜日]]、東京タワーくらいの岩が、地球をかすめるのだ！",
+      "emote": "surprise",
+      "chapter": 0,
+      "punch": true,
+      "pop": "13日の金曜日！？",
+      "telop": "2029年4月13日(金)\n小惑星が地球に大接近"
+    },
+    {
+      "who": "tsumugi",
+      "text": "本当です。名前は、[[アポフィス]]。エジプト神話で、太陽の神と戦う、[[邪悪なヘビの神]]の名前です。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "名前からして、やる気まんまんなのだ！",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "しかもこの岩、一度は、[[地球にぶつかるかもしれない]]と、本気で計算されました。今日は、その答えを、最後に出します。",
+      "emote": "normal",
+      "sfx": "kira"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんなのだ！今日は、ヘルメットをかぶって、お送りするのだ！",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "tsumugi",
+      "text": "アポフィスが見つかったのは、二〇〇四年。大きさは、およそ[[三百四十から三百七十五メートル]]とされています。",
+      "emote": "normal",
+      "telop": "大きさ 約340〜375m\n東京タワー(333m)くらい"
+    },
+    {
+      "who": "tsumugi",
+      "text": "問題は、その年の十二月でした。計算するたびに、二〇二九年にぶつかる確率が、上がっていったんです。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "十二月二十七日には、[[二・七パーセント]]。三十七分の一です。",
+      "emote": "normal",
+      "telop": "2004年12月27日\n衝突確率 2.7%(37分の1)"
+    },
+    {
+      "who": "zunda",
+      "text": "くじ引きなら、当たりそうな気がしてくる数字なのだ…。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "危険度を表す、トリノスケールでも、それまでで[[最高の四]]がつきました。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "人類、ピンチなのだ！どうなったのだ！？",
+      "emote": "surprise",
+      "punch": true,
+      "pop": "ピンチ！"
+    },
+    {
+      "who": "tsumugi",
+      "text": "その日のうちに、[[ゼロ]]になりました。",
+      "emote": "normal",
+      "sfx": "bubu"
+    },
+    {
+      "who": "zunda",
+      "text": "え、はやいのだ。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "昔に撮られた写真の中から、アポフィスが写っているものが見つかったんです。観測の期間が長くなって、軌道が正確に分かりました。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そして二〇二一年、NASAは、少なくとも[[百年は、ぶつかる可能性はない]]と発表しました。",
+      "emote": "normal",
+      "chapter": 1
+    },
+    {
+      "who": "zunda",
+      "text": "なーんだ。じゃあ、ただの通りすがりなのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "通りすがり方が、問題なんです。",
+      "emote": "normal",
+      "seq": "ep010_flyby",
+      "fit": "contain",
+      "note": "真上から見た模式図",
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "tsumugi",
+      "text": "二〇二九年四月十三日。アポフィスは、地表から、およそ[[三万二千キロ]]の所を通ります。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "気象衛星や放送衛星が回っている、[[静止衛星の高さ]]は、およそ三万六千キロ。それより[[内側]]です。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "衛星より、地球に近いのだ！？",
+      "emote": "surprise",
+      "punch": true,
+      "pop": "内側！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "はい。月までの距離の、およそ十分の一です。これだけの大きさの岩が、ここまで近づくのは、とても珍しいとされています。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ヨーロッパや、アフリカ、西アジアでは、[[望遠鏡なしで]]見えると予想されています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "日本は、見えないのだ？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "予想されている地域には、入っていません。そのかわり、日本は、別の形で関わります。",
+      "emote": "normal",
+      "chapter": 2
+    },
+    {
+      "who": "tsumugi",
+      "text": "ヨーロッパ宇宙機関の探査機、[[ラムセス]]。日本の[[H3ロケット]]で、二〇二八年に打ち上げる計画です。",
+      "emote": "normal",
+      "telop": "探査機ラムセス\n日本のH3で打ち上げ予定"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ジャクサは、ロケットのほかに、薄くて軽い太陽電池と、熱を見るカメラも出します。九月には、探査機のコンピューターに、初めて電源が入りました。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "なんで、わざわざ、近くまで行くのだ？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "地球の重力で、アポフィスの[[形や回転]]が、変わるかもしれないからです。将来、本当に危ない岩が来たとき、どう動くかを知るための、練習になります。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "NASAの探査機、[[オシリス・エイペックス]]も、すれ違った後に追いかけて、調べる予定です。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "で、最初の答えは、なんだったのだ。",
+      "emote": "surprise",
+      "chapter": 3
+    },
+    {
+      "who": "tsumugi",
+      "text": "本気で、ぶつかると計算された岩は、ぶつかりません。ただし、[[静止衛星より内側]]を、すり抜けていきます。",
+      "emote": "normal",
+      "report": true
+    },
+    {
+      "who": "zunda",
+      "text": "ギリギリを、攻めすぎなのだ…。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "というわけで、今回のバグのステータスは、[[誤報でした]]。二・七パーセントは、データが足りなかっただけでした。",
+      "emote": "happy",
+      "stamp": true
+    },
+    {
+      "who": "zunda",
+      "text": "二〇二九年の十三日の金曜日は、家で、おとなしくしてるのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "家にいても、通過します。",
+      "emote": "normal",
+      "pop": "関係ない",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "text": "あなたが知っている、宇宙のニアミスも、コメントで報告してください。",
+      "emote": "happy"
+    },
+    {
+      "who": "zunda",
+      "text": "チャンネル登録も、よろしくなのだ！",
+      "emote": "happy"
+    }
+  ],
+  "publish": {
+    "thumb_style": "space",
+    "titles": [
+      "衝突確率37分の1と言われた小惑星アポフィス。2029年13日の金曜日、衛星より近くを通る",
+      "なぜ小惑星アポフィスは「ぶつからない」のに危険視されるのか？",
+      "東京タワー級の岩が地球をかすめる日。日本のH3ロケットも動き出した"
+    ],
+    "hook": [
+      "2029年4月13日(金)、小惑星アポフィスが地表から約3万2千kmを通過します。静止衛星より内側です。",
+      "2004年には衝突確率2.7%と計算された岩の正体と、日本のH3で打ち上げる探査機ラムセスをバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#小惑星",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "衛星より",
+          "近い"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep010_flyby/290.png",
+        "crop": [
+          0.3,
+          0.12,
+          0.95,
+          0.95
+        ],
+        "focus": 0.3,
+        "style": "space"
+      },
+      {
+        "text": [
+          "37分の1",
+          "だった"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "ep010_flyby/290.png",
+        "crop": [
+          0.3,
+          0.12,
+          0.95,
+          0.95
+        ],
+        "style": "dark"
+      },
+      {
+        "text": [
+          "13日の",
+          "金曜日"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "style": "pop"
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 7,
+      "to": 15,
+      "hook": [
+        "衝突確率",
+        "37分の1の",
+        "小惑星"
+      ],
+      "title": "衝突確率37分の1と言われた小惑星のその後 #Shorts",
+      "thumb_photo": false
+    },
+    {
+      "from": 18,
+      "to": 22,
+      "hook": [
+        "衛星より",
+        "地球の近くを",
+        "岩が通る"
+      ],
+      "title": "2029年、小惑星が静止衛星より内側を通る #Shorts",
+      "thumb_photo": "ep010_flyby/290.png"
+    }
+  ]
+}

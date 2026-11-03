@@ -1,0 +1,402 @@
+{
+  "title": "太陽が地球を撃ってくるバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#009",
+  "theme": "night",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "発射",
+    "前科",
+    "衛星",
+    "九日差"
+  ],
+  "chapter_titles": [
+    "太陽が地球に向けて噴火",
+    "過去の大事件(1859年・1989年)",
+    "小さな嵐で衛星40基が落ちた",
+    "九日差で助かった2012年"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/space_ambient_voyage.mp3",
+    "credit": "Space Ambient Voyage / Romariogrande",
+    "license": "CC0 1.0",
+    "url": "https://freesound.org/people/Romariogrande/sounds/639495"
+  },
+  "report": {
+    "no": "009",
+    "name": "太陽が地球に噴出物を飛ばす",
+    "place": "太陽の黒点群 AR4549",
+    "reporter": "NOAA 宇宙天気予報センターほか(2026年10月)",
+    "severity": 2,
+    "status": "仕様です"
+  },
+  "sources": [
+    "EarthSky Sun news October 6-7, 2026(AR4549 の M1.4・M1.8 フレアと CME、10月9日到着・G1〜G2予報) https://earthsky.org/sun/sun-news-activity-solar-flare-cme-aurora-updates/",
+    "Space.com G2 geomagnetic storm watch issued as CME heads for Earth(2026年10月) https://www.space.com/stargazing/auroras/powerful-solar-eruption-could-supercharge-the-northern-lights-this-week",
+    "Wikipedia: Carrington Event(1859年9月1〜2日、電信の故障・火花・感電、低緯度のオーロラ、2012年7月23日のニアミス) https://en.wikipedia.org/wiki/Carrington_Event",
+    "Wikipedia: March 1989 geomagnetic storm(90秒未満で送電網停止、9時間の停電) https://en.wikipedia.org/wiki/March_1989_geomagnetic_storm",
+    "Space.com: The Sun's Wrath: Worst Solar Storms in History(約600万人が停電) https://www.space.com/12584-worst-solar-storms-sun-flares-history.html",
+    "CNBC 2022-02-09 SpaceX to lose as many as 40 Starlink satellites due to space storm https://www.cnbc.com/2022/02/09/spacex-losing-starlink-satellites-due-to-geomagnetic-space-storm.html",
+    "EarthSky: 40 Starlink satellites doomed by geomagnetic storm(抵抗が最大50%増) https://earthsky.org/space/40-starlink-satellites-doomed-by-geomagnetic-storm/",
+    "国立極地研究所 2024年10月31日 2024年5月に日本に現れたオーロラの色の謎を解明 https://www.nipr.ac.jp/info2024/20241031.html",
+    "電気通信大学 2024年12月5日 青い低緯度オーロラ(石川県珠洲市など) https://www.uec.ac.jp/news/announcement/2024/20241205_6663.html"
+  ],
+  "lines": [
+    {
+      "who": "zunda",
+      "text": "太陽が、地球に向かって、[[爆発]]をぶっ放したのだ！",
+      "emote": "surprise",
+      "chapter": 0,
+      "punch": true,
+      "pop": "撃たれた！？",
+      "telop": "太陽の噴出物が\n地球へ"
+    },
+    {
+      "who": "tsumugi",
+      "text": "本当です。十月六日、太陽の表面で、[[フレア]]と呼ばれる爆発が、立て続けに二回起きました。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そのとき飛び出した、ガスのかたまりが、[[十月九日]]ごろ、地球に届く予報です。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "地球、終わるのだ…？スマホ、爆発するのだ…？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "しません。でも、最後に、本当にヤバかった話をします。地球が、[[九日差]]で助かった話です。",
+      "emote": "normal",
+      "sfx": "kira"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんなのだ！今日は、太陽に、文句を言いに来たのだ！",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "tsumugi",
+      "text": "まず、何が飛んでくるのか。これは、[[コロナ質量放出]]、略して、シーエムイー。太陽の、ガスと磁場のかたまりです。",
+      "emote": "normal",
+      "seq": "ep009_cme",
+      "fit": "contain",
+      "note": "模式図",
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "tsumugi",
+      "text": "これが、およそ[[三日]]かけて、地球まで飛んできます。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "三日も前に、分かってるのだ？",
+      "emote": "surprise"
+    },
+    {
+      "who": "tsumugi",
+      "text": "はい。地球には、[[磁気のバリア]]があります。ぶつかると、バリアが押されて、ゆがみます。これが、[[磁気嵐]]です。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ゆがんだバリアの端、北極や南極の近くで、空が光ります。それが、オーロラです。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "なんだ、きれいなだけなのだ。心配して損したのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そう思いますよね。では、過去の記録を見てみましょう。",
+      "emote": "normal",
+      "chapter": 1,
+      "seq": "ep009_history",
+      "fit": "contain",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "一八五九年。[[キャリントン・イベント]]と呼ばれる、記録に残る中で最大級の磁気嵐です。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ヨーロッパと北アメリカで、[[電信]]が止まりました。電線から[[火花]]が出て、感電した技師もいたそうです。",
+      "emote": "normal",
+      "telop": "1859年\n電信機から火花"
+    },
+    {
+      "who": "zunda",
+      "text": "電線が、勝手に、ビリビリしたのだ！？",
+      "emote": "surprise",
+      "punch": true,
+      "pop": "ビリビリ！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "磁場が大きく揺れると、長い電線に、[[勝手に電気]]が流れるんです。オーロラは、赤道に近いコロンビアや、キューバからも見えました。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "一九八九年には、カナダのケベック州で、送電網が、[[九十秒もたたずに]]止まりました。およそ[[六百万人]]が、九時間、停電しました。",
+      "emote": "normal",
+      "telop": "1989年 カナダ\n約600万人が停電"
+    },
+    {
+      "who": "zunda",
+      "text": "九十秒…。カップ麺も、できないのだ。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そこですか。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そして二〇二二年。スペースエックスが打ち上げたばかりの、四十九基の衛星のうち、最大で[[四十基]]が、落ちて燃え尽きました。",
+      "emote": "normal",
+      "chapter": 2,
+      "telop": "2022年\n衛星 最大40基が落下"
+    },
+    {
+      "who": "zunda",
+      "text": "なんでなのだ！？宇宙まで、ビリビリが届いたのだ？",
+      "emote": "surprise"
+    },
+    {
+      "who": "tsumugi",
+      "text": "いいえ、原因は[[空気]]です。磁気嵐で、地球の上空の空気が温まって、ふくらみました。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "低い所を飛んでいた衛星は、その空気にぶつかって、[[ブレーキ]]がかかったんです。スペースエックスによると、空気の抵抗は、いつもより最大で[[五割]]も大きかったそうです。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "しかも、それ、大きな嵐だったのだ？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "小さめの嵐、と言われています。[[小さな嵐でも]]、条件しだいで、これだけのことが起きるんです。",
+      "emote": "normal",
+      "sfx": "bubu"
+    },
+    {
+      "who": "tsumugi",
+      "text": "では、今回はどうか。予報は、五段階のうち、[[一から二]]の強さです。",
+      "emote": "normal",
+      "telop": "今回の予報\n5段階の1〜2"
+    },
+    {
+      "who": "tsumugi",
+      "text": "二〇二四年の五月には、いちばん強い[[五]]の嵐で、北海道や石川、兵庫でも、オーロラが撮影されました。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "じゃあ、今回は、日本で見えないのだ？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "二〇二四年ほどの強さではないので、日本では、見えにくいと考えられます。ただ、最新の予報は、変わることがあります。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "で、九日差で助かった話は、どうなったのだ！",
+      "emote": "surprise",
+      "chapter": 3
+    },
+    {
+      "who": "tsumugi",
+      "text": "二〇一二年七月。キャリントン級とされる巨大な噴出が、実際に起きていました。",
+      "emote": "normal",
+      "telop": "2012年7月\nキャリントン級が発生"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ただ、そのときの地球は、ぶつかる位置から、およそ[[九日ぶん]]ずれた所にいました。",
+      "emote": "normal",
+      "report": true
+    },
+    {
+      "who": "zunda",
+      "text": "九日遅かったら、直撃してたのだ…！？",
+      "emote": "surprise",
+      "punch": true,
+      "pop": "セーフ！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "はい。というわけで、今回のバグのステータスは、[[仕様です]]。太陽は、ときどき、こういうことをします。",
+      "emote": "happy",
+      "stamp": true
+    },
+    {
+      "who": "zunda",
+      "text": "太陽に、バグ報告を、出しておくのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "受理されないと思います。",
+      "emote": "normal",
+      "pop": "不受理",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "text": "あなたが知っている、太陽のヤバい話も、コメントで報告してください。",
+      "emote": "happy"
+    },
+    {
+      "who": "zunda",
+      "text": "チャンネル登録も、よろしくなのだ！",
+      "emote": "happy"
+    }
+  ],
+  "publish": {
+    "thumb_style": "dark",
+    "titles": [
+      "太陽の爆発が地球へ。最大級だったら、何が起きるのか",
+      "なぜ「小さな磁気嵐」で人工衛星40基が落ちたのか？太陽嵐のヤバい話",
+      "1859年、電線が火花を散らした日。地球は2012年にも九日差で助かっていた"
+    ],
+    "hook": [
+      "2026年10月6日、太陽で2回のフレアが起き、噴き出したガスのかたまり(CME)が10月9日ごろ地球に届く予報です。",
+      "1859年の電信の火花、1989年のカナダ大停電、2022年の衛星40基の落下。太陽嵐の「前科」と、2012年に九日差で助かった話をバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#太陽フレア",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "太陽が",
+          "撃ってきた"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep009_cme/170.png",
+        "crop": [
+          0.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "focus": 0.5,
+        "style": "dark"
+      },
+      {
+        "text": [
+          "衛星40基",
+          "落下"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "ep009_cme/260.png",
+        "crop": [
+          0.25,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "style": "space"
+      },
+      {
+        "text": [
+          "九日差で",
+          "助かった"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "style": "pop"
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 0,
+      "to": 4,
+      "hook": [
+        "太陽の爆発が",
+        "地球に",
+        "届く予報"
+      ],
+      "title": "太陽の爆発が地球に届く。スマホは爆発する？ #Shorts",
+      "thumb_photo": "ep009_cme/170.png"
+    },
+    {
+      "from": 22,
+      "to": 27,
+      "hook": [
+        "小さな嵐で",
+        "衛星40基が",
+        "落ちた理由"
+      ],
+      "title": "小さな磁気嵐で人工衛星40基が落ちた理由 #Shorts",
+      "thumb_photo": false
+    }
+  ]
+}

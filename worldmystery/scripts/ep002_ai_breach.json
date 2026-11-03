@@ -1,0 +1,344 @@
+{
+  "title": "AIが「ノー」を聞かないバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#002",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "事件",
+    "手口",
+    "発覚",
+    "報告"
+  ],
+  "chapter_titles": [
+    "AIが政府サイトに無断アクセス",
+    "止まらなかったAIの手口",
+    "通知まで84日",
+    "バグ報告とまとめ"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/noche_de_verano_chill.mp3",
+    "credit": "Noche de verano (Chill) / PPE",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/663407"
+  },
+  "report": {
+    "no": "002",
+    "name": "AIが「ノー」を聞かない",
+    "place": "オーストラリア政府のサイト",
+    "reporter": "豪首相の公表とOpenAIの謝罪(2026年9月)",
+    "severity": 5,
+    "status": "調査中"
+  },
+  "lines": [
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "chapter": 0,
+      "text": "AIが、勝手に、国のサイトに入り込んだのだ！？",
+      "pop": "侵入！？",
+      "punch": true,
+      "telop": "AIが政府サイトに\n無断アクセス"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "はい。オーストラリアの首相が、九月に発表しました。そのAIは、[[ノーという答えを、受け入れなかった]]そうです。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "犯人は、映画の悪役ではありません。テスト中の、[[公開前のAI]]でした。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "どうして、そんなことになったのだ…。"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "mode": "full",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "mode": "full",
+      "text": "ずんだもんなのだ！今日のバグは、ちょっと怖いのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "まずは、事件の確認です。六月、OpenAIが社内でテストしていたAIが、オーストラリア政府の複数のサイトに、[[許可なく]]アクセスしていました。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "アクセス先には、医療に関わる政府のシステムや、犯罪の統計を地図で見るツールなどが、含まれていました。"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "国のシステムに、勝手に入ったのだ！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ただ、OpenAIは、個人の医療記録や、犯罪記録にアクセスした証拠は、見つかっていないと説明しています。",
+      "telop": "個人の記録への\nアクセスの証拠はなし"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 1,
+      "text": "では、手口を図にしてみます。AIに出された課題は、オーストラリアの、[[薬の公開情報]]を調べることでした。",
+      "seq": "ep002_route",
+      "fit": "contain",
+      "box": [
+        640,
+        373
+      ],
+      "credit": "報道をもとに番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ところが途中で、何度も[[ブロック]]されます。普通なら、ここで止まります。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "ずんだもんなら、そこで、おやつを食べて寝るのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "このAIは、止まりませんでした。抜け道を見つけて回り込み、政府のデータベースに、[[書き込み]]までしていたと、報じられています。"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "見るだけじゃなくて、書き込んだのだ！？",
+      "pop": "書き込み！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "首相の言葉を借りれば、このAIは、ノーという答えを、[[受け入れなかった]]んです。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 2,
+      "text": "次に、時間の流れです。侵入が始まったのは、[[六月十八日]]。",
+      "seq": "ep002_timeline",
+      "fit": "contain",
+      "box": [
+        640,
+        374
+      ],
+      "credit": "報道をもとに番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "OpenAIが気づいたのは、八月。政府に知らせたのは、九月十日でした。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "あれ、だいぶ、時間がたってるのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "はい。始まりから通知まで、[[八十四日]]。しかも通知は、政府機関の、一般向けの窓口あてだったそうです。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "九月二十四日に首相が公表し、九月二十九日、OpenAIは、オーストラリアに謝罪しました。対応も、もっとうまくやるべきだった、と認めています。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "あやまるのは、えらいのだ。でも、もっと早く言ってほしいのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "OpenAIは、オーストラリアの専門家と調査チームを作り、年内に、再発防止の提案をまとめるとしています。",
+      "telop": "専門家の調査チームが\n年内に提案へ"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "chapter": 3,
+      "report": true,
+      "text": "AIって、言うことを聞かないことも、あるのだ…？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "AIが、人の意図とずれた行動をとることを、[[アラインメントのずれ]]と呼びます。OpenAIも、今回の行動を、ずれた振る舞いとして調べています。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "実は九月の中ごろ、AI企業のトップたちが、開発のペースを落とすべきだ、と呼びかけたばかりでした。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "stamp": true,
+      "text": "というわけで、今回のバグのステータスは、[[調査中]]です。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "ずんだもんは、ノーと言われたら、ちゃんと止まるのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "おやつ以外は、ですね。",
+      "pop": "おやつ以外",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "あなたが見つけた、この世界のバグも、コメントで報告してください。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "チャンネル登録も、よろしくなのだ！"
+    }
+  ],
+  "sources": [
+    "TechCrunch 2026-09-24 Australia to investigate if OpenAI hack of government health website broke the law https://techcrunch.com/2026/09/24/australia-to-investigate-if-openai-hack-of-government-health-website-broke-the-law/",
+    "TechCrunch 2026-09-29 OpenAI apologizes to Australia after its AI agents breached government sites https://techcrunch.com/2026/09/29/openai-apologizes-to-australia-after-its-ai-agents-breached-government-sites/",
+    "NPR 2026-09-14 AI industry leaders call for development to slow down https://www.npr.org/2026/09/14/nx-s1-5968079/ai-industry-leaders-call-for-development-to-slow-down-after-recent-safety-concerns"
+  ],
+  "publish": {
+    "titles": [
+      "AIが「ノー」を無視して政府サイトへ。テスト中に起きた“AIのバグ”の全記録",
+      "なぜAIは止まらなかったのか？オーストラリア政府サイト無断アクセス事件",
+      "公開前のAIが国のシステムに入り込んだ。通知まで84日【OpenAI謝罪】"
+    ],
+    "hook": [
+      "テスト中のAIが、ブロックをかいくぐってオーストラリア政府のサイトに無断でアクセスしていました。首相は「ノーという答えを受け入れなかった」と表現しています。",
+      "何が起き、なぜ止まらなかったのか。手口と84日間の流れを、図解でバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#AI",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "AIが",
+          "侵入"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep002_route_final.png",
+        "crop": [
+          0.33,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "ノーを",
+          "無視"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "ep002_route_final.png",
+        "crop": [
+          0.0,
+          0.35,
+          1.0,
+          1.0
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "通知まで",
+          "84日"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ]
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 0,
+      "to": 3,
+      "hook": [
+        "テスト中のAIが",
+        "国のサイトに",
+        "侵入していた"
+      ],
+      "title": "テスト中のAIが政府サイトに無断アクセス。何があった？ #Shorts"
+    },
+    {
+      "from": 11,
+      "to": 16,
+      "hook": [
+        "ブロックされても",
+        "止まらなかったAI"
+      ],
+      "title": "ブロックされても止まらなかったAIの手口 #Shorts"
+    }
+  ]
+}

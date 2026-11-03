@@ -1,0 +1,515 @@
+{
+  "_説明": "題材の管理リスト。status: published(公開済み) / produced(制作済み・未公開) / planned(次に作る) / candidate(候補) / rejected(扱わない)。keywords は重複確認に使う。",
+  "topics": [
+    {
+      "id": "000",
+      "title": "勝手に動く石(試作)",
+      "status": "produced",
+      "script": "scripts/trial_sailing_stones.json",
+      "keywords": [
+        "セーリングストーン",
+        "動く石",
+        "レーストラック・プラヤ",
+        "デスバレー",
+        "氷"
+      ],
+      "report_status": "仕様です",
+      "news_date": "2014-08-27",
+      "notes": "試作。公開する場合は本番回として番号を振り直す"
+    },
+    {
+      "id": "001",
+      "title": "世界地図のバグ(国連の地図見直し決議)",
+      "status": "published",
+      "script": "scripts/ep001_world_map.json",
+      "keywords": [
+        "世界地図",
+        "メルカトル図法",
+        "グリーンランド",
+        "アフリカ",
+        "イコールアース",
+        "国連",
+        "地図の大きさ"
+      ],
+      "report_status": "修正パッチ配布中",
+      "news_date": "2026-09-04",
+      "demand": "同テーマ上位10本の再生数中央値 約351万回。直近1年に420万回・136万回(TBS)の動画あり",
+      "sources": [
+        "https://press.un.org/en/2026/ga12779.doc.htm"
+      ]
+    },
+    {
+      "id": "002",
+      "title": "AIが勝手に政府サイトへ侵入(OpenAIのモデルと豪政府)",
+      "status": "published",
+      "keywords": [
+        "AI",
+        "OpenAI",
+        "オーストラリア",
+        "ハッキング",
+        "不正アクセス",
+        "AIエージェント"
+      ],
+      "news_date": "2026-09-24",
+      "demand": "AI暴走系の上位10本の中央値 約559万回(検索語が広く参考値)",
+      "notes": "企業名が出るため表現に注意(「攻撃」ではなく報道どおり「無断アクセス」)。法的助言にしない",
+      "sources": [
+        "https://techcrunch.com/2026/09/24/australia-to-investigate-if-openai-hack-of-government-health-website-broke-the-law/",
+        "https://techcrunch.com/2026/09/29/openai-apologizes-to-australia-after-its-ai-agents-breached-government-sites/"
+      ],
+      "script": "scripts/ep002_ai_breach.json",
+      "report_status": "調査中"
+    },
+    {
+      "id": null,
+      "title": "キャンプ場を探していたら隕石クレーターを発見(ケベック)",
+      "status": "candidate",
+      "keywords": [
+        "隕石",
+        "クレーター",
+        "ケベック",
+        "カナダ",
+        "衛星地図",
+        "アマチュア天文家"
+      ],
+      "news_date": "2026-09-21",
+      "demand": "隕石系の上位10本の中央値 約392万回",
+      "sources": [
+        "https://www.sciencedaily.com/releases/2026/09/260921081101.htm"
+      ]
+    },
+    {
+      "id": null,
+      "title": "人間の脳は2つの神経系の合体だった",
+      "status": "candidate",
+      "keywords": [
+        "脳",
+        "神経系",
+        "進化",
+        "スタンフォード",
+        "後脳"
+      ],
+      "news_date": "2026-09-18",
+      "demand": "脳の謎系の上位10本の中央値 約134万回",
+      "notes": "医療の助言にならない範囲(進化の話)に限る",
+      "sources": [
+        "https://med.stanford.edu/news/all-news/2026/09/two-separate-brains.html"
+      ]
+    },
+    {
+      "id": null,
+      "title": "金星には昔、月があった?(仮説)",
+      "status": "candidate",
+      "keywords": [
+        "金星",
+        "衛星",
+        "月",
+        "自転"
+      ],
+      "news_date": "2026-09-15",
+      "demand": "上位10本の中央値 約100万回",
+      "notes": "シミュレーションによる仮説。断定しない",
+      "sources": [
+        "https://www.sciencedaily.com/releases/2026/09/260915232122.htm"
+      ]
+    },
+    {
+      "id": "005",
+      "title": "1日の長さが毎日ちがう理由(地球の内核)",
+      "status": "published",
+      "keywords": [
+        "1日の長さ",
+        "自転",
+        "内核",
+        "うるう秒"
+      ],
+      "news_date": "2026-09-29",
+      "demand": "上位10本の中央値 約127万回",
+      "sources": [
+        "https://phys.org/news/2026-09-earth-deep-secret-day-isnt.html"
+      ],
+      "script": "scripts/ep005_day_length.json",
+      "report_status": "仕様です"
+    },
+    {
+      "id": null,
+      "title": "光合成をやめた黒い「悪魔の花」",
+      "status": "candidate",
+      "keywords": [
+        "悪魔の花",
+        "Thismia",
+        "タイ",
+        "菌従属栄養",
+        "新種",
+        "植物"
+      ],
+      "news_date": "2026-09-03",
+      "demand": "新種・奇妙な植物系の上位10本の中央値 約72万回",
+      "sources": [
+        "https://www.sciencedaily.com/releases/2026/09/260903064217.htm"
+      ]
+    },
+    {
+      "id": null,
+      "title": "ロックスターの名前がついたヘビ(変な学名)",
+      "status": "candidate",
+      "keywords": [
+        "ヘビ",
+        "学名",
+        "スラッシュ",
+        "ニューギニア",
+        "新種"
+      ],
+      "news_date": "2026-08-27",
+      "sources": [
+        "https://www.cbc.ca/news/entertainment/slash-guns-n-roses-guitarist-snake-9.7315666"
+      ]
+    },
+    {
+      "id": null,
+      "title": "ペンギンは実は4種類だった(ジェンツーペンギン)",
+      "status": "candidate",
+      "keywords": [
+        "ペンギン",
+        "ジェンツー",
+        "新種",
+        "ゲノム"
+      ],
+      "news_date": "2026-04",
+      "sources": [
+        "https://phys.org/news/2026-05-scientists-gentoo-penguins-species-totally.html"
+      ]
+    },
+    {
+      "id": null,
+      "title": "人間がエミューに負けた戦争",
+      "status": "candidate",
+      "keywords": [
+        "エミュー戦争",
+        "オーストラリア",
+        "1932"
+      ],
+      "notes": "定番枠"
+    },
+    {
+      "id": null,
+      "title": "「38人が見殺し」は誇張だった(傍観者効果)",
+      "status": "candidate",
+      "keywords": [
+        "キティ・ジェノヴィーズ",
+        "傍観者効果",
+        "心理学"
+      ],
+      "notes": "事件の被害者への配慮を最優先"
+    },
+    {
+      "id": null,
+      "title": "レミングの集団自殺は映画の演出だった",
+      "status": "candidate",
+      "keywords": [
+        "レミング",
+        "ディズニー",
+        "集団自殺",
+        "白い荒野"
+      ],
+      "notes": "定番枠(修正済みバグ)"
+    },
+    {
+      "id": null,
+      "title": "ギネスブックは狩猟の場の口論から生まれた",
+      "status": "candidate",
+      "keywords": [
+        "ギネスブック",
+        "ギネス",
+        "ヨーロッパムナグロ"
+      ],
+      "notes": "「酒場の口論」は誤り。1951年の狩猟の場での口論が始まり"
+    },
+    {
+      "id": null,
+      "title": "コーヒーと腸と気分",
+      "status": "rejected",
+      "keywords": [
+        "コーヒー",
+        "腸内細菌",
+        "気分"
+      ],
+      "notes": "健康の話題。AIキャラが扱うと収益化の対象外になるおそれ(2026年7月の方針明確化)"
+    },
+    {
+      "id": "003",
+      "title": "2026年11月13日に人類滅亡?(1960年のドゥームズデイ論文)",
+      "status": "published",
+      "script": "scripts/ep003_doomsday.json",
+      "keywords": [
+        "人類滅亡",
+        "ドゥームズデイ",
+        "フォン・フェルスター",
+        "世界人口",
+        "人口爆発",
+        "11月13日"
+      ],
+      "report_status": "修正済み",
+      "news_date": "2026-09-30",
+      "demand": "上位10本の中央値 約117万回 / 直近1年 約80万回"
+    },
+    {
+      "id": "004",
+      "title": "宇宙に果てはあるのか(平らなのに有限?)",
+      "status": "published",
+      "script": "scripts/ep004_universe.json",
+      "keywords": [
+        "宇宙",
+        "無限",
+        "宇宙の果て",
+        "観測可能な宇宙",
+        "トーラス",
+        "宇宙マイクロ波背景放射"
+      ],
+      "report_status": "未解決",
+      "news_date": "2026-09-27",
+      "demand": "上位10本の中央値 約513万回 / 直近1年 約192万回"
+    },
+    {
+      "id": "006",
+      "title": "スターシップが初めて地球を回った(軌道とは)",
+      "status": "published",
+      "script": "scripts/ep006_starship.json",
+      "keywords": [
+        "スターシップ",
+        "スペースX",
+        "軌道",
+        "ロケット",
+        "再利用",
+        "スターリンク"
+      ],
+      "report_status": "修正済み",
+      "news_date": "2026-09-28",
+      "demand": "検索語が他ジャンルと混ざり測定不可(参考値)"
+    },
+    {
+      "id": "007",
+      "title": "最古の爬虫類が爬虫類じゃなかった(リジー)",
+      "status": "published",
+      "script": "scripts/ep007_oldest_reptile.json",
+      "keywords": [
+        "爬虫類",
+        "化石",
+        "リジー",
+        "Westlothiana",
+        "四足動物",
+        "えら"
+      ],
+      "report_status": "誤報でした",
+      "news_date": "2026-09-30",
+      "demand": "上位10本の中央値 約117万回"
+    },
+    {
+      "id": "008",
+      "title": "ナスカ文明は征服されたのか(ワリの神殿のミイラ)",
+      "status": "published",
+      "script": "scripts/ep008_nasca.json",
+      "keywords": [
+        "ナスカ",
+        "ワリ",
+        "ペルー",
+        "ミイラ",
+        "地上絵",
+        "征服"
+      ],
+      "report_status": "調査中",
+      "news_date": "2026-09-30",
+      "demand": "ナスカ/ミイラ系 上位10本の中央値 約114万回 / 直近1年 約87万回"
+    },
+    {
+      "id": null,
+      "title": "NASA Crew-13 ISSまで9時間以内(打ち上げ結果を待って制作)",
+      "status": "planned",
+      "keywords": [
+        "ISS",
+        "宇宙ステーション",
+        "Crew-13",
+        "ドラゴン",
+        "ランデブー"
+      ],
+      "news_date": "2026-10-01",
+      "notes": "10/1打ち上げ予定。結果が出てから作る。追いかけ軌道のアニメ(figs.orbit chase=True)が使える"
+    },
+    {
+      "id": "009",
+      "title": "太陽嵐が地球へ(10月9日到着予報)",
+      "status": "produced",
+      "script": "scripts/ep009_solar_storm.json",
+      "keywords": [
+        "太陽フレア",
+        "CME",
+        "磁気嵐",
+        "オーロラ",
+        "キャリントン",
+        "Starlink"
+      ],
+      "report_status": "仕様です",
+      "news_date": "2026-10-06",
+      "demand": "太陽フレア 上位10本の中央値 約47万回 / キャリントン・イベント 約81万回"
+    },
+    {
+      "id": "010",
+      "title": "小惑星アポフィスが静止衛星より内側を通る(2029年4月13日)",
+      "status": "produced",
+      "script": "scripts/ep010_apophis.json",
+      "keywords": [
+        "小惑星",
+        "アポフィス",
+        "衝突確率",
+        "ラムセス",
+        "H3"
+      ],
+      "report_status": "誤報でした",
+      "news_date": "2026-09-23",
+      "demand": "上位10本の中央値 約34万回"
+    },
+    {
+      "id": "011",
+      "title": "偽のAI広告ツールで二段階認証のコードまで盗まれる",
+      "status": "produced",
+      "script": "scripts/ep011_fake_login.json",
+      "keywords": [
+        "フィッシング",
+        "二段階認証",
+        "ブラウザ・イン・ザ・ブラウザ",
+        "パスキー",
+        "偽サイト"
+      ],
+      "report_status": "調査中",
+      "news_date": "2026-10-06",
+      "demand": "二段階認証 突破 フィッシング 上位10本の中央値 約21万回"
+    },
+    {
+      "id": "012",
+      "title": "ブナの実が豊作なのにクマに安心できない",
+      "status": "produced",
+      "script": "scripts/ep012_bear.json",
+      "keywords": [
+        "クマ",
+        "ブナ",
+        "人身被害",
+        "出没"
+      ],
+      "report_status": "未解決",
+      "news_date": "2026-10-06",
+      "demand": "クマ なぜ増えた 上位10本の中央値 約65万回"
+    },
+    {
+      "id": null,
+      "title": "宇宙ゴミの連鎖(ケスラーシンドローム)",
+      "status": "planned",
+      "script": "scripts/backlog/space_debris.json",
+      "keywords": [
+        "宇宙ゴミ",
+        "デブリ",
+        "ケスラーシンドローム"
+      ],
+      "notes": "台本完成済み。宇宙系が続かないよう、他ジャンルの間に挟んで番号を振り直して使う"
+    },
+    {
+      "id": null,
+      "title": "ボイジャー1号が光で1日の距離へ(11/18ごろ)",
+      "status": "planned",
+      "script": "scripts/backlog/voyager.json",
+      "keywords": [
+        "ボイジャー",
+        "探査機",
+        "光日"
+      ],
+      "notes": "台本完成済み。11月18日の前後に公開すると時事性が高い"
+    },
+    {
+      "id": null,
+      "title": "地球が殴られて月ができた(ウェッブ)",
+      "status": "planned",
+      "script": "scripts/backlog/moon_impact.json",
+      "keywords": [
+        "月",
+        "ジャイアント・インパクト",
+        "テイア"
+      ],
+      "notes": "台本完成済み"
+    },
+    {
+      "id": null,
+      "title": "地球の磁場の弱い場所が広がる(チバニアン)",
+      "status": "planned",
+      "script": "scripts/backlog/magnetic.json",
+      "keywords": [
+        "地磁気",
+        "南大西洋異常帯",
+        "チバニアン"
+      ],
+      "notes": "台本完成済み"
+    },
+    {
+      "id": "013",
+      "title": "配膳ロボの肉の横取りと「これくらいいいや」の心理",
+      "status": "produced",
+      "script": "scripts/ep013_buffet.json",
+      "keywords": [
+        "食べ放題",
+        "しゃぶ葉",
+        "配膳ロボ",
+        "窃盗",
+        "中和の技術",
+        "心理"
+      ],
+      "report_status": "修正パッチ配布中",
+      "news_date": "2026-10-02",
+      "demand": "食べ放題 迷惑客 上位の中央値 約180万回(4本) / 犯罪心理学 なぜ 約50万回"
+    },
+    {
+      "id": "014",
+      "title": "怖いもの・事件の話をつい見てしまう心理(暗い好奇心)",
+      "status": "produced",
+      "script": "scripts/ep014_morbid.json",
+      "keywords": [
+        "心理",
+        "ホラー",
+        "暗い好奇心",
+        "トゥルークライム"
+      ],
+      "report_status": "仕様です",
+      "news_date": "2026-10",
+      "demand": "犯罪心理学 なぜ 上位10本の中央値 約50万回"
+    },
+    {
+      "id": "015",
+      "title": "千葉で高台なのに水があふれる(内水氾濫)",
+      "status": "produced",
+      "script": "scripts/ep015_chiba_flood.json",
+      "keywords": [
+        "千葉",
+        "豪雨",
+        "内水氾濫",
+        "くぼ地",
+        "ハザードマップ"
+      ],
+      "report_status": "未解決",
+      "news_date": "2026-09-22",
+      "demand": "千葉 冠水 なぜ 中央値 約127万回 / 内水氾濫 約208万回"
+    },
+    {
+      "id": "016",
+      "title": "宗教の信者数の合計が人口より多い",
+      "status": "produced",
+      "script": "scripts/ep016_believers.json",
+      "keywords": [
+        "宗教",
+        "信者数",
+        "宗教年鑑",
+        "神社",
+        "寺"
+      ],
+      "report_status": "仕様です",
+      "news_date": "2025-12-26",
+      "demand": "日本 宗教 信者数 上位10本の中央値 約53万回"
+    }
+  ]
+}

@@ -1,0 +1,328 @@
+{
+  "title": "最古の爬虫類が爬虫類じゃなかったバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#007",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "正体",
+    "X線",
+    "系統樹",
+    "報告"
+  ],
+  "chapter_titles": [
+    "最古級の爬虫類リジー",
+    "X線で見つかった“えら”",
+    "系統樹のお引っ越し",
+    "バグ報告とまとめ"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/noche_de_verano_chill.mp3",
+    "credit": "Noche de verano (Chill) / PPE",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/663407"
+  },
+  "report": {
+    "no": "007",
+    "name": "最古の爬虫類が爬虫類じゃない",
+    "place": "スコットランドの化石(約3億4500万年前)",
+    "reporter": "AMNH・オックスフォード大ほか(2026年 Nature)",
+    "severity": 3,
+    "status": "誤報でした"
+  },
+  "lines": [
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "chapter": 0,
+      "text": "世界最古の爬虫類が、爬虫類じゃなかったのだ！？",
+      "pop": "別もの！？",
+      "punch": true,
+      "telop": "最古級の爬虫類が\n実は別ものだった"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "はい。三億四千五百万年前の化石、愛称[[リジー]]。三十年以上、最古級の爬虫類とされてきました。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "ところが九月三十日、X線で中を調べたら、[[えら]]が見つかったんです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "えら？魚みたいなのだ…。"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "mode": "full",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "mode": "full",
+      "text": "ずんだもんなのだ！今日は、化石の名探偵になるのだ！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "まずは、リジーの経歴です。見つかったのは、一九八四年。イギリスの、スコットランドでした。",
+      "seq": "ep007_timeline",
+      "fit": "contain",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "一九九〇年に論文で発表され、陸に適応した、もっとも古い仲間の一つとして、研究者のあいだで、[[目印]]のような化石になりました。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "化石界の、大スターなのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "リジーの足には、指が五本。かぎ爪もありました。それが、陸で暮らす爬虫類の仲間の[[証拠]]だと、考えられていたんです。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 1,
+      "text": "今回、フランスにある、巨大なX線の施設で、化石の中を、詳しく調べました。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "すると、頭の骨は古いつくり。そして、骨になった[[えら]]と、何千もの小さな歯が並ぶ、[[魚のような口]]が見つかりました。",
+      "telop": "骨になったえら\n小さな歯が何千も"
+    },
+    {
+      "who": "zunda",
+      "emote": "surprise",
+      "text": "爬虫類なのに、えらがあるのだ！？",
+      "pop": "えら！？",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "はい。つまりリジーは、爬虫類ではなく、水の中や水辺で暮らす、[[四足動物の祖先側]]のなかまだった、というんです。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "chapter": 2,
+      "text": "系統樹で見ると、こうなります。",
+      "seq": "ep007_tree",
+      "fit": "contain",
+      "box": [
+        600,
+        415
+      ],
+      "note": "簡略化した系統樹",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "リジーは、爬虫類や鳥、哺乳類につながる枝から、枝分かれする前の、[[幹のほう]]へ、引っ越しました。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "三十年ぶりの、お引っ越しなのだ。",
+      "pop": "引っ越し！"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "研究チームによると、五本の指や、かぎ爪は、水辺の祖先たちのあいだで、[[すでに進化していた]]ことになります。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "そのため、かぎ爪のある足跡だけでは、爬虫類の仲間だと、言い切れなくなりました。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "text": "足跡だけで、決めつけちゃダメなのだ。"
+    },
+    {
+      "who": "zunda",
+      "emote": "think",
+      "chapter": 3,
+      "report": true,
+      "text": "じゃあ、今の世界最古の爬虫類は、誰なのだ？"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "今回の発表では、どれが新しい[[最古]]なのかまでは、示されていません。次の研究が、待たれます。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "stamp": true,
+      "text": "というわけで、今回のバグのステータスは、[[誤報でした]]。一九九〇年から、三十六年越しの訂正です。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "ずんだもんも、実は、ずんだ餅じゃなかったら、どうするのだ。"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "normal",
+      "text": "X線で、調べてみましょうか。",
+      "pop": "調べます",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "emote": "happy",
+      "text": "あなたが見つけた、この世界のバグも、コメントで報告してください。"
+    },
+    {
+      "who": "zunda",
+      "emote": "happy",
+      "text": "チャンネル登録も、よろしくなのだ！"
+    }
+  ],
+  "sources": [
+    "phys.org 2026-09-30 Fossil long known as world's oldest reptile dethroned https://phys.org/news/2026-09-fossil-world-oldest-reptile-dethroned.html",
+    "Nature (2026) Evolution of terrestrial anatomy revealed by a derived stem tetrapod https://www.nature.com/articles/s41586-026-11090-6"
+  ],
+  "publish": {
+    "titles": [
+      "世界最古の爬虫類は、爬虫類じゃなかった。X線で見つかった“えら”の正体",
+      "なぜ36年間も勘違いされたのか？最古級の爬虫類リジーの意外な正体",
+      "爬虫類なのに、えらがある？3億4500万年前の化石の大どんでん返し"
+    ],
+    "hook": [
+      "3億4500万年前の化石「リジー」は、1990年から最古級の爬虫類とされてきました。",
+      "ところが2026年9月、X線で中を調べると、骨になった“えら”と魚のような口が見つかりました。系統樹のお引っ越しを、図解でバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#化石",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "爬虫類",
+          "じゃない"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep007_tree_final.png",
+        "crop": [
+          0.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "36年間の",
+          "勘違い"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "ep007_timeline_final.png",
+        "photo_size": [
+          740,
+          300
+        ],
+        "photo_pos": [
+          480,
+          380
+        ],
+        "crop": [
+          0.1,
+          0.1,
+          1.0,
+          0.9
+        ],
+        "focus": 0.5
+      },
+      {
+        "text": [
+          "えらが",
+          "あった"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ]
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 0,
+      "to": 3,
+      "hook": [
+        "最古の爬虫類が",
+        "爬虫類じゃ",
+        "なかった"
+      ],
+      "title": "世界最古級の爬虫類が、実は爬虫類じゃなかった #Shorts"
+    },
+    {
+      "from": 11,
+      "to": 14,
+      "hook": [
+        "X線で見たら",
+        "えらがあった"
+      ],
+      "title": "X線で化石の中を見たら、えらが見つかった #Shorts",
+      "thumb_photo": false
+    }
+  ]
+}
