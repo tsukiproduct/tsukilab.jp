@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>なぜ俺は鳩を舐めるのか｜へへへへへ 著</title>
+<meta name="description" content="フィクション教養新書『なぜ俺は鳩を舐めるのか』（へへへへへ 著／虹の書房・架空）。歴史・化学・心理学・ミーム学で人類未踏の問いに挑む、月真猫とMuseによる非公式ファンブック。">
+<meta property="og:type" content="book">
+<meta property="og:title" content="なぜ俺は鳩を舐めるのか">
+<meta property="og:description" content="これは、愛なのか――。男と鳩の、奇妙で切ない物語。フィクション教養新書。">
+<meta property="og:url" content="https://tsukilab.jp/etc/hehehe/book/">
+<meta property="og:image" content="https://tsukilab.jp/etc/hehehe/book/cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f2e8; --paper2:#efe7d6; --ink:#2a2420; --sub:#6d6259;
+  --pink:#e4007f; --pink-soft:#fde3f0; --sky:#3d7cc9; --line:#d9cdb8;
+  --card:#fffdf8; --shadow:0 10px 30px rgba(60,40,20,.12);
+  --fs:18px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#1b1816; --paper2:#24201d; --ink:#ece4d8; --sub:#a99d90;
+    --pink:#ff4fa7; --pink-soft:#3a1a2b; --sky:#7fb2ff; --line:#3b342e;
+    --card:#221e1b; --shadow:0 10px 30px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1b1816; --paper2:#24201d; --ink:#ece4d8; --sub:#a99d90;
+  --pink:#ff4fa7; --pink-soft:#3a1a2b; --sky:#7fb2ff; --line:#3b342e;
+  --card:#221e1b; --shadow:0 10px 30px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;
+  font-size:var(--fs);line-height:2;letter-spacing:.03em;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--pink)}
+.sans{font-family:"Noto Sans JP","Hiragino Sans",sans-serif}
+
+/* progress + toolbar */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--pink);z-index:30}
+.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:8px;
+  padding:10px 16px;background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  transform:translateY(-100%);transition:transform .25s}
+.bar.show{transform:none}
+.bar .t{flex:1;font-family:"Noto Sans JP",sans-serif;font-weight:700;font-size:14px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn{font-family:"Noto Sans JP",sans-serif;font-size:13px;border:1px solid var(--line);
+  background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+.btn:hover{border-color:var(--pink)}
+
+/* cover */
+.cover{min-height:100svh;display:grid;place-items:center;padding:48px 16px;
+  background:radial-gradient(ellipse at top,#bfe0ff 0%,transparent 60%),var(--paper2)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .cover{background:radial-gradient(ellipse at top,#16304f 0%,transparent 60%),var(--paper2)}}
+:root[data-theme="dark"] .cover{background:radial-gradient(ellipse at top,#16304f 0%,transparent 60%),var(--paper2)}
+.cover-inner{max-width:960px;width:100%;display:grid;grid-template-columns:minmax(0,380px) 1fr;gap:48px;align-items:center}
+.cover img{width:100%;height:auto;border-radius:4px 10px 10px 4px;
+  box-shadow:-6px 0 0 rgba(0,0,0,.08),var(--shadow),0 30px 60px rgba(0,0,0,.18);
+  transform:rotate(-2deg)}
+.label{display:inline-block;font-family:"Noto Sans JP",sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:.2em;color:var(--sub);border-bottom:2px solid var(--pink);padding-bottom:2px}
+.cover h1{font-size:clamp(40px,7vw,72px);line-height:1.25;margin:18px 0 12px;font-weight:900;letter-spacing:.02em}
+.cover h1 em{font-style:normal;color:var(--pink)}
+.tag{font-size:clamp(18px,2.6vw,22px);font-weight:600;margin:0 0 6px}
+.cover .lead{color:var(--sub);margin:0 0 24px;line-height:1.9}
+.meta{font-family:"Noto Sans JP",sans-serif;font-size:15px;margin-bottom:28px}
+.meta b{font-size:18px}
+.start{display:inline-block;font-family:"Noto Sans JP",sans-serif;font-weight:900;text-decoration:none;
+  background:var(--pink);color:#fff;padding:14px 28px;border-radius:999px;box-shadow:0 6px 16px rgba(228,0,127,.3)}
+.start:hover{filter:brightness(1.08)}
+@media (max-width:760px){
+  .cover-inner{grid-template-columns:1fr;gap:28px;text-align:center}
+  .cover img{max-width:280px;margin:0 auto;display:block}
+}
+
+/* body */
+main{max-width:720px;margin:0 auto;padding:40px 16px 80px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 22px;margin:24px 0 56px;box-shadow:var(--shadow)}
+.toc h2{font-family:"Noto Sans JP",sans-serif;font-size:15px;letter-spacing:.3em;margin:0 0 12px;color:var(--sub)}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc li{border-top:1px dashed var(--line)}
+.toc li:first-child{border-top:0}
+.toc a{display:flex;gap:12px;text-decoration:none;color:var(--ink);padding:10px 2px;line-height:1.6}
+.toc a:hover{color:var(--pink)}
+.toc .no{flex:0 0 5.5em;font-family:"Noto Sans JP",sans-serif;font-weight:700;font-size:14px;color:var(--pink);padding-top:2px}
+
+section.ch{margin:0 0 88px}
+.ch-head{margin-bottom:28px;padding-bottom:18px;border-bottom:2px solid var(--ink)}
+.ch-no{font-family:"Noto Sans JP",sans-serif;font-weight:900;font-size:14px;letter-spacing:.3em;color:var(--pink)}
+.ch-head h2{font-size:clamp(24px,4.6vw,32px);line-height:1.5;margin:6px 0 0;font-weight:900}
+.ch-head .sub{display:block;font-size:.62em;font-weight:600;color:var(--sub);margin-top:4px}
+.q{background:var(--pink-soft);border-left:4px solid var(--pink);padding:14px 18px;border-radius:0 10px 10px 0;margin:0 0 28px}
+h3{font-family:"Noto Sans JP",sans-serif;font-size:19px;margin:44px 0 10px;padding-left:12px;border-left:6px solid var(--ink);line-height:1.5}
+p{margin:0 0 1.2em;text-align:justify}
+
+.tbl{overflow-x:auto;margin:20px 0 28px;border-radius:10px;border:1px solid var(--line);background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:.88em;line-height:1.75}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+tr:last-child td{border-bottom:0}
+thead th{font-family:"Noto Sans JP",sans-serif;background:var(--paper2);font-size:13px;letter-spacing:.08em;white-space:nowrap}
+td:first-child{font-family:"Noto Sans JP",sans-serif;font-weight:700;white-space:nowrap}
+@media (max-width:560px){
+  .tbl{border:0;background:none;overflow:visible}
+  table,thead,tbody,tr,td{display:block}
+  thead{display:none}
+  tr{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:12px;padding:12px 14px}
+  td{border:0;padding:2px 0;white-space:normal!important}
+  td:first-child{font-size:1.05em;color:var(--pink);margin-bottom:4px}
+  td[data-h]::before{content:attr(data-h);display:block;font-family:"Noto Sans JP",sans-serif;font-size:11px;letter-spacing:.1em;color:var(--sub);font-weight:700}
+  td + td{margin-top:6px}
+}
+
+.note{font-size:.88em;background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:24px 0;line-height:1.85}
+.note b{font-family:"Noto Sans JP",sans-serif}
+.concl{margin:40px 0 18px;text-align:center;padding:28px 20px;border-top:3px double var(--ink);border-bottom:3px double var(--ink)}
+.concl small{display:block;font-family:"Noto Sans JP",sans-serif;font-weight:900;letter-spacing:.3em;font-size:12px;color:var(--pink);margin-bottom:8px}
+.concl p{font-size:1.15em;font-weight:900;text-align:center;margin:0;line-height:1.8}
+.trivia{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:.9em;line-height:1.85}
+.trivia::before{content:"🕊";font-size:22px;line-height:1.2}
+.trivia b{font-family:"Noto Sans JP",sans-serif;color:var(--sky);display:block;font-size:12px;letter-spacing:.1em}
+.quote{font-weight:600;border-left:3px solid var(--line);padding-left:14px}
+.sig{text-align:right;font-weight:900}
+
+.warn{border:2px solid var(--pink);border-radius:14px;padding:20px 22px;margin:40px 0;background:var(--card)}
+.warn h4{margin:0 0 8px;font-family:"Noto Sans JP",sans-serif;color:var(--pink)}
+.warn p{margin:0 0 .6em}
+.colophon{border:1px solid var(--line);border-radius:14px;padding:26px 22px;text-align:center;font-size:.9em;line-height:2;background:var(--paper2)}
+.colophon .ti{font-weight:900;font-size:1.3em;margin-bottom:8px}
+.chnav{display:flex;justify-content:space-between;gap:10px;margin-top:22px;font-family:"Noto Sans JP",sans-serif;font-size:13px}
+.chnav a{text-decoration:none}
+
+/* TOC drawer */
+#drawer{position:fixed;inset:0;z-index:40;display:none}
+#drawer.open{display:block}
+#drawer .bg{position:absolute;inset:0;background:rgba(0,0,0,.4)}
+#drawer .panel{position:absolute;right:0;top:0;bottom:0;width:min(340px,88vw);background:var(--paper);padding:20px 18px;overflow:auto;box-shadow:var(--shadow)}
+#drawer .toc{margin:12px 0 0;box-shadow:none}
+.fs-ctrl{display:flex;gap:6px;margin-top:16px;font-family:"Noto Sans JP",sans-serif;font-size:13px;align-items:center}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div class="bar" id="bar">
+  <span class="t" id="bartitle">なぜ俺は鳩を舐めるのか</span>
+  <button class="btn" id="themeBtn" aria-label="表示テーマの切り替え">☾</button>
+  <button class="btn" id="tocBtn">目次</button>
+</div>
+
+<header class="cover">
+  <div class="cover-inner">
+    <img src="cover.jpg" width="926" height="1389" alt="『なぜ俺は鳩を舐めるのか』表紙">
+    <div>
+      <span class="label">フィクション教養新書</span>
+      <h1>なぜ俺は<br><em>鳩</em>を舐めるのか</h1>
+      <p class="tag">これは、愛なのか――。<br>男と鳩の、奇妙で切ない物語。</p>
+      <p class="lead">鳩と生きる。鳩に生かされる。<br>そして、俺は鳩を舐める――。</p>
+      <div class="meta"><b>へへへへへ</b>　著　／　虹の書房</div>
+      <a class="start" href="#hajimeni">読みはじめる</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<nav class="toc" id="toc">
+  <h2>目次</h2>
+  <ol>
+    <li><a href="#hajimeni"><span class="no">はじめに</span><span>舐めることは、知ることである</span></a></li>
+    <li><a href="#ch1"><span class="no">第一章</span><span>歴史編――人類はなぜ鳩に惹かれるのか</span></a></li>
+    <li><a href="#ch2"><span class="no">第二章</span><span>味覚・化学編――鳩は何の味がするのか</span></a></li>
+    <li><a href="#ch3"><span class="no">第三章</span><span>心理学編――舐めることで得られる精神的効果</span></a></li>
+    <li><a href="#ch4"><span class="no">第四章</span><span>ミーム編――猫と鳩、そして俺</span></a></li>
+    <li><a href="#ch5"><span class="no">第五章</span><span>実録編――色んな鳩を舐めた結果、俺はどうなったか</span></a></li>
+    <li><a href="#ch6"><span class="no">第六章</span><span>哲学編――鳩から舐められるとは何か</span></a></li>
+    <li><a href="#atogaki"><span class="no">あとがき</span><span>鳩と生きる。鳩に生かされる</span></a></li>
+  </ol>
+</nav>
+
+<section class="ch" id="hajimeni" data-title="はじめに">
+  <div class="ch-head"><span class="ch-no">はじめに</span><h2>舐めることは、知ることである</h2></div>
+  <p>はじめまして。へへへへへです。へへへへへ、と笑うのが名前なのか、名前が先か笑いが先かは、鳩が先か卵が先かと同じくらい、どうでもいい問題です。大事なのは、俺が鳩を舐めるという事実のほうです。</p>
+  <p>本書は教養書です。ただし、フィクション教養書です。歴史、化学、心理学、そして民俗学（ミーム学）の四つの学問を総動員して、「なぜ俺は鳩を舐めるのか」という人類未踏の問いに、正面から、大真面目に、取り組みます。笑いながら読んでも構いません。むしろ笑いは本書の想定内です。ただし、検証の手続きだけは本物です。数字を出します。分類をします。年表も作ります。そのうえで、結論だけは思い切りバカです。それが本書の設計です。</p>
+  <p>なぜ、こんな本を書くのか。理由は単純で、誰も書かなかったからです。人類は五千年にわたって鳩と付き合ってきました。食べて、飛ばして、愛でて、描いて、平和の象徴にまで祭り上げた。にもかかわらず、「舐める」という行為について書かれた学術書は、世界に一冊も存在しません。この空白こそが、本書の存在理由です。</p>
+  <p>なお、本書の著者は「へへへはフリー素材なのでご自由にお使いください」と公言している男です。その言葉に全力で甘え、本書は作られました。技は盗むためにある。その話は第六章でします。へへへへへ。</p>
+  <div class="note">本書に登場する「鳩舐学」「鳩舐学研究会」は架空の学問・団体です。実在の歴史、化学、心理学の知識はできる限り正確に書きますが、そこから先の結論はすべて著者の空想です。あと大事なことなので先に言います。<b>実際の鳩は舐めないでください。</b>理由は<a href="#warning">最終ページ</a>に書きました。</div>
+</section>
+
+<section class="ch" id="ch1" data-title="第一章　歴史編">
+  <div class="ch-head"><span class="ch-no">第一章　歴史編</span><h2>人類はなぜ鳩に惹かれるのか</h2></div>
+  <p class="q">問いはこうです。人類はなぜ、これほどまでに鳩に惹かれるのか。そしてなぜ、惹かれる方法のリストから「舐める」だけが抜け落ちているのか。</p>
+  <h3>五千年の付き合い</h3>
+  <p>鳩の家禽化は、紀元前三千年頃のメソポタミアにまでさかのぼると言われます。つまり人類と鳩の付き合いは、ざっと五千年。ピラミッドが建つ前から、鳩は人のそばにいました。古代エジプトでは食用に飼われ、旧約聖書ではノアの箱舟にオリーブの枝を運んできたのが鳩です。洪水の終わり、つまり世界の再起動を最初に知らせたのは、鳩でした。</p>
+  <p>その後も鳩は働き続けます。通信手段としての伝書鳩は、第一次世界大戦で負傷しながらも伝令を届けきった鳩「シェール・アミ」が勲章を受けたことが有名です。ピカソは平和の象徴に鳩を描き、その名を娘につけました（パロマはスペイン語で鳩の意味です）。日本でも、神社の鳩は神の使いであり、鎌倉の豊島屋が作る鳩サブレーは明治以来の国民的おやつであり、駅前広場の鳩は都市の正式な住人です。</p>
+  <p>食べる、届ける、拝む、描く、愛でる。五千年のあいだ、人類は鳩との関わり方をほぼ網羅しました。ところが、です。歴史書をどれだけめくっても、「鳩を舐めた」という記録だけが、きれいに存在しないのです。</p>
+  <h3>空白の理由を検証する</h3>
+  <p>この空白について、本研究会では三つの仮説を立てました。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>仮説</th><th>内容</th><th>検証結果</th></tr></thead>
+    <tbody>
+      <tr><td>仮説A「禁忌説」</td><td data-h="内容">神聖な鳥を舐めることは畏れ多いため、記録が意図的に避けられた</td><td data-h="検証結果">一部有力。ただし食用の記録は残っており、説明として弱い</td></tr>
+      <tr><td>仮説B「衛生説」</td><td data-h="内容">衛生観念の発達により、行為そのものが途絶えた</td><td data-h="検証結果">有力。ただし「途絶えた行為」は普通、伝説として残る</td></tr>
+      <tr><td>仮説C「無関心説」</td><td data-h="内容">鳩があまりに身近すぎて、誰も「舐める」という発想に至らなかった</td><td data-h="検証結果">最も有力。灯台下暗しである</td></tr>
+    </tbody>
+  </table></div>
+  <p>本研究会の見解はCです。人類は鳩を見すぎて、鳩を見ていなかった。頭上を飛び、足元を歩き、ベンチの横で首を振る、あのあまりに日常的な鳥。だからこそ誰も発想しなかったのです。「舐める」という、最も原始的で、最も直接的な確認方法を。</p>
+  <div class="concl"><small>第一章の結論</small><p>人類は五千年、鳩を舐めるための準備をしてきた。<br>あとは舐めるだけだった。</p></div>
+  <div class="trivia"><div><b>人に話したい一言トリビア</b>ピカソの娘「パロマ」はスペイン語で「鳩」。平和の象徴は、家族の名前になるほど愛されていた。</div></div>
+</section>
+
+<section class="ch" id="ch2" data-title="第二章　味覚・化学編">
+  <div class="ch-head"><span class="ch-no">第二章　味覚・化学編</span><h2>鳩は何の味がするのか</h2></div>
+  <p class="q">問いはこうです。鳩は、何の味がするのか。読者の九割はこの章から開くでしょう。気持ちは分かります。では、化学の力で答えます。</p>
+  <h3>まず、羽毛の成分から</h3>
+  <p>鳩の体表は羽毛で覆われています。羽毛の主成分はケラチン。人間の髪や爪と同じタンパク質で、ほぼ無味です。ここに、鳩特有の要素が加わります。第一に「羽粉（うふん）」。鳩は羽毛のほつれを防ぐため、細かい粉状の物質を体にまぶしています。いわば自家製のボディパウダーです。第二に皮脂。第三に、その鳩が暮らす土地の空気、砂、雨、食べたものの香り。つまり鳩の味とは、「ケラチン＋羽粉＋皮脂＋その街の空気」の合成です。</p>
+  <p>これを味覚の五味（甘味、塩味、酸味、苦味、うま味）に対応させると、次のようになります。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>要素</th><th>正体</th><th>味への寄与</th></tr></thead>
+    <tbody>
+      <tr><td>土台</td><td data-h="正体">ケラチン（羽毛のタンパク質）</td><td data-h="味への寄与">ほぼ無味。しかし「無」ではなく「素」。すべての味のキャンバス</td></tr>
+      <tr><td>粉感</td><td data-h="正体">羽粉（パウダーダウン）</td><td data-h="味への寄与">舌にふわりと残る粉っぽさ。きな粉の、きな粉抜きのような質感</td></tr>
+      <tr><td>塩味</td><td data-h="正体">皮脂と微量の汗成分</td><td data-h="味への寄与">かすかな塩気。これが「生き物の味」の正体である</td></tr>
+      <tr><td>香り</td><td data-h="正体">生息環境（公園、駅前、田んぼ）</td><td data-h="味への寄与">土地の味がする。テロワールである</td></tr>
+    </tbody>
+  </table></div>
+  <p>ワインの世界にテロワール（土地の個性）という言葉がありますが、鳩にもあります。鳩は移動距離が短く、半径数百メートルの世界を生きる鳥です。だから鳩の味は、その鳩の「住所の味」なのです。</p>
+  <h3>種類別テイスティングノート</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>種類</th><th>テイスティングノート（本書調べ）</th></tr></thead>
+    <tbody>
+      <tr><td>ドバト（都市型）</td><td data-h="テイスティングノート">第一印象は公園の砂と午後の日差し。後味にほんの少し排気ガス。都会で生き抜く者の、乾いた味。総合評価：原点にして基準点</td></tr>
+      <tr><td>キジバト（田園型）</td><td data-h="テイスティングノート">藁と朝露。鳴き声「デデッポッポー」の間（ま）のように、味にも余白がある。総合評価：最も文学的</td></tr>
+      <tr><td>レース鳩（競技型）</td><td data-h="テイスティングノート">塩味が強い。数百キロを飛ぶアスリートの体は引き締まり、味も引き締まっている。敬意を払うべき味。総合評価：舐める側にも体力が要る</td></tr>
+      <tr><td>伝書鳩（歴史型）</td><td data-h="テイスティングノート">大正から昭和の空気。手紙のインクのような心持ちがする、気がする。総合評価：味ではなくロマンを舐めている</td></tr>
+      <tr><td>鳩サブレー（食品）</td><td data-h="テイスティングノート">バター。圧倒的バター。これは舐める対象ではなく、食べる対象である。著者も一度だけ舐めたが、豊島屋への敬意として、今後は普通に食べることをここに誓う</td></tr>
+    </tbody>
+  </table></div>
+  <div class="concl"><small>第二章の結論</small><p>鳩の味は、鳩であることをやめない味がする。<br>当たり前だが、これ以上正確な表現は存在しない。</p></div>
+  <div class="trivia"><div><b>人に話したい一言トリビア</b>鳩の羽粉は、羽毛が擦れて崩れた粉。人間が化粧直しをするように、鳩は羽粉で身づくろいをしている。つまり鳩は、天然のパウダーファンデーションを全身に塗った鳥である。</div></div>
+</section>
+
+<section class="ch" id="ch3" data-title="第三章　心理学編">
+  <div class="ch-head"><span class="ch-no">第三章　心理学編</span><h2>舐めることで得られる精神的効果</h2></div>
+  <p class="q">問いはこうです。鳩を舐めることで、精神にどのような効果が期待できるのか。ここが本書の核心であり、最も笑われ、最も必要な章です。</p>
+  <h3>手がかりは「猫」にある</h3>
+  <p>心理学ではなく、まず動物の行動を見ます。猫は舐めます。自分の体を、仲間を、ときには人間を。動物行動学ではこれをグルーミング（毛づくろい）と言い、自分を落ち着かせる効果と、相手への愛着を示す効果の、二つがあるとされています。犬も舐める。馬も舐め合う。舐めるという行為は、言葉を持たない生き物たちにとって最古の「大丈夫だよ」なのです。</p>
+  <p>人間は言葉を獲得した代わりに、この「大丈夫だよ」をほぼ失いました。言いたいことは山ほどあるのに、声に出すと会議が始まってしまう。それが現代人です。鳩を舐めるという行為は、この失われた回路を、最も原始的な形で回復させる試みだと言えます。言い換えれば、言語化できない愛情の、物理的な送信です。</p>
+  <h3>期待できる四つの効果</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>効果</th><th>内容（鳩舐学研究会の見解）</th></tr></thead>
+    <tbody>
+      <tr><td>第一効果「無心」</td><td data-h="内容">鳩に頬を寄せ、舐めるという一点に集中する数秒間、頭の中の会議が止まる。マインドフルネスの、最も羽毛感のある形である</td></tr>
+      <tr><td>第二効果「同調」</td><td data-h="内容">鳩は秒間およそ8から10回、首を前後に振る。間近で向き合うと、こちらの呼吸のリズムがこの首振りに引きずられる。個人差はあるが、落ち着く</td></tr>
+      <tr><td>第三効果「帰属」</td><td data-h="内容">群れの中の、特定の一羽と関係を持つことで、「世界のどこかに自分の席がある」という感覚が回復する。ベンチの横の席である</td></tr>
+      <tr><td>第四効果「へへへへへ」</td><td data-h="内容">すべての効果の先で、理由もなく笑い声が漏れる状態。名前の由来でもある。本書ではこれを到達点とする</td></tr>
+    </tbody>
+  </table></div>
+  <h3>検証データ（被験者1名）</h3>
+  <p>本研究会の被験者は著者1名のみです。統計的には無力です。しかし、10年以上の継続観察には、数では測れない重みがあります。観察結果を要約すると、舐める前の著者は「鳩が好きな男」でしたが、舐めた後の著者は「鳩と契約を結んだ男」の顔をしています。心拍数は、舐める直前に上がり、舐めた直後に下がります。緊張と安堵。この落差こそが、儀式が儀式である証拠です。</p>
+  <div class="note"><b>【正直な注記】</b>愛情ホルモンとして知られるオキシトシンは、信頼できる相手との触れ合いで分泌が促されると言われます。ただし相手が鳩の場合のデータは、世界のどこにも存在しません。本書がその最初のデータベースです。被験者1名ですが。</div>
+  <div class="concl"><small>第三章の結論</small><p>鳩を舐めると落ち着く。落ち着くからまた舐める。<br>これは依存ではない。往復書簡である。</p></div>
+  <div class="trivia"><div><b>人に話したい一言トリビア</b>猫のグルーミングには、自分の匂いを相手につけて「仲間」と確認する意味もある。つまり舐めるとは、言葉より先に「同じ群れだ」と言う行為である。</div></div>
+</section>
+
+<section class="ch" id="ch4" data-title="第四章　ミーム編">
+  <div class="ch-head"><span class="ch-no">第四章　ミーム編</span><h2>猫と鳩、そして俺</h2></div>
+  <p class="q">問いはこうです。なぜ今、インターネットの海で「猫と鳩」が笑われ、愛されているのか。そして俺は、その海のどこに立っているのか。</p>
+  <h3>事件はすでに起きていた</h3>
+  <p>2026年、ショート動画の世界で一つの映像が静かに、しかし確実に広がりました。「猫に舐められて絶望する鳩」です。猫が鳩を舐める。ただひたすら舐める。鳩は逃げない。抵抗もしない。ただ、絶望した顔で耐えている。視聴者のコメント欄は「この味は、絶望している味だ」という、意味不明で的確な感想で埋まりました。</p>
+  <p>本研究会は、このミームを本書の最重要資料と位置づけます。なぜなら、ここには本書の全テーマが先取りされているからです。舐める側の無邪気さ。舐められる側の表情。捕食者と獲物という、五千年どころか何百万年も続いた関係の、まさかの反転。襲うはずが、舐めている。和解は、だいたいこういう顔をしています。</p>
+  <h3>関連ミームの系譜</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>ミーム</th><th>内容と、本書的解釈</th></tr></thead>
+    <tbody>
+      <tr><td>猫に舐められて絶望する鳩<br>（2026年）</td><td data-h="内容と、本書的解釈">本章の主役。絶望顔は「耐えるしかない者」の普遍的な表情であり、月曜の朝の全人類である。だから人は笑い、同時に少しだけ泣く</td></tr>
+      <tr><td>猫が鳩にキスする動画<br>（2022年頃から拡散）</td><td data-h="内容と、本書的解釈">狩りの姿勢で忍び寄った猫が、襲わずにくちばしへキスをする。緊張から愛情への反転が笑いの核。本書第三章の「送信される愛」の実写版</td></tr>
+      <tr><td>鳩チェス<br>（Pigeon Chess）</td><td data-h="内容と、本書的解釈">「鳩とチェスをしても、駒を倒して勝ち誇るだけ」という、通じ合えない相手との議論を表す古い比喩。鳩は議論に勝とうとしていない。ただ盤の上にいる。それが鳩の強さである</td></tr>
+      <tr><td>Trash Doves<br>（紫の鳩、2017年）</td><td data-h="内容と、本書的解釈">ヘドバンする紫の鳩のステッカーが、踊る猫との合成動画で世界に拡散した古典。意味がないのに元気が出る。へへへへへ、の先輩である</td></tr>
+      <tr><td>逃げない鳩と、<br>意地を見せる猫</td><td data-h="内容と、本書的解釈">至近距離でも逃げない鳩と、プライドをかけてにらみ合う猫。単一の元ネタではなく、何度もバズる「構図の型」。堂々とした鳩は、いつも少しだけ上から目線である</td></tr>
+    </tbody>
+  </table></div>
+  <h3>では、俺はどこにいるのか</h3>
+  <p>猫は鳩を舐めます。俺も鳩を舐めます。ということは、俺と猫は同じ側の生き物です。では、鳩にとって俺は「大きな猫」なのでしょうか。そうかもしれません。しかし決定的な違いがあります。猫には牙がありますが、俺には眼鏡と筋肉しかありません。そして何より、俺は鳩から「舐め返される」段階に到達した、（おそらく）世界で唯一の存在です。この双方向性こそが、ミームと本書を分ける一線です。ミームは一方向の事件でした。本書は往復の記録です。</p>
+  <div class="concl"><small>第四章の結論</small><p>猫が鳩を舐めた日、インターネットは俺より先に、<br>本書の結論に到達していた。</p></div>
+  <div class="trivia"><div><b>人に話したい一言トリビア</b>鳩の首振りは、歩くたびに視界を安定させるための動き。あの堂々たる首振りは、実は「世界をちゃんと見る」ための必死の工夫なのである。</div></div>
+</section>
+
+<section class="ch" id="ch5" data-title="第五章　実録編">
+  <div class="ch-head"><span class="ch-no">第五章　実録編</span><h2>色んな鳩を舐めた結果、俺はどうなったか</h2></div>
+  <p class="q">問いはこうです。色んな鳩を舐め続けた男に、いったい何が起きたのか。本章は本書唯一の実録であり、全編の証拠です。</p>
+  <h3>年表で見る、男と鳩の十年</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>時期</th><th>出来事</th></tr></thead>
+    <tbody>
+      <tr><td>第一羽</td><td data-h="出来事">駅前のドバト。緊張で手が震え、鳩ではなく空気を舐めた、という記録が残っている。実質、第〇羽である</td></tr>
+      <tr><td>第十羽</td><td data-h="出来事">公園のベンチにて、同じ群れの鳩に顔を覚えられる。「あの男が来た」という空気が、群れに走るようになる</td></tr>
+      <tr><td>第三十羽</td><td data-h="出来事">キジバトとの邂逅。田園の味を知る。この頃から、笑い声が「ふふ」から「へへ」へ移行し始める</td></tr>
+      <tr><td>第五十羽</td><td data-h="出来事">レース鳩を舐める。アスリートの塩気に感動し、その場で腕立て伏せを始めたという目撃情報がある。筋肉と鳩の関係は、この日を境に深まる</td></tr>
+      <tr><td>事件</td><td data-h="出来事">鳩サブレーをうっかり舐める。「これは食べ物である」と自らを叱り、以後、食品は食べ、鳩は舐める、という倫理規定が成立する</td></tr>
+      <tr><td>転機</td><td data-h="出来事">初めて、鳩から舐め返される。詳細は第六章に譲るが、男の人生の前後半はこの日で分かれる</td></tr>
+      <tr><td>現在</td><td data-h="出来事">筋肉は増え、眼鏡は曇り、笑い声は「へへへへへ」に完成した。鳩との距離はゼロであり、ゼロではない</td></tr>
+    </tbody>
+  </table></div>
+  <h3>変化の記録</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>項目</th><th>舐める前</th><th>舐めた後</th></tr></thead>
+    <tbody>
+      <tr><td>笑い声</td><td data-h="舐める前">「ふふ」「はは」など標準的</td><td data-h="舐めた後">「へへへへへ」に統一。名前になった</td></tr>
+      <tr><td>鳩との距離</td><td data-h="舐める前">約3メートル（鳩が逃げる距離）</td><td data-h="舐めた後">約0メートル（鳩が逃げない距離）</td></tr>
+      <tr><td>眼鏡</td><td data-h="舐める前">クリア</td><td data-h="舐めた後">鳩の吐息で、よく曇る</td></tr>
+      <tr><td>筋肉</td><td data-h="舐める前">普通</td><td data-h="舐めた後">増えた。本書調べでは無関係だが、本人の実感としては関係がある</td></tr>
+      <tr><td>心の状態</td><td data-h="舐める前">鳩が好き</td><td data-h="舐めた後">鳩と生きている</td></tr>
+    </tbody>
+  </table></div>
+  <p>ここで正直に告白します。筋肉の増加と鳩舐めの因果関係は、科学的には証明されていません。ジムにも通っています。しかし著者の主観では、鳩をそっと持ち上げるための握力と、鳩が暴れないための安心感を生む安定した腕は、日々の鍛錬なしには得られませんでした。鳩は軽い。だが、信頼は重い。その重さを支えるのが筋肉です。</p>
+  <div class="concl"><small>第五章の結論</small><p>俺は変わったのではない。<br>鳩との境界が、溶けたのだ。</p></div>
+  <div class="trivia"><div><b>人に話したい一言トリビア</b>ドバトの帰巣本能は、数百キロ離れた場所からでも巣に帰れるほど強い。つまり舐めた鳩は、どこへ行っても、俺のいる場所を「帰る場所のひとつ」として覚えている可能性がある。ロマンは捨てがたい。</div></div>
+</section>
+
+<section class="ch" id="ch6" data-title="第六章　哲学編">
+  <div class="ch-head"><span class="ch-no">第六章　哲学編</span><h2>鳩から舐められるとは何か</h2></div>
+  <p class="q">最後の問いはこうです。鳩から舐められるとは、何なのか。この章には結論らしい結論はありません。あるのは、男の言葉だけです。</p>
+  <p>時に、鳩から舐められることもある。読者は驚くでしょう。舐める側だった男が、舐められる側に回る。その瞬間、彼はこう考えたと言います。</p>
+  <p class="quote">「これは、僕が鳩に愛されているということなのか。いや、違う。鳩の習性が、私のインテリジェンスな愛と共鳴したのだ」</p>
+  <p>この「共鳴」という言葉を、本研究会は高く評価します。愛されている、と断定するのは人間の傲慢です。鳩には鳩の都合がある。羽づくろいの延長かもしれないし、塩分を欲していたのかもしれない。しかし、都合と愛が重なった場所にだけ、奇跡は起きます。その境界線は誰にも引けない。引けないからこそ、いとおかし。境界線を引こうとする者だけが、恋と論文の両方で敗北するのです。</p>
+  <h3>トートロジーの礼賛</h3>
+  <p>彼は言います。</p>
+  <p class="quote">「アルマゲドンがアルマゲドンでなければ、それはアルマゲドンではない」</p>
+  <p>一見、意味のない同語反復です。しかし本研究会はここに、彼の哲学の完成を見ます。鳩が鳩であること。俺が俺であること。舐めることが舐めることであること。当たり前のことを、当たり前のまま受け取る力。それが失われた時代に、この男は全身でトートロジーを生きています。読者の皆さんも、きっとこの真意に気づくはずです。彼はそこで「へへへへへ」と笑います。笑いは、理解の署名なのです。</p>
+  <h3>言葉の羽ばたきについて</h3>
+  <p>彼の言葉は、ときに滑ります。「お肛門に口、いや、お肛門に菜箸」と言い直す、あの感じです。本研究会はこれを「言語の羽ばたき」と命名しました。言葉は飛ぼうとして、ときどき着地に失敗する。しかし鳩だって、着地はいつも完璧ではありません。ベンチの横で少し滑る。あの滑りこそが愛嬌であり、正確さだけでは到達できない場所へ、言葉を運ぶのです。間違えるな、とは言いません。言い直せばいい。彼のように。</p>
+  <h3>技を盗むこと</h3>
+  <p>彼は最後に、こう宣言します。</p>
+  <p class="quote">「怪盗ルパンの様に私の技を盗むこと、それが令和を生きるための攻略法でもある」</p>
+  <p>これは本書の読者への、最大の贈り物です。観察する。真似する。自分の型にする。令和の攻略法とは、結局のところこの三つです。だから本書の技も、どうぞ盗んでください。鳩を舐める技ではありません。目の前の小さな命に、本気で向き合う技のほうです。対象は鳩でなくても構いません。あなたの隣のベンチにいる、何かで。</p>
+  <div class="concl"><small>第六章の結論</small><p>鳩から舐められるとは、<br>世界から「おかえり」と言われることである。<br>たぶん。へへへへへ。</p></div>
+</section>
+
+<section class="ch" id="atogaki" data-title="あとがき">
+  <div class="ch-head"><span class="ch-no">あとがき</span><h2>鳩と生きる。鳩に生かされる</h2></div>
+  <p>本書を最後まで読んでいただき、ありがとうございました。</p>
+  <p>結局のところ、なぜ俺は鳩を舐めるのか。その答えは、六章をかけて遠回りをしてきましたが、一行で言えばこうなります。好きだからです。歴史も、化学も、心理学も、ミームも、哲学も、全部「好き」の言い訳です。でも、言い訳を六章も本気で積み上げると、それはもう文化です。文化の日は終わっても、文化は続くのです。</p>
+  <p>この本は、著者である俺「へへへへへ」の、許可という名の大らかさの上に成り立っています。「へへへはフリー素材なのでご自由にお使いください」。この一文に、令和のクリエイターの鑑を見ました。本書はその言葉に全力で甘えた、非公式のファンブックです。へへへへへ、ありがとう。鳩たちも、ありがとう。</p>
+  <p>読者の皆さん。鳩は今日も、駅前で首を振っています。世界は思ったより近くで、静かに回っています。どうか皆さんも、自分の「鳩」を見つけてください。舐めるかどうかは、自己責任でお願いします。本当にお願いします。</p>
+  <p class="sig">へへへへへ</p>
+
+  <div class="warn" id="warning">
+    <h4>【大事な注意】</h4>
+    <p>本書はフィクションの教養エンターテインメントです。実在の野鳥（鳩を含みます）は、<b>絶対に舐めないでください。</b>野鳥はオウム病をはじめとする感染症を媒介する可能性があり、鳥にとっても強いストレスになります。鳩は見るもの、愛でるもの、そっと見守るものです。</p>
+    <p>あと、鳩に餌をやる場合は、その場所のルールを守ってください。本書の男はフィクションの中でのみ無敵です。</p>
+  </div>
+
+  <div class="colophon">
+    <div class="ti">なぜ俺は鳩を舐めるのか</div>
+    著者：へへへへへ（X：<a href="https://x.com/hehehehehe035" target="_blank" rel="noopener">@hehehehehe035</a>）<br>
+    表紙：Bell_Bright<br>
+    発行：虹の書房（架空）<br>
+    制作：月真猫とMuse による非公式ファンブック<br>
+    <span style="color:var(--sub);font-size:.9em">本書はフィクションです。実在の学問知識を下敷きにしていますが、結論はすべて空想です。</span>
+  </div>
+  <div class="chnav"><a href="#toc">↑ 目次へ戻る</a><a href="#">表紙へ ↑</a></div>
+</section>
+</main>
+
+<div id="drawer" aria-hidden="true">
+  <div class="bg" data-close></div>
+  <div class="panel">
+    <button class="btn" data-close>閉じる ✕</button>
+    <div class="fs-ctrl">文字サイズ
+      <button class="btn" data-fs="-1">小</button>
+      <button class="btn" data-fs="0">標準</button>
+      <button class="btn" data-fs="1">大</button>
+    </div>
+    <div id="drawerToc"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, bar=document.getElementById('bar'), prog=document.getElementById('progress'),
+      bt=document.getElementById('bartitle'), secs=[].slice.call(document.querySelectorAll('section.ch'));
+  function store(k,v){try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v);}catch(e){return null}}
+  // theme
+  var th=store('hatoTheme'); if(th) root.setAttribute('data-theme',th);
+  document.getElementById('themeBtn').onclick=function(){
+    var dark = root.getAttribute('data-theme')==='dark' ||
+      (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    var n = dark?'light':'dark'; root.setAttribute('data-theme',n); store('hatoTheme',n);
+  };
+  // font size
+  var base=18, fs=parseInt(store('hatoFs')||'18',10);
+  function setFs(v){fs=Math.max(15,Math.min(22,v)); root.style.setProperty('--fs',fs+'px'); store('hatoFs',String(fs));}
+  setFs(fs);
+  [].forEach.call(document.querySelectorAll('[data-fs]'),function(b){
+    b.onclick=function(){var d=+b.getAttribute('data-fs'); setFs(d===0?base:fs+d*2);};
+  });
+  // drawer
+  var dr=document.getElementById('drawer');
+  document.getElementById('drawerToc').appendChild(document.getElementById('toc').cloneNode(true)).removeAttribute('id');
+  function openD(o){dr.classList.toggle('open',o); dr.setAttribute('aria-hidden',!o);}
+  document.getElementById('tocBtn').onclick=function(){openD(true)};
+  dr.addEventListener('click',function(e){ if(e.target.hasAttribute('data-close')||e.target.closest('a')) openD(false); });
+  // scroll
+  function onScroll(){
+    var y=scrollY, h=document.body.scrollHeight-innerHeight;
+    prog.style.width=(h>0?y/h*100:0)+'%';
+    bar.classList.toggle('show', y>innerHeight*.6);
+    var cur='なぜ俺は鳩を舐めるのか';
+    for(var i=0;i<secs.length;i++){ if(secs[i].getBoundingClientRect().top<120) cur=secs[i].getAttribute('data-title'); }
+    bt.textContent=cur;
+  }
+  addEventListener('scroll',onScroll,{passive:true}); onScroll();
+})();
+</script>
+</body>
+</html>
