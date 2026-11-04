@@ -2,193 +2,232 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>なぜ俺は鳩を舐めるのか｜へへへへへ 著</title>
-<meta name="description" content="フィクション教養新書『なぜ俺は鳩を舐めるのか』（へへへへへ 著／虹の書房・架空）。歴史・化学・心理学・ミーム学で人類未踏の問いに挑む、月真猫とMuseによる非公式ファンブック。">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>なぜ俺は鳩を舐めるのか｜HEHEZON kinpelo</title>
+<meta name="description" content="フィクション教養新書『なぜ俺は鳩を舐めるのか』（へへへへへ 著／虹の書房・架空）を電子書籍リーダー「HEHEZON kinpelo」で。月真猫とMuseによる非公式ファンブック。">
+<meta name="theme-color" content="#131921">
 <meta property="og:type" content="book">
-<meta property="og:title" content="なぜ俺は鳩を舐めるのか">
+<meta property="og:title" content="なぜ俺は鳩を舐めるのか｜HEHEZON kinpelo">
 <meta property="og:description" content="これは、愛なのか――。男と鳩の、奇妙で切ない物語。フィクション教養新書。">
 <meta property="og:url" content="https://tsukilab.jp/etc/hehehe/book/">
 <meta property="og:image" content="https://tsukilab.jp/etc/hehehe/book/cover.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;900&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#f7f2e8; --paper2:#efe7d6; --ink:#2a2420; --sub:#6d6259;
-  --pink:#e4007f; --pink-soft:#fde3f0; --sky:#3d7cc9; --line:#d9cdb8;
-  --card:#fffdf8; --shadow:0 10px 30px rgba(60,40,20,.12);
-  --fs:18px;
+  --ui:#131921; --ui2:#232f3e; --ui-ink:#fff; --accent:#ff2e93; --accent2:#ffd24d;
+  --bg:#ffffff; --ink:#1a1a1a; --sub:#6b6b6b; --line:#dddddd; --card:#f6f6f6; --pink:#d6006f; --soft:#fde6f1;
+  --fs:18px; --lh:1.9; --font:"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;
+  --sans:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --paper:#1b1816; --paper2:#24201d; --ink:#ece4d8; --sub:#a99d90;
-    --pink:#ff4fa7; --pink-soft:#3a1a2b; --sky:#7fb2ff; --line:#3b342e;
-    --card:#221e1b; --shadow:0 10px 30px rgba(0,0,0,.4);
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#1b1816; --paper2:#24201d; --ink:#ece4d8; --sub:#a99d90;
-  --pink:#ff4fa7; --pink-soft:#3a1a2b; --sky:#7fb2ff; --line:#3b342e;
-  --card:#221e1b; --shadow:0 10px 30px rgba(0,0,0,.4);
-}
+[data-paper="sepia"]{--bg:#f4ecd8;--ink:#5b4636;--sub:#8a735f;--line:#dccdb0;--card:#ece1c8;--pink:#b3135f;--soft:#f3d9d9}
+[data-paper="green"]{--bg:#dcebdc;--ink:#203320;--sub:#557055;--line:#b8d0b8;--card:#cfe3cf;--pink:#a0145a;--soft:#e9d6dd}
+[data-paper="black"]{--bg:#0d0d0d;--ink:#cfcfcf;--sub:#8a8a8a;--line:#2b2b2b;--card:#1a1a1a;--pink:#ff5fae;--soft:#2c1622}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:64px}
-body{margin:0;background:var(--paper);color:var(--ink);
-  font-family:"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif;
-  font-size:var(--fs);line-height:2;letter-spacing:.03em;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:var(--pink)}
-.sans{font-family:"Noto Sans JP","Hiragino Sans",sans-serif}
+html,body{margin:0;height:100%}
+body{font-family:var(--sans);background:var(--ui);color:var(--ui-ink);-webkit-tap-highlight-color:transparent;overflow:hidden}
+button{font:inherit;color:inherit}
+.hidden{display:none!important}
 
-/* progress + toolbar */
-#progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--pink);z-index:30}
-.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:8px;
-  padding:10px 16px;background:color-mix(in srgb,var(--paper) 88%,transparent);
-  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
-  transform:translateY(-100%);transition:transform .25s}
-.bar.show{transform:none}
-.bar .t{flex:1;font-family:"Noto Sans JP",sans-serif;font-weight:700;font-size:14px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.btn{font-family:"Noto Sans JP",sans-serif;font-size:13px;border:1px solid var(--line);
-  background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
-.btn:hover{border-color:var(--pink)}
+/* ===== Library ===== */
+#library{position:fixed;inset:0;overflow:auto;background:#eaeded;color:#0f1111}
+.lib-top{background:var(--ui);color:#fff;display:flex;align-items:center;gap:14px;padding:10px 16px;position:sticky;top:0;z-index:2}
+.logo{display:flex;align-items:baseline;gap:6px;text-decoration:none;color:#fff;user-select:none}
+.logo b{font-weight:900;font-size:22px;letter-spacing:.02em;position:relative}
+.logo b::after{content:"";position:absolute;left:8%;right:20%;bottom:-6px;height:6px;
+  border-bottom:3px solid var(--accent);border-radius:0 0 50% 50%}
+.logo i{font-style:normal;font-weight:400;font-size:17px;color:#d8d8d8}
+.logo.small b{font-size:17px}.logo.small i{font-size:14px}
+.lib-search{flex:1;max-width:520px;display:flex;background:#fff;border-radius:6px;overflow:hidden;margin-left:auto}
+.lib-search input{flex:1;border:0;padding:8px 10px;font-size:14px;min-width:0;outline:none}
+.lib-search span{background:var(--accent2);color:#111;padding:8px 12px;font-size:14px}
+.lib-sub{background:var(--ui2);color:#fff;font-size:13px;padding:8px 16px;display:flex;gap:18px;white-space:nowrap;overflow:auto}
+.lib-wrap{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+.lib-wrap h1{font-size:20px;margin:6px 0 14px}
+.book{display:grid;grid-template-columns:150px 1fr;gap:20px;background:#fff;border-radius:8px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.book img{width:150px;height:auto;border-radius:2px 6px 6px 2px;box-shadow:0 6px 16px rgba(0,0,0,.25);cursor:pointer}
+.book h2{font-family:"Noto Serif JP",serif;font-size:22px;margin:0 0 4px;line-height:1.4}
+.book .au{font-size:14px;color:#007185;margin-bottom:6px}
+.stars{color:#de7921;font-size:15px;letter-spacing:1px}
+.stars small{color:#007185;letter-spacing:0;margin-left:6px}
+.badge{display:inline-block;background:#c45500;color:#fff;font-size:12px;font-weight:700;padding:2px 8px;border-radius:3px;margin:6px 0}
+.book p{font-size:14px;line-height:1.8;color:#333;margin:8px 0}
+.pbar{height:6px;background:#ddd;border-radius:3px;overflow:hidden;margin:10px 0 4px;max-width:320px}
+.pbar i{display:block;height:100%;background:var(--accent);width:0}
+.ptext{font-size:12px;color:#565959}
+.read-btn{display:inline-block;margin-top:12px;background:var(--accent2);border:1px solid #d8a800;border-radius:20px;padding:10px 26px;font-weight:700;cursor:pointer;font-size:15px}
+.read-btn:hover{filter:brightness(.96)}
+.lib-note{font-size:12px;color:#565959;margin-top:18px;line-height:1.8}
+@media (max-width:560px){.book{grid-template-columns:110px 1fr;gap:14px;padding:14px}.book img{width:110px}.book h2{font-size:18px}.lib-search{display:none}}
 
-/* cover */
-.cover{min-height:100svh;display:grid;place-items:center;padding:48px 16px;
-  background:radial-gradient(ellipse at top,#bfe0ff 0%,transparent 60%),var(--paper2)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .cover{background:radial-gradient(ellipse at top,#16304f 0%,transparent 60%),var(--paper2)}}
-:root[data-theme="dark"] .cover{background:radial-gradient(ellipse at top,#16304f 0%,transparent 60%),var(--paper2)}
-.cover-inner{max-width:960px;width:100%;display:grid;grid-template-columns:minmax(0,380px) 1fr;gap:48px;align-items:center}
-.cover img{width:100%;height:auto;border-radius:4px 10px 10px 4px;
-  box-shadow:-6px 0 0 rgba(0,0,0,.08),var(--shadow),0 30px 60px rgba(0,0,0,.18);
-  transform:rotate(-2deg)}
-.label{display:inline-block;font-family:"Noto Sans JP",sans-serif;font-size:13px;font-weight:700;
-  letter-spacing:.2em;color:var(--sub);border-bottom:2px solid var(--pink);padding-bottom:2px}
-.cover h1{font-size:clamp(40px,7vw,72px);line-height:1.25;margin:18px 0 12px;font-weight:900;letter-spacing:.02em}
-.cover h1 em{font-style:normal;color:var(--pink)}
-.tag{font-size:clamp(18px,2.6vw,22px);font-weight:600;margin:0 0 6px}
-.cover .lead{color:var(--sub);margin:0 0 24px;line-height:1.9}
-.meta{font-family:"Noto Sans JP",sans-serif;font-size:15px;margin-bottom:28px}
-.meta b{font-size:18px}
-.start{display:inline-block;font-family:"Noto Sans JP",sans-serif;font-weight:900;text-decoration:none;
-  background:var(--pink);color:#fff;padding:14px 28px;border-radius:999px;box-shadow:0 6px 16px rgba(228,0,127,.3)}
-.start:hover{filter:brightness(1.08)}
-@media (max-width:760px){
-  .cover-inner{grid-template-columns:1fr;gap:28px;text-align:center}
-  .cover img{max-width:280px;margin:0 auto;display:block}
-}
+/* ===== Reader ===== */
+#reader{position:fixed;inset:0;background:var(--bg);color:var(--ink);transition:background .2s,color .2s}
+#stage{position:absolute;left:0;right:0;top:0;bottom:0;padding:calc(48px + env(safe-area-inset-top)) 28px calc(44px + env(safe-area-inset-bottom));overflow:hidden}
+#clip{position:relative;width:100%;height:100%;overflow:hidden}
+#flow{font-family:var(--font);font-size:var(--fs);line-height:var(--lh);letter-spacing:.02em;
+  column-fill:auto;will-change:transform;transition:transform .32s cubic-bezier(.3,.7,.2,1)}
+#flow.noanim{transition:none}
+/* horizontal */
+[data-dir="h"] #flow{writing-mode:horizontal-tb}
+/* vertical */
+[data-dir="v"] #flow{writing-mode:vertical-rl;text-orientation:mixed}
+[data-dir="v"] #flow .tcy{text-combine-upright:all}
 
-/* body */
-main{max-width:720px;margin:0 auto;padding:40px 16px 80px}
-.toc{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 22px;margin:24px 0 56px;box-shadow:var(--shadow)}
-.toc h2{font-family:"Noto Sans JP",sans-serif;font-size:15px;letter-spacing:.3em;margin:0 0 12px;color:var(--sub)}
-.toc ol{list-style:none;margin:0;padding:0}
-.toc li{border-top:1px dashed var(--line)}
-.toc li:first-child{border-top:0}
-.toc a{display:flex;gap:12px;text-decoration:none;color:var(--ink);padding:10px 2px;line-height:1.6}
-.toc a:hover{color:var(--pink)}
-.toc .no{flex:0 0 5.5em;font-family:"Noto Sans JP",sans-serif;font-weight:700;font-size:14px;color:var(--pink);padding-top:2px}
+.running{position:absolute;left:0;right:0;font-size:12px;color:var(--sub);display:flex;justify-content:space-between;padding:0 28px;pointer-events:none;font-family:var(--sans)}
+#runTop{top:calc(14px + env(safe-area-inset-top))}
+#runBot{bottom:calc(14px + env(safe-area-inset-bottom))}
+#ribbon{position:absolute;top:0;right:22px;width:22px;height:38px;background:var(--accent);clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%);transform:translateY(-40px);transition:transform .2s;pointer-events:none}
+#ribbon.on{transform:none}
 
-section.ch{margin:0 0 88px}
-.ch-head{margin-bottom:28px;padding-bottom:18px;border-bottom:2px solid var(--ink)}
-.ch-no{font-family:"Noto Sans JP",sans-serif;font-weight:900;font-size:14px;letter-spacing:.3em;color:var(--pink)}
-.ch-head h2{font-size:clamp(24px,4.6vw,32px);line-height:1.5;margin:6px 0 0;font-weight:900}
-.ch-head .sub{display:block;font-size:.62em;font-weight:600;color:var(--sub);margin-top:4px}
-.q{background:var(--pink-soft);border-left:4px solid var(--pink);padding:14px 18px;border-radius:0 10px 10px 0;margin:0 0 28px}
-h3{font-family:"Noto Sans JP",sans-serif;font-size:19px;margin:44px 0 10px;padding-left:12px;border-left:6px solid var(--ink);line-height:1.5}
-p{margin:0 0 1.2em;text-align:justify}
+/* content typography */
+#flow section.ch{break-before:column}
+#flow section.ch:first-of-type{break-before:auto}
+.full{break-after:column;block-size:100%;inline-size:100%;display:flex;align-items:center;justify-content:center;writing-mode:horizontal-tb}
+.full img{max-width:100%;max-height:100%;object-fit:contain;border-radius:2px 6px 6px 2px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.title-page{break-after:column;block-size:100%;display:flex;flex-direction:column;justify-content:center;gap:.6em}
+.title-page .lbl{font-family:var(--sans);font-size:.72em;letter-spacing:.25em;color:var(--sub)}
+.title-page h1{font-size:2.1em;line-height:1.35;margin:0;font-weight:900}
+.title-page h1 em{font-style:normal;color:var(--pink)}
+.title-page .au{font-weight:600}
+.title-page .pub{font-size:.8em;color:var(--sub)}
+.ch-head{margin-block-end:1.4em;padding-block-end:.8em;border-block-end:2px solid var(--ink)}
+.ch-no{font-family:var(--sans);font-weight:900;font-size:.72em;letter-spacing:.25em;color:var(--pink)}
+.ch-head h2{font-size:1.5em;line-height:1.5;margin:.3em 0 0;font-weight:900}
+.q{background:var(--soft);border-inline-start:4px solid var(--pink);padding:.7em 1em;margin:0 0 1.4em}
+[data-dir="v"] .q{border-inline-start:0;border-block-start:4px solid var(--pink)}
+h3{font-family:var(--sans);font-size:1.06em;margin:1.8em 0 .5em;padding-inline-start:.6em;border-inline-start:5px solid var(--ink);line-height:1.5;break-after:avoid}
+[data-dir="v"] h3{border-inline-start:0;padding-inline-start:0;border-block-start:5px solid var(--ink);padding-block-start:.3em}
+p{margin:0 0 1em;text-align:justify;orphans:2;widows:2}
+.tbl{margin:1em 0 1.4em}
+table{border-collapse:collapse;inline-size:100%;font-size:.86em;line-height:1.7}
+thead{display:none}
+tr{display:block;break-inside:avoid;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:.6em .9em;margin-block-end:.7em}
+td{display:block;padding:.1em 0}
+td:first-child{font-family:var(--sans);font-weight:700;color:var(--pink)}
+td[data-h]::before{content:attr(data-h);display:block;font-family:var(--sans);font-size:.72em;letter-spacing:.08em;color:var(--sub);font-weight:700}
+td+td{margin-block-start:.3em}
+.note{font-size:.88em;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:.8em 1em;margin:1.2em 0;break-inside:avoid}
+.note b{font-family:var(--sans)}
+.concl{margin:2em 0 1em;text-align:center;padding:1.2em .6em;border-block:3px double var(--ink);break-inside:avoid}
+.concl small{display:block;font-family:var(--sans);font-weight:900;letter-spacing:.25em;font-size:.66em;color:var(--pink);margin-block-end:.4em}
+.concl p{font-size:1.08em;font-weight:900;text-align:center;margin:0;line-height:1.8}
+.trivia{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:.8em 1em;font-size:.88em;break-inside:avoid}
+.trivia b{font-family:var(--sans);color:var(--pink);display:block;font-size:.8em;letter-spacing:.1em}
+.trivia b::before{content:"🕊 "}
+.quote{font-weight:600;border-inline-start:3px solid var(--line);padding-inline-start:.8em}
+[data-dir="v"] .quote{border-inline-start:0;padding-inline-start:0;border-block-start:3px solid var(--line);padding-block-start:.6em}
+.sig{text-align:end;font-weight:900}
+.warn{border:2px solid var(--pink);border-radius:10px;padding:1em 1.1em;margin:1.6em 0;break-inside:avoid}
+.warn h4{margin:0 0 .4em;font-family:var(--sans);color:var(--pink)}
+.warn p{margin:0 0 .5em}
+.colophon{break-before:column;border:1px solid var(--line);border-radius:10px;padding:1.2em 1em;text-align:center;font-size:.88em;line-height:2;background:var(--card);break-inside:avoid}
+.colophon .ti{font-weight:900;font-size:1.25em;margin-block-end:.4em}
+.colophon a{color:var(--pink)}
+.endpage{break-before:column;block-size:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6em;font-family:var(--sans);text-align:center;writing-mode:horizontal-tb}
+.endpage .big{font-size:1.3em;font-weight:900}
+.endpage button{background:var(--accent2);color:#111;border:1px solid #d8a800;border-radius:20px;padding:.5em 1.4em;cursor:pointer;font-weight:700}
+mark{background:#ffe066;color:#111}
 
-.tbl{overflow-x:auto;margin:20px 0 28px;border-radius:10px;border:1px solid var(--line);background:var(--card)}
-table{border-collapse:collapse;width:100%;font-size:.88em;line-height:1.75}
-th,td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
-tr:last-child td{border-bottom:0}
-thead th{font-family:"Noto Sans JP",sans-serif;background:var(--paper2);font-size:13px;letter-spacing:.08em;white-space:nowrap}
-td:first-child{font-family:"Noto Sans JP",sans-serif;font-weight:700;white-space:nowrap}
-@media (max-width:560px){
-  .tbl{border:0;background:none;overflow:visible}
-  table,thead,tbody,tr,td{display:block}
-  thead{display:none}
-  tr{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:12px;padding:12px 14px}
-  td{border:0;padding:2px 0;white-space:normal!important}
-  td:first-child{font-size:1.05em;color:var(--pink);margin-bottom:4px}
-  td[data-h]::before{content:attr(data-h);display:block;font-family:"Noto Sans JP",sans-serif;font-size:11px;letter-spacing:.1em;color:var(--sub);font-weight:700}
-  td + td{margin-top:6px}
-}
+/* chrome */
+.chrome{position:absolute;left:0;right:0;z-index:5;background:var(--ui);color:#fff;transition:transform .22s, opacity .22s}
+#topbar{top:0;display:flex;align-items:center;gap:4px;padding:calc(6px + env(safe-area-inset-top)) 8px 6px}
+#topbar .ttl{flex:1;text-align:center;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px}
+.ib{background:none;border:0;padding:8px 10px;border-radius:6px;cursor:pointer;font-size:15px;line-height:1;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.ib:hover{background:rgba(255,255,255,.12)}
+.ib svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#botbar{bottom:0;padding:10px 16px calc(12px + env(safe-area-inset-bottom))}
+#botbar .row{display:flex;justify-content:space-between;font-size:12px;color:#cfd6de;margin-top:6px}
+#slider{width:100%;accent-color:var(--accent)}
+[data-dir="v"] #slider{direction:rtl}
+#reader.chrome-off #topbar{transform:translateY(-100%);opacity:0;pointer-events:none}
+#reader.chrome-off #botbar{transform:translateY(100%);opacity:0;pointer-events:none}
 
-.note{font-size:.88em;background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:24px 0;line-height:1.85}
-.note b{font-family:"Noto Sans JP",sans-serif}
-.concl{margin:40px 0 18px;text-align:center;padding:28px 20px;border-top:3px double var(--ink);border-bottom:3px double var(--ink)}
-.concl small{display:block;font-family:"Noto Sans JP",sans-serif;font-weight:900;letter-spacing:.3em;font-size:12px;color:var(--pink);margin-bottom:8px}
-.concl p{font-size:1.15em;font-weight:900;text-align:center;margin:0;line-height:1.8}
-.trivia{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:.9em;line-height:1.85}
-.trivia::before{content:"🕊";font-size:22px;line-height:1.2}
-.trivia b{font-family:"Noto Sans JP",sans-serif;color:var(--sky);display:block;font-size:12px;letter-spacing:.1em}
-.quote{font-weight:600;border-left:3px solid var(--line);padding-left:14px}
-.sig{text-align:right;font-weight:900}
-
-.warn{border:2px solid var(--pink);border-radius:14px;padding:20px 22px;margin:40px 0;background:var(--card)}
-.warn h4{margin:0 0 8px;font-family:"Noto Sans JP",sans-serif;color:var(--pink)}
-.warn p{margin:0 0 .6em}
-.colophon{border:1px solid var(--line);border-radius:14px;padding:26px 22px;text-align:center;font-size:.9em;line-height:2;background:var(--paper2)}
-.colophon .ti{font-weight:900;font-size:1.3em;margin-bottom:8px}
-.chnav{display:flex;justify-content:space-between;gap:10px;margin-top:22px;font-family:"Noto Sans JP",sans-serif;font-size:13px}
-.chnav a{text-decoration:none}
-
-/* TOC drawer */
-#drawer{position:fixed;inset:0;z-index:40;display:none}
-#drawer.open{display:block}
-#drawer .bg{position:absolute;inset:0;background:rgba(0,0,0,.4)}
-#drawer .panel{position:absolute;right:0;top:0;bottom:0;width:min(340px,88vw);background:var(--paper);padding:20px 18px;overflow:auto;box-shadow:var(--shadow)}
-#drawer .toc{margin:12px 0 0;box-shadow:none}
-.fs-ctrl{display:flex;gap:6px;margin-top:16px;font-family:"Noto Sans JP",sans-serif;font-size:13px;align-items:center}
+/* panels */
+.panel{position:absolute;z-index:8;background:#fff;color:#111;box-shadow:0 10px 40px rgba(0,0,0,.35);font-family:var(--sans)}
+#aaPanel{top:calc(52px + env(safe-area-inset-top));right:8px;width:min(340px,calc(100vw - 16px));border-radius:12px;padding:14px 16px}
+.panel h5{margin:10px 0 6px;font-size:12px;color:#565959;letter-spacing:.08em}
+.seg{display:flex;border:1px solid #ccc;border-radius:8px;overflow:hidden}
+.seg button{flex:1;border:0;background:#fff;padding:9px 4px;cursor:pointer;font-size:13px;border-inline-start:1px solid #ddd}
+.seg button:first-child{border-inline-start:0}
+.seg button.on{background:var(--ui2);color:#fff}
+.swatch{display:flex;gap:10px}
+.swatch button{width:46px;height:46px;border-radius:50%;border:2px solid #ccc;cursor:pointer;font-size:11px;padding:0;white-space:nowrap}
+.swatch button.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+#drawer{top:0;bottom:0;left:0;width:min(360px,88vw);display:flex;flex-direction:column}
+#drawer .dh{background:var(--ui);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 12px 10px;display:flex;align-items:center;gap:10px}
+#drawer .dh img{width:44px;border-radius:2px}
+#drawer .dh div{flex:1;font-size:13px;line-height:1.5}
+.tabs{display:flex;border-bottom:1px solid #ddd}
+.tabs button{flex:1;border:0;background:#fff;padding:11px 4px;cursor:pointer;font-size:13px;border-bottom:3px solid transparent}
+.tabs button.on{border-bottom-color:var(--accent);font-weight:700}
+.dbody{flex:1;overflow:auto}
+.dlist{list-style:none;margin:0;padding:0}
+.dlist li{border-bottom:1px solid #eee}
+.dlist a,.dlist button{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;background:none;border:0;padding:12px 16px;font-size:14px;line-height:1.55;color:#111;text-decoration:none;cursor:pointer}
+.dlist a:hover,.dlist button:hover{background:#f3f3f3}
+.dlist .pg{color:#888;font-size:12px;white-space:nowrap;padding-top:2px}
+.dlist .cur{font-weight:700;color:var(--pink)}
+.empty{padding:24px 16px;color:#777;font-size:13px;line-height:1.8}
+.sbox{display:flex;gap:6px;padding:12px}
+.sbox input{flex:1;border:1px solid #bbb;border-radius:6px;padding:9px 10px;font-size:15px;min-width:0}
+.sbox button{background:var(--ui2);color:#fff;border:0;border-radius:6px;padding:0 14px;cursor:pointer}
+.snip{font-size:13px;color:#333;display:block}
+#scrim{position:absolute;inset:0;z-index:7;background:rgba(0,0,0,.35)}
+#toast{position:absolute;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(20,20,20,.9);color:#fff;font-size:13px;padding:8px 14px;border-radius:20px;z-index:9;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
+#toast.on{opacity:1}
+@media (min-width:900px){#stage{padding-left:56px;padding-right:56px}.running{padding:0 56px}}
 </style>
 </head>
 <body>
-<div id="progress"></div>
-<div class="bar" id="bar">
-  <span class="t" id="bartitle">なぜ俺は鳩を舐めるのか</span>
-  <button class="btn" id="themeBtn" aria-label="表示テーマの切り替え">☾</button>
-  <button class="btn" id="tocBtn">目次</button>
+
+<!-- ===== Library ===== -->
+<div id="library">
+  <div class="lib-top">
+    <a class="logo" href="./" aria-label="HEHEZON kinpelo"><b>HEHEZON</b><i>kinpelo</i></a>
+    <div class="lib-search"><input placeholder="HEHEZON 内を検索（鳩しかありません）" aria-label="検索"><span>🔍</span></div>
+  </div>
+  <div class="lib-sub"><span>≡ すべて</span><span>ライブラリ</span><span>鳩</span><span>鳩サブレー</span><span>へへへ読み放題</span><span>虹の書房</span></div>
+  <div class="lib-wrap">
+    <h1>あなたのライブラリ</h1>
+    <div class="book">
+      <img src="cover.jpg" width="926" height="1389" alt="『なぜ俺は鳩を舐めるのか』表紙" data-open>
+      <div>
+        <h2>なぜ俺は鳩を舐めるのか（フィクション教養新書）</h2>
+        <div class="au">へへへへへ（著）／ 表紙：Bell_Bright ／ 虹の書房</div>
+        <div class="stars">★★★★★<small>8,888件の鳩の評価（架空）</small></div>
+        <div class="badge">話題沸騰！大ベストセラー</div>
+        <p>これは、愛なのか――。歴史・化学・心理学・ミーム学を総動員して「なぜ俺は鳩を舐めるのか」という人類未踏の問いに大真面目に挑む、男と鳩の奇妙で切ない物語。</p>
+        <div class="pbar"><i id="libBar"></i></div>
+        <div class="ptext" id="libText">未読</div>
+        <button class="read-btn" data-open id="openBtn">今すぐ読む</button>
+      </div>
+    </div>
+    <p class="lib-note">HEHEZON kinpelo は本書のために作られた架空の電子書籍リーダーです。実在のサービスとは関係ありません。<br>制作：月真猫とMuse による非公式ファンブック</p>
+  </div>
 </div>
 
-<header class="cover">
-  <div class="cover-inner">
-    <img src="cover.jpg" width="926" height="1389" alt="『なぜ俺は鳩を舐めるのか』表紙">
-    <div>
-      <span class="label">フィクション教養新書</span>
-      <h1>なぜ俺は<br><em>鳩</em>を舐めるのか</h1>
-      <p class="tag">これは、愛なのか――。<br>男と鳩の、奇妙で切ない物語。</p>
-      <p class="lead">鳩と生きる。鳩に生かされる。<br>そして、俺は鳩を舐める――。</p>
-      <div class="meta"><b>へへへへへ</b>　著　／　虹の書房</div>
-      <a class="start" href="#hajimeni">読みはじめる</a>
+<!-- ===== Reader ===== -->
+<div id="reader" class="hidden chrome-off" data-dir="v" data-paper="white">
+  <div id="ribbon"></div>
+  <div class="running" id="runTop"><span id="rtL"></span><span id="rtR"></span></div>
+  <div id="stage"><div id="clip"><div id="flow">
+    <div class="full"><img src="cover.jpg" width="926" height="1389" alt="表紙"></div>
+    <div class="title-page">
+      <div class="lbl">フィクション教養新書</div>
+      <h1>なぜ俺は<em>鳩</em>を<br>舐めるのか</h1>
+      <div>これは、愛なのか――。<br>男と鳩の、奇妙で切ない物語。</div>
+      <div class="au">へへへへへ　著</div>
+      <div class="pub">表紙　Bell_Bright<br>虹の書房</div>
     </div>
-  </div>
-</header>
-
-<main>
-<nav class="toc" id="toc">
-  <h2>目次</h2>
-  <ol>
-    <li><a href="#hajimeni"><span class="no">はじめに</span><span>舐めることは、知ることである</span></a></li>
-    <li><a href="#ch1"><span class="no">第一章</span><span>歴史編――人類はなぜ鳩に惹かれるのか</span></a></li>
-    <li><a href="#ch2"><span class="no">第二章</span><span>味覚・化学編――鳩は何の味がするのか</span></a></li>
-    <li><a href="#ch3"><span class="no">第三章</span><span>心理学編――舐めることで得られる精神的効果</span></a></li>
-    <li><a href="#ch4"><span class="no">第四章</span><span>ミーム編――猫と鳩、そして俺</span></a></li>
-    <li><a href="#ch5"><span class="no">第五章</span><span>実録編――色んな鳩を舐めた結果、俺はどうなったか</span></a></li>
-    <li><a href="#ch6"><span class="no">第六章</span><span>哲学編――鳩から舐められるとは何か</span></a></li>
-    <li><a href="#atogaki"><span class="no">あとがき</span><span>鳩と生きる。鳩に生かされる</span></a></li>
-  </ol>
-</nav>
-
 <section class="ch" id="hajimeni" data-title="はじめに">
   <div class="ch-head"><span class="ch-no">はじめに</span><h2>舐めることは、知ることである</h2></div>
   <p>はじめまして。へへへへへです。へへへへへ、と笑うのが名前なのか、名前が先か笑いが先かは、鳩が先か卵が先かと同じくらい、どうでもいい問題です。大事なのは、俺が鳩を舐めるという事実のほうです。</p>
   <p>本書は教養書です。ただし、フィクション教養書です。歴史、化学、心理学、そして民俗学（ミーム学）の四つの学問を総動員して、「なぜ俺は鳩を舐めるのか」という人類未踏の問いに、正面から、大真面目に、取り組みます。笑いながら読んでも構いません。むしろ笑いは本書の想定内です。ただし、検証の手続きだけは本物です。数字を出します。分類をします。年表も作ります。そのうえで、結論だけは思い切りバカです。それが本書の設計です。</p>
   <p>なぜ、こんな本を書くのか。理由は単純で、誰も書かなかったからです。人類は五千年にわたって鳩と付き合ってきました。食べて、飛ばして、愛でて、描いて、平和の象徴にまで祭り上げた。にもかかわらず、「舐める」という行為について書かれた学術書は、世界に一冊も存在しません。この空白こそが、本書の存在理由です。</p>
   <p>なお、本書の著者は「へへへはフリー素材なのでご自由にお使いください」と公言している男です。その言葉に全力で甘え、本書は作られました。技は盗むためにある。その話は第六章でします。へへへへへ。</p>
-  <div class="note">本書に登場する「鳩舐学」「鳩舐学研究会」は架空の学問・団体です。実在の歴史、化学、心理学の知識はできる限り正確に書きますが、そこから先の結論はすべて著者の空想です。あと大事なことなので先に言います。<b>実際の鳩は舐めないでください。</b>理由は<a href="#warning">最終ページ</a>に書きました。</div>
+  <div class="note">本書に登場する「鳩舐学」「鳩舐学研究会」は架空の学問・団体です。実在の歴史、化学、心理学の知識はできる限り正確に書きますが、そこから先の結論はすべて著者の空想です。あと大事なことなので先に言います。<b>実際の鳩は舐めないでください。</b>理由は最終ページに書きました。</div>
 </section>
 
 <section class="ch" id="ch1" data-title="第一章　歴史編">
@@ -363,58 +402,296 @@ td:first-child{font-family:"Noto Sans JP",sans-serif;font-weight:700;white-space
     制作：月真猫とMuse による非公式ファンブック<br>
     <span style="color:var(--sub);font-size:.9em">本書はフィクションです。実在の学問知識を下敷きにしていますが、結論はすべて空想です。</span>
   </div>
-  <div class="chnav"><a href="#toc">↑ 目次へ戻る</a><a href="#">表紙へ ↑</a></div>
 </section>
-</main>
 
-<div id="drawer" aria-hidden="true">
-  <div class="bg" data-close></div>
-  <div class="panel">
-    <button class="btn" data-close>閉じる ✕</button>
-    <div class="fs-ctrl">文字サイズ
-      <button class="btn" data-fs="-1">小</button>
-      <button class="btn" data-fs="0">標準</button>
-      <button class="btn" data-fs="1">大</button>
+    <div class="endpage">
+      <div class="big">おわり</div>
+      <div>最後までお読みいただき、ありがとうございました。<br>へへへへへ。</div>
+      <button type="button" data-act="library">ライブラリに戻る</button>
     </div>
-    <div id="drawerToc"></div>
+  </div></div></div>
+  <div class="running" id="runBot"><span id="rbL"></span><span id="rbR"></span></div>
+
+  <div class="chrome" id="topbar">
+    <button class="ib" data-act="library" aria-label="ライブラリへ戻る"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="ib" data-act="toc" aria-label="目次"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
+    <div class="ttl">なぜ俺は鳩を舐めるのか</div>
+    <button class="ib" data-act="search" aria-label="検索"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+    <button class="ib" data-act="aa" aria-label="表示設定" style="font-family:serif;font-weight:700">Aa</button>
+    <button class="ib" data-act="mark" aria-label="しおり"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
   </div>
+  <div class="chrome" id="botbar">
+    <input type="range" id="slider" min="1" max="1" value="1" aria-label="ページ移動">
+    <div class="row"><span id="bL"></span><span id="bR"></span></div>
+  </div>
+
+  <div id="scrim" class="hidden"></div>
+  <div class="panel hidden" id="aaPanel" role="dialog" aria-label="表示設定">
+    <h5>文字の向き</h5>
+    <div class="seg" id="segDir"><button data-v="v">縦書き</button><button data-v="h">横書き</button></div>
+    <h5>フォント</h5>
+    <div class="seg" id="segFont"><button data-v="serif">明朝</button><button data-v="sans">ゴシック</button></div>
+    <h5>文字サイズ</h5>
+    <div class="seg" id="segSize"><button data-v="-">A−</button><button data-v="0" id="sizeLbl">18</button><button data-v="+">A＋</button></div>
+    <h5>行間</h5>
+    <div class="seg" id="segLh"><button data-v="1.6">狭い</button><button data-v="1.9">標準</button><button data-v="2.3">広い</button></div>
+    <h5>背景色</h5>
+    <div class="swatch" id="segPaper">
+      <button data-v="white" style="background:#fff;color:#111">白</button>
+      <button data-v="sepia" style="background:#f4ecd8;color:#5b4636">セピア</button>
+      <button data-v="green" style="background:#dcebdc;color:#203320">緑</button>
+      <button data-v="black" style="background:#0d0d0d;color:#ccc">黒</button>
+    </div>
+  </div>
+  <div class="panel hidden" id="drawer" role="dialog" aria-label="目次">
+    <div class="dh"><img src="cover.jpg" alt=""><div><b>なぜ俺は鳩を舐めるのか</b><br>へへへへへ</div><button class="ib" data-act="close" aria-label="閉じる">✕</button></div>
+    <div class="tabs"><button data-tab="toc" class="on">目次</button><button data-tab="marks">しおり</button><button data-tab="search">検索</button></div>
+    <div class="dbody">
+      <ul class="dlist" id="tocList"></ul>
+      <ul class="dlist hidden" id="markList"></ul>
+      <div class="hidden" id="searchPane">
+        <form class="sbox" id="sform"><input id="sq" type="search" placeholder="本文を検索（例：鳩サブレー）"><button>検索</button></form>
+        <ul class="dlist" id="sres"></ul>
+      </div>
+    </div>
+  </div>
+  <div id="toast"></div>
 </div>
 
 <script>
 (function(){
-  var root=document.documentElement, bar=document.getElementById('bar'), prog=document.getElementById('progress'),
-      bt=document.getElementById('bartitle'), secs=[].slice.call(document.querySelectorAll('section.ch'));
-  function store(k,v){try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v);}catch(e){return null}}
-  // theme
-  var th=store('hatoTheme'); if(th) root.setAttribute('data-theme',th);
-  document.getElementById('themeBtn').onclick=function(){
-    var dark = root.getAttribute('data-theme')==='dark' ||
-      (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
-    var n = dark?'light':'dark'; root.setAttribute('data-theme',n); store('hatoTheme',n);
-  };
-  // font size
-  var base=18, fs=parseInt(store('hatoFs')||'18',10);
-  function setFs(v){fs=Math.max(15,Math.min(22,v)); root.style.setProperty('--fs',fs+'px'); store('hatoFs',String(fs));}
-  setFs(fs);
-  [].forEach.call(document.querySelectorAll('[data-fs]'),function(b){
-    b.onclick=function(){var d=+b.getAttribute('data-fs'); setFs(d===0?base:fs+d*2);};
-  });
-  // drawer
-  var dr=document.getElementById('drawer');
-  document.getElementById('drawerToc').appendChild(document.getElementById('toc').cloneNode(true)).removeAttribute('id');
-  function openD(o){dr.classList.toggle('open',o); dr.setAttribute('aria-hidden',!o);}
-  document.getElementById('tocBtn').onclick=function(){openD(true)};
-  dr.addEventListener('click',function(e){ if(e.target.hasAttribute('data-close')||e.target.closest('a')) openD(false); });
-  // scroll
-  function onScroll(){
-    var y=scrollY, h=document.body.scrollHeight-innerHeight;
-    prog.style.width=(h>0?y/h*100:0)+'%';
-    bar.classList.toggle('show', y>innerHeight*.6);
-    var cur='なぜ俺は鳩を舐めるのか';
-    for(var i=0;i<secs.length;i++){ if(secs[i].getBoundingClientRect().top<120) cur=secs[i].getAttribute('data-title'); }
-    bt.textContent=cur;
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
+  var KEY='hehezon-hato-v1';
+  function load(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+  var st=Object.assign({dir:'v',font:'serif',fs:18,lh:1.9,paper:'white',pos:0,marks:[],pct:0},load());
+
+  var lib=$('#library'), rd=$('#reader'), clip=$('#clip'), flow=$('#flow');
+  var blocks=$$('#flow > .full, #flow > .title-page, #flow > .endpage, #flow section > *, #flow .tbl tr, #flow p, #flow h3, #flow .colophon, #flow .warn');
+  blocks=blocks.filter(function(el,i,a){return a.indexOf(el)===i});
+  // keep document order
+  blocks.sort(function(a,b){return a.compareDocumentPosition(b)&Node.DOCUMENT_POSITION_FOLLOWING?-1:1});
+  var secs=$$('#flow section.ch');
+  var page=0, pages=1, stride=1, W=0, H=0, chromeOn=false;
+
+  // ---- library ----
+  function libProgress(){
+    var p=Math.round((st.pct||0)*100);
+    $('#libBar').style.width=p+'%';
+    $('#libText').textContent=p>0?(p>=100?'読了':p+'% 読了'):'未読';
+    $('#openBtn').textContent=p>0&&p<100?'続きを読む':'今すぐ読む';
   }
-  addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  libProgress();
+  $$('[data-open]').forEach(function(b){b.addEventListener('click',openReader)});
+  function openReader(){
+    lib.classList.add('hidden'); rd.classList.remove('hidden');
+    try{history.replaceState(null,'','#read')}catch(e){}
+    apply(); layout(st.pos);
+  }
+  function closeReader(){
+    closePanels(); rd.classList.add('hidden'); lib.classList.remove('hidden');
+    try{history.replaceState(null,'',location.pathname)}catch(e){}
+    libProgress();
+  }
+
+  // ---- settings ----
+  function apply(){
+    rd.setAttribute('data-dir',st.dir); rd.setAttribute('data-paper',st.paper);
+    var r=document.documentElement.style;
+    r.setProperty('--fs',st.fs+'px'); r.setProperty('--lh',st.lh);
+    r.setProperty('--font',st.font==='sans'?'var(--sans)':'"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho",serif');
+    $('#sizeLbl').textContent=st.fs;
+    setOn('#segDir',st.dir); setOn('#segFont',st.font); setOn('#segLh',String(st.lh)); setOn('#segPaper',st.paper);
+    document.querySelector('meta[name=theme-color]').content='#131921';
+  }
+  function setOn(sel,v){$$(sel+' button').forEach(function(b){b.classList.toggle('on',b.dataset.v===v)})}
+
+  // ---- layout / pagination ----
+  function layout(anchorIdx){
+    flow.classList.add('noanim');
+    W=Math.floor(clip.clientWidth); H=Math.floor(clip.clientHeight);
+    var gap=st.dir==='h'?56:48, cols=1;
+    var fsz=st.fs, lhpx=fsz*st.lh;
+    if(st.dir==='h'){
+      cols=W>=980?2:1;
+      var cw=Math.floor((W-gap*(cols-1))/cols);
+      flow.style.cssText='width:'+W+'px;height:'+H+'px;column-width:'+cw+'px;column-count:'+cols+';column-gap:'+gap+'px';
+      stride=W+gap;
+    }else{
+      // snap page width to whole lines so lines are never cut
+      flow.style.cssText='width:'+W+'px;height:'+H+'px;column-width:'+H+'px;column-count:1;column-gap:'+gap+'px';
+      stride=H+gap;
+    }
+    var ext = st.dir==='h' ? flow.scrollWidth : flow.scrollHeight;
+    pages=Math.max(1,Math.round((ext+gap)/stride));
+    // verify last page actually has content
+    var last=blocks[blocks.length-1]; pages=Math.max(pages,pageOf(last)+1);
+    $('#slider').max=pages;
+    go(anchorIdx==null?0:pageOf(blocks[Math.min(anchorIdx,blocks.length-1)]),true);
+    buildToc();
+    requestAnimationFrame(function(){flow.classList.remove('noanim')});
+  }
+  function offsetIn(el){
+    var r=el.getBoundingClientRect(), f=flow.getBoundingClientRect();
+    return st.dir==='h' ? r.left-f.left : r.top-f.top;
+  }
+  function pageOf(el){
+    if(!el)return 0;
+    var o=offsetIn(el);
+    var p=Math.floor((o+2)/stride);
+    if(st.dir==='h' && W>=980){ /* 2 columns per page: column index→page */ }
+    return Math.max(0,Math.min(p,9999));
+  }
+  function firstBlockOn(p){
+    for(var i=0;i<blocks.length;i++){ if(pageOf(blocks[i])>=p) return i; }
+    return blocks.length-1;
+  }
+  function go(p,instant){
+    p=Math.max(0,Math.min(pages-1,p));
+    if(instant) flow.classList.add('noanim');
+    page=p;
+    flow.style.transform = st.dir==='h' ? 'translateX('+(-p*stride)+'px)' : 'translateY('+(-p*stride)+'px)';
+    if(instant) requestAnimationFrame(function(){flow.classList.remove('noanim')});
+    st.pos=firstBlockOn(p); st.pct=pages>1?p/(pages-1):1; save();
+    status();
+  }
+  function next(){ if(page<pages-1) go(page+1); else toast('最後のページです'); }
+  function prev(){ if(page>0) go(page-1); else toast('最初のページです'); }
+
+  // ---- status ----
+  var charsTotal=flow.textContent.replace(/\s/g,'').length;
+  function curSection(){
+    var cur=null; for(var i=0;i<secs.length;i++){ if(pageOf(secs[i])<=page) cur=secs[i]; } return cur;
+  }
+  function status(){
+    var pct=Math.round(pages>1?page/(pages-1)*100:100);
+    var s=curSection(), title=s?s.dataset.title:'表紙';
+    var idx=s?secs.indexOf(s):-1, nextStart=idx>=0&&idx<secs.length-1?pageOf(secs[idx+1]):pages;
+    var left=Math.max(0,nextStart-page-1), cpp=charsTotal/pages, min=Math.max(1,Math.round(left*cpp/550));
+    $('#rtL').textContent=title; $('#rtR').textContent='';
+    $('#rbL').textContent=left>0?'この章の残り約'+min+'分':'';
+    $('#rbR').textContent=pct+'%';
+    $('#bL').textContent='ページ '+(page+1)+' / '+pages;
+    $('#bR').textContent=pct+'% · '+title;
+    $('#slider').value=page+1;
+    $('#ribbon').classList.toggle('on',isMarked());
+    $$('#tocList button').forEach(function(b){b.classList.toggle('cur',b.dataset.sec===(s?s.id:''))});
+  }
+
+  // ---- TOC / marks / search ----
+  function buildToc(){
+    var ul=$('#tocList'); ul.innerHTML='';
+    var items=[{t:'表紙',p:0,id:''}].concat(secs.map(function(s){return {t:s.querySelector('.ch-no').textContent+'　'+s.querySelector('h2').textContent,p:pageOf(s),id:s.id}}));
+    items.forEach(function(it){
+      var li=document.createElement('li'),b=document.createElement('button');
+      b.dataset.sec=it.id; b.innerHTML='<span></span><span class="pg">'+(it.p+1)+'</span>';
+      b.firstChild.textContent=it.t; b.onclick=function(){closePanels();go(it.p)};
+      li.appendChild(b); ul.appendChild(li);
+    });
+    buildMarks();
+  }
+  function isMarked(){return st.marks.indexOf(firstBlockOn(page))>=0}
+  function toggleMark(){
+    var i=firstBlockOn(page), k=st.marks.indexOf(i);
+    if(k>=0){st.marks.splice(k,1);toast('しおりを外しました')}else{st.marks.push(i);st.marks.sort(function(a,b){return a-b});toast('しおりを挟みました')}
+    save(); status(); buildMarks();
+  }
+  function buildMarks(){
+    var ul=$('#markList'); ul.innerHTML='';
+    if(!st.marks.length){ul.innerHTML='<li class="empty">しおりはまだありません。<br>上部のしおりボタンで、今のページに挟めます。</li>';return}
+    st.marks.forEach(function(i){
+      var el=blocks[i]; if(!el)return;
+      var li=document.createElement('li'),b=document.createElement('button'),p=pageOf(el);
+      b.innerHTML='<span class="snip"></span><span class="pg">'+(p+1)+'</span>';
+      b.firstChild.textContent=(el.textContent||'表紙').trim().slice(0,40)+'…';
+      b.onclick=function(){closePanels();go(p)};
+      li.appendChild(b); ul.appendChild(li);
+    });
+  }
+  var marked=[];
+  function clearMarks(){marked.forEach(function(m){var t=document.createTextNode(m.textContent);m.parentNode.replaceChild(t,m);t.parentNode.normalize()});marked=[]}
+  function doSearch(q){
+    clearMarks(); var ul=$('#sres'); ul.innerHTML=''; q=q.trim(); if(!q)return;
+    var hits=0, walker=document.createTreeWalker(flow,NodeFilter.SHOW_TEXT,null), nodes=[];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function(n){
+      var idx=n.nodeValue.indexOf(q); if(idx<0||hits>=60)return;
+      var r=n.splitText(idx); r.splitText(q.length);
+      var m=document.createElement('mark'); m.textContent=q; r.parentNode.replaceChild(m,r); marked.push(m);
+      var txt=(m.parentNode.textContent||''), at=txt.indexOf(q);
+      var snip=txt.slice(Math.max(0,at-14),at+q.length+18);
+      var p=pageOf(m), li=document.createElement('li'), b=document.createElement('button');
+      b.innerHTML='<span class="snip"></span><span class="pg">'+(p+1)+'</span>'; b.firstChild.textContent='…'+snip+'…';
+      b.onclick=function(){closePanels();go(pageOf(m))};
+      li.appendChild(b); ul.appendChild(li); hits++;
+    });
+    if(!hits) ul.innerHTML='<li class="empty">「'+q.replace(/[<&>]/g,'')+'」は見つかりませんでした。</li>';
+  }
+  $('#sform').addEventListener('submit',function(e){e.preventDefault();doSearch($('#sq').value)});
+
+  // ---- panels ----
+  function openDrawer(tab){closePanels();$('#drawer').classList.remove('hidden');$('#scrim').classList.remove('hidden');showTab(tab||'toc');if(tab==='search')setTimeout(function(){$('#sq').focus()},50)}
+  function showTab(t){
+    $$('.tabs button').forEach(function(b){b.classList.toggle('on',b.dataset.tab===t)});
+    $('#tocList').classList.toggle('hidden',t!=='toc'); $('#markList').classList.toggle('hidden',t!=='marks'); $('#searchPane').classList.toggle('hidden',t!=='search');
+  }
+  $$('.tabs button').forEach(function(b){b.onclick=function(){showTab(b.dataset.tab)}});
+  function closePanels(){$('#drawer').classList.add('hidden');$('#aaPanel').classList.add('hidden');$('#scrim').classList.add('hidden')}
+  $('#scrim').onclick=closePanels;
+  function setChrome(on){chromeOn=on;rd.classList.toggle('chrome-off',!on);if(!on)closePanels()}
+
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('[data-act]'); if(!a)return; e.stopPropagation();
+    var act=a.dataset.act;
+    if(act==='library')closeReader();
+    else if(act==='toc')openDrawer('toc');
+    else if(act==='search')openDrawer('search');
+    else if(act==='close')closePanels();
+    else if(act==='mark')toggleMark();
+    else if(act==='aa'){var p=$('#aaPanel'),h=p.classList.contains('hidden');closePanels();if(h){p.classList.remove('hidden');$('#scrim').classList.remove('hidden')}}
+  });
+  function reflow(fn){var a=firstBlockOn(page);fn();apply();save();setTimeout(function(){layout(a)},30)}
+  $$('#segDir button').forEach(function(b){b.onclick=function(){reflow(function(){st.dir=b.dataset.v})}});
+  $$('#segFont button').forEach(function(b){b.onclick=function(){reflow(function(){st.font=b.dataset.v})}});
+  $$('#segLh button').forEach(function(b){b.onclick=function(){reflow(function(){st.lh=+b.dataset.v})}});
+  $$('#segPaper button').forEach(function(b){b.onclick=function(){st.paper=b.dataset.v;apply();save()}});
+  $$('#segSize button').forEach(function(b){b.onclick=function(){var v=b.dataset.v;reflow(function(){st.fs=v==='0'?18:Math.max(14,Math.min(28,st.fs+(v==='+'?2:-2)))})}});
+  $('#slider').addEventListener('input',function(){go(+this.value-1,true)});
+
+  // ---- input: taps, swipes, keys ----
+  var sx=0,sy=0,st0=0,moved=false;
+  $('#stage').addEventListener('touchstart',function(e){var t=e.touches[0];sx=t.clientX;sy=t.clientY;st0=Date.now();moved=false},{passive:true});
+  $('#stage').addEventListener('touchmove',function(){moved=true},{passive:true});
+  $('#stage').addEventListener('touchend',function(e){
+    var t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){ e.preventDefault(); swipe(dx); }
+  });
+  function swipe(dx){ var fwd = st.dir==='v' ? dx>0 : dx<0; fwd?next():prev(); }
+  $('#stage').addEventListener('click',function(e){
+    if(e.target.closest('a,button'))return;
+    if(!$('#drawer').classList.contains('hidden')||!$('#aaPanel').classList.contains('hidden')){closePanels();return}
+    var x=e.clientX/innerWidth;
+    if(x<.3){ st.dir==='v'?next():prev(); }
+    else if(x>.7){ st.dir==='v'?prev():next(); }
+    else setChrome(!chromeOn);
+  });
+  document.addEventListener('keydown',function(e){
+    if(rd.classList.contains('hidden')||e.target.tagName==='INPUT')return;
+    var k=e.key;
+    if(k==='ArrowLeft'){e.preventDefault(); st.dir==='v'?next():prev();}
+    else if(k==='ArrowRight'){e.preventDefault(); st.dir==='v'?prev():next();}
+    else if(k===' '||k==='PageDown'||k==='ArrowDown'){e.preventDefault();next();}
+    else if(k==='PageUp'||k==='ArrowUp'){e.preventDefault();prev();}
+    else if(k==='Escape'){closePanels();setChrome(false);}
+  });
+  var rt; addEventListener('resize',function(){if(rd.classList.contains('hidden'))return;clearTimeout(rt);var a=firstBlockOn(page);rt=setTimeout(function(){layout(a)},150)});
+
+  var tt; function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(function(){t.classList.remove('on')},1300)}
+
+  apply();
+  if(location.hash==='#read') (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(openReader);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ if(!rd.classList.contains('hidden')) layout(firstBlockOn(page)); });
 })();
 </script>
 </body>
