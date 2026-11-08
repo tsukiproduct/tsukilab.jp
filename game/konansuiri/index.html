@@ -148,17 +148,105 @@
   .stat div{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:20px;margin-top:2px}
 
   footer{margin-top:26px;text-align:center;color:var(--muted);font-size:12px;line-height:1.8;padding-top:16px;border-top:1px solid var(--line)}
+
+  /* ===== BRUSH-UP: sound toggle ===== */
+  .sound-toggle{position:fixed;top:12px;right:12px;z-index:70;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:rgba(16,16,24,.85);backdrop-filter:blur(6px);color:var(--ink);font-size:19px;cursor:pointer;display:grid;place-items:center}
+  .sound-toggle:hover{border-color:rgba(255,255,255,.4)}
+
+  /* title pop */
+  h1.logo{animation:logoIn .7s cubic-bezier(.2,1.5,.4,1) both}
+  h1.logo .powder{display:inline-block;animation:wobble 2.6s ease-in-out 1s infinite}
+  @keyframes logoIn{from{opacity:0;transform:scale(.6) rotate(-4deg)}to{opacity:1;transform:none}}
+  @keyframes wobble{0%,86%,100%{transform:none}90%{transform:rotate(-10deg) scale(1.12)}94%{transform:rotate(8deg) scale(1.08)}}
+  .btn-zukan{width:100%;max-width:420px;display:flex;align-items:center;justify-content:center;gap:10px}
+  .btn-zukan .cnt{background:var(--yellow);color:#171717;border-radius:999px;padding:2px 10px;font-size:13px}
+
+  /* ===== BRUSH-UP: accuse sequence ===== */
+  .accuse-flash{background:#07070b;overflow:hidden}
+  .accuse-flash .rays{position:absolute;inset:-60%;opacity:0;background:repeating-conic-gradient(from 0deg,var(--red) 0 5deg,#9c0018 5deg 10deg);transition:opacity .08s}
+  .accuse-flash .vig{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,transparent 25%,rgba(0,0,0,.88) 78%);pointer-events:none}
+  .accuse-flash .inner{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px}
+  .accuse-flash .who-img{width:min(44vw,230px);aspect-ratio:4/5;object-fit:cover;border-radius:14px;border:5px solid #fff;box-shadow:0 20px 50px rgba(0,0,0,.6),0 0 0 6px var(--yellow);opacity:.0;transform:scale(.85);filter:grayscale(1) brightness(.5);transition:opacity .3s,filter .3s}
+  .accuse-flash .big{opacity:0}
+  .accuse-flash .suspense{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;color:#fff;font-size:clamp(20px,5vw,30px);letter-spacing:.2em}
+  .accuse-flash .suspense i{display:inline-block;animation:dotb .6s infinite}
+  .accuse-flash .suspense i:nth-child(2){animation-delay:.1s}.accuse-flash .suspense i:nth-child(3){animation-delay:.2s}
+  @keyframes dotb{0%,100%{transform:none}50%{transform:translateY(-6px)}}
+  .accuse-flash.show .who-img{opacity:.75}
+  .accuse-flash.hit .rays{opacity:1;animation:spin 7s linear infinite}
+  .accuse-flash.hit .suspense{display:none}
+  .accuse-flash.hit .who-img{opacity:1;filter:none;animation:zoomHit .4s cubic-bezier(.2,1.7,.4,1) both}
+  .accuse-flash.hit .big{animation:stamp .42s cubic-bezier(.2,1.9,.4,1) .12s both}
+  .accuse-flash.hit .inner{animation:shake .5s .12s both}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes zoomHit{from{transform:scale(1.9) rotate(4deg)}to{transform:scale(1) rotate(-3deg)}}
+  @keyframes stamp{from{opacity:0;transform:scale(3.2) rotate(-12deg)}to{opacity:1;transform:scale(1) rotate(-4deg)}}
+  @keyframes shake{0%,100%{transform:none}15%{transform:translate(-10px,6px)}30%{transform:translate(9px,-7px)}45%{transform:translate(-7px,-4px)}60%{transform:translate(6px,5px)}80%{transform:translate(-3px,2px)}}
+  .accuse-flash .big{background:#fff;color:var(--red);padding:6px 22px 10px;border-radius:10px;box-shadow:6px 6px 0 #000;text-shadow:none}
+  .accuse-flash .small{color:#fff;background:rgba(0,0,0,.55);padding:6px 12px;border-radius:999px}
+
+  /* result */
+  .banner{position:relative;overflow:hidden}
+  .banner.pop .end{animation:stamp .5s cubic-bezier(.2,1.9,.4,1) both}
+  .banner.bad.pop{animation:shake .5s .1s both}
+  .banner .newbadge{position:absolute;top:12px;right:12px;background:var(--yellow);color:#171717;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:13px;padding:5px 11px;border-radius:999px;transform:rotate(6deg);box-shadow:3px 3px 0 #000;animation:stamp .45s cubic-bezier(.2,1.9,.4,1) .45s both}
+  .banner .endname{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:15px;margin-top:6px;letter-spacing:.04em}
+  .collect-note{margin-top:12px;background:var(--panel);border:1px dashed rgba(255,212,0,.4);border-radius:12px;padding:12px 14px;font-size:13.5px;line-height:1.7}
+  .collect-note b{color:var(--yellow)}
+  .result-actions{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:620px){.result-actions{grid-template-columns:1fr}}
+  .vignette-bad{position:fixed;inset:0;pointer-events:none;z-index:40;box-shadow:inset 0 0 160px 40px rgba(230,0,35,.65);opacity:0}
+  .vignette-bad.on{animation:vig 1.2s ease both}
+  @keyframes vig{0%{opacity:0}15%{opacity:1}100%{opacity:0}}
+  #confetti{position:fixed;inset:0;pointer-events:none;z-index:45}
+
+  /* select: collected tag */
+  .card .got{position:absolute;top:8px;right:8px;background:var(--yellow);color:#171717;font-weight:900;font-size:11px;padding:4px 8px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.4)}
+
+  /* ===== BRUSH-UP: zukan ===== */
+  .zk-meter{height:12px;background:#101018;border:1px solid var(--line);border-radius:99px;overflow:hidden;margin:4px 0 16px}
+  .zk-meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--yellow));transition:width .6s}
+  .zk-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  @media(max-width:820px){.zk-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:520px){.zk-grid{grid-template-columns:repeat(2,1fr)}}
+  .zk{display:flex;flex-direction:column;justify-content:flex-start;align-self:stretch;background:var(--panel);border:1.5px solid var(--line);border-radius:16px;overflow:hidden;text-align:left;padding:0;color:var(--ink);font-family:inherit;width:100%}
+  .zk .ph{position:relative;aspect-ratio:4/5;background:#15151d;overflow:hidden}
+  .zk .ph img{width:100%;height:100%;object-fit:cover;display:block}
+  .zk.locked .ph img{filter:brightness(0) blur(2px);opacity:.55}
+  .zk.locked .ph::after{content:"？";position:absolute;inset:0;display:grid;place-items:center;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:64px;color:rgba(255,255,255,.25)}
+  .zk .tag{position:absolute;left:8px;bottom:8px;font-weight:900;font-size:11px;padding:4px 8px;border-radius:999px;background:var(--red);color:#fff}
+  .zk .tag.t{background:var(--yellow);color:#171717}
+  .zk .body{padding:10px 12px 12px}
+  .zk .ttl{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:14.5px;line-height:1.35}
+  .zk .sub{color:var(--muted);font-size:11.5px;margin-top:4px;line-height:1.5}
+  .zk.open{cursor:pointer;transition:transform .18s,border-color .18s}
+  .zk.open:hover,.zk.open:focus-visible{transform:translateY(-4px);border-color:var(--yellow);outline:none}
+  .zk-bonus{margin-top:16px;border-radius:16px;padding:18px;text-align:center;background:linear-gradient(180deg,#2a2100,#1c1c28);border:1px solid rgba(255,212,0,.5)}
+  .zk-bonus .crown{font-size:40px}
+  .zk-bonus h3{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;color:var(--yellow);margin:4px 0 6px;font-size:22px}
+  .zk-bonus p{margin:0;line-height:1.8;font-size:14px}
+  .zk-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  @media(prefers-reduced-motion:reduce){
+    h1.logo,h1.logo .powder,.accuse-flash.hit .rays,.accuse-flash.hit .inner,.banner.pop .end,.banner.bad.pop,.banner .newbadge,.accuse-flash.hit .big,.accuse-flash.hit .who-img{animation:none!important}
+    .accuse-flash.hit .big{opacity:1}
+  }
 </style>
 </head>
 <body>
 <div class="dots" aria-hidden="true"></div>
 
 <div class="accuse-flash" id="accuseFlash" aria-hidden="true">
-  <div>
+  <div class="rays"></div><div class="vig"></div>
+  <div class="inner">
+    <img class="who-img" id="accuseImg" alt="">
+    <div class="suspense">粉んの推理は<i>.</i><i>.</i><i>.</i></div>
     <div class="big">犯人は<br>お前だ！</div>
     <div class="small" id="accuseName">容疑者を指名中…</div>
   </div>
 </div>
+<div class="vignette-bad" id="vigBad"></div>
+<canvas id="confetti"></canvas>
+<button class="sound-toggle" id="btnSound" type="button" aria-label="効果音のオン・オフ">🔊</button>
 
 <div class="wrap">
   <nav class="progress" aria-label="進行状況">
@@ -187,6 +275,7 @@
       </div>
       <div class="title-actions">
         <button class="btn btn-primary" id="btnStart" type="button">▶ ゲームスタート</button>
+        <button class="btn btn-ghost btn-zukan" id="btnZukan1" type="button">📖 エンド図鑑 <span class="cnt" id="zkTitleCnt">0 / 5</span></button>
         <p class="tiny">スタートを押すと音声付きで動画が再生されます。<br>イヤホン・音量にご注意ください。</p>
       </div>
       <div class="howto">
@@ -196,6 +285,7 @@
           <li><b>容疑者紹介動画</b>で5人の顔と様子を覚える</li>
           <li>選択画面で<b>犯人だと思う1人</b>をタップして指名</li>
           <li>正解なら <b>TRUE END</b>、外せばその人の <b>BAD END</b> 動画へ</li>
+          <li>全5種の結末を集めて<b>エンド図鑑</b>をコンプリートしよう</li>
         </ol>
       </div>
     </div>
@@ -246,6 +336,7 @@
     <div class="banner" id="resultBanner">
       <div class="who" id="resultWho">—</div>
       <div class="end" id="resultEnd">—</div>
+      <div class="endname" id="resultEndName"></div>
       <p id="resultText">—</p>
     </div>
     <div class="video-shell">
@@ -255,10 +346,38 @@
     <div class="stats">
       <div class="stat"><small>これまでの指名回数</small><div><span id="statTries">0</span> 回</div></div>
       <div class="stat"><small>今回の判定</small><div id="statJudge">—</div></div>
+      <div class="stat"><small>エンド回収</small><div><span id="statCollect">0</span> / 5</div></div>
     </div>
+    <div class="collect-note" id="collectNote"></div>
     <div class="result-actions">
       <button class="btn btn-yellow" id="btnRetry" type="button">🔍 もう一度推理する</button>
+      <button class="btn btn-ghost" id="btnZukan2" type="button">📖 エンド図鑑</button>
       <button class="btn btn-ghost" id="btnBackTitle3" type="button">タイトルに戻る</button>
+    </div>
+  </section>
+
+  <!-- ZUKAN -->
+  <section class="screen" id="screen-zukan">
+    <div class="stage-head">
+      <div>
+        <h2>📖 エンド図鑑</h2>
+        <p>集めた結末：<b id="zkCount">0</b> / 5　・　回収済みの結末はタップで見返せます</p>
+      </div>
+    </div>
+    <div class="zk-meter"><i id="zkBar"></i></div>
+    <div class="zk-grid" id="zkGrid"></div>
+    <div class="zk-stats">
+      <div class="stat"><small>通算の指名回数</small><div><span id="zkTotal">0</span> 回</div></div>
+      <div class="stat"><small>最短で真犯人を当てた回数</small><div id="zkBest">—</div></div>
+    </div>
+    <div class="zk-bonus" id="zkBonus" hidden>
+      <div class="crown">🏆</div>
+      <h3>全エンド回収！ 称号「粉まみれの名探偵」</h3>
+      <p>粉ん：「全員の言い分を聞いたキミこそ、真の名探偵だ。<br>……ところで、このコーヒー、なんだか気持ち良くなる味がするね？」</p>
+    </div>
+    <div class="video-actions">
+      <button class="btn btn-ghost" id="btnZkBack" type="button">タイトルに戻る</button>
+      <button class="btn btn-ghost" id="btnZkReset" type="button">記録をリセット</button>
     </div>
   </section>
 
@@ -278,11 +397,100 @@
     { id:5, name:"喫茶マスター", img:"media/img05.jpg", desc:"汗だくの喫茶店マスター。エプロン姿で、なぜか目を合わせない。", video:"media/v06.mp4", end:"TRUE END", line:"「す、すみませんでした！！！こ、この吸うと気持ち良くなる粉をコーヒーミルクの粉のやつと入れ替えたのは…ああああ！はああああ…うっうっ！」", detail:"粉をコーヒーミルクの粉と入れ替えた犯人は、喫茶マスターだった！" }
   ];
 
+  var ENDNAMES = {1:"タコ負けの号泣", 2:"開示請求しますよ？", 3:"配信女子のアリバイ", 4:"筋肉は嘘をつかない", 5:"真犯人は喫茶マスター"};
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- save data (per browser) ---------- */
+  var KEY = 'konansuiri_save_v1';
+  function loadSave(){
+    try{ var d = JSON.parse(localStorage.getItem(KEY) || 'null'); if(d && d.ends) return d; }catch(e){}
+    return { ends:{}, total:0, best:null, sound:true };
+  }
+  var save = loadSave();
+  function persist(){ try{ localStorage.setItem(KEY, JSON.stringify(save)); }catch(e){} }
+  function collectedCount(){ return Object.keys(save.ends).length; }
+
+  /* ---------- sound (Web Audio, no files) ---------- */
+  var actx = null, master = null;
+  function audio(){
+    if(!save.sound) return null;
+    try{
+      if(!actx){
+        var AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+        actx = new AC(); master = actx.createGain(); master.gain.value = .55; master.connect(actx.destination);
+      }
+      if(actx.state === 'suspended') actx.resume();
+    }catch(e){ return null; }
+    return actx;
+  }
+  function tone(f, t, dur, type, vol, f2){
+    var c = audio(); if(!c) return;
+    var o = c.createOscillator(), g = c.createGain(), t0 = c.currentTime + t;
+    o.type = type || 'sine'; o.frequency.setValueAtTime(f, t0);
+    if(f2) o.frequency.exponentialRampToValueAtTime(f2, t0 + dur);
+    g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol || .3, t0 + .01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(master); o.start(t0); o.stop(t0 + dur + .05);
+  }
+  function noise(t, dur, vol, freq){
+    var c = audio(); if(!c) return;
+    var n = Math.floor(c.sampleRate * dur), buf = c.createBuffer(1, n, c.sampleRate), d = buf.getChannelData(0);
+    for(var i=0;i<n;i++) d[i] = Math.random()*2-1;
+    var src = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain(), t0 = c.currentTime + t;
+    src.buffer = buf; f.type = 'bandpass'; f.frequency.value = freq || 1800;
+    g.gain.setValueAtTime(vol || .3, t0); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    src.connect(f); f.connect(g); g.connect(master); src.start(t0);
+  }
+  var sfx = {
+    click: function(){ tone(880, 0, .06, 'square', .08, 1320); },
+    roll: function(){ for(var i=0;i<16;i++) noise(i*.045, .05, .08 + i*.018, 2200); },
+    don: function(){ tone(150, 0, .7, 'sine', .9, 40); tone(75, 0, .45, 'square', .25, 38); noise(0, .22, .7, 700); },
+    fanfare: function(){
+      [523.25,659.25,783.99,1046.5].forEach(function(f,i){ tone(f, i*.11, .22, 'triangle', .28); });
+      [523.25,659.25,783.99,1046.5].forEach(function(f){ tone(f, .48, .9, 'triangle', .18); });
+    },
+    buzzer: function(){ tone(155, 0, .22, 'sawtooth', .22); tone(110, .28, .5, 'sawtooth', .25); },
+    sparkle: function(){ [1318.5,1568,2093,2637].forEach(function(f,i){ tone(f, i*.07, .25, 'sine', .12); }); }
+  };
+  var btnSound = document.getElementById('btnSound');
+  function renderSound(){ btnSound.textContent = save.sound ? '🔊' : '🔇'; btnSound.setAttribute('aria-pressed', save.sound ? 'true' : 'false'); }
+  btnSound.addEventListener('click', function(){ save.sound = !save.sound; persist(); renderSound(); if(save.sound) sfx.click(); });
+  renderSound();
+
+  /* ---------- confetti ---------- */
+  var cv = document.getElementById('confetti'), cx = cv.getContext('2d'), parts = [], rafId = null;
+  function confetti(){
+    if(reduceMotion) return;
+    var dpr = window.devicePixelRatio || 1;
+    cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; cx.setTransform(dpr,0,0,dpr,0,0);
+    var cols = ['#e60023','#ffd400','#ffffff','#ffb800','#f5f1e6'];
+    for(var i=0;i<170;i++){
+      parts.push({ x: innerWidth/2 + (Math.random()-.5)*120, y: innerHeight*.35, vx:(Math.random()-.5)*16, vy: -Math.random()*15-4,
+        w: 6+Math.random()*7, h: 8+Math.random()*10, r: Math.random()*6, vr:(Math.random()-.5)*.4, c: cols[i%cols.length], life: 0,
+        powder: Math.random() < .25 });
+    }
+    if(!rafId) rafId = requestAnimationFrame(tick);
+  }
+  function tick(){
+    cx.clearRect(0,0,innerWidth,innerHeight);
+    parts = parts.filter(function(p){ return p.life < 200 && p.y < innerHeight + 40; });
+    parts.forEach(function(p){
+      p.life++; p.vy += .38; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      cx.save(); cx.translate(p.x,p.y); cx.rotate(p.r); cx.globalAlpha = Math.max(0, 1 - p.life/200);
+      cx.fillStyle = p.c;
+      if(p.powder){ cx.beginPath(); cx.arc(0,0,p.w*.5,0,Math.PI*2); cx.fillStyle='rgba(255,255,255,.9)'; cx.fill(); }
+      else cx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      cx.restore();
+    });
+    if(parts.length) rafId = requestAnimationFrame(tick); else { rafId = null; cx.clearRect(0,0,innerWidth,innerHeight); }
+  }
+
   var screens = {
     title: document.getElementById('screen-title'),
     movie: document.getElementById('screen-movie'),
     select: document.getElementById('screen-select'),
-    result: document.getElementById('screen-result')
+    result: document.getElementById('screen-result'),
+    zukan: document.getElementById('screen-zukan')
   };
   var steps = document.querySelectorAll('.step');
   var mainVideo = document.getElementById('mainVideo');
@@ -295,7 +503,9 @@
 
   var phase = 'opening'; // opening | suspects
   var tries = 0;
-  var flashTimer = null;
+  var flashTimers = [];
+  var busy = false;
+  var fromZukan = false;
 
   function setProgress(current){
     var order = ['title','movie','select','result'];
@@ -303,13 +513,16 @@
     steps.forEach(function(s){
       var i = order.indexOf(s.getAttribute('data-step'));
       s.classList.toggle('on', i === idx);
-      s.classList.toggle('done', i < idx);
+      s.classList.toggle('done', idx > -1 && i < idx);
     });
   }
   function show(name){
     Object.keys(screens).forEach(function(k){ screens[k].classList.toggle('active', k===name); });
     setProgress(name);
-    window.scrollTo({top:0, behavior:'smooth'});
+    window.scrollTo({top:0, behavior: reduceMotion ? 'auto' : 'smooth'});
+    if(name === 'title') renderTitleCount();
+    if(name === 'select') renderGot();
+    if(name === 'zukan') renderZukan();
   }
   function stopAll(){
     [mainVideo, resultVideo].forEach(function(v){ try{ v.pause(); }catch(e){} });
@@ -317,6 +530,7 @@
 
   /* Build suspect cards */
   var grid = document.getElementById('suspectGrid');
+  var cardEls = {};
   suspects.forEach(function(s){
     var btn = document.createElement('button');
     btn.type = 'button';
@@ -328,8 +542,17 @@
       '<span class="desc">'+s.desc+'</span>' +
       '<span class="accuse">👉 犯人はお前だ！</span></span>';
     btn.addEventListener('click', function(){ accuse(s); });
+    btn.addEventListener('pointerenter', function(e){ if(e.pointerType === 'mouse') sfx.click(); });
     grid.appendChild(btn);
+    cardEls[s.id] = btn;
   });
+  function renderGot(){
+    suspects.forEach(function(s){
+      var ph = cardEls[s.id].querySelector('.ph'), tag = ph.querySelector('.got');
+      if(save.ends[s.id] && !tag){ tag = document.createElement('span'); tag.className = 'got'; tag.textContent = '回収済 ✓'; ph.appendChild(tag); }
+    });
+  }
+  function renderTitleCount(){ document.getElementById('zkTitleCnt').textContent = collectedCount() + ' / 5'; }
 
   /* Movie flow */
   function playPhase(p){
@@ -353,79 +576,166 @@
     var pr = mainVideo.play();
     if(pr && pr.catch) pr.catch(function(){ /* user can press native play */ });
   }
+  function nextMovie(){
+    if(phase === 'opening'){ playPhase('suspects'); }
+    else { stopAll(); show('select'); }
+  }
 
   mainVideo.addEventListener('ended', function(){
     if(!screens.movie.classList.contains('active')) return;
-    if(phase === 'opening'){ playPhase('suspects'); }
-    else { stopAll(); show('select'); }
+    nextMovie();
   });
 
   document.getElementById('btnStart').addEventListener('click', function(){
+    audio(); sfx.click(); tries = 0;
     stopAll(); show('movie'); playPhase('opening');
   });
   document.getElementById('btnReplayMovies').addEventListener('click', function(){
     stopAll(); show('movie'); playPhase('opening');
   });
-  btnNextMovie.addEventListener('click', function(){
-    if(phase === 'opening'){ playPhase('suspects'); }
-    else { stopAll(); show('select'); }
-  });
-  document.getElementById('btnSkipMovie').addEventListener('click', function(){
-    if(phase === 'opening'){ playPhase('suspects'); }
-    else { stopAll(); show('select'); }
-  });
+  btnNextMovie.addEventListener('click', nextMovie);
+  document.getElementById('btnSkipMovie').addEventListener('click', nextMovie);
 
   /* Accuse + result */
   var banner = document.getElementById('resultBanner');
   var resultWho = document.getElementById('resultWho');
   var resultEnd = document.getElementById('resultEnd');
+  var resultEndName = document.getElementById('resultEndName');
   var resultText = document.getElementById('resultText');
   var resultTag = document.getElementById('resultTag');
   var statTries = document.getElementById('statTries');
   var statJudge = document.getElementById('statJudge');
+  var statCollect = document.getElementById('statCollect');
+  var collectNote = document.getElementById('collectNote');
+  var btnRetry = document.getElementById('btnRetry');
   var flash = document.getElementById('accuseFlash');
   var accuseName = document.getElementById('accuseName');
+  var accuseImg = document.getElementById('accuseImg');
+  var vigBad = document.getElementById('vigBad');
 
-  function accuse(s){
-    tries++;
-    accuseName.textContent = '粉んは ' + s.id + '番・' + s.name + ' を指さした！';
-    flash.classList.add('show');
-    if(flashTimer) clearTimeout(flashTimer);
-    flashTimer = setTimeout(function(){
-      flash.classList.remove('show');
-      showResult(s);
-    }, 1100);
+  function later(fn, ms){ flashTimers.push(setTimeout(fn, ms)); }
+  function clearTimers(){ flashTimers.forEach(clearTimeout); flashTimers = []; }
+
+  // iOS等: 後から音声付きで再生できるよう、タップ中に一度だけ再生許可を取っておく
+  function primeVideo(src){
+    resultVideo.muted = true; resultVideo.src = src; resultVideo.load();
+    var pr = resultVideo.play();
+    if(pr && pr.then) pr.then(function(){ resultVideo.pause(); }).catch(function(){});
+    else { try{ resultVideo.pause(); }catch(e){} }
   }
 
-  function showResult(s){
+  function accuse(s){
+    if(busy) return; busy = true;
+    tries++; fromZukan = false;
+    audio(); primeVideo(s.video);
+    accuseImg.src = s.img; accuseImg.alt = s.name;
+    accuseName.textContent = '粉んは ' + s.id + '番・' + s.name + ' を指さした！';
+    flash.classList.remove('hit'); flash.classList.add('show');
+    clearTimers();
+    var holdA = reduceMotion ? 200 : 750, holdB = reduceMotion ? 900 : 1500;
+    sfx.roll();
+    later(function(){ flash.classList.add('hit'); sfx.don(); if(navigator.vibrate) try{ navigator.vibrate(120); }catch(e){} }, holdA);
+    later(function(){ flash.classList.remove('show','hit'); showResult(s, false); busy = false; }, holdA + holdB);
+  }
+
+  function showResult(s, replay){
     var isTrue = s.id === 5;
+    var isNew = false, beforeCount = collectedCount();
+    if(!replay){
+      save.total = (save.total || 0) + 1;
+      if(!save.ends[s.id]){ save.ends[s.id] = Date.now(); isNew = true; }
+      if(isTrue && (save.best === null || tries < save.best)) save.best = tries;
+      persist();
+    }
+    var count = collectedCount();
     banner.className = 'banner ' + (isTrue ? 'true' : 'bad');
-    resultWho.textContent = '指名したのは ― ' + s.id + '番：' + s.name;
+    var nb = banner.querySelector('.newbadge'); if(nb) nb.remove();
+    if(isNew){ nb = document.createElement('span'); nb.className = 'newbadge'; nb.textContent = 'NEW!'; banner.appendChild(nb); }
+    resultWho.textContent = (replay ? '図鑑から再生 ― ' : '指名したのは ― ') + s.id + '番：' + s.name;
     resultEnd.textContent = s.end;
+    resultEndName.textContent = '「' + ENDNAMES[s.id] + '」';
     resultText.innerHTML = (isTrue
       ? '<strong>粉をコーヒーミルクの粉と入れ替えた犯人は、喫茶マスターだった！</strong><br>'
-      : '') + s.line + '<br><span style="color:var(--muted);font-size:13.5px">' + s.detail + '</span>';
+      : '') + s.line + (isTrue ? '' : '<br><span style="color:var(--muted);font-size:13.5px">' + s.detail + '</span>');
     resultTag.textContent = isTrue ? 'TRUE END ・ 結末動画' : 'BAD END ・ 結末動画';
     resultTag.className = 'video-tag' + (isTrue ? '' : ' red');
     statTries.textContent = tries;
     statJudge.textContent = isTrue ? '🎉 真犯人！' : '💦 ハズレ';
-    resultVideo.src = s.video;
-    resultVideo.load();
+    statCollect.textContent = count;
+
+    var left = 5 - count;
+    if(count === 5 && beforeCount < 5 && !replay){
+      collectNote.innerHTML = '🏆 <b>全エンド回収！</b> 称号「粉まみれの名探偵」を獲得しました。図鑑で確認できます。';
+    } else if(left === 0){
+      collectNote.innerHTML = '🏆 エンド図鑑はコンプリート済み。称号「<b>粉まみれの名探偵</b>」';
+    } else if(isTrue){
+      collectNote.innerHTML = '真犯人を見破った！ でも、まだ見ていない結末が <b>あと ' + left + ' つ</b>。あえて外してみる…？';
+    } else {
+      collectNote.innerHTML = (isNew ? '<b>新しい結末を回収！</b> ' : '') + 'エンド図鑑 <b>' + count + ' / 5</b>。真犯人は、まだ笑っている…。';
+    }
+    btnRetry.textContent = replay ? '📖 図鑑に戻る' : '🔍 もう一度推理する';
+
     show('result');
+    void banner.offsetWidth; banner.classList.add('pop');
+    if(isTrue){ sfx.fanfare(); confetti(); if(count === 5 && beforeCount < 5 && !replay) setTimeout(confetti, 700); }
+    else { sfx.buzzer(); if(!reduceMotion){ vigBad.classList.remove('on'); void vigBad.offsetWidth; vigBad.classList.add('on'); } }
+    if(isNew) setTimeout(sfx.sparkle, 520);
+
+    if(replay){ resultVideo.muted = false; resultVideo.src = s.video; resultVideo.load(); }
+    else if(resultVideo.getAttribute('src') !== s.video){ resultVideo.src = s.video; resultVideo.load(); }
+    resultVideo.muted = false;
+    try{ resultVideo.currentTime = 0; }catch(e){}
     var pr = resultVideo.play();
     if(pr && pr.catch) pr.catch(function(){});
   }
 
-  document.getElementById('btnRetry').addEventListener('click', function(){
-    stopAll(); resultVideo.removeAttribute('src'); show('select');
+  btnRetry.addEventListener('click', function(){
+    stopAll(); resultVideo.removeAttribute('src'); resultVideo.load();
+    show(fromZukan ? 'zukan' : 'select');
   });
-  ['btnBackTitle1','btnBackTitle2','btnBackTitle3'].forEach(function(id){
+  ['btnBackTitle1','btnBackTitle2','btnBackTitle3','btnZkBack'].forEach(function(id){
     document.getElementById(id).addEventListener('click', function(){
       stopAll(); show('title');
     });
   });
 
+  /* ---------- zukan ---------- */
+  var zkGrid = document.getElementById('zkGrid');
+  function renderZukan(){
+    var count = collectedCount();
+    document.getElementById('zkCount').textContent = count;
+    document.getElementById('zkBar').style.width = (count/5*100) + '%';
+    document.getElementById('zkTotal').textContent = save.total || 0;
+    document.getElementById('zkBest').textContent = save.best ? save.best + ' 回目' : '—';
+    document.getElementById('zkBonus').hidden = count < 5;
+    zkGrid.innerHTML = '';
+    suspects.forEach(function(s){
+      var got = !!save.ends[s.id], isTrue = s.id === 5;
+      var el = document.createElement(got ? 'button' : 'div');
+      el.className = 'zk ' + (got ? 'open' : 'locked');
+      if(got){ el.type = 'button'; el.setAttribute('aria-label', ENDNAMES[s.id] + ' を再生する'); }
+      el.innerHTML =
+        '<span class="ph" style="display:block"><img src="'+s.img+'" alt=""><span class="tag'+(isTrue?' t':'')+'">'+(got ? s.end : (isTrue ? '？？？ END' : 'BAD END'))+'</span></span>' +
+        '<span class="body" style="display:block"><span class="ttl" style="display:block">'+(got ? ENDNAMES[s.id] : '？？？？？')+'</span>' +
+        '<span class="sub" style="display:block">'+(got ? s.id + '番：' + s.name + ' ・ ▶ 再生' : (isTrue ? '真実にたどり着くと…' : '誰かを指名すると…'))+'</span></span>';
+      if(got) el.addEventListener('click', function(){ sfx.click(); fromZukan = true; showResult(s, true); });
+      zkGrid.appendChild(el);
+    });
+  }
+  ['btnZukan1','btnZukan2'].forEach(function(id){
+    document.getElementById(id).addEventListener('click', function(){ audio(); sfx.click(); stopAll(); show('zukan'); });
+  });
+  var resetArmed = false, btnZkReset = document.getElementById('btnZkReset');
+  btnZkReset.addEventListener('click', function(){
+    if(!resetArmed){ resetArmed = true; btnZkReset.textContent = 'もう一度押すとリセット'; setTimeout(function(){ resetArmed = false; btnZkReset.textContent = '記録をリセット'; }, 3000); return; }
+    resetArmed = false; btnZkReset.textContent = '記録をリセット';
+    var snd = save.sound; save = { ends:{}, total:0, best:null, sound:snd }; persist();
+    suspects.forEach(function(s){ var t = cardEls[s.id].querySelector('.got'); if(t) t.remove(); });
+    renderZukan();
+  });
+
   setProgress('title');
+  renderTitleCount();
 })();
 </script>
 </body>
