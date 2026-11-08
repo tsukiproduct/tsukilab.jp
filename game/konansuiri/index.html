@@ -230,6 +230,19 @@
     h1.logo,h1.logo .powder,.accuse-flash.hit .rays,.accuse-flash.hit .inner,.banner.pop .end,.banner.bad.pop,.banner .newbadge,.accuse-flash.hit .big,.accuse-flash.hit .who-img{animation:none!important}
     .accuse-flash.hit .big{opacity:1}
   }
+
+  /* ===== custom minimal player ===== */
+  .video-shell video{cursor:pointer}
+  .video-shell video::-webkit-media-controls,
+  .video-shell video::-webkit-media-controls-enclosure,
+  .video-shell video::-webkit-media-controls-panel,
+  .video-shell video::-webkit-media-controls-overlay-play-button,
+  .video-shell video::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none;opacity:0!important}
+  .vp-play{position:absolute;left:50%;top:50%;width:72px;height:72px;margin:-36px 0 0 -36px;border-radius:50%;border:0;background:rgba(230,0,35,.92);color:#fff;font-size:26px;padding-left:6px;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 6px rgba(255,255,255,.15);display:none;place-items:center;z-index:2}
+  .video-shell.paused .vp-play{display:grid;animation:vpIn .2s ease both}
+  @keyframes vpIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+  .vp-bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.15);pointer-events:none;z-index:2}
+  .vp-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--yellow))}
 </style>
 </head>
 <body>
@@ -302,7 +315,9 @@
     </div>
     <div class="video-shell">
       <span class="video-tag red" id="movieTag">第1幕 ・ 開始動画</span>
-      <video id="mainVideo" playsinline controls preload="metadata" src="media/v01.mp4"></video>
+      <video id="mainVideo" playsinline webkit-playsinline disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" preload="metadata" src="media/v01.mp4"></video>
+      <button class="vp-play" type="button" aria-label="再生">▶</button>
+      <div class="vp-bar"><i></i></div>
     </div>
     <div class="quote-bar" id="movieQuote">
       <b>粉ん：</b>「白い粉を食べまくりながら、こなん参上。――犯人は、この中にいる！」
@@ -341,7 +356,9 @@
     </div>
     <div class="video-shell">
       <span class="video-tag" id="resultTag">結末動画</span>
-      <video id="resultVideo" playsinline controls preload="metadata"></video>
+      <video id="resultVideo" playsinline webkit-playsinline disablepictureinpicture disableremoteplayback x-webkit-airplay="deny" preload="metadata"></video>
+      <button class="vp-play" type="button" aria-label="再生">▶</button>
+      <div class="vp-bar"><i></i></div>
     </div>
     <div class="stats">
       <div class="stat"><small>これまでの指名回数</small><div><span id="statTries">0</span> 回</div></div>
@@ -732,6 +749,21 @@
     var snd = save.sound; save = { ends:{}, total:0, best:null, sound:snd }; persist();
     suspects.forEach(function(s){ var t = cardEls[s.id].querySelector('.got'); if(t) t.remove(); });
     renderZukan();
+  });
+
+
+  /* ---------- custom minimal player (no native controls) ---------- */
+  [mainVideo, resultVideo].forEach(function(v){
+    var shell = v.parentNode, btn = shell.querySelector('.vp-play'), bar = shell.querySelector('.vp-bar i');
+    function sync(){ shell.classList.toggle('paused', v.paused && !v.ended && !!v.getAttribute('src')); }
+    function toggle(){ if(v.paused){ v.muted = false; var pr = v.play(); if(pr && pr.catch) pr.catch(function(){}); } else v.pause(); }
+    v.addEventListener('click', toggle);
+    btn.addEventListener('click', function(e){ e.stopPropagation(); toggle(); });
+    ['play','playing','pause','ended','emptied','loadstart'].forEach(function(ev){ v.addEventListener(ev, sync); });
+    v.addEventListener('timeupdate', function(){ bar.style.width = (v.duration ? v.currentTime / v.duration * 100 : 0) + '%'; });
+    v.addEventListener('loadstart', function(){ bar.style.width = '0%'; });
+    v.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+    sync();
   });
 
   setProgress('title');
