@@ -30,7 +30,7 @@
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.costume__img img,.scene__img img{transition:none}}
   @media(max-width:640px){.continuity{min-width:0;font-size:.78rem;table-layout:fixed}.continuity th,.continuity td{padding:.55rem .35rem;word-break:break-word}.continuity th:first-child,.continuity td:first-child{width:22%}}
 </style>
-<link rel="stylesheet" href="../assets/ea-nav.css?v=3">
+<link rel="stylesheet" href="../assets/ea-nav.css?v=9">
 <style>
 .ns{background:#0c0e0f;border-block:1px solid var(--line)}
 .ns .badge{display:inline-block;font:600 .75rem/1 "JetBrains Mono",monospace;letter-spacing:.14em;color:#0c0e0f;background:#8fe6ff;border-radius:999px;padding:.4rem .8rem;margin-bottom:1rem}
@@ -164,6 +164,6 @@
     box.addEventListener('keydown',e=>{if(e.key==='ArrowRight')show(cur+1);if(e.key==='ArrowLeft')show(cur-1)});
     let sx=null;full.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});full.addEventListener('touchend',e=>{if(sx===null)return;const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)>50)show(cur+(d<0?1:-1));sx=null});
   </script>
-<script src="../assets/ea-nav.js?v=3" defer></script>
+<script src="../assets/ea-nav.js?v=9" defer></script>
 </body>
 </html>

@@ -164,3 +164,16 @@ html.ea-pal-open,html.ea-sheet-open{overflow:hidden}
 .ea-flash{animation:ea-flash 1.6s var(--ea-ease)}
 @keyframes ea-flash{0%{box-shadow:0 0 0 2px var(--ea-glow),0 0 40px #8fe6ff55}100%{box-shadow:0 0 0 2px transparent,0 0 0 transparent}}
 @media (prefers-reduced-motion:reduce){.ea-bar,.ea-rail,.ea-fab,.ea-sheet,.ea-box,.ea-next a{transition:none!important;animation:none!important}.ea-mark i{animation:none}}
+
+/* ===== 2026-11-10 改修：区分の見出し・旧版の案内 ===== */
+.ea-tg{flex:none;font:500 11px var(--ea-font);color:var(--ea-dim);padding:0 4px 0 14px;margin-left:8px;border-left:1px solid var(--ea-line2);white-space:nowrap;letter-spacing:.06em}
+.ea-word{font-family:'Zen Old Mincho','Shippori Mincho B1','Noto Serif JP',serif;letter-spacing:.12em;font-weight:700}
+.ea-notice{position:relative;z-index:5;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;margin:0;padding:12px 18px;font:400 13.5px/1.75 var(--ea-font);color:#e9e4da;background:#2a2927;border-bottom:1px solid #ffffff22}
+.ea-notice b{flex:none;font-weight:700;padding:1px 10px;border-radius:4px;font-size:12.5px}
+.ea-notice.is-old b{background:#8d8a84;color:#16150f}
+.ea-notice.is-old{background:repeating-linear-gradient(135deg,#2a2927 0 14px,#262523 14px 28px)}
+.ea-notice.is-shared b{background:#86a6d3;color:#0f141b}
+.ea-notice span{flex:1 1 300px;min-width:0}
+.ea-notice a{color:#f0c987;text-underline-offset:3px}
+.ea-pages a small,.ea-next small{font-family:var(--ea-font);letter-spacing:.08em;font-size:11px}
+@media (max-width:860px){.ea-tg{padding-left:10px;margin-left:4px}}

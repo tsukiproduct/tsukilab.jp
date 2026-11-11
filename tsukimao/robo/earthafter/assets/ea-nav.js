@@ -5,15 +5,20 @@
 'use strict';
 var S=document.currentScript;
 var ROOT=S.src.replace(/assets\/ea-nav\.js.*$/,'');
-var VER='7';
+var VER='9';
 var HERO=S.hasAttribute('data-hero');
 var PAGES=[
- {k:'guide',p:'',t:'制作ガイド',en:'PRODUCTION',c:'#e8a94f',d:'アニマティック・MV・絵コンテ・3D舞台・制作ツール',img:'img/bg3/10.webp'},
- {k:'world',p:'world/',t:'世界観',en:'WORLD',c:'#f4c6d2',d:'結末までのストーリー・相関図・プロフィール・舞台・小道具',img:'img/bg3/01.webp'},
- {k:'script',p:'script/',t:'脚本',en:'SCRIPT',c:'#ecc96f',d:'全シーンの行動・台詞・カメラ・生成プロンプト',img:'img/bg3/05.webp'},
- {k:'design',p:'design/',t:'デザイン',en:'DESIGN',c:'#86a6d3',d:'設定画・衣装・作画固定事項',img:'design/img/height-lineup-s.webp'},
- {k:'gadgets',p:'gadgets/',t:'ガジェット',en:'GADGETS',c:'#8fe6ff',d:'ユタニ ミャオ・バイク・生活小物・隠れ猫',img:'gadgets/img/kira-bike-scene-s.webp'},
- {k:'review',p:'review/',t:'審査',en:'REVIEW',c:'#a9c98a',d:'審査シミュレーション（ドット絵レポート）',img:'img/bg3/22.webp'}
+ {k:'now',g:'いま',p:'',t:'いまの制作',c:'#f0c987',d:'いま作っている物語・確定事項・未決定の問い・締切までの段取り',img:'design/img/ns-key-s.webp'},
+ {k:'story',g:'いま',p:'story/',t:'新しい物語',c:'#f0c987',d:'「声を無くしても、あなたを愛している」の作業台と尺の予算',img:'design/img/ns-s10-s.webp'},
+ {k:'review',g:'いま',p:'review/',t:'判断基準',c:'#a9c0a0',d:'二十分の映像として成立するかの関門と、公式五項目の見立て',img:'img/bg3/22.webp'},
+ {k:'rules',g:'いま',p:'rules/',t:'応募規定',c:'#9db8d9',d:'締切・提出仕様・審査基準・権利と、提出前の確認表',img:'img/bg3/06.webp'},
+ {k:'record',g:'いま',p:'record/',t:'作り方と記録',c:'#d9a5a0',d:'制作の流れと、規約第九条に備える制作記録',img:'img/bg3/14.webp'},
+ {k:'design',g:'共通素材',p:'design/',t:'人物の設定画',c:'#86a6d3',d:'設定画・衣装・作画の決まり（新しい物語でも使います）',img:'design/img/height-lineup-s.webp'},
+ {k:'gadgets',g:'共通素材',p:'gadgets/',t:'小道具とエナ',c:'#8fe6ff',d:'ユタニ ミャオ・バイク・生活小物・エナ（新しい物語でも使います）',img:'gadgets/img/kira-bike-scene-s.webp'},
+ {k:'v1',g:'旧版',p:'v1.html',t:'旧・制作ガイド',c:'#8d8a84',d:'旧作『EARTH AFTER』のアニマティック・絵コンテ・三次元の舞台',img:'img/bg3/10.webp'},
+ {k:'world',g:'旧版',p:'world/',t:'旧・世界観',c:'#8d8a84',d:'旧作の世界観・人物相関図・裏設定とアイデア帳',img:'img/bg3/01.webp'},
+ {k:'script',g:'旧版',p:'script/',t:'旧・脚本',c:'#8d8a84',d:'旧作の脚本（二十二場面・百二十三カット）',img:'img/bg3/05.webp'},
+ {k:'review1',g:'旧版',p:'review/v1.html',t:'旧・審査の記録',c:'#8d8a84',d:'旧作に付けた八十七点の記録（なぜ見誤ったかの資料）',img:'img/bg3/22.webp'}
 ];
 var de=document.documentElement,doc=document;
 var rootPath=new URL(ROOT,location.href).pathname;
@@ -31,14 +36,26 @@ de.style.setProperty('--c',CUR.c);
 
 /* ---------- top bar ---------- */
 var bar=h('header',{'class':'ea-bar',role:'banner'});
-bar.innerHTML='<a class="ea-brand" href="'+url('')+'" aria-label="EARTH AFTER 制作ガイドのトップへ"><span class="ea-mark" aria-hidden="true"><i></i><i></i></span><span class="ea-word">EARTH AFTER</span></a>'+
- '<nav class="ea-tabs" aria-label="ページ">'+PAGES.map(function(p){return '<a class="ea-tab" href="'+url(p.p)+'" style="--c:'+p.c+'"'+(p===CUR?' aria-current="page"':'')+'><small>'+p.en+'</small>'+p.t+'</a>'}).join('')+'</nav>'+
+bar.innerHTML='<a class="ea-brand" href="'+url('')+'" aria-label="制作室の最初のページへ"><span class="ea-mark" aria-hidden="true"><i></i><i></i></span><span class="ea-word">N3Co 制作室</span></a>'+
+ '<nav class="ea-tabs" aria-label="ページ">'+PAGES.map(function(p,i){return (i&&PAGES[i-1].g!==p.g?'<span class="ea-tg">'+p.g+'</span>':'')+'<a class="ea-tab" href="'+url(p.p)+'" style="--c:'+p.c+'"'+(p===CUR?' aria-current="page"':'')+'>'+p.t+'</a>'}).join('')+'</nav>'+
  '<button class="ea-find" type="button" aria-label="サイト内を検索してジャンプ（'+(isMac?'⌘':'Ctrl+')+'K）">'+ICON_SEARCH+'<span class="ea-l">検索・ジャンプ</span><span class="ea-kbd">'+(isMac?'⌘K':'Ctrl K')+'</span></button>'+
  '<div class="ea-prog" aria-hidden="true"></div>';
 doc.body.insertBefore(bar,doc.body.firstChild);
 var prog=bar.querySelector('.ea-prog');
 bar.querySelector('.ea-find').addEventListener('click',function(){openPal()});
 var curTab=bar.querySelector('[aria-current]');if(curTab&&curTab.scrollIntoView)setTimeout(function(){var t=bar.querySelector('.ea-tabs');t.scrollLeft=Math.max(0,curTab.offsetLeft-t.clientWidth/2+curTab.clientWidth/2)},0);
+
+
+/* ---------- 旧版・共通素材の案内 ---------- */
+(function(){
+  if(CUR.g==='いま')return;
+  var old=CUR.g==='旧版';
+  var n=h('aside',{'class':'ea-notice '+(old?'is-old':'is-shared'),role:'note'});
+  n.innerHTML=old
+   ?'<b>旧版の記録です</b><span>このページは旧作『EARTH AFTER』の資料で、2026年11月8日に凍結しました。内容は更新しておりません。いま作っている物語は <a href="'+url('story/')+'">新しい物語</a>、最新の応募規定は <a href="'+url('rules/')+'">応募規定</a> をご覧ください。</span>'
+   :'<b>共通素材です</b><span>人物の姿・画風・小道具は、新しい物語でもそのまま使います。ただし、このページにある物語や場面についての説明は旧作『EARTH AFTER』のものです。新しい物語は <a href="'+url('story/')+'">こちら</a> をご覧ください。</span>';
+  bar.parentNode.insertBefore(n,bar.nextSibling);
+})();
 
 /* ---------- sections ---------- */
 var secs=[];
@@ -84,10 +101,10 @@ function openSheet(){
   secs.forEach(function(s,i){
     if(s.group&&s.group!==g){g=s.group;items+='<li class="ea-acth">'+esc(g)+'</li>'}
     items+='<li><a href="#'+s.id+'" data-i="'+i+'"'+(i===active?' class="on"':'')+'><span class="n">'+String(i+1).padStart(2,'0')+'</span>'+esc(s.label)+'</a></li>'});
-  sheet.innerHTML='<div class="ea-grab"></div><header><h2><small>'+CUR.en+'</small>'+esc(CUR.t)+'</h2><button class="ea-x" type="button" aria-label="閉じる">✕</button></header><div class="ea-body">'+
-   '<button class="ea-sfind" type="button">'+ICON_SEARCH+'シーン・カット・台詞を検索</button>'+
+  sheet.innerHTML='<div class="ea-grab"></div><header><h2><small>'+CUR.g+'</small>'+esc(CUR.t)+'</h2><button class="ea-x" type="button" aria-label="閉じる">✕</button></header><div class="ea-body">'+
+   '<button class="ea-sfind" type="button">'+ICON_SEARCH+'ページ・確定事項・旧版のカットを検索</button>'+
    (secs.length?'<h3>このページ</h3><ol>'+items+'</ol>':'')+
-   '<h3>ほかのページ</h3><div class="ea-pages">'+PAGES.map(function(p){return '<a href="'+url(p.p)+'" style="--c:'+p.c+'"'+(p===CUR?' aria-current="page"':'')+'><small>'+p.en+'</small>'+p.t+'<span>'+esc(p.d)+'</span></a>'}).join('')+'</div></div>';
+   '<h3>ほかのページ</h3><div class="ea-pages">'+PAGES.map(function(p){return '<a href="'+url(p.p)+'" style="--c:'+p.c+'"'+(p===CUR?' aria-current="page"':'')+'><small>'+p.g+'</small>'+p.t+'<span>'+esc(p.d)+'</span></a>'}).join('')+'</div></div>';
   de.classList.add('ea-sheet-open');
   sheet.querySelector('.ea-x').onclick=closeSheet;
   sheet.querySelector('.ea-sfind').onclick=function(){closeSheet();openPal()};
@@ -137,10 +154,10 @@ addEventListener('keydown',function(e){
 
 /* ---------- command palette ---------- */
 var pal=null,inp,res,flt,filter='all',hits=[],sel=0,loaded=false,ITEMS=[];
-var KIND={page:{g:'ページ',w:60,ic:'P'},sec:{g:'セクション',w:40,ic:'§'},char:{g:'人物',w:35,ic:'人'},item:{g:'設定・項目',w:8,ic:'・'},scene:{g:'シーン',w:28,ic:'#'},cut:{g:'カット',w:16,ic:'▣'}};
-var ORDER=['page','sec','char','scene','cut','item'];
-var FLT=[['all','すべて'],['nav','ページ・目次',['page','sec']],['scene','シーン',['scene']],['cut','カット',['cut']],['set','人物・設定',['char','item']]];
-var LIM={page:6,sec:12,char:6,scene:12,item:10,cut:40};
+var KIND={page:{g:'ページ',w:60,ic:'P'},sec:{g:'セクション',w:40,ic:'§'},char:{g:'人物',w:35,ic:'人'},item:{g:'設定・項目',w:8,ic:'・'},scene:{g:'旧版の場面',w:14,ic:'#'},cut:{g:'旧版のカット',w:6,ic:'▣'},fact:{g:'新しい物語',w:50,ic:'新'}};
+var ORDER=['page','fact','sec','char','item','scene','cut'];
+var FLT=[['all','すべて'],['nav','ページ・目次',['page','sec']],['new','新しい物語',['fact']],['set','人物・設定',['char','item']],['old','旧版の場面・カット',['scene','cut']]];
+var LIM={fact:12,page:11,sec:12,char:6,scene:12,item:10,cut:40};
 function hira(s){return s.normalize('NFKC').toLowerCase().replace(/[ァ-ヶ]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-96)}).replace(/\s+/g,'')}
 function loadIndex(cb){
   if(loaded)return cb();
@@ -149,7 +166,7 @@ function loadIndex(cb){
 }
 function prep(){
   loaded=true;
-  var base=PAGES.map(function(p){return{k:'page',t:p.t+'　'+p.en,s:p.d,u:p.p,c:p.c}});
+  var base=PAGES.map(function(p){return{k:'page',t:p.t,s:p.g+'　'+p.d,u:p.p,c:p.c}});
   var idx=(window.EA_INDEX&&window.EA_INDEX.items)||[];
   ITEMS=base.concat(idx).map(function(it){it.h=hira(it.t);it.hs=hira(it.s||'');it.hx=hira(it.x||'');return it});
 }
@@ -191,7 +208,7 @@ function mark(s,toks){
 }
 function buildPal(){
   pal=h('div',{'class':'ea-pal',role:'dialog','aria-modal':'true','aria-label':'サイト内検索とジャンプ'});
-  pal.innerHTML='<div class="ea-bd"></div><div class="ea-box"><label class="ea-in">'+ICON_SEARCH+'<input type="text" autocomplete="off" spellcheck="false" placeholder="ページ・シーン・カット・台詞を検索（例：おかえり／10-06／ミャオ）" aria-label="検索" role="combobox" aria-expanded="true" aria-controls="ea-res"><span class="ea-kbd" title="閉じる">Esc</span></label>'+
+  pal.innerHTML='<div class="ea-bd"></div><div class="ea-box"><label class="ea-in">'+ICON_SEARCH+'<input type="text" autocomplete="off" spellcheck="false" placeholder="探したい言葉を入れてください（例：締切／ありがとうゲーム／字幕／10-06）" aria-label="検索" role="combobox" aria-expanded="true" aria-controls="ea-res"><span class="ea-kbd" title="閉じる">Esc</span></label>'+
    '<div class="ea-flt" role="toolbar" aria-label="絞り込み"></div><div class="ea-res" id="ea-res" role="listbox"></div>'+
    '<div class="ea-foot"><span><span class="ea-kbd">↑↓</span>選択</span><span><span class="ea-kbd">Enter</span>移動</span><span><span class="ea-kbd">Tab</span>絞り込み</span><span><span class="ea-kbd">/</span>どこでも検索</span><span><span class="ea-kbd">[</span><span class="ea-kbd">]</span>前後のセクション</span></div></div>';
   doc.body.appendChild(pal);
@@ -222,7 +239,7 @@ function render(){
   if(!loaded)return;
   var q=inp.value,list;
   if(!q.trim()){
-    var own=secs.map(function(s){return{k:'sec',t:s.label,s:CUR.t+(s.group?' · '+s.group:''),u:CUR.p+'#'+s.id,own:1}});
+    var own=secs.map(function(s){return{k:'sec',t:s.label,s:CUR.t+(s.group?'　'+s.group:''),u:CUR.p+'#'+s.id,own:1}});
     list=ITEMS.filter(function(it){return it.k==='page'}).concat(own);
   }else list=search(q);
   var counts={};list.forEach(function(it){counts[it.k]=(counts[it.k]||0)+1});
@@ -233,16 +250,16 @@ function render(){
   hits=[];var html='';
   var groups=['page','sec'];if(q.trim()){groups=ORDER.slice();var top=list[0];if(top&&top._sc>=500){groups.splice(groups.indexOf(top.k),1);groups.unshift(top.k)}}
   groups.forEach(function(k){var arr=by[k];if(!arr)return;arr=arr.slice(0,allow?120:LIM[k]);
-    var gname=(!q.trim()&&k==='sec')?'このページの目次 — '+CUR.t:KIND[k].g;
+    var gname=(!q.trim()&&k==='sec')?'このページの目次（'+CUR.t+'）':KIND[k].g;
     html+='<div class="ea-grp">'+gname+'</div>';
     arr.forEach(function(it){var i=hits.length;hits.push(it);
       var pg=PAGES.filter(function(p){return it.u.split('#')[0]===p.p})[0];
       var c=it.c||(pg&&pg.c)||'';
       var ic=it.i?'<img class="ea-ic" src="'+url(it.i)+'" alt="" loading="lazy">':'<span class="ea-ic" style="--c:'+c+'">'+(it.k==='scene'?esc(it.t.slice(0,2)):KIND[it.k].ic)+'</span>';
       var sn=q.trim()?snippet(it,q):'';
-      html+='<a class="ea-it" role="option" data-i="'+i+'" href="'+url(it.u)+'">'+ic+'<span class="ea-tx"><span class="ea-t">'+(q.trim()?mark(it.t,q.trim().split(/\s+/)):esc(it.t))+'</span><span class="ea-s">'+esc(it.s||'')+(it.k==='cut'?' · 絵コンテを開く':it.k==='scene'?' · 脚本':'')+'</span>'+(sn?'<span class="ea-sn">'+sn+'</span>':'')+'</span><span class="ea-go">↵</span></a>';
+      html+='<a class="ea-it" role="option" data-i="'+i+'" href="'+url(it.u)+'">'+ic+'<span class="ea-tx"><span class="ea-t">'+(q.trim()?mark(it.t,q.trim().split(/\s+/)):esc(it.t))+'</span><span class="ea-s">'+esc(it.s||'')+(it.k==='cut'?'　旧版の絵コンテを開く':it.k==='scene'?'　旧版の脚本':'')+'</span>'+(sn?'<span class="ea-sn">'+sn+'</span>':'')+'</span><span class="ea-go">↵</span></a>';
     })});
-  res.innerHTML=html||'<div class="ea-empty">「'+esc(q)+'」に一致するものはありません。<br>カット番号（例：10-06）や台詞の一部でも探せます。</div>';
+  res.innerHTML=html||'<div class="ea-empty">「'+esc(q)+'」に一致するものはありません。<br>言葉を短くするか、旧版のカット番号（例：10-06）でもお探しいただけます。</div>';
   if(sel>=hits.length)sel=0;hl(true);res.scrollTop=0;
 }
 function pick(it,newTab){
@@ -261,8 +278,8 @@ function pick(it,newTab){
 if(!doc.body.hasAttribute('data-ea-nonext')){
   var i=PAGES.indexOf(CUR),pv=PAGES[i-1],nx=PAGES[i+1];
   var box=h('nav',{'class':'ea-next','aria-label':'前後のページ'});
-  function card(p,lab,cls){return '<a class="'+cls+'" href="'+url(p.p)+'" style="--c:'+p.c+';--img:url('+url(p.img)+')"><small>'+lab+' · '+p.en+'</small><b>'+p.t+'</b><span>'+esc(p.d)+'</span></a>'}
-  box.innerHTML=(pv?card(pv,'← 前のページ',''):'')+(nx?card(nx,'次のページ →','nx'):'');
+  function card(p,lab,cls){return '<a class="'+cls+'" href="'+url(p.p)+'" style="--c:'+p.c+';--img:url('+url(p.img)+')"><small>'+lab+'（'+p.g+'）</small><b>'+p.t+'</b><span>'+esc(p.d)+'</span></a>'}
+  box.innerHTML=(pv?card(pv,'前のページ',''):'')+(nx?card(nx,'次のページ','nx'):'');
   var fs=doc.querySelectorAll('footer'),foot=fs[fs.length-1];
   if(foot)foot.parentNode.insertBefore(box,foot);else doc.body.appendChild(box);
 }

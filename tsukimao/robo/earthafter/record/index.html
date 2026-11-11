@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>作り方と記録｜N3Co 制作室</title>
+<meta name="description" content="物語から提出までの制作の流れと、規約第九条に備える制作記録の付け方。">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1f2429">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ea-core.css?v=9">
+<link rel="stylesheet" href="../assets/ea-nav.css?v=9">
+<style>
+.flow{list-style:none;margin:0;padding:0;counter-reset:f;display:grid;gap:0}
+.flow>li{counter-increment:f;display:grid;grid-template-columns:44px 1fr;gap:0 16px;position:relative;padding-bottom:22px}
+.flow>li::before{content:counter(f);width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line2);display:grid;place-items:center;font:900 1.1rem var(--mincho);background:var(--wall);position:relative;z-index:1}
+.flow>li::after{content:"";position:absolute;left:21px;top:44px;bottom:0;width:2px;background:var(--line)}
+.flow>li:last-child::after{display:none}
+.flow>li.gate::before{background:var(--lamp);border-color:var(--lamp);color:#1d1a12}
+.flow h3{margin:6px 0 2px;font-size:1.1rem}
+.flow p{margin:0 0 .3em;font-size:.92rem;line-height:1.8;color:var(--mute);max-width:none}
+.flow .who{font-size:.8rem;color:var(--dim)}
+.flow .g{color:var(--lamp);font-weight:700}
+.fld{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));list-style:none;margin:14px 0;padding:0}
+.fld li{background:var(--panel);border-radius:4px;padding:12px 14px;font-size:.9rem;line-height:1.75}
+.fld b{display:block}
+.fld span{color:var(--mute);font-size:.85rem}
+</style>
+</head>
+<body class="n3">
+<main class="wrap">
+
+<header class="pagehead" id="top">
+  <p class="when">2026/11/11 時点</p>
+  <h1>作り方と記録</h1>
+  <p class="lead">物語から提出までの流れと、作りながら残す記録の付け方です。</p>
+</header>
+
+<section class="sec" id="nagare" data-ea-label="制作の流れ">
+  <h2>制作の流れ</h2>
+  <p>色の付いた丸は関門です。ここを通るまで、次へは進みません。旧作では、映像を通しで観る前に細部の直しへ進み、最後に全体が成立しないと分かりました。</p>
+  <ol class="flow">
+    <li><div><h3>物語（骨子）</h3><p>未決定の問いに答え、場面表を尺の予算に入れる。</p><p class="who">月真猫さん　11月15日にチームへ</p></div></li>
+    <li class="gate"><div><h3>骨子の関門</h3><p><span class="g">関門</span>　十二の検査に通す。事情を知らない三者に読ませ、講評を並べる。</p><p class="who">Claude　11月14日</p></div></li>
+    <li><div><h3>脚本</h3><p>場面ごとの行動、台詞、カメラ。台詞にはひらがなとローマ字を添える。秒数を積み上げて、十七分以内かを確かめる。</p><p class="who">Claude が下書き、月真猫さんが決める　11月16日から17日</p></div></li>
+    <li><div><h3>絵コンテ</h3><p>Claude がプロンプトと参考素材を一式（ZIP）にまとめ、月真猫さんがChatGPTで絵にする。物語の絵は一枚を四分割、設定画は一枚ずつ。</p><p class="who">月真猫さん　11月17日から19日</p></div></li>
+    <li><div><h3>粗い通し版を作る</h3><p>Lumina（Seedance 2.0 mini、720p、16:9）で全カットを作り、仮の声を入れて繋ぐ。難しいカットだけ Seedance 2.5 や Vidu 4 を使う。</p><p class="who">月真猫さんのお指図のあと、Claude が操作　11月19日から22日</p></div></li>
+    <li class="gate"><div><h3>通しで観る（一回目）</h3><p><span class="g">関門</span>　三人で最初から最後まで観る。泣けたか、長く感じた箇所、分からなかった箇所を書き出す。ここで成立していなければ、仕上げへ進まず、物語と編集を直す。</p><p class="who">三人　11月22日</p></div></li>
+    <li><div><h3>直しと音</h3><p>直すカットを作り直す。声、音楽、効果音を入れる。曲の入る位置はNokosuさんと決める。</p><p class="who">三人　11月23日から26日</p></div></li>
+    <li><div><h3>高解像度化と書き出し</h3><p>1920×1080以上にし、色と音量（−14 LUFS 目安）を整えて、H.264・30fpsで書き出す。</p><p class="who">月真猫さん　11月27日</p></div></li>
+    <li class="gate"><div><h3>通しで観る（二回目）と確認表</h3><p><span class="g">関門</span>　書き出したファイルを通しで観て、<a href="../rules/#kakunin">提出前の確認表</a> をすべて埋める。</p><p class="who">三人　11月28日</p></div></li>
+    <li><div><h3>提出</h3><p>代表者が Creators' Wonderland から応募する。締切は30日の23時59分ですが、前日に済ませます。</p><p class="who">代表者　11月29日</p></div></li>
+  </ol>
+  <p class="small">日付は Claude の案です。動かすときは <a href="../#dandori">締切までの段取り</a> も一緒に直します。</p>
+</section>
+
+<section class="sec" id="kimari" data-ea-label="生成の決まり">
+  <h2>生成の決まり</h2>
+  <p class="small"><span class="st st-k">確定</span> 月真猫さんが決めたやり方です。</p>
+  <div class="cols">
+    <div class="box"><h3>絵コンテは参考として使う</h3><p class="small">絵コンテを動画の最初のコマにはしません。参考素材として渡します。参考の絵が崩れていたら、月真猫さんがChatGPTで直しますので、Claude は直し用のプロンプトを用意します。</p></div>
+    <div class="box"><h3>粗く全部、それから直す</h3><p class="small">まず720pで全体を作り、通しで観てから直します。Kling はなるべく使いません。</p></div>
+    <div class="box"><h3>検閲で弾かれたとき</h3><p class="small">言い回しを変えるだけで通るなら、そうします。画面のイメージや物語が変わる直し（持ち物を無くすなど）はしません。質を落としません。絵コンテの静止画で代用しません。</p></div>
+    <div class="box"><h3>台詞の書き方</h3><p class="small">口の動きと台詞を一致させます。読み間違いを防ぐため、ひらがなとローマ字を添えます。以前「生きたかった」が「いたかった」と読まれたことがありました。</p></div>
+    <div class="box"><h3>絵の生成は月真猫さん</h3><p class="small">絵コンテの絵は月真猫さんがご自身で作られます。Claude は、お指図があるまで絵も動画も生成しません。</p></div>
+    <div class="box"><h3>ログインは人の手で</h3><p class="small">Lumina へのログインや、パスワードの入力は、月真猫さんご自身にお願いします。</p></div>
+  </div>
+</section>
+
+<section class="sec" id="kiroku" data-ea-label="制作記録">
+  <h2>制作記録</h2>
+  <p>規約の第九条により、制作の過程を記録し、主催者から求められたら開示する義務があります。旧作の制作では、この記録の決まりがありませんでした。新しい物語では、カットを一つ作るたびに一行を残します。</p>
+  <h3>残す項目</h3>
+  <ul class="fld">
+    <li><b>カットの番号と日付</b><span>どのカットを、いつ作ったか</span></li>
+    <li><b>道具・モデル・バージョン</b><span>例：Lumina ／ Seedance 2.0 mini</span></li>
+    <li><b>プロンプトの全文</b><span>通らずに言い回しを変えたときは、変える前の文も残す</span></li>
+    <li><b>パラメータ</b><span>解像度、縦横比、秒数、そのほかの設定</span></li>
+    <li><b>シード値</b><span>画面に出ない道具の場合は「取得できず」と書く</span></li>
+    <li><b>参考素材</b><span>渡した絵コンテや設定画のファイル名</span></li>
+    <li><b>採用したか</b><span>採用、作り直し、不採用。不採用の理由</span></li>
+    <li><b>手を入れた内容</b><span>編集、色、音、文字、切り出しなど。「そのまま出していない」ことの証しになります</span></li>
+  </ul>
+  <p class="small">声と音楽も同じ項目で残します。絵コンテの絵（ChatGPT）は、プロンプトと参考素材の一式（ZIP）をそのまま残せば記録になります。</p>
+  <div class="btns">
+    <button class="btn main" type="button" id="dl">記録の表のひな形を受け取る（CSV）</button>
+    <button class="btn" type="button" id="cp">一カットぶんの書式を写す</button>
+  </div>
+  <div class="note warn">
+    <p><b>保管の場所は未決定です（未決定の問い Q13）。</b>この制作室は、URLを知っていれば誰でも開けます。プロンプトやシード値をここに置くと公開されます。Claude の案は、チームだけが見られる表計算に置くことです。</p>
+    <p>旧作で生成したカットの記録は、まとまった形では残っていません。旧作の素材を新しい物語で使う場合は、そのカットの記録をさかのぼって作る必要があります。</p>
+  </div>
+  <h3>Claude が生成を操作するとき</h3>
+  <p>Claude が Lumina を操作してカットを作るときは、送信のたびに上の項目を控え、作業の終わりに表の形でお渡しします。シード値などが画面から読めない場合は、その旨を記します。</p>
+</section>
+
+<section class="sec" id="koushin" data-ea-label="制作室の直し方">
+  <h2>制作室の直し方</h2>
+  <ol class="plain">
+    <li>相談や決定で直す箇所が出たら、Claude が「更新候補」としてお知らせします。</li>
+    <li>月真猫さんがご確認のあと、直します。大きな変更の前には控えを取ります。</li>
+    <li>新しい物語の決定は、正本（<code>story/data.js</code>）の一か所だけを直します。最初のページ、新しい物語、判断基準は、そこから描かれます。</li>
+    <li>直したあとは、点検の道具（<code>assets/check.py</code>）で食い違いがないかを確かめてから公開します。</li>
+  </ol>
+  <p class="small">Claude 向けの詳しい手順は、このフォルダの <code>CLAUDE.md</code> にあります。</p>
+</section>
+
+</main>
+<footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu</div></footer>
+<script src="../assets/ea-core.js?v=9"></script>
+<script>
+(function(){var U=window.N3UI;
+var H=['カット番号','日付','種類（映像・声・音楽・絵）','道具','モデルとバージョン','プロンプト全文','変える前のプロンプト','解像度','縦横比','秒数','そのほかの設定','シード値','参考素材のファイル名','結果（採用・作り直し・不採用）','不採用の理由','手を入れた内容','担当'];
+document.getElementById('dl').onclick=function(){U.download('seisaku-kiroku.csv',H.join(',')+'\r\n'+'01-01,2026-11-19,映像,Lumina,Seedance 2.0 mini,,,720p,16:9,8,,,,,,,\r\n');U.toast('ひな形を保存しました')};
+document.getElementById('cp').onclick=function(){U.copy(H.map(function(h){return h+'：'}).join('\n'),'書式を写しました')};
+})();
+</script>
+<script src="../assets/ea-nav.js?v=9" defer></script>
+</body>
+</html>
