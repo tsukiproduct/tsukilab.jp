@@ -164,7 +164,7 @@
 </main>
 <footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu</div></footer>
 
-<script src="data.js?v=4"></script>
+<script src="data.js?v=5"></script>
 <script src="../assets/ea-core.js?v=10"></script>
 <script>
 (function(){
@@ -190,7 +190,7 @@ U.ents('#hh',N.hikitsugi,'h');U.ents('#tt',N.teian,'t');U.ents('#aa',N.katei,'a'
 $('#ideas').innerHTML=N.ideas.map(function(i){return '<li>'+e(i.t)+(i.link?'　<a href="'+U.ROOT+i.link[0]+'">'+e(i.link[1])+'</a>':'')+(i.who?'<span class="small">　'+e(i.who)+'</span>':'')+'</li>'}).join('');
 
 /* ---------- 尺の予算 ---------- */
-var B=N.budget,KEY='n3-budget-v2',KINDS=['掴み','日常','溜め','山場','余韻','説明','題・クレジット'];
+var B=N.budget,KEY='n3-budget-v3',KINDS=['掴み','日常','溜め','山場','余韻','説明','題・クレジット'];
 var rows=U.store.get(KEY,null)||JSON.parse(JSON.stringify(B.rows));
 function draw(){
   $('#rows').innerHTML=rows.map(function(r,i){return '<li data-i="'+i+'" data-k="'+e(r.k)+'"><span class="no">'+(i+1)+'</span>'+
