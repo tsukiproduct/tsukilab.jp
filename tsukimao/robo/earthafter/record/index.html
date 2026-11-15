@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/ea-core.css?v=9">
-<link rel="stylesheet" href="../assets/ea-nav.css?v=9">
+<link rel="stylesheet" href="../assets/ea-core.css?v=10">
+<link rel="stylesheet" href="../assets/ea-nav.css?v=10">
 <style>
 .flow{list-style:none;margin:0;padding:0;counter-reset:f;display:grid;gap:0}
 .flow>li{counter-increment:f;display:grid;grid-template-columns:44px 1fr;gap:0 16px;position:relative;padding-bottom:22px}
@@ -33,7 +33,7 @@
 <main class="wrap">
 
 <header class="pagehead" id="top">
-  <p class="when">2026/11/11 時点</p>
+  <p class="when">2026/11/15 時点</p>
   <h1>作り方と記録</h1>
   <p class="lead">物語から提出までの流れと、作りながら残す記録の付け方です。</p>
 </header>
@@ -42,8 +42,8 @@
   <h2>制作の流れ</h2>
   <p>色の付いた丸は関門です。ここを通るまで、次へは進みません。旧作では、映像を通しで観る前に細部の直しへ進み、最後に全体が成立しないと分かりました。</p>
   <ol class="flow">
-    <li><div><h3>物語（骨子）</h3><p>未決定の問いに答え、場面表を尺の予算に入れる。</p><p class="who">月真猫さん　11月15日にチームへ</p></div></li>
-    <li class="gate"><div><h3>骨子の関門</h3><p><span class="g">関門</span>　十二の検査に通す。事情を知らない三者に読ませ、講評を並べる。</p><p class="who">Claude　11月14日</p></div></li>
+    <li><div><h3>物語（骨子）</h3><p>未決定の問いに答え、場面表を尺の予算に入れる。</p><p class="who">月真猫さん　11月15日にチームへ（済み）</p></div></li>
+    <li class="gate"><div><h3>骨子の関門</h3><p><span class="g">関門</span>　十二の検査に通す。事情を知らない三者に読ませ、講評を並べる。</p><p class="who">Claude　11月16日</p></div></li>
     <li><div><h3>脚本</h3><p>場面ごとの行動、台詞、カメラ。台詞にはひらがなとローマ字を添える。秒数を積み上げて、十七分以内かを確かめる。</p><p class="who">Claude が下書き、月真猫さんが決める　11月16日から17日</p></div></li>
     <li><div><h3>絵コンテ</h3><p>Claude がプロンプトと参考素材を一式（ZIP）にまとめ、月真猫さんがChatGPTで絵にする。物語の絵は一枚を四分割、設定画は一枚ずつ。</p><p class="who">月真猫さん　11月17日から19日</p></div></li>
     <li><div><h3>粗い通し版を作る</h3><p>Lumina（Seedance 2.0 mini、720p、16:9）で全カットを作り、仮の声を入れて繋ぐ。難しいカットだけ Seedance 2.5 や Vidu 4 を使う。</p><p class="who">月真猫さんのお指図のあと、Claude が操作　11月19日から22日</p></div></li>
@@ -109,7 +109,7 @@
 
 </main>
 <footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu</div></footer>
-<script src="../assets/ea-core.js?v=9"></script>
+<script src="../assets/ea-core.js?v=10"></script>
 <script>
 (function(){var U=window.N3UI;
 var H=['カット番号','日付','種類（映像・声・音楽・絵）','道具','モデルとバージョン','プロンプト全文','変える前のプロンプト','解像度','縦横比','秒数','そのほかの設定','シード値','参考素材のファイル名','結果（採用・作り直し・不採用）','不採用の理由','手を入れた内容','担当'];
@@ -117,6 +117,6 @@ document.getElementById('dl').onclick=function(){U.download('seisaku-kiroku.csv'
 document.getElementById('cp').onclick=function(){U.copy(H.map(function(h){return h+'：'}).join('\n'),'書式を写しました')};
 })();
 </script>
-<script src="../assets/ea-nav.js?v=9" defer></script>
+<script src="../assets/ea-nav.js?v=10" defer></script>
 </body>
 </html>

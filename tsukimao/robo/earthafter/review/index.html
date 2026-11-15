@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/ea-core.css?v=9">
-<link rel="stylesheet" href="../assets/ea-nav.css?v=9">
+<link rel="stylesheet" href="../assets/ea-core.css?v=10">
+<link rel="stylesheet" href="../assets/ea-nav.css?v=10">
 <style>
 .sum{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));margin:22px 0 6px}
 .sum .box{margin:0}
@@ -134,9 +134,9 @@
 </main>
 <footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu</div></footer>
 
-<script src="../story/data.js?v=2"></script>
-<script src="data.js?v=2"></script>
-<script src="../assets/ea-core.js?v=9"></script>
+<script src="../story/data.js?v=3"></script>
+<script src="data.js?v=3"></script>
+<script src="../assets/ea-core.js?v=10"></script>
 <script>
 (function(){
 var R=window.N3R,U=window.N3UI,e=U.esc,$=function(s){return document.querySelector(s)};
@@ -149,13 +149,13 @@ var tot=R.now.score.reduce(function(a,s){return a+s.p},0),stg=R.stages.filter(fu
 $('#when').textContent=R.updated.replace(/-/g,'/')+' 時点';
 $('#sum').innerHTML=
  '<div class="box"><h3>旧作『EARTH AFTER』を関門に通すと</h3><p class="big">'+co.ng+'<small>／'+R.gate.length+' で不合格</small></p>'+dots('old')+'<p class="tally">'+tally(co)+'</p></div>'+
- '<div class="box"><h3>新しい物語（骨子）を関門に通すと</h3><p class="big">'+cn.ng+'<small>／'+R.gate.length+' で不合格</small></p>'+dots('neo')+'<p class="tally">'+tally(cn)+'</p></div>'+
+ '<div class="box"><h3>新しい物語（脚本の下書き）を関門に通すと</h3><p class="big">'+cn.ng+'<small>／'+R.gate.length+' で不合格</small></p>'+dots('neo')+'<p class="tally">'+tally(cn)+'</p></div>'+
  '<div class="box"><h3>いまの段階で付けられる点数</h3><p class="big">'+tot+'<small>／'+stg.cap+'点（'+e(stg.t)+'の段階の上限）</small></p><p class="tally">百点満点のうち、いま評価できるのは'+stg.cap+'点ぶんだけです。</p></div>';
 
 var gs=[];R.gate.forEach(function(g){if(gs.indexOf(g.g)<0)gs.push(g.g)});
 $('#gate').innerHTML=gs.map(function(gn){return '<h3 class="gh">'+e(gn)+'</h3><ol class="gate">'+R.gate.filter(function(g){return g.g===gn}).map(function(g){
   function cell(lbl,v){return '<div><b class="w">'+lbl+'</b><span class="v v-'+v[0]+'">'+VL[v[0]]+'</span>'+e(v[1])+'</div>'}
-  return '<li id="'+g.id+'"><div class="hd"><span class="id">'+g.id+'</span><h3>'+e(g.t)+'</h3></div><p class="rule">'+e(g.rule)+'</p><p class="why">'+e(g.why)+'</p><div class="vs">'+cell('旧作『EARTH AFTER』',g.old)+cell('新しい物語（骨子）',g.neo)+'</div></li>'}).join('')+'</ol>'}).join('');
+  return '<li id="'+g.id+'"><div class="hd"><span class="id">'+g.id+'</span><h3>'+e(g.t)+'</h3></div><p class="rule">'+e(g.rule)+'</p><p class="why">'+e(g.why)+'</p><div class="vs">'+cell('旧作『EARTH AFTER』',g.old)+cell('新しい物語（脚本の下書き）',g.neo)+'</div></li>'}).join('')+'</ol>'}).join('');
 
 $('#ladder').innerHTML=R.stages.map(function(s){var cur=s.id===R.now.stage;
   return '<div class="rung'+(cur?' cur':'')+'"><div class="nm">'+e(s.t)+'<small>'+e(s.by)+(cur?'　いまここ':'')+'</small></div><div class="bar"><i style="width:'+s.cap+'%"></i>'+(cur?'<b style="width:'+tot+'%"></b>':'')+'<span>上限 '+s.cap+'点</span></div><p>見えるもの：'+e(s.see)+(s.cant?'　／　まだ見えないもの：'+e(s.cant):'')+'</p></div>'}).join('');
@@ -164,7 +164,7 @@ $('#caps').innerHTML='<thead><tr><th>公式の審査基準</th>'+R.stages.map(fu
   '<tr><td><b>上限の合計</b></td>'+R.stages.map(function(s){return '<td class="r"><b>'+s.cap+'</b></td>'}).join('')+'</tr></tbody>';
 
 var si=R.stages.indexOf(stg);
-$('#mitate-body').innerHTML='<p>いまは<b>'+e(stg.t)+'</b>の段階です。関門に不合格はありませんが、未確定が'+cn.un+'つ、提案の値での合格が'+cn.t+'つ残っています。確定した合格は'+cn.ok+'つです。</p>'+
+$('#mitate-body').innerHTML='<p>いまは<b>'+e(stg.t)+'</b>の段階です（脚本の下書きはありますが、事情を知らない者にまだ読ませていないため、脚本の段階には進めていません）。関門に不合格はありませんが、未確定が'+cn.un+'つ、提案の値での合格が'+cn.t+'つ残っています。確定した合格は'+cn.ok+'つです。</p>'+
  '<div class="tw"><table class="tbl stack"><thead><tr><th>公式の審査基準</th><th class="r">見立て</th><th>理由</th></tr></thead><tbody>'+
  R.now.score.map(function(s){var c=R.crit.filter(function(x){return x.id===s.id})[0],cap=c.cap[si];
    return '<tr><td>'+e(c.t)+'</td><td class="r" data-l="見立て">'+(cap?'<b>'+s.p+'</b> ／ '+cap:'<span class="na">—</span>')+'</td><td data-l="理由">'+e(s.n)+'</td></tr>'}).join('')+
@@ -172,6 +172,6 @@ $('#mitate-body').innerHTML='<p>いまは<b>'+e(stg.t)+'</b>の段階です。�
 if(window.EANav)EANav.refresh();
 })();
 </script>
-<script src="../assets/ea-nav.js?v=9" defer></script>
+<script src="../assets/ea-nav.js?v=10" defer></script>
 </body>
 </html>

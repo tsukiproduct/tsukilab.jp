@@ -14,8 +14,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/ea-core.css?v=9">
-<link rel="stylesheet" href="assets/ea-nav.css?v=9">
+<link rel="stylesheet" href="assets/ea-core.css?v=10">
+<link rel="stylesheet" href="assets/ea-nav.css?v=10">
 <style>
 .top{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:36px;align-items:center;padding:48px 0 12px}
 .top .kari{margin-bottom:14px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;color:var(--mute);font-size:.9rem}
@@ -64,9 +64,9 @@
   <div>
     <p class="kari"><span class="st st-a">仮題</span><span>いま作っている物語</span></p>
     <h1><span>声を無くしても、</span><span>あなたを愛している</span></h1>
-    <p class="one">電波の届かない部屋で暮らす三人。十二時になれば二人が止まると知っている桔響は、最後の日に「ありがとうゲーム」を持ちかけます。</p>
+    <p class="one" id="oneline"></p>
     <p class="count" id="count"></p>
-    <div class="btns"><a class="btn main" href="story/">新しい物語の作業台を開く</a><a class="btn" href="review/">判断基準を見る</a></div>
+    <div class="btns"><a class="btn main" href="story/#kyakuhon">脚本（下書き）を読む</a><a class="btn" href="story/">新しい物語の作業台</a><a class="btn" href="review/">判断基準を見る</a></div>
   </div>
   <div class="dial"><div id="dial"></div><p>応募の締切は 2026年11月30日 23時59分（日本時間）。<br>物語をチームへ出す約束は 11月15日です。</p></div>
 </header>
@@ -90,7 +90,7 @@
 
 <section class="sec" id="mitei" data-ea-label="未決定の問い">
   <h2>未決定の問い</h2>
-  <p class="small">物語の骨に関わる六つを先に並べました。残りは <a href="story/#mitei">新しい物語</a> のページにございます。</p>
+  <p class="small">急ぐものを先に並べました。残りは <a href="story/#mitei">新しい物語</a> のページにございます。</p>
   <ul class="ents two" id="mm"></ul>
 </section>
 
@@ -158,13 +158,13 @@
 </main>
 <footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu　　この制作室は検索に載らない設定ですが、URLを知っていれば誰でも開けます。</div></footer>
 
-<script src="story/data.js?v=2"></script>
-<script src="review/data.js?v=2"></script>
-<script src="assets/ea-core.js?v=9"></script>
+<script src="story/data.js?v=3"></script>
+<script src="review/data.js?v=3"></script>
+<script src="assets/ea-core.js?v=10"></script>
 <script>
 (function(){
 var N=window.N3,U=window.N3UI,$=function(s){return document.querySelector(s)};
-U.dial('#dial',N);setInterval(function(){U.dial('#dial',N)},60000);
+U.dial('#dial',N);$('#oneline').textContent=N.oneline;setInterval(function(){U.dial('#dial',N)},60000);
 $('#count').textContent='確定は'+N.kakutei.length+'件、未決定の問いは'+N.mitei.length+'件、Claude の提案は'+N.teian.length+'件あります（'+N.updated.replace(/-/g,'/')+' 時点）。';
 $('#todo').innerHTML=N.next.map(function(x){return '<li><b>'+U.esc(x.t)+'</b><span>'+U.esc(x.who)+(x.due?'　'+U.esc(x.due)+'まで':'')+(x.link?'　<a href="'+x.link[0]+'">'+U.esc(x.link[1])+'を開く</a>':'')+'</span></li>'}).join('');
 var td=U.today();
@@ -176,10 +176,10 @@ var groups=[];N.kakutei.forEach(function(k){if(groups.indexOf(k.g)<0)groups.push
 $('#kk').innerHTML=groups.map(function(g){return '<h3 class="grp">'+U.esc(g)+'</h3><ul class="ents two">'+N.kakutei.filter(function(k){return k.g===g}).map(function(k){return U.ent(k,'k')}).join('')+'</ul>'}).join('');
 U.ents('#mm',N.mitei.filter(function(q){return q.pri===1}),'m');
 var R=window.N3R;if(R){var ng=R.gate.filter(function(g){return g.old[0]==='ng'}).length,un=R.gate.filter(function(g){return g.neo[0]==='un'}).length,ngn=R.gate.filter(function(g){return g.neo[0]==='ng'}).length;
-  $('#gatecount').textContent='旧作をこの関門に通すと、'+R.gate.length+'の検査のうち'+ng+'で不合格になります。新しい物語の骨子は、不合格が'+ngn+'、未確定が'+un+'です。'}
+  $('#gatecount').textContent='旧作をこの関門に通すと、'+R.gate.length+'の検査のうち'+ng+'で不合格になります。新しい物語（脚本の下書き）は、不合格が'+ngn+'、未確定が'+un+'です。'}
 if(window.EANav)EANav.refresh();
 })();
 </script>
-<script src="assets/ea-nav.js?v=9" defer></script>
+<script src="assets/ea-nav.js?v=10" defer></script>
 </body>
 </html>

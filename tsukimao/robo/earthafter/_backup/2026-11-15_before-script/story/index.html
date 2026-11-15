@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>新しい物語｜N3Co 制作室</title>
+<meta name="description" content="「声を無くしても、あなたを愛している」の作業台。確定・引き継ぎ候補・提案・未決定の一覧と、尺の予算。">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1f2429">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ea-core.css?v=9">
+<link rel="stylesheet" href="../assets/ea-nav.css?v=9">
+<style>
+.grp{font-size:.9rem;color:var(--mute);font-family:var(--gothic);font-weight:700;margin:22px 0 8px}
+.readout{position:sticky;top:calc(var(--ea-h,52px) + 8px);z-index:5;background:var(--panel2);border:1px solid var(--line2);border-radius:6px;padding:14px 16px;margin:16px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 18px}
+.readout div b{display:block;font:900 1.7rem/1.25 var(--mincho);font-variant-numeric:tabular-nums}
+.readout div span{font-size:.8rem;color:var(--mute)}
+.readout .track{grid-column:1/-1;height:14px;border-radius:99px;background:var(--wall);position:relative;overflow:hidden;margin-top:6px}
+.readout .track i{position:absolute;inset:0 auto 0 0;background:var(--lamp);border-radius:99px 0 0 99px}
+.readout .track i.over{background:var(--bad)}
+.readout .track u{position:absolute;top:0;bottom:0;width:2px;background:var(--ink)}
+.readout .cap{grid-column:1/-1;font-size:.78rem;color:var(--dim);margin:0;max-width:none}
+.readout .bad{color:var(--bad)}
+@media (max-width:560px){.readout{padding:10px 12px}.readout div b{font-size:1.25rem}.readout .cap{display:none}}
+
+.rows{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rows li{display:grid;grid-template-columns:30px 1fr 108px 96px 44px;gap:8px;align-items:center;background:var(--panel);border-radius:4px;padding:8px 10px;border-left:4px solid var(--line2)}
+.rows li[data-k="山場"]{border-left-color:var(--lamp)}
+.rows li[data-k="日常"]{border-left-color:var(--leaf)}
+.rows li[data-k="説明"]{border-left-color:var(--bad)}
+.rows .no{color:var(--dim);font-size:.82rem;text-align:center;font-variant-numeric:tabular-nums}
+.rows input,.rows select{width:100%;min-height:44px;background:var(--wall);border:1px solid var(--line);border-radius:4px;padding:6px 10px}
+.rows input[type=number]{text-align:right;font-variant-numeric:tabular-nums}
+.rows .sw{display:flex;align-items:center;gap:6px;font-size:.84rem;color:var(--mute)}
+.rows button{min-height:44px;min-width:44px;background:transparent;border:1px solid var(--line);border-radius:4px;cursor:pointer;color:var(--mute)}
+.rows button:hover{border-color:var(--bad);color:var(--bad)}
+@media (max-width:700px){
+  .rows li{grid-template-columns:1fr 1fr 44px;grid-template-areas:"n n x" "k s s"}
+  .rows .no{display:none}
+  .rows .nm{grid-area:n}.rows .kd{grid-area:k}.rows .sw{grid-area:s}.rows button{grid-area:x}
+}
+.checks{list-style:none;margin:14px 0;padding:0;display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.checks li{border:1px solid var(--line);border-radius:4px;padding:9px 12px;font-size:.88rem;line-height:1.7}
+.checks b{margin-right:.5em}
+.one{font:700 1.15rem/1.9 var(--mincho);max-width:34em}
+</style>
+</head>
+<body class="n3">
+<main class="wrap">
+
+<header class="pagehead" id="top">
+  <p class="when" id="when"></p>
+  <p class="small" style="margin-bottom:6px"><span class="st st-a">仮題</span></p>
+  <h1 id="ttl"></h1>
+  <p class="small" id="ttln"></p>
+  <p class="one">電波の届かない部屋で暮らす三人。十二時になれば二人が止まると知っている桔響は、最後の日に「ありがとうゲーム」を持ちかける。二人も、実は知っていた。</p>
+  <p class="small">この一文は、確定事項をつないだ Claude の要約です。物語そのものは、月真猫さんが11月15日までにお書きになります。</p>
+  <div class="legend" id="legend"></div>
+</header>
+
+<section class="sec" id="mitei" data-ea-label="未決定の問い">
+  <h2>未決定の問い</h2>
+  <p>月真猫さんに決めていただくことです。選択肢は Claude の案で、ほかの答えでももちろん構いません。お答えは、ここに書き込まなくても、チャットでお伝えいただければ反映します。</p>
+  <h3 class="grp">物語の骨に関わる問い（11月13日までに）</h3>
+  <ul class="ents two" id="m1"></ul>
+  <h3 class="grp">脚本に入る前に決めたい問い</h3>
+  <ul class="ents two" id="m2"></ul>
+  <h3 class="grp">提出までに決める問い</h3>
+  <ul class="ents two" id="m3"></ul>
+</section>
+
+<section class="sec" id="kakutei" data-ea-label="確定事項">
+  <h2>確定事項</h2>
+  <p class="small">月真猫さんが決めたことだけを載せています。出典は、どなたがいつ決めたかです。</p>
+  <div id="kk"></div>
+</section>
+
+<section class="sec" id="shaku" data-ea-label="尺の予算">
+  <h2>尺の予算</h2>
+  <p>場面ごとの秒数を入れると、合計と残りが出ます。<span class="st st-t">提案</span> はじめに入っている場面と秒数は、すべて Claude の案です。自由に書き換えてください。書き換えた内容は、この端末にだけ保存されます。</p>
+  <div class="readout" aria-live="polite">
+    <div><b id="r-sum">0:00</b><span>合計</span></div>
+    <div><b id="r-plan">0:00</b><span>計画の上限 17:00 まで</span></div>
+    <div><b id="r-lim">0:00</b><span>公式の上限 20:00 まで</span></div>
+    <div class="track"><i id="r-bar"></i><u style="left:85%"></u></div>
+    <p class="cap">線の位置が十七分です。旧作は計画で十八分三秒でしたが、繋いだ映像は二十分に収まりませんでした。</p>
+  </div>
+  <ol class="rows" id="rows"></ol>
+  <div class="btns">
+    <button class="btn" type="button" id="add">場面を足す</button>
+    <button class="btn" type="button" id="cp">場面表を文字で写す</button>
+    <button class="btn" type="button" id="rs">提案の初期値に戻す</button>
+  </div>
+  <h3>この場面表を関門に通すと</h3>
+  <p class="small">秒数から計算できる検査だけを、その場で判定します。残りの検査は <a href="../review/#kanmon">判断基準</a> にございます。</p>
+  <ul class="checks" id="checks"></ul>
+</section>
+
+<section class="sec" id="hikitsugi" data-ea-label="引き継ぎ候補">
+  <h2>引き継ぎ候補</h2>
+  <p class="small">旧作で決まっていたことのうち、新しい物語で使うかどうかをまだ伺っていないものです。確定としては扱いません。</p>
+  <ul class="ents two" id="hh"></ul>
+</section>
+
+<section class="sec" id="teian" data-ea-label="提案">
+  <h2>提案</h2>
+  <p class="small">Claude の案です。採るかどうかは月真猫さんのご判断です。</p>
+  <ul class="ents two" id="tt"></ul>
+</section>
+
+<section class="sec" id="katei" data-ea-label="仮定">
+  <h2>仮定</h2>
+  <p class="small">まだ決まっていないため、仮に置いている値です。尺の予算の初期値は、この仮定で組んでいます。</p>
+  <ul class="ents two" id="aa"></ul>
+</section>
+
+<section class="sec" id="ura" data-ea-label="裏設定・アイデア帳">
+  <h2>裏設定・アイデア帳</h2>
+  <p class="small">チームの雑談や思いつきを、採るかどうかに関わらず残す場所です。物語を縛りません。</p>
+  <ul class="plain" id="ideas"></ul>
+</section>
+
+</main>
+<footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu</div></footer>
+
+<script src="data.js?v=2"></script>
+<script src="../assets/ea-core.js?v=9"></script>
+<script>
+(function(){
+var N=window.N3,U=window.N3UI,e=U.esc,$=function(s){return document.querySelector(s)};
+$('#when').textContent=N.updated.replace(/-/g,'/')+' 時点';
+$('#ttl').textContent=N.title;$('#ttln').textContent=N.titleNote;
+$('#legend').innerHTML=[['k','月真猫さんかチームが決めたこと'],['h','旧作の決定で、使うか未確認'],['t','Claude の案'],['a','未定のため仮に置いた値'],['m','決めていただく問い']].map(function(x){return '<span>'+U.chip(x[0])+x[1]+'</span>'}).join('');
+[1,2,3].forEach(function(p){U.ents('#m'+p,N.mitei.filter(function(q){return q.pri===p}),'m')});
+var groups=[];N.kakutei.forEach(function(k){if(groups.indexOf(k.g)<0)groups.push(k.g)});
+$('#kk').innerHTML=groups.map(function(g){return '<h3 class="grp">'+e(g)+'</h3><ul class="ents two">'+N.kakutei.filter(function(k){return k.g===g}).map(function(k){return U.ent(k,'k')}).join('')+'</ul>'}).join('');
+U.ents('#hh',N.hikitsugi,'h');U.ents('#tt',N.teian,'t');U.ents('#aa',N.katei,'a');
+$('#ideas').innerHTML=N.ideas.map(function(i){return '<li>'+e(i.t)+(i.link?'　<a href="'+U.ROOT+i.link[0]+'">'+e(i.link[1])+'</a>':'')+(i.who?'<span class="small">　'+e(i.who)+'</span>':'')+'</li>'}).join('');
+
+/* ---------- 尺の予算 ---------- */
+var B=N.budget,KEY='n3-budget-v1',KINDS=['日常','溜め','山場','余韻','説明','題・クレジット'];
+var rows=U.store.get(KEY,null)||JSON.parse(JSON.stringify(B.rows));
+function draw(){
+  $('#rows').innerHTML=rows.map(function(r,i){return '<li data-i="'+i+'" data-k="'+e(r.k)+'"><span class="no">'+(i+1)+'</span>'+
+   '<input class="nm" type="text" value="'+e(r.n)+'" aria-label="場面'+(i+1)+'の内容">'+
+   '<select class="kd" aria-label="場面'+(i+1)+'の種類">'+KINDS.map(function(k){return '<option'+(k===r.k?' selected':'')+'>'+k+'</option>'}).join('')+'</select>'+
+   '<label class="sw"><input class="sc" type="number" min="0" max="900" step="5" inputmode="numeric" value="'+r.s+'" aria-label="場面'+(i+1)+'の秒数">秒</label>'+
+   '<button type="button" class="del" aria-label="場面'+(i+1)+'を消す">✕</button></li>'}).join('');
+  calc();
+}
+function calc(){
+  var sum=rows.reduce(function(a,r){return a+(+r.s||0)},0);
+  $('#r-sum').textContent=U.fmt(sum);
+  var p=$('#r-plan'),l=$('#r-lim');p.textContent=U.fmt(B.plan-sum);l.textContent=U.fmt(B.limit-sum);
+  p.className=sum>B.plan?'bad':'';l.className=sum>B.limit?'bad':'';
+  var bar=$('#r-bar');bar.style.width=Math.min(100,sum/B.limit*100)+'%';bar.className=sum>B.plan?'over':'';
+  var sc=rows.filter(function(r){return r.k!=='題・クレジット'}),body=sc.reduce(function(a,r){return a+(+r.s||0)},0);
+  var avg=sc.length?body/sc.length:0;
+  var best=0,run=0;rows.forEach(function(r){if(r.k==='山場'){run+=(+r.s||0);best=Math.max(best,run)}else run=0});
+  var first=rows.map(function(r){return r.k}).indexOf('山場');
+  var daily=rows.reduce(function(a,r,i){return a+((first<0||i<first)&&r.k==='日常'?(+r.s||0):0)},0);
+  var expo=rows.reduce(function(a,r){return a+(r.k==='説明'?(+r.s||0):0)},0);
+  function li(ok,t,d){return '<li><b class="'+(ok?'ok':'ng')+'">'+(ok?'合格':'不合格')+'</b>'+t+'<br><span class="small">'+d+'</span></li>'}
+  $('#checks').innerHTML=
+   li(sc.length<=12&&avg>=80,'場面の数と長さ',sc.length+'場面、平均'+Math.round(avg)+'秒（十二場面まで、平均八十秒以上）')+
+   li(sum?daily/sum>=.2:false,'愛着の貯金','山場より前の日常が'+U.fmt(daily)+'（全体の'+(sum?Math.round(daily/sum*100):0)+'パーセント。二割以上）')+
+   li(best>=150,'山場に使える秒数','途切れずに'+U.fmt(best)+'（百五十秒以上）')+
+   li(expo<=60,'説明に頼る量','説明の場面が'+U.fmt(expo)+'（六十秒まで）')+
+   li(sum<=B.plan,'尺の予算','合計'+U.fmt(sum)+'（十七分まで）')+
+   '<li><b class="na">目安</b>カットの数<br><span class="small">一カット平均'+B.secPerCut+'秒（仮定）として、およそ'+Math.round(sum/B.secPerCut)+'カット。旧作は百二十三カットでした</span></li>';
+}
+function save(){U.store.set(KEY,rows)}
+$('#rows').addEventListener('input',function(ev){var li=ev.target.closest('li');if(!li)return;var r=rows[+li.dataset.i];
+  if(ev.target.classList.contains('nm'))r.n=ev.target.value;
+  if(ev.target.classList.contains('sc'))r.s=Math.max(0,+ev.target.value||0);
+  if(ev.target.classList.contains('kd')){r.k=ev.target.value;li.dataset.k=r.k}
+  save();calc()});
+$('#rows').addEventListener('click',function(ev){var b=ev.target.closest('.del');if(!b)return;rows.splice(+b.closest('li').dataset.i,1);save();draw()});
+$('#add').onclick=function(){rows.push({n:'',s:60,k:'日常'});save();draw();var ins=document.querySelectorAll('#rows .nm');ins[ins.length-1].focus()};
+$('#rs').onclick=function(){rows=JSON.parse(JSON.stringify(B.rows));save();draw();U.toast('提案の初期値に戻しました')};
+$('#cp').onclick=function(){var sum=rows.reduce(function(a,r){return a+(+r.s||0)},0);
+  U.copy('場面表（合計 '+U.fmt(sum)+'）\n'+rows.map(function(r,i){return (i+1)+'. ['+r.k+'] '+r.n+'　'+U.fmt(+r.s||0)}).join('\n'),'場面表を写しました。チャットに貼り付けてお送りください')};
+draw();
+if(window.EANav)EANav.refresh();
+})();
+</script>
+<script src="../assets/ea-nav.js?v=9" defer></script>
+</body>
+</html>

@@ -71,6 +71,9 @@ for key, label, anchor in (('kakutei', '確定', 'kakutei'), ('mitei', '未決�
     for it in N3[key]:
         add('fact', f"{it['id']} {it.get('q') or it['t']}", f"新しい物語 › {label}", f"story/#{it['id']}",
             ' '.join([it.get('n', ''), it.get('why', ''), ' '.join(it.get('opts', []))]))
+for sc in N3.get('script', []):
+    add('fact', f"{sc['id']} {sc['t']}", '新しい物語 › 脚本（下書き）', f"story/#{sc['id']}", ' '.join(sc['lines']))
+add('fact', 'あらすじ', '新しい物語', 'story/#arasuji', ' '.join(N3.get('synopsis', [])))
 for g in N3R['gate']:
     add('fact', f"{g['id']} {g['t']}", '判断基準 › 関門', f"review/#{g['id']}", g['rule'] + ' ' + g['why'])
 
