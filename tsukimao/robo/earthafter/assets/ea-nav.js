@@ -5,11 +5,11 @@
 'use strict';
 var S=document.currentScript;
 var ROOT=S.src.replace(/assets\/ea-nav\.js.*$/,'');
-var VER='19';
+var VER='20';
 var HERO=S.hasAttribute('data-hero');
 var PAGES=[
  {k:'now',g:'いま',p:'',t:'いまの制作',c:'#f0c987',d:'いま作っている物語・確定事項・未決定の問い・締切までの段取り',img:'design/img/ns-key-s.webp'},
- {k:'story',g:'いま',p:'story/',t:'新しい物語',c:'#f0c987',d:'AFTER EARTH の作業台・あらすじ・脚本・尺の予算',img:'design/img/ns-s10-s.webp'},
+ {k:'story',g:'いま',p:'story/',t:'新しい物語',c:'#f0c987',d:'ありがとうは最後まで の作業台・あらすじ・脚本・尺の予算',img:'design/img/ns-s10-s.webp'},
  {k:'prod',g:'いま',p:'production/',t:'制作台',c:'#e6c79a',d:'素材表・俯瞰図・カット表・動画の指示文・プレビズ',img:'design/img/ns-key-s.webp'},
  {k:'review',g:'いま',p:'review/',t:'判断基準',c:'#a9c0a0',d:'二十分の映像として成立するかの関門と、公式五項目の見立て',img:'img/bg3/22.webp'},
  {k:'sim',g:'いま',p:'review/sim.html',t:'審査シミュレーション',c:'#c3b6d8',d:'公式五項目と審査員十一名の見方で採点したシミュレーション',img:'img/bg3/22.webp'},
