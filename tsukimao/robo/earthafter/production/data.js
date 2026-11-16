@@ -1253,7 +1253,7 @@ window.N3P={
 "loc": "退避室・深夜",
 "chars": "桔響18",
 "refs": [
-"BG-R4",
+"BG-R3",
 "CH-K18",
 "PR-03"
 ],
@@ -1261,7 +1261,7 @@ window.N3P={
 "act": "桔響が起き出し、紙切れに鉛筆で何かを書く。書きながら、机に突っ伏して眠ってしまう。",
 "lines": [],
 "sheet": "SB-12",
-"vp": "[参考に添付] 06-07d.webp（基準画） / BG-R4.png / CH-K18.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Kikyo gets up, writes something on a scrap of paper under a small lamp, and slowly falls asleep slumped over it, pencil in hand. Natural lip sync. No text on screen. 8 seconds, 16:9."
+"vp": "[参考に添付] 06-07d.webp（基準画） / BG-R3.png / CH-K18.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Kikyo gets up, writes something on a scrap of paper under a small lamp, and slowly falls asleep slumped over it, pencil in hand. Natural lip sync. No text on screen. 8 seconds, 16:9."
 },
 {
 "id": "07-00a",
@@ -1324,7 +1324,7 @@ window.N3P={
 "sec": 12,
 "t0": 471,
 "kind": "new",
-"loc": "退避室・コンロ",
+"loc": "退避室",
 "chars": "桔響18・アカネ",
 "refs": [
 "BG-R1",
@@ -2406,13 +2406,13 @@ window.N3P={
 "lines": [
 {
 "w": "シオンの書き置き",
-"t": "なんとなく分かってた。俺の中のコードの日付が、今日だった。俺たちは、桔響が大好きだ。扉は、桔響でも開けられるようにしておいた。いってこい",
-"h": "なんとなくわかってた。おれのなかのこーどのひづけが、きょうだった。おれたちは、ききょうがだいすきだ。とびらは、ききょうでもひらけられるようにしておいた。いってこい",
-"r": "nantonakuwakatteta. orenonakanokoodonohizukega, kyoudatta. oretachi wa, kikyougadaisukida. tobira wa, kikyoudemohirakerareruyounishiteoita. ittekoi"
+"t": "最後の日が来ることを、なんとなくわかってた。俺たちは、桔響が大好きだ。扉は、桔響でも開けられるようにしておいた。いってこい",
+"h": "さいごのにちがくることを、なんとなくわかってた。おれたちは、ききょうがだいすきだ。とびらは、ききょうでもひらけられるようにしておいた。いってこい",
+"r": "saigononichigakurukoto o, nantonakuwakatteta. oretachi wa, kikyougadaisukida. tobira wa, kikyoudemohirakerareruyounishiteoita. ittekoi"
 }
 ],
 "sheet": "SB-22",
-"vp": "[参考に添付] 09-08.webp（基準画） / BG-R3.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. The back of Shion's envelope: a few lines in stiff handwriting (text in edit). シオンの書き置き says in Japanese: \"なんとなくわかってた。おれのなかのこーどのひづけが、きょうだった。おれたちは、ききょうがだいすきだ。とびらは、ききょうでもひらけられるようにしておいた。いってこい\". Natural lip sync. No text on screen. 10 seconds, 16:9."
+"vp": "[参考に添付] 09-08.webp（基準画） / BG-R3.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. The back of Shion's envelope: a few lines in stiff handwriting (text in edit). シオンの書き置き says in Japanese: \"さいごのにちがくることを、なんとなくわかってた。おれたちは、ききょうがだいすきだ。とびらは、ききょうでもひらけられるようにしておいた。いってこい\". Natural lip sync. No text on screen. 10 seconds, 16:9."
 },
 {
 "id": "09-09",
