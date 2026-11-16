@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/ea-core.css?v=10">
-<link rel="stylesheet" href="../assets/ea-nav.css?v=10">
+<link rel="stylesheet" href="../assets/ea-core.css?v=11">
+<link rel="stylesheet" href="../assets/ea-nav.css?v=11">
 <style>
 .sum{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));margin:22px 0 6px}
 .sum .box{margin:0}
@@ -105,9 +105,12 @@
 <section class="sec" id="mitate" data-ea-label="いまの見立て">
   <h2>いまの見立て</h2>
   <div id="mitate-body"></div>
-  <div class="note warn">
-    <p>この点数は、物語づくりに関わっている Claude 一者の見立てです。旧作を見誤ったのと同じ立場ですので、当てになさらないでください。事情を知らない三者の講評を、11月14日に並べます（提案）。</p>
-  </div>
+  
+</section>
+
+<section class="sec" id="kouhyou" data-ea-label="三者の講評">
+  <h2>事情を知らない三者の講評</h2>
+  <div id="kouhyou-body"></div>
 </section>
 
 <section class="sec" id="mouken" data-ea-label="事情を知らない者に読ませる">
@@ -134,9 +137,9 @@
 </main>
 <footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu</div></footer>
 
-<script src="../story/data.js?v=5"></script>
-<script src="data.js?v=5"></script>
-<script src="../assets/ea-core.js?v=10"></script>
+<script src="../story/data.js?v=6"></script>
+<script src="data.js?v=6"></script>
+<script src="../assets/ea-core.js?v=11"></script>
 <script>
 (function(){
 var R=window.N3R,U=window.N3UI,e=U.esc,$=function(s){return document.querySelector(s)};
@@ -149,8 +152,8 @@ var tot=R.now.score.reduce(function(a,s){return a+s.p},0),stg=R.stages.filter(fu
 $('#when').textContent=R.updated.replace(/-/g,'/')+' 時点';
 $('#sum').innerHTML=
  '<div class="box"><h3>旧作『EARTH AFTER』を関門に通すと</h3><p class="big">'+co.ng+'<small>／'+R.gate.length+' で不合格</small></p>'+dots('old')+'<p class="tally">'+tally(co)+'</p></div>'+
- '<div class="box"><h3>新しい物語（脚本の下書き）を関門に通すと</h3><p class="big">'+cn.ng+'<small>／'+R.gate.length+' で不合格</small></p>'+dots('neo')+'<p class="tally">'+tally(cn)+'</p></div>'+
- '<div class="box"><h3>いまの段階で付けられる点数</h3><p class="big">'+tot+'<small>／'+stg.cap+'点（'+e(stg.t)+'の段階の上限）</small></p><p class="tally">百点満点のうち、いま評価できるのは'+stg.cap+'点ぶんだけです。</p></div>';
+ '<div class="box"><h3>新しい物語（カット表）を関門に通すと</h3><p class="big">'+cn.ng+'<small>／'+R.gate.length+' で不合格</small></p>'+dots('neo')+'<p class="tally">'+tally(cn)+'</p></div>'+
+ (R.now.hold?'<div class="box"><h3>いまの段階で付けられる点数</h3><p class="big">保留<small>（'+e(stg.t)+'の段階）</small></p><p class="tally">'+e(R.now.hold)+'</p></div>':'<div class="box"><h3>いまの段階で付けられる点数</h3><p class="big">'+tot+'<small>／'+stg.cap+'点（'+e(stg.t)+'の段階の上限）</small></p><p class="tally">百点満点のうち、いま評価できるのは'+stg.cap+'点ぶんだけです。</p></div>');
 
 var gs=[];R.gate.forEach(function(g){if(gs.indexOf(g.g)<0)gs.push(g.g)});
 $('#gate').innerHTML=gs.map(function(gn){return '<h3 class="gh">'+e(gn)+'</h3><ol class="gate">'+R.gate.filter(function(g){return g.g===gn}).map(function(g){
@@ -164,14 +167,24 @@ $('#caps').innerHTML='<thead><tr><th>公式の審査基準</th>'+R.stages.map(fu
   '<tr><td><b>上限の合計</b></td>'+R.stages.map(function(s){return '<td class="r"><b>'+s.cap+'</b></td>'}).join('')+'</tr></tbody>';
 
 var si=R.stages.indexOf(stg);
-$('#mitate-body').innerHTML='<p>いまは<b>'+e(stg.t)+'</b>の段階です（脚本の下書きはありますが、事情を知らない者にまだ読ませていないため、脚本の段階には進めていません）。関門に不合格はありませんが、未確定が'+cn.un+'つ、提案の値での合格が'+cn.t+'つ残っています。確定した合格は'+cn.ok+'つです。</p>'+
+if(R.now.hold){$('#mitate-body').innerHTML='<p>いまは<b>'+e(stg.t)+'</b>の段階です（脚本の下書きを、事情を知らない三者に読ませました）。</p><div class="note warn"><p><b>点数は保留です。</b>'+e(R.now.hold)+'</p></div><p>参考までに、三者が脚本だけから付けた見込みは下の「事情を知らない三者の講評」にあります。これを段階の上限に当てはめるのは、関門をすべて通ってからにします。</p>'}
+else{$('#mitate-body').innerHTML='<p>いまは<b>'+e(stg.t)+'</b>の段階です（脚本の下書きはありますが、事情を知らない者にまだ読ませていないため、脚本の段階には進めていません）。関門に不合格はありませんが、未確定が'+cn.un+'つ、提案の値での合格が'+cn.t+'つ残っています。確定した合格は'+cn.ok+'つです。</p>'+
  '<div class="tw"><table class="tbl stack"><thead><tr><th>公式の審査基準</th><th class="r">見立て</th><th>理由</th></tr></thead><tbody>'+
  R.now.score.map(function(s){var c=R.crit.filter(function(x){return x.id===s.id})[0],cap=c.cap[si];
    return '<tr><td>'+e(c.t)+'</td><td class="r" data-l="見立て">'+(cap?'<b>'+s.p+'</b> ／ '+cap:'<span class="na">—</span>')+'</td><td data-l="理由">'+e(s.n)+'</td></tr>'}).join('')+
  '<tr><td><b>合計</b></td><td class="r" data-l="見立て"><b>'+tot+'</b> ／ '+stg.cap+'</td><td data-l="理由">百点満点の'+tot+'点ではありません。'+e(stg.t)+'の段階で付けられる'+stg.cap+'点のうちの'+tot+'点です。</td></tr></tbody></table></div>';
+}
+var B=R.blind;if(B){var CN=['物語デザイン','創造性・独創性','映像・音響の完成度','制作価値','市場性'],avg=CN.map(function(_,i){return B.readers.reduce(function(a,r){return a+r.sc[i]},0)/B.readers.length});
+$('#kouhyou-body').innerHTML='<p class="small">'+B.date.replace(/-/g,'/')+'　渡したもの：'+e(B.material)+'</p>'+
+ '<h3>三者がそろって言ったこと</h3><ul class="plain">'+B.agree.map(function(x){return '<li>'+e(x)+'</li>'}).join('')+'</ul>'+
+ '<h3>脚本だけから見た見込み（10点満点）</h3><div class="tw"><table class="tbl"><thead><tr><th>審査の項目</th>'+B.readers.map(function(r){return '<th class="r">'+e(r.who)+'</th>'}).join('')+'<th class="r">平均</th></tr></thead><tbody>'+
+ CN.map(function(n,i){return '<tr><td>'+n+'</td>'+B.readers.map(function(r){return '<td class="r">'+r.sc[i]+'</td>'}).join('')+'<td class="r"><b>'+avg[i].toFixed(1)+'</b></td></tr>'}).join('')+
+ '<tr><td><b>合計（50点満点）</b></td>'+B.readers.map(function(r){return '<td class="r"><b>'+r.sc.reduce(function(a,x){return a+x},0)+'</b></td>'}).join('')+'<td class="r"><b>'+avg.reduce(function(a,x){return a+x},0).toFixed(1)+'</b></td></tr></tbody></table></div>'+
+ '<p class="small">脚本だけから付けた見込みです。映像はまだ誰も観ていません。</p>'+
+ B.readers.map(function(r){return '<details><summary>'+e(r.who)+'（'+e(r.as)+'）</summary><div class="in"><p><b>あらすじ</b>　'+e(r.one)+'</p><p><b>動いたところ</b>　'+e(r.good)+'</p><p><b>引っかかったところ</b>　'+e(r.bad)+'</p><p><b>いちばん直すべき点</b>　'+e(r.fix)+'</p></div></details>'}).join('')}
 if(window.EANav)EANav.refresh();
 })();
 </script>
-<script src="../assets/ea-nav.js?v=10" defer></script>
+<script src="../assets/ea-nav.js?v=11" defer></script>
 </body>
 </html>

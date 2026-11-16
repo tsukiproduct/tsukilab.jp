@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>いまの制作｜N3Co 制作室（ロボットカーニバル応募作）</title>
+<meta name="description" content="N3Co がロボットカーニバルAIフィルムコンテストのロング部門へ応募する作品の制作室。いま作っている物語、確定事項、未決定の問い、締切までの段取り。">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1f2429">
+<script>
+/* 旧い制作ガイドへの深いリンク（絵コンテのカットなど）は、旧版のページへそのまま送ります */
+(function(){var h=location.hash;if(/^#(cut-\d\d-\d\d|start|pv|mv|film|story|people|structure|boards|stage3d|tools|contest|updates)$/.test(h))location.replace('v1.html'+h)})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ea-core.css?v=10">
+<link rel="stylesheet" href="assets/ea-nav.css?v=10">
+<style>
+.top{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:36px;align-items:center;padding:48px 0 12px}
+.top .kari{margin-bottom:14px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;color:var(--mute);font-size:.9rem}
+.top h1{margin-bottom:.5em}
+.top h1 span{display:inline-block}
+.top .one{font-size:1.06rem;max-width:34em}
+.top .count{color:var(--mute);font-size:.94rem}
+.dial{width:250px;max-width:100%}
+.dial svg{display:block;width:100%;height:auto}
+.dial p{margin:8px 0 0;text-align:center;font-size:.84rem;color:var(--mute);max-width:none;line-height:1.7}
+@media (max-width:760px){.top{grid-template-columns:1fr;gap:20px;padding-top:30px}.dial{width:210px;margin:0 auto;order:2}}
+
+.todo{list-style:none;counter-reset:n;margin:0;padding:0;display:grid;gap:10px}
+.todo li{counter-increment:n;display:grid;grid-template-columns:44px 1fr;gap:4px 14px;background:var(--panel);border-radius:4px;padding:14px 16px}
+.todo li::before{content:counter(n);grid-row:span 2;font:900 1.7rem/1.3 var(--mincho);color:var(--lamp);text-align:center}
+.todo b{font-weight:700;line-height:1.7}
+.todo span{font-size:.87rem;color:var(--mute);line-height:1.7}
+
+.tl{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);margin-left:6px}
+.tl li{position:relative;padding:9px 0 9px 22px;display:grid;grid-template-columns:104px 1fr;gap:2px 14px;align-items:baseline}
+.tl li::before{content:"";position:absolute;left:-7px;top:19px;width:12px;height:12px;border-radius:50%;background:var(--wall);border:2px solid var(--line2)}
+.tl .d{font-variant-numeric:tabular-nums;color:var(--mute);white-space:nowrap;font-size:.92rem}
+.tl .x{line-height:1.75}
+.tl .x small{display:block;color:var(--dim);font-size:.82rem}
+.tl li.past{opacity:.55}
+.tl li.past::before{background:var(--line2)}
+.tl li.now::before{background:var(--lamp);border-color:var(--lamp);box-shadow:0 0 0 5px #f0c98733}
+.tl li.now .d{color:var(--lamp);font-weight:700}
+.tl li.key .x b{font-family:var(--mincho);font-size:1.06rem}
+.tl li.key::before{border-color:var(--lamp)}
+@media (max-width:560px){.tl li{grid-template-columns:1fr}}
+
+.map{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.map a{display:block;padding:14px 16px;border:1px solid var(--line);border-radius:4px;text-decoration:none;color:var(--ink);min-height:44px}
+.map a:hover{border-color:var(--lamp)}
+.map b{display:block;font-family:var(--mincho);font-size:1.05rem}
+.map span{display:block;font-size:.86rem;color:var(--mute);line-height:1.7}
+.map h3{grid-column:1/-1;margin:14px 0 0;font-size:.95rem;font-family:var(--gothic);color:var(--mute)}
+.grp{font-size:.9rem;color:var(--mute);font-family:var(--gothic);font-weight:700;margin:22px 0 8px}
+</style>
+</head>
+<body class="n3">
+<main class="wrap">
+
+<header class="top" id="ima">
+  <div>
+    <p class="kari"><span class="st st-a">仮題</span><span>いま作っている物語</span></p>
+    <h1><span>声を無くしても、</span><span>あなたを愛している</span></h1>
+    <p class="one" id="oneline"></p>
+    <p class="count" id="count"></p>
+    <div class="btns"><a class="btn main" href="story/#kyakuhon">脚本（下書き）を読む</a><a class="btn" href="story/">新しい物語の作業台</a><a class="btn" href="review/">判断基準を見る</a></div>
+  </div>
+  <div class="dial"><div id="dial"></div><p>応募の締切は 2026年11月30日 23時59分（日本時間）。<br>物語をチームへ出す約束は 11月15日です。</p></div>
+</header>
+
+<section class="sec" id="tsugi" data-ea-label="次にやること">
+  <h2>次にやること</h2>
+  <ol class="todo" id="todo"></ol>
+</section>
+
+<section class="sec" id="dandori" data-ea-label="締切までの段取り">
+  <h2>締切までの段取り</h2>
+  <p class="small"><span class="st st-k">確定</span> と <span class="st st-pub">公式</span> の日付は動かせません。<span class="st st-t">提案</span> の日付は Claude の案で、月真猫さんのご判断で動かせます。最終日には提出しない段取りにしてあります。</p>
+  <ol class="tl" id="tl"></ol>
+</section>
+
+<section class="sec" id="kakutei" data-ea-label="確定事項">
+  <h2>確定事項</h2>
+  <p class="small">月真猫さんが決めたことだけを載せています。これ以外を確定として扱うことはいたしません。</p>
+  <div id="kk"></div>
+</section>
+
+<section class="sec" id="mitei" data-ea-label="未決定の問い">
+  <h2>未決定の問い</h2>
+  <p class="small">急ぐものを先に並べました。残りは <a href="story/#mitei">新しい物語</a> のページにございます。</p>
+  <ul class="ents two" id="mm"></ul>
+</section>
+
+<section class="sec" id="kyokun" data-ea-label="なぜ作り直したか">
+  <h2>なぜ作り直したか</h2>
+  <p>旧作『EARTH AFTER』は、この制作室の審査シミュレーションで百点満点中八十七点でした。ところが2026年11月7日から8日にかけて全編を生成して繋いで観たところ、月真猫さんのご判断は「二十分に収まらない。切り抜きの寄せ集めの総集編になる」でした。</p>
+  <p>八十七点は、脚本を紙の上で読んだときの出来を測った数字でした。二十分の映像として観たときに成立するかどうかは、測っていませんでした。</p>
+  <div class="note">
+    <p>そこで判断基準を作り直しました。点数を付ける前に「二十分の映像として成立するか」の関門を置き、映像を観ていない段階の点数には上限を設けています。<span id="gatecount">旧作をこの関門に通すと、ほとんどの検査で不合格になります。</span></p>
+    <p><a href="review/">判断基準を開く</a></p>
+  </div>
+</section>
+
+<section class="sec" id="kimari" data-ea-label="進め方の決まり">
+  <h2>進め方の決まり</h2>
+  <div class="cols">
+    <div class="box"><h3>書き分ける</h3><p class="small">決まったことと案を混ぜません。<br><span class="st st-k">確定</span> 月真猫さんかチームが決めたこと<br><span class="st st-h">引き継ぎ候補</span> 旧作の決定で、使うか未確認のもの<br><span class="st st-t">提案</span> Claude の案<br><span class="st st-a">仮定</span> 未定のため仮に置いた値<br><span class="st st-m">未決定</span> 決めていただく問い</p></div>
+    <div class="box"><h3>更新は確認してから</h3><p class="small">相談や決定で直すべき箇所が出たら、まず「更新候補」としてお知らせします。ご確認のあとで更新し、関わるページ（判断基準を含む）を漏れなく直します。大きな変更の前には控えを取ります。</p></div>
+    <div class="box"><h3>捨てない</h3><p class="small">チームの雑談や思いつきは、採用するかどうかに関わらず「裏設定・アイデア帳」に残します。物語を縛るものではありません。</p></div>
+    <div class="box"><h3>絵と動画は勝手に作らない</h3><p class="small">絵コンテの絵は月真猫さんがご自身で作られます。動画の生成は、月真猫さんのお指図があってから始めます。</p></div>
+  </div>
+</section>
+
+<section class="sec" id="chizu" data-ea-label="制作室の地図">
+  <h2>制作室の地図</h2>
+  <div class="map">
+    <h3>いま使うページ</h3>
+    <a href="story/"><b>新しい物語</b><span>確定・引き継ぎ候補・提案・未決定の一覧と、尺の予算</span></a>
+    <a href="review/"><b>判断基準</b><span>二十分の映像として成立するかの関門と、公式五項目の見立て</span></a>
+    <a href="rules/"><b>応募規定</b><span>締切・提出仕様・審査基準・権利と、提出前の確認表</span></a>
+    <a href="record/"><b>作り方と記録</b><span>制作の流れと、規約第九条に備える制作記録</span></a>
+    <h3>共通素材（新しい物語でも使います）</h3>
+    <a href="design/"><b>人物の設定画</b><span>三人の姿、衣装、画風の決まり</span></a>
+    <a href="gadgets/"><b>小道具とエナ</b><span>ユタニ ミャオ、アカネのバイク、生活小物、エナ</span></a>
+    <h3>旧版『EARTH AFTER』の記録（2026年11月8日に凍結）</h3>
+    <a href="v1.html"><b>旧・制作ガイド</b><span>アニマティック、曲の映像、絵コンテ百二十三カット、三次元の舞台</span></a>
+    <a href="world/"><b>旧・世界観</b><span>結末までの物語、人物相関図、裏設定とアイデア帳</span></a>
+    <a href="script/"><b>旧・脚本</b><span>二十二場面の行動・台詞・カメラ</span></a>
+    <a href="review/v1.html"><b>旧・審査の記録</b><span>八十七点を付けた当時の採点</span></a>
+  </div>
+</section>
+
+<section class="sec" id="kaishu" data-ea-label="改修の記録">
+  <h2>改修の記録</h2>
+  <p class="when">2026年11月10日から11日</p>
+  <p>制作室と判断基準を作り直しました。点検で見つかった問題と、その直し方です。</p>
+  <div class="tw"><table class="tbl stack">
+    <thead><tr><th>見つかった問題</th><th>直し方</th></tr></thead>
+    <tbody>
+    <tr><td>採点が「紙の上の出来」だけを測っていた。脚本と絵コンテしかない段階で、映像や編集の出来まで見込みで点を付け、総合八十七点（仕上げ後九十点）と表示していた</td><td data-l="直し方">段階ごとに点数の上限を設けた（骨子二十二点、脚本四十点、絵コンテ六十点、映像百点）。観ていないものには点を付けない</td></tr>
+    <tr><td>二十分の映像として成立するかの検査がなかった。尺の道具は「合計が二十分未満か」しか見ていなかった</td><td data-l="直し方">十二の検査からなる関門を新設。旧作は十一の検査で不合格になることを確かめた（残る一つは未検査）</td></tr>
+    <tr><td>採点の軸が公式と違っていた。独自の三項目と、プレスリリース時点の九つの観点で採点しており、公式の五項目（規約第十条）のうち「制作価値」と「市場性」を測っていなかった</td><td data-l="直し方">公式五項目を軸に組み直した。九つの観点は旧情報と明記した</td></tr>
+    <tr><td>審査員の肩書きから好みを推し量り、一人ずつ点数を付けていた（平均八・一点）。根拠の弱い数字が、総合点を確からしく見せていた</td><td data-l="直し方">審査員ごとの点数はやめた。事情を知らない三者に読ませる講評に置き換えた</td></tr>
+    <tr><td>応募規定が古く、未確認のままだった（締切の時刻が仮置き、ファイナルが2026年12月、審査員七名、提出仕様と賞の記載なし）</td><td data-l="直し方">公式サイトで2026年11月10日に確認した内容に全面更新し、出典と確認日を記した</td></tr>
+    <tr><td>AIの出力をそのまま出すことの禁止と、制作記録の開示義務（規約第八条・第九条）が、どこにも書かれていなかった</td><td data-l="直し方">制作記録の様式と付け方を新設し、提出前の確認表に入れた</td></tr>
+    <tr><td>数字が食い違っていた（カット数が百十九・百二十一・百二十三、尺が十五分六秒・十七分三十六秒・十八分三秒、総合点が八十四と八十七）</td><td data-l="直し方">旧作のページは凍結し、記録として残した。新しい物語の数字は一つの正本（story/data.js）から描く</td></tr>
+    <tr><td>決まったことと Claude の案が、同じ見た目で並んでいた</td><td data-l="直し方">確定・引き継ぎ候補・提案・仮定・未決定を、色と線とことばで書き分けた</td></tr>
+    <tr><td>最初のページが凍結済みの旧作のままで、締切や次の作業がいちばん下にあった。ページごとに配色と書体が違い、英語の見出しが多かった</td><td data-l="直し方">最初のページを「いまの制作」に作り替え、新しいページの見た目を一つに揃えた。英語の見出しはやめた</td></tr>
+    <tr><td>データの整合を確かめる手段が、人の目しかなかった</td><td data-l="直し方">点検の道具（assets/check.py）を追加した</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">変更前の全ファイルは <code>_backup/2026-11-10_before-fable-rebuild/</code> に控えてあります。旧いページは同じ場所に残し、最初のページだった旧・制作ガイドは <a href="v1.html">v1.html</a> へ、旧い審査シミュレーションは <a href="review/v1.html">review/v1.html</a> へ移しました。旧い深いリンク（絵コンテのカットなど）は自動で旧版へ送られます。</p>
+</section>
+
+</main>
+<footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu　　この制作室は検索に載らない設定ですが、URLを知っていれば誰でも開けます。</div></footer>
+
+<script src="story/data.js?v=5"></script>
+<script src="review/data.js?v=5"></script>
+<script src="assets/ea-core.js?v=10"></script>
+<script>
+(function(){
+var N=window.N3,U=window.N3UI,$=function(s){return document.querySelector(s)};
+U.dial('#dial',N);$('#oneline').textContent=N.oneline;setInterval(function(){U.dial('#dial',N)},60000);
+$('#count').textContent='確定は'+N.kakutei.length+'件、未決定の問いは'+N.mitei.length+'件、Claude の提案は'+N.teian.length+'件あります（'+N.updated.replace(/-/g,'/')+' 時点）。';
+$('#todo').innerHTML=N.next.map(function(x){return '<li><b>'+U.esc(x.t)+'</b><span>'+U.esc(x.who)+(x.due?'　'+U.esc(x.due)+'まで':'')+(x.link?'　<a href="'+x.link[0]+'">'+U.esc(x.link[1])+'を開く</a>':'')+'</span></li>'}).join('');
+var td=U.today();
+$('#tl').innerHTML=N.schedule.map(function(s){
+  var cls=(s.e<td?'past ':'')+(s.d<=td&&td<=s.e?'now ':'')+(s.key?'key':'');
+  var d=s.d===s.e?U.jdate(s.d):U.jdate(s.d)+'〜'+U.jdate(s.e);
+  return '<li class="'+cls+'"><span class="d num">'+d+(s.d<=td&&td<=s.e?'　今日':'')+'</span><span class="x">'+U.chip(s.st)+' <b>'+U.esc(s.t)+'</b><small>'+U.esc(s.who)+(s.done?'　済み':'')+'</small></span></li>'}).join('');
+var groups=[];N.kakutei.forEach(function(k){if(groups.indexOf(k.g)<0)groups.push(k.g)});
+$('#kk').innerHTML=groups.map(function(g){return '<h3 class="grp">'+U.esc(g)+'</h3><ul class="ents two">'+N.kakutei.filter(function(k){return k.g===g}).map(function(k){return U.ent(k,'k')}).join('')+'</ul>'}).join('');
+U.ents('#mm',N.mitei.filter(function(q){return q.pri===1}),'m');
+var R=window.N3R;if(R){var ng=R.gate.filter(function(g){return g.old[0]==='ng'}).length,un=R.gate.filter(function(g){return g.neo[0]==='un'}).length,ngn=R.gate.filter(function(g){return g.neo[0]==='ng'}).length;
+  $('#gatecount').textContent='旧作をこの関門に通すと、'+R.gate.length+'の検査のうち'+ng+'で不合格になります。新しい物語（脚本の下書き）は、不合格が'+ngn+'、未確定が'+un+'です。'}
+if(window.EANav)EANav.refresh();
+})();
+</script>
+<script src="assets/ea-nav.js?v=10" defer></script>
+</body>
+</html>

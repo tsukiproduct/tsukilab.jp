@@ -14,8 +14,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/ea-core.css?v=10">
-<link rel="stylesheet" href="assets/ea-nav.css?v=10">
+<link rel="stylesheet" href="assets/ea-core.css?v=11">
+<link rel="stylesheet" href="assets/ea-nav.css?v=11">
 <style>
 .top{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:36px;align-items:center;padding:48px 0 12px}
 .top .kari{margin-bottom:14px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;color:var(--mute);font-size:.9rem}
@@ -62,8 +62,8 @@
 
 <header class="top" id="ima">
   <div>
-    <p class="kari"><span class="st st-a">仮題</span><span>いま作っている物語</span></p>
-    <h1><span>声を無くしても、</span><span>あなたを愛している</span></h1>
+    <p class="kari"><span class="st st-k">題名</span><span>いま作っている物語</span></p>
+    <h1>AFTER EARTH</h1>
     <p class="one" id="oneline"></p>
     <p class="count" id="count"></p>
     <div class="btns"><a class="btn main" href="story/#kyakuhon">脚本（下書き）を読む</a><a class="btn" href="story/">新しい物語の作業台</a><a class="btn" href="review/">判断基準を見る</a></div>
@@ -135,6 +135,9 @@
 
 <section class="sec" id="kaishu" data-ea-label="改修の記録">
   <h2>改修の記録</h2>
+  <p class="when">2026年11月16日</p>
+  <p>制作台を新設しました。素材表（29点）、Claude が描いた三つの配置図、カット表（105カット・14分55秒、台詞のひらがなとローマ字つき）、カットごとの動画の指示文、プレビズを置いています。ChatGPT への依頼一式（23枚の基準画を含む）は、公開のページには載せず、月真猫さんに直接お渡ししています。</p>
+  <p>事情を知らない三者に脚本を読ませ、講評を判断基準のページに記録しました。三者とも「二人が止まる理由と、いつ知ったのか」を最大の穴に挙げたため、関門 G09 を不合格とし、点数は保留にしています。</p>
   <p class="when">2026年11月10日から11日</p>
   <p>制作室と判断基準を作り直しました。点検で見つかった問題と、その直し方です。</p>
   <div class="tw"><table class="tbl stack">
@@ -158,9 +161,9 @@
 </main>
 <footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu　　この制作室は検索に載らない設定ですが、URLを知っていれば誰でも開けます。</div></footer>
 
-<script src="story/data.js?v=5"></script>
-<script src="review/data.js?v=5"></script>
-<script src="assets/ea-core.js?v=10"></script>
+<script src="story/data.js?v=6"></script>
+<script src="review/data.js?v=6"></script>
+<script src="assets/ea-core.js?v=11"></script>
 <script>
 (function(){
 var N=window.N3,U=window.N3UI,$=function(s){return document.querySelector(s)};
@@ -180,6 +183,6 @@ var R=window.N3R;if(R){var ng=R.gate.filter(function(g){return g.old[0]==='ng'})
 if(window.EANav)EANav.refresh();
 })();
 </script>
-<script src="assets/ea-nav.js?v=10" defer></script>
+<script src="assets/ea-nav.js?v=11" defer></script>
 </body>
 </html>

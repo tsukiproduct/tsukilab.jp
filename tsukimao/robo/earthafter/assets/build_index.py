@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # (ページの場所, 表示名, HTMLファイル)
 PAGES = [('', 'いまの制作', 'index.html'), ('story/', '新しい物語', 'story/index.html'),
-         ('review/', '判断基準', 'review/index.html'), ('rules/', '応募規定', 'rules/index.html'),
+         ('production/', '制作台', 'production/index.html'), ('review/', '判断基準', 'review/index.html'), ('rules/', '応募規定', 'rules/index.html'),
          ('record/', '作り方と記録', 'record/index.html'),
          ('design/', '人物の設定画', 'design/index.html'), ('gadgets/', '小道具とエナ', 'gadgets/index.html'),
          ('v1.html', '旧・制作ガイド', 'v1.html'), ('world/', '旧・世界観', 'world/index.html'),
@@ -74,6 +74,12 @@ for key, label, anchor in (('kakutei', '確定', 'kakutei'), ('mitei', '未決�
 for sc in N3.get('script', []):
     add('fact', f"{sc['id']} {sc['t']}", '新しい物語 › 脚本（下書き）', f"story/#{sc['id']}", ' '.join(sc['lines']))
 add('fact', 'あらすじ', '新しい物語', 'story/#arasuji', ' '.join(N3.get('synopsis', [])))
+js3 = r'''global.window={};require(process.argv[1]+"/production/data.js");console.log(JSON.stringify(window.N3P))'''
+N3P = json.loads(subprocess.check_output(['node', '-e', js3, ROOT]))
+for c in N3P['cuts']:
+    add('fact', f"{c['id']} {c['shot']}", f"制作台 › カット表 › {c['loc']}", f"production/#c-{c['id']}", (c['act'] or '') + ' ' + ' '.join(l['t'] for l in c['lines']))
+for a in N3P['assets']:
+    add('fact', f"{a['id']} {a['n']}", '制作台 › 素材表', f"production/#a-{a['id']}", a['use'])
 for g in N3R['gate']:
     add('fact', f"{g['id']} {g['t']}", '判断基準 › 関門', f"review/#{g['id']}", g['rule'] + ' ' + g['why'])
 

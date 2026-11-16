@@ -5,11 +5,12 @@
 'use strict';
 var S=document.currentScript;
 var ROOT=S.src.replace(/assets\/ea-nav\.js.*$/,'');
-var VER='12';
+var VER='13';
 var HERO=S.hasAttribute('data-hero');
 var PAGES=[
  {k:'now',g:'いま',p:'',t:'いまの制作',c:'#f0c987',d:'いま作っている物語・確定事項・未決定の問い・締切までの段取り',img:'design/img/ns-key-s.webp'},
- {k:'story',g:'いま',p:'story/',t:'新しい物語',c:'#f0c987',d:'「声を無くしても、あなたを愛している」の作業台と尺の予算',img:'design/img/ns-s10-s.webp'},
+ {k:'story',g:'いま',p:'story/',t:'新しい物語',c:'#f0c987',d:'AFTER EARTH の作業台・あらすじ・脚本・尺の予算',img:'design/img/ns-s10-s.webp'},
+ {k:'prod',g:'いま',p:'production/',t:'制作台',c:'#e6c79a',d:'素材表・俯瞰図・カット表・動画の指示文・プレビズ',img:'design/img/ns-key-s.webp'},
  {k:'review',g:'いま',p:'review/',t:'判断基準',c:'#a9c0a0',d:'二十分の映像として成立するかの関門と、公式五項目の見立て',img:'img/bg3/22.webp'},
  {k:'rules',g:'いま',p:'rules/',t:'応募規定',c:'#9db8d9',d:'締切・提出仕様・審査基準・権利と、提出前の確認表',img:'img/bg3/06.webp'},
  {k:'record',g:'いま',p:'record/',t:'作り方と記録',c:'#d9a5a0',d:'制作の流れと、規約第九条に備える制作記録',img:'img/bg3/14.webp'},

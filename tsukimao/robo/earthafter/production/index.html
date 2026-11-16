@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>制作台｜N3Co 制作室</title>
+<meta name="description" content="AFTER EARTH を動画にするための作業台。素材の進み具合、俯瞰図、カット表、動画の指示文、プレビズ。">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1f2429">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ea-core.css?v=11">
+<link rel="stylesheet" href="../assets/ea-nav.css?v=11">
+<style>
+.prog{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));margin:18px 0}
+.prog .box{margin:0}
+.prog h3{font:700 .84rem var(--gothic);color:var(--mute);margin:0 0 4px}
+.prog b{font:900 1.8rem/1.2 var(--mincho);font-variant-numeric:tabular-nums}
+.prog small{font-size:.85rem;color:var(--mute);margin-left:.3em}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:grid;gap:8px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:36px 1fr;gap:4px 12px;background:var(--panel);border-radius:4px;padding:12px 14px}
+.steps li::before{content:counter(s);font:900 1.4rem/1.3 var(--mincho);color:var(--lamp);text-align:center;grid-row:span 2}
+.steps b{font-weight:700}.steps span{font-size:.87rem;color:var(--mute);line-height:1.75}
+.plans{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.plans figure{margin:0;background:var(--panel);border-radius:6px;padding:10px}
+.plans img{width:100%;border-radius:4px;background:#fbfaf7;cursor:zoom-in}
+.plans figcaption{font-size:.86rem;color:var(--mute);padding:6px 4px 0}
+.assets{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));list-style:none;margin:0;padding:0}
+.asset{background:var(--panel);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+.asset .th{aspect-ratio:16/9;background:var(--wall2);display:grid;place-items:center;color:var(--dim);font-size:.8rem;position:relative;overflow:hidden}
+.asset .th img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.asset .bd{padding:10px 12px 12px;display:grid;gap:4px}
+.asset .hd{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.asset .id{font:700 .8rem var(--gothic);color:var(--dim);font-variant-numeric:tabular-nums}
+.asset .n{font-weight:700;line-height:1.6}
+.asset .u{font-size:.82rem;color:var(--mute);line-height:1.7}
+.got{font:700 .72rem var(--gothic);padding:.3em .6em;border-radius:3px;white-space:nowrap}
+.got.y{background:var(--good);color:#15201a}.got.n{border:1.5px dotted var(--rose);color:var(--rose)}
+.grp{font-size:.9rem;color:var(--mute);font-family:var(--gothic);font-weight:700;margin:22px 0 8px}
+.flt{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.flt button{min-height:40px;padding:4px 12px;border:1px solid var(--line);border-radius:4px;background:transparent;cursor:pointer;font-size:.86rem;color:var(--ink)}
+.flt button[aria-pressed=true]{background:var(--lamp);color:#1d1a12;border-color:var(--lamp);font-weight:700}
+.cut{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:14px 18px;background:var(--panel);border-radius:6px;padding:14px;margin:10px 0;scroll-margin-top:calc(var(--ea-h,52px) + 12px)}
+.cut .th{aspect-ratio:16/9;background:var(--wall2);border-radius:4px;position:relative;overflow:hidden;display:grid;place-items:center;padding:12px;text-align:center;color:var(--mute);font-size:.84rem;line-height:1.6}
+.cut .th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cut .hd{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline;margin-bottom:4px}
+.cut .hd b{font:700 1.05rem var(--mincho);font-variant-numeric:tabular-nums}
+.cut .hd span{font-size:.82rem;color:var(--mute)}
+.cut p{margin:0 0 .4em;max-width:none;line-height:1.8;font-size:.93rem}
+.cut .say{padding-left:1em;text-indent:-1em}
+.cut .say b{color:var(--lamp)}
+.cut .say small{display:block;text-indent:0;color:var(--dim);font-size:.8rem;line-height:1.6}
+.cut .refs{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0}
+.cut .refs a,.cut .refs span{font-size:.76rem;padding:2px 7px;border:1px solid var(--line2);border-radius:3px;color:var(--mute);text-decoration:none;font-variant-numeric:tabular-nums}
+.cut details{margin:8px 0 0;background:var(--wall2)}
+.cut pre{margin:0;font-size:.8rem}
+.kind{font:700 .72rem var(--gothic);padding:.25em .55em;border-radius:3px;border:1.5px solid var(--line2);color:var(--mute)}
+.kind.past{border-color:var(--leaf);color:var(--leaf)}.kind.manga{border-color:var(--sky);color:var(--sky);border-style:dashed}.kind.edit{border-color:var(--ash);color:var(--ash)}
+@media (max-width:700px){.cut{grid-template-columns:1fr}}
+/* プレビズ */
+.pv{background:#000;border-radius:6px;overflow:hidden}
+.pv .scr{aspect-ratio:16/9;position:relative;display:grid;place-items:center;color:#cfc9bd;text-align:center;padding:6%;font-size:clamp(.8rem,1.8vw,1.05rem);line-height:1.8}
+.pv .scr img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+.pv .scr .tag{position:absolute;left:10px;top:8px;font-size:.75rem;color:#8f8a80;z-index:2;font-variant-numeric:tabular-nums}
+.pv .sub{position:absolute;left:5%;right:5%;bottom:6%;z-index:2;color:#fff;font-size:clamp(.82rem,2vw,1.15rem);text-shadow:0 0 6px #000,0 0 3px #000;line-height:1.6}
+.pv .ctl{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 12px;background:#15181b}
+.pv .ctl button{min-width:44px;min-height:44px;border:1px solid #3c444d;border-radius:4px;background:transparent;color:var(--ink);cursor:pointer;font-size:1rem}
+.pv .ctl input[type=range]{flex:1 1 200px;accent-color:var(--lamp)}
+.pv .ctl .tc{font-variant-numeric:tabular-nums;color:var(--mute);font-size:.86rem;min-width:7.5em;text-align:right}
+.lb{position:fixed;inset:0;background:#000d;z-index:400;display:none;place-items:center;padding:16px}
+.lb.on{display:grid}.lb img{max-width:100%;max-height:100%;background:#fbfaf7}
+</style>
+</head>
+<body class="n3">
+<main class="wrap">
+
+<header class="pagehead" id="top">
+  <p class="when" id="when"></p>
+  <h1>制作台</h1>
+  <p class="lead">AFTER EARTH を動画にするための作業台です。素材がそろうと、カット表とプレビズに自動で絵が入ります。</p>
+  <div class="prog" id="prog"></div>
+</header>
+
+<section class="sec" id="susumekata" data-ea-label="進め方">
+  <h2>進め方</h2>
+  <ol class="steps">
+    <li><b>ChatGPT で素材を作る</b><span>Claude がお渡しした「GPT依頼一式（ZIP）」の順番どおりに作ります。俯瞰図 → 背景 → 人物と機械 → 小道具 → 漫画 → カットの基準画。依頼一式は公開のページには載せていません。</span></li>
+    <li><b>できた絵を Claude に送る</b><span>ファイル名は依頼文に書いた名前のまま（例：BG-R1.png）。まとめて送っていただければ、名前を確かめてこのページに置きます。基準画（2×2）は Claude が4カットに切り分けます。</span></li>
+    <li><b>このページで確かめる</b><span>素材の進み具合、カットごとの絵、プレビズ（仮の通し）で、つながりと尺を観ます。崩れた絵は、依頼一式の「直し用のひな形」で直します。</span></li>
+    <li><b>Lumina で動画にする</b><span>月真猫さんのお指図があってから始めます。カットごとに「動画の指示文」と「添付する参考」を使います。基準画は最初のコマにせず、参考素材として渡します。</span></li>
+    <li><b>記録を残す</b><span>生成のたびに、<a href="../record/#kiroku">制作記録</a> の項目を残します（規約第九条）。</span></li>
+  </ol>
+</section>
+
+<section class="sec" id="fukan" data-ea-label="俯瞰図">
+  <h2>俯瞰図</h2>
+  <p>場所ごとの物の位置とカメラの向きをそろえるための図です。いまは Claude が描いた配置図です。ChatGPT で清書した図が届いたら、それに差し替わります。</p>
+  <div class="plans" id="plans"></div>
+</section>
+
+<section class="sec" id="sozai" data-ea-label="素材表">
+  <h2>素材表</h2>
+  <p class="small">「届いた」は、このページに絵が置かれているものです。台詞の声は、Seedance か ElevenLabs で作った生成音声を参考に使います。</p>
+  <div id="assets"></div>
+  <h3 class="grp">そのまま使う素材</h3>
+  <ul class="assets" id="existing"></ul>
+  <h3 class="grp">編集で作る素材（ChatGPT では作らない）</h3>
+  <div class="tw"><table class="tbl stack" id="edit"></table></div>
+</section>
+
+<section class="sec" id="cuts" data-ea-label="カット表">
+  <h2>カット表</h2>
+  <p class="small" id="cutsum"></p>
+  <div class="note warn"><p>台詞のひらがなとローマ字は、機械で付けた読みを Claude が直したものです。読み違いが残っている場合がありますので、生成の前に目で確かめてください。ローマ字は発音どおり（「は」は wa）にしてあります。</p></div>
+  <div class="flt" id="flt" role="toolbar" aria-label="場面で絞り込む"></div>
+  <div id="cutlist"></div>
+</section>
+
+<section class="sec" id="previz" data-ea-label="プレビズ">
+  <h2>プレビズ</h2>
+  <p>カット表の順と秒数で、仮の通しを流します。絵が届いていないカットは、画の説明を文字で出します。旧作の映像を差し込むカットは、旧作の絵コンテを出します。</p>
+  <div class="pv">
+    <div class="scr" id="scr"><span class="tag" id="tag"></span><span id="txt"></span><div class="sub" id="sub"></div></div>
+    <div class="ctl">
+      <button type="button" id="prev" aria-label="前のカット">⏮</button>
+      <button type="button" id="play" aria-label="再生">▶</button>
+      <button type="button" id="next" aria-label="次のカット">⏭</button>
+      <input type="range" id="seek" min="0" value="0" step="1" aria-label="位置">
+      <span class="tc" id="tc"></span>
+    </div>
+  </div>
+</section>
+
+</main>
+<div class="lb" id="lb" role="dialog" aria-label="拡大"><img alt=""></div>
+<footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu</div></footer>
+
+<script src="data.js?v=1"></script>
+<script src="img/have.js?v=1"></script>
+<script src="../assets/ea-core.js?v=11"></script>
+<script>
+(function(){
+var P=window.N3P,U=window.N3UI,e=U.esc,$=function(s){return document.querySelector(s)};
+var KIND={plan:'俯瞰図',bg:'背景',char:'人物と機械',prop:'小道具',manga:'漫画'};
+var KC={new:'新しく生成',past:'旧作の映像',manga:'漫画（静止画）',edit:'編集で作る'};
+function aimg(id){return 'img/asset/'+id+'.webp'}
+function cimg(id){return 'img/cut/'+id+'.webp'}
+function oldId(c){var m=c.loc.match(/(\d\d-\d\d)/);return m?m[1]:null}
+var have={},pending=0;
+var HAVE={};(window.N3HAVE||[]).forEach(function(f){HAVE['img/'+f]=1});
+function probe(src,cb){var ok=!!HAVE[src];if(ok)have[src]=1;cb(ok)}
+$('#when').textContent=P.updated.replace(/-/g,'/')+' 時点';
+
+/* 俯瞰図 */
+$('#plans').innerHTML=P.plans.map(function(p){return '<figure><img id="pl-'+p.id+'" src="img/plan/'+p.f+'.svg" alt="'+e(p.n)+'の俯瞰図"><figcaption>'+p.id+'　'+e(p.n)+'　<span class="got n" id="plg-'+p.id+'">清書はまだ</span></figcaption></figure>'}).join('');
+P.plans.forEach(function(p){probe(aimg(p.id),function(ok){if(ok){$('#pl-'+p.id).src=aimg(p.id);var g=$('#plg-'+p.id);g.className='got y';g.textContent='清書が届いた'}})});
+
+/* 素材表 */
+var gs=['plan','bg','char','prop','manga'];
+$('#assets').innerHTML=gs.map(function(k){return '<h3 class="grp">'+KIND[k]+'</h3><ul class="assets">'+P.assets.filter(function(a){return a.k===k}).map(function(a){
+  return '<li class="asset" id="a-'+a.id+'"><div class="th">まだ届いていません</div><div class="bd"><div class="hd"><span class="id">'+a.id+'</span><span class="got n">まだ</span></div><div class="n">'+e(a.n)+'</div><div class="u">'+e(a.use)+'</div>'+(a.note?'<div class="u">'+e(a.note)+'</div>':'')+'</div></li>'}).join('')+'</ul>'}).join('');
+var got=0;
+P.assets.forEach(function(a){probe(aimg(a.id),function(ok){if(!ok)return;got++;var li=$('#a-'+a.id);li.querySelector('.th').innerHTML='<img src="'+aimg(a.id)+'" alt="'+e(a.n)+'" loading="lazy">';var g=li.querySelector('.got');g.className='got y';g.textContent='届いた';prog()})});
+$('#existing').innerHTML=P.existing.map(function(x){var img=/\.webp$/.test(x.src);return '<li class="asset"><div class="th">'+(img?'<img src="../'+x.src.replace(/\.webp$/,'-s.webp')+'" alt="'+e(x.n)+'" loading="lazy">':'<audio controls preload="none" src="../'+x.src+'" style="width:90%"></audio>')+'</div><div class="bd"><div class="hd"><span class="id">'+e(x.id)+'</span><span class="got y">あり</span></div><div class="n">'+e(x.n)+'</div><div class="u">'+e(x.note)+'</div></div></li>'}).join('');
+$('#edit').innerHTML='<thead><tr><th>番号</th><th>作るもの</th><th>使う場面</th></tr></thead><tbody>'+P.edit.map(function(x){return '<tr><td>'+x.id+'</td><td data-l="作るもの">'+e(x.n)+'</td><td data-l="使う場面">'+e(x.use)+'</td></tr>'}).join('')+'</tbody>';
+
+/* カット表 */
+var newN=P.cuts.filter(function(c){return c.kind==='new'}).length,cutGot=0;
+function prog(){
+  $('#prog').innerHTML='<div class="box"><h3>素材</h3><b>'+got+'</b><small>／'+P.assets.length+' 届いた</small><div class="meter"><i style="width:'+(got/P.assets.length*100)+'%"></i></div></div>'+
+   '<div class="box"><h3>カットの基準画</h3><b>'+cutGot+'</b><small>／'+newN+' 届いた</small><div class="meter"><i style="width:'+(cutGot/newN*100)+'%"></i></div></div>'+
+   '<div class="box"><h3>カット表の合計</h3><b>'+U.fmt(P.total)+'</b><small>'+P.cuts.length+'カット（計画の上限 17:00）</small></div>'+
+   '<div class="box"><h3>ChatGPT の依頼</h3><b>'+(P.assets.length+P.sheets.length)+'</b><small>件（素材 '+P.assets.length+'・基準画 '+P.sheets.length+'枚）</small></div>'}
+prog();
+var scs=[];P.cuts.forEach(function(c){if(scs.indexOf(c.sc)<0)scs.push(c.sc)});
+$('#cutsum').textContent='全'+P.cuts.length+'カット、合計 '+U.fmt(P.total)+'。新しく生成 '+newN+'、旧作の映像 '+P.cuts.filter(function(c){return c.kind==='past'}).length+'、漫画 '+P.cuts.filter(function(c){return c.kind==='manga'}).length+'、編集で作る '+P.cuts.filter(function(c){return c.kind==='edit'}).length+'。';
+var cur='all';
+function flt(){$('#flt').innerHTML='<button type="button" data-s="all" aria-pressed="'+(cur==='all')+'">すべて</button>'+scs.map(function(s){var sec=P.cuts.filter(function(c){return c.sc===s}).reduce(function(a,c){return a+c.sec},0);return '<button type="button" data-s="'+s+'" aria-pressed="'+(cur===s)+'">'+s+'　'+U.fmt(sec)+'</button>'}).join('')}
+function refs(c){return c.refs.map(function(r){var a=P.assets.filter(function(x){return x.id===r})[0];return a?'<a href="#a-'+r+'" title="'+e(a.n)+'">'+r+'</a>':'<span>'+e(r)+'</span>'}).join('')}
+function card(c){
+  var th=c.kind==='past'&&oldId(c)?'<img src="../img/sb3/'+oldId(c)+'.webp" alt="旧作 '+oldId(c)+' の絵コンテ" loading="lazy">':'';
+  return '<article class="cut" id="c-'+c.id+'" data-s="'+c.sc+'"><div class="th" data-cut="'+c.id+'">'+(th||e(c.act||c.shot))+'</div><div>'+
+   '<div class="hd"><b>'+c.id+'</b><span class="kind '+c.kind+'">'+KC[c.kind]+'</span><span>'+c.sec+'秒　'+U.fmt(c.t0)+'〜</span><span>'+e(c.loc)+'</span>'+(c.sheet?'<span>基準画 '+c.sheet+'</span>':'')+'</div>'+
+   '<p><b>'+e(c.shot)+'</b>'+(c.act?'　'+e(c.act):'')+'</p>'+
+   c.lines.map(function(l){return '<p class="say"><b>'+e(l.w)+'</b>「'+e(l.t)+'」<small>'+e(l.h)+'<br>'+e(l.r)+'</small></p>'}).join('')+
+   (c.refs.length?'<div class="refs">'+refs(c)+'</div>':'')+
+   (c.vp?'<details><summary>動画の指示文（Lumina に貼る）</summary><div class="in"><pre>'+e(c.vp)+'</pre><button class="btn" type="button" data-cp="'+c.id+'">写す</button></div></details>':'')+
+   '</div></article>'}
+function draw(){$('#cutlist').innerHTML=P.cuts.filter(function(c){return cur==='all'||c.sc===cur}).map(card).join('');flt();fill()}
+function fill(){P.cuts.forEach(function(c){if(have[cimg(c.id)]){var t=document.querySelector('[data-cut="'+c.id+'"]');if(t)t.innerHTML='<img src="'+cimg(c.id)+'" alt="'+c.id+'" loading="lazy">'}})}
+$('#flt').addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;cur=b.dataset.s;draw()});
+$('#cutlist').addEventListener('click',function(ev){var b=ev.target.closest('[data-cp]');if(!b)return;var c=P.cuts.filter(function(x){return x.id===b.dataset.cp})[0];U.copy(c.vp,'指示文を写しました')});
+draw();
+P.cuts.forEach(function(c){if(c.kind==='new'||c.kind==='manga'){var src=c.kind==='manga'?aimg(c.refs[0]):cimg(c.id);probe(src,function(ok){if(!ok)return;if(c.kind==='new'){cutGot++;have[cimg(c.id)]=1}else{var t=document.querySelector('[data-cut="'+c.id+'"]');if(t)t.innerHTML='<img src="'+src+'" alt="'+c.id+'" loading="lazy">'}fill();prog()})}});
+
+/* プレビズ */
+var T=P.total,t=0,playing=false,last=0,seek=$('#seek');seek.max=T;
+function at(s){for(var i=P.cuts.length-1;i>=0;i--)if(P.cuts[i].t0<=s)return P.cuts[i];return P.cuts[0]}
+function src(c){if(c.kind==='new'&&have[cimg(c.id)])return cimg(c.id);if(c.kind==='manga'&&have[aimg(c.refs[0])])return aimg(c.refs[0]);if(c.kind==='past'&&oldId(c))return '../img/sb3/'+oldId(c)+'.webp';return null}
+var shown='';
+function show(){var c=at(t),s=src(c),key=c.id+(s||'');
+  if(key!==shown){shown=key;var scr=$('#scr'),old=scr.querySelector('img');if(old)old.remove();
+    if(s){var im=new Image();im.src=s;im.alt='';scr.insertBefore(im,scr.firstChild);$('#txt').textContent=''}
+    else $('#txt').textContent=c.kind==='edit'?c.act||c.shot:(c.act||c.shot)+'（'+c.loc+'）'}
+  $('#tag').textContent=c.id+'　'+KC[c.kind];
+  var into=t-c.t0,n=c.lines.length,l=n?c.lines[Math.min(n-1,Math.floor(into/(c.sec/n)))]:null;
+  $('#sub').textContent=l?l.w+'「'+l.t+'」':'';
+  $('#tc').textContent=U.fmt(t)+' ／ '+U.fmt(T);seek.value=Math.floor(t)}
+function loop(ts){if(!playing)return;if(last)t+=(ts-last)/1000;last=ts;if(t>=T){t=T;playing=false;$('#play').textContent='▶'}show();if(playing)requestAnimationFrame(loop)}
+$('#play').onclick=function(){playing=!playing;this.textContent=playing?'⏸':'▶';this.setAttribute('aria-label',playing?'一時停止':'再生');last=0;if(t>=T)t=0;if(playing)requestAnimationFrame(loop)};
+$('#prev').onclick=function(){var c=at(t),i=P.cuts.indexOf(c);t=(t-c.t0>1||i===0)?c.t0:P.cuts[i-1].t0;show()};
+$('#next').onclick=function(){var i=P.cuts.indexOf(at(t));if(i<P.cuts.length-1)t=P.cuts[i+1].t0;show()};
+seek.oninput=function(){t=+seek.value;show()};
+show();
+
+/* 拡大 */
+var lb=$('#lb');document.addEventListener('click',function(ev){var im=ev.target.closest('.plans img');if(im){lb.querySelector('img').src=im.src;lb.classList.add('on')}else if(ev.target.closest('#lb'))lb.classList.remove('on')});
+if(window.EANav)EANav.refresh();
+})();
+</script>
+<script src="../assets/ea-nav.js?v=11" defer></script>
+</body>
+</html>

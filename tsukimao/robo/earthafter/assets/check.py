@@ -43,6 +43,15 @@ for sc in R['now']['score']:
 if len(R['gate']) != 12: ng(f'関門の検査が {len(R["gate"])} 件（本文は十二と書いている）')
 
 ea, sc = D['ea'], D['sc']
+P = json.loads(subprocess.check_output(['node', '-e', r'''global.window={};require(process.argv[1]+"/production/data.js");console.log(JSON.stringify(window.N3P))''', ROOT]))
+pc = {}
+for c in P['cuts']: pc['S' + c['id'][:2]] = pc.get('S' + c['id'][:2], 0) + c['sec']
+mis = [(x['id'], x['sec'], pc.get(x['id'])) for x in N['script'] if pc.get(x['id']) != x['sec']]
+ng(f'脚本とカット表の秒数が食い違う: {mis}') if mis else ok(f'脚本とカット表の秒数は一致（{sum(pc.values())}秒）')
+if sum(c['sec'] for c in P['cuts']) != P['total']: ng('カット表の合計（total）が食い違う')
+aid = {a['id'] for a in P['assets']} | {e['id'] for e in P['existing']} | {e['id'] for e in P['edit']}
+bad_ref = sorted({r for c in P['cuts'] for r in c['refs'] if r not in aid})
+ng(f'素材表にない参考: {bad_ref}') if bad_ref else ok('カットの参考はすべて素材表にある')
 ng('旧作: data.js と script/data.js のカット順が不一致') if ea['ids'] != sc['ids'] else ok(f'旧作のカット順は一致（{len(ea["ids"])}カット）')
 ng(f'旧作: 合計秒数が不一致 {ea["total"]} / {ea["sum"]} / {sc["total"]}') if not (ea['total'] == ea['sum'] == sc['total']) else ok(f'旧作の合計秒数は一致（{ea["total"]}秒）')
 
@@ -63,7 +72,7 @@ for p in pages:
         if not os.path.exists(t): ng(f'リンク切れ: {rel} → {h}'); continue
         if frag and t.endswith('.html'):
             th = open(t, encoding='utf-8').read()
-            dyn = re.match(r'^([KHTQAG]\d\d|cut-|s\d)', frag)
+            dyn = re.match(r'^([KHTQAG]\d\d|cut-|s\d|c-|a-|S\d\d)', frag)
             if not dyn and f'id="{frag}"' not in th: ng(f'行き先の見出しがない: {rel} → {h}')
 for key, v in sorted(vers.items()):
     if len(v) > 1: ng(f'版が揃っていない: {key} {dict((k, x) for k, x in v.items())}')

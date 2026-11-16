@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>判断基準｜N3Co 制作室</title>
+<meta name="description" content="二十分の映像として成立するかを確かめる関門と、公式五項目の見立て。映像を観ていない段階の点数には上限を設けています。">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1f2429">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ea-core.css?v=10">
+<link rel="stylesheet" href="../assets/ea-nav.css?v=10">
+<style>
+.sum{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));margin:22px 0 6px}
+.sum .box{margin:0}
+.sum h3{font-family:var(--gothic);font-size:.9rem;color:var(--mute);margin:0 0 6px}
+.sum .big{font:900 2.3rem/1.2 var(--mincho);margin:0}
+.sum .big small{font:500 .9rem var(--gothic);color:var(--mute);margin-left:.4em}
+.tally{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.88rem;margin:8px 0 0;color:var(--mute)}
+.dots{display:flex;gap:4px;margin:10px 0 2px;flex-wrap:wrap}
+.dots i{width:18px;height:18px;border-radius:3px;border:1.5px solid var(--line2);display:block}
+.dots .ok{background:var(--good);border-color:var(--good)}
+.dots .ng{background:var(--bad);border-color:var(--bad)}
+.dots .t{border:1.5px dashed var(--sky)}
+.dots .un{border:2px dotted var(--rose)}
+.dots .na{opacity:.5}
+
+.gate{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.gate>li{background:var(--panel);border-radius:6px;padding:18px 20px 16px}
+.gate .hd{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline}
+.gate .id{font-size:.78rem;color:var(--dim)}
+.gate h3{margin:0;font-size:1.14rem}
+.gate .rule{font-weight:500;margin:.5em 0 .3em;max-width:none}
+.gate .why{font-size:.87rem;color:var(--mute);line-height:1.8;margin:0 0 12px;max-width:none}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vs>div{border:1px solid var(--line);border-radius:4px;padding:10px 12px;font-size:.88rem;line-height:1.75}
+.vs b.w{display:block;font-size:.76rem;color:var(--dim);font-weight:700;margin-bottom:2px}
+.vs .v{font-weight:700;margin-right:.5em;white-space:nowrap}
+.v-ok{color:var(--good)}.v-ng{color:var(--bad)}.v-t{color:var(--sky)}.v-un{color:var(--rose)}.v-na{color:var(--dim)}
+@media (max-width:640px){.vs{grid-template-columns:1fr}}
+.gh{font-family:var(--gothic);font-size:.9rem;font-weight:700;color:var(--mute);margin:26px 0 10px}
+
+.ladder{display:grid;gap:12px;margin:18px 0}
+.rung{display:grid;grid-template-columns:128px 1fr;gap:6px 16px;align-items:center}
+.rung .nm{font:700 1.05rem var(--mincho)}
+.rung .nm small{display:block;font:400 .78rem var(--gothic);color:var(--dim)}
+.rung .bar{height:26px;background:var(--wall2);border:1px solid var(--line);border-radius:4px;position:relative;overflow:hidden}
+.rung .bar i{position:absolute;inset:0 auto 0 0;background:repeating-linear-gradient(135deg,#f0c98755 0 6px,#f0c98733 6px 12px);border-right:2px solid var(--lamp)}
+.rung .bar b{position:absolute;inset:0 auto 0 0;background:var(--lamp)}
+.rung .bar span{position:absolute;right:8px;top:0;line-height:24px;font-size:.8rem;color:var(--mute);font-variant-numeric:tabular-nums}
+.rung p{grid-column:2;margin:0;font-size:.85rem;color:var(--mute);line-height:1.7;max-width:none}
+.rung.cur .nm{color:var(--lamp)}
+@media (max-width:560px){.rung{grid-template-columns:1fr}.rung p{grid-column:1}}
+</style>
+</head>
+<body class="n3">
+<main class="wrap">
+
+<header class="pagehead" id="top">
+  <p class="when" id="when"></p>
+  <h1>判断基準</h1>
+  <p class="lead">点数を付ける前に、二十分の映像として成立するかを確かめます。映像を観ていない段階の点数には、上限を設けています。</p>
+  <div class="sum" id="sum"></div>
+</header>
+
+<section class="sec" id="kyokun" data-ea-label="何を見誤ったか">
+  <h2>何を見誤ったか</h2>
+  <p>旧作『EARTH AFTER』は、以前の審査シミュレーションで百点満点中八十七点でした。全編を生成して繋いで観た月真猫さんのご判断は「二十分に収まらない。短くても二時間、泣かせるには十二話分が要る。切り抜きの寄せ集めの総集編になる」でした。</p>
+  <p>見誤りの原因は三つです。</p>
+  <ol class="plain">
+    <li>脚本を読んだときの出来を測っていて、二十分の映像として観たときに成立するかを測っていなかった。</li>
+    <li>絵コンテしかない段階で、映像・音・編集の出来まで見込みで点を付けていた。</li>
+    <li>採点したのが、脚本を一緒に作った Claude 自身だった。作った側は、画面にないものを頭の中で補って読んでしまいます。</li>
+  </ol>
+  <p>そこで、次の三つに作り直しました。関門を先に置くこと、段階ごとに点数の上限を決めること、事情を知らない者に読ませること、です。</p>
+  <p class="small"><a href="v1.html">旧・審査の記録（八十七点）</a> は、見誤りの資料としてそのまま残してあります。</p>
+</section>
+
+<section class="sec" id="kanmon" data-ea-label="関門">
+  <h2>関門　二十分の映像として成立するか</h2>
+  <p>十二の検査です。一つでも不合格があるうちは、点数を付けず、物語のほうを直します。</p>
+  <div class="legend">
+    <span><b class="v v-ok">合格</b></span>
+    <span><b class="v v-ng">不合格</b></span>
+    <span><b class="v v-t">提案の値なら合格</b>　Claude が仮に置いた値での判定です</span>
+    <span><b class="v v-un">未確定</b>　決めていただく問いが残っています</span>
+    <span><b class="v v-na">未検査</b></span>
+  </div>
+  <div id="gate"></div>
+  <div class="note calm">
+    <p>数字の閾値は、旧作の失敗から逆算して置いたものです。後知恵の面があり、短編映画の決まりごととして確立された数字ではありません。11月22日に新しい物語を通しで観たとき、合っていたかを見直します。</p>
+  </div>
+</section>
+
+<section class="sec" id="dankai" data-ea-label="段階と点数の上限">
+  <h2>段階と点数の上限</h2>
+  <p>公式の審査基準は五項目です（規約第十条）。配点は公表されていないため、二十点ずつの百点満点と仮に置いています。観ていないものには点を付けられないので、段階ごとに付けられる点数の上限を決めました。</p>
+  <div class="ladder" id="ladder"></div>
+  <div class="tw"><table class="tbl" id="caps"></table></div>
+  <p class="small">上限の内訳は Claude の案です。たとえば脚本の段階で「映像・音響の完成度」に六点まで付けられるのは、設定画と曲がすでにあるためです。</p>
+</section>
+
+<section class="sec" id="mitate" data-ea-label="いまの見立て">
+  <h2>いまの見立て</h2>
+  <div id="mitate-body"></div>
+  <div class="note warn">
+    <p>この点数は、物語づくりに関わっている Claude 一者の見立てです。旧作を見誤ったのと同じ立場ですので、当てになさらないでください。事情を知らない三者の講評を、11月14日に並べます（提案）。</p>
+  </div>
+</section>
+
+<section class="sec" id="mouken" data-ea-label="事情を知らない者に読ませる">
+  <h2>事情を知らない者に読ませる</h2>
+  <p>物語を一緒に作った者は、公平な採点ができません。そこで、段階ごとに次のやり方で講評を取ります。</p>
+  <ol class="plain">
+    <li>物語の文章だけを渡します。設定の資料、これまでの相談、狙いの説明は渡しません。</li>
+    <li>別々の三者に、互いの答えを見せずに読ませます。</li>
+    <li>聞くことは五つです。一文であらすじを言えるか。どこで気持ちが動いたか、動かなかったか。分からなかった箇所。似ていると感じた作品。二十分で足りると思うか。</li>
+    <li>三者の答えと、Claude の見立てを、良いものも悪いものも並べてお見せします。都合の良い講評だけを選びません。</li>
+  </ol>
+  <p class="small">以前、旧作の脚本で同じやり方を取り、三つの採点（十六点満点で十一・七・十）を並べてお見せしました。映像の段階では、チームの外の方に通しで観ていただくのがいちばん確かです（提案）。</p>
+</section>
+
+<section class="sec" id="kaitei" data-ea-label="基準を直すとき">
+  <h2>基準を直すとき</h2>
+  <ul class="plain">
+    <li>検査や閾値を変えるときは、根拠を一緒に書き直します。根拠のない数字は置きません。</li>
+    <li>映像を通しで観て、関門の判定と実感が食い違ったら、実感のほうを正として基準を直します。</li>
+    <li>公式の審査基準や規約が変わったら、<a href="../rules/">応募規定</a> と一緒に直します。</li>
+  </ul>
+</section>
+
+</main>
+<footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu</div></footer>
+
+<script src="../story/data.js?v=5"></script>
+<script src="data.js?v=5"></script>
+<script src="../assets/ea-core.js?v=10"></script>
+<script>
+(function(){
+var R=window.N3R,U=window.N3UI,e=U.esc,$=function(s){return document.querySelector(s)};
+var VL={ok:'合格',ng:'不合格',t:'提案の値なら合格',un:'未確定',na:'未検査'};
+function cnt(k){var c={ok:0,ng:0,t:0,un:0,na:0};R.gate.forEach(function(g){c[g[k][0]]++});return c}
+function dots(k){return '<div class="dots" aria-hidden="true">'+R.gate.map(function(g){return '<i class="'+g[k][0]+'" title="'+e(g.t)+'"></i>'}).join('')+'</div>'}
+function tally(c){return Object.keys(VL).filter(function(k){return c[k]}).map(function(k){return '<span><b class="v-'+k+'">'+VL[k]+'</b> '+c[k]+'</span>'}).join('')}
+var co=cnt('old'),cn=cnt('neo');
+var tot=R.now.score.reduce(function(a,s){return a+s.p},0),stg=R.stages.filter(function(s){return s.id===R.now.stage})[0];
+$('#when').textContent=R.updated.replace(/-/g,'/')+' 時点';
+$('#sum').innerHTML=
+ '<div class="box"><h3>旧作『EARTH AFTER』を関門に通すと</h3><p class="big">'+co.ng+'<small>／'+R.gate.length+' で不合格</small></p>'+dots('old')+'<p class="tally">'+tally(co)+'</p></div>'+
+ '<div class="box"><h3>新しい物語（脚本の下書き）を関門に通すと</h3><p class="big">'+cn.ng+'<small>／'+R.gate.length+' で不合格</small></p>'+dots('neo')+'<p class="tally">'+tally(cn)+'</p></div>'+
+ '<div class="box"><h3>いまの段階で付けられる点数</h3><p class="big">'+tot+'<small>／'+stg.cap+'点（'+e(stg.t)+'の段階の上限）</small></p><p class="tally">百点満点のうち、いま評価できるのは'+stg.cap+'点ぶんだけです。</p></div>';
+
+var gs=[];R.gate.forEach(function(g){if(gs.indexOf(g.g)<0)gs.push(g.g)});
+$('#gate').innerHTML=gs.map(function(gn){return '<h3 class="gh">'+e(gn)+'</h3><ol class="gate">'+R.gate.filter(function(g){return g.g===gn}).map(function(g){
+  function cell(lbl,v){return '<div><b class="w">'+lbl+'</b><span class="v v-'+v[0]+'">'+VL[v[0]]+'</span>'+e(v[1])+'</div>'}
+  return '<li id="'+g.id+'"><div class="hd"><span class="id">'+g.id+'</span><h3>'+e(g.t)+'</h3></div><p class="rule">'+e(g.rule)+'</p><p class="why">'+e(g.why)+'</p><div class="vs">'+cell('旧作『EARTH AFTER』',g.old)+cell('新しい物語（脚本の下書き）',g.neo)+'</div></li>'}).join('')+'</ol>'}).join('');
+
+$('#ladder').innerHTML=R.stages.map(function(s){var cur=s.id===R.now.stage;
+  return '<div class="rung'+(cur?' cur':'')+'"><div class="nm">'+e(s.t)+'<small>'+e(s.by)+(cur?'　いまここ':'')+'</small></div><div class="bar"><i style="width:'+s.cap+'%"></i>'+(cur?'<b style="width:'+tot+'%"></b>':'')+'<span>上限 '+s.cap+'点</span></div><p>見えるもの：'+e(s.see)+(s.cant?'　／　まだ見えないもの：'+e(s.cant):'')+'</p></div>'}).join('');
+$('#caps').innerHTML='<thead><tr><th>公式の審査基準</th>'+R.stages.map(function(s){return '<th class="r">'+e(s.t)+'</th>'}).join('')+'</tr></thead><tbody>'+
+  R.crit.map(function(c){return '<tr><td><b>'+e(c.t)+'</b>'+(c.sub?'<br><span class="small">'+e(c.sub)+'</span>':'')+'</td>'+c.cap.map(function(x){return '<td class="r">'+(x||'<span class="na">評価できない</span>')+'</td>'}).join('')+'</tr>'}).join('')+
+  '<tr><td><b>上限の合計</b></td>'+R.stages.map(function(s){return '<td class="r"><b>'+s.cap+'</b></td>'}).join('')+'</tr></tbody>';
+
+var si=R.stages.indexOf(stg);
+$('#mitate-body').innerHTML='<p>いまは<b>'+e(stg.t)+'</b>の段階です（脚本の下書きはありますが、事情を知らない者にまだ読ませていないため、脚本の段階には進めていません）。関門に不合格はありませんが、未確定が'+cn.un+'つ、提案の値での合格が'+cn.t+'つ残っています。確定した合格は'+cn.ok+'つです。</p>'+
+ '<div class="tw"><table class="tbl stack"><thead><tr><th>公式の審査基準</th><th class="r">見立て</th><th>理由</th></tr></thead><tbody>'+
+ R.now.score.map(function(s){var c=R.crit.filter(function(x){return x.id===s.id})[0],cap=c.cap[si];
+   return '<tr><td>'+e(c.t)+'</td><td class="r" data-l="見立て">'+(cap?'<b>'+s.p+'</b> ／ '+cap:'<span class="na">—</span>')+'</td><td data-l="理由">'+e(s.n)+'</td></tr>'}).join('')+
+ '<tr><td><b>合計</b></td><td class="r" data-l="見立て"><b>'+tot+'</b> ／ '+stg.cap+'</td><td data-l="理由">百点満点の'+tot+'点ではありません。'+e(stg.t)+'の段階で付けられる'+stg.cap+'点のうちの'+tot+'点です。</td></tr></tbody></table></div>';
+if(window.EANav)EANav.refresh();
+})();
+</script>
+<script src="../assets/ea-nav.js?v=10" defer></script>
+</body>
+</html>
