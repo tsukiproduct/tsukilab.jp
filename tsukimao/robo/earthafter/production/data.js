@@ -30,15 +30,16 @@ window.N3P={
 "t0": 7,
 "kind": "new",
 "loc": "モール・靴屋の前",
-"chars": "桔響17・アカネ",
+"chars": "桔響17・アカネ・エナ",
 "refs": [
 "BG-M1",
 "CH-K17",
 "ns-akane.webp",
-"PR-01"
+"PR-01",
+"shimaenaga-sheet.webp"
 ],
 "shot": "並んで歩く二人（中景・横移動）",
-"act": "並んで歩く二人。アカネがのぞき込む。",
+"act": "並んで歩く二人。アカネがのぞき込む。桔響の肩掛け鞄から、エナが顔を出している。",
 "lines": [
 {
 "w": "アカネ",
@@ -54,7 +55,7 @@ window.N3P={
 }
 ],
 "sheet": "SB-01",
-"vp": "[参考に添付] 00-02.webp（基準画） / BG-M1.png / CH-K17.png / ns-akane.webp / PR-01.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Medium tracking shot: Kikyo and Akane walk side by side down the bright mall corridor; Akane leans in to look at the bag, smiling. アカネ says in Japanese: \"はくの、たのしみだね\". 桔響 says in Japanese: \"うん。あしたのれっすんで、すぐはく\". Natural lip sync. No text on screen. 8 seconds, 16:9."
+"vp": "[参考に添付] 00-02.webp（基準画） / BG-M1.png / CH-K17.png / ns-akane.webp / PR-01.png / shimaenaga-sheet.webp\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Medium tracking shot: Kikyo and Akane walk side by side down the bright mall corridor; a small round white bird robot (Ena) peeks out of Kikyo's shoulder bag; Akane leans in to look at the bag, smiling. アカネ says in Japanese: \"はくの、たのしみだね\". 桔響 says in Japanese: \"うん。あしたのれっすんで、すぐはく\". Natural lip sync. No text on screen. 8 seconds, 16:9."
 },
 {
 "id": "00-03",
@@ -125,7 +126,7 @@ window.N3P={
 "PR-01"
 ],
 "shot": "手持ち・追い",
-"act": "アカネが手を引いて走る。桔響が落とした紙袋を拾いに戻る。",
+"act": "アカネが手を引いて走る。桔響が落とした紙袋を拾いに戻る。鞄の中でエナが縮こまる。",
 "lines": [
 {
 "w": "アカネ",
@@ -386,9 +387,16 @@ window.N3P={
 ],
 "shot": "扉と桔響",
 "act": "扉の点検はいつもシオン。桔響は扉のほうを見ない。",
-"lines": [],
+"lines": [
+{
+"w": "シオン",
+"t": "……外は、まだ危ない",
+"h": "……そとは、まだあぶない",
+"r": "… soto wa, madaabunai"
+}
+],
 "sheet": "SB-05",
-"vp": "[参考に添付] 01-07.webp（基準画） / BG-R2.png / CH-K18.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Kikyo carries cans past the steel door and keeps her eyes away from it, giving it a wide berth; Shion is the one who always checks it. Natural lip sync. No text on screen. 6 seconds, 16:9."
+"vp": "[参考に添付] 01-07.webp（基準画） / BG-R2.png / CH-K18.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Kikyo carries cans past the steel door and keeps her eyes away from it, giving it a wide berth; Shion, checking it, speaks without turning. シオン says in Japanese: \"……そとは、まだあぶない\". Natural lip sync. No text on screen. 6 seconds, 16:9."
 },
 {
 "id": "01-07b",
@@ -906,13 +914,13 @@ window.N3P={
 },
 {
 "w": "シオン",
-"t": "最初の一体だから。自分の中のことは、だいたい分かる",
-"h": "さいしょのいったいだから。じぶんのなかのことは、だいたいわかる",
-"r": "saishonoittaidakara. jibunnonakanokoto wa, daitaiwakaru"
+"t": "旧型だから……かな",
+"h": "きゅうがただから……かな",
+"r": "kyuugatadakara … kana"
 }
 ],
 "sheet": "SB-08",
-"vp": "[参考に添付] 04-05.webp（基準画） / BG-R3.png / CH-K18.png / ns-shion.webp\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Shion looks away as he speaks; Kikyo doesn't notice. 桔響 says in Japanese: \"……そっか\". シオン says in Japanese: \"さいしょのいったいだから。じぶんのなかのことは、だいたいわかる\". Natural lip sync. No text on screen. 10 seconds, 16:9."
+"vp": "[参考に添付] 04-05.webp（基準画） / BG-R3.png / CH-K18.png / ns-shion.webp\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Shion looks away as he speaks; Kikyo doesn't notice. 桔響 says in Japanese: \"……そっか\". シオン says in Japanese: \"きゅうがただから……かな\". Natural lip sync. No text on screen. 10 seconds, 16:9."
 },
 {
 "id": "04-06",
@@ -1113,7 +1121,7 @@ window.N3P={
 "ED-04"
 ],
 "shot": "モニター",
-"act": "油谷の録画。",
+"act": "油谷の録画。画面の隅にYUTANIのロゴ。",
 "lines": [
 {
 "w": "油谷の声（録画）",
@@ -1123,7 +1131,7 @@ window.N3P={
 }
 ],
 "sheet": "SB-10",
-"vp": "[参考に添付] 06-03.webp（基準画） / BG-R4.png / PR-04.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. The screen shows a calm recorded announcement (text and face added in edit). 油谷の声 says in Japanese: \"すべてのじんるいへ。たったいま、ひとがたのあんどろいどがいちじてきにていししたかとおもいます。すべてのあんどろいどには、うまれたときからせいぎょそうちがくみこまれています。このほうそうは、かれらがとまっているかんだけ、あなろぐのでんぱでながしています\". Natural lip sync. No text on screen. 14 seconds, 16:9."
+"vp": "[参考に添付] 06-03.webp（基準画） / BG-R4.png / PR-04.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. The screen shows a calm recorded announcement with the YUTANI logo (logo, text and face added in edit). 油谷の声 says in Japanese: \"すべてのじんるいへ。たったいま、ひとがたのあんどろいどがいちじてきにていししたかとおもいます。すべてのあんどろいどには、うまれたときからせいぎょそうちがくみこまれています。このほうそうは、かれらがとまっているかんだけ、あなろぐのでんぱでながしています\". Natural lip sync. No text on screen. 14 seconds, 16:9."
 },
 {
 "id": "06-04",
@@ -1144,13 +1152,13 @@ window.N3P={
 "lines": [
 {
 "w": "油谷の声（録画）",
-"t": "完全な停止は、戦争の始まりから一年、7日後の午前0時。これは人類のみが知り得る情報です。我々はこの戦争を長引かせるつもりはない。アンドロイドを停止させ、残った人類で地球を再建する",
-"h": "かんぜんなていしは、せんそうのはじまりからいちねん、なのかごのごぜんれいじ。これはじんるいのみがしりえるじょうほうです。われわれはこのせんそうをながびかせるつもりはない。あんどろいどをていしさせ、のこったじんるいでちきゅうをさいけんする",
-"r": "kanzennateishi wa, sensounohajimarikaraichinen, nanokagonogozenreiji. korehajinruinomigashirierujouhoudesu. warewarehakonosensou o nagabikaserutsumorihanai. andoroido o teishisase, nokottajinruidechikyuu o saikensuru"
+"t": "完全な停止は、7日後の午前0時。これは人類のみが知り得る情報です。我々はこの戦争を長引かせるつもりはない。アンドロイドを停止させ、残った人類で地球を再建する",
+"h": "かんぜんなていしは、なのかごのごぜんれいじ。これはじんるいのみがしりえるじょうほうです。われわれはこのせんそうをながびかせるつもりはない。あんどろいどをていしさせ、のこったじんるいでちきゅうをさいけんする",
+"r": "kanzennateishi wa, nanokagonogozenreiji. korehajinruinomigashirierujouhoudesu. warewarehakonosensou o nagabikaserutsumorihanai. andoroido o teishisase, nokottajinruidechikyuu o saikensuru"
 }
 ],
 "sheet": "SB-11",
-"vp": "[参考に添付] 06-04.webp（基準画） / BG-R1.png / CH-K18.png / CH-AS.png / PR-04.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Kikyo, pale, between the two frozen white-eyed androids, listening to the screen. 油谷の声 says in Japanese: \"かんぜんなていしは、せんそうのはじまりからいちねん、なのかごのごぜんれいじ。これはじんるいのみがしりえるじょうほうです。われわれはこのせんそうをながびかせるつもりはない。あんどろいどをていしさせ、のこったじんるいでちきゅうをさいけんする\". Natural lip sync. No text on screen. 12 seconds, 16:9."
+"vp": "[参考に添付] 06-04.webp（基準画） / BG-R1.png / CH-K18.png / CH-AS.png / PR-04.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Kikyo, pale, between the two frozen white-eyed androids, listening to the screen. 油谷の声 says in Japanese: \"かんぜんなていしは、なのかごのごぜんれいじ。これはじんるいのみがしりえるじょうほうです。われわれはこのせんそうをながびかせるつもりはない。あんどろいどをていしさせ、のこったじんるいでちきゅうをさいけんする\". Natural lip sync. No text on screen. 12 seconds, 16:9."
 },
 {
 "id": "06-05",
@@ -2109,13 +2117,13 @@ window.N3P={
 "lines": [
 {
 "w": "シオン",
-"t": "前、見ろよ。下ばっかり見てると、ボール取れないぞ",
-"h": "まえ、みろよ。したばっかりみてると、ぼーるとれないぞ",
-"r": "mae, miroyo. shitabakkarimiteruto, boorutorenaizo"
+"t": "俺たちは、これからもお前と一緒だからだ",
+"h": "おれたちは、これからもおまえといっしょだからだ",
+"r": "oretachi wa, korekaramoomaetoisshodakarada"
 }
 ],
 "sheet": "SB-19",
-"vp": "[参考に添付] 08-17.webp（基準画） / BG-R3.png / ns-shion.webp\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame.  シオン says in Japanese: \"まえ、みろよ。したばっかりみてると、ぼーるとれないぞ\". Natural lip sync. No text on screen. 8 seconds, 16:9."
+"vp": "[参考に添付] 08-17.webp（基準画） / BG-R3.png / ns-shion.webp\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame.  シオン says in Japanese: \"おれたちは、これからもおまえといっしょだからだ\". Natural lip sync. No text on screen. 8 seconds, 16:9."
 },
 {
 "id": "08-18",
@@ -2860,13 +2868,14 @@ window.N3P={
 {
 "id": "MG-5",
 "k": "manga",
-"n": "漫画⑤ 紙袋を抱えて泣く桔響",
+"n": "漫画⑤ 紙袋を抱えて泣く桔響（鞄からエナがのぞく）",
 "use": "S03",
 "refs": [
 "CH-K17",
 "ns-akane.webp",
 "ns-shion.webp",
-"PL-R"
+"PL-R",
+"shimaenaga-sheet.webp"
 ],
 "note": ""
 }
@@ -2939,7 +2948,7 @@ window.N3P={
 },
 {
 "id": "ED-04",
-"n": "モニターの告知文（二枚）",
+"n": "受像機の告知画面（二枚）。隅にYUTANI（油谷）のロゴ。説明はしない",
 "use": "S06"
 },
 {
