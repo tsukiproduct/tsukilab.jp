@@ -1,7 +1,7 @@
 /* 制作台の正本（素材とカット）。/home/claude/work/prod/build.py で作る。台詞の読みは自動変換なので、生成前に必ず目で確かめること。 */
 window.N3P={
 "updated": "2026-11-16",
-"total": 965,
+"total": 971,
 "cuts": [
 {
 "id": "00-01",
@@ -1319,10 +1319,31 @@ window.N3P={
 "vp": "[参考に添付] 06-07b.webp（基準画） / BG-R3.png / CH-K18.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Night, lights off. While the two sleep, Kikyo, barefoot, holds the bunk rail like a barre and silently goes through basic ballet positions in the dark. Natural lip sync. No text on screen. 10 seconds, 16:9."
 },
 {
+"id": "06-07d",
+"sc": "S06",
+"sec": 6,
+"t0": 477,
+"kind": "new",
+"loc": "退避室・夜",
+"chars": "桔響18・アカネ",
+"refs": [
+"BG-R3",
+"CH-K18",
+"ns-akane.webp",
+"PR-03",
+"ED-11"
+],
+"shot": "寄り",
+"act": "夜。紙切れに何か書いているうちに眠ってしまった桔響を、アカネが起こす。桔響は焦って紙を隠す。一瞬だけ「3人でしたいこと」の文字が見える。",
+"lines": [],
+"sheet": "SB-12",
+"vp": "[参考に添付] 06-07d.webp（基準画） / BG-R3.png / CH-K18.png / ns-akane.webp / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Night. Kikyo has fallen asleep over a scrap of paper, pencil in hand; Akane gently shakes her shoulder; Kikyo jolts awake and hastily hides the paper behind her back; for a split second its heading is visible (text in edit). Natural lip sync. No text on screen. 6 seconds, 16:9."
+},
+{
 "id": "06-07c",
 "sc": "S06",
 "sec": 8,
-"t0": 477,
+"t0": 483,
 "kind": "new",
 "loc": "退避室",
 "chars": "桔響18",
@@ -1340,7 +1361,7 @@ window.N3P={
 "id": "06-08",
 "sc": "S06",
 "sec": 6,
-"t0": 485,
+"t0": 491,
 "kind": "new",
 "loc": "退避室",
 "chars": "桔響18",
@@ -1351,14 +1372,14 @@ window.N3P={
 "shot": "つなぎ（早回し）",
 "act": "壁の印が一本ずつ増える。6日が過ぎる。",
 "lines": [],
-"sheet": "SB-12",
+"sheet": "SB-13",
 "vp": "[参考に添付] 06-08.webp（基準画） / BG-R4.png / CH-K18.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Time-lapse: tally marks added one per day; Kikyo glances at the two each time. Natural lip sync. No text on screen. 6 seconds, 16:9."
 },
 {
 "id": "07-01",
 "sc": "S07",
 "sec": 7,
-"t0": 491,
+"t0": 497,
 "kind": "new",
 "loc": "退避室",
 "chars": "アカネ・桔響18",
@@ -1385,7 +1406,7 @@ window.N3P={
 "id": "07-02",
 "sc": "S07",
 "sec": 8,
-"t0": 498,
+"t0": 504,
 "kind": "new",
 "loc": "退避室",
 "chars": "シオン",
@@ -1403,7 +1424,7 @@ window.N3P={
 "id": "07-03",
 "sc": "S07",
 "sec": 9,
-"t0": 506,
+"t0": 512,
 "kind": "new",
 "loc": "退避室",
 "chars": "桔響18",
@@ -1422,7 +1443,7 @@ window.N3P={
 "id": "07-04",
 "sc": "S07",
 "sec": 7,
-"t0": 515,
+"t0": 521,
 "kind": "new",
 "loc": "退避室",
 "chars": "桔響18",
@@ -1441,14 +1462,14 @@ window.N3P={
 "r": "… nee. mitete"
 }
 ],
-"sheet": "SB-13",
+"sheet": "SB-14",
 "vp": "[参考に添付] 07-04.webp（基準画） / BG-R1.png / CH-K18.png / PR-01.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Close: tissue paper lifted, brand-new pink ballet slippers. 桔響 says in Japanese: \"……ねえ。みてて\". Natural lip sync. No text on screen. 7 seconds, 16:9."
 },
 {
 "id": "07-05",
 "sc": "S07",
 "sec": 8,
-"t0": 522,
+"t0": 528,
 "kind": "new",
 "loc": "退避室",
 "chars": "桔響18",
@@ -1466,7 +1487,7 @@ window.N3P={
 "id": "07-06",
 "sc": "S07",
 "sec": 8,
-"t0": 530,
+"t0": 536,
 "kind": "new",
 "loc": "退避室",
 "chars": "桔響18",
@@ -1484,7 +1505,7 @@ window.N3P={
 "id": "07-07",
 "sc": "S07",
 "sec": 8,
-"t0": 538,
+"t0": 544,
 "kind": "new",
 "loc": "退避室",
 "chars": "桔響18",
@@ -1502,7 +1523,7 @@ window.N3P={
 "id": "07-08",
 "sc": "S07",
 "sec": 6,
-"t0": 546,
+"t0": 552,
 "kind": "past",
 "loc": "旧作 03-02",
 "chars": "桔響",
@@ -1517,7 +1538,7 @@ window.N3P={
 "id": "07-09",
 "sc": "S07",
 "sec": 8,
-"t0": 552,
+"t0": 558,
 "kind": "new",
 "loc": "退避室",
 "chars": "桔響18",
@@ -1528,14 +1549,14 @@ window.N3P={
 "shot": "中景",
 "act": "小さな跳躍とお辞儀。",
 "lines": [],
-"sheet": "SB-14",
+"sheet": "SB-15",
 "vp": "[参考に添付] 07-09.webp（基準画） / BG-R1.png / CH-K18B.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. A small jump, a pirouette, then a bow. Natural lip sync. No text on screen. 8 seconds, 16:9."
 },
 {
 "id": "07-10",
 "sc": "S07",
 "sec": 8,
-"t0": 560,
+"t0": 566,
 "kind": "new",
 "loc": "退避室",
 "chars": "アカネ・シオン",
@@ -1567,7 +1588,7 @@ window.N3P={
 "id": "07-11",
 "sc": "S07",
 "sec": 8,
-"t0": 568,
+"t0": 574,
 "kind": "new",
 "loc": "退避室",
 "chars": "桔響18",
@@ -1585,7 +1606,7 @@ window.N3P={
 "id": "07-12",
 "sc": "S07",
 "sec": 8,
-"t0": 576,
+"t0": 582,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "三人",
@@ -1607,7 +1628,7 @@ window.N3P={
 "id": "08-01",
 "sc": "S08",
 "sec": 12,
-"t0": 584,
+"t0": 590,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "三人",
@@ -1639,14 +1660,14 @@ window.N3P={
 "r": "koutaide, arigatou o iuno. ruuru wa soredake"
 }
 ],
-"sheet": "SB-15",
+"sheet": "SB-16",
 "vp": "[参考に添付] 08-01.webp（基準画） / BG-R3.png / CH-K18.png / ns-akane.webp / ns-shion.webp\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Wide: Kikyo sits up. 桔響 says in Japanese: \"ねえ。ありがとうげーむ、しよう\". アカネ says in Japanese: \"なにそれ\". 桔響 says in Japanese: \"こうたいで、ありがとうをいうの。るーるはそれだけ\". Natural lip sync. No text on screen. 12 seconds, 16:9."
 },
 {
 "id": "08-02",
 "sc": "S08",
 "sec": 8,
-"t0": 596,
+"t0": 602,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "シオン・アカネ",
@@ -1678,7 +1699,7 @@ window.N3P={
 "id": "08-03",
 "sc": "S08",
 "sec": 10,
-"t0": 604,
+"t0": 610,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18・アカネ",
@@ -1710,7 +1731,7 @@ window.N3P={
 "id": "08-04",
 "sc": "S08",
 "sec": 9,
-"t0": 614,
+"t0": 620,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "アカネ・シオン",
@@ -1742,7 +1763,7 @@ window.N3P={
 "id": "08-05",
 "sc": "S08",
 "sec": 10,
-"t0": 623,
+"t0": 629,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "シオン・桔響18",
@@ -1767,14 +1788,14 @@ window.N3P={
 "r": "sore, arigatoujanai!"
 }
 ],
-"sheet": "SB-16",
+"sheet": "SB-17",
 "vp": "[参考に添付] 08-05.webp（基準画） / BG-R3.png / ns-shion.webp / CH-K18.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. They all laugh. シオン says in Japanese: \"ききょう。……まいあさ、すごいねぐせをみせてくれてありがとう\". 桔響 says in Japanese: \"それ、ありがとうじゃない！\". Natural lip sync. No text on screen. 10 seconds, 16:9."
 },
 {
 "id": "08-06",
 "sc": "S08",
 "sec": 9,
-"t0": 633,
+"t0": 639,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18・シオン",
@@ -1806,7 +1827,7 @@ window.N3P={
 "id": "08-07",
 "sc": "S08",
 "sec": 10,
-"t0": 642,
+"t0": 648,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "アカネ・桔響18",
@@ -1844,7 +1865,7 @@ window.N3P={
 "id": "08-08",
 "sc": "S08",
 "sec": 6,
-"t0": 652,
+"t0": 658,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "",
@@ -1862,7 +1883,7 @@ window.N3P={
 "id": "08-09",
 "sc": "S08",
 "sec": 12,
-"t0": 658,
+"t0": 664,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18・シオン",
@@ -1887,14 +1908,14 @@ window.N3P={
 "r": "… tamatamadatte"
 }
 ],
-"sheet": "SB-17",
+"sheet": "SB-18",
 "vp": "[参考に添付] 08-09.webp（基準画） / BG-R3.png / CH-K18.png / ns-shion.webp\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame.  桔響 says in Japanese: \"しおん。あのひ、たすけてくれてありがとう。……はしれって、いってくれて\". シオン says in Japanese: \"……たまたまだって\". Natural lip sync. No text on screen. 12 seconds, 16:9."
 },
 {
 "id": "08-10",
 "sc": "S08",
 "sec": 10,
-"t0": 670,
+"t0": 676,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "アカネ・シオン",
@@ -1926,7 +1947,7 @@ window.N3P={
 "id": "08-11",
 "sc": "S08",
 "sec": 10,
-"t0": 680,
+"t0": 686,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18・アカネ",
@@ -1952,7 +1973,7 @@ window.N3P={
 "id": "08-12",
 "sc": "S08",
 "sec": 10,
-"t0": 690,
+"t0": 696,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18・シオン",
@@ -1984,7 +2005,7 @@ window.N3P={
 "id": "08-13",
 "sc": "S08",
 "sec": 8,
-"t0": 700,
+"t0": 706,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "",
@@ -1996,14 +2017,14 @@ window.N3P={
 "shot": "時計",
 "act": "11時56分。曲が入る。",
 "lines": [],
-"sheet": "SB-18",
+"sheet": "SB-19",
 "vp": "[参考に添付] 08-13.webp（基準画） / BG-R4.png / PR-05.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Insert: the clock at 11:56. Music begins. Natural lip sync. No text on screen. 8 seconds, 16:9."
 },
 {
 "id": "08-14",
 "sc": "S08",
 "sec": 12,
-"t0": 708,
+"t0": 714,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "アカネ・桔響18",
@@ -2041,7 +2062,7 @@ window.N3P={
 "id": "08-15",
 "sc": "S08",
 "sec": 8,
-"t0": 720,
+"t0": 726,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "シオン",
@@ -2066,7 +2087,7 @@ window.N3P={
 "id": "08-16",
 "sc": "S08",
 "sec": 10,
-"t0": 728,
+"t0": 734,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "アカネ・桔響18",
@@ -2104,7 +2125,7 @@ window.N3P={
 "id": "08-17",
 "sc": "S08",
 "sec": 8,
-"t0": 738,
+"t0": 744,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "シオン",
@@ -2122,14 +2143,14 @@ window.N3P={
 "r": "oretachi wa, korekaramoomaetoisshodakarada"
 }
 ],
-"sheet": "SB-19",
+"sheet": "SB-20",
 "vp": "[参考に添付] 08-17.webp（基準画） / BG-R3.png / ns-shion.webp\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame.  シオン says in Japanese: \"おれたちは、これからもおまえといっしょだからだ\". Natural lip sync. No text on screen. 8 seconds, 16:9."
 },
 {
 "id": "08-18",
 "sc": "S08",
 "sec": 8,
-"t0": 746,
+"t0": 752,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18",
@@ -2148,7 +2169,7 @@ window.N3P={
 "id": "08-19",
 "sc": "S08",
 "sec": 12,
-"t0": 754,
+"t0": 760,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "三人",
@@ -2175,7 +2196,7 @@ window.N3P={
 "id": "08-20",
 "sc": "S08",
 "sec": 10,
-"t0": 766,
+"t0": 772,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "三人",
@@ -2208,7 +2229,7 @@ window.N3P={
 "id": "08-21",
 "sc": "S08",
 "sec": 8,
-"t0": 776,
+"t0": 782,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "",
@@ -2219,14 +2240,14 @@ window.N3P={
 "shot": "秒針",
 "act": "秒針が12に近づく。",
 "lines": [],
-"sheet": "SB-20",
+"sheet": "SB-21",
 "vp": "[参考に添付] 08-21.webp（基準画） / BG-R4.png / PR-05.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Extreme close: the second hand approaching twelve. Natural lip sync. No text on screen. 8 seconds, 16:9."
 },
 {
 "id": "09-01",
 "sc": "S09",
 "sec": 5,
-"t0": 784,
+"t0": 790,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "",
@@ -2244,7 +2265,7 @@ window.N3P={
 "id": "09-02",
 "sc": "S09",
 "sec": 9,
-"t0": 789,
+"t0": 795,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "三人",
@@ -2263,7 +2284,7 @@ window.N3P={
 "id": "09-03",
 "sc": "S09",
 "sec": 10,
-"t0": 798,
+"t0": 804,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18",
@@ -2289,7 +2310,7 @@ window.N3P={
 "id": "09-04",
 "sc": "S09",
 "sec": 9,
-"t0": 808,
+"t0": 814,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18・エナ",
@@ -2301,14 +2322,14 @@ window.N3P={
 "shot": "中景",
 "act": "桔響が声を上げて泣く。肩のエナが小さく鳴く。",
 "lines": [],
-"sheet": "SB-21",
+"sheet": "SB-22",
 "vp": "[参考に添付] 09-04.webp（基準画） / BG-R3.png / CH-K18.png / shimaenaga-sheet.webp\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Kikyo breaks down sobbing; the little bird robot on her shoulder chirps softly. Natural lip sync. No text on screen. 9 seconds, 16:9."
 },
 {
 "id": "09-05",
 "sc": "S09",
 "sec": 8,
-"t0": 817,
+"t0": 823,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18",
@@ -2318,16 +2339,16 @@ window.N3P={
 "PR-03"
 ],
 "shot": "手の寄り",
-"act": "アカネの手が握っているノートに気づく。",
+"act": "アカネの手が小さなメモ端末を握っている。シオンの手には、折った封筒。",
 "lines": [],
 "sheet": "SB-22",
-"vp": "[参考に添付] 09-05.webp（基準画） / BG-R3.png / CH-AS.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Close: Akane's still hand holds a small red notebook; Kikyo notices. Natural lip sync. No text on screen. 8 seconds, 16:9."
+"vp": "[参考に添付] 09-05.webp（基準画） / BG-R3.png / CH-AS.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Close: Akane's still hand holds a small red handheld memo device; Shion's hand holds a folded envelope. Kikyo notices. Natural lip sync. No text on screen. 8 seconds, 16:9."
 },
 {
 "id": "09-06",
 "sc": "S09",
 "sec": 8,
-"t0": 825,
+"t0": 831,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18",
@@ -2337,16 +2358,16 @@ window.N3P={
 "ED-06"
 ],
 "shot": "ノートの寄り",
-"act": "最初のページは1年前、ここに来た日。「朝食、缶半分」「睡眠、6時間」。仕事の記録。",
+"act": "画面の題は「桔響のお世話ノート」。最初の記録は1年前、ここに来た日。「朝食、缶半分」「睡眠、6時間」。仕事の記録。",
 "lines": [],
 "sheet": "SB-22",
-"vp": "[参考に添付] 09-06.webp（基準画） / BG-R3.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Kikyo opens the notebook to its first pages: neat, dry care records (text in edit). Natural lip sync. No text on screen. 8 seconds, 16:9."
+"vp": "[参考に添付] 09-06.webp（基準画） / BG-R3.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Kikyo wakes the memo device; its screen lists neat, dry care records (text in edit). Natural lip sync. No text on screen. 8 seconds, 16:9."
 },
 {
 "id": "09-07",
 "sc": "S09",
 "sec": 10,
-"t0": 833,
+"t0": 839,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18",
@@ -2356,17 +2377,17 @@ window.N3P={
 "PR-03",
 "ED-06"
 ],
-"shot": "めくる手",
-"act": "めくるほど、記録が日記に変わっていく。「缶を、おいしいと言った」「寝ぐせのまま、笑った」「今日も、桔響が笑った。うれしい」。最後の日記「シオンから聞いた。今日で最後。内緒にしようって決めた。最後まで、笑っててほしいから」",
+"shot": "画面を送る指",
+"act": "送るほど、記録が日記に変わっていく。「缶を、おいしいと言った」「寝ぐせのまま、笑った」「今日も、桔響が笑った。うれしい」。最後の日記「シオンから聞いた。今日で最後。内緒にしようって決めた。最後まで、笑っててほしいから」",
 "lines": [],
 "sheet": "SB-22",
-"vp": "[参考に添付] 09-07.webp（基準画） / BG-R3.png / CH-K18.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. She turns page after page; the handwriting loosens, small doodles appear; her tears fall on the paper (text in edit). Natural lip sync. No text on screen. 10 seconds, 16:9."
+"vp": "[参考に添付] 09-07.webp（基準画） / BG-R3.png / CH-K18.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. She scrolls entry after entry on the small screen; the entries grow warmer and longer; her tears fall on the screen (text in edit). Natural lip sync. No text on screen. 10 seconds, 16:9."
 },
 {
 "id": "09-08",
 "sc": "S09",
 "sec": 10,
-"t0": 843,
+"t0": 849,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18",
@@ -2376,7 +2397,7 @@ window.N3P={
 "ED-06"
 ],
 "shot": "最後のページ",
-"act": "最後のページに、シオンの字。",
+"act": "シオンの封筒の裏に、硬い字の書き置き。",
 "lines": [
 {
 "w": "シオンの書き置き",
@@ -2385,14 +2406,14 @@ window.N3P={
 "r": "nantonakuwakatteta. orenonakanokoodonohizukega, kyoudatta. oretachi wa, kikyougadaisukida. tobira wa, kikyoudemohirakerareruyounishiteoita. ittekoi"
 }
 ],
-"sheet": "SB-22",
-"vp": "[参考に添付] 09-08.webp（基準画） / BG-R3.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. The last page: a few lines in a different, stiffer handwriting (text in edit). シオンの書き置き says in Japanese: \"なんとなくわかってた。おれのなかのこーどのひづけが、きょうだった。おれたちは、ききょうがだいすきだ。とびらは、ききょうでもひらけられるようにしておいた。いってこい\". Natural lip sync. No text on screen. 10 seconds, 16:9."
+"sheet": "SB-23",
+"vp": "[参考に添付] 09-08.webp（基準画） / BG-R3.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. The back of Shion's envelope: a few lines in stiff handwriting (text in edit). シオンの書き置き says in Japanese: \"なんとなくわかってた。おれのなかのこーどのひづけが、きょうだった。おれたちは、ききょうがだいすきだ。とびらは、ききょうでもひらけられるようにしておいた。いってこい\". Natural lip sync. No text on screen. 10 seconds, 16:9."
 },
 {
 "id": "09-09",
 "sc": "S09",
 "sec": 9,
-"t0": 853,
+"t0": 859,
 "kind": "new",
 "loc": "退避室・夜",
 "chars": "桔響18",
@@ -2403,16 +2424,16 @@ window.N3P={
 "PR-03"
 ],
 "shot": "引き",
-"act": "ノートを抱いて泣き続ける。",
+"act": "端末と封筒を抱いて泣き続ける。",
 "lines": [],
 "sheet": "SB-23",
-"vp": "[参考に添付] 09-09.webp（基準画） / BG-R3.png / CH-K18.png / CH-AS.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Wide: Kikyo hugs the notebook between the two still figures, crying. Natural lip sync. No text on screen. 9 seconds, 16:9."
+"vp": "[参考に添付] 09-09.webp（基準画） / BG-R3.png / CH-K18.png / CH-AS.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Wide: Kikyo hugs the memo device and the envelope between the two still figures, crying. Natural lip sync. No text on screen. 9 seconds, 16:9."
 },
 {
 "id": "10-01",
 "sc": "S10",
 "sec": 7,
-"t0": 862,
+"t0": 868,
 "kind": "new",
 "loc": "退避室・朝",
 "chars": "",
@@ -2431,7 +2452,7 @@ window.N3P={
 "id": "10-02",
 "sc": "S10",
 "sec": 10,
-"t0": 869,
+"t0": 875,
 "kind": "new",
 "loc": "退避室・朝",
 "chars": "止まった二人・ミャオ",
@@ -2450,7 +2471,7 @@ window.N3P={
 "id": "10-03",
 "sc": "S10",
 "sec": 8,
-"t0": 879,
+"t0": 885,
 "kind": "new",
 "loc": "退避室・朝",
 "chars": "桔響18",
@@ -2462,14 +2483,14 @@ window.N3P={
 "shot": "中景",
 "act": "泣きはらした目の桔響が缶を温めて一口食べる。",
 "lines": [],
-"sheet": "SB-23",
+"sheet": "SB-24",
 "vp": "[参考に添付] 10-03.webp（基準画） / BG-R1.png / CH-K18.png / PR-05.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Kikyo, eyes swollen, warms a can and takes one bite. Natural lip sync. No text on screen. 8 seconds, 16:9."
 },
 {
 "id": "10-04",
 "sc": "S10",
 "sec": 8,
-"t0": 887,
+"t0": 893,
 "kind": "new",
 "loc": "退避室・朝",
 "chars": "桔響18",
@@ -2480,16 +2501,16 @@ window.N3P={
 "PR-03"
 ],
 "shot": "鞄の寄り",
-"act": "お世話ノートとタイマーを、あの日の鞄に入れる。",
+"act": "お世話ノートの端末とタイマー、シオンの封筒を、あの日の鞄に入れる。",
 "lines": [],
 "sheet": "SB-24",
-"vp": "[参考に添付] 10-04.webp（基準画） / BG-R1.png / CH-K18.png / PR-02.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Kikyo puts the red notebook and the caretaker timer into her old shoulder bag. Natural lip sync. No text on screen. 8 seconds, 16:9."
+"vp": "[参考に添付] 10-04.webp（基準画） / BG-R1.png / CH-K18.png / PR-02.png / PR-03.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Kikyo puts the memo device, the caretaker timer and Shion's envelope into her old shoulder bag. Natural lip sync. No text on screen. 8 seconds, 16:9."
 },
 {
 "id": "10-05",
 "sc": "S10",
 "sec": 14,
-"t0": 895,
+"t0": 901,
 "kind": "new",
 "loc": "退避室・朝",
 "chars": "桔響18",
@@ -2515,7 +2536,7 @@ window.N3P={
 "id": "10-06",
 "sc": "S10",
 "sec": 10,
-"t0": 909,
+"t0": 915,
 "kind": "new",
 "loc": "退避室・朝",
 "chars": "桔響18・エナ",
@@ -2534,7 +2555,7 @@ window.N3P={
 "id": "10-07",
 "sc": "S10",
 "sec": 10,
-"t0": 919,
+"t0": 925,
 "kind": "new",
 "loc": "退避室・朝",
 "chars": "桔響18",
@@ -2545,14 +2566,14 @@ window.N3P={
 "shot": "逆光",
 "act": "外の光。一歩、外へ。外の景色は映さない。",
 "lines": [],
-"sheet": "SB-24",
+"sheet": "SB-25",
 "vp": "[参考に添付] 10-07.webp（基準画） / BG-R5.png / CH-K18.png\n2D cel-animated film shot, same characters, costumes, background and drawing style as the reference images; do not copy the reference as the first frame. Blinding daylight floods in; Kikyo steps into it; her face lit. Show nothing of the outside. Natural lip sync. No text on screen. 10 seconds, 16:9."
 },
 {
 "id": "10-08",
 "sc": "S10",
 "sec": 6,
-"t0": 929,
+"t0": 935,
 "kind": "edit",
 "loc": "（黒）",
 "chars": "",
@@ -2567,7 +2588,7 @@ window.N3P={
 "id": "11-01",
 "sc": "S11",
 "sec": 30,
-"t0": 935,
+"t0": 941,
 "kind": "edit",
 "loc": "（黒）",
 "chars": "",
@@ -2796,10 +2817,10 @@ window.N3P={
 {
 "id": "PR-03",
 "k": "prop",
-"n": "桔響のお世話ノート",
+"n": "お世話ノート（小さなメモ端末）とシオンの封筒",
 "use": "S09",
 "refs": [],
-"note": "表紙と中の文字は編集で入れます。"
+"note": "画面の文字・封筒と紙の文字は編集で入れます。"
 },
 {
 "id": "PR-04",
@@ -2958,8 +2979,13 @@ window.N3P={
 },
 {
 "id": "ED-06",
-"n": "お世話ノートの文字（表紙・最初のページの日付・最後のページ・シオンの書き置き）",
+"n": "お世話ノートの画面の文字（題・最初の記録の日付・日記・最後の日記）とシオンの封筒の文字",
 "use": "S09"
+},
+{
+"id": "ED-11",
+"n": "紙切れの文字「3人でしたいこと」（一瞬だけ読める）",
+"use": "S06"
 },
 {
 "id": "ED-07",
@@ -3087,115 +3113,121 @@ window.N3P={
 "cuts": [
 "06-06b",
 "06-07b",
-"06-07c",
-"06-08"
+"06-07d",
+"06-07c"
 ]
 },
 {
 "id": "SB-13",
 "cuts": [
+"06-08",
 "07-01",
 "07-02",
-"07-03",
-"07-04"
+"07-03"
 ]
 },
 {
 "id": "SB-14",
 "cuts": [
+"07-04",
 "07-05",
 "07-06",
-"07-07",
-"07-09"
+"07-07"
 ]
 },
 {
 "id": "SB-15",
 "cuts": [
+"07-09",
 "07-10",
 "07-11",
-"07-12",
-"08-01"
+"07-12"
 ]
 },
 {
 "id": "SB-16",
 "cuts": [
+"08-01",
 "08-02",
 "08-03",
-"08-04",
-"08-05"
+"08-04"
 ]
 },
 {
 "id": "SB-17",
 "cuts": [
+"08-05",
 "08-06",
 "08-07",
-"08-08",
-"08-09"
+"08-08"
 ]
 },
 {
 "id": "SB-18",
 "cuts": [
+"08-09",
 "08-10",
 "08-11",
-"08-12",
-"08-13"
+"08-12"
 ]
 },
 {
 "id": "SB-19",
 "cuts": [
+"08-13",
 "08-14",
 "08-15",
-"08-16",
-"08-17"
+"08-16"
 ]
 },
 {
 "id": "SB-20",
 "cuts": [
+"08-17",
 "08-18",
 "08-19",
-"08-20",
-"08-21"
+"08-20"
 ]
 },
 {
 "id": "SB-21",
 "cuts": [
+"08-21",
 "09-01",
 "09-02",
-"09-03",
-"09-04"
+"09-03"
 ]
 },
 {
 "id": "SB-22",
 "cuts": [
+"09-04",
 "09-05",
 "09-06",
-"09-07",
-"09-08"
+"09-07"
 ]
 },
 {
 "id": "SB-23",
 "cuts": [
+"09-08",
 "09-09",
 "10-01",
-"10-02",
-"10-03"
+"10-02"
 ]
 },
 {
 "id": "SB-24",
 "cuts": [
+"10-03",
 "10-04",
 "10-05",
-"10-06",
+"10-06"
+]
+},
+{
+"id": "SB-25",
+"cuts": [
 "10-07"
 ]
 }
