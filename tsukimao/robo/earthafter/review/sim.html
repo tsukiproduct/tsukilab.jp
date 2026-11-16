@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>審査シミュレーション｜N3Co 制作室</title>
+<meta name="description" content="『AFTER EARTH』を、公式五項目と審査員十一名の見方で採点したシミュレーション。">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1f2429">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/ea-core.css?v=11">
+<link rel="stylesheet" href="../assets/ea-nav.css?v=11">
+<style>
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px;margin:22px 0 4px}
+.score .box{margin:0}
+.score h3{font-family:var(--gothic);font-size:.88rem;color:var(--mute);margin:0 0 4px}
+.score .big{font:900 2.6rem/1.15 var(--mincho);margin:0}
+.score .big small{font:500 .9rem var(--gothic);color:var(--mute);margin-left:.35em}
+.score p.s{font-size:.86rem;color:var(--mute);margin:.4em 0 0;max-width:none}
+.crit{display:grid;gap:14px;margin:18px 0}
+.crit .c{background:var(--panel);border-radius:6px;padding:16px 18px}
+.crit .hd{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.crit h3{margin:0;font-size:1.08rem}
+.crit .nums{font-variant-numeric:tabular-nums;font-size:.9rem;color:var(--mute)}
+.crit .nums b{color:var(--lamp);font-size:1.15rem}
+.bar{position:relative;height:12px;border-radius:3px;background:var(--wall2);border:1px solid var(--line);margin:10px 0 8px;overflow:hidden}
+.bar .cap{position:absolute;inset:0 auto 0 0;background:repeating-linear-gradient(135deg,#ffffff14 0 5px,transparent 5px 10px);border-right:1px dashed var(--dim)}
+.bar .fut{position:absolute;inset:0 auto 0 0;background:#f0c98740}
+.bar .now{position:absolute;inset:0 auto 0 0;background:var(--lamp)}
+.crit p{margin:0;font-size:.9rem;line-height:1.85;max-width:none}
+.key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8rem;color:var(--mute);margin:6px 0 0}
+.key i{display:inline-block;width:14px;height:9px;border-radius:2px;margin-right:5px;vertical-align:middle}
+.judges{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));margin:16px 0}
+.judge{background:var(--panel);border-radius:6px;padding:15px 17px}
+.judge .n{font-weight:700;font-size:1.02rem}
+.judge .r{font-size:.78rem;color:var(--dim);margin:2px 0 8px;line-height:1.55}
+.judge .sc{display:flex;align-items:center;gap:10px}
+.judge .sc .bar{flex:1;margin:0;height:8px}
+.judge .sc b{font:700 1.2rem var(--mincho);color:var(--lamp);min-width:2.2em;text-align:right}
+.judge p{font-size:.88rem;line-height:1.8;margin:.6em 0 0;max-width:none}
+.judge .w{font-size:.82rem;color:var(--mute);margin-top:.5em}
+.judge .new{font-size:.7rem;border:1px solid var(--sky);color:var(--sky);border-radius:3px;padding:0 5px;margin-left:6px;vertical-align:2px}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));margin:14px 0}
+.cards>div{background:var(--panel);border-radius:6px;padding:14px 16px}
+.cards h3{margin:0 0 6px;font-size:1rem}
+.cards p{margin:0;font-size:.88rem;line-height:1.8;max-width:none}
+.todo{list-style:none;padding:0;margin:14px 0;display:grid;gap:10px;counter-reset:t}
+.todo li{background:var(--panel);border-radius:6px;padding:14px 16px 14px 56px;position:relative;counter-increment:t}
+.todo li::before{content:counter(t);position:absolute;left:16px;top:12px;font:900 1.5rem var(--mincho);color:var(--lamp)}
+.todo li.done::before{content:'✓';color:var(--good)}
+.todo .tag{font-size:.72rem;border-radius:3px;padding:1px 6px;margin-right:6px;border:1px solid var(--line2);color:var(--mute)}
+.todo .tag.hi{border-color:var(--rose);color:var(--rose)}
+.todo h3{display:inline;font-size:1rem}
+.todo p{margin:.4em 0 0;font-size:.88rem;line-height:1.8;max-width:none}
+.lv{display:grid;gap:10px;margin:14px 0}
+.lv>div{display:grid;grid-template-columns:96px 1fr;gap:4px 14px;background:var(--panel);border-radius:6px;padding:14px 16px}
+.lv b.l{font:900 1rem var(--mincho);color:var(--dim)}
+.lv .cur b.l{color:var(--lamp)}
+.lv h3{margin:0;font-size:1rem}
+.lv p{grid-column:2;margin:0;font-size:.86rem;color:var(--mute);line-height:1.75;max-width:none}
+@media (max-width:520px){.lv>div{grid-template-columns:1fr}.lv p{grid-column:1}}
+.hist{display:flex;flex-wrap:wrap;gap:4px 8px;font-size:.84rem;color:var(--mute);margin:8px 0 0}
+.hist b{color:var(--ink)}
+</style>
+</head>
+<body class="n3">
+<main class="wrap">
+
+<header class="pagehead" id="top">
+  <p class="when">2026年11月16日・脚本（11/16 夕方の改訂）で採点</p>
+  <h1>審査シミュレーション</h1>
+  <p class="lead">『AFTER EARTH』を、公式の五項目と、公表されている審査員十一名の見方で採点しました。旧作のときと同じ形ですが、旧作で点を見誤った反省から、映像をまだ誰も観ていない分は「今の点」に入れず、「仕上がったときの見込み」として分けています。</p>
+  <div class="score">
+    <div class="box"><h3>今の点（脚本と設定画で付けられる範囲）</h3><p class="big">29<small>／40</small></p><p class="s">脚本の段階で付けられる上限は40点です（<a href="./#dankai">判断基準</a>の段階S2）。</p></div>
+    <div class="box"><h3>仕上がったときの見込み</h3><p class="big">68〜76<small>／100</small></p><p class="s">映像・音・編集が脚本どおりに仕上がった場合の幅です。保証ではありません。</p></div>
+    <div class="box"><h3>事情を知らない三者の講評（第4回）</h3><p class="big">28.3<small>／50</small></p><p class="s">第1回 27.9 → 第2回 27.7 → 第3回 29.7 → 第4回 28.3。今回（11/16 夕方）の直しは、まだ読ませていません。</p></div>
+  </div>
+</header>
+
+<section class="sec" id="gokou" data-ea-label="公式の五項目">
+  <h2>公式の五項目</h2>
+  <p>規約第十条の五項目です。配点は公表されていないため、二十点ずつと仮に置いています。</p>
+  <div class="key"><span><i style="background:var(--lamp)"></i>今の点</span><span><i style="background:#f0c98740"></i>仕上がったときの見込み（上端）</span><span><i style="border:1px dashed var(--dim)"></i>今の段階の上限</span></div>
+  <div class="crit" id="crit"></div>
+</section>
+
+<section class="sec" id="shinsain" data-ea-label="審査員十一名の見方">
+  <h2>審査員十一名の見方</h2>
+  <p>公式サイトに掲載されている十一名（11月16日に確認）の肩書きと経歴から、各審査員が見そうな点を推し量ったシミュレーションです。ご本人の実際の好みや発言ではありません。点数は、脚本と設定画を読んだ場合の見立てです。</p>
+  <p class="small" id="javg"></p>
+  <div class="judges" id="judges"></div>
+</section>
+
+<section class="sec" id="tsuyomi" data-ea-label="強いところ">
+  <h2>強いところ</h2>
+  <div class="cards" id="good"></div>
+</section>
+
+<section class="sec" id="naosu" data-ea-label="直す順番">
+  <h2>直す順番</h2>
+  <p>番号は優先度の順です。✓ は今日までに直したものです。</p>
+  <ol class="todo" id="todo"></ol>
+</section>
+
+<section class="sec" id="ichi" data-ea-label="予想される位置">
+  <h2>予想される位置</h2>
+  <div class="lv" id="lv"></div>
+  <div class="note calm"><p>旧作は、脚本の段階で八十七点と見立て、映像にしたところ二十分の作品として成立しませんでした（<a href="v1.html">旧・審査の記録</a>）。この表の位置は、11月22日の通し確認で必ず見直します。</p></div>
+</section>
+
+<section class="sec" id="shutten" data-ea-label="参照した公開情報">
+  <h2>参照した公開情報</h2>
+  <ul class="plain small">
+    <li><a href="https://www.creators-wonderland.com/robot-carnival/index.html?lang=ja" target="_blank" rel="noopener">ロボットカーニバル｜ROBOT CARNIVAL — AIフィルムコンテスト（公式サイト：審査員・審査基準・賞）</a></li>
+    <li><a href="https://prtimes.jp/main/html/rd/p/000000055.000123123.html" target="_blank" rel="noopener">AiHUB、伝説的オムニバスアニメ『ロボットカーニバル』の名を冠したAIフィルムコンテストを開催（PR TIMES）</a></li>
+  </ul>
+  <p class="small">点数は AI による見立てで、実際の審査結果を保証するものではありません。</p>
+</section>
+
+</main>
+<script>
+(function(){
+function e(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function $(s){return document.querySelector(s)}
+/* [名前, 今の点, 段階の上限, 見込み上端, 説明] */
+var C=[
+ ['物語デザイン（感情の力・世界観の説得力）',13,16,16,'お世話ノートが仕事の記録から日記に変わる場面、タイマーの「ちゃんと たべてね」、回り続けるお掃除ロボットは、四回の講評すべてで「泣ける」と名指しされました。11/16 夕方の改訂で、7日間に三つの場面（缶の温め方を教わる、夜にひとりで踊りの基本を確かめる、残りの日を数える）と、二人が知っていた印（バレエのお団子と「今日は、特別」、あと少しまで回された扉のハンドル）が入り、講評で一番多かった「7日間が薄い」「ノートだけで明かされる」に答えています。残る弱さは、桔響が「知っていて黙る」以外に自分から何かを選ぶ場面が少ないことです。'],
+ ['創造性・独創性（AIが創作上意義のある形で使われているか）',6,8,14,'「期限つきのアンドロイドとの別れ」は『プラスティック・メモリーズ』に近い、と四回とも言われました。違いは、両方が秘密を抱えたまま「ありがとう」を言い合う構造と、旧作の映像を「過去」として作中に取り込む作り方です。後者は AI 制作ならではの再利用として語れるので、制作記録に残しておくと加点材料になります。'],
+ ['映像・音響の完成度',3,6,16,'今あるのは新画風の設定画と、旧作の映像だけです。退避室ひと部屋で進むので、背景の一貫性は保ちやすい作りです。難所は S00 のモールの戦闘と、S07 の踊りです。音は、Nokosu さんの曲と、三人の生成音声がそろっています。'],
+ ['制作価値（編集・流れ・プロ品質）',3,4,15,'16分05秒、109カット。尺の予算は通っています。退避室の場面が続くので、時計・壁の印・タイマーの反復で時間の進みを見せる設計が効くかどうかは、通しで観るまで分かりません。'],
+ ['市場性（映像化・商品化の広がり）',4,6,14,'エナ、お世話ノート、お世話タイマー、ミャオは、講評でもグッズにできそうと言われました。一方で題名「AFTER EARTH」は2013年の映画『アフター・アース』と同じで、四回とも不利と指摘されています。']
+];
+var now=0,cap=0,lo=0;
+$('#crit').innerHTML=C.map(function(c){now+=c[1];cap+=c[2];return '<div class="c"><div class="hd"><h3>'+e(c[0])+'</h3><span class="nums"><b>'+c[1]+'</b>／'+c[2]+'（見込み '+c[3]+'／20）</span></div>'+
+ '<div class="bar"><div class="fut" style="width:'+c[3]*5+'%"></div><div class="cap" style="width:'+c[2]*5+'%"></div><div class="now" style="width:'+c[1]*5+'%"></div></div><p>'+e(c[4])+'</p></div>'}).join('');
+
+/* [名前, 肩書き（公式サイトの表記）, 点, 見そうなところ, 今の脚本への見立て, 新しく加わった] */
+var J=[
+ ['三宅 隆太','脚本家・監督／スクリプトドクター',6.5,'構成の骨組み。主人公の欲求と選択、中盤の転換、7日間のような「溜め」の扱い。','構成は三幕で素直に通っています。気にされそうなのは、桔響の選択です。放送を聞いてから、黙ることしか選んでいない。ありがとうゲームを「知っているから始めた」と観客に見える一手があると、評価が一段変わるはずです。',1],
+ ['佐渡島 庸平','株式会社コルク 代表取締役社長CEO／編集者','7.0','人物の欲望と、読み手が誰に感情移入するか。','アカネの「お世話するのが、いちばん好きだった」と、記録が日記に変わるノートは、人物の欲望が見える良い仕掛けです。シオンの欲望はまだ薄く、「変なの」の反復に頼っています。'],
+ ['くりえみ','タレント・実業家／AiHUB 執行役員CMO',7.5,'心が動くか。泣かせどころと、その前の笑い。','軽いありがとうで笑わせてから、「お世話させてくれて、ありがとう」で泣かせる流れは、会場向きです。翌朝のタイマーの文字で、もう一度泣かせられます。'],
+ ['井上 博明','アニメプロデューサー／AiHUB エグゼクティブ・プロデューサー',6.5,'映画としての文法、尺、省略のうまさ。','ひと部屋の物語を16分で見せ切れるかは、カットの省略次第です。S08の200秒が間延びしないかを、通しで観て判断されそうです。'],
+ ['大澤 博隆','慶應義塾大学理工学部 教授／慶應SFセンター センター長',6.0,'ロボットと社会の関係に対する問いの鋭さ、設定の筋の通り方。','「人型だけに制御装置を仕込み、人類だけが知る放送で止める」は筋が通りました。ただ、作品が共生について何を言うのかは、まだはっきりしません。桔響が扉の外に何を持って出るのか、で答えを出したいところです。'],
+ ['中山 淳雄','エンタメ社会学者／AiHUB アドバイザー',6.5,'IPとして広げられるか。キャラクター、小物、続編の余地。','エナ、ミャオ、お世話タイマーは商品化しやすい小物です。外の世界を映さないラストは、続きの余地として語れます。題名の重なりは減点要因です。'],
+ ['松丸 彗吾','メンタリストDaiGo「D-Lab」開発・運営／AI映像作家・監督',6.5,'AIの使い方の創造性と、制作の工夫。','旧作の映像を過去の記憶として再利用する作り方は、AI制作の物語として説明できます。制作台とプロンプト体系の管理も、見せ方次第で加点材料です。'],
+ ['Yachimat','AIアニメスタジオ Yachimat OÜ CEO',6.0,'キャラクターの一貫性、動き、AIっぽさ。','ひと部屋・三人なので一貫性は保ちやすい一方、踊りとモールの戦闘は破綻しやすい場面です。設定画から首の接続口を消したので、映像でも出ないかを確認する必要があります。'],
+ ['たなか','AI映像監督／Tfilms AI Studio 代表',6.0,'AI映像としての演出と画作り。','停止の瞬間（黒目が白目に変わる）と、受像機の砂嵐は、AI映像で見せやすい強い絵です。逆光の扉のラストも画になります。仕上がりを観るまで点は伸びません。',1],
+ ['JIN','TapNow GTM／AI映像制作会社 LEAD CREATIVE DIRECTOR',6.0,'映像の完成度と、ツールの使いこなし。','協賛の TapNow の立場からは、制作工程の見せ方に注目しそうです。今は絵が出ていないため、見立ては控えめです。',1],
+ ['吉田 尚記','アナウンサー',7.0,'観客としての楽しさと、語りたくなるか。','「ありがとうゲーム」という言葉自体が人に話したくなる仕掛けです。上映後の会場で話題にしやすい作品です。',1]
+];
+var sum=0;J.forEach(function(j){sum+=+j[2]});
+$('#javg').innerHTML='平均 <b>'+(sum/J.length).toFixed(1)+'</b>／10。旧作の見立て（七名・平均8.1）より低く付けています。旧作の点は映像で崩れたので、今回は、映像を観ていない分を見込みに回しています。';
+$('#judges').innerHTML=J.map(function(j){var s=+j[2];return '<article class="judge"><div class="n">'+e(j[0])+(j[5]?'<span class="new">10月以降に掲載</span>':'')+'</div><div class="r">'+e(j[1])+'</div>'+
+ '<div class="sc"><div class="bar"><div class="now" style="width:'+s*10+'%"></div></div><b>'+s.toFixed(1)+'</b></div><p class="w">見そうなところ：'+e(j[3])+'</p><p>'+e(j[4])+'</p></article>'}).join('');
+
+var G=[
+ ['お世話ノート','お世話係の仕事の記録が、めくるほど日記に変わっていく。最後の日記で「内緒にしようって決めた」と分かる。四回の講評すべてで、いちばん泣ける場面に挙がりました。'],
+ ['両方が秘密を抱えている','桔響は放送で、二人はシオンのコードで、同じ「今日」を知っていた。どちらも相手に笑っていてほしくて黙っていた、という構造が、最後の数分で反転します。'],
+ ['ありがとうゲーム','笑える軽いありがとうから、あの日のありがとう、別れの挨拶のようなありがとうへ。言葉の重さが三段で変わる。題名にしても話したくなる言葉です。'],
+ ['翌朝のタイマー','「あさごはんの じかんです。ちゃんと たべてね」。止まった二人のまわりを、お掃除ロボットだけが回り続ける。説明なしで伝わる絵です。'],
+ ['回収の多さ','「ひとり分あけて」「変なの」「もう、出来ないのかな」→「出来たじゃん」「ダンス見せてよ」→「今度ね」→最後の日の踊り。缶の温め方を教わる→翌朝ひとりで温める。'],
+ ['ひと部屋で作れる','退避室ひと部屋が中心なので、AI 映像の弱点である背景と人物の揺れを抑えやすい。限られた日数で仕上げる設計として理にかなっています。']
+];
+$('#good').innerHTML=G.map(function(g){return '<div><h3>'+e(g[0])+'</h3><p>'+e(g[1])+'</p></div>'}).join('');
+
+/* [済み?, 優先, 題, 説明] */
+var T=[
+ [0,'最優先','改訂した脚本を、もう一度事情を知らない三者に読ませる','11/16 夕方の改訂（7日間の三場面、二人が知っていた印、受像機の放送、エネルギー缶）が効いたかを確かめます。'],
+ [0,'最優先','題名を決める','「AFTER EARTH」は2013年の映画と同じ題名です。候補の「サイレント・イヴ」は、辛島美登里さんの1990年の大ヒット曲と同じ題名で、講評で似ていると言われた『イヴの時間』とも言葉が重なります。'],
+ [0,'推奨','桔響が自分で選ぶ一手を見せる','ありがとうゲームは最初から桔響が始める話です。講評の指摘は「知っているから始めた」と観客に伝わりにくい、という点でした。たとえばS07の夜、時計を見てから「ねえ」と切り出す一瞬を足すだけで伝わります。'],
+ [0,'推奨','S08の軽いありがとうは残し、テンポで見せる','涙のために残すと決めました（11/16）。長く感じさせないよう、笑いの間を短く刻む編集にします。'],
+ [0,'推奨','踊りは、映像を見てから長さを決める','S07の踊りは今20〜30秒。生成の出来を見て延ばすかを決めます。'],
+ [1,'','7日間を厚くする','缶の温め方を教わる、夜にひとりで踊りの基本を確かめる、残りの日を指で数える、の三場面を足しました。'],
+ [1,'','二人が知っていたことを、ノートより前に見せる','最後の日に、アカネがバレエのお団子に結って「今日は、特別」。シオンは扉のハンドルを、あと少しで開くところまで回しておく。'],
+ [1,'','放送とロボットの理屈を通す','放送はアナログの電波で、止まっている間だけ流れる。止まるのは人型だけで、エナとミャオは止まらない。'],
+ [1,'','アンドロイドの補給をエネルギー缶にする','首の接続口と充電をなくし、設定画からも消しました。'],
+ [1,'','S02のバレエ、S03の電話の食い違い','バレエは桔響が自分で答える形に。電話は走りながら鳴って出られず、それきり通じない形にそろえました。']
+];
+$('#todo').innerHTML=T.map(function(t){return '<li'+(t[0]?' class="done"':'')+'>'+(t[1]?'<span class="tag'+(t[1]==='最優先'?' hi':'')+'">'+t[1]+'</span>':'')+'<h3>'+e(t[2])+'</h3><p>'+e(t[3])+'</p></li>'}).join('');
+
+var L=[
+ [1,'LV.1','今の状態　入選を狙える','泣ける場面はそろい、矛盾はほぼ解けた。独創性と題名が弱い。'],
+ [0,'LV.2','部門賞を争う','三者の再読で7日間と二人の秘密が効いたと確かめられ、題名が決まり、桔響の選択が見える。'],
+ [0,'LV.3','最優秀賞を争う','映像にしても人物と退避室が揺れず、S08の三分二十秒を通しで観て、会場が泣ける。']
+];
+$('#lv').innerHTML=L.map(function(l){return '<div'+(l[0]?' class="cur"':'')+'><b class="l">'+l[1]+'</b><h3>'+e(l[2])+'</h3><p>'+e(l[3])+'</p></div>'}).join('');
+if(window.EANav)EANav.refresh&&EANav.refresh();
+})();
+</script>
+<script src="../assets/ea-nav.js?v=11" defer></script>
+</body>
+</html>
