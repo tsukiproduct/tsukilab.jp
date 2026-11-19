@@ -11,6 +11,7 @@
 <script src="match.js" defer></script>
 <script src="tiles.js" defer></script>
 <script src="sound.js" defer></script>
+<script src="extras.js" defer></script>
 <script src="ui.js" defer></script>
 </head>
 <body>
@@ -18,6 +19,7 @@
   <a class="brand" href="#" id="brand"><b>闇麻雀</b><span>イカサマなんて生ぬるい</span></a>
   <div class="master-controls">
     <button id="sound" title="音響の切り替え" aria-pressed="false">音響 OFF</button>
+    <button id="chat" title="コメントの切り替え" aria-pressed="true">コメント ON</button>
     <button id="help">遊び方</button>
     <button id="exit" hidden>卓を離れる</button>
   </div>
@@ -69,6 +71,9 @@
         <div class="melds meld2" id="meld2"></div>
         <div class="melds meld3" id="meld3"></div>
         <div id="tableBanner" class="table-banner" hidden></div>
+        <div id="danmaku" class="danmaku" aria-hidden="true"></div>
+        <div id="peek" class="peek" hidden aria-live="polite"><div class="peek-face"><img id="peekImg" alt=""></div><div class="peek-cap"><span id="peekName"></span><span id="peekState"></span></div></div>
+        <div id="fxFlash" class="fx-flash" hidden aria-live="assertive"><img id="fxImg" alt=""><div class="fx-copy"><strong id="fxText"></strong><small id="fxSub"></small></div></div>
       </div>
       <div class="console">
         <div class="console-head">
@@ -101,7 +106,7 @@
 </main>
 <dialog id="dialog"><div class="dialog-inner"><div id="dialogContent"></div><div id="dialogActions" class="dialog-actions"></div></div></dialog>
 <div id="cutin" class="cutin" hidden aria-live="assertive">
-  <div class="cutin-light"></div><div class="cutin-frame"><img id="cutinBody" alt=""><img id="cutinFace" alt=""><div class="cutin-letter"><span id="cutinName"></span><strong id="cutinMove"></strong><p id="cutinLine"></p></div></div>
+  <div class="cutin-light"></div><div class="cutin-move" id="cutinArt"></div><div class="cutin-frame"><img id="cutinBody" alt=""><img id="cutinFace" alt=""><div class="cutin-letter"><span id="cutinName"></span><strong id="cutinMove"></strong><p id="cutinLine"></p></div></div>
   <button class="primary" id="cutinContinue">対局に戻る <span aria-hidden="true">↗</span></button>
 </div>
 </body>

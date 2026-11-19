@@ -84,6 +84,7 @@ function refreshGaze() {
     card.classList.toggle('watch',watching);
     if (look.textContent!==text) look.textContent=text;
   }
+  peek(match.canCheat() && selecting!=='riichi', watched);
   const gaze=byId('gaze');
   gaze.classList.toggle('clear',active && !watched.length);
   if (!active) gaze.textContent='暴牌の必要集中 '+CAST[heroIndex].cost;
@@ -93,6 +94,7 @@ function refreshGaze() {
   else gaze.textContent=watched.length?'監視中 · すり替え発覚':'視線が外れた · すり替え好機';
 }
 setInterval(()=>{ if (!document.hidden && match && !byId('dialog').open && !activeCutin) refreshGaze(); },100);
+setInterval(()=>chatTick(document.hidden || !match || byId('dialog').open || activeCutin),500);
 
 function eventText(e) {
   const name=e.p===undefined?'':match.name(e.p);
@@ -140,6 +142,7 @@ function showCutin(e) {
   byId('cutinName').textContent=character.name+'　／　暴牌';
   byId('cutinMove').textContent=character.move;
   byId('cutinLine').textContent=character.line;
+  fxCutin(art);
   cut.hidden=false;
   byId('cutinContinue').focus({preventScroll:true});
 }
@@ -161,6 +164,7 @@ function events() {
       showCutin(e);
     }
     uiSound.play(e.kind,e.p===undefined?undefined:CAST[match.cast[e.p]].style);
+    fxEvent(e);
   }
   renderedEvent=last;
   byId('log').innerHTML=list.slice(-35).reverse().map(e=>'<li>'+eventText(e)+'</li>').join('');
@@ -307,7 +311,7 @@ function drive() {
   if (s.phase==='tsumo' && s.turn!==0) { fn=()=>match.chooseTsumo(true); delay=390; }
   if (s.phase==='calls' && !match.calls(0).length) { fn=()=>match.chooseCall(); delay=165; }
   if (s.phase==='veto' && !match.vetoOptions().includes(0)) { fn=()=>match.resolveWin(); delay=520; }
-  if (s.phase==='result' && s.result!==resultShown) { fn=showResult; delay=320; }
+  if (s.phase==='result' && s.result!==resultShown) { fn=showResult; delay=320+flashBusy(); }
   if (fn) timer=setTimeout(()=>act(fn),delay);
 }
 function selectTile(id) {
@@ -333,6 +337,8 @@ function showResult() {
   if (r.kind==='win') {
     const result=r.result;
     const summary=result.yakuman?(result.yakuman===1?'役満':result.yakuman+'倍役満'):result.han+'翻 '+result.fu+'符';
+    const winArt=fxSrc('win',match.cast[r.p]);
+    if (winArt) top='<img class="result-art" src="'+winArt+'" alt="">'+top;
     top+='<div class="result-tiles">'+r.hand.filter(id=>id!==r.id).map(id=>mini(id)).join('')+mini(r.id,'winning-tile')+meldArt(r.melds,r.p)+'</div>';
     top+='<div class="yaku">'+result.yaku.map(y=>'<span>'+y.name+(y.han?' '+y.han+'翻':'')+'</span>').join('')+'</div>';
     if (r.ura.length) top+='<p>裏ドラ表示牌 '+r.ura.map(id=>mini(id)).join(' ')+'</p>';
@@ -357,6 +363,7 @@ function showResult() {
 function start() {
   clearTimeout(timer);
   renderedEvent=null; resultShown=null; selecting=null; chosenTile=null;
+  fxReset();
   match=new Match({hero:heroIndex,mode:document.querySelector('[name=mode]:checked').value,
     length:Number(document.querySelector('[name=length]:checked').value)});
   byId('lobby').hidden=true; byId('game').hidden=false; byId('exit').hidden=false;
@@ -375,6 +382,7 @@ function toLobby() {
   byId('game').inert=false;
   document.querySelector('.mast').inert=false;
   match=null;
+  fxReset();
   byId('lobby').hidden=false; byId('game').hidden=true; byId('exit').hidden=true;
   window.scrollTo(0,0);
 }
@@ -392,6 +400,7 @@ byId('sound').onclick=()=>{
   byId('sound').textContent=on?'音響 ON':'音響 OFF';
   byId('sound').setAttribute('aria-pressed',on);
 };
+byId('chat').onclick=chatToggle;
 byId('help').onclick=()=>{
   if (activeCutin || byId('dialog').open) return;
   showDialog(`<span class="eyebrow">遊び方</span><h2>闇卓の掟</h2>
