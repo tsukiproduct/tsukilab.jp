@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#100c0d">
+<title>闇麻雀 〜イカサマなんて生ぬるい〜</title>
+<link rel="icon" href="assets/portrait0.webp">
+<link rel="stylesheet" href="style.css">
+<script src="rules.js" defer></script>
+<script src="match.js" defer></script>
+<script src="tiles.js" defer></script>
+<script src="sound.js" defer></script>
+<script src="ui.js" defer></script>
+</head>
+<body>
+<header class="mast">
+  <a class="brand" href="#" id="brand"><b>闇麻雀</b><span>イカサマなんて生ぬるい</span></a>
+  <div class="master-controls">
+    <button id="sound" title="音響の切り替え" aria-pressed="false">音響 OFF</button>
+    <button id="help">遊び方</button>
+    <button id="exit" hidden>卓を離れる</button>
+  </div>
+</header>
+<main>
+<section id="lobby" class="lobby" aria-label="対局設定">
+  <div class="lobby-title">
+    <p class="eyebrow">- DARK MAHJONG -</p>
+    <h1>闇麻雀</h1>
+    <p class="subtitle">〜イカサマなんて生ぬるい〜</p>
+  </div>
+  <div class="lobby-setup">
+    <div class="cast-title"><h2>雀士を選ぶ</h2><p id="skillDescription"></p></div>
+    <div id="cast" class="cast"></div>
+    <div class="setup-bar">
+      <div class="setup-options">
+        <fieldset><legend>ルール</legend><div class="segment">
+          <label><input type="radio" name="mode" value="dark" checked><span>闇卓</span></label>
+          <label><input type="radio" name="mode" value="standard"><span>通常卓</span></label>
+        </div></fieldset>
+        <fieldset><legend>対局形式</legend><div class="segment">
+          <label><input type="radio" name="length" value="4" checked><span>東風戦</span></label>
+          <label><input type="radio" name="length" value="8"><span>半荘戦</span></label>
+        </div></fieldset>
+      </div>
+      <button class="primary begin" id="begin">卓に着く <span aria-hidden="true">↗</span></button>
+    </div>
+  </div>
+</section>
+<section id="game" class="game" hidden aria-label="対局">
+  <div class="game-head"><h1 id="round"></h1><span id="modeTag"></span></div>
+  <div class="game-grid">
+    <div class="playing">
+      <div id="arena" class="arena">
+        <div class="board-camera" id="camera">
+          <div class="board" aria-hidden="true"><div class="felt"></div><i></i><i></i><i></i><i></i></div>
+          <div class="walls" aria-hidden="true"><div></div><div></div><div></div><div></div></div>
+          <div class="river river0" id="river0"></div><div class="river river1" id="river1"></div><div class="river river2" id="river2"></div><div class="river river3" id="river3"></div>
+          <div class="table-core">
+            <div id="tableRound"></div>
+            <div id="wallCount" class="wall-count"></div>
+            <div class="indicators" id="dora"></div>
+          </div>
+        </div>
+        <div class="seat seat1" id="seat1"></div>
+        <div class="seat seat2" id="seat2"></div>
+        <div class="seat seat3" id="seat3"></div>
+        <div class="melds meld1" id="meld1"></div>
+        <div class="melds meld2" id="meld2"></div>
+        <div class="melds meld3" id="meld3"></div>
+        <div id="tableBanner" class="table-banner" hidden></div>
+      </div>
+      <div class="console">
+        <div class="console-head">
+          <div class="seat seat0" id="seat0"></div>
+          <div id="state" class="state" aria-live="polite"></div>
+          <div class="melds" id="meld0"></div>
+        </div>
+        <div class="hand" id="hand" aria-label="自分の手牌"></div>
+        <div class="commands" id="commands"></div>
+      </div>
+    </div>
+    <aside class="sidebar">
+      <section class="power-panel" id="powerPanel">
+        <div class="power-portrait" id="powerPortrait"></div>
+        <div class="power-copy">
+          <span class="eyebrow">暴牌</span>
+          <h2 id="powerName"></h2>
+          <div class="power-line"><span>集中</span><span id="gaugeLabel"></span></div>
+          <div class="meter" id="meter" role="meter" aria-label="集中" aria-valuemin="0" aria-valuemax="100"><div id="gauge"></div></div>
+          <p id="gaze" class="gaze"></p>
+        </div>
+      </section>
+      <section class="journal">
+        <h2>対局記録</h2>
+        <ol id="log"></ol>
+      </section>
+    </aside>
+  </div>
+</section>
+</main>
+<dialog id="dialog"><div class="dialog-inner"><div id="dialogContent"></div><div id="dialogActions" class="dialog-actions"></div></div></dialog>
+<div id="cutin" class="cutin" hidden aria-live="assertive">
+  <div class="cutin-light"></div><div class="cutin-frame"><img id="cutinBody" alt=""><img id="cutinFace" alt=""><div class="cutin-letter"><span id="cutinName"></span><strong id="cutinMove"></strong><p id="cutinLine"></p></div></div>
+  <button class="primary" id="cutinContinue">対局に戻る <span aria-hidden="true">↗</span></button>
+</div>
+</body>
+</html>
