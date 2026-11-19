@@ -84,7 +84,10 @@ function refreshGaze() {
     card.classList.toggle('watch',watching);
     if (look.textContent!==text) look.textContent=text;
   }
-  peek(match.canCheat() && selecting!=='riichi', watched);
+  const own=match.s.players[0];
+  const peekNote=!active||match.s.phase!=='discard'?'':own.riichi?'立直中':own.cheat?'すり替え済み':
+    own.source!=='live'||own.drawn===null?'鳴きの後':match.skill[0].gauge<18?'集中不足':'';
+  peek(active && match.s.phase==='discard' && selecting!=='riichi', watched, peekNote);
   const gaze=byId('gaze');
   gaze.classList.toggle('clear',active && !watched.length);
   if (!active) gaze.textContent='暴牌の必要集中 '+CAST[heroIndex].cost;

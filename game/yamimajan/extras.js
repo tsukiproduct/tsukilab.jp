@@ -275,7 +275,7 @@ function flash(kind, c, text, sub, ms=1500) {
 const flashBusy=()=>Math.max(0,flashUntil-Date.now());
 
 // イカサマ好機の小窓。chance=すり替え可能な自分の手番か。
-function peek(chance, watched) {
+function peek(chance, watched, note='') {
   const box=document.getElementById('peek');
   if (!box) return;
   if (!chance) {
@@ -285,9 +285,9 @@ function peek(chance, watched) {
   }
   const now=Date.now();
   const fresh=watched.filter(p=>!lastWatch.includes(p));
-  for (const p of fresh) sayLine(p,'watch',{priority:true});
+  if (!note) for (const p of fresh) sayLine(p,'watch',{priority:true});
   const turnKey=match.game.hand+':'+match.game.honba+':'+match.s.wall.length;
-  if (!watched.length && chanceSaid!==turnKey) {
+  if (!note && !watched.length && chanceSaid!==turnKey) {
     chanceSaid=turnKey;
     sayLine(0,'chance');
     if (Math.random()<0.5) sayLine(1+Math.floor(Math.random()*3),'away',{delay:600});
@@ -299,7 +299,7 @@ function peek(chance, watched) {
   peekFrame=Math.floor(now/900)%2;
   const kind=watching?'gaze_watch':(peekFrame?'gaze_idle':'gaze_away');
   const src=fxSrc(kind,c)||fxSrc(watching?'gaze_watch':'gaze_away',c);
-  const key=p+kind+(src?'1':'0');
+  const key=p+kind+(src?'1':'0')+note;
   if (key!==peekKey) {
     peekKey=key;
     const img=document.getElementById('peekImg');
@@ -310,7 +310,7 @@ function peek(chance, watched) {
     box.classList.toggle('glance',!watching && !!peekFrame);
     box.style.setProperty('--tone',CAST[c].color);
     document.getElementById('peekName').textContent=match.name(p);
-    document.getElementById('peekState').textContent=watching?'監視中':'よそ見 · 好機';
+    document.getElementById('peekState').textContent=watching?'監視中':note?'よそ見 · '+note:'よそ見 · 好機';
     if (p!==peekShown) {
       peekShown=p;
       box.classList.remove('swap'); void box.offsetWidth; box.classList.add('swap');
