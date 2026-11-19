@@ -166,7 +166,9 @@ function events() {
       animateTable('veto');
       showCutin(e);
     }
-    uiSound.play(e.kind,e.p===undefined?undefined:CAST[match.cast[e.p]].style);
+    uiSound.play(e.kind,e.p===undefined?undefined:CAST[match.cast[e.p]].style,{houju:e.kind==='win' && e.from!==null && e.from!==undefined});
+    if (e.kind==='riichi') uiSound.setScene('tension');
+    if (e.kind==='start') uiSound.setScene(match.game.hand+1>=match.length?'tension':'table');
     fxEvent(e);
   }
   renderedEvent=last;
@@ -386,6 +388,7 @@ function toLobby() {
   document.querySelector('.mast').inert=false;
   match=null;
   fxReset();
+  uiSound.setScene('lobby');
   byId('lobby').hidden=false; byId('game').hidden=true; byId('exit').hidden=true;
   window.scrollTo(0,0);
 }
