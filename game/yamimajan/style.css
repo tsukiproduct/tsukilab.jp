@@ -342,3 +342,67 @@ dialog::backdrop{background:#090609b8;backdrop-filter:blur(4px)}
 .fx-flash.custom{place-items:end center;padding-bottom:5%}
 .fx-flash.custom::after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,#000c);pointer-events:none}
 @media(max-width:760px){.fx-flash.custom img{object-position:50% 12%}}
+/* ロビーの入口 */
+.begin-group{display:flex;gap:8px;align-items:center}
+.story-begin{min-height:49px;padding:12px 22px;font:800 15px var(--serif);color:#ffe6c9;background:linear-gradient(#3a1f26,#22131a);border:1px solid #c9935f;white-space:nowrap}
+.story-begin:hover{border-color:#ffd29a;box-shadow:0 0 18px #e0885a55}
+/* 章選び */
+.story{max-width:980px;margin:auto;padding:22px clamp(12px,3vw,28px) 60px;min-height:calc(100dvh - 62px)}
+.story-head{display:grid;grid-template-columns:clamp(110px,22vw,210px) 1fr;gap:clamp(12px,3vw,28px);align-items:end;border-bottom:1px solid #84604a61;padding-bottom:18px}
+.story-head img{width:100%;aspect-ratio:3/5;object-fit:cover;object-position:50% 0;border:1px solid var(--tone);box-shadow:0 0 30px color-mix(in srgb,var(--tone) 35%,transparent)}
+.story-copy h1{font:900 clamp(24px,4.6vw,44px)/1.2 var(--serif);color:#f7dcb5;margin:4px 0 10px}
+.story-copy p{color:#dcc3ae;line-height:1.7}
+.story-rule{font-size:12px;color:#b89c86!important;margin-top:10px;border-left:2px solid var(--tone);padding-left:9px}
+.story-chapters{list-style:none;padding:0;margin:18px 0;display:grid;gap:8px}
+.story-chapters button{width:100%;display:grid;grid-template-columns:auto auto 1fr auto auto;gap:12px;align-items:center;text-align:left;padding:12px 14px;background:#1b1216;border:1px solid #7a5a4870;min-height:58px}
+.story-chapters button:not(:disabled):hover{border-color:var(--tone);background:#26171c}
+.story-chapters button:disabled{opacity:.45}
+.story-chapters img{width:38px;height:38px;object-fit:cover;border:1px solid #a5805f80}
+.ch-label{font:800 14px var(--serif);color:var(--tone);white-space:nowrap}
+.ch-label .lv{margin-left:6px;font-size:10px;color:#e8c08d;letter-spacing:.1em}
+.ch-title{font:700 15px var(--serif);color:#f3dcc0}
+.story-chapters small{color:#b49c88;font-size:11px;white-space:nowrap}
+.ch-state{font-size:12px;color:#e8c08d;min-width:2em;text-align:right}
+.story-chapters button.done .ch-state{color:#8fd7a0}
+#storyBack{margin-top:6px}
+@media(max-width:600px){.story-chapters button{grid-template-columns:auto 1fr auto;gap:8px}.story-chapters small,.ch-label .lv{display:none}.story-chapters img{grid-row:span 2}}
+/* 会話シーン */
+.scene{position:fixed;inset:0;z-index:12;overflow:hidden;background:#0a0608;cursor:pointer;user-select:none}
+.scene-bg{position:absolute;inset:-4%;background:url("assets/room.webp") center/cover;filter:brightness(.42) saturate(.8) blur(2px)}
+.stand{position:absolute;bottom:0;height:min(92vh,880px);max-width:48vw;object-fit:contain;object-position:bottom;filter:brightness(.45) saturate(.6);transition:filter .3s,transform .3s;
+  mask-image:linear-gradient(0deg,transparent 0,#000 18%)}
+.stand-l{left:max(2vw,calc(50% - 560px))}
+.stand-r{right:max(2vw,calc(50% - 560px));transform:scaleX(-1)}
+.scene.speak-l .stand-l{filter:none;transform:translateY(-6px)}
+.scene.speak-r .stand-r{filter:none;transform:scaleX(-1) translateY(-6px)}
+.scene.solo .stand-l{left:50%;translate:-50% 0}
+.scene.solo.narration .stand-l{filter:brightness(.55) saturate(.6)}
+.scene-cg{position:absolute;left:50%;top:6%;translate:-50% 0;width:min(78vw,820px);max-height:58vh;object-fit:cover;border:1px solid #d9b07a;box-shadow:0 10px 50px #000,0 0 40px #b0503055;animation:cg-in .5s cubic-bezier(.2,.7,.3,1) both;z-index:1}
+.scene-cg.cg-houju,.scene-cg.cg-trick_ng,.scene-cg.cg-trick_ok{width:min(54vw,460px);aspect-ratio:1}
+@keyframes cg-in{from{opacity:0;transform:scale(1.08)}to{opacity:1;transform:none}}
+.scene-box{position:absolute;z-index:2;left:50%;translate:-50% 0;bottom:clamp(14px,4vh,40px);width:min(94vw,900px);min-height:130px;padding:16px 22px 22px;
+  background:linear-gradient(#170d12f2,#0d070af5);border:1px solid color-mix(in srgb,var(--tone,#d9b07a) 70%,#000);box-shadow:0 0 0 1px #000,0 12px 40px #000c}
+.scene-box b{display:block;font:900 18px var(--serif);color:var(--tone,#d9b07a);margin-bottom:6px;min-height:1em}
+.scene-box p{font:500 clamp(15px,2.1vw,19px)/1.75 var(--serif);color:#f6e6d4}
+.scene.narration .scene-box p{color:#d9c6b0;font-style:italic}
+.scene-next{position:absolute;right:16px;bottom:8px;color:#d9b07a;font-size:12px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.scene-skip{position:absolute;z-index:3;top:12px;right:12px;font-size:12px;padding:6px 12px;background:#1a1014cc}
+@media(max-width:700px){.stand{height:70vh;max-width:62vw}.stand-l{left:-6vw}.stand-r{right:-6vw}.scene-box{min-height:120px;padding:12px 14px 20px}.scene-cg{top:4%;width:92vw}}
+/* 二人打ちの卓 */
+.arena.duel #seat1,.arena.duel #seat3,.arena.duel #river1,.arena.duel #river3,.arena.duel #meld1,.arena.duel #meld3{display:none}
+.seat.suspect{animation:suspect 1.1s ease-out}
+@keyframes suspect{0%,40%{box-shadow:0 0 0 2px #ffcf4d,0 0 22px #ffb02e}100%{box-shadow:none}}
+.bust{color:#ffab95;font-weight:700}
+.story-verdict{font:900 clamp(30px,6vw,52px)/1 var(--serif);text-align:center;margin:14px 0 4px!important;letter-spacing:.2em}
+.story-verdict.won{color:#ffe0a8;text-shadow:0 0 22px #ffb35a}
+.story-verdict.lost{color:#c9a3a3;text-shadow:0 0 22px #6b1a1a}
+@media(max-width:520px){.begin-group{flex-direction:column;gap:5px}.story-begin,.begin{min-height:38px;padding:6px 12px;font-size:12px}}
+.stand{mask-image:linear-gradient(90deg,transparent,#000 24% 76%,transparent),linear-gradient(0deg,transparent 0,#000 16% 88%,transparent);mask-composite:intersect;-webkit-mask-composite:source-in}
+.story-head img{mask-image:linear-gradient(0deg,transparent,#000 22%);border:0;box-shadow:none}
+@media(max-width:600px){
+ .story-chapters button{grid-template-columns:38px 1fr auto;grid-template-areas:"img label state" "img title state";row-gap:2px;padding:9px 10px}
+ .story-chapters img{grid-area:img;grid-row:auto}
+ .story-chapters button:not(:has(img)){grid-template-areas:"label label state" "title title state"}
+ .ch-label{grid-area:label}.ch-title{grid-area:title;font-size:14px}.ch-state{grid-area:state}
+}

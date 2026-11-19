@@ -110,12 +110,15 @@ const CROWD={
   veto:['は？','暴牌きたあああ','ｗｗｗｗ','和了消えて草'],
   cheatOk:['今なんかした？','手品かな？','見えなかった','うまい'],
   caught:['バレてて草','現行犯','ｗｗｗ','そりゃ見てるわ'],
-  draw:['流局か','おつ','平和だ']
+  draw:['流局か','おつ','平和だ'],
+  suspect:['今、手が動いた？','なんか怪しい','袖、見た？','今のすり替えじゃね？','手つき怪しすぎｗ'],
+  miss:['告発外れｗ','冤罪','あーあ','読み違えたな']
 };
 
 let chatOn=true, chatLanes=[], chatLast=0, chatQueue=[], chatTimer=0, idleAt=0;
 let peekKey='', peekFrame=0, peekShown=-1, lastWatch=[], chanceSaid=null, flashUntil=0, flashTimer=0;
 const pick=list=>list[Math.floor(Math.random()*list.length)];
+const opps=()=>match.active.filter(p=>p);
 
 function chatToggle() {
   chatOn=!chatOn;
@@ -192,7 +195,7 @@ function chatTick(paused) {
   if (!idleAt) idleAt=now+4000;
   if (now<idleAt) return;
   idleAt=now+4500+Math.random()*5000;
-  const p=Math.random()<0.2?0:1+Math.floor(Math.random()*3);
+  const p=Math.random()<0.2?0:pick(opps());
   sayLine(p,'idle');
 }
 
@@ -204,14 +207,15 @@ function fxEvent(e) {
       idleAt=Date.now()+6000;
       if (e.hand===0 && e.honba===0) {
         crowd('start',2,200);
-        const q=1+Math.floor(Math.random()*3);
+        const list=opps(), q=pick(list);
         sayLine(q,'start',{delay:900});
-        if (Math.random()<0.5) sayLine(1+q%3,'start',{delay:2200});
+        const r=list.filter(x=>x!==q);
+        if (r.length && Math.random()<0.5) sayLine(pick(r),'start',{delay:2200});
       }
       break;
     case 'riichi':
       sayLine(e.p,'riichi',{priority:true});
-      { const q=[0,1,2,3].filter(x=>x!==e.p); sayLine(pick(q),'react',{delay:700}); }
+      { const q=match.active.filter(x=>x!==e.p); sayLine(pick(q),'react',{delay:700}); }
       if (Math.random()<0.6) crowd('riichi',1,400);
       break;
     case 'call':
@@ -229,7 +233,7 @@ function fxEvent(e) {
       flash('trick_ok',match.cast[0],'すり替え成功',tileName(e.id)+' → '+tileName(e.incoming));
       break;
     case 'caught': {
-      const watcher=lastWatch.length?lastWatch[0]:1+Math.floor(Math.random()*3);
+      const watcher=lastWatch.length?lastWatch[0]:pick(opps());
       sayLine(watcher,'caught',{priority:true});
       sayLine(0,'cheatNg',{delay:800});
       crowd('caught',2,500);
@@ -253,6 +257,24 @@ function fxEvent(e) {
     }
     case 'draw':
       if (Math.random()<0.7) crowd('draw',1,200);
+      break;
+    case 'aiCheat':
+      // 相手のイカサマは、性格に応じた確率で仕草やコメントににじむ。
+      if (match.duel && Math.random()<(match.duel.tell??.5)) {
+        if (Math.random()<.5) sayLine(e.p,'cheatOk',{delay:300}); else crowd('suspect',1,250);
+        const seat=document.getElementById('seat'+e.p);
+        seat?.classList.remove('suspect'); void seat?.offsetWidth; seat?.classList.add('suspect');
+      }
+      break;
+    case 'accused':
+      sayLine(e.p,'caught',{priority:true});
+      sayLine(e.target,'cheatNg',{delay:900});
+      crowd('caught',2,500);
+      flash('trick_ng',match.cast[e.target],'イカサマ発覚',match.name(e.p)+'の告発',1700);
+      break;
+    case 'accuseMiss':
+      sayLine(e.target,'vetoed',{priority:true});
+      crowd('miss',2,400);
       break;
   }
 }
@@ -290,11 +312,11 @@ function peek(chance, watched, note='') {
   if (!note && !watched.length && chanceSaid!==turnKey) {
     chanceSaid=turnKey;
     sayLine(0,'chance');
-    if (Math.random()<0.5) sayLine(1+Math.floor(Math.random()*3),'away',{delay:600});
+    if (Math.random()<0.5) sayLine(pick(opps()),'away',{delay:600});
   }
   lastWatch=watched;
   const watching=watched.length>0;
-  const p=watching?watched[0]:1+Math.floor(now/1700)%3;
+  const list=opps(), p=watching?watched[0]:list[Math.floor(now/1700)%list.length];
   const c=match.cast[p];
   peekFrame=Math.floor(now/900)%2;
   const kind=watching?'gaze_watch':(peekFrame?'gaze_idle':'gaze_away');

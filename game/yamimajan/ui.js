@@ -6,7 +6,7 @@ const number = n => n.toLocaleString('ja-JP');
 const wind = ['東','南','西','北'];
 const callName = {chi:'チー',pon:'ポン',minkan:'大明槓',ankan:'暗槓',kakan:'加槓'};
 let match=null, heroIndex=0, timer=0, bannerTimer=0, renderedEvent=null;
-let selecting=null, chosenTile=null, activeCutin=false, resultShown=null;
+let selecting=null, chosenTile=null, activeCutin=false, resultShown=null, storyRun=null;
 
 function tileName(id) {
   const t=R.type(id);
@@ -102,7 +102,7 @@ setInterval(()=>chatTick(document.hidden || !match || byId('dialog').open || act
 function eventText(e) {
   const name=e.p===undefined?'':match.name(e.p);
   switch(e.kind) {
-    case 'start': return wind[Math.floor(e.hand/4)]+(e.hand%4+1)+'局・'+e.honba+'本場 開局';
+    case 'start': return match.roundName(e.hand)+'・'+e.honba+'本場 開局';
     case 'discard': return name+'　'+tileName(e.id)+(e.tsumogiri?' ツモ切り':'');
     case 'riichi': return name+'が立直を宣言';
     case 'call': return name+'　'+callName[e.call];
@@ -112,6 +112,9 @@ function eventText(e) {
     case 'caught': return name+'のイカサマが見破られた';
     case 'veto': return name+'の「'+CAST[match.cast[e.p]].move+'」が'+match.name(e.target)+'の和了を阻止';
     case 'draw': return '流局';
+    case 'accused': return match.name(e.p)+'が'+match.name(e.target)+'のイカサマを告発';
+    case 'accuseMiss': return '告発は外れた';
+    case 'penalty': return match.name(e.p)+'に罰符 '+number(e.amount)+'点';
     case 'win': return name+' 和了　'+number(e.delta[e.p])+'点';
     default: return '';
   }
@@ -172,14 +175,15 @@ function events() {
     fxEvent(e);
   }
   renderedEvent=last;
-  byId('log').innerHTML=list.slice(-35).reverse().map(e=>'<li>'+eventText(e)+'</li>').join('');
+  byId('log').innerHTML=list.slice(-35).reverse().map(eventText).filter(Boolean).map(t=>'<li>'+t+'</li>').join('');
 }
 
 function render() {
   if (!match) return;
   const {s,game}=match, own=s.players[0], character=CAST[heroIndex];
+  byId('arena').classList.toggle('duel',!!match.duel);
   byId('round').textContent=match.round;
-  byId('modeTag').textContent=(match.dark?'闇卓':'通常卓')+' ／ '+(match.length===4?'東風戦':'半荘戦');
+  byId('modeTag').textContent=match.duel?'ストーリー ／ 二人打ち・東南戦':(match.dark?'闇卓':'通常卓')+' ／ '+(match.length===4?'東風戦':'半荘戦');
   byId('tableRound').textContent=game.honba+' 本場　供託 '+game.sticks;
   byId('wallCount').textContent='残り '+s.wall.length+' 枚';
   byId('dora').innerHTML='<small>表示牌</small>'+match.indicators().map(id=>mini(id)).join('');
@@ -282,9 +286,10 @@ function renderCommands() {
     calls.forEach((c,i)=>add(callName[c.kind],()=>match.chooseCall(i),
       {tiles:[...c.tiles,s.response.id].sort((a,b)=>a-b)}));
     if (calls.length) add('見送る',()=>match.chooseCall());
-  } else if (s.phase==='veto' && match.vetoOptions().includes(0)) {
+  } else if (s.phase==='veto' && (match.vetoOptions().includes(0) || match.canAccuse())) {
     const hero=CAST[heroIndex];
-    add('暴牌「'+hero.move+'」−'+hero.cost,()=>match.resolveWin(true),{primary:true});
+    if (match.vetoOptions().includes(0)) add('暴牌「'+hero.move+'」−'+hero.cost,()=>match.resolveWin(true),{primary:true});
+    if (match.canAccuse()) add('告発する',()=>match.accuse(),{primary:!match.vetoOptions().includes(0)});
     add('和了を受け入れる',()=>match.resolveWin());
   }
   if (!wrap.childElementCount && ['result','blocked'].includes(s.phase)) return;
@@ -315,7 +320,7 @@ function drive() {
   if (s.phase==='discard' && s.turn!==0) { fn=()=>match.aiDiscard(); delay=350; }
   if (s.phase==='tsumo' && s.turn!==0) { fn=()=>match.chooseTsumo(true); delay=390; }
   if (s.phase==='calls' && !match.calls(0).length) { fn=()=>match.chooseCall(); delay=165; }
-  if (s.phase==='veto' && !match.vetoOptions().includes(0)) { fn=()=>match.resolveWin(); delay=520; }
+  if (s.phase==='veto' && !match.vetoOptions().includes(0) && !match.canAccuse()) { fn=()=>match.resolveWin(); delay=520; }
   if (s.phase==='result' && s.result!==resultShown) { fn=showResult; delay=320+flashBusy(); }
   if (fn) timer=setTimeout(()=>act(fn),delay);
 }
@@ -337,7 +342,7 @@ function showResult() {
   const s=match.s, r=s.result;
   if (!r) return;
   resultShown=r;
-  let heading=r.kind==='draw'?'流局':match.name(r.p)+'　'+(r.from===null?'ツモ':'ロン');
+  let heading=r.kind==='draw'?'流局':r.kind==='penalty'?match.name(r.p)+'　イカサマ発覚':match.name(r.p)+'　'+(r.from===null?'ツモ':'ロン');
   let top='<span class="eyebrow">'+match.round+'　'+match.game.honba+'本場'+(r.final?' ／ 終局':'')+'</span><h2>'+heading+'</h2>';
   if (r.kind==='win') {
     const result=r.result;
@@ -348,16 +353,25 @@ function showResult() {
     top+='<div class="yaku">'+result.yaku.map(y=>'<span>'+y.name+(y.han?' '+y.han+'翻':'')+'</span>').join('')+'</div>';
     if (r.ura.length) top+='<p>裏ドラ表示牌 '+r.ura.map(id=>mini(id)).join(' ')+'</p>';
     top+='<p>'+summary+'　／　'+number(result.total)+'点'+(r.from===null?'（支払い合計）':'')+'</p>';
+  } else if (r.kind==='penalty') {
+    top+='<p>'+match.name(r.by)+'の告発が通った。罰符 '+number(r.amount)+'点を支払い、同じ親で局をやり直す。</p>';
   } else {
     top+='<p>テンパイ　'+(r.tenpai.map(p=>match.name(p)).join('、')||'なし')+'</p>';
   }
-  const rows=r.final?match.ranking().map(x=>x.p):[0,1,2,3];
+  if (r.bust) top+='<p class="bust">持ち点がマイナスになったため、ここで終局。</p>';
+  const rows=r.final?match.ranking().map(x=>x.p):match.active;
   top+='<table><thead><tr><th scope="col">雀士</th><th scope="col">増減</th><th scope="col">持ち点</th></tr></thead><tbody>'+rows.map((p,i)=>{
     const delta=r.delta[p];
     return '<tr><td>'+(r.final?(i+1)+'位　':'')+match.name(p)+'</td><td class="'+
       (delta>0?'delta-plus':delta<0?'delta-minus':'')+'">'+(delta>0?'+':'')+number(delta)+
       '</td><td>'+number(match.game.scores[p])+'</td></tr>';
   }).join('')+'</tbody></table>';
+  if (r.final && storyRun) {
+    const won=match.ranking()[0].p===0;
+    top+='<p class="story-verdict '+(won?'won':'lost')+'">'+(won?'勝利':'敗北')+'</p>';
+    showDialog(top,[['続ける',()=>{ dismiss(); storyAfterMatch(won); },true]]);
+    return;
+  }
   showDialog(top,[[r.final?'タイトルに戻る':'次局へ',()=>{
     dismiss();
     if (r.final) toLobby();
@@ -366,12 +380,17 @@ function showResult() {
 }
 
 function start() {
+  storyRun=null;
+  startMatch({hero:heroIndex,mode:document.querySelector('[name=mode]:checked').value,
+    length:Number(document.querySelector('[name=length]:checked').value)});
+}
+function startMatch(options) {
   clearTimeout(timer);
   renderedEvent=null; resultShown=null; selecting=null; chosenTile=null;
   fxReset();
-  match=new Match({hero:heroIndex,mode:document.querySelector('[name=mode]:checked').value,
-    length:Number(document.querySelector('[name=length]:checked').value)});
-  byId('lobby').hidden=true; byId('game').hidden=false; byId('exit').hidden=false;
+  heroIndex=options.hero;
+  match=new Match(options);
+  byId('lobby').hidden=true; byId('story').hidden=true; byId('game').hidden=false; byId('exit').hidden=false;
   byId('powerPortrait').style.backgroundImage='url("assets/body'+heroIndex+'.webp")';
   window.scrollTo(0,0);
   render();
@@ -389,7 +408,9 @@ function toLobby() {
   match=null;
   fxReset();
   uiSound.setScene('lobby');
-  byId('lobby').hidden=false; byId('game').hidden=true; byId('exit').hidden=true;
+  byId('game').hidden=true; byId('exit').hidden=true;
+  if (storyRun) { storyRun=null; openStory(heroIndex); }
+  else byId('lobby').hidden=false;
   window.scrollTo(0,0);
 }
 function leave() {
@@ -414,7 +435,9 @@ byId('help').onclick=()=>{
     <p><strong>集中</strong>　打牌で＋5、立直成立で＋13。「集中」は自分の手番で一度だけ＋12。</p>
     <p><strong>すり替え</strong>　全員の視線が外れた瞬間に、選んだ牌と山の次の牌を交換します。集中18を消費し、通常のツモ手番で1回。監視中なら発覚して交換できません。</p>
     <p><strong>暴牌</strong>　相手のロン・ツモ宣言時、必要集中を満たすと発動できます。精算を止め、ツモは同じ手牌で打牌へ、ロンは同じ捨て牌の応答へ戻ります。相手も高得点の直接損失を受ける場面で使います。</p>
-    <p><strong>通常卓</strong>　集中・すり替え・暴牌を使わない四人リーチ麻雀です。頭ハネ、赤ドラ各1枚、喰いタンあり。</p>`,
+    <p><strong>通常卓</strong>　集中・すり替え・暴牌を使わない四人リーチ麻雀です。頭ハネ、赤ドラ各1枚、喰いタンあり。</p>
+    <p><strong>ストーリー（二人打ち）</strong>　1対1の東南戦4局、持ち点25,000、飛びあり。チーはできません。ツモ和了は相手がロンと同じ額を払います。すり替えでは山の手前3枚から一番役立つ牌を抜き取れます。</p>
+    <p><strong>告発</strong>　相手もイカサマをします。手つきが怪しいと思ったら、相手の和了宣言で「告発する」。当たれば相手に罰符（子8,000・親12,000）、外れれば和了に加えて2,000点を払います。自分がイカサマをした局に和了すると、逆に告発されることもあります。</p>`,
     [['閉じる',()=>{ dismiss(); drive(); },true]]);
 };
 byId('cutinContinue').onclick=()=>{

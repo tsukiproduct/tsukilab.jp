@@ -8,19 +8,28 @@ const CAST = [
   {name:'経経経経減', reading:'へへへへへ', move:'経典崩壊', color:'#efad65', cost:84, style:'ruin', line:'和了より先に、卓の掟が折れる。', details:'消費84。阻止後、和了を宣言した相手の集中を30削る。'}
 ];
 const WIND = ['東','南','西','北'];
+const DUEL_WALL = 64;
 const sorted = hand => [...hand].sort((a,b)=>a-b);
 
 class Match {
-  constructor({hero=0, mode='dark', length=8, rng=Math.random} = {}) {
+  constructor({hero=0, mode='dark', length=8, rng=Math.random, duel=null} = {}) {
     this.hero = hero;
     this.cast = Array.from({length:4},(_,i)=>(hero+i)%4);
     this.dark = mode==='dark';
     this.length = length;
     this.rng = rng;
+    // duel: 2人打ち。{opponent, vigilance(1-4), cheatRate, gauge, accuse}
+    this.duel = duel;
+    this.active = duel ? [0,2] : [0,1,2,3];
+    if (duel) {
+      const rest=[0,1,2,3].filter(c=>c!==hero && c!==duel.opponent);
+      this.cast=[hero,rest[0],duel.opponent,rest[1]];
+    }
     this.events = [];
     this.revision = 0;
     this.game = {scores:[25000,25000,25000,25000], hand:0, honba:0, sticks:0};
     this.skill = Array.from({length:4},()=>({gauge:this.dark?42:0, boost:false}));
+    if (duel && this.dark) this.skill[2].gauge=duel.gauge ?? 42;
     this.startHand();
   }
   event(kind, data={}) {
@@ -33,25 +42,32 @@ class Match {
       const j = Math.floor(this.rng()*(i+1));
       [wall[i],wall[j]] = [wall[j],wall[i]];
     }
-    const dealer = this.game.hand%4;
+    const n = this.active.length;
+    const dealer = this.active[this.game.hand%n];
     const dead = wall.splice(0,14);
     this.s = {
       wall, dead, dealer, kans:0, interrupted:false, turn:dealer, phase:'draw',
       pending:null, response:null, kan:null, result:null,
       players:Array.from({length:4},()=>({
         hand:[],river:[],melds:[],riichi:0,riichiMark:false,ippatsu:false,skip:false,lockedRon:false,
-        drawn:null,source:null,forbidden:[],focus:false,cheat:false
+        drawn:null,source:null,forbidden:[],focus:false,cheat:false,dirty:false
       }))
     };
-    for (let block=0;block<3;block++) for (let i=0;i<4;i++) {
-      this.s.players[(dealer+i)%4].hand.push(...wall.splice(-4).reverse());
+    const order=[0,1,2,3].map(i=>(dealer+i)%4).filter(p=>this.active.includes(p));
+    for (let block=0;block<3;block++) for (const p of order) {
+      this.s.players[p].hand.push(...wall.splice(-4).reverse());
     }
-    for (let i=0;i<4;i++) this.s.players[(dealer+i)%4].hand.push(wall.pop());
+    for (const p of order) this.s.players[p].hand.push(wall.pop());
+    // 2人打ちは山を1人あたり約20巡に絞り、4人打ちと同じ手の進み方にする。
+    this.s.sunk = this.duel && !deck ? wall.splice(0,Math.max(0,wall.length-(this.duel.wall||DUEL_WALL))) : [];
     this.winBackup = null;
     this.event('start',{hand:this.game.hand,honba:this.game.honba});
     this.draw();
   }
-  get round() { return WIND[Math.floor(this.game.hand/4)]+(this.game.hand%4+1)+'局'; }
+  get round() { return this.roundName(this.game.hand); }
+  roundName(hand) { const n=this.active.length; return WIND[Math.floor(hand/n)]+(hand%n+1)+'局'; }
+  next(p) { const i=this.active.indexOf(p); return this.active[(i+1)%this.active.length]; }
+  get roundWind() { return 27+Math.floor(this.game.hand/this.active.length); }
   seat(p) { return (p-this.s.dealer+4)%4; }
   name(p) { return CAST[this.cast[p]].name; }
   indicators() { return Array.from({length:1+this.s.kans},(_,i)=>this.s.dead[4+2*i]); }
@@ -73,7 +89,7 @@ class Match {
     if (!tsumo && this.furiten(p)) return null;
     const last = !this.s.wall.length && (tsumo ? v.source==='live' : this.s.response?.last);
     return R.evaluate(tsumo?v.hand:[...v.hand,tile], v.melds, tile, {
-      dealer:p===this.s.dealer, seat:27+this.seat(p), wind:27+Math.floor(this.game.hand/4),
+      dealer:p===this.s.dealer, seat:27+this.seat(p), wind:this.roundWind,
       tsumo, chankan, last, riichi:v.riichi, ippatsu:v.ippatsu,
       rinshan:tsumo && v.source==='rinshan',
       heaven:tsumo && v.source==='live' && !this.s.interrupted && !v.river.length && !v.cheat,
@@ -100,6 +116,7 @@ class Match {
       this.gaze = {start:Date.now(), seed:Math.floor(this.rng()*6), boosted};
       if (boosted) this.skill[p].boost=false;
     }
+    if (p!==0 && !rinshan && this.duel && this.dark && !v.riichi && this.rng()<(this.duel.cheatRate||0)) this.aiCheat(p);
     if (this.score(p,id,true)) s.phase='tsumo';
     return true;
   }
@@ -146,6 +163,7 @@ class Match {
     s.response={from,id,last,riichi,kan,ron:[]};
     for (let offset=1;offset<=3;offset++) {
       const p=(from+offset)%4;
+      if (!this.active.includes(p)) continue;
       const v=s.players[p];
       if (!R.completes(v.hand,v.melds,id)) continue;
       const result=this.score(p,id,false,kan);
@@ -240,7 +258,7 @@ class Match {
     const selected=index>=0 ? [{p:0,call:human[index]}] : [];
     for (let offset=1;offset<=3;offset++) {
       const p=(from+offset)%4;
-      if (!p) continue;
+      if (!p || !this.active.includes(p)) continue;
       const call=this.aiCall(p,this.calls(p));
       if (call) selected.push({p,call});
     }
@@ -248,7 +266,7 @@ class Match {
       (a.p-from+4)%4-(b.p-from+4)%4);
     if (selected.length) this.makeCall(selected[0].p,selected[0].call);
     else {
-      s.turn=(from+1)%4;
+      s.turn=this.next(from);
       s.phase='draw';
       s.response=null;
       this.bump();
@@ -343,7 +361,8 @@ class Match {
   vetoOptions() {
     if (!this.dark || this.s.phase!=='veto') return [];
     const {p,from,result}=this.s.pending;
-    return [0,1,2,3].filter(q=>q!==p && this.skill[q].gauge>=CAST[this.cast[q]].cost &&
+    return this.active.filter(q=>q!==p && this.skill[q].gauge>=CAST[this.cast[q]].cost &&
+      (q===0 || !this.duel || (this.vetoUsed||0)<(this.duel.vetoLimit??1)) &&
       (q===0 || ((q===from || from===null) && result.total>=3900)));
   }
   resolveWin(humanVeto=false) {
@@ -351,6 +370,11 @@ class Match {
     if (s.phase!=='veto') return false;
     const allowed=this.vetoOptions();
     const claim=s.pending;
+    // 2人打ち：自分がイカサマをした局に和了すると、相手が告発してくることがある。
+    if (this.duel && claim.p===0 && s.players[0].dirty && !humanVeto && this.rng()<(this.duel.accuse||0)) {
+      this.penalty(0,2);
+      return true;
+    }
     const breaker=humanVeto && allowed.includes(0) ? 0 :
       allowed.filter(p=>p!==0).sort((a,b)=>Number(b===claim.from)-Number(a===claim.from) ||
         this.skill[b].gauge-this.skill[a].gauge)[0];
@@ -359,6 +383,7 @@ class Match {
       this.s=this.winBackup;
       this.winBackup=null;
       this.charge(breaker,-hero.cost);
+      if (breaker!==0) this.vetoUsed=(this.vetoUsed||0)+1;
       if (this.cast[breaker]===0 || this.cast[breaker]===2) this.skill[breaker].boost=true;
       if (this.cast[breaker]===3) this.charge(claim.p,-30);
       this.s.phase='blocked';
@@ -391,7 +416,13 @@ class Match {
   }
   watchers(now=Date.now()) {
     if (!this.gaze || this.gaze.boosted) return [];
-    const phase=(Math.floor((now-this.gaze.start)/1050)+this.gaze.seed)%6;
+    const step=Math.floor((now-this.gaze.start)/1050);
+    if (this.duel) {
+      // 6拍のうち vigilance 拍だけ相手がこちらを見る。並びは局ごとに変わる。
+      const phase=(step*5+this.gaze.seed)%6;
+      return phase<(this.duel.vigilance||2) ? [2] : [];
+    }
+    const phase=(step+this.gaze.seed)%6;
     return [[1],[2],[],[3],[],[1,3]][phase];
   }
   canCheat() {
@@ -409,11 +440,21 @@ class Match {
     } else {
       // Preserve all tile identities and the live wall count. A held tile
       // can be exchanged without removing the previous draw from the hand.
-      const pos=this.s.wall.length-1;
+      let pos=this.s.wall.length-1;
+      if (this.duel) {
+        // 2人打ちでは山の手前3枚をのぞき、手が最も進む牌を抜き取る。
+        const base=v.hand.filter(n=>n!==id);
+        let best=R.shanten(v.hand,v.melds)+1;
+        for (let k=1;k<=Math.min(3,this.s.wall.length);k++) {
+          const i=this.s.wall.length-k, d=R.shanten([...base,this.s.wall[i]],v.melds);
+          if (d<best) { best=d; pos=i; }
+        }
+      }
       const incoming=this.s.wall[pos];
       this.s.wall[pos]=id;
       v.hand[v.hand.indexOf(id)]=incoming;
       v.drawn=incoming;
+      v.dirty=true;
       this.charge(0,-18);
       this.event('cheat',{p:0,id,incoming});
       if (this.score(0,incoming,true)) this.s.phase='tsumo';
@@ -442,13 +483,19 @@ class Match {
       if (from===null || from===seat) pay(seat,full);
       else { pay(seat,full/2); pay(from,full/2); }
     }
-    if (from===null) {
+    if (from===null && this.duel) {
+      // 2人打ちのツモは、相手がロンと同じ額を払う。
+      const q=this.next(p);
+      if (ordinary>0) pay(q,R.up100(ordinary*(dealer?6:4)));
+      pay(q,300*honba);
+    } else if (from===null) {
       for (let q=0;q<4;q++) if (q!==p) {
         pay(q,R.up100(ordinary*(dealer||q===s.dealer?2:1))+(liable.length?0:100*honba));
       }
       if (liable.length) pay(liable[0],300*honba);
     } else pay(from,R.up100(ordinary*(dealer?6:4))+300*honba);
     delta[p]+=1000*sticks;
+    if (this.wrongAccusation) { this.payment(delta,0,p,this.wrongAccusation); this.wrongAccusation=0; }
     this.game.sticks=0;
     this.winBackup=null;
     this.end({kind:'win',p,from,id,result,delta,repeat:dealer,
@@ -457,10 +504,11 @@ class Match {
   }
   exhaust() {
     const s=this.s;
-    const tenpai=[0,1,2,3].filter(p=>this.waits(p).length);
+    const tenpai=this.active.filter(p=>this.waits(p).length);
     const delta=[0,0,0,0];
-    if (tenpai.length && tenpai.length<4) for (let p=0;p<4;p++) {
-      delta[p]=tenpai.includes(p)?3000/tenpai.length:-3000/(4-tenpai.length);
+    const n=this.active.length, pool=this.duel?1500:3000;
+    if (tenpai.length && tenpai.length<n) for (const p of this.active) {
+      delta[p]=tenpai.includes(p)?pool/tenpai.length:-pool/(n-tenpai.length);
     }
     this.end({kind:'draw',tenpai,delta,repeat:tenpai.includes(s.dealer)});
   }
@@ -472,6 +520,7 @@ class Match {
     this.s.result=result;
     result.delta.forEach((n,p)=>this.game.scores[p]+=n);
     result.final=!result.repeat && this.game.hand+1>=this.length;
+    if (this.duel && this.active.some(p=>this.game.scores[p]<0)) result.final=result.bust=true;
     if (result.final && this.game.sticks) {
       const leader=this.ranking()[0].p;
       this.game.scores[leader]+=1000*this.game.sticks;
@@ -482,15 +531,60 @@ class Match {
     this.bump();
   }
   ranking() {
-    return this.game.scores.map((score,p)=>({p,score})).sort((a,b)=>b.score-a.score||a.p-b.p);
+    return this.game.scores.map((score,p)=>({p,score})).filter(x=>this.active.includes(x.p))
+      .sort((a,b)=>b.score-a.score||a.p-b.p);
   }
   nextHand() {
     if (this.s.phase!=='result' || this.s.result.final) return false;
     const result=this.s.result;
     if (!result.repeat) this.game.hand++;
-    this.game.honba=result.repeat || result.kind==='draw' ? this.game.honba+1 : 0;
+    if (result.kind!=='penalty') this.game.honba=result.repeat || result.kind==='draw' ? this.game.honba+1 : 0;
     this.startHand();
     return true;
+  }
+  // CPUのすり替え：山の手前数枚から手が最も進む牌を選び、引いた牌と入れ替える。
+  aiCheat(p) {
+    const s=this.s, v=s.players[p], id=v.drawn;
+    const depth=Math.min(5,s.wall.length);
+    if (!depth) return false;
+    const base=v.hand.filter(n=>n!==id);
+    let best=-1, value=R.shanten(v.hand,v.melds);
+    for (let k=1;k<=depth;k++) {
+      const cand=s.wall[s.wall.length-k];
+      const d=R.shanten([...base,cand],v.melds);
+      if (d<value) { value=d; best=s.wall.length-k; }
+    }
+    if (best<0) return false;
+    const incoming=s.wall[best];
+    s.wall[best]=id;
+    v.hand[v.hand.indexOf(id)]=incoming;
+    v.drawn=incoming;
+    v.dirty=true;
+    this.event('aiCheat',{p});
+    return true;
+  }
+  // 自分が相手の和了宣言を告発する。相手がこの局でイカサマをしていれば罰符、外れなら和了に加えて2000点を払う。
+  canAccuse() {
+    return !!this.duel && this.dark && this.s.phase==='veto' && this.s.pending.p!==0;
+  }
+  accuse() {
+    if (!this.canAccuse()) return false;
+    const claim=this.s.pending;
+    if (this.s.players[claim.p].dirty) { this.penalty(claim.p,0); return 'hit'; }
+    this.wrongAccusation=2000;
+    this.event('accuseMiss',{p:0,target:claim.p});
+    this.settle(claim);
+    return 'miss';
+  }
+  // イカサマの罰符。親なら12000、子なら8000を告発した側へ。局は同じ親でやり直し。
+  penalty(cheater,accuser) {
+    const s=this.s;
+    if (this.winBackup) { this.s=this.winBackup; this.winBackup=null; }
+    const amount=cheater===this.s.dealer?12000:8000;
+    const delta=[0,0,0,0];
+    this.payment(delta,cheater,accuser,amount);
+    this.event('accused',{p:accuser,target:cheater});
+    this.end({kind:'penalty',p:cheater,by:accuser,amount,delta,repeat:true});
   }
   aiCall(p, choices) {
     const v=this.s.players[p];
@@ -503,7 +597,7 @@ class Match {
       const hand=v.hand.filter(id=>!call.tiles.includes(id));
       const all=hand.concat(melds.flatMap(m=>m.tiles));
       const hasYaku = all.every(id=>!R.terminal(R.type(id))) ||
-        melds.some(m=>m.kind!=='chi' && [27+this.seat(p),27+Math.floor(this.game.hand/4),31,32,33].includes(R.type(m.tiles[0])));
+        melds.some(m=>m.kind!=='chi' && [27+this.seat(p),this.roundWind,31,32,33].includes(R.type(m.tiles[0])));
       if (!hasYaku) continue;
       const distance=call.kind==='minkan' ? R.shanten(hand,melds) :
         Math.min(...hand.filter(id=>!call.forbidden.includes(R.type(id)))
@@ -515,9 +609,9 @@ class Match {
     }
     return best;
   }
-  aiDiscard() {
+  aiDiscard(force=false) {
     const s=this.s, p=s.turn, v=s.players[p];
-    if (!p || s.phase!=='discard') return false;
+    if ((!p && !force) || s.phase!=='discard') return false;
     const kan=this.kans();
     if (kan.length && (v.riichi || R.shanten(v.hand,v.melds)<=1)) return this.declareKan(0);
     const options=v.hand.filter(id=>this.canDiscard(id));

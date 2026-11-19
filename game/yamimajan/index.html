@@ -6,13 +6,15 @@
 <meta name="theme-color" content="#100c0d">
 <title>闇麻雀 〜イカサマなんて生ぬるい〜</title>
 <link rel="icon" href="assets/portrait0.webp">
-<link rel="stylesheet" href="style.css?v=20261120b">
-<script src="rules.js?v=20261120b" defer></script>
-<script src="match.js?v=20261120b" defer></script>
-<script src="tiles.js?v=20261120b" defer></script>
-<script src="sound.js?v=20261120b" defer></script>
-<script src="extras.js?v=20261120b" defer></script>
-<script src="ui.js?v=20261120b" defer></script>
+<link rel="stylesheet" href="style.css?v=20261120c">
+<script src="rules.js?v=20261120c" defer></script>
+<script src="match.js?v=20261120c" defer></script>
+<script src="tiles.js?v=20261120c" defer></script>
+<script src="sound.js?v=20261120c" defer></script>
+<script src="story.js?v=20261120c" defer></script>
+<script src="extras.js?v=20261120c" defer></script>
+<script src="ui.js?v=20261120c" defer></script>
+<script src="storyui.js?v=20261120c" defer></script>
 </head>
 <body>
 <header class="mast">
@@ -45,9 +47,25 @@
           <label><input type="radio" name="length" value="8"><span>半荘戦</span></label>
         </div></fieldset>
       </div>
-      <button class="primary begin" id="begin">卓に着く <span aria-hidden="true">↗</span></button>
+      <div class="begin-group">
+        <button class="story-begin" id="storyBegin">ストーリー</button>
+        <button class="primary begin" id="begin">フリー対局 <span aria-hidden="true">↗</span></button>
+      </div>
     </div>
   </div>
+</section>
+<section id="story" class="story" hidden aria-label="ストーリー">
+  <div class="story-head">
+    <img id="storyArt" alt="">
+    <div class="story-copy">
+      <p class="eyebrow">STORY</p>
+      <h1 id="storyTitle"></h1>
+      <p id="storyTagline"></p>
+      <p class="story-rule">1対1の二人打ち。チーなし・東南戦4局・持ち点25,000・飛びあり。相手もイカサマをする。怪しいと思ったら和了宣言に「告発」。</p>
+    </div>
+  </div>
+  <ol id="storyChapters" class="story-chapters"></ol>
+  <button id="storyBack" type="button">雀士選びに戻る</button>
 </section>
 <section id="game" class="game" hidden aria-label="対局">
   <div class="game-head"><h1 id="round"></h1><span id="modeTag"></span></div>
@@ -105,6 +123,14 @@
 </section>
 </main>
 <dialog id="dialog"><div class="dialog-inner"><div id="dialogContent"></div><div id="dialogActions" class="dialog-actions"></div></div></dialog>
+<div id="scene" class="scene" hidden>
+  <div class="scene-bg" id="sceneBg"></div>
+  <img class="stand stand-l" id="standL" alt="">
+  <img class="stand stand-r" id="standR" alt="">
+  <img class="scene-cg" id="sceneCg" alt="" hidden>
+  <div class="scene-box" id="sceneBox"><b id="sceneName"></b><p id="sceneText"></p><span class="scene-next" aria-hidden="true">▼</span></div>
+  <button class="scene-skip" id="sceneSkip" type="button">スキップ</button>
+</div>
 <div id="cutin" class="cutin" hidden aria-live="assertive">
   <div class="cutin-light"></div><div class="cutin-move" id="cutinArt"></div><div class="cutin-frame"><img id="cutinBody" alt=""><img id="cutinFace" alt=""><div class="cutin-letter"><span id="cutinName"></span><strong id="cutinMove"></strong><p id="cutinLine"></p></div></div>
   <button class="primary" id="cutinContinue">対局に戻る <span aria-hidden="true">↗</span></button>
