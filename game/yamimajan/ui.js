@@ -162,7 +162,7 @@ function events() {
     if (e.kind==='riichi') animateTable(e.kind,'立直');
     if (e.kind==='claim') animateTable(e.kind,e.from===null?'ツモ':'ロン');
     if (e.kind==='start') animateTable(e.kind,match.round);
-    if (e.kind==='cheat') animateTable(e.kind,'すり替え');
+    if (e.kind==='cheat') animateTable(e.kind,TRICKS[e.trick]?.name||'すり替え');
     if (e.kind==='caught') animateTable(e.kind,'発覚');
     if (e.kind==='veto') {
       animateTable('veto');
