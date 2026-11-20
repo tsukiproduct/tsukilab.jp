@@ -2,13 +2,22 @@
 
 const R = typeof module === 'undefined' ? Rules : require('./rules.js');
 const CAST = [
-  {name:'月真猫', reading:'つきまお', move:'月蝕', color:'#e85654', cost:72, style:'eclipse', line:'月が欠ける。その和了も欠ける。', details:'消費72。阻止した次の自分の打牌で集中＋12。'},
-  {name:'残', reading:'nokosu', move:'残響', color:'#e88db4', cost:62, style:'echo', line:'卓に残るのは、牌の音だけ。', details:'消費62。4人の中で最も低い集中消費。'},
-  {name:'流空', reading:'ルシエル', move:'虚空', color:'#8bcae4', cost:78, style:'void', line:'その一枚が、勝ちを連れてきたと思った？', details:'消費78。阻止した次の手番は監視が外れ、すり替えの好機が続く。'},
-  {name:'経経経経減', reading:'へへへへへ', move:'経典崩壊', color:'#efad65', cost:84, style:'ruin', line:'和了より先に、卓の掟が折れる。', details:'消費84。阻止後、和了を宣言した相手の集中を30削る。'}
+  {name:'月真猫', reading:'つきまお', move:'月蝕', color:'#e85654', cost:60, style:'eclipse', line:'月が欠ける。その和了も欠ける。', details:'暴牌に技60。阻止した次の自分の打牌で技＋12。'},
+  {name:'残', reading:'nokosu', move:'残響', color:'#e88db4', cost:50, style:'echo', line:'卓に残るのは、牌の音だけ。', details:'暴牌に技50。4人の中で一番少ない技で出せる。'},
+  {name:'流空', reading:'ルシエル', move:'虚空', color:'#8bcae4', cost:65, style:'void', line:'その一枚が、勝ちを連れてきたと思った？', details:'暴牌に技65。阻止した次の手番は監視が外れ、イカサマの好機が続く。'},
+  {name:'経経経経減', reading:'へへへへへ', move:'経典崩壊', color:'#efad65', cost:70, style:'ruin', line:'和了より先に、卓の掟が折れる。', details:'暴牌に技70。阻止後、和了を宣言した相手の技を30削る。'}
 ];
 const WIND = ['東','南','西','北'];
 const DUEL_WALL = 64;
+// イカサマの技。成功すると技ポイントがたまり、暴牌に使う。1局に1回まで、燕返しは1試合に1回。
+const TRICKS = {
+  swap:   {name:'すり替え',   gain:15},
+  river:  {name:'川すり替え', gain:20},
+  tsubame:{name:'燕返し',     gain:30}
+};
+const CAUGHT_LOSS = 10;
+const AI_CHEAT_4P = .03;
+const AI_ACCUSE_4P = .2;
 const sorted = hand => [...hand].sort((a,b)=>a-b);
 
 class Match {
@@ -28,8 +37,9 @@ class Match {
     this.events = [];
     this.revision = 0;
     this.game = {scores:[25000,25000,25000,25000], hand:0, honba:0, sticks:0};
-    this.skill = Array.from({length:4},()=>({gauge:this.dark?42:0, boost:false}));
-    if (duel && this.dark) this.skill[2].gauge=duel.gauge ?? 42;
+    this.skill = Array.from({length:4},()=>({gauge:this.dark?20:0, boost:false}));
+    if (duel && this.dark) this.skill[2].gauge=duel.gauge ?? 20;
+    this.tsubameUsed = false;
     this.startHand();
   }
   event(kind, data={}) {
@@ -50,7 +60,7 @@ class Match {
       pending:null, response:null, kan:null, result:null,
       players:Array.from({length:4},()=>({
         hand:[],river:[],melds:[],riichi:0,riichiMark:false,ippatsu:false,skip:false,lockedRon:false,
-        drawn:null,source:null,forbidden:[],focus:false,cheat:false,dirty:false
+        drawn:null,source:null,forbidden:[],cheat:false,dirty:false,tried:false
       }))
     };
     const order=[0,1,2,3].map(i=>(dealer+i)%4).filter(p=>this.active.includes(p));
@@ -108,7 +118,7 @@ class Match {
     v.source=rinshan?'rinshan':'live';
     v.skip=false;
     v.forbidden=[];
-    if (!rinshan) { v.focus=false; v.cheat=false; }
+    if (!rinshan) v.cheat=false;
     s.phase='discard';
     this.revision++;
     if (p===0 && !rinshan) {
@@ -116,7 +126,7 @@ class Match {
       this.gaze = {start:Date.now(), seed:Math.floor(this.rng()*6), boosted};
       if (boosted) this.skill[p].boost=false;
     }
-    if (p!==0 && !rinshan && this.duel && this.dark && !v.riichi && this.rng()<(this.duel.cheatRate||0)) this.aiCheat(p);
+    if (p!==0 && !rinshan && this.dark && !v.riichi && !v.dirty && this.rng()<(this.duel ? this.duel.cheatRate||0 : AI_CHEAT_4P)) this.aiCheat(p);
     if (this.score(p,id,true)) s.phase='tsumo';
     return true;
   }
@@ -148,7 +158,6 @@ class Match {
     if (v.riichi) v.ippatsu=false;
     v.river.push({id,tsumogiri,riichi:riichi||v.riichiMark,called:false});
     v.riichiMark=false;
-    this.charge(p,5);
     if (this.skill[p].boost && this.cast[p]===0) {
       this.charge(p,12);
       this.skill[p].boost=false;
@@ -208,7 +217,6 @@ class Match {
       v.ippatsu=true;
       this.game.scores[p]-=1000;
       this.game.sticks++;
-      this.charge(p,13);
     }
     if (!this.s.wall.length) { this.exhaust(); return; }
     this.s.phase='calls';
@@ -292,7 +300,6 @@ class Match {
     if (called.riichi) s.players[from].riichiMark=true;
     v.hand=v.hand.filter(n=>!call.tiles.includes(n));
     v.forbidden=call.forbidden;
-    v.focus=false;
     v.cheat=false;
     this.expose(p,call.kind,[...call.tiles,id],from,id);
     s.turn=p;
@@ -371,8 +378,8 @@ class Match {
     const allowed=this.vetoOptions();
     const claim=s.pending;
     // 2人打ち：自分がイカサマをした局に和了すると、相手が告発してくることがある。
-    if (this.duel && claim.p===0 && s.players[0].dirty && !humanVeto && this.rng()<(this.duel.accuse||0)) {
-      this.penalty(0,2);
+    if (this.dark && claim.p===0 && s.players[0].dirty && !humanVeto && this.rng()<(this.duel ? this.duel.accuse||0 : AI_ACCUSE_4P)) {
+      this.penalty(0,this.duel?2:1+Math.floor(this.rng()*3));
       return true;
     }
     const breaker=humanVeto && allowed.includes(0) ? 0 :
@@ -405,15 +412,6 @@ class Match {
     }
     return true;
   }
-  focus() {
-    const s=this.s, v=s.players[0];
-    if (!this.dark || s.turn!==0 || s.phase!=='discard' || v.focus || this.skill[0].gauge===100) return false;
-    v.focus=true;
-    this.charge(0,12);
-    this.event('focus',{p:0});
-    this.bump();
-    return true;
-  }
   watchers(now=Date.now()) {
     if (!this.gaze || this.gaze.boosted) return [];
     const step=Math.floor((now-this.gaze.start)/1050);
@@ -425,42 +423,96 @@ class Match {
     const phase=(step+this.gaze.seed)%6;
     return [[1],[2],[],[3],[],[1,3]][phase];
   }
+  // イカサマができる手番か（1局に1回まで）。
   canCheat() {
     const s=this.s, v=s.players[0];
     return this.dark && s.turn===0 && s.phase==='discard' && !v.riichi &&
-      v.source==='live' && v.drawn!==null && !v.cheat && s.wall.length>=2 && this.skill[0].gauge>=18;
+      v.source==='live' && v.drawn!==null && !v.tried && s.wall.length>=3;
   }
-  cheat(id,now=Date.now()) {
-    if (!this.canCheat() || !this.s.players[0].hand.includes(id)) return false;
+  canRiverSwap() {
+    return this.canCheat() && this.s.players[0].river.some(d=>!d.called);
+  }
+  canTsubame() {
     const v=this.s.players[0];
-    v.cheat=true;
+    return this.canCheat() && !this.tsubameUsed && !v.river.length && !v.melds.length && this.s.wall.length>=20;
+  }
+  // 監視されていれば失敗。技ポイントを失い、この局のイカサマは終わり。
+  attempt(kind, now) {
+    const v=this.s.players[0];
+    v.tried=true;
+    if (kind==='tsubame') this.tsubameUsed=true;
     if (this.watchers(now).length) {
-      this.charge(0,-18);
-      this.event('caught',{p:0});
-    } else {
-      // Preserve all tile identities and the live wall count. A held tile
-      // can be exchanged without removing the previous draw from the hand.
-      let pos=this.s.wall.length-1;
-      if (this.duel) {
-        // 2人打ちでは山の手前3枚をのぞき、手が最も進む牌を抜き取る。
-        const base=v.hand.filter(n=>n!==id);
-        let best=R.shanten(v.hand,v.melds)+1;
-        for (let k=1;k<=Math.min(3,this.s.wall.length);k++) {
-          const i=this.s.wall.length-k, d=R.shanten([...base,this.s.wall[i]],v.melds);
-          if (d<best) { best=d; pos=i; }
-        }
-      }
-      const incoming=this.s.wall[pos];
-      this.s.wall[pos]=id;
-      v.hand[v.hand.indexOf(id)]=incoming;
-      v.drawn=incoming;
-      v.dirty=true;
-      this.charge(0,-18);
-      this.event('cheat',{p:0,id,incoming});
-      if (this.score(0,incoming,true)) this.s.phase='tsumo';
+      this.charge(0,-CAUGHT_LOSS);
+      this.event('caught',{p:0,trick:kind});
+      this.bump();
+      return false;
     }
+    return true;
+  }
+  succeed(kind, data) {
+    const v=this.s.players[0];
+    v.dirty=true;
+    v.cheat=true;
+    this.charge(0,TRICKS[kind].gain);
+    this.event('cheat',{p:0,trick:kind,...data});
+    if (this.score(0,v.drawn,true)) this.s.phase='tsumo';
     this.bump();
     return true;
+  }
+  // すり替え：手牌1枚と、山の手前3枚のうち一番手が進む牌を入れ替える。
+  cheat(id,now=Date.now()) {
+    if (!this.canCheat() || !this.s.players[0].hand.includes(id)) return false;
+    if (!this.attempt('swap',now)) return true;
+    const v=this.s.players[0], wall=this.s.wall;
+    const base=v.hand.filter(n=>n!==id);
+    let pos=wall.length-1, best=Infinity;
+    for (let k=1;k<=Math.min(3,wall.length);k++) {
+      const i=wall.length-k, d=R.shanten([...base,wall[i]],v.melds);
+      if (d<best) { best=d; pos=i; }
+    }
+    const incoming=wall[pos];
+    wall[pos]=id;
+    v.hand[v.hand.indexOf(id)]=incoming;
+    v.drawn=incoming;
+    return this.succeed('swap',{id,incoming});
+  }
+  // 川すり替え：手牌1枚と、自分の捨て牌1枚を入れ替える。
+  riverSwap(id,index,now=Date.now()) {
+    const v=this.s.players[0], d=v.river[index];
+    if (!this.canRiverSwap() || !v.hand.includes(id) || !d || d.called) return false;
+    if (!this.attempt('river',now)) return true;
+    const incoming=d.id;
+    d.id=id;
+    v.hand[v.hand.indexOf(id)]=incoming;
+    v.drawn=incoming;
+    return this.succeed('river',{id,incoming});
+  }
+  // 燕返し：配牌直後に、手牌を山に仕込んだ牌とまとめて入れ替える（1試合に1回）。
+  tsubame(now=Date.now()) {
+    if (!this.canTsubame()) return false;
+    if (!this.attempt('tsubame',now)) return true;
+    const v=this.s.players[0], wall=this.s.wall;
+    const span=Math.min(40,wall.length);
+    let changed=0;
+    for (let round=0;round<7;round++) {
+      const current=R.shanten(v.hand,v.melds);
+      if (current<=0) break;
+      let best=null, value=current;
+      for (const id of new Set(v.hand)) {
+        const rest=v.hand.filter(n=>n!==id);
+        for (let k=1;k<=span;k++) {
+          const i=wall.length-k, d=R.shanten([...rest,wall[i]],v.melds);
+          if (d<value) { value=d; best={id,i}; }
+        }
+      }
+      if (!best) break;
+      const incoming=wall[best.i];
+      wall[best.i]=best.id;
+      v.hand[v.hand.indexOf(best.id)]=incoming;
+      if (v.drawn===best.id) v.drawn=incoming;
+      changed++;
+    }
+    return this.succeed('tsubame',{changed});
   }
   payment(delta,from,to,amount) { delta[from]-=amount; delta[to]+=amount; }
   liability(p,name) {
@@ -560,12 +612,13 @@ class Match {
     v.hand[v.hand.indexOf(id)]=incoming;
     v.drawn=incoming;
     v.dirty=true;
+    this.charge(p,TRICKS.swap.gain);
     this.event('aiCheat',{p});
     return true;
   }
   // 自分が相手の和了宣言を告発する。相手がこの局でイカサマをしていれば罰符、外れなら和了に加えて2000点を払う。
   canAccuse() {
-    return !!this.duel && this.dark && this.s.phase==='veto' && this.s.pending.p!==0;
+    return this.dark && this.s.phase==='veto' && this.s.pending.p!==0;
   }
   accuse() {
     if (!this.canAccuse()) return false;
@@ -648,4 +701,4 @@ class Match {
     return this.discard(best,legalRiichi.includes(best));
   }
 }
-if (typeof module!=='undefined') module.exports={Match,CAST};
+if (typeof module!=='undefined') module.exports={Match,CAST,TRICKS};

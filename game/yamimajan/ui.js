@@ -85,16 +85,16 @@ function refreshGaze() {
     if (look.textContent!==text) look.textContent=text;
   }
   const own=match.s.players[0];
-  const peekNote=!active||match.s.phase!=='discard'?'':own.riichi?'立直中':own.cheat?'すり替え済み':
-    own.source!=='live'||own.drawn===null?'鳴きの後':match.skill[0].gauge<18?'集中不足':'';
+  const peekNote=!active||match.s.phase!=='discard'?'':own.riichi?'立直中':own.tried?'この局は済み':
+    own.source!=='live'||own.drawn===null?'鳴きの後':'';
   peek(active && match.s.phase==='discard' && selecting!=='riichi', watched, peekNote);
   const gaze=byId('gaze');
   gaze.classList.toggle('clear',active && !watched.length);
-  if (!active) gaze.textContent='暴牌の必要集中 '+CAST[heroIndex].cost;
-  else if (match.s.players[0].riichi) gaze.textContent='立直中はすり替え不可';
-  else if (match.s.players[0].source!=='live') gaze.textContent='すり替えは通常のツモ手番で可能';
-  else if (match.s.players[0].cheat) gaze.textContent='この手番のすり替えは終了';
-  else gaze.textContent=watched.length?'監視中 · すり替え発覚':'視線が外れた · すり替え好機';
+  if (!active) gaze.textContent='暴牌に必要な技 '+CAST[heroIndex].cost;
+  else if (match.s.players[0].riichi) gaze.textContent='立直中はイカサマ不可';
+  else if (match.s.players[0].source!=='live') gaze.textContent='イカサマは通常のツモ手番で';
+  else if (match.s.players[0].tried) gaze.textContent='イカサマはこの局で使用済み';
+  else gaze.textContent=watched.length?'監視中 · 今やると見つかる':'視線が外れた · イカサマの好機';
 }
 setInterval(()=>{ if (!document.hidden && match && !byId('dialog').open && !activeCutin) refreshGaze(); },100);
 setInterval(()=>chatTick(document.hidden || !match || byId('dialog').open || activeCutin),500);
@@ -107,9 +107,8 @@ function eventText(e) {
     case 'riichi': return name+'が立直を宣言';
     case 'call': return name+'　'+callName[e.call];
     case 'claim': return name+'　'+(e.from===null?'ツモ':'ロン')+'宣言';
-    case 'focus': return name+'　集中＋12';
-    case 'cheat': return name+'　'+tileName(e.id)+'を'+tileName(e.incoming)+'にすり替えた';
-    case 'caught': return name+'のイカサマが見破られた';
+    case 'cheat': return name+'　'+TRICKS[e.trick].name+'成功'+(e.trick==='tsubame'?'':'（'+tileName(e.id)+'→'+tileName(e.incoming)+'）');
+    case 'caught': return name+'の'+TRICKS[e.trick]?.name+'が見破られた';
     case 'veto': return name+'の「'+CAST[match.cast[e.p]].move+'」が'+match.name(e.target)+'の和了を阻止';
     case 'draw': return '流局';
     case 'accused': return match.name(e.p)+'が'+match.name(e.target)+'のイカサマを告発';
@@ -196,10 +195,16 @@ function render() {
       <b>${number(game.scores[p])}</b>${v.riichi?'<span class="rflag" title="立直">立</span>':''}</span>${p&&match.dark?'<div class="look"></div>':''}</div>`;
     const river=byId('river'+p);
     river.setAttribute('aria-label',match.name(p)+'の捨て牌 '+v.river.map(d=>tileName(d.id)+(d.called?' 鳴かれた':'')).join(' '));
-    river.innerHTML=v.river.map((d,i)=>mini(d.id,[
-      d.called?'called':'',d.riichi?'riichi-tile':'',
-      !d.called && lastDiscard?.p===p && lastDiscard.id===d.id && i===v.river.length-1?'last-tile':''
-    ].join(' '))).join('');
+    river.classList.toggle('picking',p===0 && selecting==='riverPick');
+    river.innerHTML=v.river.map((d,i)=>{
+      const art=mini(d.id,[
+        d.called?'called':'',d.riichi?'riichi-tile':'',
+        !d.called && lastDiscard?.p===p && lastDiscard.id===d.id && i===v.river.length-1?'last-tile':''
+      ].join(' '));
+      // 川すり替えでは、自分の捨て牌を押して選ぶ
+      return p===0 && selecting==='riverPick' && !d.called ?
+        '<button type="button" class="river-pick" data-river="'+i+'" aria-label="'+tileName(d.id)+'と入れ替える">'+art+'</button>' : art;
+    }).join('');
     byId('meld'+p).innerHTML=meldArt(v.melds,p);
   }
   const canRiichi=selecting==='riichi'?match.riichiChoices():[];
@@ -208,7 +213,8 @@ function render() {
   const focusedTile=document.activeElement?.dataset.tile;
   byId('hand').innerHTML=hand.map(id=>{
     const enabled=s.turn===0 && s.phase==='discard' &&
-      (selecting==='riichi'?canRiichi.includes(id):selecting==='cheat'?match.canCheat():match.canDiscard(id));
+      (selecting==='riichi'?canRiichi.includes(id):selecting==='cheat'?match.canCheat():
+        selecting==='river'?match.canRiverSwap():selecting==='riverPick'?false:match.canDiscard(id));
     return '<button type="button" data-tile="'+id+'" '+(enabled?'':'disabled')+' class="'+
       (id===own.drawn?'drawn ':'')+(chosenTile===id?'selected':'')+'" aria-label="'+tileName(id)+
       (id===own.drawn?' ツモ牌':'')+'">'+tileArt(id)+'</button>';
@@ -232,7 +238,9 @@ function stateText() {
   const s=match.s;
   if (s.phase==='discard' && s.turn===0) {
     if (selecting==='riichi') return '立直する捨て牌を選ぶ';
-    if (selecting==='cheat') return '交換する牌を選ぶ';
+    if (selecting==='cheat') return 'すり替える手牌を選ぶ（山の手前3枚から一番いい牌が来る）';
+    if (selecting==='river') return '川に戻す手牌を選ぶ';
+    if (selecting==='riverPick') return '代わりに拾う捨て牌を選ぶ';
     if (s.players[0].riichi) return '立直中 · ツモ切り';
     return '捨てる牌を選ぶ';
   }
@@ -248,11 +256,17 @@ function stateText() {
 function renderCommands() {
   const wrap=byId('commands'), s=match.s, v=s.players[0];
   wrap.replaceChildren();
-  function add(label, fn, {primary=false, disabled=false, selected=false, tiles=[]}={}) {
+  function add(label, fn, {primary=false, disabled=false, selected=false, tiles=[], trick=null}={}) {
     const b=document.createElement('button');
     b.type='button';
-    b.className=(primary?'primary ':'')+(selected?'selected':'');
+    b.className=(primary?'primary ':'')+(selected?'selected':'')+(trick?' trick':'');
     b.textContent=label;
+    if (trick) {
+      b.title=label+'：成功で技＋'+TRICKS[trick].gain;
+      const gain=document.createElement('small');
+      gain.textContent='＋'+TRICKS[trick].gain;
+      b.append(gain);
+    }
     b.disabled=disabled;
     if (tiles.length) {
       const preview=document.createElement('span');
@@ -271,8 +285,9 @@ function renderCommands() {
       add('立直',()=>{ selecting='riichi'; },{disabled:!riichi.length,primary:!!riichi.length});
       match.kans().forEach((k,i)=>add(callName[k.kind],()=>match.declareKan(i),{tiles:[k.id]}));
       if (match.dark) {
-        add('集中 ＋12',()=>match.focus(),{disabled:v.focus || match.skill[0].gauge===100});
-        add('すり替え −18',()=>{ selecting='cheat'; },{disabled:!match.canCheat()});
+        add('すり替え',()=>{ selecting='cheat'; },{disabled:!match.canCheat(),trick:'swap'});
+        add('川すり替え',()=>{ selecting='river'; },{disabled:!match.canRiverSwap(),trick:'river'});
+        if (match.canTsubame()) add('燕返し',()=>match.tsubame(),{trick:'tsubame'});
       }
     }
   } else if (s.phase==='tsumo' && s.turn===0) {
@@ -328,11 +343,18 @@ function selectTile(id) {
   act(()=>{
     if (match.s.turn!==0 || match.s.phase!=='discard') return;
     const choice=selecting;
+    if (choice==='river') { selecting='riverPick'; chosenTile=id; return; }
     selecting=null; chosenTile=null;
     if (choice==='cheat') match.cheat(id);
     else match.discard(id,choice==='riichi');
   });
 }
+byId('river0').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-river]');
+  if (!b || selecting!=='riverPick') return;
+  const id=chosenTile;
+  act(()=>{ selecting=null; chosenTile=null; match.riverSwap(id,Number(b.dataset.river)); });
+});
 byId('hand').addEventListener('click',e=>{
   const b=e.target.closest('button[data-tile]');
   if (b && !b.disabled) selectTile(Number(b.dataset.tile));
@@ -432,12 +454,12 @@ byId('help').onclick=()=>{
   if (activeCutin || byId('dialog').open) return;
   showDialog(`<span class="eyebrow">遊び方</span><h2>闇卓の掟</h2>
     <p>牌をクリックまたはタップして打牌。PCでは左右の矢印で手牌を選び、Enterで決定できます。立直は「立直」を押してから、光る候補の牌を選びます。鳴き・和了は表示されたボタンで選択します。</p>
-    <p><strong>集中</strong>　打牌で＋5、立直成立で＋13。「集中」は自分の手番で一度だけ＋12。</p>
-    <p><strong>すり替え</strong>　全員の視線が外れた瞬間に、選んだ牌と山の次の牌を交換します。集中18を消費し、通常のツモ手番で1回。監視中なら発覚して交換できません。</p>
-    <p><strong>暴牌</strong>　相手のロン・ツモ宣言時、必要集中を満たすと発動できます。精算を止め、ツモは同じ手牌で打牌へ、ロンは同じ捨て牌の応答へ戻ります。相手も高得点の直接損失を受ける場面で使います。</p>
-    <p><strong>通常卓</strong>　集中・すり替え・暴牌を使わない四人リーチ麻雀です。頭ハネ、赤ドラ各1枚、喰いタンあり。</p>
-    <p><strong>ストーリー（二人打ち）</strong>　1対1の東南戦4局、持ち点25,000、飛びあり。チーはできません。ツモ和了は相手がロンと同じ額を払います。すり替えでは山の手前3枚から一番役立つ牌を抜き取れます。</p>
-    <p><strong>告発</strong>　相手もイカサマをします。手つきが怪しいと思ったら、相手の和了宣言で「告発する」。当たれば相手に罰符（子8,000・親12,000）、外れれば和了に加えて2,000点を払います。自分がイカサマをした局に和了すると、逆に告発されることもあります。</p>`,
+    <p><strong>イカサマ（1局に1回）</strong>　左上の小窓で相手の視線が外れた瞬間に使います。見られていると失敗して技−10、その局はもう使えません。</p>
+    <p>・<strong>すり替え</strong>（技＋15）　手牌1枚を、山の手前3枚のうち一番手が進む牌と入れ替える。<br>・<strong>川すり替え</strong>（技＋20）　手牌1枚を、自分の捨て牌1枚と入れ替える。<br>・<strong>燕返し</strong>（技＋30）　配牌直後の最初の手番だけ。手牌をまとめて仕込みの牌と入れ替え、一気に手を進める。1試合に1回。</p>
+    <p><strong>暴牌</strong>　イカサマの成功でたまった技を使う必殺技。相手のロン・ツモ宣言を止め、ツモは同じ手牌で打牌へ、ロンは同じ捨て牌の応答へ戻ります。</p>
+    <p><strong>告発</strong>　相手もイカサマをします。手つきが怪しいと思ったら、相手の和了宣言で「告発する」。当たれば相手に罰符（子8,000・親12,000）、外れれば和了に加えて2,000点を払います。自分がイカサマをした局に和了すると、逆に告発されることもあります。</p>
+    <p><strong>通常卓</strong>　イカサマ・暴牌・告発を使わない四人リーチ麻雀です。頭ハネ、赤ドラ各1枚、喰いタンあり。</p>
+    <p><strong>ストーリー（二人打ち）</strong>　1対1の東南戦4局、持ち点25,000、飛びあり。チーはできません。ツモ和了は相手がロンと同じ額を払います。</p>`,
     [['閉じる',()=>{ dismiss(); drive(); },true]]);
 };
 byId('cutinContinue').onclick=()=>{

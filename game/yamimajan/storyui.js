@@ -26,7 +26,7 @@ function openStory(hero) {
   const book=STORY[hero], prog=storyProgress(hero), c=CAST[hero];
   byId('lobby').hidden=true; byId('game').hidden=true; byId('story').hidden=false;
   byId('story').style.setProperty('--tone',c.color);
-  byId('storyArt').src='assets/body'+hero+'.webp';
+  byId('storyArt').src='assets/story/cover_'+FX_NAME[hero]+'.webp';
   byId('storyTitle').textContent=c.name+'編「'+book.title+'」';
   byId('storyTagline').textContent=book.tagline;
   const items=[{kind:'prologue',label:'序章',title:'新月の夜',open:true,done:prog.prologue}];
@@ -45,8 +45,8 @@ function openStory(hero) {
     const b=e.target.closest('button[data-item]');
     if (!b || b.disabled) return;
     const it=items[Number(b.dataset.item)];
-    if (it.kind==='prologue') playScene(book.prologue,null,()=>{ storyUpdate(hero,{prologue:true}); openStory(hero); });
-    if (it.kind==='epilogue') playScene(book.epilogue,null,()=>{ storyUpdate(hero,{epilogue:true}); openStory(hero); });
+    if (it.kind==='prologue') playScene(book.prologue,null,()=>{ storyUpdate(hero,{prologue:true}); openStory(hero); },'bg_entrance');
+    if (it.kind==='epilogue') playScene(book.epilogue,null,()=>{ storyUpdate(hero,{epilogue:true}); openStory(hero); },'bg_dawn');
     if (it.kind==='chapter') beginChapter(it.index);
   };
   window.scrollTo(0,0);
@@ -58,11 +58,12 @@ function beginChapter(index) {
     storyRun={hero:storyHero,chapter:index,opp:ch.opp};
     startMatch({hero:storyHero,mode:'dark',length:4,duel:storyDuel(index,ch.opp)});
     drive();
-  });
-  if (index===0 && !prog.prologue) playScene(book.prologue,null,()=>{ storyUpdate(storyHero,{prologue:true}); go(); });
+  },chapterBg(index));
+  if (index===0 && !prog.prologue) playScene(book.prologue,null,()=>{ storyUpdate(storyHero,{prologue:true}); go(); },'bg_entrance');
   else go();
 }
 
+const chapterBg=index=>index===2?'bg_seventh':'bg_parlor';
 function storyAfterMatch(won) {
   const run=storyRun, book=STORY[run.hero], ch=book.chapters[run.chapter];
   storyRun=null;
@@ -75,18 +76,21 @@ function storyAfterMatch(won) {
     storyUpdate(run.hero,{cleared:Math.max(prog.cleared,run.chapter+1)});
     playScene(ch.win,ch.opp,()=>{
       if (run.chapter===2 && !storyProgress(run.hero).epilogue)
-        playScene(book.epilogue,null,()=>{ storyUpdate(run.hero,{epilogue:true}); openStory(run.hero); });
+        playScene(book.epilogue,null,()=>{ storyUpdate(run.hero,{epilogue:true}); openStory(run.hero); },'bg_dawn');
       else openStory(run.hero);
-    });
-  } else playScene(ch.lose,ch.opp,()=>openStory(run.hero));
+    },chapterBg(run.chapter));
+  } else playScene(ch.lose,ch.opp,()=>openStory(run.hero),chapterBg(run.chapter));
 }
 
 // 会話シーン。左に主人公、右に相手。話している側を明るくする。
-function playScene(lines, opp, done) {
+function playScene(lines, opp, done, bg='bg_parlor') {
   sceneQueue=lines.slice();
   sceneDone=done;
   const box=byId('scene');
   box.hidden=false;
+  box.classList.remove('event');
+  byId('sceneBg').style.backgroundImage='url("assets/story/'+bg+'.webp")';
+  byId('sceneEvent').style.backgroundImage='';
   byId('standL').src='assets/body'+storyHero+'.webp';
   byId('standR').hidden=opp===null;
   if (opp!==null) byId('standR').src='assets/body'+opp+'.webp';
@@ -104,6 +108,15 @@ function nextLine() {
   box.classList.toggle('speak-r',!narration && line.s!==storyHero);
   byId('sceneBox').style.setProperty('--tone',narration?'#d9b07a':CAST[line.s].color);
   byId('sceneName').textContent=narration?'':CAST[line.s].name;
+  if (line.ev!==undefined) {
+    // イベント絵は全画面に出し、次の ev か場面の終わりまで残す。
+    box.classList.toggle('event',!!line.ev);
+    const ev=byId('sceneEvent');
+    if (line.ev) {
+      ev.style.backgroundImage='url("assets/story/'+line.ev+'.webp")';
+      ev.classList.remove('show'); void ev.offsetWidth; ev.classList.add('show');
+    }
+  }
   const cg=byId('sceneCg');
   if (line.cg) {
     const [kind,c]=line.cg;
@@ -130,6 +143,7 @@ function finishTyping() {
 function endScene() {
   clearInterval(sceneTyping); sceneTyping=0;
   byId('scene').hidden=true;
+  byId('scene').classList.remove('event');
   byId('sceneCg').hidden=true;
   const done=sceneDone;
   sceneDone=null;

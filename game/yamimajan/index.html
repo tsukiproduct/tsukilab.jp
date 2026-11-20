@@ -6,15 +6,15 @@
 <meta name="theme-color" content="#100c0d">
 <title>闇麻雀 〜イカサマなんて生ぬるい〜</title>
 <link rel="icon" href="assets/portrait0.webp">
-<link rel="stylesheet" href="style.css?v=20261120c">
-<script src="rules.js?v=20261120c" defer></script>
-<script src="match.js?v=20261120c" defer></script>
-<script src="tiles.js?v=20261120c" defer></script>
-<script src="sound.js?v=20261120c" defer></script>
-<script src="story.js?v=20261120c" defer></script>
-<script src="extras.js?v=20261120c" defer></script>
-<script src="ui.js?v=20261120c" defer></script>
-<script src="storyui.js?v=20261120c" defer></script>
+<link rel="stylesheet" href="style.css?v=20261120d">
+<script src="rules.js?v=20261120d" defer></script>
+<script src="match.js?v=20261120d" defer></script>
+<script src="tiles.js?v=20261120d" defer></script>
+<script src="sound.js?v=20261120d" defer></script>
+<script src="story.js?v=20261120d" defer></script>
+<script src="extras.js?v=20261120d" defer></script>
+<script src="ui.js?v=20261120d" defer></script>
+<script src="storyui.js?v=20261120d" defer></script>
 </head>
 <body>
 <header class="mast">
@@ -109,8 +109,8 @@
         <div class="power-copy">
           <span class="eyebrow">暴牌</span>
           <h2 id="powerName"></h2>
-          <div class="power-line"><span>集中</span><span id="gaugeLabel"></span></div>
-          <div class="meter" id="meter" role="meter" aria-label="集中" aria-valuemin="0" aria-valuemax="100"><div id="gauge"></div></div>
+          <div class="power-line"><span>技</span><span id="gaugeLabel"></span></div>
+          <div class="meter" id="meter" role="meter" aria-label="技ポイント" aria-valuemin="0" aria-valuemax="100"><div id="gauge"></div></div>
           <p id="gaze" class="gaze"></p>
         </div>
       </section>
@@ -125,6 +125,7 @@
 <dialog id="dialog"><div class="dialog-inner"><div id="dialogContent"></div><div id="dialogActions" class="dialog-actions"></div></div></dialog>
 <div id="scene" class="scene" hidden>
   <div class="scene-bg" id="sceneBg"></div>
+  <div class="scene-event" id="sceneEvent"></div>
   <img class="stand stand-l" id="standL" alt="">
   <img class="stand stand-r" id="standR" alt="">
   <img class="scene-cg" id="sceneCg" alt="" hidden>

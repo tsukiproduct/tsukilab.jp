@@ -111,6 +111,7 @@ const CROWD={
   cheatOk:['今なんかした？','手品かな？','見えなかった','うまい'],
   caught:['バレてて草','現行犯','ｗｗｗ','そりゃ見てるわ'],
   draw:['流局か','おつ','平和だ'],
+  tsubame:['燕返しきたあああ','手が見えなかった','神業','今の何！？'],
   suspect:['今、手が動いた？','なんか怪しい','袖、見た？','今のすり替えじゃね？','手つき怪しすぎｗ'],
   miss:['告発外れｗ','冤罪','あーあ','読み違えたな']
 };
@@ -224,20 +225,18 @@ function fxEvent(e) {
     case 'claim':
       sayLine(e.p,e.from===null?'tsumo':'ron',{priority:true});
       break;
-    case 'focus':
-      sayLine(0,'focus');
-      break;
     case 'cheat':
       sayLine(0,'cheatOk',{priority:true});
-      crowd('cheatOk',2,500);
-      flash('trick_ok',match.cast[0],'すり替え成功',tileName(e.id)+' → '+tileName(e.incoming));
+      crowd(e.trick==='tsubame'?'tsubame':'cheatOk',2,500);
+      flash('trick_ok',match.cast[0],e.trick==='tsubame'?'燕返し':TRICKS[e.trick].name+'成功',
+        (e.trick==='tsubame'?'手牌'+e.changed+'枚を入れ替えた':tileName(e.id)+' → '+tileName(e.incoming))+'　技＋'+TRICKS[e.trick].gain);
       break;
     case 'caught': {
       const watcher=lastWatch.length?lastWatch[0]:pick(opps());
       sayLine(watcher,'caught',{priority:true});
       sayLine(0,'cheatNg',{delay:800});
       crowd('caught',2,500);
-      flash('trick_ng',match.cast[0],'イカサマ発覚',match.name(watcher)+'に見破られた');
+      flash('trick_ng',match.cast[0],(TRICKS[e.trick]?.name||'イカサマ')+'失敗',match.name(watcher)+'に見破られた　技−10');
       break;
     }
     case 'veto':
