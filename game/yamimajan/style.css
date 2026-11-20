@@ -424,3 +424,22 @@ dialog::backdrop{background:#090609b8;backdrop-filter:blur(4px)}
 .river-pick .tile{box-shadow:0 0 0 1px #ffd48a,0 0 10px #ffb35a}
 @keyframes pick-glow{50%{filter:brightness(1.25)}}
 .river.picking .river-pick{transform:scale(1.3);margin:2px}
+/* オープニング（タイトル画面） */
+.opening{position:fixed;inset:0;z-index:30;overflow:hidden;background:#050304;cursor:pointer;display:grid;place-items:center;outline:none}
+.opening-art{position:absolute;inset:0}
+.opening-art img{width:100%;height:100%;object-fit:cover;object-position:50% 40%;animation:op-art 9s cubic-bezier(.2,.6,.3,1) both}
+@keyframes op-art{from{transform:scale(1.14);filter:brightness(.2)}35%{filter:brightness(1)}to{transform:scale(1.02);filter:brightness(1)}}
+.opening-shade{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 40%,rgba(0,0,0,.6) 95%),linear-gradient(0deg,rgba(5,3,4,.88),transparent 30%)}
+.opening-copy{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:clamp(12px,2.5vh,40px) 0 clamp(52px,10vh,110px)}
+.opening-logo{width:min(44vw,560px);max-height:36vh;object-fit:contain;filter:drop-shadow(0 0 2px #000) drop-shadow(0 0 26px rgba(255,40,40,.55)) drop-shadow(0 10px 30px #000);animation:op-logo 1.6s .6s cubic-bezier(.15,.7,.2,1) both}
+@keyframes op-logo{from{opacity:0;transform:scale(1.35);filter:blur(10px) drop-shadow(0 0 40px red)}to{opacity:1;transform:none}}
+.opening-start{font:800 clamp(16px,2.2vw,24px) var(--serif);letter-spacing:.4em;color:#ffe2bf;text-shadow:0 0 14px #ff4a3a,0 2px 4px #000;animation:op-fade .6s 2s both,op-blink 1.6s 2.6s ease-in-out infinite}
+.opening-credit{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:11px;letter-spacing:.35em;color:#b49c88;animation:op-fade 1s 2.2s both}
+@keyframes op-fade{from{opacity:0}to{opacity:1}}
+@keyframes op-blink{50%{opacity:.3}}
+.opening.leaving{animation:op-leave .65s ease-in both;pointer-events:none}
+@keyframes op-leave{to{opacity:0;transform:scale(1.06)}}
+@media(max-aspect-ratio:4/5){.opening-art img{object-position:50% 50%}.opening-logo{width:86vw;max-height:30vh}.opening-copy{padding-top:5vh}}
+/* 雀士選びのロゴ */
+.lobby-title h1{margin:0;line-height:0}
+.lobby-logo{width:min(58vw,520px);filter:drop-shadow(0 0 2px #000) drop-shadow(0 0 20px rgba(255,40,40,.45)) drop-shadow(0 8px 20px #000)}

@@ -485,3 +485,13 @@ document.addEventListener('keydown',e=>{
   }
   if (e.key==='Escape' && selecting) act(()=>{ selecting=null; chosenTile=null; });
 });
+
+// オープニング：タップでタイトルから雀士選びへ
+function closeOpening() {
+  const op=byId('opening');
+  if (!op || op.hidden || op.classList.contains('leaving')) return;
+  op.classList.add('leaving');
+  setTimeout(()=>{ op.hidden=true; },650);
+}
+byId('opening').onclick=closeOpening;
+byId('opening').addEventListener('keydown',e=>{ if (e.key==='Enter'||e.key===' ') { e.preventDefault(); closeOpening(); } });

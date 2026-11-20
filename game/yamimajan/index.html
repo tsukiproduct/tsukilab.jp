@@ -6,15 +6,15 @@
 <meta name="theme-color" content="#100c0d">
 <title>闇麻雀 〜イカサマなんて生ぬるい〜</title>
 <link rel="icon" href="assets/portrait0.webp">
-<link rel="stylesheet" href="style.css?v=20261121a">
-<script src="rules.js?v=20261121a" defer></script>
-<script src="match.js?v=20261121a" defer></script>
-<script src="tiles.js?v=20261121a" defer></script>
-<script src="sound.js?v=20261121a" defer></script>
-<script src="story.js?v=20261121a" defer></script>
-<script src="extras.js?v=20261121a" defer></script>
-<script src="ui.js?v=20261121a" defer></script>
-<script src="storyui.js?v=20261121a" defer></script>
+<link rel="stylesheet" href="style.css?v=20261121b">
+<script src="rules.js?v=20261121b" defer></script>
+<script src="match.js?v=20261121b" defer></script>
+<script src="tiles.js?v=20261121b" defer></script>
+<script src="sound.js?v=20261121b" defer></script>
+<script src="story.js?v=20261121b" defer></script>
+<script src="extras.js?v=20261121b" defer></script>
+<script src="ui.js?v=20261121b" defer></script>
+<script src="storyui.js?v=20261121b" defer></script>
 </head>
 <body>
 <header class="mast">
@@ -26,12 +26,22 @@
     <button id="exit" hidden>卓を離れる</button>
   </div>
 </header>
+<div id="opening" class="opening" role="button" tabindex="0" aria-label="タップしてはじめる">
+  <picture class="opening-art">
+    <source media="(max-aspect-ratio: 4/5)" srcset="assets/title_sp.webp">
+    <img src="assets/title_pc.webp" alt="">
+  </picture>
+  <div class="opening-shade"></div>
+  <div class="opening-copy">
+    <img class="opening-logo" src="assets/logo.webp" alt="闇麻雀 〜イカサマなんて生ぬるい〜">
+    <p class="opening-start">タップしてはじめる</p>
+  </div>
+  <p class="opening-credit">TSUKI PRODUCT ／ 月真猫</p>
+</div>
 <main>
 <section id="lobby" class="lobby" aria-label="対局設定">
   <div class="lobby-title">
-    <p class="eyebrow">- DARK MAHJONG -</p>
-    <h1>闇麻雀</h1>
-    <p class="subtitle">〜イカサマなんて生ぬるい〜</p>
+    <h1><img class="lobby-logo" src="assets/logo.webp" alt="闇麻雀 〜イカサマなんて生ぬるい〜"></h1>
   </div>
   <div class="lobby-setup">
     <div class="cast-title"><h2>雀士を選ぶ</h2><p id="skillDescription"></p></div>
