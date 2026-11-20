@@ -1,0 +1,385 @@
+{
+  "title": "地球が殴られて月ができたバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#015",
+  "theme": {
+    "base": [
+      44,
+      28,
+      32
+    ],
+    "blobs": [
+      [
+        88,
+        40,
+        40
+      ],
+      [
+        70,
+        46,
+        30
+      ],
+      [
+        100,
+        64,
+        40
+      ],
+      [
+        64,
+        40,
+        56
+      ]
+    ],
+    "pattern": "dots",
+    "pat": [
+      255,
+      190,
+      140,
+      70
+    ],
+    "frame": [
+      230,
+      150,
+      110,
+      255
+    ]
+  },
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "大激突",
+    "テイア",
+    "証拠",
+    "家出"
+  ],
+  "chapter_titles": [
+    "地球は火星くらいの星に殴られた",
+    "ジャイアント・インパクト説",
+    "ウェッブが見つけた大激突の跡(2026年10月)",
+    "月は今も遠ざかっている"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/ambient_voyager.mp3",
+    "credit": "Ambient Voyager / Zeropage",
+    "license": "CC BY 3.0",
+    "url": "https://www.jamendo.com/track/20231"
+  },
+  "report": {
+    "no": "015",
+    "name": "地球が殴られて月ができた",
+    "place": "約45億年前の地球",
+    "reporter": "NASA・宇宙科学研究所(SSI)のチーム(2026年10月)",
+    "severity": 2,
+    "status": "仕様です"
+  },
+  "sources": [
+    "ScienceDaily(NASA) 2026-10-07 NASA's Webb finds signs of Mars-sized worlds smashing together(21個の極端なデブリ円盤、約3分の1がシリカに富む=火星サイズの激しい衝突、3億年より若い星のみ) https://www.sciencedaily.com/releases/2026/10/261007042108.htm",
+    "Wikipedia: Giant-impact hypothesis(テイア) https://en.wikipedia.org/wiki/Giant-impact_hypothesis",
+    "Eos: Seeing the Light(月レーザー測距、年3.8cm遠ざかる) https://eos.org/features/seeing-the-light"
+  ],
+  "lines": [
+    {
+      "who": "zunda",
+      "text": "地球は昔、[[火星くらいの星]]に、思いっきり殴られたらしいのだ！",
+      "emote": "surprise",
+      "chapter": 0,
+      "punch": true,
+      "telop": "地球は昔\n星に殴られた？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "有力な説です。そして、そのとき飛び散ったかけらから、[[月]]ができたと考えられています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "月は、地球の、かけらなのだ！？",
+      "emote": "surprise",
+      "pop": "かけら！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "十月七日、NASAは、ほかの星のまわりで、[[同じような大激突]]の跡を見つけたと発表しました。最後に、月が今も、ある方向に動き続けている話もします。",
+      "emote": "normal",
+      "sfx": "kira"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんなのだ！今日は、ぶつからないように、気をつけて来たのだ！",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "tsumugi",
+      "text": "まず、月のでき方の説です。およそ四十五億年前、生まれたばかりの地球に、火星くらいの大きさの天体が、ぶつかりました。",
+      "emote": "normal",
+      "chapter": 1,
+      "seq": "ep015_impact",
+      "fit": "contain",
+      "note": "有力な説にもとづく模式図",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "この天体には、[[テイア]]という名前がついています。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ぶつかった勢いで、岩が[[蒸発]]して、地球のまわりに飛び散りました。それが集まって、月になったと考えられています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "岩が、蒸発するのだ！？お湯じゃないのだ！？",
+      "emote": "surprise",
+      "punch": true,
+      "pop": "蒸発！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "それくらいの、とんでもない衝突だった、ということです。これを、[[ジャイアント・インパクト説]]と呼びます。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "でも、四十五億年前のことなんて、だれも見てないのだ。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そこで今回の発表です。",
+      "emote": "normal",
+      "chapter": 2
+    },
+    {
+      "who": "tsumugi",
+      "text": "研究チームは、生まれたばかりの星のまわりにある、ちりの円盤を、[[二十一個]]調べました。ジェイムズ・ウェッブ宇宙望遠鏡などのデータです。",
+      "emote": "normal",
+      "telop": "ちりの円盤を21個調査\n(ウェッブ宇宙望遠鏡など)"
+    },
+    {
+      "who": "tsumugi",
+      "text": "円盤のちりは、星と星がぶつかって、砕けたかけらです。ちりの成分を見ると、どれくらい激しくぶつかったかが、分かるんです。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "その結果、およそ[[三分の一]]は、火星くらいの天体どうしが、岩を蒸発させるほど激しく、ぶつかった跡だと考えられました。",
+      "emote": "normal",
+      "telop": "約3分の1が\n岩が蒸発するほどの大激突"
+    },
+    {
+      "who": "zunda",
+      "text": "テイアと、同じなのだ！",
+      "emote": "surprise"
+    },
+    {
+      "who": "tsumugi",
+      "text": "しかも、その激しい跡が見つかったのは、[[生まれて三億年より若い]]星のまわりだけでした。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "地球と月ができたのも、太陽が生まれてから、およそ一億年後と考えられています。時期の感じが、ぴったり合うんです。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "宇宙では、若いうちに、みんな殴り合ってるのだ…。",
+      "emote": "think",
+      "pop": "ケンカ期"
+    },
+    {
+      "who": "tsumugi",
+      "text": "表現は、ともかく。惑星ができるときには、大きな衝突が、[[よくあること]]だと分かってきました。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "で、月が今も動き続けてる方向って、どっちなのだ！",
+      "emote": "surprise",
+      "chapter": 3
+    },
+    {
+      "who": "tsumugi",
+      "text": "月は、地球から、[[少しずつ遠ざかって]]います。一年に、およそ[[三・八センチ]]です。",
+      "emote": "normal",
+      "report": true,
+      "telop": "月は1年に\n約3.8cm遠ざかる"
+    },
+    {
+      "who": "tsumugi",
+      "text": "アポロ計画で月に置いた鏡に、レーザーを当てて、はね返ってくるまでの時間から、測っています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "月が、地球から、家出していくのだ…！",
+      "emote": "surprise",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "爪がのびるくらいの速さですけどね。",
+      "emote": "normal",
+      "pop": "ゆっくり"
+    },
+    {
+      "who": "tsumugi",
+      "text": "というわけで、今回のバグのステータスは、[[仕様です]]。月は、大激突でできて、今も少しずつ離れていく。それが、この世界の仕様のようです。",
+      "emote": "happy",
+      "stamp": true
+    },
+    {
+      "who": "zunda",
+      "text": "月が遠くに行っちゃう前に、お月見しておくのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "あと何十億年かは、大丈夫です。",
+      "emote": "normal",
+      "pop": "気が長い",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "text": "あなたが知っている、月の不思議も、コメントで報告してください。",
+      "emote": "happy"
+    },
+    {
+      "who": "zunda",
+      "text": "チャンネル登録も、よろしくなのだ！",
+      "emote": "happy"
+    }
+  ],
+  "publish": {
+    "thumb_style": "dark",
+    "titles": [
+      "地球は昔、火星サイズの星に殴られた。月はそのかけらだった",
+      "なぜ月は地球の「かけら」なのか？ウェッブが見つけた大激突の跡",
+      "岩が蒸発するほどの大激突。月の誕生と、今も遠ざかる月"
+    ],
+    "hook": [
+      "2026年10月7日、NASAはウェッブ宇宙望遠鏡などで、若い星のまわりに火星サイズの天体どうしの大激突の跡を見つけたと発表しました。",
+      "地球が「テイア」に殴られて月ができたというジャイアント・インパクト説と、今も年3.8cm遠ざかる月をバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#月",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "地球が",
+          "殴られた"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep015_impact/130.png",
+        "crop": [
+          0.2,
+          0.1,
+          0.85,
+          0.9
+        ],
+        "focus": 0.5,
+        "style": "dark"
+      },
+      {
+        "text": [
+          "月は",
+          "かけら"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "ep015_impact/325.png",
+        "crop": [
+          0.25,
+          0.1,
+          0.95,
+          0.9
+        ],
+        "style": "space"
+      },
+      {
+        "text": [
+          "月が",
+          "家出中"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "style": "pop"
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 7,
+      "to": 11,
+      "hook": [
+        "地球は",
+        "火星サイズの星に",
+        "殴られた"
+      ],
+      "title": "地球は昔、火星サイズの星に殴られた。月はそのかけら #Shorts",
+      "thumb_photo": "ep015_impact/130.png"
+    },
+    {
+      "from": 23,
+      "to": 26,
+      "hook": [
+        "月は毎年",
+        "3.8cm",
+        "遠ざかる"
+      ],
+      "title": "月は毎年3.8cmずつ地球から離れている #Shorts",
+      "thumb_photo": false
+    }
+  ]
+}
