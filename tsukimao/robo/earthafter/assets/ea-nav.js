@@ -5,7 +5,7 @@
 'use strict';
 var S=document.currentScript;
 var ROOT=S.src.replace(/assets\/ea-nav\.js.*$/,'');
-var VER='29';
+var VER='30';
 var HERO=S.hasAttribute('data-hero');
 var PAGES=[
  {k:'now',g:'いま',p:'',t:'いまの制作',c:'#f0c987',d:'いま作っている物語・確定事項・未決定の問い・締切までの段取り',img:'production/img/cut/10-07.webp'},
