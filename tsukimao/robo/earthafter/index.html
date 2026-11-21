@@ -55,6 +55,14 @@
 .map span{display:block;font-size:.86rem;color:var(--mute);line-height:1.7}
 .map h3{grid-column:1/-1;margin:14px 0 0;font-size:.95rem;font-family:var(--gothic);color:var(--mute)}
 .grp{font-size:.9rem;color:var(--mute);font-family:var(--gothic);font-weight:700;margin:22px 0 8px}
+.gal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:16px 0 8px}
+.gal a{display:block;text-decoration:none;color:var(--mute);font-size:.78rem}
+.gal img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:4px;border:1px solid var(--line);background:var(--wall2)}
+.gal a:hover img{border-color:var(--lamp)}
+.gal span{display:block;margin-top:4px;line-height:1.5}
+.gal{align-items:start;grid-auto-flow:dense}
+.gal a.big{grid-column:span 2;grid-row:span 2}
+@media (max-width:640px){.gal{grid-template-columns:repeat(2,minmax(0,1fr))}.gal a.big{grid-column:span 2;grid-row:auto}}
 </style>
 </head>
 <body class="n3">
@@ -70,6 +78,23 @@
   </div>
   <div class="dial"><div id="dial"></div><p>応募の締切は 2026年11月30日 23時59分（日本時間）。<br>物語をチームへ出す約束は 11月15日です。</p></div>
 </header>
+
+<section class="sec" id="e" data-ea-label="絵がそろいました">
+  <h2>絵がそろいました</h2>
+  <p>ChatGPT で作った素材29点と、全96カットの基準画が制作台にそろいました（11月21日）。絵を押すと、そのカットの指示文に飛びます。</p>
+  <div class="gal">
+    <a class="big" href="production/#c-09-03"><img loading="lazy" src="production/img/cut/09-03.webp" width="1280" height="720" alt="カット 09-03"><span>09-03　「……アカネ？　……シオン？」</span></a>
+    <a href="production/#c-00-10"><img loading="lazy" src="production/img/cut/00-10.webp" width="1280" height="720" alt="カット 00-10"><span>00-10　「走れ！！！」</span></a>
+    <a href="production/#c-02-08"><img loading="lazy" src="production/img/cut/02-08.webp" width="1280" height="720" alt="カット 02-08"><span>02-08　床に寝転がる三人</span></a>
+    <a href="production/#c-06-04"><img loading="lazy" src="production/img/cut/06-04.webp" width="1280" height="720" alt="カット 06-04"><span>06-04　止まる二人と、よみがえるモニター</span></a>
+    <a href="production/#c-07-06"><img loading="lazy" src="production/img/cut/07-06.webp" width="1280" height="720" alt="カット 07-06"><span>07-06　最後の日、踊る桔響</span></a>
+    <a href="production/#c-08-19"><img loading="lazy" src="production/img/cut/08-19.webp" width="1280" height="720" alt="カット 08-19"><span>08-19　ありがとう、大好き</span></a>
+    <a href="production/#c-10-06"><img loading="lazy" src="production/img/cut/10-06.webp" width="1280" height="720" alt="カット 10-06"><span>10-06　最後のひと回し</span></a>
+    <a href="production/#c-10-07"><img loading="lazy" src="production/img/cut/10-07.webp" width="1280" height="720" alt="カット 10-07"><span>10-07　外の光</span></a>
+    <a href="production/#c-06-07d"><img loading="lazy" src="production/img/cut/06-07d.webp" width="1280" height="720" alt="カット 06-07d"><span>06-07d　3人でしたいこと</span></a>
+  </div>
+  <p class="small"><a href="production/#cuts">カット表とプレビズ（制作台）</a>　<a href="story/#kyakuhon">絵つきの脚本</a></p>
+</section>
 
 <section class="sec" id="tsugi" data-ea-label="次にやること">
   <h2>次にやること</h2>
@@ -161,8 +186,8 @@
 </main>
 <footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu　　この制作室は検索に載らない設定ですが、URLを知っていれば誰でも開けます。</div></footer>
 
-<script src="story/data.js?v=16"></script>
-<script src="review/data.js?v=16"></script>
+<script src="story/data.js?v=17"></script>
+<script src="review/data.js?v=17"></script>
 <script src="assets/ea-core.js?v=11"></script>
 <script>
 (function(){

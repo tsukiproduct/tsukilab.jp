@@ -52,6 +52,14 @@
 .scnav a{display:inline-flex;align-items:center;min-height:36px;padding:2px 10px;border:1px solid var(--line);border-radius:4px;font-size:.84rem;color:var(--ink);text-decoration:none;font-variant-numeric:tabular-nums}
 .scnav a:hover{border-color:var(--lamp);color:var(--lamp)}
 .scn{background:var(--panel);border-radius:6px;padding:18px 20px 12px;margin:14px 0;scroll-margin-top:calc(var(--ea-h,52px) + 16px)}
+.strip{display:flex;gap:8px;overflow-x:auto;margin:0 -4px 12px;padding:2px 4px 8px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.strip a{flex:0 0 auto;width:168px;scroll-snap-align:start;text-decoration:none;color:var(--mute);font-size:.72rem;font-variant-numeric:tabular-nums}
+.strip img{display:block;width:168px;height:94.5px;object-fit:cover;border-radius:4px;border:1px solid var(--line);background:var(--wall2)}
+.strip a:hover img{border-color:var(--lamp)}
+.strip span{display:block;margin-top:3px}
+@media (max-width:560px){.strip a,.strip img{width:136px}.strip img{height:76.5px}}
+.kv{margin:18px 0 4px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.kv img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
 .scn header{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin-bottom:10px;border-bottom:1px solid var(--line);padding-bottom:8px}
 .scn header b{font:700 .82rem var(--gothic);color:var(--dim);font-variant-numeric:tabular-nums}
 .scn header h3{margin:0;font-size:1.12rem}
@@ -82,6 +90,7 @@
 <section class="sec" id="arasuji" data-ea-label="あらすじ">
   <h2>あらすじ</h2>
   <p class="small"><span class="st st-k">確定</span> 2026年11月15日に月真猫さんが了承した版です。</p>
+  <figure class="kv"><img src="../production/img/cut/02-08.webp" width="1280" height="720" alt="床に寝転がる三人を真上から見た基準画（カット 02-08）"></figure>
   <div class="syn" id="syn"></div>
 </section>
 
@@ -164,7 +173,9 @@
 </main>
 <footer class="foot"><div class="wrap">制作 N3Co ／ 月真猫、ねね、Nokosu</div></footer>
 
-<script src="data.js?v=16"></script>
+<script src="data.js?v=17"></script>
+<script src="../production/data.js?v=11"></script>
+<script src="../production/img/have.js?v=3"></script>
 <script src="../assets/ea-core.js?v=11"></script>
 <script>
 (function(){
@@ -175,7 +186,11 @@ $('#syn').innerHTML=N.synopsis.map(function(p){return '<p>'+e(p)+'</p>'}).join('
 var SC=N.script||[],tot=SC.reduce(function(a,x){return a+x.sec},0);
 $('#sctotal').textContent='全'+SC.length+'場面、合計 '+U.fmt(tot)+'（計画の上限 17:00、公式の上限 20:00）';
 $('#scnav').innerHTML=SC.map(function(x){return '<a href="#'+x.id+'">'+x.id+' '+e(x.t.replace(/（.*$/,''))+'</a>'}).join('');
-$('#sc').innerHTML=SC.map(function(x){return '<article class="scn" id="'+x.id+'"><header><b>'+x.id+'</b><h3>'+e(x.t)+'</h3><span>'+x.sec+'秒</span></header>'+x.lines.map(function(l){
+var HV=window.N3HAVE||[],PC=(window.N3P&&window.N3P.cuts)||[];
+function strip(sid){var n=sid.slice(1),cs=PC.filter(function(c){return c.id.slice(0,2)===n&&HV.indexOf('cut/'+c.id+'.webp')>=0});
+  if(!cs.length)return '';
+  return '<div class="strip" aria-label="この場面の基準画">'+cs.map(function(c){return '<a href="'+U.ROOT+'production/#c-'+c.id+'"><img loading="lazy" decoding="async" src="'+U.ROOT+'production/img/cut/'+c.id+'.webp" width="168" height="94" alt="カット '+c.id+'"><span>'+c.id+'　'+c.sec+'秒</span></a>'}).join('')+'</div>'}
+$('#sc').innerHTML=SC.map(function(x){return '<article class="scn" id="'+x.id+'"><header><b>'+x.id+'</b><h3>'+e(x.t)+'</h3><span>'+x.sec+'秒</span></header>'+strip(x.id)+x.lines.map(function(l){
   var m=l.match(/^([^「（【]{1,8})「(.*)」$/);
   if(/^【過去】/.test(l))return '<p class="past">'+e(l)+'</p>';
   if(/^【漫画】/.test(l))return '<p class="manga">'+e(l)+'</p>';

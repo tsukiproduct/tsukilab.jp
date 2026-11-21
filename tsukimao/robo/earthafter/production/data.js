@@ -1,6 +1,6 @@
 /* 制作台の正本（素材とカット）。/home/claude/work/prod/build.py で作る。台詞の読みは自動変換なので、生成前に必ず目で確かめること。 */
 window.N3P={
-"updated": "2026-11-16",
+"updated": "2026-11-21",
 "total": 965,
 "cuts": [
 {
