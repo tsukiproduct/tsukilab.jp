@@ -1,0 +1,338 @@
+{
+  "title": "地球のバリアに弱い場所が広がるバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#016",
+  "theme": "lab",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "バリア",
+    "広がる",
+    "衛星",
+    "チバニアン"
+  ],
+  "chapter_titles": [
+    "地球を守る見えないバリア",
+    "南大西洋の弱い場所が広がっている",
+    "衛星が困る理由",
+    "磁場の逆転とチバニアン"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/good_vibe_bgm.mp3",
+    "credit": "Good Vibe Background Music / Seth_Makes_Sounds",
+    "license": "CC0 1.0",
+    "url": "https://freesound.org/people/Seth_Makes_Sounds/sounds/661782"
+  },
+  "report": {
+    "no": "016",
+    "name": "地球のバリアに弱い場所が広がる",
+    "place": "南アメリカ〜南大西洋の上空",
+    "reporter": "ESA(Swarm 衛星の観測)",
+    "severity": 3,
+    "status": "調査中"
+  },
+  "sources": [
+    "ESA 2025-10-13 Swarm reveals growing weak spot in Earth's magnetic field(2014年からヨーロッパ大陸の半分近く拡大、逆向きの磁束の領域) https://www.esa.int/Applications/Observing_the_Earth/FutureEO/Swarm/Swarm_reveals_growing_weak_spot_in_Earth_s_magnetic_field",
+    "ScienceDaily 2026-02-25 A giant weak spot in Earth's magnetic field is now half the size of Europe(2020年以降アフリカ南西で速く弱まる、衛星への影響) https://www.sciencedaily.com/releases/2026/02/260224023221.htm",
+    "Finlay, Kloss, Gillet: Core field changes from eleven years of Swarm satellite observations, Physics of the Earth and Planetary Interiors 368 (2025) 107447",
+    "Wikipedia: Chibanian(2020年1月にIUGSが承認、約77万4100年前〜、千葉県市原市の養老川、ブルン・松山逆転) https://en.wikipedia.org/wiki/Chibanian"
+  ],
+  "lines": [
+    {
+      "who": "zunda",
+      "text": "地球を守る[[見えないバリア]]に、ヨーロッパの半分くらいの、[[穴]]みたいな場所が広がってるのだ！",
+      "emote": "surprise",
+      "chapter": 0,
+      "punch": true,
+      "telop": "地球のバリアの\n弱い場所が広がる"
+    },
+    {
+      "who": "tsumugi",
+      "text": "穴ではありませんが、[[弱い場所]]は、本当に広がっています。南アメリカから、南大西洋にかけての上空です。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "バリアが弱いと、どうなるのだ！？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "すでに、困っているものがあります。そして最後に、日本の[[千葉県]]が、この話と深く関わっている理由も話します。",
+      "emote": "normal",
+      "sfx": "kira"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんなのだ！方位磁針を、持ってきたのだ！",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "tsumugi",
+      "text": "見えないバリアとは、地球の[[磁場]]のことです。地球の奥の、どろどろに溶けた鉄が動くことで、生まれています。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "磁場は、太陽から飛んでくる、電気を帯びた粒の多くを、地球からそらしてくれます。太陽嵐の回で見た、あのバリアです。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ヨーロッパ宇宙機関は、スウォームという三機の衛星で、地球の磁場を、十年以上はかり続けています。",
+      "emote": "normal",
+      "chapter": 1,
+      "seq": "ep016_saa",
+      "fit": "contain",
+      "note": "おおよその模式図",
+      "credit": "Natural Earth のデータから番組で作成(ESA Swarm の報告をもとに)",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "tsumugi",
+      "text": "その結果、南大西洋の弱い場所、[[南大西洋異常帯]]は、二〇一四年から、[[ヨーロッパ大陸の半分近く]]の広さぶん、大きくなりました。",
+      "emote": "normal",
+      "telop": "2014年から\nヨーロッパ大陸の\n半分近く広がった"
+    },
+    {
+      "who": "tsumugi",
+      "text": "特に、二〇二〇年ごろからは、アフリカの南西の海の上で、[[弱まり方が速く]]なっています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "バリアに、すきまが、増えてるのだ…。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "困っているのは、[[人工衛星]]です。",
+      "emote": "normal",
+      "chapter": 2,
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "この上を通る衛星は、強い[[放射線]]を浴びます。そのせいで、故障したり、部品が傷んだり、一時的に止まったりする危険が、高まります。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "衛星の、通りたくない道なのだ。",
+      "emote": "think",
+      "pop": "魔の海域"
+    },
+    {
+      "who": "tsumugi",
+      "text": "原因は、地球の奥深く。溶けた鉄の外側と、岩の層の境目で、磁場の向きが、[[逆向きになっている場所]]があるからだと考えられています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "逆向き！？それって、そのうち、地球の磁場が、まるごと[[ひっくり返る]]のだ！？",
+      "emote": "surprise",
+      "punch": true,
+      "pop": "ひっくり返る！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "地球の磁場は、過去に何度も、[[北と南が入れかわって]]きました。最後に入れかわったのは、およそ[[七十七万年前]]です。",
+      "emote": "normal",
+      "chapter": 3,
+      "seq": "ep016_reversal",
+      "fit": "contain",
+      "credit": "番組で作成",
+      "license": "番組作成の図"
+    },
+    {
+      "who": "tsumugi",
+      "text": "その記録が、とてもきれいに残っている地層が、[[千葉県]]市原市の、養老川ぞいにあります。",
+      "emote": "normal",
+      "report": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "そのため、二〇二〇年、約七十七万年前から十三万年前ごろまでの時代に、[[チバニアン]]、つまり、千葉の時代、という名前がつきました。",
+      "emote": "normal",
+      "telop": "チバニアン\n(千葉の時代)"
+    },
+    {
+      "who": "zunda",
+      "text": "地球の歴史に、千葉の名前がついてるのだ！？",
+      "emote": "surprise",
+      "punch": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "はい。日本の地名が、地質の時代の名前になったのは、初めてです。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "で、今度の弱い場所は、ひっくり返る前ぶれなのだ？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "それは、[[まだ分かっていません]]。地球の磁場は、これまでも、強くなったり弱くなったりを、くり返してきました。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "というわけで、今回のバグのステータスは、[[調査中]]。衛星たちが、今日も、この上を通りながら、はかり続けています。",
+      "emote": "happy",
+      "stamp": true
+    },
+    {
+      "who": "zunda",
+      "text": "もし磁場がひっくり返ったら、方位磁針の北と南が、逆になるのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そうですね。そのときは、その方位磁針の出番です。",
+      "emote": "normal",
+      "pop": "出番",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "text": "あなたが知っている、地球の磁場の不思議も、コメントで報告してください。",
+      "emote": "happy"
+    },
+    {
+      "who": "zunda",
+      "text": "チャンネル登録も、よろしくなのだ！",
+      "emote": "happy"
+    }
+  ],
+  "publish": {
+    "thumb_style": "dark",
+    "titles": [
+      "地球を守る磁気のバリアに「弱い場所」が広がっている。衛星が困る理由",
+      "なぜ南大西洋の上で衛星が故障しやすいのか？広がる磁場の弱い場所",
+      "地球の磁場は77万年前にひっくり返った。その記録が残る千葉「チバニアン」"
+    ],
+    "hook": [
+      "ヨーロッパ宇宙機関(ESA)のスウォーム衛星の観測で、南大西洋の磁場の弱い場所が、2014年からヨーロッパ大陸の半分近くの広さぶん大きくなったことが分かりました。",
+      "衛星が困る理由と、77万年前の磁場の逆転を記録した千葉の地層「チバニアン」をバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#地磁気",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "バリアに",
+          "弱い場所"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep016_saa/269.png",
+        "crop": [
+          0.1,
+          0.25,
+          0.75,
+          0.95
+        ],
+        "focus": 0.5,
+        "style": "dark"
+      },
+      {
+        "text": [
+          "衛星が",
+          "壊れる海"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "ep016_saa/269.png",
+        "crop": [
+          0.1,
+          0.25,
+          0.75,
+          0.95
+        ],
+        "style": "pop"
+      },
+      {
+        "text": [
+          "千葉が",
+          "地球の歴史に"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "style": "pop"
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 9,
+      "to": 15,
+      "hook": [
+        "地球のバリアに",
+        "弱い場所が",
+        "広がっている"
+      ],
+      "title": "地球の磁場の弱い場所が、ヨーロッパの半分ほど広がった #Shorts",
+      "thumb_photo": "ep016_saa/269.png"
+    },
+    {
+      "from": 18,
+      "to": 22,
+      "hook": [
+        "地球の歴史に",
+        "千葉の名前が",
+        "ついた理由"
+      ],
+      "title": "地球の歴史に「千葉」の名前がついた理由 #Shorts",
+      "thumb_photo": false
+    }
+  ]
+}

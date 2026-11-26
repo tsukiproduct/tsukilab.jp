@@ -1,0 +1,350 @@
+{
+  "title": "宇宙ゴミがゴミを生むバグ",
+  "series": "この世界のバグ図鑑",
+  "episode": "#013",
+  "theme": "alert",
+  "characters": {
+    "tsumugi": {
+      "name": "春日部つむぎ",
+      "voicevox": "春日部つむぎ",
+      "side": "left",
+      "speed": 1.0,
+      "intonation": 1.1
+    },
+    "zunda": {
+      "name": "ずんだもん",
+      "voicevox": "ずんだもん",
+      "side": "right",
+      "speed": 1.05,
+      "intonation": 1.15
+    }
+  },
+  "chapters": [
+    "宇宙ゴミ",
+    "豆粒",
+    "連鎖",
+    "5.5日"
+  ],
+  "chapter_titles": [
+    "宇宙に行けなくなる日?",
+    "1cmのかけらでも危ない",
+    "ゴミがゴミを生むケスラーシンドローム",
+    "よけられなくなったら5.5日"
+  ],
+  "tachie_credits": [
+    "ずんだもん立ち絵素材 / 春日部つむぎ立ち絵素材  制作: 坂本アヒル様"
+  ],
+  "bgm": {
+    "file": "assets/bgm/elevate_bossanossa.mp3",
+    "credit": "Elevate with BossaNossa / kjartan_abel",
+    "license": "CC BY 4.0",
+    "url": "https://freesound.org/people/kjartan_abel/sounds/558266"
+  },
+  "report": {
+    "no": "013",
+    "name": "宇宙ゴミがゴミを生む",
+    "place": "地球を回る低い軌道",
+    "reporter": "ESA 宇宙環境レポート(2026年9月)ほか",
+    "severity": 4,
+    "status": "未解決"
+  },
+  "sources": [
+    "ESA Space Environment Report 2026(2026年9月8日。10cm超 約68,450個・1〜10cm 約150万個の推定、毎日約10基の打ち上げ、衝突による増加が長期の最大の脅威) https://www.esa.int/Space_Safety/Space_Debris/ESA_Space_Environment_Report_2026",
+    "IEEE Spectrum 2026-01-21 Kessler Syndrome Alert: Satellites' 5.5-Day Countdown(CRASH Clock: 2018年164日、2025年5.5日) https://spectrum.ieee.org/kessler-syndrome-crash-clock",
+    "Wikipedia: Shenzhou 20(2025年11月5日に窓のひび、14日に神舟21号で帰還、25日に無人の神舟22号) https://en.wikipedia.org/wiki/Shenzhou_20",
+    "Wikipedia: Kessler syndrome(1978年 Donald J. Kessler) https://en.wikipedia.org/wiki/Kessler_syndrome"
+  ],
+  "lines": [
+    {
+      "who": "zunda",
+      "text": "宇宙ゴミのせいで、[[宇宙に行けなくなる日]]が来るって、本当なのだ！？",
+      "emote": "surprise",
+      "chapter": 0,
+      "punch": true,
+      "telop": "宇宙ゴミが\n宇宙をふさぐ？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "可能性として、真剣に研究されています。九月、ヨーロッパ宇宙機関が、宇宙ゴミの最新の報告書を出しました。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "ゴミくらい、よければいいのだ。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "では、[[よけられなくなったら]]、何日で最初の衝突が起きると思いますか。答えは、このあとです。",
+      "emote": "normal",
+      "sfx": "kira"
+    },
+    {
+      "sting": true
+    },
+    {
+      "who": "tsumugi",
+      "text": "こんにちは。この世界のバグ図鑑、報告係の、春日部つむぎです。",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "zunda",
+      "text": "ずんだもんなのだ！部屋のゴミは、昨日、片付けたのだ！",
+      "emote": "happy",
+      "mode": "full"
+    },
+    {
+      "who": "tsumugi",
+      "text": "宇宙は、片付いていません。報告書によると、地球のまわりには、十センチより大きい物が、およそ[[六万八千個]]あると推定されています。",
+      "emote": "normal",
+      "telop": "10cmより大きい物\n約6万8千個(推定)"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そのうち、ちゃんと動いている衛星は、一万一千ほど。残りは、こわれた衛星や、ロケットの部品、そのかけらです。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "一センチから十センチの、小さなかけらは、およそ[[百五十万個]]と推定されています。",
+      "emote": "normal",
+      "telop": "1〜10cmのかけら\n約150万個(推定)"
+    },
+    {
+      "who": "zunda",
+      "text": "一センチなんて、豆粒なのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "その豆粒が、ものすごい速さで飛んでいます。地球の近くを回る物は、秒速およそ[[七・八キロ]]でしたね。",
+      "emote": "normal",
+      "chapter": 1
+    },
+    {
+      "who": "tsumugi",
+      "text": "二〇二五年十一月。中国の宇宙ステーションで、帰りの宇宙船の窓に、[[ひび]]が見つかりました。宇宙ゴミが当たった疑いがあります。",
+      "emote": "normal",
+      "telop": "2025年11月\n宇宙船の窓にひび"
+    },
+    {
+      "who": "zunda",
+      "text": "窓が割れたら、帰れないのだ！",
+      "emote": "surprise",
+      "punch": true,
+      "pop": "帰れない！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "実際、その宇宙船は、帰りには使えないと判断されました。乗組員は、別の宇宙船で帰り、さらに、[[無人の宇宙船]]が、予定より半年ほど早く打ち上げられました。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "そして、本当に怖いのは、ここからです。",
+      "emote": "normal",
+      "chapter": 2,
+      "seq": "ep013_kessler",
+      "fit": "contain",
+      "note": "イメージ図",
+      "credit": "Natural Earth のデータから番組で作成",
+      "license": "パブリックドメイン",
+      "url": "https://www.naturalearthdata.com/"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ぶつかると、かけらが増えます。増えたかけらが、また別の衛星にぶつかって、さらに増える。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "これを、[[ケスラーシンドローム]]と呼びます。一九七八年に、NASAの研究者、ドナルド・ケスラーさんたちが指摘しました。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "ゴミが、ゴミを、生むのだ…。",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "報告書でも、衝突でかけらが増え続けることが、[[長い目で見た一番の脅威]]だとしています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "で、よけられなくなったら、何日なのだ！",
+      "emote": "surprise",
+      "chapter": 3
+    },
+    {
+      "who": "tsumugi",
+      "text": "カナダやアメリカの研究者の試算では、二〇一八年は[[百六十四日]]。二〇二五年は、[[五・五日]]です。",
+      "emote": "normal",
+      "telop": "よけられなくなってから\n最初の衝突まで\n2018年 164日 → 2025年 5.5日",
+      "report": true
+    },
+    {
+      "who": "zunda",
+      "text": "一週間もたないのだ！？",
+      "emote": "surprise",
+      "punch": true,
+      "pop": "5.5日！？"
+    },
+    {
+      "who": "tsumugi",
+      "text": "衛星の数が、それだけ増えたんです。報告書によると、今は、[[毎日十基]]ほどの新しい衛星が打ち上げられています。",
+      "emote": "normal"
+    },
+    {
+      "who": "tsumugi",
+      "text": "ただ、研究者は、これで[[すぐに連鎖が起きる]]わけではない、とも言っています。衛星が、毎日きちんと、ぶつからないように動いているからです。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "じゃあ、よけられなくなるのは、どんなときなのだ？",
+      "emote": "think"
+    },
+    {
+      "who": "tsumugi",
+      "text": "たとえば、強い[[太陽嵐]]で、衛星の操作がうまくいかなくなったとき。研究者も、そういう場面を例に挙げています。",
+      "emote": "normal"
+    },
+    {
+      "who": "zunda",
+      "text": "太陽嵐の回で見た、あれなのだ…！話が、つながってるのだ…。",
+      "emote": "surprise"
+    },
+    {
+      "who": "tsumugi",
+      "text": "というわけで、今回のバグのステータスは、[[未解決]]。宇宙のゴミを、どう回収するかは、まだ答えが出ていません。",
+      "emote": "happy",
+      "stamp": true
+    },
+    {
+      "who": "zunda",
+      "text": "宇宙にも、ゴミの日を作るのだ。",
+      "emote": "happy"
+    },
+    {
+      "who": "tsumugi",
+      "text": "回収車が、秒速七・八キロで走れるなら。",
+      "emote": "normal",
+      "pop": "速すぎる",
+      "sfx": "pon"
+    },
+    {
+      "who": "tsumugi",
+      "text": "あなたが知っている、宇宙ゴミの話も、コメントで報告してください。",
+      "emote": "happy"
+    },
+    {
+      "who": "zunda",
+      "text": "チャンネル登録も、よろしくなのだ！",
+      "emote": "happy"
+    }
+  ],
+  "publish": {
+    "thumb_style": "space",
+    "titles": [
+      "宇宙ゴミがゴミを生む。よけられなくなったら、たった5.5日で衝突する",
+      "なぜ宇宙ゴミは「片付けられない」のか？ケスラーシンドロームの怖さ",
+      "1センチのかけらで宇宙船の窓にひび。宇宙に行けなくなる日は来るのか"
+    ],
+    "hook": [
+      "2026年9月、ヨーロッパ宇宙機関(ESA)が宇宙ゴミの報告書を公表。10cmを超える物体は約6万8千個と推定されています。",
+      "衝突がさらにかけらを生むケスラーシンドロームと、「よけられなくなったら5.5日」という試算をバグ報告します。"
+    ],
+    "hashtags": [
+      "#この世界のバグ図鑑",
+      "#宇宙ゴミ",
+      "#ずんだもん"
+    ],
+    "thumbnails": [
+      {
+        "text": [
+          "あと",
+          "5.5日"
+        ],
+        "faces": [
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "photo": "ep013_kessler/320.png",
+        "crop": [
+          0.1,
+          0.05,
+          0.9,
+          0.95
+        ],
+        "focus": 0.5,
+        "style": "space"
+      },
+      {
+        "text": [
+          "ゴミが",
+          "ゴミを生む"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "think"
+          ]
+        ],
+        "photo": "ep013_kessler/320.png",
+        "crop": [
+          0.1,
+          0.05,
+          0.9,
+          0.95
+        ],
+        "style": "dark"
+      },
+      {
+        "text": [
+          "宇宙に",
+          "行けなくなる"
+        ],
+        "faces": [
+          [
+            "tsumugi",
+            "surprise"
+          ],
+          [
+            "zunda",
+            "surprise"
+          ]
+        ],
+        "style": "dark"
+      }
+    ]
+  },
+  "shorts": [
+    {
+      "from": 20,
+      "to": 24,
+      "hook": [
+        "よけられなく",
+        "なったら",
+        "5.5日で衝突"
+      ],
+      "title": "衛星がよけられなくなったら、5.5日で最初の衝突 #Shorts",
+      "thumb_photo": "ep013_kessler/320.png"
+    },
+    {
+      "from": 11,
+      "to": 14,
+      "hook": [
+        "宇宙ゴミで",
+        "宇宙船の窓に",
+        "ひび"
+      ],
+      "title": "宇宙ゴミで宇宙船の窓にひび。乗組員はどう帰った？ #Shorts",
+      "thumb_photo": false
+    }
+  ]
+}
